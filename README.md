@@ -1,12 +1,12 @@
-# Wolf for busy
+# FIREWOLF
 
 ## Overview
 
-- 忙しい人のためのオプションルールを盛り込んだ人狼がプレイできるサイトです
+- [howling-wolf-ui](https://github.com/h-orito/howling-wolf-ui)から派生した、ユーザが自由に村を作成できるサイトです
 
 - Vue.js で画面 UI を提供します
 
-- API は[howling-wolf-api](https://github.com/h-orito/howling-wolf-api)を参照
+- API は[firewolf-api](https://github.com/h-orito/firewolf-api)を参照
 
 ## Requirement for local development
 
@@ -14,7 +14,7 @@
 
   - 最新版をインストールしてください
 
-- [howling-wolf-api](https://github.com/h-orito/howling-wolf-api) のセットアップもしておいてください
+- [firewolf-api](https://github.com/h-orito/firewolf-api) のセットアップもしておいてください
 
 ## Setup for local development
 
@@ -31,7 +31,7 @@
 
   - http://localhost:3000/ が画面 URL になります
 
-- [howling-wolf-api](https://github.com/h-orito/howling-wolf-api) を起動しておいてください
+- [firewolf-api](https://github.com/h-orito/firewolf-api) を起動しておいてください
 
 ## Contribution
 

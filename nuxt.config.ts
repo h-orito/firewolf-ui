@@ -1,10 +1,10 @@
 import { Configuration } from '@nuxt/types'
 require('dotenv').config()
 
-const siteName = 'HOWLING WOLF'
+const siteName = 'FIREWOLF'
 const siteDesc = '人狼ゲームが無料で遊べるサービスです。'
 const siteKeywords = '人狼,人狼ゲーム,長期人狼'
-const baseUrl = process.env.HOWLING_WOLF_UI_BASEURL || 'http://localhost:3000'
+const baseUrl = process.env.FIREWOLF_UI_BASEURL || 'http://localhost:3000'
 const ogpImages = baseUrl + '/image/ogp/'
 const manifestIcon = '/image/icons/icon-512.png'
 
@@ -120,7 +120,7 @@ const nuxtConfig: Configuration = {
     '@fortawesome/fontawesome-free-webfonts',
     '@fortawesome/fontawesome-free-webfonts/css/fa-brands.css',
     '@fortawesome/fontawesome-free-webfonts/css/fa-solid.css',
-    '~/assets/sass/howlingwolf.scss',
+    '~/assets/sass/firewolf.scss',
     '~/assets/css/main.css'
   ],
 
@@ -129,8 +129,7 @@ const nuxtConfig: Configuration = {
 
   axios: {
     baseURL:
-      process.env.HOWLING_WOLF_API_BASEURL ||
-      'http://localhost:8086/howling-wolf'
+      process.env.FIREWOLF_API_BASEURL || 'http://localhost:8087/firewolf'
   },
 
   router: {
@@ -168,7 +167,7 @@ const nuxtConfig: Configuration = {
   ],
 
   sitemap: {
-    hostname: 'https://howling-wolf.com',
+    hostname: 'https://fire-wolf.com',
     // 除外ディレクトリ、ページ
     exclude: [],
     // 動的なルーティングで生成したページ
@@ -176,7 +175,7 @@ const nuxtConfig: Configuration = {
   },
 
   styleResources: {
-    scss: ['~/assets/sass/howlingwolf.scss']
+    scss: ['~/assets/sass/firewolf.scss']
   },
 
   loadingIndicator: {

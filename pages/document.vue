@@ -7,7 +7,7 @@
       <div class="content m-t-10">
         <p>エピローグを迎えた村の戦績を取得できます。</p>
         <h3 class="is-size-6">Request</h3>
-        <p>GET: https://wolfort.net/howling-wolf/village-record/list</p>
+        <p>GET: https://wolfort.net/firewolf/village-record/list</p>
         <strong>Parameter</strong>
         <table class="table">
           <thead>
@@ -231,7 +231,7 @@ export default class extends Vue {
         "epilogue_datetime": "2020/01/03 00:00",
         "epilogue_day": 3,
         "organization": "村占霊狼狂",
-        "url": "https://howling-wolf.com/village?id=1",
+        "url": "https://firewolf.com/village?id=1",
         "win_camp_name": "人狼陣営",
         "participant_list": [
           {

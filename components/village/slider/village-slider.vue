@@ -52,7 +52,7 @@
             async
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
           ></script>
-          <!-- howling-wolf-slider -->
+          <!-- firewolf-slider -->
           <ins
             class="adsbygoogle"
             style="display:inline-block;width:260px;height:90px"

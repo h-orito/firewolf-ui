@@ -9,7 +9,7 @@
         class="navbar-item has-text-center nuxt-link-exact-active nuxt-link-active"
         :to="{ path: '/' }"
       >
-        HOWLING WOLF{{ isStg ? ' テストサーバ' : '' }}
+        FIREWOLF{{ isStg ? ' テストサーバ' : '' }}
       </nuxt-link>
     </div>
     <navbar-slider :is-menu-expanded="isMenuExpanded" @hide-menu="hideMenu" />

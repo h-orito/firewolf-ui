@@ -2,7 +2,7 @@
   <div class="menu-area">
     <div class="m-b-50">
       <p class="is-size-5-tablet is-size-6-mobile spotlight-shadow">
-        HOWLING WOLFは<br />長期人狼が無料で遊べるサービスです
+        FIREWOLFは<br />長期人狼が無料で遊べるサービスです
       </p>
     </div>
     <div class="columns">
