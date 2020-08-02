@@ -1,202 +1,439 @@
 <template>
   <section class="section">
-    <div class="container">
-      <h1 class="title is-5">予約村</h1>
-      <div class="content is-size-7">
-        <loading
-          v-if="isLoadingReservedVillages"
-          :message="'予約村を読み込み中...'"
-        ></loading>
-        <b-table
-          v-if="reservedVillages"
-          :data="reservedVillages.list"
-          :loading="isLoadingReservedVillages"
-          :mobile-cards="false"
-        >
-          <template slot-scope="props">
-            <b-table-column label="作成日時">
-              {{ props.row.village_create_datetime }}
-            </b-table-column>
-
-            <b-table-column label="開始日時">
-              {{ props.row.village_start_datetime }}
-            </b-table-column>
-
-            <b-table-column label="編成">
-              {{ props.row.organization }}
-            </b-table-column>
-
-            <b-table-column label="沈黙時間">
-              {{ props.row.silent_hours }}
-            </b-table-column>
-
-            <b-table-column label="ダミー役欠け">
-              {{ props.row.available_dummy_skill ? 'あり' : 'なし' }}
-            </b-table-column>
-
-            <b-table-column label="削除">
-              <b-button
-                @click="deleteReservedVillage(props.row.id)"
-                type="is-danger"
-                size="is-small"
-                >削除</b-button
-              >
-            </b-table-column>
-          </template>
-
-          <template slot="empty">
-            <section class="section">
-              <div class="content has-text-grey has-text-centered">
-                <p>予約村がありません</p>
-              </div>
-            </section>
-          </template>
-        </b-table>
-      </div>
-
+    <div class="container has-text-left">
       <h1 class="title is-5 m-t-40">村を作成</h1>
-      <div class="columns">
-        <div class="column">
-          <b-field label="作成日時">
-            <b-input
-              v-model="createDatetime"
-              type="text"
-              size="is-small"
-              placeholder="作成日時"
-            />
-          </b-field>
-          <b-field label="開始日時">
-            <b-input
-              v-model="startDatetime"
-              type="text"
-              size="is-small"
-              placeholder="開始日時"
-            />
-          </b-field>
-          <b-field label="編成">
-            <b-input
-              v-model="organization"
-              type="text"
-              size="is-small"
-              placeholder="構成"
-            />
-          </b-field>
-          <b-field label="沈黙時間">
-            <b-input
-              v-model="silentHours"
-              type="number"
-              size="is-small"
-              placeholder="0"
-            />
-          </b-field>
-          <b-field label="ダミー役欠け">
-            <b-switch v-model="isAvailableDummySkill" />
-          </b-field>
-          <b-field class="m-t-40">
-            <b-button
-              :disabled="submitting"
-              @click="createVillage"
-              type="is-primary"
-              >村を作成</b-button
-            >
-          </b-field>
-        </div>
-      </div>
+      <validation-observer
+        ref="observer"
+        v-slot="{ invalid }"
+        tag="form"
+        class="is-size-7"
+      >
+        <village-name :input-value.sync="villageName" />
+        <hr />
+        <h2 class="title is-6">時間</h2>
+        <notification>
+          <li>1日の長さは24時間固定です。</li>
+        </notification>
+        <start-datetime :input-value.sync="startDatetime" />
+        <silent-hours :input-value.sync="siltntHours" />
+        <hr />
+        <h2 class="title is-6">キャラチップ</h2>
+        <charachip
+          :input-value.sync="charachipId"
+          :charachips="charachips"
+          @load-charas="loadCharas()"
+        />
+        <dummy-chara
+          :input-value.sync="dummyCharaId"
+          :charas="charas"
+          @chara-select="charaSelect($event)"
+        />
+        <hr />
+        <h2 class="title is-6">編成</h2>
+        <organization-notification />
+        <organization
+          :input-value.sync="organization"
+          :available-dummy-skill="availableDummySkill"
+          :skills="skills"
+          ref="org"
+          @override="overrideGeneralOrg"
+        />
+        <form-switch
+          rules="required"
+          label-message="役欠け"
+          description="ダミー役欠けをありにする"
+          :input-value.sync="availableDummySkill"
+        />
+        <hr />
+        <h2 class="title is-6">詳細ルール</h2>
+        <form-switch
+          rules="required"
+          label-message="記名投票"
+          description="記名投票にする"
+          :input-value.sync="openVote"
+        />
+        <form-switch
+          rules="required"
+          label-message="役職希望"
+          description="役職希望ありにする"
+          :input-value.sync="availableSkillRequest"
+        />
+        <form-switch
+          rules="required"
+          label-message="見学"
+          description="見学ありにする"
+          :input-value.sync="availableSpectate"
+        />
+        <form-switch
+          rules="required"
+          label-message="突然死"
+          description="突然死ありにする"
+          :input-value.sync="availableSuddelnyDeath"
+        />
+        <form-switch
+          rules="required"
+          label-message="時短"
+          description="時短希望ありにする"
+          :input-value.sync="availableCommit"
+        />
+        <hr />
+        <h2 class="title is-6">発言制限</h2>
+        <notification>
+          <li>回数は0〜100（通常発言は1〜100）で設定できます。</li>
+          <li>文字数は1〜200で設定できます。</li>
+        </notification>
+        <form-number
+          rules="required|max:100|min:1"
+          label-message="通常発言回数"
+          max="100"
+          min="1"
+          step="1"
+          :input-value.sync="normalCount"
+        />
+        <form-number
+          rules="required|max:200|min:1"
+          label-message="通常発言文字数"
+          max="200"
+          min="1"
+          step="1"
+          :input-value.sync="normalLength"
+          class="m-b-20"
+        />
+        <form-number
+          rules="required|max:100|min:0"
+          label-message="人狼の囁き回数"
+          max="100"
+          min="0"
+          step="1"
+          :input-value.sync="whisperCount"
+        />
+        <form-number
+          rules="required|max:200|min:1"
+          label-message="人狼の囁き文字数"
+          max="200"
+          min="1"
+          step="1"
+          :input-value.sync="whisperLength"
+          class="m-b-20"
+        />
+        <form-number
+          rules="required|max:100|min:0"
+          label-message="死者の呻き回数"
+          max="100"
+          min="0"
+          step="1"
+          :input-value.sync="graveCount"
+        />
+        <form-number
+          rules="required|max:200|min:1"
+          label-message="死者の呻き文字数"
+          max="200"
+          min="1"
+          step="1"
+          :input-value.sync="graveLength"
+          class="m-b-20"
+        />
+        <form-number
+          rules="required|max:100|min:0"
+          label-message="独り言回数"
+          max="100"
+          min="0"
+          step="1"
+          :input-value.sync="monologueCount"
+        />
+        <form-number
+          rules="required|max:200|min:0"
+          label-message="独り言文字数"
+          max="200"
+          min="1"
+          step="1"
+          :input-value.sync="monologueLength"
+          class="m-b-20"
+        />
+        <form-number
+          rules="required|max:100|min:0"
+          label-message="見学発言回数"
+          max="100"
+          min="0"
+          step="1"
+          :input-value.sync="spectateCount"
+        />
+        <form-number
+          rules="required|max:200|min:0"
+          label-message="見学発言文字数"
+          max="200"
+          min="1"
+          step="1"
+          :input-value.sync="spectateLength"
+        />
+        <hr />
+        <h2 class="title is-6">参加パスワード</h2>
+        <join-password :input-value.sync="joinPassword" />
+        <hr />
+        <b-field class="has-text-right">
+          <b-button
+            :disabled="confirming || invalid"
+            size="is-small"
+            @click="confirmVillage"
+            type="is-primary"
+            >確認画面へ</b-button
+          >
+        </b-field>
+        <modal-confirm
+          :param="registerParam"
+          :charachip-name="charachipName"
+          :dummy-chara-name="dummyCharaName"
+          :is-open="isOpenConfirmModal"
+          @close="isOpenConfirmModal = false"
+          @create="createVillage"
+        />
+      </validation-observer>
     </div>
   </section>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-// component
-import loading from '~/components/loading.vue'
+import dayjs from 'dayjs'
 // type
-import ReservedVillages from '~/components/type/reserved-villages'
+import Charachips from '~/components/type/charachips'
+import Charachip from '~/components/type/charachip'
+import Charas from '~/components/type/charas'
+import Chara from '~/components/type/chara'
+import Skills from '~/components/type/skills'
+import Skill from '~/components/type/skill'
+import { MESSAGE_TYPE } from '~/components/const/consts'
+import FormOption from '~/components/common/validation/option'
+// component
+import organization from '~/components/create-village/form/organization.vue'
+import toast from '~/components/village/village-toast'
 
 @Component({
-  components: {}
+  components: {
+    formInput: () => import('~/components/common/validation/form-input.vue'),
+    formNumber: () => import('~/components/common/validation/form-number.vue'),
+    formSelect: () => import('~/components/common/validation/form-select.vue'),
+    formSwitch: () => import('~/components/common/validation/form-switch.vue'),
+    notification: () => import('~/components/create-village/notification.vue'),
+    villageName: () =>
+      import('~/components/create-village/form/village-name.vue'),
+    startDatetime: () =>
+      import('~/components/create-village/form/start-datetime.vue'),
+    silentHours: () =>
+      import('~/components/create-village/form/silent-hours.vue'),
+    charachip: () => import('~/components/create-village/form/charachip.vue'),
+    dummyChara: () =>
+      import('~/components/create-village/form/dummy-chara.vue'),
+    organizationNotification: () =>
+      import('~/components/create-village/organization-notification.vue'),
+    organization,
+    joinPassword: () =>
+      import('~/components/create-village/form/join-password.vue'),
+    modalConfirm: () => import('~/components/create-village/modal-confirm.vue')
+  }
 })
-export default class extends Vue {
+export default class CreateVillage extends Vue {
   /** head */
   private head() {
     return { title: ' | 村作成' }
   }
 
   /** data */
-  private reservedVillages: ReservedVillages | null = null
-  private isLoadingReservedVillages: boolean = false
+  private confirming: boolean = false
+  private charachips: FormOption[] = []
+  private charas: Chara[] = []
+  private skills: Skill[] = []
+  private isOpenConfirmModal: boolean = false
 
-  private organization: string = '村村村村村村村村村占霊狩狼狼狼狂'
-  private createDatetime: string = this.defaultStartDatetime()
-  private startDatetime: string = this.defaultStartDatetime()
-  private silentHours: number = 0
-  private isAvailableDummySkill: boolean = false
-  private submitting: boolean = false
+  // form data ------------------------------------
+  private villageName: string = ''
+  // @ts-ignore
+  private startDatetime: Date = this.$dayjs()
+    .add(7, 'days') // 1週間後にしておく
+    .startOf('days')
+    .toDate()
+
+  private siltntHours: string = '0'
+  private charachipId: string = '1'
+  private dummyCharaId: string = '1'
+  private organization: string = '村'
+  private availableDummySkill: boolean = false
+  private openVote: boolean = false
+  private availableSkillRequest: boolean = true
+  private availableSpectate: boolean = false
+  private openSkillInGrave: boolean = false
+  private visibleGraveMessage: boolean = false
+  private availableSuddelnyDeath: boolean = true
+  private availableCommit: boolean = false
+
+  private normalCount: string = '20'
+  private normalLength: string = '200'
+  private whisperCount: string = '40'
+  private whisperLength: string = '200'
+  private graveCount: string = '40'
+  private graveLength: string = '200'
+  private monologueCount: string = '100'
+  private monologueLength: string = '200'
+  private spectateCount: string = '40'
+  private spectateLength: string = '200'
+
+  private joinPassword: string = ''
 
   /** computed */
+  private get charachipName(): string {
+    const charachip = this.charachips.find(c => c.value === this.charachipId)
+    return charachip ? charachip.label : ''
+  }
+
+  private get dummyCharaName(): string {
+    const chara = this.charas.find(c => c.id.toString() === this.dummyCharaId)
+    return chara ? chara.chara_name.name : ''
+  }
 
   /** created */
   private created() {
-    this.loadReservedVillages()
+    this.loadCharachips()
+    this.loadCharas()
+    this.loadSkills()
+  }
+
+  /** mounted */
+  private mounted() {
+    this.overrideGeneralOrg()
   }
 
   /** methods */
-  private async loadReservedVillages(): Promise<void> {
-    this.isLoadingReservedVillages = true
-    this.reservedVillages = await this.$axios.$get('/reserved-village/list')
-    this.isLoadingReservedVillages = false
+  private async loadCharachips(): Promise<void> {
+    const charachips: Charachips = await this.$axios.$get('/charachip/list')
+    this.charachips = charachips.list.map((charachip: Charachip) => ({
+      key: charachip.id.toString(),
+      label: charachip.name,
+      value: charachip.id.toString()
+    }))
   }
 
-  private defaultStartDatetime(): string {
-    const defaultStartDatetime = new Date()
-    // 4日後の0時
-    defaultStartDatetime.setDate(defaultStartDatetime.getDate() + 4)
-    defaultStartDatetime.setHours(9) // toISOString()でUTC時間にされてしまうので9時間足しておく
-    defaultStartDatetime.setMinutes(0)
-    defaultStartDatetime.setSeconds(0)
-    defaultStartDatetime.setMilliseconds(0)
-    return defaultStartDatetime.toISOString().replace('Z', '')
+  private async loadCharas(): Promise<void> {
+    const charachip: Charachip = await this.$axios.$get(
+      `/charachip/${this.charachipId}`
+    )
+    this.charas = charachip.chara_list
+    this.dummyCharaId = charachip.chara_list[0].id.toString()
   }
 
-  private async createVillage() {
-    this.submitting = true
-    const res = await this.$axios
-      .$post('/reserved-village', {
-        organization: this.organization,
-        create_datetime: this.formatDateTime(new Date(this.createDatetime)),
-        start_datetime: this.formatDateTime(new Date(this.startDatetime)),
-        silent_hours: this.silentHours,
-        available_dummy_skill: this.isAvailableDummySkill
+  private async loadSkills(): Promise<void> {
+    const skills: Skills = await this.$axios.$get('/skill/list')
+    this.skills = skills.list
+  }
+
+  private charaSelect({ charaId }): void {
+    this.dummyCharaId = charaId.toString()
+  }
+
+  private overrideGeneralOrg(): void {
+    // @ts-ignore
+    this.organization = this.$refs.org.createGeneralOrg()
+  }
+
+  private confirmVillage() {
+    this.confirming = true
+    this.$axios
+      .$post('/village/confirm', this.registerParam)
+      .then(res => {
+        this.confirming = false
+        this.isOpenConfirmModal = true
       })
       .catch(err => {
+        toast.danger(this, 'エラーが発生しました。設定を確認してください。')
+        console.log(err)
+        this.confirming = false
+      })
+  }
+
+  private createVillage() {
+    this.$axios
+      .$post('/village', this.registerParam)
+      .then(res => {
+        location.href = `/village?id=${res.village_id}`
+      })
+      .catch(err => {
+        toast.danger(this, 'エラーが発生しました。設定を確認してください。')
         console.log(err)
       })
-    this.submitting = false
-
-    this.loadReservedVillages()
   }
 
-  private async deleteReservedVillage(id: number): Promise<any> {
-    await this.$axios.$delete(`/reserved-village/${id}`).catch(err => {
-      console.log(err)
-    })
-    this.loadReservedVillages()
-  }
+  private get registerParam(): Object {
+    // @ts-ignore
+    const startDatetime = this.$dayjs(this.startDatetime).format(
+      'YYYY-MM-DDTHH:mm:ss'
+    )
+    const organization: string = this.organization
+      .replace(/\r\n/, '\n')
+      .split('\n')
+      .map(line => {
+        return line.split('人：')[1]
+      })
+      .join('\n')
 
-  private formatDateTime(date: Date): string {
-    return this.formatDateByFormat(date, 'yyyy-MM-ddTHH:mm:ss')
-  }
-
-  private formatDateByFormat(date: Date, formatString: string): string {
-    let format = formatString
-    format = format.replace(/yyyy/g, date.getFullYear().toString())
-    format = format.replace(/MM/g, ('0' + (date.getMonth() + 1)).slice(-2))
-    format = format.replace(/dd/g, ('0' + date.getDate()).slice(-2))
-    format = format.replace(/HH/g, ('0' + date.getHours()).slice(-2))
-    format = format.replace(/mm/g, ('0' + date.getMinutes()).slice(-2))
-    format = format.replace(/ss/g, ('0' + date.getSeconds()).slice(-2))
-    format = format.replace(/SSS/g, ('00' + date.getMilliseconds()).slice(-3))
-    return format
+    return {
+      village_name: this.villageName,
+      setting: {
+        time: {
+          start_datetime: startDatetime,
+          silent_hours: this.siltntHours
+        },
+        organization: {
+          organization
+        },
+        charachip: {
+          dummy_chara_id: parseInt(this.dummyCharaId),
+          charachip_id: parseInt(this.charachipId)
+        },
+        rule: {
+          open_vote: this.openVote,
+          available_skill_request: this.availableSkillRequest,
+          available_spectate: this.availableSpectate,
+          open_skill_in_grave: this.openSkillInGrave,
+          visible_grave_message: this.visibleGraveMessage,
+          available_suddenly_death: this.availableSuddelnyDeath,
+          available_commit: this.availableCommit,
+          available_dummy_skill: this.availableDummySkill,
+          restrict_list: [
+            {
+              type: MESSAGE_TYPE.NORMAL_SAY,
+              count: this.normalCount,
+              length: this.normalLength
+            },
+            {
+              type: MESSAGE_TYPE.WEREWOLF_SAY,
+              count: this.whisperCount,
+              length: this.whisperLength
+            },
+            {
+              type: MESSAGE_TYPE.GRAVE_SAY,
+              count: this.graveCount,
+              length: this.graveLength
+            },
+            {
+              type: MESSAGE_TYPE.MONOLOGUE_SAY,
+              count: this.monologueCount,
+              length: this.monologueLength
+            },
+            {
+              type: MESSAGE_TYPE.SPECTATE_SAY,
+              count: this.spectateCount,
+              length: this.spectateLength
+            }
+          ],
+          join_password: this.joinPassword
+        }
+      }
+    }
   }
 }
 </script>
+
+<style lang="scss">
+.textarea {
+  font-family: sans-serif !important;
+}
+</style>
