@@ -5,7 +5,13 @@ import {
   extend,
   localize
 } from 'vee-validate'
-import { required, max, min } from 'vee-validate/dist/rules'
+import {
+  required,
+  max,
+  min,
+  max_value,
+  min_value
+} from 'vee-validate/dist/rules'
 import ja from 'vee-validate/dist/locale/ja.json'
 import * as CustomRules from '~/components/create-village/form/organization-rules'
 
@@ -13,6 +19,8 @@ import * as CustomRules from '~/components/create-village/form/organization-rule
 extend('required', required)
 extend('max', max)
 extend('min', min)
+extend('max_value', max_value)
+extend('min_value', min_value)
 
 for (const rule in CustomRules) {
   extend(rule, CustomRules[rule])

@@ -2,6 +2,16 @@
   <section class="section">
     <div class="container has-text-left">
       <h1 class="title is-5 m-t-40">村を作成</h1>
+      <b-notification
+        v-if="errors"
+        type="is-danger"
+        :closable="false"
+        class="is-size-7"
+      >
+        <ul>
+          <li v-for="err in errors.split('\n')" :key="err">{{ err }}</li>
+        </ul>
+      </b-notification>
       <validation-observer
         ref="observer"
         v-slot="{ invalid }"
@@ -83,7 +93,7 @@
           <li>文字数は1〜200で設定できます。</li>
         </notification>
         <form-number
-          rules="required|max:100|min:1"
+          rules="required|max_value:100|min_value:1"
           label-message="通常発言回数"
           max="100"
           min="1"
@@ -91,7 +101,7 @@
           :input-value.sync="normalCount"
         />
         <form-number
-          rules="required|max:200|min:1"
+          rules="required|max_value:200|min_value:1"
           label-message="通常発言文字数"
           max="200"
           min="1"
@@ -100,7 +110,7 @@
           class="m-b-20"
         />
         <form-number
-          rules="required|max:100|min:0"
+          rules="required|max_value:100|min_value:0"
           label-message="人狼の囁き回数"
           max="100"
           min="0"
@@ -108,7 +118,7 @@
           :input-value.sync="whisperCount"
         />
         <form-number
-          rules="required|max:200|min:1"
+          rules="required|max_value:200|min_value:1"
           label-message="人狼の囁き文字数"
           max="200"
           min="1"
@@ -117,7 +127,7 @@
           class="m-b-20"
         />
         <form-number
-          rules="required|max:100|min:0"
+          rules="required|max_value:100|min_value:0"
           label-message="死者の呻き回数"
           max="100"
           min="0"
@@ -125,7 +135,7 @@
           :input-value.sync="graveCount"
         />
         <form-number
-          rules="required|max:200|min:1"
+          rules="required|max_value:200|min_value:1"
           label-message="死者の呻き文字数"
           max="200"
           min="1"
@@ -134,7 +144,7 @@
           class="m-b-20"
         />
         <form-number
-          rules="required|max:100|min:0"
+          rules="required|max_value:100|min_value:0"
           label-message="独り言回数"
           max="100"
           min="0"
@@ -142,7 +152,7 @@
           :input-value.sync="monologueCount"
         />
         <form-number
-          rules="required|max:200|min:0"
+          rules="required|max_value:200|min_value:0"
           label-message="独り言文字数"
           max="200"
           min="1"
@@ -151,7 +161,7 @@
           class="m-b-20"
         />
         <form-number
-          rules="required|max:100|min:0"
+          rules="required|max_value:100|min_value:0"
           label-message="見学発言回数"
           max="100"
           min="0"
@@ -159,7 +169,7 @@
           :input-value.sync="spectateCount"
         />
         <form-number
-          rules="required|max:200|min:0"
+          rules="required|max_value:200|min_value:0"
           label-message="見学発言文字数"
           max="200"
           min="1"
@@ -239,6 +249,7 @@ export default class CreateVillage extends Vue {
   }
 
   /** data */
+  private errors: string = ''
   private confirming: boolean = false
   private charachips: FormOption[] = []
   private charas: Chara[] = []
@@ -344,7 +355,19 @@ export default class CreateVillage extends Vue {
       })
       .catch(err => {
         toast.danger(this, 'エラーが発生しました。設定を確認してください。')
-        console.log(err)
+        const code = parseInt(err.response && err.response.status)
+        if (
+          code === 404 &&
+          err.response.data.status === 499 &&
+          err.response.data.message &&
+          err.response.data.message.length > 0
+        ) {
+          this.errors = err.response.data.message
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          })
+        }
         this.confirming = false
       })
   }

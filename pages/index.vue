@@ -217,9 +217,8 @@ export default class TopPage extends Vue {
 
 <style lang="scss">
 .spotlight-shadow {
-  text-shadow: 2px 2px 5px rgba(133, 97, 69, 1),
-    -2px 2px 5px rgba(133, 97, 69, 1), 2px -2px 5px rgba(133, 97, 69, 1),
-    -2px -2px 5px rgba(133, 97, 69, 1);
+  text-shadow: 2px 2px 5px rgba(97, 69, 69, 1), -2px 2px 5px rgba(97, 69, 69, 1),
+    2px -2px 5px rgba(97, 69, 69, 1), -2px -2px 5px rgba(97, 69, 69, 1);
 }
 .button.spotlight-shadow:hover {
   text-shadow: none;
