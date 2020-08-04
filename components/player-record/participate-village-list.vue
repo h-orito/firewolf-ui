@@ -71,7 +71,7 @@ export default class ParticipantVillageList extends Vue {
       (participateVillage: ParticipateVillage) => ({
         village_id: participateVillage.village.id,
         village_name: participateVillage.village.name,
-        participant_count: `${participateVillage.village.participant.count}人`,
+        participant_count: this.participantCount(participateVillage.village),
         organization:
           participateVillage.village.setting.organizations.organization[
             participateVillage.village.participant.count
@@ -81,14 +81,21 @@ export default class ParticipantVillageList extends Vue {
         chara_width: this.charaImageWidth(participateVillage.participant),
         chara_height: this.charaImageHeight(participateVillage.participant),
         status: this.status(participateVillage.participant),
-        skill: participateVillage.participant.skill!.name,
-        camp: participateVillage.participant.skill!.win_judge_camp.name,
-        win_status: participateVillage.participant.win ? '勝利' : '敗北'
+        skill: this.skillName(participateVillage.participant),
+        camp: this.campName(participateVillage.participant),
+        win_status: this.winStatus(participateVillage.participant)
       })
     )
   }
 
   /** methods */
+  private participantCount(village: Village): string {
+    const spectatorCount = village.spectator.count
+    const participantCount = village.participant.count
+    if (spectatorCount > 0) return `${participantCount}+${spectatorCount}人`
+    return `${participantCount}人`
+  }
+
   private charaImage(participant: VillageParticipant): string {
     return participant.chara.face_list.find(
       face => face.type === FACE_TYPE.NORMAL
@@ -103,7 +110,23 @@ export default class ParticipantVillageList extends Vue {
     return participant.chara.display.height
   }
 
+  private skillName(participant: VillageParticipant): string {
+    if (participant.spectator) return '見物人'
+    return participant.skill!.name
+  }
+
+  private campName(participant: VillageParticipant): string {
+    if (participant.spectator) return ''
+    return participant.skill!.win_judge_camp.name
+  }
+
+  private winStatus(participant: VillageParticipant): string {
+    if (participant.spectator) return ''
+    return participant.win ? '勝利' : '敗北'
+  }
+
   private status(participant: VillageParticipant): string {
+    if (participant.spectator) return ''
     if (!participant.dead) return '生存'
     const deadDay = participant.dead.village_day.day
     const reason = participant.dead.reason

@@ -58,6 +58,33 @@
         </div>
       </div>
     </div>
+    <div v-if="spectatorList.length > 0">
+      <div class="participant-area">見学（{{ spectatorList.length }}人）</div>
+      <div
+        class="participant-area"
+        v-for="participant in spectatorList"
+        :key="participant.id"
+      >
+        <div class="face-area m-r-5">
+          <chara-image :chara="participant.chara" :is-small="true" />
+        </div>
+        <div class="name-area is-size-7">
+          <div class="chara-name">
+            <p>{{ charaName(participant) }}</p>
+            <p class="chara-filter">
+              <a href="javascript:void(0);" @click="charaFilter(participant)"
+                >抽出</a
+              >
+            </p>
+          </div>
+          <div class="chara-situation">
+            <p :class="charaStatusClass(participant)">
+              {{ charaStatus(participant) }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -97,6 +124,10 @@ export default class VillageSlider extends Vue {
       .filter(p => !!p.dead)
       .slice()
       .sort((vp1, vp2) => this.compareParticipant(vp1, vp2))
+  }
+
+  private get spectatorList(): VillageParticipant[] {
+    return this.village!.spectator.member_list
   }
 
   private get participantList(): VillageParticipant[] {

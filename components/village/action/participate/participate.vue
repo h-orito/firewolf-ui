@@ -65,6 +65,13 @@
           ref="messageInput"
         />
       </b-field>
+      <b-field
+        custom-class="is-small"
+        label="入村パスワード"
+        v-if="requiredJoinPassword"
+      >
+        <b-input v-model="joinPassword" type="password" size="is-small" />
+      </b-field>
     </div>
     <b-button
       :disabled="!canSubmit || confirming"
@@ -94,6 +101,7 @@ import SituationAsParticipant from '~/components/type/situation-as-participant'
 import Message from '~/components/type/message'
 import { MESSAGE_TYPE } from '~/components/const/consts'
 import api from '~/components/village/village-api'
+import toast from '~/components/village/village-toast'
 const modalParticipate = () =>
   import('~/components/village/action/participate/modal-participate.vue')
 
@@ -121,6 +129,7 @@ export default class Participate extends Vue {
       : this.situation.skill_request.skill_request.second.code
 
   private message: string = ''
+  private joinPassword: string = ''
 
   private isCharaSelectModalOpen = false
   private isParticipateModalOpen = false
@@ -130,6 +139,10 @@ export default class Participate extends Vue {
 
   private get normalSay(): string {
     return MESSAGE_TYPE.NORMAL_SAY
+  }
+
+  private get requiredJoinPassword(): boolean {
+    return this.village.setting.password.join_password_required
   }
 
   // 参加ボタンを押下できるか
@@ -158,12 +171,17 @@ export default class Participate extends Vue {
         this.firstRequestSkillCode!,
         this.secondRequestSkillCode!,
         this.message,
-        null,
+        this.joinPassword,
         false
       )
-    } catch (error) {}
+      this.isParticipateModalOpen = true
+    } catch (error) {
+      const code = parseInt(error.response && error.response.status)
+      if (code === 404 && error.response.data.status === 499) {
+        toast.danger(this, error.response.data.message)
+      }
+    }
     this.confirming = false
-    this.isParticipateModalOpen = true
   }
 
   private async participate(): Promise<void> {
@@ -175,7 +193,7 @@ export default class Participate extends Vue {
         this.firstRequestSkillCode!,
         this.secondRequestSkillCode!,
         this.message,
-        null,
+        this.joinPassword,
         false
       )
     } catch (error) {}

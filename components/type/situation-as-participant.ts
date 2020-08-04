@@ -3,6 +3,7 @@ import VillageParticipateSituation from '~/components/type/village-participate-s
 import VillageSkillRequestSituation from '~/components/type/village-skill-request-situation'
 import VillageCommitSituation from '~/components/type/village-commit-situation'
 import VillageVoteSituation from '~/components/type/village-vote-situation'
+import VillageCreatorSituation from '~/components/type/village-creator-situation'
 import VillageAbilitySituations from '~/components/type/village-ability-situations'
 
 interface SituationAsParticipant {
@@ -12,6 +13,7 @@ interface SituationAsParticipant {
   say: VillageSaySituation
   ability: VillageAbilitySituations
   vote: VillageVoteSituation
+  creator: VillageCreatorSituation
 }
 
 export default SituationAsParticipant

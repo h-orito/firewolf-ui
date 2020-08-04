@@ -48,7 +48,6 @@ import loading from '~/components/loading.vue'
 import Villages from '~/components/type/villages'
 import SimpleVillage from '~/components/type/simple-village'
 import MyselfPlayer from '~/components/type/myself-player'
-import ReservedVillages from '~/components/type/reserved-villages'
 import { VILLAGE_STATUS } from '~/components/const/consts'
 
 // dynamic imports
@@ -56,7 +55,6 @@ const playerStats = () => import('~/components/index/player-stats.vue')
 const villageList = () => import('~/components/index/village-list.vue')
 const charachip = () => import('~/components/index/charachip.vue')
 const indexFooter = () => import('~/components/index/index-footer.vue')
-const reservedVillage = () => import('~/components/index/reserved-village.vue')
 
 @Component({
   components: {
@@ -66,8 +64,7 @@ const reservedVillage = () => import('~/components/index/reserved-village.vue')
     villageList,
     charachip,
     indexFooter,
-    loading,
-    reservedVillage
+    loading
   }
 })
 export default class TopPage extends Vue {
@@ -79,7 +76,6 @@ export default class TopPage extends Vue {
   /** data */
   // 村一覧
   private villages: SimpleVillage[] = []
-  private reservedVillages: ReservedVillages | null = null
   // loading
   private loadingAuth: boolean = true
   private isLoadingVillages: boolean = true
@@ -112,9 +108,6 @@ export default class TopPage extends Vue {
 
     // 自動生成村一覧
     this.loadingVillages()
-
-    // 予約村一覧
-    this.loadReservedVillages()
   }
 
   /** methods */
@@ -145,12 +138,6 @@ export default class TopPage extends Vue {
     })
     this.villages = (res as Villages).list
     this.isLoadingVillages = false
-  }
-
-  private async loadReservedVillages(): Promise<void> {
-    this.isLoadingReservedVillages = true
-    this.reservedVillages = await this.$axios.$get('/reserved-village/list')
-    this.isLoadingReservedVillages = false
   }
 
   private openModal(selector: string): void {

@@ -74,6 +74,13 @@
           <div v-if="isDispDebugMenu">
             <village-debug :village="debugVillage" @reload="reload" />
           </div>
+          <div v-if="isDispCreatorMenu">
+            <village-creator
+              :village="village"
+              :situation="situation.creator"
+              @reload="reload"
+            />
+          </div>
         </div>
         <action
           v-if="situation && existsAction"
@@ -138,6 +145,8 @@ const messageCards = () =>
 const villageDebug = () =>
   import('~/components/village/debug/village-debug.vue')
 const villageDayList = () => import('~/components/village/village-day-list.vue')
+const villageCreator = () =>
+  import('~/components/village/action/creator/village-creator.vue')
 
 @Component({
   components: {
@@ -148,7 +157,8 @@ const villageDayList = () => import('~/components/village/village-day-list.vue')
     villageDayList,
     villageFooter,
     villageHeader,
-    villageSlider
+    villageSlider,
+    villageCreator
   },
   asyncData({ query }) {
     return { villageId: query.id }
@@ -246,6 +256,14 @@ export default class extends Vue {
   /** デバッグメニューを表示するか */
   private get isDispDebugMenu(): boolean {
     return this.isDebug && this.debugVillage != null && this.situation != null
+  }
+
+  private get isDispCreatorMenu(): boolean {
+    return (
+      !!this.village &&
+      !!this.situation &&
+      this.situation.creator.available_creator_setting
+    )
   }
 
   /** 自動的に最新発言を読み込むか */

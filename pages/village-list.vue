@@ -94,11 +94,9 @@ export default class CompleteVillageList extends Vue {
 
   /** created */
   async created() {
-    // 自動生成村一覧
     const villages = await this.$axios.$get('/village/list', {
       params: {
-        village_status: VILLAGE_STATUS.COMPLETE,
-        is_auto_generate: true
+        village_status: VILLAGE_STATUS.COMPLETE
       }
     })
     this.villages = (villages as Villages).list

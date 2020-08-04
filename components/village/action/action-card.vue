@@ -1,18 +1,35 @@
 <template>
   <div class="card action-card">
-    <header class="card-header">
-      <p class="action-card-header-title has-text-grey">
-        {{ title }}
-      </p>
-    </header>
-    <div v-if="existsContent" class="card-content action-card-content">
-      <slot name="content" />
-    </div>
-    <footer v-if="existsFooter" class="card-footer">
-      <div class="card-footer-item action-card-footer-item">
-        <slot name="footer" />
+    <b-collapse :aria-id="key" :open="true" animation="slide">
+      <header
+        class="card-header"
+        slot="trigger"
+        slot-scope="props"
+        :aria-controls="key"
+      >
+        <p class="action-card-header-title has-text-grey">
+          {{ title }}
+        </p>
+        <span
+          class="action-card-header-title"
+          style="float: right; padding-right: 5px;"
+        >
+          <b-icon
+            pack="fas"
+            :icon="props.open ? 'angle-down' : 'angle-right'"
+            size="is-small"
+          />
+        </span>
+      </header>
+      <div v-if="existsContent" class="card-content action-card-content">
+        <slot name="content" />
       </div>
-    </footer>
+      <footer v-if="existsFooter" class="card-footer">
+        <div class="card-footer-item action-card-footer-item">
+          <slot name="footer" />
+        </div>
+      </footer>
+    </b-collapse>
   </div>
 </template>
 
@@ -31,6 +48,10 @@ export default class ActionCard extends Vue {
 
   @Prop({ type: Boolean, default: true })
   private existsFooter?: boolean
+
+  private key: string = Math.random()
+    .toString(32)
+    .substring(2)
 }
 </script>
 
