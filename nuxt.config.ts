@@ -1,4 +1,4 @@
-import { Configuration } from '@nuxt/types'
+import { NuxtConfig } from '@nuxt/types'
 require('dotenv').config()
 
 const siteName = 'FIREWOLF'
@@ -79,7 +79,7 @@ if (process.env.ENV !== 'production') {
   })
 }
 
-const nuxtConfig: Configuration = {
+const nuxtConfig: NuxtConfig = {
   mode: 'spa',
 
   env: {
