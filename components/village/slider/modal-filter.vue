@@ -225,11 +225,13 @@ export default class ModalFilter extends Vue {
   }
 
   private get participantList(): VillageParticipant[] {
-    return this.village!.participant.member_list
+    return this.village!.participant.member_list.concat(
+      this.village!.spectator.member_list
+    )
   }
 
   private get allParticipantIdList(): number[] {
-    return this.village!.participant.member_list.map(member => member.id)
+    return this.participantList.map(member => member.id)
   }
 
   private get isFiltering(): boolean {

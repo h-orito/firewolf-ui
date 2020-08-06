@@ -138,9 +138,14 @@ export default class VillageSlider extends Vue {
   private isOpenUserSettingsModal: boolean = false
   private isOpenFilterModal: boolean = false
 
-  private get personCount(): number {
-    if (!this.village) return 0
-    return this.village.participant.count
+  private get personCount(): string {
+    if (!this.village) return '0'
+    const participantCount = this.village.participant.count
+    const spectatorCount = this.village.spectator.count
+    if (spectatorCount > 0) {
+      return `${participantCount}+${spectatorCount}`
+    }
+    return `${participantCount}`
   }
 
   private get isFiltering(): boolean {

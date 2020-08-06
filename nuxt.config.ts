@@ -125,7 +125,12 @@ const nuxtConfig: Configuration = {
   ],
 
   /* Plugins to load before mounting the App */
-  plugins: ['~/plugins/axios', '~/plugins/window-resize'],
+  plugins: [
+    '~/plugins/axios',
+    '~/plugins/window-resize',
+    '~/plugins/vee-validate',
+    '~/plugins/dayjs'
+  ],
 
   axios: {
     baseURL:
@@ -235,7 +240,8 @@ const nuxtConfig: Configuration = {
           }
         }
       }
-    }
+    },
+    transpile: ['vee-validate/dist/rules']
   }
 }
 

@@ -12,7 +12,15 @@
           <chara-image :chara="myself.chara" />
         </div>
         <div class="myself-health-area">
-          <b-message v-if="myself.skill == null" size="is-small">
+          <b-message v-if="myself.spectator" size="is-small">
+            <span style="white-space: pre-line;"
+              >あなたは見物人です。進行中は見物人および死亡した人と会話することができます。
+            </span>
+          </b-message>
+          <b-message
+            v-if="!myself.spectator && myself.skill == null"
+            size="is-small"
+          >
             <span style="white-space: pre-line;"
               >1日目になると役職情報がここに表示されます。
             </span>

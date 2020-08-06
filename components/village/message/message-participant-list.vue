@@ -28,7 +28,7 @@
         </div>
         <div class="skill-area">
           <p class="skill">
-            <strong>{{ participant.skill.name }}</strong>
+            <strong>{{ skillName(participant) }}</strong>
             {{ skillRequest(participant) }}
           </p>
         </div>
@@ -68,6 +68,7 @@ export default class ParticipantListMessage extends Vue {
     return this.village.participant.member_list
       .slice()
       .sort((vp1, vp2) => this.compareParticipant(vp1, vp2))
+      .concat(this.village.spectator.member_list.slice())
   }
 
   private compareParticipant(
@@ -107,6 +108,7 @@ export default class ParticipantListMessage extends Vue {
   }
 
   private charaStatus(participant: VillageParticipant): string {
+    if (participant.spectator) return ''
     if (!participant.dead) return '生存'
     const day = participant.dead.village_day.day
     const reason = participant.dead.reason
@@ -114,13 +116,19 @@ export default class ParticipantListMessage extends Vue {
   }
 
   private charaStatusClass(participant: VillageParticipant): string {
-    if (!participant.dead) return ''
+    if (participant.spectator || !participant.dead) return ''
     const reason = participant.dead.reason
     if (reason === '突然' || reason === '処刑') return 'has-text-info'
     return 'has-text-danger'
   }
 
+  private skillName(participant: VillageParticipant): string {
+    if (participant.spectator) return '見物人'
+    return participant.skill!.name
+  }
+
   private skillRequest(participant: VillageParticipant): string {
+    if (participant.spectator) return ''
     const req1 = participant.skill_request!.first.name
     const req2 = participant.skill_request!.second.name
     return `（${req1}/${req2}希望）`

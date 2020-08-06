@@ -97,10 +97,17 @@ export default class MessageCard extends Vue {
     const isFirstDay =
       this.village.day.day_list[this.village.day.day_list.length - 1].day === 1
     if (isFirstDay) {
-      return `${this.daychangeDatetime}に日付が更新されます。\n能力者は対象を選択してセットしてください。`
+      return `${this.daychangeDatetime}に日付が更新されます。\n能力者は対象を選択してセットしてください。${this.commitMessage}`
     } else {
-      return `${this.daychangeDatetime}に日付が更新されます。\n処刑したい人に投票してください。\n能力者は対象を選択してセットしてください。`
+      return `${this.daychangeDatetime}に日付が更新されます。\n処刑したい人に投票してください。\n能力者は対象を選択してセットしてください。${this.commitMessage}`
     }
+  }
+
+  private get commitMessage(): string {
+    const isAvailableCommit = this.village.setting.rules.available_commit
+    return isAvailableCommit
+      ? '\n全員が時短希望すると、すぐに日付が更新されます。'
+      : ''
   }
 
   private get epilogueMessage(): string {

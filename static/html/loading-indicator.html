@@ -9,11 +9,11 @@
   }
 
   .spinner {
-    margin: 100px auto 50px auto;
-    width: 50px;
-    height: 40px;
+    margin: 100px auto 20px auto;
+    width: 200px;
+    height: 50px;
     text-align: center;
-    font-size: 10px;
+    font-size: 20px;
   }
 
   .description {
@@ -21,13 +21,14 @@
   }
 
   .spinner > div {
-    background-color: #3991f4;
-    height: 100%;
-    width: 6px;
     display: inline-block;
 
     -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
     animation: sk-stretchdelay 1.2s infinite ease-in-out;
+  }
+
+  .spinner .rect1 {
+    color: #f00;
   }
 
   .spinner .rect2 {
@@ -46,18 +47,33 @@
   }
 
   .spinner .rect5 {
+    color: #f00;
     -webkit-animation-delay: -0.8s;
     animation-delay: -0.8s;
   }
 
+  .spinner .rect6 {
+    -webkit-animation-delay: -0.7s;
+    animation-delay: -0.7s;
+  }
+
+  .spinner .rect7 {
+    -webkit-animation-delay: -0.6s;
+    animation-delay: -0.6s;
+  }
+
+  .spinner .rect8 {
+    -webkit-animation-delay: -0.5s;
+    animation-delay: -0.5s;
+  }
   @-webkit-keyframes sk-stretchdelay {
     0%,
     40%,
     100% {
-      -webkit-transform: scaleY(0.4);
+      -webkit-transform: scaleY(0.6);
     }
     20% {
-      -webkit-transform: scaleY(1);
+      -webkit-transform: scaleY(1.2);
     }
   }
 
@@ -65,24 +81,28 @@
     0%,
     40%,
     100% {
-      transform: scaleY(0.4);
-      -webkit-transform: scaleY(0.4);
+      transform: scaleY(0.6);
+      -webkit-transform: scaleY(0.6);
     }
     20% {
       transform: scaleY(1);
-      -webkit-transform: scaleY(1);
+      -webkit-transform: scaleY(1.2);
     }
   }
 </style>
 <div>
   <div class="spinner">
-    <div class="rect1"></div>
-    <div class="rect2"></div>
-    <div class="rect3"></div>
-    <div class="rect4"></div>
-    <div class="rect5"></div>
+    <div class="rect1">F</div>
+    <div class="rect2">I</div>
+    <div class="rect3">R</div>
+    <div class="rect4">E</div>
+    <div class="rect5">W</div>
+    <div class="rect6">O</div>
+    <div class="rect7">L</div>
+    <div class="rect8">F</div>
   </div>
   <div class="description">
     <p>読み込み中<br />（初回やアップデート後は時間がかかる場合があります）</p>
   </div>
 </div>
+</html>

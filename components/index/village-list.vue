@@ -2,7 +2,7 @@
   <div class="menu-area">
     <div class="m-b-50">
       <p class="is-size-5 spotlight-shadow">
-        自動生成村
+        開催中の村
       </p>
     </div>
     <div class="m-b-30">

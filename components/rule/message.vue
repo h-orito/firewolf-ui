@@ -2,7 +2,8 @@
   <div class="content">
     <ul>
       <li>
-        発言種別ごとに1日に発言できる回数と最大文字数が制限されます。
+        発言種別ごとに1日に発言できる回数と最大文字数が制限されます。<br />
+        （村の設定で変更できます。以下はデフォルト値です。）
         <ul>
           <li>通常発言は1日に20回、1回に200文字まで</li>
           <li>人狼の囁きは1日に40回、1回に200文字まで</li>
@@ -12,7 +13,7 @@
         </ul>
       </li>
       <li>
-        発言可能時間が制限されている村では、進行中のみ、通常発言できない時間帯があります。
+        村の設定で更新後沈黙時間が制限されている村では、進行中のみ、通常発言できない時間帯があります。
       </li>
       <li>
         発言中にアンカー文字列を含めると、クリックすることでその発言を表示することができます。
@@ -39,6 +40,9 @@
     <div class="card">
       <message-say :message="graveSay" :is-progress="false" />
     </div>
+    <div class="card">
+      <message-system :message="creatorSay" :is-progress="false" />
+    </div>
   </div>
 </template>
 
@@ -46,10 +50,11 @@
 import { Component, Vue, Prop } from 'nuxt-property-decorator'
 import Message from '~/components/type/message'
 import { MESSAGE_TYPE } from '~/components/const/consts'
+import messageSystem from '~/components/village/message/message-system.vue'
 const messageSay = () => import('~/components/village/message/message-say.vue')
 
 @Component({
-  components: { messageSay }
+  components: { messageSay, messageSystem }
 })
 export default class RuleMessage extends Vue {
   private get normalSay(): Message {
@@ -77,6 +82,12 @@ export default class RuleMessage extends Vue {
     return this.createMessage(
       MESSAGE_TYPE.GRAVE_SAY,
       '死者の呻きです。\n進行中は死亡した人しか見ることができません。\nエピローグを迎えると全員が見ることができます。'
+    )
+  }
+
+  private get creatorSay(): Message {
+    return this.createCreatorSayMessage(
+      '村建て発言です。\n参加していない人も含め全員が見ることができます。'
     )
   }
 
@@ -131,6 +142,30 @@ export default class RuleMessage extends Vue {
         count: 1,
         text,
         face_code: 'NORMAL'
+      }
+    }
+    return message
+  }
+
+  private createCreatorSayMessage(text: string): Message {
+    const message: Message = {
+      from: null,
+      to: null,
+      time: {
+        village_day_id: 1,
+        day: 1,
+        datetime: '2000/01/01 23:59:59',
+        unix_time_milli: 1
+      },
+      content: {
+        type: {
+          code: MESSAGE_TYPE.CREATOR_SAY,
+          name: ''
+        },
+        num: 1,
+        count: 1,
+        text,
+        face_code: null
       }
     }
     return message

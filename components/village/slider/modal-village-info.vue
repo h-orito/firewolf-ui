@@ -225,7 +225,7 @@ export default class ModalVillageInfo extends Vue {
       name: '投票',
       value: rules.open_vote ? '記名投票' : '無記名投票',
       description:
-        '「記名投票」の場合、処刑の投票結果について、誰が誰に投票したかがわかります。\n「無記名投票」の場合、誰に何票入ったかのみがわかります。\n自動生成村の場合、常に「無記名投票」となります。'
+        '「記名投票」の場合、処刑の投票結果について、誰が誰に投票したかがわかります。\n「無記名投票」の場合、誰に何票入ったかのみがわかります。'
     })
     // 役職希望
     settings.push({
@@ -239,21 +239,21 @@ export default class ModalVillageInfo extends Vue {
       name: '見学',
       value: rules.available_spectate ? '可能' : '不可',
       description:
-        '「可能」の場合、見学者として参加できます。\n見学者は死亡した人とのみ会話することができます（プロローグとエピローグでは全員と会話できます）。\n自動生成村の場合、常に「不可」となります。'
+        '「可能」の場合、見学者として参加できます。\n見学者は死亡した人とのみ会話することができます（プロローグとエピローグでは全員と会話できます）。'
     })
     // 墓下役職公開
     settings.push({
       name: '墓下役職公開',
       value: rules.open_skill_in_grave ? '公開' : '非公開',
       description:
-        '「公開」の場合、死亡した人と見学者は全員の役職を知ることができます。\n自動生成村の場合、常に「非公開」となります。'
+        '「公開」の場合、死亡した人と見学者は全員の役職を知ることができます。'
     })
     // 墓下会話オープン
     settings.push({
       name: '墓下会話公開',
       value: rules.visible_grave_message ? '公開' : '非公開',
       description:
-        '「公開」の場合、生存している参加者が死者の呻きと見学者の発言を見られるようになります。\n自動生成村の場合、常に「非公開」となります。'
+        '「公開」の場合、生存している参加者が死者の呻きと見学者の発言を見られるようになります。'
     })
     // 突然死
     settings.push({
@@ -267,7 +267,7 @@ export default class ModalVillageInfo extends Vue {
       name: '時短希望',
       value: rules.available_commit ? 'あり' : 'なし',
       description:
-        '「あり」の場合、生存者全員が時短を希望すると、日付が更新されます。\n時短により余った時間は翌日に繰り越されます。\n自動生成村の場合、常に「なし」となります。'
+        '「あり」の場合、生存者全員が時短を希望すると、日付が更新されます。\n時短により余った時間は翌日に繰り越されます。'
     })
     // 発言制限
     const restricts = rules.message_restrict.restrict_list
@@ -286,7 +286,7 @@ export default class ModalVillageInfo extends Vue {
       name: 'ダミー役欠け',
       value: rules.available_dummy_skill ? 'あり' : 'なし',
       description:
-        '「あり」の場合、きぐるみ ピギーに村人以外の役職が割り当てられる可能性があります。\n「なし」の場合、必ず村人が割り当てられます。'
+        '「あり」の場合、ダミーキャラに村人以外の役職が割り当てられる可能性があります。\n「なし」の場合、必ず村人が割り当てられます。'
     })
   }
 
@@ -298,7 +298,7 @@ export default class ModalVillageInfo extends Vue {
         ? 'あり'
         : 'なし',
       description:
-        '「あり」の場合、参加する際にパスワード入力が必要になります。\n自動生成村の場合、常に「なし」となります。'
+        '「あり」の場合、参加する際にパスワード入力が必要になります。'
     })
   }
 

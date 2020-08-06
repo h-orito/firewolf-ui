@@ -31,6 +31,7 @@ export default class Leave extends Vue {
       confirmText: '退村する',
       type: 'is-danger',
       hasIcon: true,
+      iconPack: 'fas',
       onConfirm: async () => {
         await self.leave()
         toast.info(self, '退村しました')
