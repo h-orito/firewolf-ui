@@ -60,7 +60,7 @@
           @click="create"
           :disabled="submitting"
         >
-          作成する
+          {{ saveLabel }}
         </b-button>
       </footer>
     </div>
@@ -97,6 +97,9 @@ export default class ModalVillageInfo extends Vue {
 
   @Prop({ type: Boolean })
   private isOpen!: boolean
+
+  @Prop({ type: String })
+  private saveLabel!: string
 
   private submitting: boolean = false
 

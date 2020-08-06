@@ -106,7 +106,7 @@ export default class TopPage extends Vue {
     this.registerUserIfNeeded()
     this.loadingAuth = false
 
-    // 自動生成村一覧
+    // 村一覧
     this.loadingVillages()
   }
 

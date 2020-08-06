@@ -25,18 +25,20 @@
       <start-datetime :input-value.sync="startDatetimeModel" />
       <silent-hours :input-value.sync="silentHoursModel" />
       <hr />
-      <h2 class="title is-6">キャラチップ</h2>
-      <charachip
-        :input-value.sync="charachipIdModel"
-        :charachips="charachips"
-        @load-charas="loadCharas()"
-      />
-      <dummy-chara
-        :input-value.sync="dummyCharaIdModel"
-        :charas="charas"
-        @chara-select="charaSelect($event)"
-      />
-      <hr />
+      <div v-if="modifiableChara">
+        <h2 class="title is-6">キャラチップ</h2>
+        <charachip
+          :input-value.sync="charachipIdModel"
+          :charachips="charachips"
+          @load-charas="loadCharas()"
+        />
+        <dummy-chara
+          :input-value.sync="dummyCharaIdModel"
+          :charas="charas"
+          @chara-select="charaSelect($event)"
+        />
+        <hr />
+      </div>
       <h2 class="title is-6">編成</h2>
       <organization-notification />
       <organization
@@ -197,6 +199,7 @@
         :charachip-name="charachipName"
         :dummy-chara-name="dummyCharaName"
         :is-open="isOpenConfirmModal"
+        :save-label="saveLabel"
         @close="isOpenConfirmModal = false"
         @create="save"
       />
@@ -545,6 +548,12 @@ export default class Setting extends Vue {
     this.$emit('update:joinPassword', val)
   }
 
+  @Prop({ type: String, required: true })
+  private saveLabel!: string
+
+  @Prop({ type: Boolean, required: false, default: true })
+  private modifiableChara!: boolean
+
   /** data */
   private errors: string = ''
   private confirming: boolean = false
@@ -594,6 +603,11 @@ export default class Setting extends Vue {
   private overrideGeneralOrg(): void {
     // @ts-ignore
     this.organizationModel = this.$refs.org.createGeneralOrg()
+  }
+
+  private overrideOrgMinMax(org: string): void {
+    // @ts-ignore
+    this.$refs.org.overrideOrgMinMax(org)
   }
 
   private async confirm() {

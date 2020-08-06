@@ -88,6 +88,12 @@ export default class Organization extends Vue {
     return org
   }
 
+  private overrideOrgMinMax(org): void {
+    const list = org.split('\n').map(o => o.split('：')[1].length)
+    this.capacityMin = list.reduce((a, b) => (a < b ? a : b)).toString()
+    this.capacityMax = list.reduce((a, b) => (a > b ? a : b)).toString()
+  }
+
   private get validationRules(): Object {
     return {
       required: true,

@@ -29,6 +29,7 @@
         :spectate-count.sync="spectateCount"
         :spectate-length.sync="spectateLength"
         :join-password.sync="joinPassword"
+        save-label="村を作成する"
         @confirm="confirmVillage"
         @save="createVillage"
       />
@@ -40,18 +41,6 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import dayjs from 'dayjs'
 import setting from '~/components/create-village/setting.vue'
-
-// type
-import Charachips from '~/components/type/charachips'
-import Charachip from '~/components/type/charachip'
-import Charas from '~/components/type/charas'
-import Chara from '~/components/type/chara'
-import Skills from '~/components/type/skills'
-import Skill from '~/components/type/skill'
-import { MESSAGE_TYPE } from '~/components/const/consts'
-import FormOption from '~/components/common/validation/option'
-// component
-import toast from '~/components/village/village-toast'
 
 @Component({
   components: {
@@ -65,12 +54,6 @@ export default class CreateVillage extends Vue {
   }
 
   /** data */
-  private confirming: boolean = false
-  private charachips: FormOption[] = []
-  private charas: Chara[] = []
-  private skills: Skill[] = []
-  private isOpenConfirmModal: boolean = false
-
   // form data ------------------------------------
   private villageName: string = ''
   // @ts-ignore

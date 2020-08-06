@@ -4,7 +4,7 @@ const contain_skills = {
   params: ['skills'],
 
   validate(value, { skills }) {
-    if (value == null) return true // 空の場合チェックしない
+    if (value == null || !skills) return true // 空の場合チェックしない
     const skillShortnames: string[] = skillShornames(skills)
     return !Object.values(toPersonNumOrgMap(value)).some((org: string) => {
       return containInvalidSkill(org, skillShortnames)
@@ -22,7 +22,7 @@ const dummy_skill = {
   validate(value, { availableDummySkill }) {
     if (availableDummySkill || !value) return true // 役欠けありの場合チェックしない
     return !Object.values(toPersonNumOrgMap(value)).some((org: string) => {
-      return !org.includes('村')
+      return !!org && !org.includes('村')
     })
   },
 
