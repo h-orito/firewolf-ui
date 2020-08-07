@@ -84,8 +84,7 @@ export default class VillageList extends Vue {
   private get canCreateVillage(): boolean {
     const player = this.user
     if (player == null) return false
-    return player.id === 1 // しばらくは管理者のみ建てられるようにする
-    // return player.available_create_village
+    return player.available_create_village
   }
 
   private get tableVillages(): any[] {
