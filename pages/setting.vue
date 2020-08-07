@@ -166,7 +166,7 @@ export default class VillageSetting extends Vue {
     this.whisperLength = whisper.length.toString()
     const grave = restricts.find(r => r.type.code === MESSAGE_TYPE.GRAVE_SAY)!
     this.graveCount = grave.count.toString()
-    this.graveLength = grave.count.toString()
+    this.graveLength = grave.length.toString()
     const monologue = restricts.find(
       r => r.type.code === MESSAGE_TYPE.MONOLOGUE_SAY
     )!

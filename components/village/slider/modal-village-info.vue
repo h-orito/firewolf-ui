@@ -91,6 +91,11 @@ export default class ModalVillageInfo extends Vue {
     if (!this.village) return []
     const settings: Settings[] = []
 
+    settings.push({
+      name: '村の作成者',
+      value: `@${this.village.creator_player.twitter_user_name}`,
+      description: '村の作成者です。'
+    })
     this.addCapacitySetting(settings)
     this.addTimeSetting(settings)
     this.addCharachipSetting(settings)
