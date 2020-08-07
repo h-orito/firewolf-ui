@@ -17,7 +17,7 @@
               <b-table-column field="charachip_name" label="キャラチップ名">
                 <nuxt-link
                   :to="{
-                    path: 'charachip',
+                    path: '/charachip',
                     query: { id: props.row.charachip_id }
                   }"
                   >{{ props.row.charachip_name }}</nuxt-link

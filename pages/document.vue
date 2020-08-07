@@ -80,6 +80,14 @@
             </tr>
             <tr>
               <td></td>
+              <td>prologue_datetime</td>
+              <td></td>
+              <td>string</td>
+              <td>○</td>
+              <td>プロローグが開始した日時。yyyy/MM/dd HH:mm型</td>
+            </tr>
+            <tr>
+              <td></td>
               <td>epilogue_datetime</td>
               <td></td>
               <td>string</td>
@@ -155,7 +163,7 @@
               <td></td>
               <td>skill_name</td>
               <td>string</td>
-              <td>○</td>
+              <td>-</td>
               <td>役職名</td>
             </tr>
             <tr>
@@ -189,8 +197,16 @@
               <td></td>
               <td>win</td>
               <td>boolean</td>
-              <td>○</td>
+              <td>-</td>
               <td>勝利したか</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td>spectator</td>
+              <td>boolean</td>
+              <td>○</td>
+              <td>見学か</td>
             </tr>
           </tbody>
         </table>
@@ -201,6 +217,19 @@
           type="textarea"
           v-model="jsonExample"
         >
+        </b-input>
+      </div>
+      <hr />
+      <h2 class="is-size-6">村戦績が取得できる最大村ID</h2>
+      <div class="content m-t-10">
+        <p>戦績取得可能な最大の村IDを取得できます。</p>
+        <h3 class="is-size-6">Request</h3>
+        <p>GET: https://wolfort.net/firewolf/village-record/latest-vid</p>
+        <h3>Response</h3>
+        <p>型：application/json</p>
+        <p>文字コード：UTF8</p>
+        <p>例</p>
+        <b-input size="is-small" :rows="1" type="textarea" value="{ vid: 1 }">
         </b-input>
       </div>
     </div>
@@ -228,6 +257,7 @@ export default class extends Vue {
         "id": 1,
         "name": "0001村",
         "start_datetime": "2020/01/01 00:00",
+        "prologue_datetime": "2019/12/31 00:00",
         "epilogue_datetime": "2020/01/03 00:00",
         "epilogue_day": 3,
         "organization": "村占霊狼狂",
@@ -243,6 +273,7 @@ export default class extends Vue {
             "dead_day": 2,
             "dead_reason": "襲撃死"
             "win": false,
+            "spectator": false
           },
           {
             "character_name": "勇者 アスベル",
@@ -253,6 +284,7 @@ export default class extends Vue {
             "dead_day": null,
             "dead_reason": null,
             "win": true
+            "spectator": false
           },
           {
             "character_name": "戦士 ランディ",
@@ -263,6 +295,7 @@ export default class extends Vue {
             "dead_day": null,
             "dead_reason": null,
             "win": true
+            "spectator": false
           },
           {
             "character_name": "弓使い レティシア",
@@ -273,6 +306,7 @@ export default class extends Vue {
             "dead_day": 3,
             "dead_reason": "襲撃死",
             "win": false
+            "spectator": false
           },
           {
             "character_name": "忍者 ミズチ",
@@ -283,6 +317,7 @@ export default class extends Vue {
             "dead_day": 3,
             "dead_reason": "処刑死",
             "win": false
+            "spectator": false
           }
         ]
       }
