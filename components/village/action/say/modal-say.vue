@@ -78,7 +78,7 @@ export default class ModalSay extends Vue {
   // data
   // ----------------------------------------------------------------
   private submitting: boolean = false
-  private confirmType: string = MESSAGE_TYPE.NORMAL_SAY
+  private confirmType: string = ''
 
   // ----------------------------------------------------------------
   // computed
@@ -93,7 +93,7 @@ export default class ModalSay extends Vue {
   private get messageTypes(): any[] {
     return [
       {
-        label: '通常',
+        label: '通常発言',
         code: MESSAGE_TYPE.NORMAL_SAY
       },
       {
