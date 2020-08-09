@@ -93,6 +93,10 @@ export default class ModalSay extends Vue {
   private get messageTypes(): any[] {
     return [
       {
+        label: '選択してください',
+        code: ''
+      },
+      {
         label: '通常発言',
         code: MESSAGE_TYPE.NORMAL_SAY
       },
@@ -139,6 +143,7 @@ export default class ModalSay extends Vue {
     this.submitting = true
     await this.$emit('say')
     this.submitting = false
+    this.confirmType = ''
     this.close()
   }
 }
