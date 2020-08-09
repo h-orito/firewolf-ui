@@ -13,10 +13,17 @@
             >{{ skill.name }}</option
           >
         </b-select>
+        <b-button size="is-small" type="is-primary" @click="cancelFirst"
+          >消す</b-button
+        >
       </b-field>
-      <b-field v-if="co1 && co1 !== ''">
-        <b-select v-model="co2" expanded size="is-small">
-          <option value="">COを取り消す</option>
+      <b-field>
+        <b-select
+          v-model="co2"
+          expanded
+          size="is-small"
+          :disabled="!co1 || co1 === ''"
+        >
           <option
             v-for="skill in selectableSkills"
             :value="skill.code"
@@ -24,10 +31,17 @@
             >{{ skill.name }}</option
           >
         </b-select>
+        <b-button
+          size="is-small"
+          type="is-primary"
+          :disabled="!co1 || co1 === ''"
+          @click="cancelSecond"
+          >消す</b-button
+        >
       </b-field>
     </div>
     <b-button
-      :disabled="!canSubmit || submitting"
+      :disabled="!canSubmit"
       @click="setComingout"
       type="is-primary"
       size="is-small"
@@ -51,7 +65,7 @@ import toast from '~/components/village/village-toast'
 @Component({
   components: {}
 })
-export default class Ability extends Vue {
+export default class Comingout extends Vue {
   @Prop({ type: Object })
   private village!: Village
 
@@ -80,6 +94,15 @@ export default class Ability extends Vue {
     return this.situation.selectable_skill_list
   }
 
+  private cancelFirst(): void {
+    this.co1 = this.co2
+    this.co2 = ''
+  }
+
+  private cancelSecond(): void {
+    this.co2 = ''
+  }
+
   private reset(): void {
     const colist = this.situation.current_coming_outs.list
     if (colist.length > 0) {
@@ -93,9 +116,12 @@ export default class Ability extends Vue {
   private async setComingout(): Promise<void> {
     this.submitting = true
     const colist: string[] = []
-    if (!!this.co1 && this.co1 !== '') colist.push(this.co1)
-    if (!!this.co2 && this.co2 !== '' && this.co1 !== this.co2)
-      colist.push(this.co2)
+    if (!!this.co1 && this.co1 !== '') {
+      colist.push(this.co1)
+      if (!!this.co2 && this.co2 !== '' && this.co1 !== this.co2) {
+        colist.push(this.co2)
+      }
+    }
     await api.postComingout(this, this.village!.id, colist)
     this.submitting = false
     if (colist.length > 0) {
