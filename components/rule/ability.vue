@@ -129,6 +129,42 @@
         </li>
       </ul>
     </div>
+    <h4 class="is-7" id="forcesuicide"><strong>道連れ</strong></h4>
+    <div class="content">
+      <ul>
+        <li>
+          処刑死した場合、処刑処理時点で自分へ投票した生存者から1名をランダムで道連れにします。
+        </li>
+        <li>
+          処刑処理前に自身が死亡していた場合は処刑による道連れは発動しません。
+        </li>
+        <li>
+          襲撃死した場合、襲撃処理時点で生存している襲撃者の中から1名をランダムで道連れにします。
+        </li>
+        <li>
+          襲撃処理前に自身が死亡していた場合は襲撃による道連れは発動しません。
+        </li>
+        <li>
+          道連れになった対象は無惨な死体となって発見されます。（死因は呪殺死扱い）
+        </li>
+        <li>
+          メッセージ例（エピローグまで見えません）
+          <div class="card">
+            <div
+              class="card-content p-t-10 p-b-10 m-b-5 message-system-private"
+            >
+              <div class="content has-text-left">
+                <message-text
+                  :message-text="
+                    '[槍] 槍使い ヘンリエッタは、[僧] 僧侶 セシリーを道連れにした。'
+                  "
+                />
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
     <h4 class="is-7" id="attack"><strong>襲撃</strong></h4>
     <div class="content">
       <ul>

@@ -4,7 +4,7 @@
     <action-card :title="'村建てメニュー'" :exists-footer="false">
       <template v-slot:content>
         <div class="content has-text-left">
-          <div v-if="situation.available_creator_say" class="m-b-20">
+          <div v-if="situation.creator.available_creator_say" class="m-b-20">
             <p style="font-weight: 700; margin-bottom: 6px;">村建て発言</p>
             <creator-message-input v-model="message" ref="messageInput" />
             <div class="has-text-right">
@@ -21,11 +21,12 @@
               :is-open="isSayModalOpen"
               :confirm-message="confirmMessage"
               :village="village"
+              :situation="situation"
               @close="isSayModalOpen = false"
               @say="say"
             />
           </div>
-          <div v-if="situation.available_modify_setting" class="m-b-20">
+          <div v-if="situation.creator.available_modify_setting" class="m-b-20">
             <p style="font-weight: 700; margin-bottom: 6px;">設定変更</p>
             <b-field>
               <p class="control has-text-right">
@@ -40,7 +41,7 @@
               </p>
             </b-field>
           </div>
-          <div v-if="situation.available_kick" class="m-b-20">
+          <div v-if="situation.creator.available_kick" class="m-b-20">
             <p style="font-weight: 700; margin-bottom: 6px;">強制退村</p>
             <b-field>
               <b-select v-model="participantId" expanded size="is-small">
@@ -58,7 +59,7 @@
               </p>
             </b-field>
           </div>
-          <div v-if="situation.available_cancel_village" class="m-b-20">
+          <div v-if="situation.creator.available_cancel_village" class="m-b-20">
             <p style="font-weight: 700; margin-bottom: 6px;">廃村</p>
             <b-field>
               <p class="control has-text-right">
@@ -87,6 +88,7 @@ import creatorMessageInput from '~/components/village/action/creator/creator-mes
 // type
 import Village from '~/components/type/village'
 import VillageParticipant from '~/components/type/village-participant'
+import SituationAsParticipant from '~/components/type/situation-as-participant'
 import VillageCreateSituation from '~/components/type/village-creator-situation'
 import Message from '~/components/type/message'
 import { VILLAGE_STATUS } from '~/components/const/consts'
@@ -104,7 +106,7 @@ export default class VillageCreator extends Vue {
   private village!: Village
 
   @Prop({ type: Object })
-  private situation!: VillageCreateSituation
+  private situation!: SituationAsParticipant
 
   // ----------------------------------------------------------------
   // data

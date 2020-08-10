@@ -30,7 +30,7 @@
         <charachip
           :input-value.sync="charachipIdModel"
           :charachips="charachips"
-          @load-charas="loadCharas()"
+          @load-charas="loadCharasByCharachipId($event.participantId)"
         />
         <dummy-chara
           :input-value.sync="dummyCharaIdModel"
@@ -583,12 +583,16 @@ export default class Setting extends Vue {
     }))
   }
 
-  private async loadCharas(): Promise<void> {
+  private loadCharas(): void {
+    this.loadCharasByCharachipId(this.charachipId)
+  }
+
+  private async loadCharasByCharachipId(charachipId: string): Promise<void> {
     const charachip: Charachip = await this.$axios.$get(
-      `/charachip/${this.charachipId}`
+      `/charachip/${charachipId}`
     )
     this.charas = charachip.chara_list
-    this.dummyCharaId = charachip.chara_list[0].id.toString()
+    this.dummyCharaIdModel = charachip.chara_list[0].id.toString()
   }
 
   private async loadSkills(): Promise<void> {

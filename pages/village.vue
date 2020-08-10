@@ -77,7 +77,7 @@
           <div v-if="isDispCreatorMenu">
             <village-creator
               :village="village"
-              :situation="situation.creator"
+              :situation="situation"
               @reload="reload"
             />
           </div>
