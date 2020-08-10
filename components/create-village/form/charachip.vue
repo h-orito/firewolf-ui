@@ -5,7 +5,6 @@
     label-message="キャラチップ"
     :input-value.sync="inputValueModel"
     :options="charachips"
-    @input="$emit('load-charas')"
   />
 </template>
 <script lang="ts">
@@ -30,6 +29,7 @@ export default class Charachip extends Vue {
 
   private set inputValueModel(val: string) {
     this.$emit('update:inputValue', val)
+    this.$emit('load-charas', { participantId: val })
   }
 }
 </script>

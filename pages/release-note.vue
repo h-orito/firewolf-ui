@@ -4,6 +4,7 @@
       <h1 class="title is-5">更新情報</h1>
       <div class="content">
         <ul class="has-text-left is-size-7">
+          <li>2020/08/10 役職：聖痕者を追加</li>
           <li>2020/08/09 発言誤爆防止機能を追加</li>
           <li>2020/08/09 カミングアウト機能を追加</li>
           <li>2020/08/06 プレイヤーによる村作成機能を追加</li>
