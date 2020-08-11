@@ -271,9 +271,11 @@ export default class extends Vue {
     // 最新日の最新ページを見ていない場合は勝手に更新したくない
     if (!this.isViewingLatest) return false
     // 発言入力中も勝手に更新したくない
-    if (this.refs.action && this.refs.action.isInputting) return false
+    // @ts-ignore
+    if (this.$refs.action && this.$refs.action.isInputting) return false
     // 発言抽出中も勝手に更新したくない
-    if (this.refs.slider.isFiltering) return false
+    // @ts-ignore
+    if (this.$refs.slider.isFiltering) return false
     return true
   }
 
@@ -295,10 +297,6 @@ export default class extends Vue {
     return !!this.situation && actionHelper.existsAction(this.situation)
   }
 
-  private get refs(): any {
-    return this.$refs
-  }
-
   private get isNotFinished(): boolean {
     const status = this.village!.status.code
     return (
@@ -312,13 +310,19 @@ export default class extends Vue {
   }
 
   // ----------------------------------------------------------------
-  // created
+  // mounted
   // ----------------------------------------------------------------
-  private created(): void {
-    this.createdLoading() // 完了を待たない
+  private mounted() {
+    this.mountedLoading()
+    this.$nextTick(() => {
+      // ビュー全体がレンダリングされた後に実行
+      // safari対策
+      this.resizeHeight()
+      window.addEventListener('resize', () => this.resizeHeight())
+    })
   }
 
-  private async createdLoading(): Promise<void> {
+  private async mountedLoading(): Promise<void> {
     // 認証を待つ
     await this.auth()
     // 表示設定が作成されていなかったら作成
@@ -335,18 +339,6 @@ export default class extends Vue {
       // 1回だけ実行
       this.updateDaychangeTimer()
     }
-  }
-
-  // ----------------------------------------------------------------
-  // mounted
-  // ----------------------------------------------------------------
-  private mounted() {
-    this.$nextTick(() => {
-      // ビュー全体がレンダリングされた後に実行
-      // safari対策
-      this.resizeHeight()
-      window.addEventListener('resize', () => this.resizeHeight())
-    })
   }
 
   // ----------------------------------------------------------------
@@ -447,14 +439,17 @@ export default class extends Vue {
     this.existsNewMessages = false
     if (this.isNotFinished) {
       // 能力行使等をリセット
-      if (this.existsAction) this.refs.action.reset()
+      // @ts-ignore
+      if (this.existsAction) this.$refs.action.reset()
     }
     this.toBottom()
 
     // 発言抽出欄を初期状態に戻す
-    this.refs.slider.filterRefresh()
+    // @ts-ignore
+    this.$refs.slider.filterRefresh()
     // アンカーメッセージを非表示にする
-    if (this.refs.messageCards) this.refs.messageCards.clearAnchorMessages()
+    // @ts-ignore
+    if (this.$refs.messageCards) this.$refs.messageCards.clearAnchorMessages()
   }
 
   private async reloadVillage(): Promise<void> {

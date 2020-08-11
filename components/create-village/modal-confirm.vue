@@ -192,6 +192,9 @@ export default class ModalVillageInfo extends Vue {
   }
 
   private addCharachipSetting(settings: Settings[]): void {
+    if (!this.charachipName || this.charachipName === '') {
+      return
+    }
     settings.push({
       name: 'キャラチップ',
       value: this.charachipName

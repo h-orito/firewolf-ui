@@ -200,7 +200,9 @@ export default class VillageCreator extends Vue {
         }
       )
       this.isSayModalOpen = true
-    } catch (error) {}
+    } catch (error) {
+      toast.danger(this, '発言確認失敗')
+    }
   }
 
   private async say(): Promise<void> {
@@ -208,8 +210,10 @@ export default class VillageCreator extends Vue {
       await this.$axios.$post(`/creator/village/${this.village.id}/say`, {
         message: this.message
       })
-    } catch (error) {}
-    this.message = ''
+      this.message = ''
+    } catch (error) {
+      toast.danger(this, '発言失敗')
+    }
     await this.$emit('reload')
   }
 }

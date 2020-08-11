@@ -116,10 +116,6 @@ export default class VillageSetting extends Vue {
     this.village = await api.fetchVillage(this, this.villageId)
     this.reset()
     // @ts-ignore
-    this.$refs.setting.loadCharachips()
-    // @ts-ignore
-    this.$refs.setting.loadCharas()
-    // @ts-ignore
     this.$refs.setting.loadSkills()
     // @ts-ignore
     this.$refs.setting.overrideOrgMinMax(this.organization)
