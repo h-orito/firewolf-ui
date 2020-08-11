@@ -70,7 +70,7 @@
         label="入村パスワード"
         v-if="requiredJoinPassword"
       >
-        <b-input v-model="joinPassword" type="password" size="is-small" />
+        <b-input v-model="joinPassword" type="text" size="is-small" />
       </b-field>
     </div>
     <b-button
