@@ -20,6 +20,7 @@
         <ul>
           <li>&gt;&gt;1 通常発言へのアンカー</li>
           <li>&gt;&gt;*1 人狼の囁きへのアンカー</li>
+          <li>&gt;&gt;=1 共鳴発言へのアンカー</li>
           <li>&gt;&gt;+1 死者の呻きへのアンカー</li>
           <li>&gt;&gt;-1 独り言へのアンカー（エピローグ後のみ）</li>
           <li>
@@ -33,6 +34,9 @@
     </div>
     <div class="card">
       <message-say :message="werewolfSay" :is-progress="false" />
+    </div>
+    <div class="card">
+      <message-say :message="sympathizeSay" :is-progress="false" />
     </div>
     <div class="card">
       <message-say :message="monologueSay" :is-progress="false" />
@@ -68,6 +72,13 @@ export default class RuleMessage extends Vue {
     return this.createMessage(
       MESSAGE_TYPE.WEREWOLF_SAY,
       '人狼の囁きです。\n進行中は一部の役職しか見ることができません。\nエピローグを迎えると全員が見ることができます。'
+    )
+  }
+
+  private get sympathizeSay(): Message {
+    return this.createMessage(
+      MESSAGE_TYPE.SYMPATHIZE_SAY,
+      '共鳴発言です。\n進行中は一部の役職しか見ることができません。\nエピローグを迎えると全員が見ることができます。'
     )
   }
 

@@ -70,7 +70,7 @@ export default class Participate extends Vue {
   }
 
   private get skillDescription(): string {
-    return this.myself.skill!.description.replace('。', '。\n')
+    return this.myself.skill!.description.replace(/。/g, '。\n')
   }
 }
 </script>
