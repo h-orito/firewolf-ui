@@ -13,8 +13,8 @@ const anchorTypeToMessageType = (anchorType: AnchorType): string => {
     case AnchorType.Wolf:
       type = MESSAGE_TYPE.WEREWOLF_SAY
       break
-    case AnchorType.Mason:
-      type = MESSAGE_TYPE.MASON_SAY
+    case AnchorType.Sympathize:
+      type = MESSAGE_TYPE.SYMPATHIZE_SAY
       break
     case AnchorType.Spectate:
       type = MESSAGE_TYPE.SPECTATE_SAY
