@@ -22,6 +22,8 @@
         :normal-length.sync="normalLength"
         :whisper-count.sync="whisperCount"
         :whisper-length.sync="whisperLength"
+        :sympathize-count.sync="sympathizeCount"
+        :sympathize-length.sync="sympathizeLength"
         :grave-count.sync="graveCount"
         :grave-length.sync="graveLength"
         :monologue-count.sync="monologueCount"
@@ -79,6 +81,8 @@ export default class CreateVillage extends Vue {
   private normalLength: string = '200'
   private whisperCount: string = '40'
   private whisperLength: string = '200'
+  private sympathizeCount: string = '40'
+  private sympathizeLength: string = '200'
   private graveCount: string = '40'
   private graveLength: string = '200'
   private monologueCount: string = '100'

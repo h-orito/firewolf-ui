@@ -120,6 +120,8 @@ export default class MessageInput extends Vue {
         return 'normal-say'
       case MESSAGE_TYPE.WEREWOLF_SAY:
         return 'werewolf-say'
+      case MESSAGE_TYPE.SYMPATHIZE_SAY:
+        return 'sympathize-say'
       case MESSAGE_TYPE.MONOLOGUE_SAY:
         return 'monologue-say'
       case MESSAGE_TYPE.GRAVE_SAY:
@@ -145,6 +147,9 @@ export default class MessageInput extends Vue {
 }
 .werewolf-say {
   background-color: $werewolf-say !important;
+}
+.sympathize-say {
+  background-color: $sympathize-say !important;
 }
 .monologue-say {
   background-color: $monologue-say !important;

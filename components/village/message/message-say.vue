@@ -70,6 +70,7 @@ export default class MessageSay extends Vue {
   private messageClassMap: Map<string, string> = new Map([
     [MESSAGE_TYPE.NORMAL_SAY, 'normal-say'],
     [MESSAGE_TYPE.WEREWOLF_SAY, 'werewolf-say'],
+    [MESSAGE_TYPE.SYMPATHIZE_SAY, 'sympathize-say'],
     [MESSAGE_TYPE.MONOLOGUE_SAY, 'monologue-say'],
     [MESSAGE_TYPE.GRAVE_SAY, 'grave-say'],
     [MESSAGE_TYPE.SPECTATE_SAY, 'spectate-say']
@@ -80,7 +81,7 @@ export default class MessageSay extends Vue {
     [MESSAGE_TYPE.MONOLOGUE_SAY, '-'],
     [MESSAGE_TYPE.GRAVE_SAY, '+'],
     [MESSAGE_TYPE.WEREWOLF_SAY, '*'],
-    [MESSAGE_TYPE.MASON_SAY, '='],
+    [MESSAGE_TYPE.SYMPATHIZE_SAY, '='],
     [MESSAGE_TYPE.SPECTATE_SAY, '@'],
     [MESSAGE_TYPE.CREATOR_SAY, '#']
   ])
@@ -218,6 +219,9 @@ export default class MessageSay extends Vue {
       }
       &.werewolf-say {
         background-color: $werewolf-say !important;
+      }
+      &.sympathize-say {
+        background-color: $sympathize-say !important;
       }
       &.monologue-say {
         background-color: $monologue-say !important;

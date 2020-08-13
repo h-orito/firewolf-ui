@@ -106,6 +106,7 @@ export default class ModalVillageInfo extends Vue {
   private messageNameMap: Map<string, string> = new Map([
     [MESSAGE_TYPE.NORMAL_SAY, '通常発言'],
     [MESSAGE_TYPE.WEREWOLF_SAY, '人狼の囁き'],
+    [MESSAGE_TYPE.SYMPATHIZE_SAY, '共鳴発言'],
     [MESSAGE_TYPE.MONOLOGUE_SAY, '独り言'],
     [MESSAGE_TYPE.GRAVE_SAY, '死者の呻き'],
     [MESSAGE_TYPE.SPECTATE_SAY, '見学発言']

@@ -94,7 +94,7 @@ export default class MessageCard extends Vue {
       MESSAGE_TYPE.WEREWOLF_SAY,
       MESSAGE_TYPE.GRAVE_SAY,
       MESSAGE_TYPE.MONOLOGUE_SAY,
-      MESSAGE_TYPE.MASON_SAY,
+      MESSAGE_TYPE.SYMPATHIZE_SAY,
       MESSAGE_TYPE.SPECTATE_SAY
     ].some(code => this.message.content.type.code === code)
   }
@@ -104,9 +104,14 @@ export default class MessageCard extends Vue {
       MESSAGE_TYPE.PUBLIC_SYSTEM,
       MESSAGE_TYPE.PRIVATE_SYSTEM,
       MESSAGE_TYPE.PRIVATE_SEER,
+      MESSAGE_TYPE.PRIVATE_WISE,
       MESSAGE_TYPE.PRIVATE_PSYCHIC,
+      MESSAGE_TYPE.PRIVATE_GURU,
       MESSAGE_TYPE.PRIVATE_WEREWOLF,
+      MESSAGE_TYPE.PRIVATE_FANATIC,
       MESSAGE_TYPE.PRIVATE_MASON,
+      MESSAGE_TYPE.PRIVATE_SYMPATHIZER,
+      MESSAGE_TYPE.PRIVATE_CORONER,
       MESSAGE_TYPE.PARTICIPANTS,
       MESSAGE_TYPE.CREATOR_SAY
     ].some(code => this.message.content.type.code === code)

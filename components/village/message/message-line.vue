@@ -78,7 +78,7 @@ export default class MessageLine extends Vue {
     } else if (mes.match(/(&gt;&gt;\+\d{1,5})/)) {
       return AnchorType.Grave
     } else if (mes.match(/(&gt;&gt;=\d{1,5})/)) {
-      return AnchorType.Mason
+      return AnchorType.Sympathize
     } else if (mes.match(/(&gt;&gt;@\d{1,5})/)) {
       return AnchorType.Spectate
     } else if (mes.match(/(&gt;&gt;#\d{1,5})/)) {

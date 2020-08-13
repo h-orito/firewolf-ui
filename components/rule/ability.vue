@@ -64,6 +64,37 @@
         </li>
       </ul>
     </div>
+    <h4 class="is-7" id="wisedivine"><strong>役職占い</strong></h4>
+    <div class="content">
+      <ul>
+        <li>
+          毎晩生存者1名を選択して占い、役職を知ることができます。
+        </li>
+        <li>対象が突然死、処刑された場合も知ることができます。</li>
+        <li>
+          妖狐など、占われると死亡する役職を占うと、対象を無惨な死体として死亡させることができます。
+        </li>
+        <li>
+          日付更新時のセット先は生存者の中からランダムで選ばれます。<br />（ダミーキャラも2日目にランダムな占い先に占いを実行します。）
+        </li>
+        <li>
+          メッセージ例
+          <div class="card">
+            <div
+              class="card-content p-t-10 p-b-10 m-b-5 message-system-private-seer"
+            >
+              <div class="content has-text-left">
+                <message-text
+                  :message-text="
+                    '[暗] 暗殺者 アシュリーは、[転] 転生者 ハルトを占った。\n[転] 転生者 ハルトは導師のようだ。'
+                  "
+                />
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
     <h4 class="is-7" id="psychic"><strong>霊視</strong></h4>
     <div class="content">
       <ul>
@@ -92,6 +123,54 @@
             >
               <div class="content has-text-left">
                 <message-text :message-text="'勇者 アスベルは人狼のようだ。'" />
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <h4 class="is-7" id="gurupsychic"><strong>役職霊視</strong></h4>
+    <div class="content">
+      <ul>
+        <li>
+          突然死、処刑された人の役職を知ることができます。
+        </li>
+        <li>
+          複数死亡した場合、全員分知ることができます。
+        </li>
+        <li>
+          メッセージ例
+          <div class="card">
+            <div
+              class="card-content p-t-10 p-b-10 m-b-5 message-system-private-psychic"
+            >
+              <div class="content has-text-left">
+                <message-text :message-text="'勇者 アスベルは狩人のようだ。'" />
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <h4 class="is-7" id="autopsy"><strong>検死</strong></h4>
+    <div class="content">
+      <ul>
+        <li>
+          無惨な死体となった人物の死因を知ることができます。
+        </li>
+        <li>
+          複数死亡した場合、全員分知ることができます。
+        </li>
+        <li>
+          メッセージ例
+          <div class="card">
+            <div
+              class="card-content p-t-10 p-b-10 m-b-5 message-system-private-psychic"
+            >
+              <div class="content has-text-left">
+                <message-text
+                  :message-text="'勇者 アスベルの死因は呪殺死のようだ。'"
+                />
               </div>
             </div>
           </div>
@@ -165,6 +244,37 @@
         </li>
       </ul>
     </div>
+    <h4 class="is-7" id="bake"><strong>パン焼き</strong></h4>
+    <div class="content">
+      <ul>
+        <li>
+          毎日、朝を迎えた時点で1人でもこの能力を持つ人が生存していると、専用のメッセージが表示されます。
+        </li>
+        <li>
+          この能力を持つ人が全員死亡すると、別の専用のメッセージが表示されます。
+        </li>
+        <li>
+          <div class="card">
+            <div class="card-content p-t-10 p-b-10 m-b-5 message-system">
+              <div class="content has-text-left">
+                <message-text
+                  :message-text="'パン屋がおいしいパンを焼いてくれたそうです。'"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-content p-t-10 p-b-10 m-b-5 message-system">
+              <div class="content has-text-left">
+                <message-text
+                  :message-text="'今日からはもうおいしいパンが食べられません。'"
+                />
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
     <h4 class="is-7" id="attack"><strong>襲撃</strong></h4>
     <div class="content">
       <ul>
@@ -191,6 +301,50 @@
               <div class="content has-text-left">
                 <message-text
                   :message-text="'巫女 ウズメ達は、僧侶 セシリーを襲撃した。'"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-content p-t-10 p-b-10 m-b-5">
+              <div class="content has-text-left">
+                <message-text
+                  :message-text="
+                    '次の日の朝、以下の村人が無惨な姿で発見された。\n僧侶 セシリー'
+                  "
+                />
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <h4 class="is-7" id="wiseattack"><strong>襲撃占い</strong></h4>
+    <div class="content">
+      <ul>
+        <li>
+          基本的に襲撃と変わりありませんが、この能力を持つ人が生存している状態で襲撃に成功すると、襲撃対象の役職を知ることができます。
+        </li>
+        <li>
+          メッセージ例
+          <div class="card">
+            <div
+              class="card-content p-t-10 p-b-10 m-b-5 message-system-private-werewolf"
+            >
+              <div class="content has-text-left">
+                <message-text
+                  :message-text="'巫女 ウズメ達は、僧侶 セシリーを襲撃した。'"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div
+              class="card-content p-t-10 p-b-10 m-b-5 message-system-private-werewolf"
+            >
+              <div class="content has-text-left">
+                <message-text
+                  :message-text="'僧侶 セシリーは狩人だったようだ。'"
                 />
               </div>
             </div>

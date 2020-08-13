@@ -130,6 +130,24 @@
       />
       <form-number
         rules="required|max_value:100|min_value:0"
+        label-message="共鳴発言回数"
+        max="100"
+        min="0"
+        step="1"
+        :input-value.sync="sympathizeCountModel"
+        class="m-b-5"
+      />
+      <form-number
+        rules="required|max_value:200|min_value:1"
+        label-message="共鳴発言文字数"
+        max="200"
+        min="1"
+        step="1"
+        :input-value.sync="sympathizeLengthModel"
+        class="m-b-20"
+      />
+      <form-number
+        rules="required|max_value:100|min_value:0"
         label-message="死者の呻き回数"
         max="100"
         min="0"
@@ -464,6 +482,30 @@ export default class Setting extends Vue {
     this.$emit('update:whisperLength', val)
   }
 
+  /** sympathizeCount */
+  @Prop({ type: String, required: true })
+  private sympathizeCount!: string
+
+  private get sympathizeCountModel(): string {
+    return this.sympathizeCount
+  }
+
+  private set sympathizeCountModel(val: string) {
+    this.$emit('update:sympathizeCount', val)
+  }
+
+  /** sympathizeLength */
+  @Prop({ type: String, required: true })
+  private sympathizeLength!: string
+
+  private get sympathizeLengthModel(): string {
+    return this.sympathizeLength
+  }
+
+  private set sympathizeLengthModel(val: string) {
+    this.$emit('update:sympathizeLength', val)
+  }
+
   /** graveCount */
   @Prop({ type: String, required: true })
   private graveCount!: string
@@ -705,6 +747,11 @@ export default class Setting extends Vue {
               type: MESSAGE_TYPE.WEREWOLF_SAY,
               count: this.whisperCount,
               length: this.whisperLength
+            },
+            {
+              type: MESSAGE_TYPE.SYMPATHIZE_SAY,
+              count: this.sympathizeCount,
+              length: this.sympathizeLength
             },
             {
               type: MESSAGE_TYPE.GRAVE_SAY,
