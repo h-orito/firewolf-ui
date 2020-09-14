@@ -218,6 +218,10 @@ export default class VillageSlider extends Vue {
     line-height: 2.5rem;
     font-size: 14px;
   }
+
+  .slider-ads {
+    margin-top: 10px;
+  }
 }
 
 @media screen and (max-width: 767px) {
