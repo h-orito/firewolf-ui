@@ -111,12 +111,12 @@ export default class ModalSay extends Vue {
         code: MESSAGE_TYPE.SYMPATHIZE_SAY
       },
       {
-        label: '独り言',
-        code: MESSAGE_TYPE.MONOLOGUE_SAY
-      },
-      {
         label: '死者の呻き',
         code: MESSAGE_TYPE.GRAVE_SAY
+      },
+      {
+        label: '独り言',
+        code: MESSAGE_TYPE.MONOLOGUE_SAY
       },
       {
         label: '見学発言',
