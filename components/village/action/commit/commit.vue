@@ -30,13 +30,15 @@ import toast from '~/components/village/village-toast'
   components: {}
 })
 export default class Vote extends Vue {
-  @Prop({ type: Object })
-  private village!: Village
-
-  @Prop({ type: Object })
-  private situation!: SituationAsParticipant
-
   private submitting: boolean = false
+
+  private get village(): Village {
+    return this.$store.getters.getVillage!
+  }
+
+  private get situation(): SituationAsParticipant {
+    return this.$store.getters.getSituation!
+  }
 
   private get isCommitting(): boolean {
     return this.situation.commit.committing

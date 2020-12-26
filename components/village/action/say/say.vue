@@ -44,8 +44,6 @@
     <modal-say
       :is-open="isSayModalOpen"
       :confirm-message="confirmMessage"
-      :village="village"
-      :situation="situation"
       @close="closeSayModal"
       @say="say"
     />
@@ -73,12 +71,6 @@ export default class Say extends Vue {
   // ----------------------------------------------------------------
   // props
   // ----------------------------------------------------------------
-  @Prop({ type: Object })
-  private situation!: SituationAsParticipant
-
-  @Prop({ type: Object })
-  private village!: Village
-
   @Prop({ type: Number })
   private windowSize!: number
 
@@ -104,6 +96,14 @@ export default class Say extends Vue {
   // ----------------------------------------------------------------
   // computed
   // ----------------------------------------------------------------
+  private get village(): Village {
+    return this.$store.getters.getVillage!
+  }
+
+  private get situation(): SituationAsParticipant {
+    return this.$store.getters.getSituation!
+  }
+
   private get myself(): string {
     const self = this.situation.participate.myself!
     const charaName = self.chara.chara_name.name
