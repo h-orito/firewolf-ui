@@ -240,7 +240,8 @@ export default class ModalFilter extends Vue {
     return (
       this.messageTypeCodeGroup.length !== this.allMessageTypeGroup.length ||
       (this.participantIdGroup.length !== 0 &&
-        this.participantIdGroup.length !== this.village!.participant.count)
+        this.participantIdGroup.length !==
+          this.village!.participant.count + this.village.spectator.count)
     )
   }
 
