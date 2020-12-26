@@ -30,13 +30,15 @@ import toast from '~/components/village/village-toast'
   components: {}
 })
 export default class Vote extends Vue {
-  @Prop({ type: Object })
-  private village!: Village
-
-  @Prop({ type: Object })
-  private situation!: SituationAsParticipant
-
   private submitting: boolean = false
+
+  private get villageId(): number {
+    return this.$store.getters.getVillageId!
+  }
+
+  private get situation(): SituationAsParticipant {
+    return this.$store.getters.getSituation!
+  }
 
   private get isCommitting(): boolean {
     return this.situation.commit.committing
@@ -46,7 +48,7 @@ export default class Vote extends Vue {
     this.submitting = true
     await api.postCommit(
       this,
-      this.village.id,
+      this.villageId,
       !this.situation.commit.committing
     )
     this.submitting = false

@@ -167,9 +167,6 @@ export default class ModalFilter extends Vue {
   // ----------------------------------------------------------------
   // prop
   // ----------------------------------------------------------------
-  @Prop({ type: Object })
-  private village?: Village | null
-
   @Prop({ type: Boolean })
   private isOpen!: boolean
 
@@ -216,6 +213,10 @@ export default class ModalFilter extends Vue {
   // ----------------------------------------------------------------
   // computed
   // ----------------------------------------------------------------
+  private get village(): Village | null {
+    return this.$store.getters.getVillage
+  }
+
   private get messageTypeList(): string[] {
     const list: string[] = []
     this.messageTypeCodeGroup.forEach(group => {
@@ -235,9 +236,11 @@ export default class ModalFilter extends Vue {
   }
 
   private get isFiltering(): boolean {
+    if (!this.village) return false
     return (
       this.messageTypeCodeGroup.length !== this.allMessageTypeGroup.length ||
-      this.participantIdGroup.length !== this.village!.participant.count
+      (this.participantIdGroup.length !== 0 &&
+        this.participantIdGroup.length !== this.village!.participant.count)
     )
   }
 
@@ -258,6 +261,9 @@ export default class ModalFilter extends Vue {
       messageTypeList,
       participantIdList,
       keyword
+    })
+    this.$store.dispatch('STORE_FILTERING', {
+      isFiltering: this.isFiltering
     })
   }
 

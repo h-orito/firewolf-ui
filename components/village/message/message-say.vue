@@ -26,7 +26,11 @@
     </div>
     <div class="hw-message-content-area">
       <div class="hw-message-face-area">
-        <chara-image :chara="chara" :face-type="faceType" />
+        <chara-image
+          :chara="chara"
+          :face-type="faceType"
+          :is-large="isImgLarge"
+        />
       </div>
       <div class="hw-message-text-area" :class="messageClass">
         <message-text
@@ -56,9 +60,6 @@ const charaImage = () => import('~/components/village/chara-image.vue')
 })
 export default class MessageSay extends Vue {
   @Prop({ type: Object })
-  private village?: Village
-
-  @Prop({ type: Object })
   private message!: Message
 
   @Prop({ type: Boolean })
@@ -85,6 +86,10 @@ export default class MessageSay extends Vue {
     [MESSAGE_TYPE.SPECTATE_SAY, '@'],
     [MESSAGE_TYPE.CREATOR_SAY, '#']
   ])
+
+  private get village(): Village | null {
+    return this.$store.getters.getVillage
+  }
 
   private get chara(): Chara {
     return this.message.from!.chara
@@ -135,6 +140,10 @@ export default class MessageSay extends Vue {
     const prefix = this.anchorPrefixMap.get(this.message.content.type.code)
     if (prefix == null) return ''
     return `>>${prefix}${this.message.content.num}`
+  }
+
+  private get isImgLarge(): boolean {
+    return villageUserSettings.getMessageDisplay(this).is_img_large
   }
 
   private async copyAnchorString(): Promise<void> {
