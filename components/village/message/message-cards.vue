@@ -22,14 +22,12 @@
     <message-card
       v-for="(message, idx) in messages.list"
       :key="message.time.unix_time_milli"
-      :village="village"
       :message="message"
       :is-progress="isProgress"
       :index="idx"
       ref="messageCard"
     ></message-card>
     <village-situation-message
-      :village="village"
       :is-latest-day="isLatestDay"
       :messages="messages"
     />
@@ -93,12 +91,6 @@ const villageSituationMessage = () =>
   }
 })
 export default class MessageCard extends Vue {
-  @Prop({ type: Object })
-  private messages!: Messages
-
-  @Prop({ type: Object })
-  private village!: Village
-
   @Prop({ type: Number })
   private perPage!: number
 
@@ -106,6 +98,14 @@ export default class MessageCard extends Vue {
   private isLatestDay!: boolean
 
   private range: number = 2
+
+  private get village(): Village {
+    return this.$store.getters.getVillage!
+  }
+
+  private get messages(): Messages {
+    return this.$store.getters.getMessages!
+  }
 
   private get isProgress(): boolean {
     const statusCode = this.village.status.code

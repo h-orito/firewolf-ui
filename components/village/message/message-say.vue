@@ -60,9 +60,6 @@ const charaImage = () => import('~/components/village/chara-image.vue')
 })
 export default class MessageSay extends Vue {
   @Prop({ type: Object })
-  private village?: Village
-
-  @Prop({ type: Object })
   private message!: Message
 
   @Prop({ type: Boolean })
@@ -89,6 +86,10 @@ export default class MessageSay extends Vue {
     [MESSAGE_TYPE.SPECTATE_SAY, '@'],
     [MESSAGE_TYPE.CREATOR_SAY, '#']
   ])
+
+  private get village(): Village | null {
+    return this.$store.getters.getVillage
+  }
 
   private get chara(): Chara {
     return this.message.from!.chara
