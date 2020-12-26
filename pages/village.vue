@@ -329,7 +329,9 @@ export default class extends Vue {
   // mounted
   // ----------------------------------------------------------------
   private mounted() {
-    this.$store.dispatch('INIT_VILLAGE')
+    this.$store.dispatch('INIT_VILLAGE', {
+      villageId: this.villageId
+    })
     this.mountedLoading()
     this.$nextTick(() => {
       // ビュー全体がレンダリングされた後に実行
