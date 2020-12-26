@@ -74,6 +74,10 @@
           <div v-if="isDispDebugMenu">
             <village-debug :village="debugVillage" @reload="reload" />
           </div>
+          <village-admin
+            v-if="situation && situation.admin.admin"
+            :situation="situation.admin"
+          />
           <div v-if="isDispCreatorMenu">
             <village-creator
               :village="village"
@@ -81,6 +85,17 @@
               @reload="reload"
             />
           </div>
+          <b-button
+            v-if="isFiltering"
+            @click="cancelFiltering"
+            class="cancel-filtering"
+            type="is-primary"
+            size="is-small"
+            icon-pack="fas"
+            icon-left="search"
+            outlined
+            >抽出解除</b-button
+          >
         </div>
         <action
           v-if="situation && existsAction"
@@ -147,6 +162,8 @@ const villageDebug = () =>
 const villageDayList = () => import('~/components/village/village-day-list.vue')
 const villageCreator = () =>
   import('~/components/village/action/creator/village-creator.vue')
+const villageAdmin = () =>
+  import('~/components/village/admin/village-admin.vue')
 
 @Component({
   components: {
@@ -158,7 +175,8 @@ const villageCreator = () =>
     villageFooter,
     villageHeader,
     villageSlider,
-    villageCreator
+    villageCreator,
+    villageAdmin
   },
   asyncData({ query }) {
     return { villageId: query.id }
@@ -319,6 +337,12 @@ export default class extends Vue {
     return villageUserSettings.getMessageDisplay(this).is_char_large
   }
 
+  private get isFiltering(): boolean {
+    if (!this.$refs || !this.$refs.slider) return false
+    // @ts-ignore
+    return this.$refs.slider.isFiltering
+  }
+
   // ----------------------------------------------------------------
   // mounted
   // ----------------------------------------------------------------
@@ -338,7 +362,7 @@ export default class extends Vue {
     // 表示設定が作成されていなかったら作成
     villageUserSettings.createCookieIfNeeded(this)
     // もろもろ読込
-    await this.reload()
+    await this.reload(true)
     // キャラチップ名
     this.charachipName = await this.loadCharachipName()
     // 定期的に最新発言がないかチェックする
@@ -436,7 +460,7 @@ export default class extends Vue {
   }
 
   /** もろもろ読み込み */
-  private async reload(): Promise<void> {
+  private async reload(cancelFilter: boolean = false): Promise<void> {
     await this.loadVillage()
     await Promise.all([
       this.loadMessage(true, true), // 最新
@@ -455,8 +479,10 @@ export default class extends Vue {
     this.toBottom()
 
     // 発言抽出欄を初期状態に戻す
-    // @ts-ignore
-    this.$refs.slider.filterRefresh()
+    if (cancelFilter) {
+      // @ts-ignore
+      this.$refs.slider.filterRefresh()
+    }
     // アンカーメッセージを非表示にする
     // @ts-ignore
     if (this.$refs.messageCards) this.$refs.messageCards.clearAnchorMessages()
@@ -499,6 +525,11 @@ export default class extends Vue {
     this.participantIdFilter = participantIdList
     this.keywordFilter = keyword
     await this.loadMessage()
+  }
+
+  private cancelFiltering(): void {
+    // @ts-ignore
+    this.$refs.slider.filterRefresh()
   }
 
   /** 発言内容の最上部にスクロール */
@@ -646,7 +677,18 @@ html {
         .village-name {
           margin: 10px 5px;
         }
+
+        .cancel-filtering {
+          position: absolute;
+          cursor: pointer;
+          top: calc(#{$village-footer-height} + 10px);
+          top: calc(
+            #{$village-footer-height} + env(safe-area-inset-bottom) + 10px
+          );
+          right: 10px;
+        }
       }
+
       .village-action-wrapper {
         display: flex;
         flex-shrink: 0;
