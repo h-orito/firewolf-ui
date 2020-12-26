@@ -81,12 +81,6 @@ const modalParticipate = () =>
   components: { messageInput, charaSelectModal, modalParticipate }
 })
 export default class Spectate extends Vue {
-  @Prop({ type: Object })
-  private village!: Village
-
-  @Prop({ type: Object })
-  private situation!: SituationAsParticipant
-
   private confirming: boolean = false
 
   private charaId: number | null = null
@@ -98,6 +92,14 @@ export default class Spectate extends Vue {
 
   /** 入村確認 */
   private confirmMessage: Message | null = null
+
+  private get village(): Village {
+    return this.$store.getters.getVillage!
+  }
+
+  private get situation(): SituationAsParticipant {
+    return this.$store.getters.getSituation!
+  }
 
   private get normalSay(): string {
     return MESSAGE_TYPE.SPECTATE_SAY

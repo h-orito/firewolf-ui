@@ -1,14 +1,12 @@
 <template>
-  <div class="is-size-7 village-wrapper">
+  <div :class="charSizeClass" class="village-wrapper">
     <div v-if="!$window.isMobile" class="village-leftside-wrapper">
       <village-slider
-        :village="village"
         :charachip-name="charachipName"
         :is-expanded="isSliderExpanded"
-        :messages="messages"
         @refresh="reload"
-        @filter="filter($event)"
         @hide-slider="hideSlider"
+        @chara-filter="charaFilter($event)"
         ref="slider"
       />
     </div>
@@ -16,7 +14,6 @@
       <village-header
         class="village-header-wrapper"
         :current-village-day="displayVillageDay"
-        :village="village"
         @to-head="toHead"
         @current-day-change="changeDisplayDay($event)"
       />
@@ -47,14 +44,11 @@
           <h1 class="village-name has-text-left">{{ villageName }}</h1>
           <village-day-list
             v-if="displayVillageDay"
-            :village="village"
             :display-village-day-id="displayVillageDay.id"
             @current-day-change="changeDisplayDay($event)"
           />
           <message-cards
             v-if="messages"
-            :village="village"
-            :messages="messages"
             :per-page="perPage"
             :is-latest-day="
               displayVillageDay &&
@@ -81,33 +75,30 @@
               @reload="reload"
             />
           </div>
+          <village-admin v-if="situation && situation.admin.admin" />
         </div>
         <action
           v-if="situation && existsAction"
-          :situation="situation"
-          :village="village"
           @reload="reload"
           ref="action"
         ></action>
       </div>
       <village-footer
         class="village-footer-wrapper"
-        :village="village"
         :exists-new-messages="existsNewMessages"
         @refresh="reload"
         @to-bottom="toBottom"
         @toggle-slider="toggleSlider"
+        @filter="filter($event)"
         ref="footer"
       />
       <village-slider
         v-if="$window.isMobile"
-        :village="village"
         :charachip-name="charachipName"
         :is-expanded="isSliderExpanded"
-        :messages="messages"
         @refresh="reload"
-        @filter="filter($event)"
         @hide-slider="hideSlider"
+        @chara-filter="charaFilter($event)"
         ref="slider"
       />
     </div>
@@ -147,6 +138,8 @@ const villageDebug = () =>
 const villageDayList = () => import('~/components/village/village-day-list.vue')
 const villageCreator = () =>
   import('~/components/village/action/creator/village-creator.vue')
+const villageAdmin = () =>
+  import('~/components/village/admin/village-admin.vue')
 
 @Component({
   components: {
@@ -158,7 +151,8 @@ const villageCreator = () =>
     villageFooter,
     villageHeader,
     villageSlider,
-    villageCreator
+    villageCreator,
+    villageAdmin
   },
   asyncData({ query }) {
     return { villageId: query.id }
@@ -192,12 +186,6 @@ export default class extends Vue {
   private loadingMessage: boolean = false
   /** 参加状況を取得中か */
   private loadingSituation: boolean = false
-  /** 村 */
-  private village: Village | null = null
-  /** 発言 */
-  private messages: Messages | null = null
-  /** 参加状況 */
-  private situation: SituationAsParticipant | null = null
   /** ローカル環境限定の村情報 */
   private debugVillage: DebugVillage | null = null
   /** 現在の発言ページ番号 */
@@ -226,6 +214,18 @@ export default class extends Vue {
   // ----------------------------------------------------------------
   // computed
   // ----------------------------------------------------------------
+  private get village(): Village | null {
+    return this.$store.getters.getVillage
+  }
+
+  private get messages(): Messages | null {
+    return this.$store.getters.getMessages
+  }
+
+  private get situation(): SituationAsParticipant | null {
+    return this.$store.getters.getSituation
+  }
+
   /** 村名と状態 */
   private get villageName(): string {
     const status = this.village!.status
@@ -275,7 +275,7 @@ export default class extends Vue {
     if (this.$refs.action && this.$refs.action.isInputting) return false
     // 発言抽出中も勝手に更新したくない
     // @ts-ignore
-    if (this.$refs.slider.isFiltering) return false
+    if (this.$refs.footer.isFiltering) return false
     return true
   }
 
@@ -309,10 +309,29 @@ export default class extends Vue {
     return this.$store.getters.isAuthenticated
   }
 
+  private get charSizeClass(): string {
+    return this.isCharSizeLarge ? 'is-size-6' : 'is-size-7'
+  }
+
+  private get isCharSizeLarge(): boolean {
+    const cookie = villageUserSettings.getCookie(this)
+    if (!cookie) return false
+    return villageUserSettings.getMessageDisplay(this).is_char_large
+  }
+
+  private get isFiltering(): boolean {
+    if (!this.$refs || !this.$refs.footer) return false
+    // @ts-ignore
+    return this.$refs.footer.isFiltering
+  }
+
   // ----------------------------------------------------------------
   // mounted
   // ----------------------------------------------------------------
   private mounted() {
+    this.$store.dispatch('INIT_VILLAGE', {
+      villageId: this.villageId
+    })
     this.mountedLoading()
     this.$nextTick(() => {
       // ビュー全体がレンダリングされた後に実行
@@ -328,7 +347,7 @@ export default class extends Vue {
     // 表示設定が作成されていなかったら作成
     villageUserSettings.createCookieIfNeeded(this)
     // もろもろ読込
-    await this.reload()
+    await this.reload(true)
     // キャラチップ名
     this.charachipName = await this.loadCharachipName()
     // 定期的に最新発言がないかチェックする
@@ -366,7 +385,9 @@ export default class extends Vue {
   /** 村を読み込み */
   private async loadVillage(): Promise<void> {
     this.loadingVillage = true
-    this.village = await api.fetchVillage(this, this.villageId)
+    await this.$store.dispatch('STORE_VILLAGE', {
+      village: await api.fetchVillage(this, this.villageId)
+    })
     this.loadingVillage = false
   }
 
@@ -384,16 +405,18 @@ export default class extends Vue {
     // 表示する日付
     const displayDay = isDispLatestDay ? this.latestDay : this.displayVillageDay
     // 読み込み
-    this.messages = await api.fetchMessageList(
-      this,
-      this.villageId,
-      displayDay,
-      isDispLatestPage,
-      this.currentPageNum,
-      this.messageTypeFilter,
-      this.participantIdFilter,
-      this.keywordFilter
-    )
+    this.$store.dispatch('STORE_MESSAGES', {
+      messages: await api.fetchMessageList(
+        this,
+        this.villageId,
+        displayDay,
+        isDispLatestPage,
+        this.currentPageNum,
+        this.messageTypeFilter,
+        this.participantIdFilter,
+        this.keywordFilter
+      )
+    })
     if (villageUserSettings.getPaging(this).is_paging) {
       this.perPage = villageUserSettings.getPaging(this).message_per_page
     }
@@ -411,7 +434,9 @@ export default class extends Vue {
       return
     }
     // 参加状況を読み込み
-    this.situation = await api.fetchSituation(this, this.villageId)
+    this.$store.dispatch('STORE_SITUATION', {
+      situation: await api.fetchSituation(this, this.villageId)
+    })
     this.loadingSituation = false
   }
 
@@ -426,7 +451,7 @@ export default class extends Vue {
   }
 
   /** もろもろ読み込み */
-  private async reload(): Promise<void> {
+  private async reload(cancelFilter: boolean = false): Promise<void> {
     await this.loadVillage()
     await Promise.all([
       this.loadMessage(true, true), // 最新
@@ -445,8 +470,10 @@ export default class extends Vue {
     this.toBottom()
 
     // 発言抽出欄を初期状態に戻す
-    // @ts-ignore
-    this.$refs.slider.filterRefresh()
+    if (cancelFilter) {
+      // @ts-ignore
+      this.$refs.footer.filterRefresh()
+    }
     // アンカーメッセージを非表示にする
     // @ts-ignore
     if (this.$refs.messageCards) this.$refs.messageCards.clearAnchorMessages()
@@ -489,6 +516,17 @@ export default class extends Vue {
     this.participantIdFilter = participantIdList
     this.keywordFilter = keyword
     await this.loadMessage()
+  }
+
+  private charaFilter({ participant }) {
+    // @ts-ignore
+    this.$refs.footer.charaFilter(participant)
+    this.hideSlider()
+  }
+
+  private cancelFiltering(): void {
+    // @ts-ignore
+    this.$refs.footer.filterRefresh()
   }
 
   /** 発言内容の最上部にスクロール */
@@ -613,12 +651,12 @@ html {
     height: calc(100 * var(--vh, 1vh));
 
     .village-header-wrapper {
-      height: 1.8rem;
+      height: $village-header-height;
     }
 
     .village-footer-wrapper {
-      height: 1.8rem;
-      height: calc(1.8rem + env(safe-area-inset-bottom));
+      height: $village-footer-height;
+      height: calc(#{$village-footer-height} + env(safe-area-inset-bottom));
     }
 
     .village-main-wrapper {
@@ -637,6 +675,7 @@ html {
           margin: 10px 5px;
         }
       }
+
       .village-action-wrapper {
         display: flex;
         flex-shrink: 0;

@@ -36,6 +36,16 @@
         <div class="field">
           <b-switch v-model="isDispDate">日付を表示する</b-switch>
         </div>
+        <div class="field">
+          <b-switch v-model="isCharLarge"
+            >文字を大きく表示する（要リロード）</b-switch
+          >
+        </div>
+        <div class="field">
+          <b-switch v-model="isImgLarge"
+            >キャラ画像を大きく表示する（要リロード）</b-switch
+          >
+        </div>
       </section>
       <footer
         class="modal-card-foot"
@@ -66,15 +76,18 @@ import villageUserSettings, {
   components: {}
 })
 export default class ModalUserSettings extends Vue {
-  @Prop({ type: Object })
-  private village?: Village | null
-
   @Prop({ type: Boolean })
   private isOpen!: boolean
 
   private isPaging: boolean = true
   private messagePerPage: number = 10
   private isDispDate: boolean = false
+  private isCharLarge: boolean = false
+  private isImgLarge: boolean = false
+
+  private get village(): Village | null {
+    return this.$store.getters.getVillage
+  }
 
   private save(): void {
     villageUserSettings.setPaging(this, {
@@ -82,7 +95,9 @@ export default class ModalUserSettings extends Vue {
       message_per_page: this.messagePerPage
     })
     villageUserSettings.setMessageDisplay(this, {
-      is_disp_date: this.isDispDate
+      is_disp_date: this.isDispDate,
+      is_char_large: this.isCharLarge,
+      is_img_large: this.isImgLarge
     })
     this.$emit('refresh')
     this.close()
@@ -98,6 +113,8 @@ export default class ModalUserSettings extends Vue {
     this.messagePerPage = pagingSettings.message_per_page
     const messageDisplaySettings = villageUserSettings.getMessageDisplay(this)
     this.isDispDate = messageDisplaySettings.is_disp_date
+    this.isCharLarge = messageDisplaySettings.is_char_large
+    this.isImgLarge = messageDisplaySettings.is_img_large
   }
 }
 </script>
