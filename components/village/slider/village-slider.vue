@@ -150,6 +150,7 @@ export default class VillageSlider extends Vue {
 
   private get isFiltering(): boolean {
     const refs = this.$refs as any
+    if (!refs || !refs.filter) return false
     return refs.filter.isFiltering
   }
 
