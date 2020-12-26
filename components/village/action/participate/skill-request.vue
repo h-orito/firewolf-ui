@@ -65,8 +65,8 @@ export default class SkillRequest extends Vue {
 
   private submitting = false
 
-  private get village(): Village {
-    return this.$store.getters.getVillage!
+  private get villageId(): number {
+    return this.$store.getters.getVillageId!
   }
 
   private get situation(): SituationAsParticipant {
@@ -91,7 +91,7 @@ export default class SkillRequest extends Vue {
     try {
       await api.postSkillRequest(
         this,
-        this.village.id,
+        this.villageId,
         this.firstRequestSkillCode!,
         this.secondRequestSkillCode!
       )

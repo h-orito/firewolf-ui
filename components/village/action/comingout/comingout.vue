@@ -70,8 +70,8 @@ export default class Comingout extends Vue {
   private co1: string | null = null
   private co2: string | null = null
 
-  private get village(): Village {
-    return this.$store.getters.getVillage!
+  private get villageId(): number {
+    return this.$store.getters.getVillageId!
   }
 
   private get situation(): VillageComingOutSituation {
@@ -151,7 +151,7 @@ export default class Comingout extends Vue {
         colist.push(this.co2)
       }
     }
-    await api.postComingout(this, this.village!.id, colist)
+    await api.postComingout(this, this.villageId, colist)
     this.submitting = false
     if (colist.length > 0) {
       toast.success(this, 'カミングアウトしました')
