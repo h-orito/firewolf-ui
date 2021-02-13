@@ -33,7 +33,7 @@ export default class CreatorMessageInput extends Vue {
   }
 
   private get lineCount(): string {
-    const max = 20
+    const max = 40
     const current = this.value.split('\n').length
     if (current > max) {
       return `行数: <span class="has-text-danger">${current.toString()}/${max.toString()}</span>`
@@ -43,13 +43,13 @@ export default class CreatorMessageInput extends Vue {
   }
 
   private get isLineOver(): boolean {
-    const max = 20
+    const max = 40
     const current = this.value.split('\n').length
     return current > max
   }
 
   private get lengthCount(): string {
-    const max = 200
+    const max = 400
     const current = this.value.length - this.value.split('\n').length + 1
     if (current > max) {
       return `文字数: <span class="has-text-danger">${current.toString()}/${max.toString()}</span>`
@@ -59,7 +59,7 @@ export default class CreatorMessageInput extends Vue {
   }
 
   private get isLengthOver(): boolean {
-    const max = 200
+    const max = 400
     const current = this.value.length - this.value.split('\n').length + 1
     return current > max
   }

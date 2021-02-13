@@ -4,6 +4,7 @@ interface VillageCreatorSituation {
   available_cancel_village: boolean
   available_kick: boolean
   available_modify_setting: boolean
+  available_extend_epilogue: boolean
 }
 
 export default VillageCreatorSituation
