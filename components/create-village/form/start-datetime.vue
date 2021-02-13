@@ -83,5 +83,3 @@ export default class StartDatetime extends Vue {
   }
 }
 </script>
-
-<style lang="scss" scoped></style>

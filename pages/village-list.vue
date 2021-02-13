@@ -4,6 +4,11 @@
       <div class="container">
         <h1 class="title is-5">終了した村一覧</h1>
         <div class="content is-size-7">
+          <b-field>
+            <b-checkbox v-model="includeCancelVillage" @input="loadVillages">
+              廃村も表示する
+            </b-checkbox>
+          </b-field>
           <loading
             v-if="loadingVillages"
             :message="'村一覧を読み込み中...'"
@@ -75,6 +80,8 @@ export default class CompleteVillageList extends Vue {
 
   /** data */
   private hasMobileCard: boolean = false
+  private includeCancelVillage: boolean = false
+
   // 村一覧
   private villages: SimpleVillage[] | null = null
 
@@ -90,23 +97,38 @@ export default class CompleteVillageList extends Vue {
       village_name: village.name,
       participant_count: `${village.participant.count}人`,
       organization:
-        village.setting.organizations.organization[village.participant.count],
-      win_camp: village.win_camp!.name
+        village.status.code === VILLAGE_STATUS.CANCEL
+          ? village.setting.organizations.organization[
+              village.setting.capacity.max
+            ]
+          : village.setting.organizations.organization[
+              village.participant.count
+            ],
+      win_camp: village.win_camp?.name || '廃村'
     }))
   }
 
   /** created */
-  async created() {
-    const villages = await this.$axios.$get('/village/list', {
-      params: {
-        village_status: VILLAGE_STATUS.COMPLETE
-      }
-    })
-    this.villages = (villages as Villages).list
+  private created() {
+    this.loadVillages()
   }
 
   /** methods */
+  private async loadVillages(
+    includeCancelVillage: boolean = false
+  ): Promise<void> {
+    const params: any = {}
+    if (includeCancelVillage) {
+      params.village_status = [VILLAGE_STATUS.COMPLETE, VILLAGE_STATUS.CANCEL]
+    } else {
+      params.village_status = VILLAGE_STATUS.COMPLETE
+    }
+    const villages: Villages = await this.$axios.$get('/village/list', {
+      params,
+      paramsSerializer: params =>
+        qs.stringify(params, { arrayFormat: 'repeat' })
+    })
+    this.villages = villages.list
+  }
 }
 </script>
-
-<style lang="scss" scoped></style>
