@@ -1,6 +1,6 @@
 <template>
   <div class="card action-card">
-    <b-collapse :aria-id="key" :open="true" animation="slide">
+    <b-collapse :aria-id="key" :open="isDefaultOpen" animation="slide">
       <header
         class="card-header"
         slot="trigger"
@@ -48,6 +48,9 @@ export default class ActionCard extends Vue {
 
   @Prop({ type: Boolean, default: true })
   private existsFooter?: boolean
+
+  @Prop({ type: Boolean, default: true })
+  private isDefaultOpen?: boolean
 
   private key: string = Math.random()
     .toString(32)
