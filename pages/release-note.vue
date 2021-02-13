@@ -4,6 +4,7 @@
       <h1 class="title is-5">更新情報</h1>
       <div class="content">
         <ul class="has-text-left is-size-7">
+          <li>2021/02/13 エピローグ延長機能を追加</li>
           <li>2020/12/27 HOWLING WOLFの変更点をこちらにも反映</li>
           <li>2020/08/13 役職：賢者を追加</li>
           <li>2020/08/13 役職：導師を追加</li>

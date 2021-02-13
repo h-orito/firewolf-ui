@@ -73,6 +73,23 @@
               </p>
             </b-field>
           </div>
+          <div
+            v-if="situation.creator.available_extend_epilogue"
+            class="m-b-20"
+          >
+            <p style="font-weight: 700; margin-bottom: 6px;">エピローグ延長</p>
+            <b-field>
+              <p class="control has-text-right">
+                <b-button
+                  type="is-primary"
+                  size="is-small"
+                  @click="extendEpilogueConfirm"
+                >
+                  エピローグ延長
+                </b-button>
+              </p>
+            </b-field>
+          </div>
         </div>
       </template>
       <template v-slot:footer> </template>
@@ -187,6 +204,33 @@ export default class VillageCreator extends Vue {
   private async cancelVillage(): Promise<void> {
     try {
       await this.$axios.$post(`/creator/village/${this.village.id}/cancel`)
+      this.$emit('reload')
+    } catch (error) {}
+  }
+
+  private extendEpilogueConfirm(): void {
+    const self = this
+    this.$buefy.dialog.confirm({
+      title: 'エピローグ延長確認',
+      message: '1日延長しますか？',
+      confirmText: '延長する',
+      type: 'is-primary',
+      hasIcon: true,
+      iconPack: 'fas',
+      onConfirm: async () => {
+        await self.extendEpilogue()
+        toast.info(self, '延長しました')
+      },
+      size: 'is-small',
+      cancelText: 'キャンセル'
+    })
+  }
+
+  private async extendEpilogue(): Promise<void> {
+    try {
+      await this.$axios.$post(
+        `/creator/village/${this.village.id}/extend-epilogue`
+      )
       this.$emit('reload')
     } catch (error) {}
   }
