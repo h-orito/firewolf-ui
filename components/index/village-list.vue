@@ -149,5 +149,3 @@ export default class VillageList extends Vue {
   }
 }
 </script>
-
-<style lang="scss" scoped></style>
