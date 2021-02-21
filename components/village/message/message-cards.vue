@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="isDarkTheme ? 'dark-theme' : ''">
     <b-pagination
       v-if="messages.all_page_count != null && messages.all_page_count > 1"
       :total="messages.all_record_count"
@@ -25,8 +25,11 @@
       :message="message"
       :is-progress="isProgress"
       :index="idx"
+      :is-dark-theme="isDarkTheme"
+      :is-disp-date="isDispDate"
+      :is-img-large="isImgLarge"
       ref="messageCard"
-    ></message-card>
+    />
     <village-situation-message
       :is-latest-day="isLatestDay"
       :messages="messages"
@@ -76,9 +79,6 @@ import messageCard from '~/components/village/message/message-card.vue'
 // type
 import Village from '~/components/type/village'
 import Messages from '~/components/type/messages'
-import villageUserSettings, {
-  VillageUserSettings
-} from '~/components/village/user-settings/village-user-settings'
 import { VILLAGE_STATUS } from '~/components/const/consts'
 // dynamic imports
 const villageSituationMessage = () =>
@@ -115,6 +115,20 @@ export default class MessageCard extends Vue {
     )
   }
 
+  private get isDarkTheme(): boolean {
+    return this.$store.getters.isDarkTheme
+  }
+
+  private get isDispDate(): boolean {
+    return this.$store.getters.getVillageUserSettings.message_display
+      .is_disp_date
+  }
+
+  private get isImgLarge(): boolean {
+    return this.$store.getters.getVillageUserSettings.message_display
+      .is_img_large
+  }
+
   private change(pageNum: number) {
     this.$emit('change-message-page', {
       pageNum
@@ -132,3 +146,11 @@ export default class MessageCard extends Vue {
   }
 }
 </script>
+
+<style lang="scss">
+.dark-theme {
+  a.pagination-link {
+    color: #eee;
+  }
+}
+</style>

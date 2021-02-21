@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="$store.getters.isDarkTheme ? 'dark-theme' : ''">
     <hr class="m-t-10 m-b-10" />
     <action-card
       :title="'村建てメニュー'"
@@ -266,3 +266,12 @@ export default class VillageCreator extends Vue {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.dark-theme {
+  .card {
+    background-color: transparent;
+    color: #eee;
+  }
+}
+</style>
