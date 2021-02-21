@@ -14,7 +14,6 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'nuxt-property-decorator'
-import Village from '~/components/type/village'
 import SituationAsParticipant from '~/components/type/situation-as-participant'
 import VillageSaySituation from '~/components/type/village-say-situation'
 import VillageSayRestrictSituation from '~/components/type/village-say-restrict-situation'
@@ -121,22 +120,31 @@ export default class MessageInput extends Vue {
   }
 
   private get messageClass(): string {
+    let className: string = ''
     switch (this.messageType) {
       case MESSAGE_TYPE.NORMAL_SAY:
-        return 'normal-say'
+        className = 'normal-say-input'
+        break
       case MESSAGE_TYPE.WEREWOLF_SAY:
-        return 'werewolf-say'
+        className = 'werewolf-say-input'
+        break
       case MESSAGE_TYPE.SYMPATHIZE_SAY:
-        return 'sympathize-say'
+        className = 'sympathize-say-input'
+        break
       case MESSAGE_TYPE.MONOLOGUE_SAY:
-        return 'monologue-say'
+        className = 'monologue-say-input'
+        break
       case MESSAGE_TYPE.GRAVE_SAY:
-        return 'grave-say'
+        className = 'grave-say-input'
+        break
       case MESSAGE_TYPE.SPECTATE_SAY:
-        return 'spectate-say'
+        className = 'spectate-say-input'
+        break
       default:
         return ''
     }
+    if (this.$store.getters.isDarkTheme) className += ' dark-theme'
+    return className
   }
 }
 </script>
@@ -148,22 +156,51 @@ export default class MessageInput extends Vue {
 </style>
 
 <style lang="scss">
-.normal-say {
+.normal-say-input {
   background-color: $normal-say !important;
+
+  &.dark-theme {
+    color: $black !important;
+  }
 }
-.werewolf-say {
+.werewolf-say-input {
   background-color: $werewolf-say !important;
+
+  &.dark-theme {
+    background-color: $werewolf-say-dark !important;
+    color: $black !important;
+  }
 }
-.sympathize-say {
+.sympathize-say-input {
   background-color: $sympathize-say !important;
+
+  &.dark-theme {
+    background-color: $sympathize-say-dark !important;
+    color: $black !important;
+  }
 }
-.monologue-say {
+.monologue-say-input {
   background-color: $monologue-say !important;
+
+  &.dark-theme {
+    background-color: $monologue-say-dark !important;
+    color: $black !important;
+  }
 }
-.grave-say {
+.grave-say-input {
   background-color: $grave-say !important;
+
+  &.dark-theme {
+    background-color: $grave-say-dark !important;
+    color: $black !important;
+  }
 }
-.spectate-say {
+.spectate-say-input {
   background-color: $spectate-say !important;
+
+  &.dark-theme {
+    background-color: $spectate-say-dark !important;
+    color: $black !important;
+  }
 }
 </style>

@@ -1,42 +1,82 @@
-<template>
-  <div class="hw-message-card" :class="isAnchorMessage ? 'anchor-message' : ''">
+<template functional>
+  <div
+    class="hw-message-card"
+    :class="[
+      props.message.is_anchor_message ? 'anchor-message' : '',
+      props.isDarkTheme ? 'dark-theme' : ''
+    ]"
+  >
     <div class="hw-message-name-area">
-      <span v-if="isDispAnchorString">
-        <a href="javascript:void(0);" @click="copyAnchorString">{{
-          anchorString
-        }}</a
+      <span v-if="props.message.is_disp_anchor">
+        <a
+          href="javascript:void(0);"
+          @click="listeners['copy-anchor-string']"
+          >{{ props.message.anchor_string }}</a
         >.&nbsp;</span
       >
-      <p class="hw-message-name">
-        {{ message.from.chara.chara_name.full_name }}
+      <p class="hw-message-name">{{ props.message.chara_name }}</p>
+      <p v-if="props.comingout" class="coming-out">
+        {{ props.message.comingout }}
       </p>
-      <p v-if="comingout" class="coming-out">{{ comingout }}</p>
-      <p class="hw-message-player" v-if="message.from.player">
+      <p class="hw-message-player" v-if="props.message.twitter_user_name">
         [<a
-          :href="'https://twitter.com/' + message.from.player.twitter_user_name"
+          :href="'https://twitter.com/' + props.message.twitter_user_name"
           target="_blank"
-          >{{ message.from.player.twitter_user_name }}</a
+          >{{ props.message.twitter_user_name }}</a
         >]
       </p>
-      <p class="hw-message-datetime">
-        {{ isAnchorMessage ? message.time.day + 'd' : '' }}
-        {{ messageCount }}
-        {{ messageDatetime }}
+      <p
+        class="hw-message-datetime"
+        :class="props.isDarkTheme ? 'dark-theme' : ''"
+      >
+        {{ props.message.is_anchor_message ? props.message.day + 'd' : '' }}
+        {{
+          props.message.current_count && props.message.max_count
+            ? `(${props.message.current_count}/${props.message.max_count})`
+            : ''
+        }}
+        {{ props.message.datetime }}
       </p>
     </div>
     <div class="hw-message-content-area">
       <div class="hw-message-face-area">
-        <chara-image
-          :chara="chara"
-          :face-type="faceType"
-          :is-large="isImgLarge"
+        <img
+          class="hw-message-chara-image"
+          :src="
+            props.message.chara.face_list.find(
+              face => face.type === props.message.face_type_code
+            ).image_url
+          "
+          :alt="props.message.chara_name"
+          :width="
+            props.message.chara.display.width * (props.isImgLarge ? 1.5 : 1)
+          "
+          :height="
+            props.message.chara.display.height * (props.isImgLarge ? 1.5 : 1)
+          "
         />
       </div>
-      <div class="hw-message-text-area" :class="messageClass">
-        <message-text
-          :message-text="message.content.text"
-          @click-anchor="$emit('click-anchor', $event)"
-        />
+      <div
+        class="hw-message-text-area"
+        :class="[
+          props.message.message_class,
+          props.isDarkTheme ? 'dark-theme' : ''
+        ]"
+      >
+        <p class="hw-message-text">
+          <span v-for="line in props.message.message_lines" :key="line.id"
+            ><span v-for="sentence in line.sentences" :key="sentence.id">
+              <a
+                v-if="sentence.is_anchor"
+                @click="listeners['click-anchor'](sentence.text)"
+                v-html="sentence.text"
+                href="javascript:void(0);"
+              ></a
+              ><span v-else v-html="sentence.text"></span>
+            </span>
+            <br
+          /></span>
+        </p>
       </div>
     </div>
   </div>
@@ -44,129 +84,23 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'nuxt-property-decorator'
-import messageText from '~/components/village/message/message-text.vue'
-import Village from '~/components/type/village'
-import Message from '~/components/type/message'
-import Chara from '~/components/type/chara'
-import { MESSAGE_TYPE } from '~/components/const/consts'
-import villageUserSettings from '~/components/village/user-settings/village-user-settings'
-const charaImage = () => import('~/components/village/chara-image.vue')
+import { SayMessage } from '~/components/village/message/message-converter'
 
-@Component({
-  components: {
-    messageText,
-    charaImage
-  }
-})
+@Component({})
 export default class MessageSay extends Vue {
   @Prop({ type: Object })
-  private message!: Message
+  private message!: SayMessage
 
   @Prop({ type: Boolean })
-  private isProgress!: boolean
+  private isDarkTheme!: boolean
 
-  @Prop({ type: Boolean, default: false })
-  private isAnchorMessage?: boolean
-
-  private messageClassMap: Map<string, string> = new Map([
-    [MESSAGE_TYPE.NORMAL_SAY, 'normal-say'],
-    [MESSAGE_TYPE.WEREWOLF_SAY, 'werewolf-say'],
-    [MESSAGE_TYPE.SYMPATHIZE_SAY, 'sympathize-say'],
-    [MESSAGE_TYPE.MONOLOGUE_SAY, 'monologue-say'],
-    [MESSAGE_TYPE.GRAVE_SAY, 'grave-say'],
-    [MESSAGE_TYPE.SPECTATE_SAY, 'spectate-say']
-  ])
-
-  private anchorPrefixMap: Map<string, string> = new Map([
-    [MESSAGE_TYPE.NORMAL_SAY, ''],
-    [MESSAGE_TYPE.MONOLOGUE_SAY, '-'],
-    [MESSAGE_TYPE.GRAVE_SAY, '+'],
-    [MESSAGE_TYPE.WEREWOLF_SAY, '*'],
-    [MESSAGE_TYPE.SYMPATHIZE_SAY, '='],
-    [MESSAGE_TYPE.SPECTATE_SAY, '@'],
-    [MESSAGE_TYPE.CREATOR_SAY, '#']
-  ])
-
-  private get village(): Village | null {
-    return this.$store.getters.getVillage
-  }
-
-  private get chara(): Chara {
-    return this.message.from!.chara
-  }
-
-  private get faceType(): string {
-    return this.message.content.face_code!
-  }
-
-  private get messageClass(): string {
-    const className = this.messageClassMap.get(this.message.content.type.code)
-    if (className == null) return ''
-    return className
-  }
-
-  private get comingout(): string | null {
-    const colist = this.message.from!.comming_outs.list
-    if (colist.length === 0) return null
-    return colist.map(co => co.skill.short_name).join(',') + 'CO'
-  }
-
-  private get messageCount(): string {
-    if (this.message.content.count == null || this.village == null) return ''
-    const restrict = this.village.setting.rules.message_restrict.restrict_list.find(
-      restrict => {
-        return restrict.type.code === this.message.content.type.code
-      }
-    )
-    if (!restrict) return ''
-    return `(${this.message.content.count}/${restrict.count})`
-  }
-
-  private get messageDatetime(): string {
-    const isDispDate = villageUserSettings.getMessageDisplay(this).is_disp_date
-    return isDispDate
-      ? this.message.time.datetime
-      : this.message.time.datetime.substring(11)
-  }
-
-  private get isDispAnchorString(): boolean {
-    return (
-      !this.isProgress ||
-      this.message.content.type.code !== MESSAGE_TYPE.MONOLOGUE_SAY
-    )
-  }
-
-  private get anchorString(): string {
-    const prefix = this.anchorPrefixMap.get(this.message.content.type.code)
-    if (prefix == null) return ''
-    return `>>${prefix}${this.message.content.num}`
-  }
-
-  private get isImgLarge(): boolean {
-    return villageUserSettings.getMessageDisplay(this).is_img_large
-  }
-
-  private async copyAnchorString(): Promise<void> {
-    const charaShortName = this.message.from
-      ? this.message.from.chara.chara_name.short_name
-      : ''
-    const text =
-      this.message.content.type.code === MESSAGE_TYPE.WEREWOLF_SAY
-        ? this.anchorString
-        : charaShortName + this.anchorString
-    await (this as any).$copyText(text)
-    this.$buefy.toast.open({
-      message: `クリップボードにコピーしました: ${text}`,
-      type: 'is-info',
-      position: 'is-top'
-    })
-  }
+  @Prop({ type: Boolean })
+  private isImgLarge!: boolean
 }
 </script>
 
 <style lang="scss" scoped>
 .hw-message-card {
-  padding: 5px;
   margin-bottom: 5px;
 
   &.anchor-message {
@@ -177,6 +111,10 @@ export default class MessageSay extends Vue {
   .hw-message-name-area {
     padding-bottom: 5px;
     display: flex;
+
+    p {
+      margin-bottom: 0;
+    }
 
     .hw-message-name {
       text-align: left;
@@ -197,6 +135,10 @@ export default class MessageSay extends Vue {
       margin-left: auto;
       text-align: right;
       color: #aaaaaa;
+
+      &.dark-theme {
+        color: #ddd;
+      }
     }
   }
   .hw-message-content-area {
@@ -204,6 +146,11 @@ export default class MessageSay extends Vue {
 
     .hw-message-face-area {
       padding-right: 5px;
+
+      img {
+        border-radius: 5px;
+        vertical-align: bottom;
+      }
 
       .hw-message-chara-image {
         vertical-align: bottom;
@@ -224,24 +171,64 @@ export default class MessageSay extends Vue {
       }
 
       &.normal-say {
-        background-color: $normal-say !important;
+        background-color: $normal-say;
+        color: $black;
       }
       &.werewolf-say {
-        background-color: $werewolf-say !important;
+        background-color: $werewolf-say;
+        color: $black;
+
+        &.dark-theme {
+          background-color: $werewolf-say-dark;
+          border: 1px solid $werewolf-say-dark;
+        }
       }
       &.sympathize-say {
-        background-color: $sympathize-say !important;
+        background-color: $sympathize-say;
+        color: $black;
+
+        &.dark-theme {
+          background-color: $sympathize-say-dark;
+          border: 1px solid $sympathize-say-dark;
+        }
       }
       &.monologue-say {
-        background-color: $monologue-say !important;
+        background-color: $monologue-say;
+        color: $black;
+
+        &.dark-theme {
+          background-color: $monologue-say-dark;
+          border: 1px solid $monologue-say-dark;
+        }
       }
       &.grave-say {
-        background-color: $grave-say !important;
+        background-color: $grave-say;
+        color: $black;
+
+        &.dark-theme {
+          background-color: $grave-say-dark;
+          border: 1px solid $grave-say-dark;
+        }
       }
       &.spectate-say {
-        background-color: $spectate-say !important;
+        background-color: $spectate-say;
+        color: $black;
+
+        &.dark-theme {
+          background-color: $spectate-say-dark;
+          border: 1px solid $spectate-say-dark;
+        }
       }
     }
+  }
+}
+</style>
+
+<style lang="scss">
+.hw-message-text {
+  a:not(.button):not(.is-current) {
+    color: $primary !important;
+    font-weight: bold;
   }
 }
 </style>

@@ -1,48 +1,58 @@
 <template>
-  <div class="hw-message-text">
-    <strong>参加者一覧</strong>
-    <div
-      class="participant-area"
-      v-for="participant in participantList"
-      :key="participant.id"
-    >
-      <div class="face-area m-r-5">
-        <chara-image :chara="participant.chara" :is-small="true" />
-      </div>
-      <div class="name-area is-size-7">
-        <div class="chara-name">
-          <p>{{ charaName(participant) }}</p>
-          <p class="twitter-username">
-            <a
-              :href="
-                `https://twitter.com/${participant.player.twitter_user_name}`
-              "
+  <div
+    class="card-content m-b-5"
+    :class="$store.getters.isDarkTheme ? 'dark-theme' : ''"
+  >
+    <div class="content has-text-left">
+      <div class="hw-message-text">
+        <strong>参加者一覧</strong>
+        <div
+          class="participant-area"
+          v-for="participant in participantList"
+          :key="participant.id"
+        >
+          <div class="face-area m-r-5">
+            <chara-image :chara="participant.chara" :is-small="true" />
+          </div>
+          <div class="name-area is-size-7">
+            <div class="chara-name">
+              <p>{{ charaName(participant) }}</p>
+              <p class="twitter-username">
+                <a
+                  :href="
+                    `https://twitter.com/${participant.player.twitter_user_name}`
+                  "
+                  target="_blank"
+                >
+                  @{{ participant.player.twitter_user_name }}
+                </a>
+              </p>
+              <p class="chara-status" :class="charaStatusClass(participant)">
+                {{ charaStatus(participant) }}
+              </p>
+            </div>
+            <div class="skill-area">
+              <p class="skill">
+                <strong>{{ skillName(participant) }}</strong>
+                {{ skillRequest(participant) }}
+              </p>
+            </div>
+          </div>
+          <div class="button-area m-l-5 is-size-7">
+            <b-button
+              tag="nuxt-link"
+              :to="{
+                path: '/player-record',
+                query: { id: participant.player.id }
+              }"
               target="_blank"
-            >
-              @{{ participant.player.twitter_user_name }}
-            </a>
-          </p>
-          <p class="chara-status" :class="charaStatusClass(participant)">
-            {{ charaStatus(participant) }}
-          </p>
+              size="is-small"
+              icon-pack="fas"
+              icon-left="chart-bar"
+              type="is-primary"
+            />
+          </div>
         </div>
-        <div class="skill-area">
-          <p class="skill">
-            <strong>{{ skillName(participant) }}</strong>
-            {{ skillRequest(participant) }}
-          </p>
-        </div>
-      </div>
-      <div class="button-area m-l-5 is-size-7">
-        <b-button
-          tag="nuxt-link"
-          :to="{ path: '/player-record', query: { id: participant.player.id } }"
-          target="_blank"
-          size="is-small"
-          icon-pack="fas"
-          icon-left="chart-bar"
-          type="is-primary"
-        />
       </div>
     </div>
   </div>
@@ -52,9 +62,6 @@
 import { Component, Vue, Prop } from 'nuxt-property-decorator'
 import Village from '~/components/type/village'
 import VillageParticipant from '~/components/type/village-participant'
-import SkillRequest from '~/components/type/skill-request'
-import Chara from '~/components/type/chara'
-import { FACE_TYPE } from '~/components/const/consts'
 const charaImage = () => import('~/components/village/chara-image.vue')
 
 @Component({
@@ -138,49 +145,65 @@ export default class ParticipantListMessage extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.participant-area {
-  display: flex;
-  border-top: 0.5px solid #ccc;
-  padding-top: 5px;
-  padding-bottom: 5px;
-
-  .name-area {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-
-    p {
-      margin-bottom: 0;
-    }
-
-    .chara-name {
-      margin-bottom: 5px;
-      display: flex;
-
-      p.twitter-username {
-        margin-left: 5px;
-      }
-
-      .chara-status {
-        flex: 1;
-        text-align: right;
-      }
-    }
-
-    .skill-area {
-      margin-bottom: 0;
-      display: flex;
-
-      p.skill {
-        flex: 1;
-      }
+.card-content {
+  padding: 10px !important;
+  font-family: sans-serif;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  &.dark-theme {
+    border: 1px solid $white;
+    color: $white;
+    strong {
+      color: #eee;
     }
   }
+  &:not(.dark-theme) {
+    color: $black;
+  }
+  .participant-area {
+    display: flex;
+    border-top: 0.5px solid #ccc;
+    padding-top: 5px;
+    padding-bottom: 5px;
 
-  .button-area {
-    padding-left: 10px;
-    margin-top: auto;
-    margin-bottom: auto;
+    .name-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+
+      p {
+        margin-bottom: 0;
+      }
+
+      .chara-name {
+        margin-bottom: 5px;
+        display: flex;
+
+        p.twitter-username {
+          margin-left: 5px;
+        }
+
+        .chara-status {
+          flex: 1;
+          text-align: right;
+        }
+      }
+
+      .skill-area {
+        margin-bottom: 0;
+        display: flex;
+
+        p.skill {
+          flex: 1;
+        }
+      }
+    }
+
+    .button-area {
+      padding-left: 10px;
+      margin-top: auto;
+      margin-bottom: auto;
+    }
   }
 }
 </style>

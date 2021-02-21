@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="$store.getters.isDarkTheme ? 'dark-theme' : ''">
     <hr class="m-t-10 m-b-10" />
     <action-card
       :title="'管理者メニュー'"
@@ -45,13 +45,13 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'nuxt-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 // component
 import actionCard from '~/components/village/action/action-card.vue'
 // type
 import SituationAsParticipant from '~/components/type/situation-as-participant'
 import VillageAdminSituation from '~/components/type/village-admin-situation'
-const modalSay = () => import('~/components/village/action/say/modal-say.vue')
+
 @Component({
   components: { actionCard }
 })
@@ -65,3 +65,12 @@ export default class VillageAdmin extends Vue {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.dark-theme {
+  .card {
+    background-color: transparent;
+    color: #eee;
+  }
+}
+</style>

@@ -6,7 +6,9 @@
       rows="5"
       :value="value"
       @input="$emit('input', $event)"
-      custom-class="creator-say"
+      :custom-class="
+        `creator-say-input ${$store.getters.isDarkTheme ? 'dark-theme' : ''}`
+      "
     ></b-input>
     <p class="has-text-right" v-html="counter"></p>
   </section>
@@ -14,8 +16,6 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'nuxt-property-decorator'
-import Village from '~/components/type/village'
-import { MESSAGE_TYPE } from '~/components/const/consts'
 
 @Component({
   components: {}
@@ -73,7 +73,12 @@ export default class CreatorMessageInput extends Vue {
 </style>
 
 <style lang="scss">
-.creator-say {
+.creator-say-input {
   background-color: $creator-say-bg !important;
+
+  &.dark-theme {
+    background-color: $creator-say-bg-dark !important;
+    color: $white !important;
+  }
 }
 </style>
