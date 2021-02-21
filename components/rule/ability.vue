@@ -40,11 +40,10 @@
               class="card-content p-t-10 p-b-10 m-b-5 message-system-private-seer"
             >
               <div class="content has-text-left">
-                <message-text
-                  :message-text="
-                    '[暗] 暗殺者 アシュリーは、[転] 転生者 ハルトを占った。\n[転] 転生者 ハルトは人狼ではないようだ。'
-                  "
-                />
+                <p class="hw-message-text">
+                  [暗] 暗殺者 アシュリーは、[転] 転生者 ハルトを占った。<br />[転]
+                  転生者 ハルトは人狼ではないようだ。
+                </p>
               </div>
             </div>
           </div>
@@ -53,11 +52,10 @@
               class="card-content p-t-10 p-b-10 m-b-5 message-system-private-seer"
             >
               <div class="content has-text-left">
-                <message-text
-                  :message-text="
-                    '[暗] 暗殺者 アシュリーは、[転] 転生者 ハルトを占った。\n[転] 転生者 ハルトは人狼のようだ。'
-                  "
-                />
+                <p class="hw-message-text">
+                  [暗] 暗殺者 アシュリーは、[転] 転生者 ハルトを占った。<br />[転]
+                  転生者 ハルトは人狼のようだ。
+                </p>
               </div>
             </div>
           </div>
@@ -84,11 +82,10 @@
               class="card-content p-t-10 p-b-10 m-b-5 message-system-private-seer"
             >
               <div class="content has-text-left">
-                <message-text
-                  :message-text="
-                    '[暗] 暗殺者 アシュリーは、[転] 転生者 ハルトを占った。\n[転] 転生者 ハルトは導師のようだ。'
-                  "
-                />
+                <p class="hw-message-text">
+                  [暗] 暗殺者 アシュリーは、[転] 転生者 ハルトを占った。<br />[転]
+                  転生者 ハルトは導師のようだ。
+                </p>
               </div>
             </div>
           </div>
@@ -111,9 +108,9 @@
               class="card-content p-t-10 p-b-10 m-b-5 message-system-private-psychic"
             >
               <div class="content has-text-left">
-                <message-text
-                  :message-text="'勇者 アスベルは人狼ではないようだ。'"
-                />
+                <p class="hw-message-text">
+                  勇者 アスベルは人狼ではないようだ。
+                </p>
               </div>
             </div>
           </div>
@@ -122,7 +119,9 @@
               class="card-content p-t-10 p-b-10 m-b-5 message-system-private-psychic"
             >
               <div class="content has-text-left">
-                <message-text :message-text="'勇者 アスベルは人狼のようだ。'" />
+                <p class="hw-message-text">
+                  勇者 アスベルは人狼のようだ。
+                </p>
               </div>
             </div>
           </div>
@@ -145,7 +144,9 @@
               class="card-content p-t-10 p-b-10 m-b-5 message-system-private-psychic"
             >
               <div class="content has-text-left">
-                <message-text :message-text="'勇者 アスベルは狩人のようだ。'" />
+                <p class="hw-message-text">
+                  勇者 アスベルは狩人のようだ。
+                </p>
               </div>
             </div>
           </div>
@@ -168,9 +169,9 @@
               class="card-content p-t-10 p-b-10 m-b-5 message-system-private-psychic"
             >
               <div class="content has-text-left">
-                <message-text
-                  :message-text="'勇者 アスベルの死因は呪殺死のようだ。'"
-                />
+                <p class="hw-message-text">
+                  勇者 アスベルの死因は呪殺死のようだ。
+                </p>
               </div>
             </div>
           </div>
@@ -197,11 +198,9 @@
               class="card-content p-t-10 p-b-10 m-b-5 message-system-private"
             >
               <div class="content has-text-left">
-                <message-text
-                  :message-text="
-                    '槍使い ヘンリエッタは、僧侶 セシリーを護衛している。'
-                  "
-                />
+                <p class="hw-message-text">
+                  槍使い ヘンリエッタは、僧侶 セシリーを護衛している。
+                </p>
               </div>
             </div>
           </div>
@@ -233,11 +232,9 @@
               class="card-content p-t-10 p-b-10 m-b-5 message-system-private"
             >
               <div class="content has-text-left">
-                <message-text
-                  :message-text="
-                    '[槍] 槍使い ヘンリエッタは、[僧] 僧侶 セシリーを道連れにした。'
-                  "
-                />
+                <p class="hw-message-text">
+                  [槍] 槍使い ヘンリエッタは、[僧] 僧侶 セシリーを道連れにした。
+                </p>
               </div>
             </div>
           </div>
@@ -257,18 +254,18 @@
           <div class="card">
             <div class="card-content p-t-10 p-b-10 m-b-5 message-system">
               <div class="content has-text-left">
-                <message-text
-                  :message-text="'パン屋がおいしいパンを焼いてくれたそうです。'"
-                />
+                <p class="hw-message-text">
+                  パン屋がおいしいパンを焼いてくれたそうです。
+                </p>
               </div>
             </div>
           </div>
           <div class="card">
             <div class="card-content p-t-10 p-b-10 m-b-5 message-system">
               <div class="content has-text-left">
-                <message-text
-                  :message-text="'今日からはもうおいしいパンが食べられません。'"
-                />
+                <p class="hw-message-text">
+                  今日からはもうおいしいパンが食べられません。
+                </p>
               </div>
             </div>
           </div>
@@ -299,20 +296,19 @@
               class="card-content p-t-10 p-b-10 m-b-5 message-system-private-werewolf"
             >
               <div class="content has-text-left">
-                <message-text
-                  :message-text="'巫女 ウズメ達は、僧侶 セシリーを襲撃した。'"
-                />
+                <p class="hw-message-text">
+                  巫女 ウズメ達は、僧侶 セシリーを襲撃した。
+                </p>
               </div>
             </div>
           </div>
           <div class="card">
             <div class="card-content p-t-10 p-b-10 m-b-5">
               <div class="content has-text-left">
-                <message-text
-                  :message-text="
-                    '次の日の朝、以下の村人が無惨な姿で発見された。\n僧侶 セシリー'
-                  "
-                />
+                <p class="hw-message-text">
+                  次の日の朝、以下の村人が無惨な姿で発見された。<br />僧侶
+                  セシリー
+                </p>
               </div>
             </div>
           </div>
@@ -332,9 +328,9 @@
               class="card-content p-t-10 p-b-10 m-b-5 message-system-private-werewolf"
             >
               <div class="content has-text-left">
-                <message-text
-                  :message-text="'巫女 ウズメ達は、僧侶 セシリーを襲撃した。'"
-                />
+                <p class="hw-message-text">
+                  巫女 ウズメ達は、僧侶 セシリーを襲撃した。
+                </p>
               </div>
             </div>
           </div>
@@ -343,20 +339,19 @@
               class="card-content p-t-10 p-b-10 m-b-5 message-system-private-werewolf"
             >
               <div class="content has-text-left">
-                <message-text
-                  :message-text="'僧侶 セシリーは狩人だったようだ。'"
-                />
+                <p class="hw-message-text">
+                  僧侶 セシリーは狩人だったようだ。
+                </p>
               </div>
             </div>
           </div>
           <div class="card">
             <div class="card-content p-t-10 p-b-10 m-b-5">
               <div class="content has-text-left">
-                <message-text
-                  :message-text="
-                    '次の日の朝、以下の村人が無惨な姿で発見された。\n僧侶 セシリー'
-                  "
-                />
+                <p class="hw-message-text">
+                  次の日の朝、以下の村人が無惨な姿で発見された。<br />僧侶
+                  セシリー
+                </p>
               </div>
             </div>
           </div>
@@ -367,36 +362,42 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'nuxt-property-decorator'
-import Message from '~/components/type/message'
-const messageText = () =>
-  import('~/components/village/message/message-text.vue')
+import { Component, Vue } from 'nuxt-property-decorator'
 
-@Component({
-  components: { messageText }
-})
+@Component({})
 export default class RuleAbility extends Vue {}
 </script>
 
 <style lang="scss" scoped>
-.message-system-private {
-  border-top: 1px solid $private-system-border;
-  border-bottom: 1px solid $private-system-border;
-  background-color: $private-system-bg !important;
-}
-.message-system-private-seer {
-  border-top: 1px solid $seer-system-border;
-  border-bottom: 1px solid $seer-system-border;
-  background-color: $seer-system-bg !important;
-}
-.message-system-private-psychic {
-  border-top: 1px solid $psychic-system-border;
-  border-bottom: 1px solid $psychic-system-border;
-  background-color: $psychic-system-bg !important;
-}
-.message-system-private-werewolf {
-  border-top: 1px solid $werewolf-system-border;
-  border-bottom: 1px solid $werewolf-system-border;
-  background-color: $werewolf-system-bg !important;
+.card-content {
+  padding: 10px !important;
+  font-family: sans-serif;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+
+  &:not(.dark-theme) {
+    color: $black;
+  }
+
+  &.message-system-private {
+    border: 1px solid $private-system-border;
+    background-color: $private-system-bg;
+  }
+  &.message-system-private-seer {
+    border: 1px solid $seer-system-border;
+    background-color: $seer-system-bg;
+  }
+  &.message-system-private-psychic {
+    border: 1px solid $psychic-system-border;
+    background-color: $psychic-system-bg;
+  }
+  &.message-system-private-werewolf {
+    border: 1px solid $werewolf-system-border;
+    background-color: $werewolf-system-bg;
+  }
+  &.message-system-private-mason {
+    border: 1px solid $mason-system-border;
+    background-color: $mason-system-bg;
+  }
 }
 </style>

@@ -7,7 +7,10 @@
     aria-modal
     :on-cancel="close"
   >
-    <div class="modal-card">
+    <div
+      class="modal-card"
+      :class="$store.getters.isDarkTheme ? 'dark-theme' : ''"
+    >
       <header class="modal-card-head">
         <p class="modal-card-title has-text-left">メモ</p>
       </header>
@@ -66,6 +69,7 @@ import memoMatome from '~/components/village/slider/memo/memo-matome.vue'
 import matome, { Matomes } from '~/components/village/slider/memo/matome'
 import textMemo from '~/components/village/slider/memo/text-memo'
 import { VILLAGE_STATUS } from '~/components/const/consts'
+import { VillageUserSettings } from '~/components/village/user-settings/village-user-settings'
 
 @Component({
   components: { memoInput, memoMatome }
@@ -167,10 +171,21 @@ export default class ModalMemo extends Vue {
 }
 </style>
 
-<style>
+<style lang="scss">
 .b-tabs .tab-content {
   padding-top: 5px !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
+}
+.dark-theme {
+  .b-tabs .tabs.is-boxed {
+    li a {
+      background-color: $dark;
+      color: $white;
+    }
+    li:not(.is-active) a {
+      border-bottom-color: rgb(219, 219, 219);
+    }
+  }
 }
 </style>

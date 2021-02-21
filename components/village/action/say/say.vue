@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="content has-text-left m-b-5">
-      <div class="say-area">
+      <div class="say-area" :class="$store.getters.isDarkTheme ? 'dark-theme' : ''">
         <b-field class="m-b-5">
           <b-radio-button
             v-for="messageTypeSituation in situation.say
@@ -60,6 +60,7 @@ import Chara from '~/components/type/chara'
 import { FACE_TYPE, MESSAGE_TYPE } from '~/components/const/consts'
 import api from '~/components/village/village-api'
 import toast from '~/components/village/village-toast'
+import { VillageUserSettings } from '~/components/village/user-settings/village-user-settings'
 const modalSay = () => import('~/components/village/action/say/modal-say.vue')
 const charaImage = () => import('~/components/village/chara-image.vue')
 
@@ -204,6 +205,20 @@ export default class Say extends Vue {
 
     .say-input-area {
       flex: 1;
+    }
+  }
+}
+</style>
+
+<style lang="scss">
+.dark-theme {
+  .b-radio.button {
+    border: 1px solid $primary-dark;
+    background-color: transparent;
+    color: $primary-dark;
+    &.is-primary {
+      background-color: $primary-dark;
+      color: $white;
     }
   }
 }
