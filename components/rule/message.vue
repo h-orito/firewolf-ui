@@ -29,36 +29,54 @@
         </ul>
       </li>
     </ul>
-    <div class="card">
-      <message-say :message="normalSay" :is-progress="false" />
-    </div>
-    <div class="card">
-      <message-say :message="werewolfSay" :is-progress="false" />
-    </div>
-    <div class="card">
-      <message-say :message="sympathizeSay" :is-progress="false" />
-    </div>
-    <div class="card">
-      <message-say :message="monologueSay" :is-progress="false" />
-    </div>
-    <div class="card">
-      <message-say :message="graveSay" :is-progress="false" />
-    </div>
-    <div class="card">
-      <message-system :message="creatorSay" :is-progress="false" />
-    </div>
+    <message-card
+      :message="normalSay"
+      :is-progress="false"
+      :index="null"
+      :is-dark-theme="false"
+      :is-disp-date="false"
+      :is-img-large="false"
+      ref="messageCard"
+    />
+    <message-card
+      :message="werewolfSay"
+      :is-progress="false"
+      :index="null"
+      :is-dark-theme="false"
+      :is-disp-date="false"
+      :is-img-large="false"
+      ref="messageCard"
+    />
+    <message-card
+      :message="monologueSay"
+      :is-progress="false"
+      :index="null"
+      :is-dark-theme="false"
+      :is-disp-date="false"
+      :is-img-large="false"
+      ref="messageCard"
+    />
+    <message-card
+      :message="graveSay"
+      :is-progress="false"
+      :index="null"
+      :is-dark-theme="false"
+      :is-disp-date="false"
+      :is-img-large="false"
+      ref="messageCard"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'nuxt-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 import Message from '~/components/type/message'
 import { MESSAGE_TYPE } from '~/components/const/consts'
-import messageSystem from '~/components/village/message/message-system.vue'
-const messageSay = () => import('~/components/village/message/message-say.vue')
+const messageCard = () =>
+  import('~/components/village/message/message-card.vue')
 
 @Component({
-  components: { messageSay, messageSystem }
+  components: { messageCard }
 })
 export default class RuleMessage extends Vue {
   private get normalSay(): Message {

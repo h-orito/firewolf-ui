@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="$store.getters.isDarkTheme ? 'dark-theme' : ''">
     <hr class="m-t-10 m-b-10" />
     <action-card
       :title="'デバッグメニュー'"
@@ -208,3 +208,12 @@ interface Player {
   player_id: number
 }
 </script>
+
+<style lang="scss" scoped>
+.dark-theme {
+  .card {
+    background-color: transparent;
+    color: #eee;
+  }
+}
+</style>
