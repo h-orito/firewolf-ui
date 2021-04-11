@@ -43,6 +43,15 @@
             <b-checkbox-button
               v-model="messageTypeCodeGroup"
               class="message-type-checkbox"
+              native-value="SYMPATHIZE_SAY"
+              type="is-primary"
+              size="is-small"
+            >
+              共鳴
+            </b-checkbox-button>
+            <b-checkbox-button
+              v-model="messageTypeCodeGroup"
+              class="message-type-checkbox"
               native-value="GRAVE_SAY"
               type="is-primary"
               size="is-small"
@@ -182,11 +191,13 @@ export default class ModalFilter extends Vue {
         MESSAGE_TYPE.PRIVATE_SEER,
         MESSAGE_TYPE.PRIVATE_PSYCHIC,
         MESSAGE_TYPE.PRIVATE_WEREWOLF,
-        MESSAGE_TYPE.PRIVATE_MASON
+        MESSAGE_TYPE.PRIVATE_MASON,
+        MESSAGE_TYPE.PRIVATE_SYMPATHIZER
       ]
     ],
     [MESSAGE_TYPE.NORMAL_SAY, [MESSAGE_TYPE.NORMAL_SAY]],
     [MESSAGE_TYPE.WEREWOLF_SAY, [MESSAGE_TYPE.WEREWOLF_SAY]],
+    [MESSAGE_TYPE.SYMPATHIZE_SAY, [MESSAGE_TYPE.SYMPATHIZE_SAY]],
     [MESSAGE_TYPE.MONOLOGUE_SAY, [MESSAGE_TYPE.MONOLOGUE_SAY]],
     [
       MESSAGE_TYPE.GRAVE_SAY,
@@ -199,6 +210,7 @@ export default class ModalFilter extends Vue {
     'PRIVATE_SYSTEM',
     MESSAGE_TYPE.NORMAL_SAY,
     MESSAGE_TYPE.WEREWOLF_SAY,
+    MESSAGE_TYPE.SYMPATHIZE_SAY,
     MESSAGE_TYPE.MONOLOGUE_SAY,
     MESSAGE_TYPE.GRAVE_SAY
   ]
@@ -241,7 +253,8 @@ export default class ModalFilter extends Vue {
       this.messageTypeCodeGroup.length !== this.allMessageTypeGroup.length ||
       (this.participantIdGroup.length !== 0 &&
         this.participantIdGroup.length !==
-          this.village!.participant.count + this.village.spectator.count)
+          this.village!.participant.count + this.village.spectator.count) ||
+      (this.keyword != null && this.keyword.length > 0)
     )
   }
 
@@ -275,11 +288,11 @@ export default class ModalFilter extends Vue {
     this.filter()
   }
 
-  private charaFilter(participant: VillageParticipant): void {
+  private async charaFilter(participantId: number): Promise<void> {
     this.messageTypeCodeGroup = this.allMessageTypeGroup
-    this.participantIdGroup = [participant.id]
+    this.participantIdGroup = [participantId]
     this.keyword = null
-    this.filter()
+    await this.filter()
   }
 
   private close(): void {
