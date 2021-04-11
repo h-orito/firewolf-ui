@@ -60,6 +60,7 @@
                 displayVillageDay.id === latestDay.id
             "
             @change-message-page="changeMessagePage($event)"
+            @paste-message-input="pasteToMessageInput($event)"
             ref="messageCards"
           />
           <village-day-list
@@ -315,14 +316,14 @@ export default class extends Vue {
     // 認証を待つ
     await this.auth()
     // もろもろ読込
-    await this.reload(true)
+    await this.reload()
     // 個人抽出があれば抽出
     if (this.filterId) {
-      const filterId: number = parseInt(this.filterId!)
-      const participant = this.village!.participant.member_list.find(
-        p => p.id === filterId
-      )
-      this.charaFilter({ participant })
+      await this.charaFilter({ participantId: parseInt(this.filterId!) })
+    } else {
+      // なければリセット（初期状態が全員チェックなしなので独り言が見えない）
+      // @ts-ignore
+      this.$refs.footer.filterRefresh()
     }
     // キャラチップ名
     this.charachipName = await api.fetchCharachipName(this, this.village!)
@@ -420,7 +421,7 @@ export default class extends Vue {
   }
 
   /** もろもろ読み込み */
-  private async reload(cancelFilter: boolean = false): Promise<void> {
+  private async reload(): Promise<void> {
     await this.loadVillage()
     await Promise.all([
       this.loadMessage(true, true), // 最新
@@ -438,11 +439,6 @@ export default class extends Vue {
     }
     this.toBottom()
 
-    // 発言抽出欄を初期状態に戻す
-    if (cancelFilter) {
-      // @ts-ignore
-      this.$refs.footer.filterRefresh()
-    }
     // アンカーメッセージを非表示にする
     // @ts-ignore
     if (this.$refs.messageCards) this.$refs.messageCards.clearAnchorMessages()
@@ -487,15 +483,10 @@ export default class extends Vue {
     await this.loadMessage()
   }
 
-  private charaFilter({ participant }) {
+  private async charaFilter({ participantId }) {
     // @ts-ignore
-    this.$refs.footer.charaFilter(participant)
+    await this.$refs.footer.charaFilter(participantId)
     this.hideSlider()
-  }
-
-  private cancelFiltering(): void {
-    // @ts-ignore
-    this.$refs.footer.filterRefresh()
   }
 
   /** 発言内容の最上部にスクロール */
@@ -596,6 +587,13 @@ export default class extends Vue {
   private resizeHeight(): void {
     if (this.resizeTimeout) clearTimeout(this.resizeTimeout)
     this.resizeTimeout = setTimeout(() => setWindowHeight(), 500)
+  }
+
+  private pasteToMessageInput({ text }): void {
+    if (this.$refs.action) {
+      // @ts-ignore
+      this.$refs.action.pasteToMessageInput(text)
+    }
   }
 }
 
