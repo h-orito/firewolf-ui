@@ -66,7 +66,6 @@ const actions = {
     await commit('init', { villageId })
   },
   async [LOAD_VILLAGE]({ commit, state }) {
-    await commit('saveVillage', { village: null })
     const village = await api.fetchVillage(<any>this, state.villageId)
     await commit('saveVillage', { village })
   },
@@ -75,7 +74,6 @@ const actions = {
     await commit('saveMessages', { messages })
   },
   async [STORE_SITUATION]({ commit }, { situation }) {
-    await commit('saveSituation', { situation: null })
     await commit('saveSituation', { situation })
   },
   async [STORE_FILTERING]({ commit }, { isFiltering }) {
