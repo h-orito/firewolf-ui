@@ -207,6 +207,16 @@
         </li>
       </ul>
     </div>
+    <h4 class="is-7" id="wanderer_guard"><strong>風来護衛</strong></h4>
+    <div class="content">
+      <ul>
+        <li>下記以外は護衛と同じです。</li>
+        <li>
+          成功失敗にかかわらず一度護衛した人を護衛することはできません。
+        </li>
+        <li>護衛なしを選択することができます。</li>
+      </ul>
+    </div>
     <h4 class="is-7" id="forcesuicide"><strong>道連れ</strong></h4>
     <div class="content">
       <ul>
