@@ -1,10 +1,10 @@
 <template>
   <div :class="$store.getters.isDarkTheme ? 'dark-theme' : ''">
-    <hr class="m-t-10 m-b-10" />
     <action-card
-      :title="'管理者メニュー'"
+      title="管理メニュー"
+      :id="id"
+      :is-open="isOpen"
       :exists-footer="false"
-      :is-default-open="false"
     >
       <template v-slot:content>
         <div class="content has-text-left">
@@ -51,11 +51,19 @@ import actionCard from '~/components/village/action/action-card.vue'
 // type
 import SituationAsParticipant from '~/components/type/situation-as-participant'
 import VillageAdminSituation from '~/components/type/village-admin-situation'
+// ts
+import villageUserSettings from '~/components/village/user-settings/village-user-settings'
 
 @Component({
   components: { actionCard }
 })
 export default class VillageAdmin extends Vue {
+  private id: string = 'admin-aria-id'
+  private isOpen: boolean =
+    villageUserSettings.getActionWindow(this).open_map![this.id] == null
+      ? true
+      : villageUserSettings.getActionWindow(this).open_map![this.id]
+
   private get situation(): SituationAsParticipant {
     return this.$store.getters.getSituation!
   }
