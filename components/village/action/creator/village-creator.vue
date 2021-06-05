@@ -1,10 +1,10 @@
 <template>
   <div :class="$store.getters.isDarkTheme ? 'dark-theme' : ''">
-    <hr class="m-t-10 m-b-10" />
     <action-card
-      :title="'村建てメニュー'"
+      title="村建てメニュー"
+      :id="id"
+      :is-open="isOpen"
       :exists-footer="false"
-      :is-default-open="false"
     >
       <template v-slot:content>
         <div class="content has-text-left">
@@ -96,7 +96,6 @@
           </div>
         </div>
       </template>
-      <template v-slot:footer> </template>
     </action-card>
   </div>
 </template>
@@ -106,14 +105,15 @@ import { Component, Vue, Prop } from 'nuxt-property-decorator'
 // component
 import actionCard from '~/components/village/action/action-card.vue'
 import creatorMessageInput from '~/components/village/action/creator/creator-message-input.vue'
+import toast from '~/components/village/village-toast'
 // type
 import Village from '~/components/type/village'
 import VillageParticipant from '~/components/type/village-participant'
 import SituationAsParticipant from '~/components/type/situation-as-participant'
-import VillageCreateSituation from '~/components/type/village-creator-situation'
 import Message from '~/components/type/message'
-import { VILLAGE_STATUS } from '~/components/const/consts'
-import toast from '~/components/village/village-toast'
+// ts
+import villageUserSettings from '~/components/village/user-settings/village-user-settings'
+// dynamic imports
 const modalSay = () => import('~/components/village/action/say/modal-say.vue')
 
 @Component({
@@ -121,25 +121,29 @@ const modalSay = () => import('~/components/village/action/say/modal-say.vue')
 })
 export default class VillageCreator extends Vue {
   // ----------------------------------------------------------------
-  // props
-  // ----------------------------------------------------------------
-  @Prop({ type: Object })
-  private village!: Village
-
-  @Prop({ type: Object })
-  private situation!: SituationAsParticipant
-
-  // ----------------------------------------------------------------
   // data
   // ----------------------------------------------------------------
   private participantId: number = this.participants[0].id
   private message: string = ''
   private isSayModalOpen: boolean = false
   private confirmMessage: Message | null = null
+  private id: string = 'creator-aria-id'
+  private isOpen: boolean =
+    villageUserSettings.getActionWindow(this).open_map![this.id] == null
+      ? true
+      : villageUserSettings.getActionWindow(this).open_map![this.id]
 
   // ----------------------------------------------------------------
   // computed
   // ----------------------------------------------------------------
+  private get village(): Village {
+    return this.$store.getters.getVillage
+  }
+
+  private get situation(): SituationAsParticipant {
+    return this.$store.getters.getSituation!
+  }
+
   private get participants(): VillageParticipant[] {
     return this.village.participant.member_list.concat(
       this.village.spectator.member_list
