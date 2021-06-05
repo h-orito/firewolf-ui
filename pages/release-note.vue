@@ -4,6 +4,7 @@
       <h1 class="title is-5">更新情報</h1>
       <div class="content">
         <ul class="has-text-left is-size-7">
+          <li>2021/06/05 UI変更</li>
           <li>2021/05/01 役職：強運者を追加</li>
           <li>2021/05/01 役職：風来狩人を追加</li>
           <li>2021/02/21 内部処理改善</li>
