@@ -124,11 +124,14 @@ export const convertToActionMessage = (
 }
 
 const _isDispAnchor = (isProgress: boolean, sayType: string): boolean => {
-  // 秘話は表示しない
-  if (sayType === MESSAGE_TYPE.SECRET_SAY) return false
-  // 独り言以外なら表示
-  if (sayType !== MESSAGE_TYPE.MONOLOGUE_SAY) return true
-  // 独り言は進行中なら表示しない
+  // 独り言、秘話以外なら表示
+  if (
+    sayType !== MESSAGE_TYPE.MONOLOGUE_SAY &&
+    sayType !== MESSAGE_TYPE.SECRET_SAY
+  ) {
+    return true
+  }
+  // 独り言、秘話は進行中なら表示しない
   return !isProgress
 }
 
@@ -201,7 +204,8 @@ const regexps: RegExp[] = [
   /(&gt;&gt;-\d{1,5})/,
   /(&gt;&gt;\*\d{1,5})/,
   /(&gt;&gt;#\d{1,5})/,
-  /(&gt;&gt;a\d{1,5})/
+  /(&gt;&gt;a\d{1,5})/,
+  /(&gt;&gt;s\d{1,5})/
 ]
 
 const appendSplit = (array: string[], regex: RegExp): string[] => {
@@ -229,6 +233,8 @@ export const getAnchorType = (mes: string): string | null => {
     return MESSAGE_TYPE.CREATOR_SAY
   } else if (mes.match(/(&gt;&gt;a\d{1,5})/)) {
     return MESSAGE_TYPE.ACTION
+  } else if (mes.match(/(&gt;&gt;s\d{1,5})/)) {
+    return MESSAGE_TYPE.SECRET_SAY
   }
   return null
 }
@@ -268,5 +274,6 @@ const anchorPrefixMap: Map<string, string> = new Map([
   [MESSAGE_TYPE.SYMPATHIZE_SAY, '='],
   [MESSAGE_TYPE.SPECTATE_SAY, '@'],
   [MESSAGE_TYPE.CREATOR_SAY, '#'],
-  [MESSAGE_TYPE.ACTION, 'a']
+  [MESSAGE_TYPE.ACTION, 'a'],
+  [MESSAGE_TYPE.SECRET_SAY, 's']
 ])
