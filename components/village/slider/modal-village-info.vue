@@ -103,6 +103,7 @@ export default class ModalVillageInfo extends Vue {
     this.addOrganizationSetting(settings)
     this.addRuleSetting(settings)
     this.addPasswordSetting(settings)
+    this.addRpSetting(settings)
 
     return settings
   }
@@ -305,6 +306,17 @@ export default class ModalVillageInfo extends Vue {
         : 'なし',
       description:
         '「あり」の場合、参加する際にパスワード入力が必要になります。'
+    })
+  }
+
+  private addRpSetting(settings: Settings[]): void {
+    if (!this.village) return
+    const rules = this.village.setting.rules
+    // アクション
+    settings.push({
+      name: 'アクション',
+      value: rules.available_action ? 'あり' : 'なし',
+      description: '「あり」の場合、アクション発言が可能です。'
     })
   }
 

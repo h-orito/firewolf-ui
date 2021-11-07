@@ -16,6 +16,15 @@
         :is-dark-theme="isDarkTheme"
         @click-anchor="clickAnchorMessage($event)"
       />
+      <message-action
+        v-if="isActionType"
+        :message="actionMessage"
+        :is-dark-theme="isDarkTheme"
+        :is-disp-date="isDispDate"
+        :is-img-large="isImgLarge"
+        @click-anchor="clickAnchorMessage($event)"
+        @copy-anchor-string="handleCopyAnchorString"
+      />
       <!-- アンカーメッセージ -->
       <message-card
         v-for="mes in anchorMessages"
@@ -55,6 +64,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'nuxt-property-decorator'
 import messageSay from '~/components/village/message/message-say.vue'
+import messageAction from '~/components/village/message/message-action.vue'
 import messageSystem from '~/components/village/message/message-system.vue'
 import messageCard from '~/components/village/message/message-card.vue'
 // type
@@ -63,10 +73,12 @@ import VillageAnchorMessage from '~/components/type/village-anchor-message'
 import { MESSAGE_TYPE } from '~/components/const/consts'
 import {
   convertToSayMessage,
+  convertToActionMessage,
   convertToSystemMessage,
   getAnchorType,
   getAnchorNum,
   SayMessage,
+  ActionMessage,
   SystemMessage
 } from '~/components/village/message/message-converter'
 import villageUserSettings from '~/components/village/user-settings/village-user-settings'
@@ -77,6 +89,7 @@ const messageParticipantList = () =>
   name: 'message-card',
   components: {
     messageSay,
+    messageAction,
     messageSystem,
     messageCard,
     messageParticipantList
@@ -126,6 +139,16 @@ export default class MessageCard extends Vue {
     )
   }
 
+  private get actionMessage(): ActionMessage | null {
+    if (!this.isActionType) return null
+    return convertToActionMessage(
+      this.message,
+      this.isAnchorMessage || false,
+      this.isProgress,
+      this.isDispDate
+    )
+  }
+
   private get systemMessage(): SystemMessage | null {
     if (!this.isSystemType) return null
     return convertToSystemMessage(this.message)
@@ -136,13 +159,20 @@ export default class MessageCard extends Vue {
     return type === 'say'
   }
 
+  private get isActionType(): boolean {
+    const type = messageTypeMap.get(this.message.content.type.code)
+    return type === 'action'
+  }
+
   private get isSystemType(): boolean {
     const type = messageTypeMap.get(this.message.content.type.code)
     return type === 'system'
   }
 
   private handleCopyAnchorString(): void {
-    const text: string = this.sayMessage!.anchor_copy_string
+    const text: string = this.isSayType
+      ? this.sayMessage!.anchor_copy_string
+      : this.actionMessage!.anchor_copy_string
     const isPaste: boolean = villageUserSettings.getOperation(this)
       .is_paste_anchor
     if (isPaste) {
@@ -219,7 +249,8 @@ const messageTypeMap = new Map<string, string>([
   [MESSAGE_TYPE.PRIVATE_MASON, 'system'],
   [MESSAGE_TYPE.PRIVATE_SYMPATHIZER, 'system'],
   [MESSAGE_TYPE.CREATOR_SAY, 'system'],
-  [MESSAGE_TYPE.PARTICIPANTS, 'participants']
+  [MESSAGE_TYPE.PARTICIPANTS, 'participants'],
+  [MESSAGE_TYPE.ACTION, 'action']
 ])
 </script>
 

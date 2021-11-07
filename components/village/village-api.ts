@@ -183,6 +183,34 @@ const api = {
     })
   },
 
+  postConfirmActionSay(
+    app: Vue,
+    villageId: number,
+    myself: string,
+    target: string | null,
+    message: string
+  ): Promise<Message | null> {
+    return app.$axios.$post(`/village/${villageId}/action-confirm`, {
+      myself,
+      target,
+      message
+    })
+  },
+
+  postAction(
+    app: Vue,
+    villageId: number,
+    myself: string,
+    target: string | null,
+    message: string
+  ): Promise<void> {
+    return app.$axios.$post(`/village/${villageId}/action`, {
+      myself,
+      target,
+      message
+    })
+  },
+
   postVote(app: Vue, villageId: number, targetId: number): Promise<void> {
     return app.$axios.$post(`/village/${villageId}/vote`, {
       target_id: targetId

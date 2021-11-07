@@ -2,7 +2,7 @@
   <div>
     <action-card
       :class="isFixed ? 'fixed' : ''"
-      title="発言"
+      title="アクション"
       :id="id"
       :is-open="isOpen"
       :exists-footer="false"
@@ -15,40 +15,34 @@
         </div>
         <div class="content has-text-left m-b-5">
           <div class="myself-area">
-            <notification v-if="!isAlive" type="info" class="m-b-5">
-              あなたは死亡しました。
-            </notification>
-            <notification v-if="myself.skill" type="default" class="m-b-5">
-              <span style="white-space: pre-line;">{{ skillDescription }}</span>
-            </notification>
             <div class="myself-name-area">
-              <p class="myself-name">{{ charaName }}</p>
+              <p>{{ charaName }}は、</p>
             </div>
           </div>
           <div
-            class="say-area"
+            class="action-say-area"
             :class="$store.getters.isDarkTheme ? 'dark-theme' : ''"
           >
-            <b-field class="m-b-5">
-              <b-radio-button
-                v-for="messageTypeSituation in selectableMessageTypes"
-                :key="messageTypeSituation.message_type.code"
-                v-model="messageType"
-                :native-value="messageTypeSituation.message_type.code"
-                type="is-primary"
-                size="is-small"
-              >
-                <span>{{ messageTypeSituation.message_type.name }}</span>
-              </b-radio-button>
-            </b-field>
-
-            <div class="say-content-area">
-              <div class="say-face-area">
-                <chara-image :chara="chara" :face-type="faceTypeCode" />
-              </div>
-              <div class="say-input-area">
-                <message-input
+            <div class="action-say-content-area">
+              <div class="action-say-input-area">
+                <b-select
+                  v-model="target"
+                  expanded
+                  size="is-small"
+                  class="m-t-10"
+                >
+                  <option value="">選択しない</option>
+                  <option value="全員">全員</option>
+                  <option
+                    v-for="name in participantNames"
+                    :value="name"
+                    :key="name"
+                    >{{ name }}</option
+                  >
+                </b-select>
+                <message-text-input
                   v-model="message"
+                  class="m-t-10"
                   :message-type="messageType"
                   :situation="situation.say"
                   ref="messageInput"
@@ -65,7 +59,7 @@
             size="is-small"
             expanded
           >
-            発言する
+            アクション発言する
           </b-button>
         </div>
       </template>
@@ -80,45 +74,34 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'nuxt-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 import actionCard from '~/components/village/action/action-card.vue'
-import messageInput from '~/components/village/action/message-input.vue'
+import messageTextInput from '~/components/village/action/message-text-input.vue'
 // type
 import SituationAsParticipant from '~/components/type/situation-as-participant'
-import VillageSayMessageTypeSituation from '~/components/type/village-say-message-type-situation'
+import Village from '~/components/type/village'
 import VillageParticipant from '~/components/type/village-participant'
 import Message from '~/components/type/message'
 import Chara from '~/components/type/chara'
-import { FACE_TYPE, MESSAGE_TYPE } from '~/components/const/consts'
+import { MESSAGE_TYPE } from '~/components/const/consts'
 import api from '~/components/village/village-api'
 import toast from '~/components/village/village-toast'
 import villageUserSettings from '~/components/village/user-settings/village-user-settings'
 const modalSay = () => import('~/components/village/action/say/modal-say.vue')
-const charaImage = () => import('~/components/village/chara-image.vue')
-const notification = () =>
-  import('~/components/village/village-notification.vue')
 
 @Component({
-  components: { actionCard, messageInput, modalSay, charaImage, notification }
+  components: { actionCard, messageTextInput, modalSay }
 })
-export default class Say extends Vue {
+export default class ActionSay extends Vue {
   // ----------------------------------------------------------------
   // data
   // ----------------------------------------------------------------
-  private messageTypeFaceTypeMap: Map<string, string> = new Map([
-    [MESSAGE_TYPE.NORMAL_SAY, FACE_TYPE.NORMAL],
-    [MESSAGE_TYPE.WEREWOLF_SAY, FACE_TYPE.WEREWOLF],
-    [MESSAGE_TYPE.SPECTATE_SAY, FACE_TYPE.NORMAL],
-    [MESSAGE_TYPE.SECRET_SAY, FACE_TYPE.SECRET],
-    [MESSAGE_TYPE.MONOLOGUE_SAY, FACE_TYPE.MONOLOGUE],
-    [MESSAGE_TYPE.GRAVE_SAY, FACE_TYPE.GRAVE]
-  ])
-
-  private messageType: string = this.situation.say.default_message_type!.code
+  private messageType: string = MESSAGE_TYPE.ACTION
+  private target: string = ''
   private message: string = ''
   private isSayModalOpen: boolean = false
   private isFixed: boolean = villageUserSettings.getActionWindow(this).is_fixed!
-  private id: string = 'say-aria-id'
+  private id: string = 'action-say-aria-id'
   private isOpen: boolean =
     villageUserSettings.getActionWindow(this).open_map![this.id] == null
       ? true
@@ -134,16 +117,16 @@ export default class Say extends Vue {
     return this.$store.getters.getVillageId!
   }
 
+  private get village(): Village {
+    return this.$store.getters.getVillage!
+  }
+
   private get situation(): SituationAsParticipant {
     return this.$store.getters.getSituation!
   }
 
   private get myself(): VillageParticipant {
     return this.situation.participate.myself!
-  }
-
-  private get isAlive(): boolean {
-    return this.myself.dead == null
   }
 
   private get charaName(): string {
@@ -155,36 +138,23 @@ export default class Say extends Vue {
     }
   }
 
-  private get skillDescription(): string {
-    return this.myself.skill!.description.replace('。', '。\n')
+  private get participantNames(): string[] {
+    return this.village.participant.member_list
+      .concat(this.village.spectator.member_list)
+      .map(p => {
+        return p.chara.chara_name.full_name
+      })
+      .filter(name => {
+        return name !== this.charaName
+      })
   }
 
-  private get faceTypeCode(): string {
-    const expectedFaceType = this.messageTypeFaceTypeMap.get(this.messageType)
-    if (expectedFaceType == null) return FACE_TYPE.NORMAL
-    if (
-      this.situation.participate.myself!.chara.face_list.some(
-        face => face.type === expectedFaceType
-      )
-    ) {
-      return expectedFaceType
-    }
-    return FACE_TYPE.NORMAL
-  }
-
-  private get chara(): Chara {
-    return this.situation.participate.myself!.chara
-  }
-
-  private get selectableMessageTypes(): VillageSayMessageTypeSituation[] {
-    return this.situation.say.selectable_message_type_list.filter(m => {
-      return m.message_type.code !== MESSAGE_TYPE.ACTION
-    })
+  private get isAlive(): boolean {
+    return this.myself.dead == null
   }
 
   private get canSay(): boolean {
     if (this.message == null || this.message.trim() === '') return false
-    if (this.messageType == null) return false
     if (this.isOver) return false
     return true
   }
@@ -207,31 +177,31 @@ export default class Say extends Vue {
 
   private async sayConfirm(): Promise<void> {
     try {
-      this.confirmMessage = await api.postConfirmSay(
+      this.confirmMessage = await api.postConfirmActionSay(
         this,
         this.villageId,
-        this.message,
-        this.messageType,
-        this.faceTypeCode
+        `${this.charaName}は、`,
+        this.target,
+        this.message
       )
       this.isSayModalOpen = true
     } catch (error) {
-      toast.danger(this, '発言確認失敗しました。')
+      toast.danger(this, 'アクション発言確認失敗しました。')
     }
   }
 
   private async say(): Promise<void> {
     try {
-      await api.postSay(
+      await api.postAction(
         this,
         this.villageId,
-        this.message,
-        this.messageType,
-        this.faceTypeCode
+        `${this.charaName}は、`,
+        this.target,
+        this.message
       )
       this.message = ''
     } catch (error) {
-      toast.danger(this, '発言失敗しました。')
+      toast.danger(this, 'アクション発言失敗しました。')
     }
     await this.$emit('reload')
   }
@@ -270,60 +240,8 @@ export default class Say extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.say-area {
-  .say-content-area {
-    display: flex;
-
-    .say-face-area {
-      padding-right: 5px;
-    }
-
-    .say-input-area {
-      flex: 1;
-    }
-  }
-}
-</style>
-
-<style lang="scss">
-.myself-area {
-  .myself-name-area {
-    padding-bottom: 5px;
-    display: flex;
-
-    .myself-name {
-      flex: 1;
-      text-align: left;
-      font-weight: bold;
-    }
-  }
-}
-.say-area {
-  .say-content-area {
-    display: flex;
-
-    .say-face-area {
-      padding-right: 5px;
-    }
-
-    .say-input-area {
-      flex: 1;
-    }
-  }
-}
-</style>
-
-<style lang="scss">
-.dark-theme {
-  .b-radio.button {
-    border: 1px solid $primary-dark;
-    background-color: transparent;
-    color: $primary-dark;
-
-    &.is-primary {
-      background-color: $primary-dark;
-      color: $white;
-    }
+.action-say-area {
+  .action-say-content-area {
   }
 }
 </style>
