@@ -57,7 +57,7 @@ import loading from '~/components/loading.vue'
 import VillageCard from '~/components/index/village-card.vue'
 import SimpleVillage from '~/components/type/simple-village'
 import VillageDay from '~/components/type/village-day'
-import MyselfPlayer from '~/components/type/myself-player.ts'
+import MyselfPlayer from '~/components/type/myself-player'
 import { VILLAGE_STATUS } from '~/components/const/consts'
 
 @Component({

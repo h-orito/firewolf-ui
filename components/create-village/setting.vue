@@ -90,7 +90,7 @@
       <h2 class="title is-6">発言制限</h2>
       <notification>
         <li>回数は0〜100（通常発言は1〜100）で設定できます。</li>
-        <li>文字数は1〜200で設定できます。</li>
+        <li>文字数は1〜400で設定できます。</li>
       </notification>
       <form-number
         rules="required|max_value:100|min_value:1"
@@ -102,9 +102,9 @@
         class="m-b-5"
       />
       <form-number
-        rules="required|max_value:200|min_value:1"
+        rules="required|max_value:400|min_value:1"
         label-message="通常発言文字数"
-        max="200"
+        max="400"
         min="1"
         step="1"
         :input-value.sync="normalLengthModel"
@@ -120,9 +120,9 @@
         class="m-b-5"
       />
       <form-number
-        rules="required|max_value:200|min_value:1"
+        rules="required|max_value:400|min_value:1"
         label-message="人狼の囁き文字数"
-        max="200"
+        max="400"
         min="1"
         step="1"
         :input-value.sync="whisperLengthModel"
@@ -138,9 +138,9 @@
         class="m-b-5"
       />
       <form-number
-        rules="required|max_value:200|min_value:1"
+        rules="required|max_value:400|min_value:1"
         label-message="共鳴発言文字数"
-        max="200"
+        max="400"
         min="1"
         step="1"
         :input-value.sync="sympathizeLengthModel"
@@ -156,9 +156,9 @@
         class="m-b-5"
       />
       <form-number
-        rules="required|max_value:200|min_value:1"
+        rules="required|max_value:400|min_value:1"
         label-message="死者の呻き文字数"
-        max="200"
+        max="400"
         min="1"
         step="1"
         :input-value.sync="graveLengthModel"
@@ -174,9 +174,9 @@
         class="m-b-5"
       />
       <form-number
-        rules="required|max_value:200|min_value:0"
+        rules="required|max_value:400|min_value:0"
         label-message="独り言文字数"
-        max="200"
+        max="400"
         min="1"
         step="1"
         :input-value.sync="monologueLengthModel"
@@ -192,9 +192,9 @@
         class="m-b-5"
       />
       <form-number
-        rules="required|max_value:200|min_value:0"
+        rules="required|max_value:400|min_value:0"
         label-message="見学発言文字数"
-        max="200"
+        max="400"
         min="1"
         step="1"
         :input-value.sync="spectateLengthModel"
@@ -202,6 +202,32 @@
       <hr />
       <h2 class="title is-6">参加パスワード</h2>
       <join-password :input-value.sync="joinPasswordModel" />
+      <hr />
+      <h2 class="title is-6">RP設定</h2>
+      <form-switch
+        rules="required"
+        label-message="アクション"
+        description="アクション発言を可能にする"
+        :input-value.sync="availableAction"
+      />
+      <form-number
+        rules="required|max_value:100|min_value:0"
+        label-message="アクション回数"
+        max="100"
+        min="0"
+        step="1"
+        :input-value.sync="actionCountModel"
+        class="m-b-5"
+      />
+      <form-number
+        rules="required|max_value:400|min_value:1"
+        label-message="アクション文字数"
+        max="400"
+        min="1"
+        step="1"
+        :input-value.sync="actionLengthModel"
+        class="m-b-20"
+      />
       <hr />
       <b-field class="has-text-right">
         <b-button
@@ -590,6 +616,38 @@ export default class Setting extends Vue {
     this.$emit('update:joinPassword', val)
   }
 
+  /** availableAction */
+  @Prop({ type: Boolean, required: true })
+  private availableAction!: boolean
+
+  private get availableActionModel(): boolean {
+    return this.availableAction
+  }
+
+  private set availableActionModel(val: boolean) {
+    this.$emit('update:availableAction', val)
+  }
+
+  /** actionCount */
+  @Prop({ type: String, required: true })
+  private actionCount!: string
+
+  private get actionCountModel(): string {
+    return this.actionCount
+  }
+
+  private set actionCountModel(val: string) {
+    this.$emit('update:actionCount', val)
+  }
+
+  /** actionLength */
+  @Prop({ type: String, required: true })
+  private actionLength!: string
+
+  private get actionLengthModel(): string {
+    return this.actionLength
+  }
+
   @Prop({ type: String, required: true })
   private saveLabel!: string
 
@@ -737,6 +795,7 @@ export default class Setting extends Vue {
           available_suddenly_death: this.availableSuddelnyDeath,
           available_commit: this.availableCommit,
           available_dummy_skill: this.availableDummySkill,
+          available_action: this.availableAction,
           restrict_list: [
             {
               type: MESSAGE_TYPE.NORMAL_SAY,
@@ -767,6 +826,11 @@ export default class Setting extends Vue {
               type: MESSAGE_TYPE.SPECTATE_SAY,
               count: this.spectateCount,
               length: this.spectateLength
+            },
+            {
+              type: MESSAGE_TYPE.ACTION,
+              count: this.actionCount,
+              length: this.actionLength
             }
           ],
           join_password: this.joinPassword

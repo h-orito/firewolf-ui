@@ -18,6 +18,7 @@
         :visible-grave-message.sync="visibleGraveMessage"
         :available-suddelny-death.sync="availableSuddelnyDeath"
         :available-commit.sync="availableCommit"
+        :available-action.sync="availableAction"
         :normal-count.sync="normalCount"
         :normal-length.sync="normalLength"
         :whisper-count.sync="whisperCount"
@@ -30,6 +31,8 @@
         :monologue-length.sync="monologueLength"
         :spectate-count.sync="spectateCount"
         :spectate-length.sync="spectateLength"
+        :action-count.sync="actionCount"
+        :action-length.sync="actionLength"
         :join-password.sync="joinPassword"
         save-label="村を作成する"
         @confirm="confirmVillage"
@@ -76,6 +79,7 @@ export default class CreateVillage extends Vue {
   private visibleGraveMessage: boolean = false
   private availableSuddelnyDeath: boolean = true
   private availableCommit: boolean = false
+  private availableAction: boolean = false
 
   private normalCount: string = '20'
   private normalLength: string = '200'
@@ -89,6 +93,8 @@ export default class CreateVillage extends Vue {
   private monologueLength: string = '200'
   private spectateCount: string = '40'
   private spectateLength: string = '200'
+  private actionCount: string = '40'
+  private actionLength: string = '200'
 
   private joinPassword: string = ''
 

@@ -30,6 +30,19 @@ export interface SayMessageSentence {
   text: string
 }
 
+export interface ActionMessage {
+  unix_time_milli: number // idに使う
+  message_class: string
+  is_anchor_message: boolean
+  is_disp_anchor: boolean
+  anchor_string: string
+  anchor_copy_string: string
+  day: number
+  datetime: string
+  chara: Chara
+  message_lines: SayMessageLine[]
+}
+
 export interface SystemMessage {
   unix_time_milli: number // idに使う
   message_class: string
@@ -76,6 +89,36 @@ export const convertToSayMessage = (
     face_type_code: message.content.face_code,
     message_lines: convertToSayMessageLines(message.content.text)
   } as SayMessage
+}
+
+export const convertToActionMessage = (
+  message: Message,
+  isAnchorMessage: boolean,
+  isProgress: boolean,
+  isDispDate: boolean
+): ActionMessage => {
+  const typeCode: string = message.content.type.code
+  const isDispAnchor: boolean = _isDispAnchor(isProgress, typeCode)
+  const anchorString = createAnchorString(typeCode, message.content.num!)
+  const anchorCopyString: string = createAnchorCopyString(
+    typeCode,
+    anchorString,
+    message.from!.chara.chara_name.short_name
+  )
+  return {
+    unix_time_milli: message.time.unix_time_milli,
+    message_class: sayMessageClassMap.get(message.content.type.code) || '',
+    is_anchor_message: isAnchorMessage,
+    is_disp_anchor: isDispAnchor,
+    anchor_string: isDispAnchor ? anchorString : '',
+    anchor_copy_string: isDispAnchor ? anchorCopyString : '',
+    day: message.time.day,
+    datetime: isDispDate
+      ? message.time.datetime
+      : message.time.datetime.substring(11),
+    chara: message.from!.chara,
+    message_lines: convertToSayMessageLines(message.content.text)
+  } as ActionMessage
 }
 
 const _isDispAnchor = (isProgress: boolean, sayType: string): boolean => {
@@ -150,7 +193,8 @@ const regexps: RegExp[] = [
   /(&gt;&gt;@\d{1,5})/,
   /(&gt;&gt;-\d{1,5})/,
   /(&gt;&gt;\*\d{1,5})/,
-  /(&gt;&gt;#\d{1,5})/
+  /(&gt;&gt;#\d{1,5})/,
+  /(&gt;&gt;a\d{1,5})/
 ]
 
 const appendSplit = (array: string[], regex: RegExp): string[] => {
@@ -176,6 +220,8 @@ export const getAnchorType = (mes: string): string | null => {
     return MESSAGE_TYPE.SPECTATE_SAY
   } else if (mes.match(/(&gt;&gt;#\d{1,5})/)) {
     return MESSAGE_TYPE.CREATOR_SAY
+  } else if (mes.match(/(&gt;&gt;a\d{1,5})/)) {
+    return MESSAGE_TYPE.ACTION
   }
   return null
 }
@@ -189,7 +235,8 @@ const sayMessageClassMap: Map<string, string> = new Map([
   [MESSAGE_TYPE.MONOLOGUE_SAY, 'monologue-say'],
   [MESSAGE_TYPE.SYMPATHIZE_SAY, 'sympathize-say'],
   [MESSAGE_TYPE.GRAVE_SAY, 'grave-say'],
-  [MESSAGE_TYPE.SPECTATE_SAY, 'spectate-say']
+  [MESSAGE_TYPE.SPECTATE_SAY, 'spectate-say'],
+  [MESSAGE_TYPE.ACTION, 'action-say']
 ])
 
 const systemMessageClassMap: Map<string, string> = new Map([
@@ -212,5 +259,6 @@ const anchorPrefixMap: Map<string, string> = new Map([
   [MESSAGE_TYPE.WEREWOLF_SAY, '*'],
   [MESSAGE_TYPE.SYMPATHIZE_SAY, '='],
   [MESSAGE_TYPE.SPECTATE_SAY, '@'],
-  [MESSAGE_TYPE.CREATOR_SAY, '#']
+  [MESSAGE_TYPE.CREATOR_SAY, '#'],
+  [MESSAGE_TYPE.ACTION, 'a']
 ])

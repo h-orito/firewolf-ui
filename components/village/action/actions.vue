@@ -44,6 +44,12 @@
         ref="commit"
         @reload="$emit('reload', $event)"
       />
+      <action-say
+        v-if="isDispActionSay"
+        @reload="$emit('reload', $event)"
+        ref="actionSay"
+        @fixed="reloadFixedStyle($event)"
+      />
       <village-debug
         v-if="isDispDebugMenu"
         :village="debugVillage"
@@ -70,6 +76,7 @@ import DebugVillage from '~/components/type/debug-village'
 // helper
 import actionHelper from '~/components/village/action/village-action-helper'
 import Village from '~/components/type/village'
+import { MESSAGE_TYPE } from '~/components/const/consts'
 // dynamic imports
 const participate = () =>
   import('~/components/village/action/participate/participate-card.vue')
@@ -84,6 +91,8 @@ const comingout = () =>
   import('~/components/village/action/comingout/comingout-card.vue')
 const commit = () =>
   import('~/components/village/action/commit/commit-card.vue')
+const actionSay = () =>
+  import('~/components/village/action/action-say/action-say-card.vue')
 const villageDebug = () =>
   import('~/components/village/action/debug/village-debug.vue')
 const villageCreator = () =>
@@ -102,6 +111,7 @@ const villageAdmin = () =>
     ability,
     comingout,
     commit,
+    actionSay,
     villageDebug,
     villageCreator,
     villageAdmin
@@ -157,6 +167,12 @@ export default class Action extends Vue {
 
   private get isDispCommit(): boolean {
     return this.situation.commit.available_commit
+  }
+
+  private get isDispActionSay(): boolean {
+    return this.situation.say.selectable_message_type_list.some(s => {
+      return s.message_type.code === MESSAGE_TYPE.ACTION
+    })
   }
 
   private get isDispDebugMenu(): boolean {
