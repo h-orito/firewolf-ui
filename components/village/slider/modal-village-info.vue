@@ -312,6 +312,20 @@ export default class ModalVillageInfo extends Vue {
   private addRpSetting(settings: Settings[]): void {
     if (!this.village) return
     const rules = this.village.setting.rules
+    // 墓下見学会話公開
+    settings.push({
+      name: '墓下見学会話公開',
+      value: rules.visible_grave_message ? 'あり' : 'なし',
+      description:
+        '「あり」の場合、進行中に生存者が死者の呻きや見学発言を参照できます。'
+    })
+    // 秘話
+    settings.push({
+      name: '秘話',
+      value: rules.available_secret_say ? 'あり' : 'なし',
+      description:
+        '「あり」の場合、自分とその人にしか見られない秘話ができます。'
+    })
     // アクション
     settings.push({
       name: 'アクション',

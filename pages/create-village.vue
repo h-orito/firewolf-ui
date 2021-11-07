@@ -19,6 +19,7 @@
         :available-suddelny-death.sync="availableSuddelnyDeath"
         :available-commit.sync="availableCommit"
         :available-action.sync="availableAction"
+        :available-secret-say.sync="availableSecretSay"
         :normal-count.sync="normalCount"
         :normal-length.sync="normalLength"
         :whisper-count.sync="whisperCount"
@@ -80,6 +81,7 @@ export default class CreateVillage extends Vue {
   private availableSuddelnyDeath: boolean = true
   private availableCommit: boolean = false
   private availableAction: boolean = false
+  private availableSecretSay: boolean = false
 
   private normalCount: string = '20'
   private normalLength: string = '200'
