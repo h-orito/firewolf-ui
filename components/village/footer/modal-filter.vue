@@ -63,6 +63,15 @@
             <b-checkbox-button
               v-model="messageTypeCodeGroup"
               class="message-type-checkbox"
+              native-value="ACTION"
+              type="is-primary"
+              size="is-small"
+            >
+              アクション
+            </b-checkbox-button>
+            <b-checkbox-button
+              v-model="messageTypeCodeGroup"
+              class="message-type-checkbox"
               native-value="MONOLOGUE_SAY"
               type="is-primary"
               size="is-small"
@@ -202,7 +211,8 @@ export default class ModalFilter extends Vue {
     [
       MESSAGE_TYPE.GRAVE_SAY,
       [MESSAGE_TYPE.GRAVE_SAY, MESSAGE_TYPE.SPECTATE_SAY]
-    ]
+    ],
+    [MESSAGE_TYPE.ACTION, [MESSAGE_TYPE.ACTION]]
   ])
 
   private allMessageTypeGroup: string[] = [
@@ -212,7 +222,8 @@ export default class ModalFilter extends Vue {
     MESSAGE_TYPE.WEREWOLF_SAY,
     MESSAGE_TYPE.SYMPATHIZE_SAY,
     MESSAGE_TYPE.MONOLOGUE_SAY,
-    MESSAGE_TYPE.GRAVE_SAY
+    MESSAGE_TYPE.GRAVE_SAY,
+    MESSAGE_TYPE.ACTION
   ]
 
   // ----------------------------------------------------------------
