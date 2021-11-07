@@ -11,6 +11,7 @@ export interface SayMessage {
   anchor_copy_string: string
   day: number
   chara_name: string
+  target_chara_name: string | null
   comingout: string | null
   twitter_user_name: string | null
   current_count: number | null
@@ -73,6 +74,7 @@ export const convertToSayMessage = (
     anchor_copy_string: isDispAnchor ? anchorCopyString : '',
     day: message.time.day,
     chara_name: message.from!.chara.chara_name.full_name,
+    target_chara_name: message.to?.chara?.chara_name?.full_name,
     comingout:
       message.from!.comming_outs.list.length === 0
         ? null
@@ -122,7 +124,12 @@ export const convertToActionMessage = (
 }
 
 const _isDispAnchor = (isProgress: boolean, sayType: string): boolean => {
-  return !isProgress || sayType !== MESSAGE_TYPE.MONOLOGUE_SAY
+  // 秘話は表示しない
+  if (sayType === MESSAGE_TYPE.SECRET_SAY) return false
+  // 独り言以外なら表示
+  if (sayType !== MESSAGE_TYPE.MONOLOGUE_SAY) return true
+  // 独り言は進行中なら表示しない
+  return !isProgress
 }
 
 const createAnchorString = (typeCode: string, num: number): string => {
@@ -236,7 +243,8 @@ const sayMessageClassMap: Map<string, string> = new Map([
   [MESSAGE_TYPE.SYMPATHIZE_SAY, 'sympathize-say'],
   [MESSAGE_TYPE.GRAVE_SAY, 'grave-say'],
   [MESSAGE_TYPE.SPECTATE_SAY, 'spectate-say'],
-  [MESSAGE_TYPE.ACTION, 'action-say']
+  [MESSAGE_TYPE.ACTION, 'action-say'],
+  [MESSAGE_TYPE.SECRET_SAY, 'secret-say']
 ])
 
 const systemMessageClassMap: Map<string, string> = new Map([

@@ -206,6 +206,18 @@
       <h2 class="title is-6">RP設定</h2>
       <form-switch
         rules="required"
+        label-message="墓下見学会話公開"
+        description="墓下見学発言を生存者が見られるようにする"
+        :input-value.sync="visibleGraveMessageModel"
+      />
+      <form-switch
+        rules="required"
+        label-message="秘話"
+        description="秘話をありにする"
+        :input-value.sync="availableSecretSay"
+      />
+      <form-switch
+        rules="required"
         label-message="アクション"
         description="アクション発言を可能にする"
         :input-value.sync="availableAction"
@@ -616,6 +628,18 @@ export default class Setting extends Vue {
     this.$emit('update:joinPassword', val)
   }
 
+  /** availableSecretSay */
+  @Prop({ type: Boolean, required: true })
+  private availableSecretSay!: boolean
+
+  private get availableSecretSayModel(): boolean {
+    return this.availableSecretSay
+  }
+
+  private set availableSecretSayModel(val: boolean) {
+    this.$emit('update:availableSecretSay', val)
+  }
+
   /** availableAction */
   @Prop({ type: Boolean, required: true })
   private availableAction!: boolean
@@ -796,6 +820,7 @@ export default class Setting extends Vue {
           available_commit: this.availableCommit,
           available_dummy_skill: this.availableDummySkill,
           available_action: this.availableAction,
+          available_secret_say: this.availableSecretSay,
           restrict_list: [
             {
               type: MESSAGE_TYPE.NORMAL_SAY,

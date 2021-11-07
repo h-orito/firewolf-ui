@@ -34,6 +34,26 @@
             <b-checkbox-button
               v-model="messageTypeCodeGroup"
               class="message-type-checkbox"
+              native-value="MONOLOGUE_SAY"
+              type="is-primary"
+              size="is-small"
+            >
+              独り言
+            </b-checkbox-button>
+            <b-checkbox-button
+              v-model="messageTypeCodeGroup"
+              class="message-type-checkbox"
+              native-value="SECRET_SAY"
+              type="is-primary"
+              size="is-small"
+            >
+              秘話
+            </b-checkbox-button>
+          </b-field>
+          <b-field class="message-type-checkbox-area">
+            <b-checkbox-button
+              v-model="messageTypeCodeGroup"
+              class="message-type-checkbox"
               native-value="WEREWOLF_SAY"
               type="is-primary"
               size="is-small"
@@ -68,15 +88,6 @@
               size="is-small"
             >
               アクション
-            </b-checkbox-button>
-            <b-checkbox-button
-              v-model="messageTypeCodeGroup"
-              class="message-type-checkbox"
-              native-value="MONOLOGUE_SAY"
-              type="is-primary"
-              size="is-small"
-            >
-              独り言
             </b-checkbox-button>
             <b-checkbox-button
               v-model="messageTypeCodeGroup"
@@ -212,7 +223,8 @@ export default class ModalFilter extends Vue {
       MESSAGE_TYPE.GRAVE_SAY,
       [MESSAGE_TYPE.GRAVE_SAY, MESSAGE_TYPE.SPECTATE_SAY]
     ],
-    [MESSAGE_TYPE.ACTION, [MESSAGE_TYPE.ACTION]]
+    [MESSAGE_TYPE.ACTION, [MESSAGE_TYPE.ACTION]],
+    [MESSAGE_TYPE.SECRET_SAY, [MESSAGE_TYPE.SECRET_SAY]]
   ])
 
   private allMessageTypeGroup: string[] = [
@@ -223,7 +235,8 @@ export default class ModalFilter extends Vue {
     MESSAGE_TYPE.SYMPATHIZE_SAY,
     MESSAGE_TYPE.MONOLOGUE_SAY,
     MESSAGE_TYPE.GRAVE_SAY,
-    MESSAGE_TYPE.ACTION
+    MESSAGE_TYPE.ACTION,
+    MESSAGE_TYPE.SECRET_SAY
   ]
 
   // ----------------------------------------------------------------
