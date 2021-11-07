@@ -113,11 +113,11 @@ export default class MessageSay extends Vue {
       }
 
       &.action-say {
-        background-color: #dfdfc9;
+        background-color: $action-say;
 
         &.dark-theme {
           border: 1px solid $white;
-          background-color: #232355;
+          background-color: $action-say-dark;
           color: $white;
         }
       }

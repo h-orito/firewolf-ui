@@ -240,6 +240,7 @@ const messageTypeMap = new Map<string, string>([
   [MESSAGE_TYPE.MONOLOGUE_SAY, 'say'],
   [MESSAGE_TYPE.SYMPATHIZE_SAY, 'say'],
   [MESSAGE_TYPE.SPECTATE_SAY, 'say'],
+  [MESSAGE_TYPE.SECRET_SAY, 'say'],
   [MESSAGE_TYPE.PUBLIC_SYSTEM, 'system'],
   [MESSAGE_TYPE.PRIVATE_SYSTEM, 'system'],
   [MESSAGE_TYPE.PRIVATE_SEER, 'system'],

@@ -31,6 +31,7 @@
         :available-suddelny-death.sync="availableSuddelnyDeath"
         :available-commit.sync="availableCommit"
         :available-action.sync="availableAction"
+        :available-secret-say.sync="availableSecretSay"
         :normal-count.sync="normalCount"
         :normal-length.sync="normalLength"
         :whisper-count.sync="whisperCount"
@@ -102,6 +103,7 @@ export default class VillageSetting extends Vue {
   private availableSuddelnyDeath: boolean = true
   private availableCommit: boolean = false
   private availableAction: boolean = false
+  private availableSecretSay: boolean = false
 
   private normalCount: string = '20'
   private normalLength: string = '200'
@@ -161,6 +163,7 @@ export default class VillageSetting extends Vue {
     this.availableSuddelnyDeath = rules.available_suddenly_death
     this.availableCommit = rules.available_commit
     this.availableAction = rules.available_action
+    this.availableSecretSay = rules.available_secret_say
 
     const restricts = rules.message_restrict.restrict_list
     const normal = restricts.find(r => r.type.code === MESSAGE_TYPE.NORMAL_SAY)!
