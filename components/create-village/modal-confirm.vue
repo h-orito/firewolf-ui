@@ -109,7 +109,8 @@ export default class ModalVillageInfo extends Vue {
     [MESSAGE_TYPE.SYMPATHIZE_SAY, '共鳴発言'],
     [MESSAGE_TYPE.MONOLOGUE_SAY, '独り言'],
     [MESSAGE_TYPE.GRAVE_SAY, '死者の呻き'],
-    [MESSAGE_TYPE.SPECTATE_SAY, '見学発言']
+    [MESSAGE_TYPE.SPECTATE_SAY, '見学発言'],
+    [MESSAGE_TYPE.ACTION, 'アクション']
   ])
 
   private get settings(): Settings[] {
@@ -126,6 +127,7 @@ export default class ModalVillageInfo extends Vue {
     this.addOrganizationSetting(settings)
     this.addRuleSetting(settings)
     this.addPasswordSetting(settings)
+    this.addRpSetting(settings)
 
     return settings
   }
@@ -292,6 +294,16 @@ export default class ModalVillageInfo extends Vue {
           : 'なし',
       description:
         '「あり」の場合、参加する際にパスワード入力が必要になります。'
+    })
+  }
+
+  private addRpSetting(settings: Settings[]): void {
+    const rules = this.param.setting.rule
+    // アクション
+    settings.push({
+      name: 'アクション',
+      value: rules.available_action ? 'あり' : 'なし',
+      description: '「あり」の場合、アクション発言が可能です。'
     })
   }
 
