@@ -160,12 +160,14 @@ const api = {
     villageId: number,
     message: string,
     messageType: string,
-    faceType: string
+    faceType: string,
+    targetId: number | null
   ): Promise<Message | null> {
     return app.$axios.$post(`/village/${villageId}/say-confirm`, {
       message,
       message_type: messageType,
-      face_type: faceType
+      face_type: faceType,
+      target_id: targetId
     })
   },
 
@@ -174,12 +176,14 @@ const api = {
     villageId: number,
     message: string,
     messageType: string,
-    faceType: string
+    faceType: string,
+    targetId: number | null
   ): Promise<void> {
     return app.$axios.$post(`/village/${villageId}/say`, {
       message,
       message_type: messageType,
-      face_type: faceType
+      face_type: faceType,
+      target_id: targetId
     })
   },
 

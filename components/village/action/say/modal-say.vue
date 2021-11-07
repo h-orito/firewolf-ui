@@ -138,6 +138,10 @@ export default class ModalSay extends Vue {
       {
         label: 'アクション',
         code: MESSAGE_TYPE.ACTION
+      },
+      {
+        label: '秘話',
+        code: MESSAGE_TYPE.SECRET_SAY
       }
     ].filter(type => this.availableMessageTypes.includes(type.code))
   }

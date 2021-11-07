@@ -11,6 +11,7 @@ interface VillageRules {
   auto_generated: boolean
   available_dummy_skill: boolean
   available_action: boolean
+  available_secret_say: boolean
   message_restrict: VillageMessageRestricts
 }
 

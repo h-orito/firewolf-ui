@@ -41,7 +41,20 @@
                 <span>{{ messageTypeSituation.message_type.name }}</span>
               </b-radio-button>
             </b-field>
-
+            <div
+              class="secretsay-target-area m-b-5"
+              v-if="isDispSecretsayTargetArea"
+            >
+              秘話相手
+              <b-select v-model="targetParticipantId" expanded size="is-small">
+                <option
+                  v-for="participant in secretsayTargets"
+                  :value="participant.id.toString()"
+                  :key="participant.id.toString()"
+                  >{{ participant.chara.chara_name.full_name }}</option
+                >
+              </b-select>
+            </div>
             <div class="say-content-area">
               <div class="say-face-area">
                 <chara-image :chara="chara" :face-type="faceTypeCode" />
@@ -124,6 +137,8 @@ export default class Say extends Vue {
       ? true
       : villageUserSettings.getActionWindow(this).open_map![this.id]
 
+  private targetParticipantId: number | null = null
+
   // 発言確認で返ってきた発言内容
   private confirmMessage: Message | null = null
 
@@ -182,10 +197,25 @@ export default class Say extends Vue {
     })
   }
 
+  private get isDispSecretsayTargetArea(): boolean {
+    return this.messageType === MESSAGE_TYPE.SECRET_SAY
+  }
+
+  private get secretsayTargets(): VillageParticipant[] {
+    return this.situation.say.selectable_message_type_list.find(m => {
+      return m.message_type.code === MESSAGE_TYPE.SECRET_SAY
+    })!!.target_list
+  }
+
   private get canSay(): boolean {
     if (this.message == null || this.message.trim() === '') return false
     if (this.messageType == null) return false
     if (this.isOver) return false
+    if (
+      this.messageType === MESSAGE_TYPE.SECRET_SAY &&
+      this.targetParticipantId == null
+    )
+      return false
     return true
   }
 
@@ -212,7 +242,10 @@ export default class Say extends Vue {
         this.villageId,
         this.message,
         this.messageType,
-        this.faceTypeCode
+        this.faceTypeCode,
+        this.messageType === MESSAGE_TYPE.SECRET_SAY
+          ? this.targetParticipantId
+          : null
       )
       this.isSayModalOpen = true
     } catch (error) {
@@ -227,7 +260,10 @@ export default class Say extends Vue {
         this.villageId,
         this.message,
         this.messageType,
-        this.faceTypeCode
+        this.faceTypeCode,
+        this.messageType === MESSAGE_TYPE.SECRET_SAY
+          ? this.targetParticipantId
+          : null
       )
       this.message = ''
     } catch (error) {

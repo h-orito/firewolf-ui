@@ -14,7 +14,14 @@
           >{{ props.message.anchor_string }}</a
         >.&nbsp;</span
       >
-      <p class="hw-message-name">{{ props.message.chara_name }}</p>
+      <p class="hw-message-name">
+        {{ props.message.chara_name }}
+        {{
+          props.message.target_chara_name
+            ? ` → ${props.message.target_chara_name}`
+            : ''
+        }}
+      </p>
       <p v-if="props.comingout" class="coming-out">
         {{ props.message.comingout }}
       </p>
@@ -217,6 +224,15 @@ export default class MessageSay extends Vue {
         &.dark-theme {
           background-color: $spectate-say-dark;
           border: 1px solid $spectate-say-dark;
+        }
+      }
+      &.secret-say {
+        background-color: $secret-say;
+        color: $black;
+
+        &.dark-theme {
+          background-color: $secret-say-dark;
+          border: 1px solid $secret-say-dark;
         }
       }
     }
