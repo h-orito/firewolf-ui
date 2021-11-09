@@ -94,6 +94,15 @@ export default class SystemMessageV extends Vue {
       background-color: $mason-system-bg-dark;
     }
   }
+  &.message-system-private-fox {
+    border: 1px solid $fox-system-border;
+    background-color: $fox-system-bg;
+
+    &.dark-theme {
+      border: 1px solid $fox-system-border-dark;
+      background-color: $fox-system-bg-dark;
+    }
+  }
   &.message-system-creator {
     border: 1px solid $creator-say-border;
     background-color: $creator-say-bg;

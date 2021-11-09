@@ -4,6 +4,7 @@
       <h1 class="title is-5">更新情報</h1>
       <div class="content">
         <ul class="has-text-left is-size-7">
+          <li>2021/11/09 役職：背徳者を追加</li>
           <li>2021/11/07 村設定：秘話を追加</li>
           <li>2021/11/07 村設定：墓下見学会話公開を追加</li>
           <li>2021/11/07 1発言400文字まで可能に変更</li>
