@@ -248,6 +248,7 @@ const messageTypeMap = new Map<string, string>([
   [MESSAGE_TYPE.PRIVATE_WEREWOLF, 'system'],
   [MESSAGE_TYPE.PRIVATE_FANATIC, 'system'],
   [MESSAGE_TYPE.PRIVATE_MASON, 'system'],
+  [MESSAGE_TYPE.PRIVATE_FOX, 'system'],
   [MESSAGE_TYPE.PRIVATE_SYMPATHIZER, 'system'],
   [MESSAGE_TYPE.CREATOR_SAY, 'system'],
   [MESSAGE_TYPE.PARTICIPANTS, 'participants'],
