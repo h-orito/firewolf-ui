@@ -56,7 +56,7 @@
               `https://twitter.com/share?text=${village ? village.name : ''}`
             "
             class="twitter-share-button"
-            data-hashtags="火狼国,人狼_FIREWOLF"
+            data-hashtags="炎狼国,人狼_FIREWOLF"
             data-lang="ja"
             data-show-count="false"
           ></a>
