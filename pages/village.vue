@@ -61,6 +61,7 @@
             "
             @change-message-page="changeMessagePage($event)"
             @paste-message-input="pasteToMessageInput($event)"
+            @disp-latest="dispLatest"
             ref="messageCards"
           />
           <village-day-list
@@ -177,6 +178,8 @@ export default class extends Vue {
   private currentPageNum: number | null = 1
   /** 1ページあたりの表示件数 */
   private perPage: number = 0
+  /** 最新を表示するか */
+  private isDispLatest: boolean = true
   /** 最新発言unix time milli */
   private latestMessageUnixTimeMilli: number = 0
   /** 新しい発言があるか */
@@ -280,7 +283,7 @@ export default class extends Vue {
     } else {
       // なければリセット（初期状態が全員チェックなしなので独り言が見えない）
       // @ts-ignore
-      this.$refs.footer.filterRefresh()
+      this.$refs.footer.filterRefresh(true, true)
     }
     // キャラチップ名
     this.charachipName = await api.fetchCharachipName(this, this.village!)
@@ -343,6 +346,7 @@ export default class extends Vue {
         this.villageId,
         displayDay,
         isDispLatestPage,
+        this.isDispLatest,
         this.currentPageNum,
         this.messageTypeFilter,
         this.participantIdFilter,
@@ -380,6 +384,7 @@ export default class extends Vue {
 
   /** もろもろ読み込み */
   private async reload(): Promise<void> {
+    this.isDispLatest = true
     await this.loadVillage()
     await Promise.all([
       this.loadMessage(true, true), // 最新
@@ -410,6 +415,7 @@ export default class extends Vue {
     if (selectedDay == null) return
     this.displayVillageDay = selectedDay
     this.currentPageNum = 1
+    this.isDispLatest = false
     await this.loadMessage()
     this.toHead()
   }
@@ -417,8 +423,17 @@ export default class extends Vue {
   /** 表示するページを変更 */
   private async changeMessagePage({ pageNum }): Promise<void> {
     this.currentPageNum = pageNum
+    this.isDispLatest = false
     await this.loadMessage()
     this.toHead()
+  }
+
+  private async dispLatest(): Promise<void> {
+    this.displayVillageDay = this.latestDay
+    this.isDispLatest = true
+    await this.loadMessage()
+    this.displayVillageDay = this.latestDay!
+    this.toBottom()
   }
 
   /** 発言抽出 */
