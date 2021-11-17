@@ -95,7 +95,11 @@ export default class VillageFooter extends Vue {
     keyword
   }): Promise<void> {
     this.$emit('hide-slider')
-    await this.$emit('filter', { messageTypeList, participantIdList, keyword })
+    await this.$emit('filter', {
+      messageTypeList,
+      participantIdList,
+      keyword
+    })
     this.closeFilterModal()
   }
 
