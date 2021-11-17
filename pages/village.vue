@@ -509,6 +509,7 @@ export default class extends Vue {
           this.displayVillageDay!,
           this.messages!,
           this.currentPageNum,
+          this.isDispLatest,
           // @ts-ignore
           this.$refs.action && this.$refs.action.isInputting,
           this.isFiltering
@@ -528,6 +529,7 @@ export default class extends Vue {
           this.displayVillageDay!,
           this.messages!,
           this.currentPageNum,
+          this.isDispLatest,
           // @ts-ignore
           this.$refs.action && this.$refs.action.isInputting,
           this.isFiltering
@@ -569,11 +571,20 @@ const shouldLoadMessage = (
   displayVillageDay: VillageDay,
   messages: Messages,
   currentPageNum: number | null,
+  isDispLatest: boolean,
   isInputting: boolean,
   isFiltering: boolean
 ): boolean => {
   // 最新日の最新ページを見ていない場合は勝手に更新したくない
-  if (!isViewingLatest(latestDay, displayVillageDay, messages, currentPageNum))
+  if (
+    !isViewingLatest(
+      latestDay,
+      displayVillageDay,
+      messages,
+      currentPageNum,
+      isDispLatest
+    )
+  )
     return false
   // 発言入力中や発言抽出中は勝手に更新したくない
   if (isInputting || isFiltering) return false
@@ -584,12 +595,14 @@ const isViewingLatest = (
   latestDay: VillageDay,
   displayVillageDay: VillageDay,
   messages: Messages,
-  currentPageNum: number | null
+  currentPageNum: number | null,
+  isDispLatest: boolean
 ): boolean => {
   // 最新日を見ていない
   if (displayVillageDay!.id !== latestDay.id) return false
   // 最新ページを見ていない
   const allPageCount: number | null = messages.all_page_count
+  if (!allPageCount || isDispLatest) return true
   if (!!allPageCount && currentPageNum !== allPageCount) return false
   return true
 }
