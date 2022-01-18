@@ -1,4 +1,5 @@
 import SituationAsParticipant from '~/components/type/situation-as-participant'
+import { MESSAGE_TYPE } from '~/components/const/consts'
 
 export interface VillageAction {
   code: string
@@ -25,6 +26,18 @@ const actionHelper = {
       actions.push({ code: 'vote', name: '投票', icon: 'skull' })
     if (this.isDispComingout(situation))
       actions.push({ code: 'comingout', name: 'CO', icon: 'hand-paper' })
+    if (this.isDispActionSay(situation))
+      actions.push({
+        code: 'actionsay',
+        name: 'アクション',
+        icon: 'comment-dots'
+      })
+    if (this.isDispCreatorMenu(situation))
+      actions.push({
+        code: 'creator',
+        name: '村建てメニュー',
+        icon: 'star'
+      })
     situation.ability.list
       .filter(ab => ab.usable)
       .forEach(ability => {
@@ -70,6 +83,14 @@ const actionHelper = {
   },
   isDispComingout(situation: SituationAsParticipant): boolean {
     return situation.coming_out.available_coming_out
+  },
+  isDispActionSay(situation: SituationAsParticipant): boolean {
+    return situation.say.selectable_message_type_list.some(s => {
+      return s.message_type.code === MESSAGE_TYPE.ACTION
+    })
+  },
+  isDispCreatorMenu(situation: SituationAsParticipant): boolean {
+    return situation.creator.available_creator_setting
   }
 }
 

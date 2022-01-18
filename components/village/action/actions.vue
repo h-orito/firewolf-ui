@@ -135,44 +135,39 @@ export default class Action extends Vue {
   }
 
   private get isDispSay(): boolean {
-    return this.situation.say.available_say
+    return actionHelper.isDispSay(this.situation)
   }
 
   private get isDispParticipate(): boolean {
-    return this.situation.participate.available_participate
+    return actionHelper.isDispParticipate(this.situation)
   }
 
   private get isDispSpectate(): boolean {
-    return this.situation.participate.available_spectate
+    return actionHelper.isDispSpectate(this.situation)
   }
 
   private get isDispSkillRequest(): boolean {
-    return (
-      this.situation.participate.participating &&
-      this.situation.skill_request.available_skill_request
-    )
+    return actionHelper.isDispSkillRequest(this.situation)
   }
 
   private get isDispLeave(): boolean {
-    return this.situation.participate.available_leave
+    return actionHelper.isDispLeave(this.situation)
   }
 
   private get isDispVote(): boolean {
-    return this.situation.vote.available_vote
+    return actionHelper.isDispVote(this.situation)
   }
 
   private get isDispComingout(): boolean {
-    return this.situation.coming_out.available_coming_out
+    return actionHelper.isDispComingout(this.situation)
   }
 
   private get isDispCommit(): boolean {
-    return this.situation.commit.available_commit
+    return actionHelper.isDispCommit(this.situation)
   }
 
   private get isDispActionSay(): boolean {
-    return this.situation.say.selectable_message_type_list.some(s => {
-      return s.message_type.code === MESSAGE_TYPE.ACTION
-    })
+    return actionHelper.isDispActionSay(this.situation)
   }
 
   private get isDispDebugMenu(): boolean {
@@ -183,7 +178,7 @@ export default class Action extends Vue {
     return (
       !!this.village &&
       !!this.situation &&
-      this.situation.creator.available_creator_setting
+      actionHelper.isDispCreatorMenu(this.situation)
     )
   }
 

@@ -180,7 +180,7 @@ export default class ActionSay extends Vue {
       this.confirmMessage = await api.postConfirmActionSay(
         this,
         this.villageId,
-        `${this.charaName}は、`,
+        `${this.myself.chara.chara_name.full_name}は、`,
         this.target,
         this.message
       )
@@ -195,7 +195,7 @@ export default class ActionSay extends Vue {
       await api.postAction(
         this,
         this.villageId,
-        `${this.charaName}は、`,
+        `${this.myself.chara.chara_name.full_name}は、`,
         this.target,
         this.message
       )
