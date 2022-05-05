@@ -19,7 +19,7 @@
         :village-name.sync="villageName"
         :start-datetime.sync="startDatetime"
         :silent-hours.sync="silentHours"
-        :charachip-id.sync="charachipId"
+        :charachip-ids.sync="charachipIds"
         :dummy-chara-id.sync="dummyCharaId"
         :organization.sync="organization"
         :available-dummy-skill.sync="availableDummySkill"
@@ -91,7 +91,7 @@ export default class VillageSetting extends Vue {
     .toDate()
 
   private silentHours: string = '0'
-  private charachipId: string = '1'
+  private charachipIds: Array<string> = ['1']
   private dummyCharaId: string = '1'
   private organization: string = '村'
   private availableDummySkill: boolean = false
@@ -144,7 +144,7 @@ export default class VillageSetting extends Vue {
     this.silentHours = time.silent_hours ? time.silent_hours.toString() : '0'
 
     const charachip = this.village.setting.charachip
-    this.charachipId = charachip.charachip_id.toString()
+    this.charachipIds = charachip.charachip_ids.map(id => id.toString())
     this.dummyCharaId = charachip.dummy_chara_id.toString()
 
     this.organization = Object.entries(

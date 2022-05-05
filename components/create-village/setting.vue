@@ -1,21 +1,11 @@
 <template>
   <div>
-    <b-notification
-      v-if="errors"
-      type="is-danger"
-      :closable="false"
-      class="is-size-7"
-    >
+    <b-notification v-if="errors" type="is-danger" :closable="false" class="is-size-7">
       <ul>
         <li v-for="err in errors.split('\n')" :key="err">{{ err }}</li>
       </ul>
     </b-notification>
-    <validation-observer
-      ref="observer"
-      v-slot="{ invalid }"
-      tag="form"
-      class="is-size-7"
-    >
+    <validation-observer ref="observer" v-slot="{ invalid }" tag="form" class="is-size-7">
       <village-name :input-value.sync="villageNameModel" />
       <hr />
       <h2 class="title is-6">時間</h2>
@@ -28,9 +18,9 @@
       <div v-if="modifiableChara">
         <h2 class="title is-6">キャラチップ</h2>
         <charachip
-          :input-value.sync="charachipIdModel"
+          :input-value.sync="charachipIdsModel"
           :charachips="charachips"
-          @load-charas="loadCharasByCharachipId($event.participantId)"
+          @load-charas="loadCharasByCharachipId($event.participantIds)"
         />
         <dummy-chara
           :input-value.sync="dummyCharaIdModel"
@@ -264,555 +254,553 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'nuxt-property-decorator'
-import dayjs from 'dayjs'
+import { Component, Vue, Prop } from "nuxt-property-decorator";
+import qs from "qs";
+import dayjs from "dayjs";
 // type
-import Charachips from '~/components/type/charachips'
-import Charachip from '~/components/type/charachip'
-import Charas from '~/components/type/charas'
-import Chara from '~/components/type/chara'
-import Skills from '~/components/type/skills'
-import Skill from '~/components/type/skill'
-import { MESSAGE_TYPE } from '~/components/const/consts'
-import FormOption from '~/components/common/validation/option'
+import Charachips from "~/components/type/charachips";
+import Charachip from "~/components/type/charachip";
+import Charas from "~/components/type/charas";
+import Chara from "~/components/type/chara";
+import Skills from "~/components/type/skills";
+import Skill from "~/components/type/skill";
+import { MESSAGE_TYPE } from "~/components/const/consts";
+import FormOption from "~/components/common/validation/option";
 // component
-import organization from '~/components/create-village/form/organization.vue'
-import toast from '~/components/village/village-toast'
+import organization from "~/components/create-village/form/organization.vue";
+import toast from "~/components/village/village-toast";
 
 @Component({
   components: {
-    formNumber: () => import('~/components/common/validation/form-number.vue'),
-    formSwitch: () => import('~/components/common/validation/form-switch.vue'),
-    notification: () => import('~/components/create-village/notification.vue'),
-    villageName: () =>
-      import('~/components/create-village/form/village-name.vue'),
-    startDatetime: () =>
-      import('~/components/create-village/form/start-datetime.vue'),
-    silentHours: () =>
-      import('~/components/create-village/form/silent-hours.vue'),
-    charachip: () => import('~/components/create-village/form/charachip.vue'),
-    dummyChara: () =>
-      import('~/components/create-village/form/dummy-chara.vue'),
+    formNumber: () => import("~/components/common/validation/form-number.vue"),
+    formSwitch: () => import("~/components/common/validation/form-switch.vue"),
+    notification: () => import("~/components/create-village/notification.vue"),
+    villageName: () => import("~/components/create-village/form/village-name.vue"),
+    startDatetime: () => import("~/components/create-village/form/start-datetime.vue"),
+    silentHours: () => import("~/components/create-village/form/silent-hours.vue"),
+    charachip: () => import("~/components/create-village/form/charachip.vue"),
+    dummyChara: () => import("~/components/create-village/form/dummy-chara.vue"),
     organizationNotification: () =>
-      import('~/components/create-village/organization-notification.vue'),
+      import("~/components/create-village/organization-notification.vue"),
     organization,
-    joinPassword: () =>
-      import('~/components/create-village/form/join-password.vue'),
-    modalConfirm: () => import('~/components/create-village/modal-confirm.vue')
-  }
+    joinPassword: () => import("~/components/create-village/form/join-password.vue"),
+    modalConfirm: () => import("~/components/create-village/modal-confirm.vue"),
+  },
 })
 export default class Setting extends Vue {
   // form data ------------------------------------
 
   /** villageName */
   @Prop({ type: String, required: true })
-  private villageName!: string
+  private villageName!: string;
 
   private get villageNameModel(): string {
-    return this.villageName
+    return this.villageName;
   }
 
   private set villageNameModel(val: string) {
-    this.$emit('update:villageName', val)
+    this.$emit("update:villageName", val);
   }
 
   /** startDatetime */
   @Prop({ type: Date, required: true })
-  private startDatetime!: Date
+  private startDatetime!: Date;
 
   private get startDatetimeModel(): Date {
-    return this.startDatetime
+    return this.startDatetime;
   }
 
   private set startDatetimeModel(val: Date) {
-    this.$emit('update:startDatetime', val)
+    this.$emit("update:startDatetime", val);
   }
 
   /** silentHours */
   @Prop({ type: String, required: true })
-  private silentHours!: string
+  private silentHours!: string;
 
   private get silentHoursModel(): string {
-    return this.silentHours
+    return this.silentHours;
   }
 
   private set silentHoursModel(val: string) {
-    this.$emit('update:silentHours', val)
+    this.$emit("update:silentHours", val);
   }
 
-  /** charachipId */
-  @Prop({ type: String, required: true })
-  private charachipId!: string
+  /** charachipIds */
+  @Prop({ type: Array, required: true })
+  private charachipIds!: Array<string>;
 
-  private get charachipIdModel(): string {
-    return this.charachipId
+  private get charachipIdsModel(): Array<string> {
+    return this.charachipIds;
   }
 
-  private set charachipIdModel(val: string) {
-    this.$emit('update:charachipId', val)
+  private set charachipIdsModel(val: Array<string>) {
+    this.$emit("update:charachipIds", val);
   }
 
   /** dummyCharaId */
   @Prop({ type: String, required: true })
-  private dummyCharaId!: string
+  private dummyCharaId!: string;
 
   private get dummyCharaIdModel(): string {
-    return this.dummyCharaId
+    return this.dummyCharaId;
   }
 
   private set dummyCharaIdModel(val: string) {
-    this.$emit('update:dummyCharaId', val)
+    this.$emit("update:dummyCharaId", val);
   }
 
   /** organization */
   @Prop({ type: String, required: true })
-  private organization!: string
+  private organization!: string;
 
   private get organizationModel(): string {
-    return this.organization
+    return this.organization;
   }
 
   private set organizationModel(val: string) {
-    this.$emit('update:organization', val)
+    this.$emit("update:organization", val);
   }
 
   /** availableDummySkill */
   @Prop({ type: Boolean, required: true })
-  private availableDummySkill!: boolean
+  private availableDummySkill!: boolean;
 
   private get availableDummySkillModel(): boolean {
-    return this.availableDummySkill
+    return this.availableDummySkill;
   }
 
   private set availableDummySkillModel(val: boolean) {
-    this.$emit('update:availableDummySkill', val)
+    this.$emit("update:availableDummySkill", val);
   }
 
   /** openVote */
   @Prop({ type: Boolean, required: true })
-  private openVote!: boolean
+  private openVote!: boolean;
 
   private get openVoteModel(): boolean {
-    return this.openVote
+    return this.openVote;
   }
 
   private set openVoteModel(val: boolean) {
-    this.$emit('update:openVote', val)
+    this.$emit("update:openVote", val);
   }
 
   /** availableSkillRequest */
   @Prop({ type: Boolean, required: true })
-  private availableSkillRequest!: boolean
+  private availableSkillRequest!: boolean;
 
   private get availableSkillRequestModel(): boolean {
-    return this.availableSkillRequest
+    return this.availableSkillRequest;
   }
 
   private set availableSkillRequestModel(val: boolean) {
-    this.$emit('update:availableSkillRequest', val)
+    this.$emit("update:availableSkillRequest", val);
   }
 
   /** availableSpectate */
   @Prop({ type: Boolean, required: true })
-  private availableSpectate!: boolean
+  private availableSpectate!: boolean;
 
   private get availableSpectateModel(): boolean {
-    return this.availableSpectate
+    return this.availableSpectate;
   }
 
   private set availableSpectateModel(val: boolean) {
-    this.$emit('update:availableSpectate', val)
+    this.$emit("update:availableSpectate", val);
   }
 
   /** openSkillInGrave */
   @Prop({ type: Boolean, required: true })
-  private openSkillInGrave!: boolean
+  private openSkillInGrave!: boolean;
 
   private get openSkillInGraveModel(): boolean {
-    return this.openSkillInGrave
+    return this.openSkillInGrave;
   }
 
   private set openSkillInGraveModel(val: boolean) {
-    this.$emit('update:openSkillInGrave', val)
+    this.$emit("update:openSkillInGrave", val);
   }
 
   /** visibleGraveMessage */
   @Prop({ type: Boolean, required: true })
-  private visibleGraveMessage!: boolean
+  private visibleGraveMessage!: boolean;
 
   private get visibleGraveMessageModel(): boolean {
-    return this.visibleGraveMessage
+    return this.visibleGraveMessage;
   }
 
   private set visibleGraveMessageModel(val: boolean) {
-    this.$emit('update:visibleGraveMessage', val)
+    this.$emit("update:visibleGraveMessage", val);
   }
 
   /** availableSuddelnyDeath */
   @Prop({ type: Boolean, required: true })
-  private availableSuddelnyDeath!: boolean
+  private availableSuddelnyDeath!: boolean;
 
   private get availableSuddelnyDeathModel(): boolean {
-    return this.availableSuddelnyDeath
+    return this.availableSuddelnyDeath;
   }
 
   private set availableSuddelnyDeathModel(val: boolean) {
-    this.$emit('update:availableSuddelnyDeath', val)
+    this.$emit("update:availableSuddelnyDeath", val);
   }
 
   /** availableCommit */
   @Prop({ type: Boolean, required: true })
-  private availableCommit!: boolean
+  private availableCommit!: boolean;
 
   private get availableCommitModel(): boolean {
-    return this.availableCommit
+    return this.availableCommit;
   }
 
   private set availableCommitModel(val: boolean) {
-    this.$emit('update:availableCommit', val)
+    this.$emit("update:availableCommit", val);
   }
 
   /** normalCount */
   @Prop({ type: String, required: true })
-  private normalCount!: string
+  private normalCount!: string;
 
   private get normalCountModel(): string {
-    return this.normalCount
+    return this.normalCount;
   }
 
   private set normalCountModel(val: string) {
-    this.$emit('update:normalCount', val)
+    this.$emit("update:normalCount", val);
   }
 
   /** normalLength */
   @Prop({ type: String, required: true })
-  private normalLength!: string
+  private normalLength!: string;
 
   private get normalLengthModel(): string {
-    return this.normalLength
+    return this.normalLength;
   }
 
   private set normalLengthModel(val: string) {
-    this.$emit('update:normalLength', val)
+    this.$emit("update:normalLength", val);
   }
 
   /** whisperCount */
   @Prop({ type: String, required: true })
-  private whisperCount!: string
+  private whisperCount!: string;
 
   private get whisperCountModel(): string {
-    return this.whisperCount
+    return this.whisperCount;
   }
 
   private set whisperCountModel(val: string) {
-    this.$emit('update:whisperCount', val)
+    this.$emit("update:whisperCount", val);
   }
 
   /** whisperLength */
   @Prop({ type: String, required: true })
-  private whisperLength!: string
+  private whisperLength!: string;
 
   private get whisperLengthModel(): string {
-    return this.whisperLength
+    return this.whisperLength;
   }
 
   private set whisperLengthModel(val: string) {
-    this.$emit('update:whisperLength', val)
+    this.$emit("update:whisperLength", val);
   }
 
   /** sympathizeCount */
   @Prop({ type: String, required: true })
-  private sympathizeCount!: string
+  private sympathizeCount!: string;
 
   private get sympathizeCountModel(): string {
-    return this.sympathizeCount
+    return this.sympathizeCount;
   }
 
   private set sympathizeCountModel(val: string) {
-    this.$emit('update:sympathizeCount', val)
+    this.$emit("update:sympathizeCount", val);
   }
 
   /** sympathizeLength */
   @Prop({ type: String, required: true })
-  private sympathizeLength!: string
+  private sympathizeLength!: string;
 
   private get sympathizeLengthModel(): string {
-    return this.sympathizeLength
+    return this.sympathizeLength;
   }
 
   private set sympathizeLengthModel(val: string) {
-    this.$emit('update:sympathizeLength', val)
+    this.$emit("update:sympathizeLength", val);
   }
 
   /** graveCount */
   @Prop({ type: String, required: true })
-  private graveCount!: string
+  private graveCount!: string;
 
   private get graveCountModel(): string {
-    return this.graveCount
+    return this.graveCount;
   }
 
   private set graveCountModel(val: string) {
-    this.$emit('update:graveCount', val)
+    this.$emit("update:graveCount", val);
   }
 
   /** graveLength */
   @Prop({ type: String, required: true })
-  private graveLength!: string
+  private graveLength!: string;
 
   private get graveLengthModel(): string {
-    return this.graveLength
+    return this.graveLength;
   }
 
   private set graveLengthModel(val: string) {
-    this.$emit('update:graveLength', val)
+    this.$emit("update:graveLength", val);
   }
 
   /** monologueCount */
   @Prop({ type: String, required: true })
-  private monologueCount!: string
+  private monologueCount!: string;
 
   private get monologueCountModel(): string {
-    return this.monologueCount
+    return this.monologueCount;
   }
 
   private set monologueCountModel(val: string) {
-    this.$emit('update:monologueCount', val)
+    this.$emit("update:monologueCount", val);
   }
 
   /** monologueLength */
   @Prop({ type: String, required: true })
-  private monologueLength!: string
+  private monologueLength!: string;
 
   private get monologueLengthModel(): string {
-    return this.monologueLength
+    return this.monologueLength;
   }
 
   private set monologueLengthModel(val: string) {
-    this.$emit('update:monologueLength', val)
+    this.$emit("update:monologueLength", val);
   }
 
   /** spectateCount */
   @Prop({ type: String, required: true })
-  private spectateCount!: string
+  private spectateCount!: string;
 
   private get spectateCountModel(): string {
-    return this.spectateCount
+    return this.spectateCount;
   }
 
   private set spectateCountModel(val: string) {
-    this.$emit('update:spectateCount', val)
+    this.$emit("update:spectateCount", val);
   }
 
   /** spectateLength */
   @Prop({ type: String, required: true })
-  private spectateLength!: string
+  private spectateLength!: string;
 
   private get spectateLengthModel(): string {
-    return this.spectateLength
+    return this.spectateLength;
   }
 
   private set spectateLengthModel(val: string) {
-    this.$emit('update:spectateLength', val)
+    this.$emit("update:spectateLength", val);
   }
 
   /** joinPassword */
   @Prop({ type: String, required: true })
-  private joinPassword!: string
+  private joinPassword!: string;
 
   private get joinPasswordModel(): string {
-    return this.joinPassword
+    return this.joinPassword;
   }
 
   private set joinPasswordModel(val: string) {
-    this.$emit('update:joinPassword', val)
+    this.$emit("update:joinPassword", val);
   }
 
   /** availableSecretSay */
   @Prop({ type: Boolean, required: true })
-  private availableSecretSay!: boolean
+  private availableSecretSay!: boolean;
 
   private get availableSecretSayModel(): boolean {
-    return this.availableSecretSay
+    return this.availableSecretSay;
   }
 
   private set availableSecretSayModel(val: boolean) {
-    this.$emit('update:availableSecretSay', val)
+    this.$emit("update:availableSecretSay", val);
   }
 
   /** availableAction */
   @Prop({ type: Boolean, required: true })
-  private availableAction!: boolean
+  private availableAction!: boolean;
 
   private get availableActionModel(): boolean {
-    return this.availableAction
+    return this.availableAction;
   }
 
   private set availableActionModel(val: boolean) {
-    this.$emit('update:availableAction', val)
+    this.$emit("update:availableAction", val);
   }
 
   /** actionCount */
   @Prop({ type: String, required: true })
-  private actionCount!: string
+  private actionCount!: string;
 
   private get actionCountModel(): string {
-    return this.actionCount
+    return this.actionCount;
   }
 
   private set actionCountModel(val: string) {
-    this.$emit('update:actionCount', val)
+    this.$emit("update:actionCount", val);
   }
 
   /** actionLength */
   @Prop({ type: String, required: true })
-  private actionLength!: string
+  private actionLength!: string;
 
   private get actionLengthModel(): string {
-    return this.actionLength
+    return this.actionLength;
   }
 
   private set actionLengthModel(val: string) {
-    this.$emit('update:actionLength', val)
+    this.$emit("update:actionLength", val);
   }
 
   @Prop({ type: String, required: true })
-  private saveLabel!: string
+  private saveLabel!: string;
 
   @Prop({ type: Boolean, required: false, default: true })
-  private modifiableChara!: boolean
+  private modifiableChara!: boolean;
 
   /** data */
-  private errors: string = ''
-  private confirming: boolean = false
-  private isOpenConfirmModal: boolean = false
-  private charachips: FormOption[] = []
-  private charas: Chara[] = []
-  private skills: Skill[] = []
+  private errors: string = "";
+  private confirming: boolean = false;
+  private isOpenConfirmModal: boolean = false;
+  private charachips: FormOption[] = [];
+  private charas: Chara[] = [];
+  private skills: Skill[] = [];
 
   /** computed */
   private get charachipName(): string {
-    const charachip = this.charachips.find(c => c.value === this.charachipId)
-    return charachip ? charachip.label : ''
+    return this.charachipIds
+      .map((id) => this.charachips.find((c) => c.value === id)?.label)
+      .join("、");
   }
 
   private get dummyCharaName(): string {
-    const chara = this.charas.find(c => c.id.toString() === this.dummyCharaId)
-    return chara ? chara.chara_name.name : ''
+    const chara = this.charas.find((c) => c.id.toString() === this.dummyCharaId);
+    return chara ? chara.chara_name.name : "";
   }
 
   /** methods */
   private async loadCharachips(): Promise<void> {
-    const charachips: Charachips = await this.$axios.$get('/charachip/list')
+    const charachips: Charachips = await this.$axios.$get("/charachip/list");
     this.charachips = charachips.list.map((charachip: Charachip) => ({
       key: charachip.id.toString(),
       label: charachip.name,
-      value: charachip.id.toString()
-    }))
+      value: charachip.id.toString(),
+    }));
   }
 
   private loadCharas(): void {
-    this.loadCharasByCharachipId(this.charachipId)
+    this.loadCharasByCharachipId(this.charachipIds);
   }
 
-  private async loadCharasByCharachipId(charachipId: string): Promise<void> {
-    const charachip: Charachip = await this.$axios.$get(
-      `/charachip/${charachipId}`
-    )
-    this.charas = charachip.chara_list
-    this.dummyCharaIdModel = charachip.chara_list[0].id.toString()
+  private async loadCharasByCharachipId(charachipIds: Array<string>): Promise<void> {
+    const charas: Charas = await this.$axios.$get(`/charas`, {
+      params: {
+        charachipIds,
+      },
+      paramsSerializer: (params) => qs.stringify(params, { arrayFormat: "repeat" }),
+    });
+    this.charas = charas.list;
+    this.dummyCharaIdModel = charas.list[0].id.toString();
   }
 
   private async loadSkills(): Promise<void> {
-    const skills: Skills = await this.$axios.$get('/skill/list')
-    this.skills = skills.list
+    const skills: Skills = await this.$axios.$get("/skill/list");
+    this.skills = skills.list;
   }
 
   private charaSelect({ charaId }): void {
-    this.dummyCharaId = charaId.toString()
+    this.dummyCharaId = charaId.toString();
   }
 
   private overrideGeneralOrg(): void {
     // @ts-ignore
-    this.organizationModel = this.$refs.org.createGeneralOrg()
+    this.organizationModel = this.$refs.org.createGeneralOrg();
   }
 
   private overrideOrgMinMax(org: string): void {
     // @ts-ignore
-    this.$refs.org.overrideOrgMinMax(org)
+    this.$refs.org.overrideOrgMinMax(org);
   }
 
   private async confirm() {
-    this.confirming = true
-    this.errors = ''
-    const self = this
-    await this.$emit('confirm', {
+    this.confirming = true;
+    this.errors = "";
+    const self = this;
+    await this.$emit("confirm", {
       param: this.registerParam,
-      errCb: err => {
-        toast.danger(self, 'エラーが発生しました。設定を確認してください。')
+      errCb: (err) => {
+        toast.danger(self, "エラーが発生しました。設定を確認してください。");
         if (self.isBusinessError(err)) {
-          self.errors = err.response.data.message
+          self.errors = err.response.data.message;
           window.scrollTo({
             top: 0,
-            behavior: 'smooth'
-          })
+            behavior: "smooth",
+          });
         }
-        self.confirming = false
+        self.confirming = false;
       },
       successCb: () => {
-        self.isOpenConfirmModal = true
-        self.confirming = false
-      }
-    })
+        self.isOpenConfirmModal = true;
+        self.confirming = false;
+      },
+    });
   }
 
   private async save() {
-    const self = this
-    await this.$emit('save', {
+    const self = this;
+    await this.$emit("save", {
       param: this.registerParam,
-      errCb: err => {
-        toast.danger(self, 'エラーが発生しました。設定を確認してください。')
-        console.log(err)
-      }
-    })
+      errCb: (err) => {
+        toast.danger(self, "エラーが発生しました。設定を確認してください。");
+        console.log(err);
+      },
+    });
   }
 
   private isBusinessError(err: any): boolean {
-    const code = parseInt(err.response && err.response.status)
+    const code = parseInt(err.response && err.response.status);
     return (
       code === 404 &&
       err.response.data.status === 499 &&
       err.response.data.message &&
       err.response.data.message.length > 0
-    )
+    );
   }
 
   private get registerParam(): Object {
     // @ts-ignore
-    const startDatetime = this.$dayjs(this.startDatetime).format(
-      'YYYY-MM-DDTHH:mm:ss'
-    )
+    const startDatetime = this.$dayjs(this.startDatetime).format("YYYY-MM-DDTHH:mm:ss");
     const organization: string = this.organization
-      .replace(/\r\n/, '\n')
-      .split('\n')
-      .map(line => {
-        return line.split('人：')[1]
+      .replace(/\r\n/, "\n")
+      .split("\n")
+      .map((line) => {
+        return line.split("人：")[1];
       })
-      .join('\n')
+      .join("\n");
 
     return {
       village_name: this.villageName,
       setting: {
         time: {
           start_datetime: startDatetime,
-          silent_hours: this.silentHours
+          silent_hours: this.silentHours,
         },
         organization: {
-          organization
+          organization,
         },
         charachip: {
           dummy_chara_id: parseInt(this.dummyCharaId),
-          charachip_id: parseInt(this.charachipId)
+          charachip_ids: this.charachipIds.map((id) => parseInt(id)),
         },
         rule: {
           open_vote: this.openVote,
@@ -829,43 +817,43 @@ export default class Setting extends Vue {
             {
               type: MESSAGE_TYPE.NORMAL_SAY,
               count: this.normalCount,
-              length: this.normalLength
+              length: this.normalLength,
             },
             {
               type: MESSAGE_TYPE.WEREWOLF_SAY,
               count: this.whisperCount,
-              length: this.whisperLength
+              length: this.whisperLength,
             },
             {
               type: MESSAGE_TYPE.SYMPATHIZE_SAY,
               count: this.sympathizeCount,
-              length: this.sympathizeLength
+              length: this.sympathizeLength,
             },
             {
               type: MESSAGE_TYPE.GRAVE_SAY,
               count: this.graveCount,
-              length: this.graveLength
+              length: this.graveLength,
             },
             {
               type: MESSAGE_TYPE.MONOLOGUE_SAY,
               count: this.monologueCount,
-              length: this.monologueLength
+              length: this.monologueLength,
             },
             {
               type: MESSAGE_TYPE.SPECTATE_SAY,
               count: this.spectateCount,
-              length: this.spectateLength
+              length: this.spectateLength,
             },
             {
               type: MESSAGE_TYPE.ACTION,
               count: this.actionCount,
-              length: this.actionLength
-            }
+              length: this.actionLength,
+            },
           ],
-          join_password: this.joinPassword
-        }
-      }
-    }
+          join_password: this.joinPassword,
+        },
+      },
+    };
   }
 }
 </script>
