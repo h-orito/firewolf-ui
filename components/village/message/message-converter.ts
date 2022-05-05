@@ -183,9 +183,30 @@ const convertToSayMessageSentences = (text: string): SayMessageSentence[] => {
     .map(splitedText => {
       return {
         is_anchor: regexps.some(reg => reg.test(splitedText)),
-        text: splitedText
+        text: convertToDecoratedText(splitedText)
       } as SayMessageSentence
     })
+}
+
+const colorRegex = /\[\[(#[0-9a-fA-F]{6})\]\](.*?)\[\[\/#\]\]/g
+const boldRegex = /\[\[b\]\](.*?)\[\[\/b\]\]/g
+const strikeRegex = /\[\[s\]\](.*?)\[\[\/s\]\]/g
+const largeRegex = /\[\[large\]\](.*?)\[\[\/large\]\]/g
+const smallRegex = /\[\[small\]\](.*?)\[\[\/small\]\]/g
+const rubyRegex = /\[\[ruby\]\](.*?)\[\[rt\]\](.*?)\[\[\/rt\]\]\[\[\/ruby\]\]/g
+
+const convertToDecoratedText = (text: string): string => {
+  let t = String(text)
+  t = t.replace(colorRegex, '<span style="color: $1">$2</span>')
+  t = t.replace(boldRegex, '<strong>$1</strong>')
+  t = t.replace(
+    strikeRegex,
+    '<span style="text-decoration: line-through;">$1</span>'
+  )
+  t = t.replace(largeRegex, '<span style="font-size: 150%;">$1</span>')
+  t = t.replace(smallRegex, '<span style="font-size: 80%;">$1</span>')
+  t = t.replace(rubyRegex, '<ruby>$1<rt>$2</rt></ruby>')
+  return t
 }
 
 export const convertToSystemMessage = (message: Message): SystemMessage => {
