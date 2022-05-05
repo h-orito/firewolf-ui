@@ -89,112 +89,112 @@
       <hr />
       <h2 class="title is-6">発言制限</h2>
       <notification>
-        <li>回数は0〜100（通常発言は1〜100）で設定できます。</li>
-        <li>文字数は1〜400で設定できます。</li>
+        <li>回数は0〜1000（通常発言は1〜1000）で設定できます。</li>
+        <li>文字数は1〜1000で設定できます。</li>
       </notification>
       <form-number
-        rules="required|max_value:100|min_value:1"
+        rules="required|max_value:1000|min_value:1"
         label-message="通常発言回数"
-        max="100"
+        max="1000"
         min="1"
         step="1"
         :input-value.sync="normalCountModel"
         class="m-b-5"
       />
       <form-number
-        rules="required|max_value:400|min_value:1"
+        rules="required|max_value:1000|min_value:1"
         label-message="通常発言文字数"
-        max="400"
+        max="1000"
         min="1"
         step="1"
         :input-value.sync="normalLengthModel"
         class="m-b-20"
       />
       <form-number
-        rules="required|max_value:100|min_value:0"
+        rules="required|max_value:1000|min_value:0"
         label-message="人狼の囁き回数"
-        max="100"
+        max="1000"
         min="0"
         step="1"
         :input-value.sync="whisperCountModel"
         class="m-b-5"
       />
       <form-number
-        rules="required|max_value:400|min_value:1"
+        rules="required|max_value:1000|min_value:1"
         label-message="人狼の囁き文字数"
-        max="400"
+        max="1000"
         min="1"
         step="1"
         :input-value.sync="whisperLengthModel"
         class="m-b-20"
       />
       <form-number
-        rules="required|max_value:100|min_value:0"
+        rules="required|max_value:1000|min_value:0"
         label-message="共鳴発言回数"
-        max="100"
+        max="1000"
         min="0"
         step="1"
         :input-value.sync="sympathizeCountModel"
         class="m-b-5"
       />
       <form-number
-        rules="required|max_value:400|min_value:1"
+        rules="required|max_value:1000|min_value:1"
         label-message="共鳴発言文字数"
-        max="400"
+        max="1000"
         min="1"
         step="1"
         :input-value.sync="sympathizeLengthModel"
         class="m-b-20"
       />
       <form-number
-        rules="required|max_value:100|min_value:0"
+        rules="required|max_value:1000|min_value:0"
         label-message="死者の呻き回数"
-        max="100"
+        max="1000"
         min="0"
         step="1"
         :input-value.sync="graveCountModel"
         class="m-b-5"
       />
       <form-number
-        rules="required|max_value:400|min_value:1"
+        rules="required|max_value:1000|min_value:1"
         label-message="死者の呻き文字数"
-        max="400"
+        max="1000"
         min="1"
         step="1"
         :input-value.sync="graveLengthModel"
         class="m-b-20"
       />
       <form-number
-        rules="required|max_value:100|min_value:0"
+        rules="required|max_value:1000|min_value:0"
         label-message="独り言回数"
-        max="100"
+        max="1000"
         min="0"
         step="1"
         :input-value.sync="monologueCountModel"
         class="m-b-5"
       />
       <form-number
-        rules="required|max_value:400|min_value:0"
+        rules="required|max_value:1000|min_value:0"
         label-message="独り言文字数"
-        max="400"
+        max="1000"
         min="1"
         step="1"
         :input-value.sync="monologueLengthModel"
         class="m-b-20"
       />
       <form-number
-        rules="required|max_value:100|min_value:0"
+        rules="required|max_value:1000|min_value:0"
         label-message="見学発言回数"
-        max="100"
+        max="1000"
         min="0"
         step="1"
         :input-value.sync="spectateCountModel"
         class="m-b-5"
       />
       <form-number
-        rules="required|max_value:400|min_value:0"
+        rules="required|max_value:1000|min_value:0"
         label-message="見学発言文字数"
-        max="400"
+        max="1000"
         min="1"
         step="1"
         :input-value.sync="spectateLengthModel"
@@ -223,18 +223,18 @@
         :input-value.sync="availableAction"
       />
       <form-number
-        rules="required|max_value:100|min_value:0"
+        rules="required|max_value:1000|min_value:0"
         label-message="アクション回数"
-        max="100"
+        max="1000"
         min="0"
         step="1"
         :input-value.sync="actionCountModel"
         class="m-b-5"
       />
       <form-number
-        rules="required|max_value:400|min_value:1"
+        rules="required|max_value:1000|min_value:1"
         label-message="アクション文字数"
-        max="400"
+        max="1000"
         min="1"
         step="1"
         :input-value.sync="actionLengthModel"
@@ -670,6 +670,10 @@ export default class Setting extends Vue {
 
   private get actionLengthModel(): string {
     return this.actionLength
+  }
+
+  private set actionLengthModel(val: string) {
+    this.$emit('update:actionLength', val)
   }
 
   @Prop({ type: String, required: true })
