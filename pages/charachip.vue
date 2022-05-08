@@ -78,7 +78,7 @@ export default class CharachipDetail extends Vue {
   async created() {
     // キャラチップ
     this.loadingCharachip = true
-    this.charachip = await this.$axios.$get(`/charachip/${this.charachipId}`)
+    this.charachip = await this.$axios.$get(`/charachips/${this.charachipId}`)
     this.loadingCharachip = false
   }
 }
