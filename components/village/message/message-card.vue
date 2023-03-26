@@ -36,6 +36,7 @@
         :is-disp-date="isDispDate"
         :is-img-large="isImgLarge"
         @click-anchor="clickAnchorMessage($event)"
+        @paste-message-input="$emit('paste-message-input', $event)"
       ></message-card>
       <message-participant-list
         v-if="message.content.type.code === 'PARTICIPANTS'"
