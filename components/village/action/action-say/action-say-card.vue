@@ -14,6 +14,9 @@
           }}</a>
         </div>
         <div class="content has-text-left m-b-5">
+          <notification v-if="!isAlive" type="default" class="m-b-10">
+            アクションは生存者も参照できるため、推理発言しないよう注意ください。
+          </notification>
           <div class="myself-area">
             <div class="myself-name-area">
               <p>{{ charaName }}は、</p>
@@ -88,9 +91,11 @@ import api from '~/components/village/village-api'
 import toast from '~/components/village/village-toast'
 import villageUserSettings from '~/components/village/user-settings/village-user-settings'
 const modalSay = () => import('~/components/village/action/say/modal-say.vue')
+const notification = () =>
+  import('~/components/village/village-notification.vue')
 
 @Component({
-  components: { actionCard, messageTextInput, modalSay }
+  components: { actionCard, messageTextInput, modalSay, notification }
 })
 export default class ActionSay extends Vue {
   // ----------------------------------------------------------------

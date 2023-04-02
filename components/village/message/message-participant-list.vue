@@ -18,13 +18,14 @@
             <div class="chara-name">
               <p>{{ charaName(participant) }}</p>
               <p class="twitter-username">
-                <a
+                {{ participant.player.nickname
+                }}<a
+                  v-if="participant.player.twitter_user_name"
                   :href="
                     `https://twitter.com/${participant.player.twitter_user_name}`
                   "
                   target="_blank"
-                >
-                  @{{ participant.player.twitter_user_name }}
+                  >@{{ participant.player.twitter_user_name }}
                 </a>
               </p>
               <p class="chara-status" :class="charaStatusClass(participant)">
