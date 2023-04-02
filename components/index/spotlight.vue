@@ -6,17 +6,6 @@
         勝つのは<br /><span class="spotlight-strong">人</span>か
         <span class="spotlight-strong">狼</span>か
       </p>
-      <b-button
-        v-if="!isLogin"
-        type="is-white"
-        icon-pack="fab"
-        icon-left="twitter"
-        outlined
-        class="spotlight-signin-button spotlight-shadow"
-        @click="$emit('signin')"
-      >
-        <strong>Sign in</strong>
-      </b-button>
     </div>
     <div
       class="spotlight-mobile has-text-left is-block-mobile is-hidden-tablet"
