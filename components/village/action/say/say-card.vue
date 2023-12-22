@@ -37,6 +37,7 @@
                 :native-value="messageTypeSituation.message_type.code"
                 type="is-primary"
                 size="is-small"
+                @input="setDefaultFaceType()"
               >
                 <span>{{ messageTypeSituation.message_type.name }}</span>
               </b-radio-button>
@@ -57,7 +58,9 @@
             </div>
             <div class="say-content-area">
               <div class="say-face-area">
-                <chara-image :chara="chara" :face-type="faceTypeCode" />
+                <div @click="openFaceModal">
+                  <chara-image :chara="chara" :face-type="faceTypeCode" />
+                </div>
               </div>
               <div class="say-input-area">
                 <message-input
@@ -89,6 +92,13 @@
       @close="closeSayModal"
       @say="say"
     />
+    <face-select-modal
+      :is-open="isFaceModalOpen"
+      :chara="chara"
+      :face-list="selectableFaceType"
+      @face-select="selectedFaceType($event)"
+      @close="closeFaceModal"
+    />
   </div>
 </template>
 
@@ -106,13 +116,23 @@ import { FACE_TYPE, MESSAGE_TYPE } from '~/components/const/consts'
 import api from '~/components/village/village-api'
 import toast from '~/components/village/village-toast'
 import villageUserSettings from '~/components/village/user-settings/village-user-settings'
+import CharaFace from '~/components/type/chara-face'
 const modalSay = () => import('~/components/village/action/say/modal-say.vue')
 const charaImage = () => import('~/components/village/chara-image.vue')
+const faceSelectModal = () =>
+  import('~/components/village/action/say/face-select-modal.vue')
 const notification = () =>
   import('~/components/village/village-notification.vue')
 
 @Component({
-  components: { actionCard, messageInput, modalSay, charaImage, notification }
+  components: {
+    actionCard,
+    messageInput,
+    modalSay,
+    charaImage,
+    faceSelectModal,
+    notification
+  }
 })
 export default class Say extends Vue {
   // ----------------------------------------------------------------
@@ -128,8 +148,11 @@ export default class Say extends Vue {
   ])
 
   private messageType: string = this.situation.say.default_message_type!.code
+  private faceTypeCode: string = FACE_TYPE.NORMAL
+
   private message: string = ''
   private isSayModalOpen: boolean = false
+  private isFaceModalOpen: boolean = false
   private isFixed: boolean = villageUserSettings.getActionWindow(this).is_fixed!
   private id: string = 'say-aria-id'
   private isOpen: boolean =
@@ -174,17 +197,8 @@ export default class Say extends Vue {
     return this.myself.skill!.description.replaceAll('。', '。\n')
   }
 
-  private get faceTypeCode(): string {
-    const expectedFaceType = this.messageTypeFaceTypeMap.get(this.messageType)
-    if (expectedFaceType == null) return FACE_TYPE.NORMAL
-    if (
-      this.situation.participate.myself!.chara.face_list.some(
-        face => face.type === expectedFaceType
-      )
-    ) {
-      return expectedFaceType
-    }
-    return FACE_TYPE.NORMAL
+  private get selectableFaceType(): Array<CharaFace> {
+    return this.situation.participate.myself!.chara.face_list
   }
 
   private get chara(): Chara {
@@ -302,6 +316,40 @@ export default class Say extends Vue {
       paddingBottom
     })
   }
+
+  private defaultFaceTypeCode(messageType: string): string {
+    const expectedFaceType = this.messageTypeFaceTypeMap.get(messageType)
+    if (expectedFaceType == null) return FACE_TYPE.NORMAL
+    if (
+      this.situation.participate.myself!.chara.face_list.some(
+        face => face.type === expectedFaceType
+      )
+    ) {
+      return expectedFaceType
+    }
+    return FACE_TYPE.NORMAL
+  }
+
+  private setDefaultFaceType(): void {
+    this.faceTypeCode = this.defaultFaceTypeCode(this.messageType)
+  }
+
+  private openFaceModal(): void {
+    this.isFaceModalOpen = true
+  }
+
+  private closeFaceModal(): void {
+    this.isFaceModalOpen = false
+  }
+
+  private selectedFaceType({ type }: { type: string }): void {
+    this.faceTypeCode = type
+    this.closeFaceModal()
+  }
+
+  mounted() {
+    this.faceTypeCode = this.defaultFaceTypeCode(this.messageType)
+  }
 }
 </script>
 
@@ -340,6 +388,10 @@ export default class Say extends Vue {
 
     .say-face-area {
       padding-right: 5px;
+
+      img {
+        cursor: pointer;
+      }
     }
 
     .say-input-area {
@@ -347,9 +399,6 @@ export default class Say extends Vue {
     }
   }
 }
-</style>
-
-<style lang="scss">
 .dark-theme {
   .b-radio.button {
     border: 1px solid $primary-dark;
