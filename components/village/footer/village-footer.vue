@@ -92,12 +92,14 @@ export default class VillageFooter extends Vue {
   private async filter({
     messageTypeList,
     participantIdList,
+    toParticipantIdList,
     keyword
   }): Promise<void> {
     this.$emit('hide-slider')
     await this.$emit('filter', {
       messageTypeList,
       participantIdList,
+      toParticipantIdList,
       keyword
     })
     this.closeFilterModal()

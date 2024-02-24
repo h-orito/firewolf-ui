@@ -110,7 +110,7 @@
           </b-field>
         </section>
         <section class="m-t-20">
-          <p style="font-weight: 700; margin-bottom: 6px;">キャラ</p>
+          <p style="font-weight: 700; margin-bottom: 6px;">発言者</p>
           <b-field>
             <a @click="allParticipantOn">全てON</a>
             &nbsp;/&nbsp;
@@ -157,6 +157,47 @@
             />
           </b-field>
         </section>
+        <section class="m-t-20">
+          <p style="font-weight: 700; margin-bottom: 6px;">宛先</p>
+          <b-field>
+            <a @click="allToParticipantOn">全てON</a>
+            &nbsp;/&nbsp;
+            <a @click="allToParticipantOff">全てOFF</a>
+            &nbsp;/&nbsp;
+            <a @click="reverseToParticipant">反転</a>
+            <span v-if="!!myself">
+              &nbsp;/&nbsp;<a @click="toMyParticipant">自分宛</a>
+            </span>
+          </b-field>
+          <div
+            v-for="chunkParticipants in chunk(participantList, 2)"
+            :key="chunkParticipants[0].id"
+            class="columns m-l-0 m-r-0 is-mobile"
+          >
+            <div
+              v-for="participant in chunkParticipants"
+              :key="participant.id"
+              class="participant-checkbox-area column is-6"
+            >
+              <b-checkbox
+                v-model="toParticipantIdGroup"
+                :native-value="participant.id"
+                size="is-small"
+              >
+                <div class="participant-area">
+                  <div class="face-area m-r-5">
+                    <chara-image :chara="participant.chara" :is-small="true" />
+                  </div>
+                  <div class="name-area is-size-7">
+                    <p class="chara-name">
+                      {{ participant.chara.chara_name.full_name }}
+                    </p>
+                  </div>
+                </div>
+              </b-checkbox>
+            </div>
+          </div>
+        </section>
       </section>
       <footer
         class="modal-card-foot"
@@ -187,6 +228,7 @@ import Village from '~/components/type/village'
 import VillageParticipant from '~/components/type/village-participant'
 import Chara from '~/components/type/chara'
 import { MESSAGE_TYPE, FACE_TYPE } from '~/components/const/consts'
+import SituationAsParticipant from '~/components/type/situation-as-participant'
 const charaImage = () => import('~/components/village/chara-image.vue')
 
 @Component({
@@ -247,6 +289,7 @@ export default class ModalFilter extends Vue {
   // ----------------------------------------------------------------
   private messageTypeCodeGroup: string[] = this.allMessageTypeGroup
   private participantIdGroup: number[] = []
+  private toParticipantIdGroup: number[] = []
   private keyword: string | null = null
 
   // ----------------------------------------------------------------
@@ -254,6 +297,14 @@ export default class ModalFilter extends Vue {
   // ----------------------------------------------------------------
   private get village(): Village | null {
     return this.$store.getters.getVillage
+  }
+
+  private get situation(): SituationAsParticipant {
+    return this.$store.getters.getSituation!
+  }
+
+  private get myself(): VillageParticipant | null {
+    return this.situation?.participate.myself ?? null
   }
 
   private get messageTypeList(): string[] {
@@ -281,6 +332,9 @@ export default class ModalFilter extends Vue {
       (this.participantIdGroup.length !== 0 &&
         this.participantIdGroup.length !==
           this.village!.participant.count + this.village.spectator.count) ||
+      (this.toParticipantIdGroup.length !== 0 &&
+        this.toParticipantIdGroup.length !==
+          this.village!.participant.count + this.village.spectator.count) ||
       (this.keyword != null && this.keyword.length > 0)
     )
   }
@@ -297,10 +351,15 @@ export default class ModalFilter extends Vue {
     if (participantIdList.length === this.allParticipantIdList.length) {
       participantIdList = []
     }
+    let toParticipantIdList = this.toParticipantIdGroup
+    if (toParticipantIdList.length === this.allParticipantIdList.length) {
+      toParticipantIdList = []
+    }
     const keyword = this.keyword
     await this.$emit('filter', {
       messageTypeList,
       participantIdList,
+      toParticipantIdList,
       keyword
     })
     this.$store.dispatch('STORE_FILTERING', {
@@ -311,6 +370,7 @@ export default class ModalFilter extends Vue {
   private refresh(): void {
     this.messageTypeCodeGroup = this.allMessageTypeGroup
     this.participantIdGroup = this.allParticipantIdList
+    this.toParticipantIdGroup = this.allParticipantIdList
     this.keyword = null
     this.filter()
   }
@@ -352,6 +412,26 @@ export default class ModalFilter extends Vue {
     this.participantIdGroup = this.allParticipantIdList.filter(id => {
       return !this.participantIdGroup.includes(id)
     })
+  }
+
+  private allToParticipantOn(): void {
+    this.toParticipantIdGroup = this.allParticipantIdList
+  }
+
+  private allToParticipantOff(): void {
+    this.toParticipantIdGroup = []
+  }
+
+  private reverseToParticipant(): void {
+    this.toParticipantIdGroup = this.allParticipantIdList.filter(id => {
+      return !this.toParticipantIdGroup.includes(id)
+    })
+  }
+
+  private toMyParticipant(): void {
+    if (this.myself) {
+      this.toParticipantIdGroup = [this.myself.id]
+    }
   }
 
   private chunk<T extends any[]>(arr: T, size: number): Array<Array<T>> {

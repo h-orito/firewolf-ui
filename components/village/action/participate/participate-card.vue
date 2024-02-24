@@ -191,8 +191,11 @@ export default class Participate extends Vue {
       )
       this.isParticipateModalOpen = true
     } catch (error) {
+      // @ts-ignore
       const code = parseInt(error.response && error.response.status)
+      // @ts-ignore
       if (code === 404 && error.response.data.status === 499) {
+        // @ts-ignore
         toast.danger(this, error.response.data.message)
       }
     }
