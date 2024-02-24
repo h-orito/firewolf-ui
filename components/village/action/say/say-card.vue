@@ -108,6 +108,7 @@
       @close="closeFaceModal"
     />
     <b-modal
+      v-if="isDispSecretsayTargetArea"
       :active.sync="isParticipantSelectModalOpen"
       has-modal-card
       trap-focus
