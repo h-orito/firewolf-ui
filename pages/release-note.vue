@@ -4,6 +4,8 @@
       <h1 class="title is-5">更新情報</h1>
       <div class="content">
         <ul class="has-text-left is-size-7">
+          <li>2024/02/24 秘話先を画像で選択できるよう機能追加</li>
+          <li>2024/02/24 発言抽出に宛先を追加</li>
           <li>2023/12/22 表情差分を自由に選択できるよう変更</li>
           <li>
             2023/06/13

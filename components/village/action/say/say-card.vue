@@ -55,6 +55,14 @@
                   >{{ participant.chara.chara_name.full_name }}</option
                 >
               </b-select>
+              <p class="control">
+                <button
+                  class="button is-primary is-small"
+                  @click="openParticipantSelectModal"
+                >
+                  画像で選択
+                </button>
+              </p>
             </div>
             <div class="say-content-area">
               <div class="say-face-area">
@@ -99,6 +107,18 @@
       @face-select="selectedFaceType($event)"
       @close="closeFaceModal"
     />
+    <b-modal
+      :active.sync="isParticipantSelectModalOpen"
+      has-modal-card
+      trap-focus
+      aria-role="dialog"
+      aria-modal
+    >
+      <participant-select-modal
+        :participant-list="secretsayTargets"
+        @participant-select="participantSelect($event)"
+      />
+    </b-modal>
   </div>
 </template>
 
@@ -121,6 +141,8 @@ const modalSay = () => import('~/components/village/action/say/modal-say.vue')
 const charaImage = () => import('~/components/village/chara-image.vue')
 const faceSelectModal = () =>
   import('~/components/village/action/say/face-select-modal.vue')
+const participantSelectModal = () =>
+  import('~/components/village/action/say/participant-select-modal.vue')
 const notification = () =>
   import('~/components/village/village-notification.vue')
 
@@ -131,6 +153,7 @@ const notification = () =>
     modalSay,
     charaImage,
     faceSelectModal,
+    participantSelectModal,
     notification
   }
 })
@@ -153,6 +176,7 @@ export default class Say extends Vue {
   private message: string = ''
   private isSayModalOpen: boolean = false
   private isFaceModalOpen: boolean = false
+  private isParticipantSelectModalOpen: boolean = false
   private isFixed: boolean = villageUserSettings.getActionWindow(this).is_fixed!
   private id: string = 'say-aria-id'
   private isOpen: boolean =
@@ -345,6 +369,23 @@ export default class Say extends Vue {
   private selectedFaceType({ type }: { type: string }): void {
     this.faceTypeCode = type
     this.closeFaceModal()
+  }
+
+  private openParticipantSelectModal(): void {
+    this.isParticipantSelectModalOpen = true
+  }
+
+  private closeParticipantSelectModal(): void {
+    this.isParticipantSelectModalOpen = false
+  }
+
+  private participantSelect({
+    participantId
+  }: {
+    participantId: number
+  }): void {
+    this.targetParticipantId = participantId
+    this.closeParticipantSelectModal()
   }
 
   mounted() {

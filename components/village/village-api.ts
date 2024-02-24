@@ -24,11 +24,13 @@ const api = {
     currentPageNum: number | null,
     messageTypeFilter: string[] | null,
     participantIdFilter: number[] | null,
+    toParticipantIdFilter: number[] | null,
     keywordFilter: string | null
   ): Promise<Messages> {
     const params: any = {
       message_type_list: messageTypeFilter,
       participant_id_list: participantIdFilter,
+      to_participant_id_list: toParticipantIdFilter,
       keyword: keywordFilter
     }
     const pagingSetting = villageUserSettings.getPaging(app)

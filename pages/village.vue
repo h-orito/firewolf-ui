@@ -194,6 +194,8 @@ export default class extends Vue {
   private messageTypeFilter: string[] | null = null
   /** 発言抽出：参加者 */
   private participantIdFilter: number[] | null = null
+  /** 発言抽出：宛先 */
+  private toParticipantIdFilter: number[] | null = null
   /** 発言抽出：キーワード */
   private keywordFilter: string | null = null
   /** サイドバー */
@@ -350,6 +352,7 @@ export default class extends Vue {
         this.currentPageNum,
         this.messageTypeFilter,
         this.participantIdFilter,
+        this.toParticipantIdFilter,
         this.keywordFilter
       )
     })
@@ -440,10 +443,12 @@ export default class extends Vue {
   private async filter({
     messageTypeList,
     participantIdList,
+    toParticipantIdList,
     keyword
   }): Promise<void> {
     this.messageTypeFilter = messageTypeList
     this.participantIdFilter = participantIdList
+    this.toParticipantIdFilter = toParticipantIdList
     this.keywordFilter = keyword
     await this.loadMessage()
   }
