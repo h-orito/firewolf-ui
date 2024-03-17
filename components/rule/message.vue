@@ -158,7 +158,8 @@ export default class RuleMessage extends Vue {
         win: null,
         comming_outs: {
           list: []
-        }
+        },
+        notification: null
       },
       to: null,
       time: {

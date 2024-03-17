@@ -1,3 +1,4 @@
+import VillageParticipantNotificationCondition from './village-participant-notification-condition'
 import Player from '~/components/type/player'
 import Chara from '~/components/type/chara'
 import Dead from '~/components/type/dead'
@@ -15,6 +16,7 @@ interface VillageParticipant {
   skill_request: SkillRequest | null
   win: boolean | null
   comming_outs: ComingOuts
+  notification: VillageParticipantNotificationCondition | null
 }
 
 export default VillageParticipant
