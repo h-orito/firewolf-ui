@@ -229,6 +229,30 @@ const api = {
     return app.$axios.$post(`/village/${villageId}/vote`, {
       target_id: targetId
     })
+  },
+
+  postNotificationSetting(
+    app: Vue,
+    villageId: number,
+    webhookUrl: string,
+    villageStart: boolean,
+    villageDaychange: boolean,
+    villageEpilogue: boolean,
+    secretSay: boolean,
+    abilitySay: boolean,
+    achrorSay: boolean,
+    keyword: string
+  ): Promise<void> {
+    return app.$axios.$post(`/village/${villageId}/notification-setting`, {
+      webhook_url: webhookUrl,
+      village_start: villageStart,
+      village_daychange: villageDaychange,
+      village_epilogue: villageEpilogue,
+      secret_say: secretSay,
+      ability_say: abilitySay,
+      anchor_say: achrorSay,
+      keyword
+    })
   }
 }
 
