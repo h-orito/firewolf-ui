@@ -10,7 +10,15 @@
         <div class="content has-text-left">
           <div v-if="situation.creator.available_creator_say" class="m-b-20">
             <p style="font-weight: 700; margin-bottom: 6px;">村建て発言</p>
-            <creator-message-input v-model="message" ref="messageInput" />
+            <message-decorators
+              selector="#creator-message-input"
+              @decorate-message="message = $event"
+            />
+            <creator-message-input
+              id="creator-message-input"
+              v-model="message"
+              ref="messageInput"
+            />
             <div class="has-text-right">
               <b-button
                 :disabled="!canSay"
@@ -115,9 +123,11 @@ import Message from '~/components/type/message'
 import villageUserSettings from '~/components/village/user-settings/village-user-settings'
 // dynamic imports
 const modalSay = () => import('~/components/village/action/say/modal-say.vue')
+const messageDecorators = () =>
+  import('~/components/village/action/decorator/message-decorators.vue')
 
 @Component({
-  components: { actionCard, creatorMessageInput, modalSay }
+  components: { actionCard, creatorMessageInput, modalSay, messageDecorators }
 })
 export default class VillageCreator extends Vue {
   // ----------------------------------------------------------------

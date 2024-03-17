@@ -1,6 +1,7 @@
 <template>
   <section>
     <b-input
+      :id="id"
       size="is-small"
       type="textarea"
       :rows="rowSize"
@@ -23,6 +24,9 @@ import { MESSAGE_TYPE } from '~/components/const/consts'
   components: {}
 })
 export default class MessageInput extends Vue {
+  @Prop({ type: String })
+  private id!: string
+
   @Prop({ type: String })
   private value!: string
 

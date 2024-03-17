@@ -64,6 +64,10 @@
                 </button>
               </p>
             </div>
+            <message-decorators
+              selector="#say-message-input"
+              @decorate-message="message = $event"
+            />
             <div class="say-content-area">
               <div class="say-face-area">
                 <div @click="openFaceModal">
@@ -72,6 +76,7 @@
               </div>
               <div class="say-input-area">
                 <message-input
+                  id="say-message-input"
                   v-model="message"
                   :message-type="messageType"
                   :situation="situation.say"
@@ -146,6 +151,8 @@ const participantSelectModal = () =>
   import('~/components/village/action/say/participant-select-modal.vue')
 const notification = () =>
   import('~/components/village/village-notification.vue')
+const messageDecorators = () =>
+  import('~/components/village/action/decorator/message-decorators.vue')
 
 @Component({
   components: {
@@ -155,7 +162,8 @@ const notification = () =>
     charaImage,
     faceSelectModal,
     participantSelectModal,
-    notification
+    notification,
+    messageDecorators
   }
 })
 export default class Say extends Vue {
