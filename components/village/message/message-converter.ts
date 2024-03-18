@@ -20,13 +20,9 @@ export interface SayMessage {
   datetime: string
   chara: Chara
   face_type_code: string
-  message_lines: SayMessageLine[]
+  message_text: string
   can_reply: boolean
   can_secret: boolean
-}
-
-export interface SayMessageLine {
-  sentences: SayMessageSentence[]
 }
 
 export interface SayMessageSentence {
@@ -44,13 +40,13 @@ export interface ActionMessage {
   day: number
   datetime: string
   chara: Chara
-  message_lines: SayMessageLine[]
+  message_text: string
 }
 
 export interface SystemMessage {
   unix_time_milli: number // idに使う
   message_class: string
-  message_lines: SayMessageLine[]
+  message_text: string
 }
 
 export const convertToSayMessage = (
@@ -95,7 +91,7 @@ export const convertToSayMessage = (
       : message.time.datetime.substring(11),
     chara: message.from!.chara,
     face_type_code: message.content.face_code,
-    message_lines: convertToSayMessageLines(message.content.text),
+    message_text: convertToMessageText(message.content.text),
     can_reply: canReply && isDispAnchor,
     can_secret: canSecret
   } as SayMessage
@@ -127,7 +123,7 @@ export const convertToActionMessage = (
       ? message.time.datetime
       : message.time.datetime.substring(11),
     chara: message.from!.chara,
-    message_lines: convertToSayMessageLines(message.content.text)
+    message_text: convertToMessageText(message.content.text)
   } as ActionMessage
 }
 
@@ -158,19 +154,6 @@ const createAnchorCopyString = (
   return shortName + anchorString
 }
 
-const convertToSayMessageLines = (text: string): SayMessageLine[] => {
-  return splitBr(text)
-    .map(lineText => escapeHtml(lineText))
-    .map(lineText => {
-      return {
-        sentences: convertToSayMessageSentences(lineText)
-      } as SayMessageLine
-    })
-}
-
-const splitBr = (text: string): string[] =>
-  text.replace(/(\r\n|\n|\r)/gm, '<br>').split('<br>')
-
 const escapeHtml = (text: string): string => {
   return text
     .replace(/&/g, '&amp;')
@@ -180,28 +163,16 @@ const escapeHtml = (text: string): string => {
     .replace(/'/g, '&#39;')
 }
 
-const convertToSayMessageSentences = (text: string): SayMessageSentence[] => {
-  // アンカーとそれ以外で分割
-  let splitedTexts: string[] = [text]
-  regexps.forEach(regex => {
-    splitedTexts = appendSplit(splitedTexts, regex)
-  })
-  return splitedTexts
-    .filter(mes => mes !== '')
-    .map(splitedText => {
-      return {
-        is_anchor: regexps.some(reg => reg.test(splitedText)),
-        text: convertToDecoratedText(splitedText)
-      } as SayMessageSentence
-    })
+const convertToMessageText = (text: string): string => {
+  return convertToAnchorTag(convertToDecoratedText(escapeHtml(text)))
 }
 
-const colorRegex = /\[\[(#[0-9a-fA-F]{6})\]\](.*?)\[\[\/#\]\]/g
-const boldRegex = /\[\[b\]\](.*?)\[\[\/b\]\]/g
-const strikeRegex = /\[\[s\]\](.*?)\[\[\/s\]\]/g
-const largeRegex = /\[\[large\]\](.*?)\[\[\/large\]\]/g
-const smallRegex = /\[\[small\]\](.*?)\[\[\/small\]\]/g
-const rubyRegex = /\[\[ruby\]\](.*?)\[\[rt\]\](.*?)\[\[\/rt\]\]\[\[\/ruby\]\]/g
+const colorRegex = /\[\[(#[0-9a-fA-F]{6})\]\]([\s\S]*?)\[\[\/#\]\]/g
+const boldRegex = /\[\[b\]\]([\s\S]*?)\[\[\/b\]\]/g
+const strikeRegex = /\[\[s\]\]([\s\S]*?)\[\[\/s\]\]/g
+const largeRegex = /\[\[large\]\]([\s\S]*?)\[\[\/large\]\]/g
+const smallRegex = /\[\[small\]\]([\s\S]*?)\[\[\/small\]\]/g
+const rubyRegex = /\[\[ruby\]\]([\s\S]*?)\[\[rt\]\]([\s\S]*?)\[\[\/rt\]\]\[\[\/ruby\]\]/g
 
 const convertToDecoratedText = (text: string): string => {
   let t = String(text)
@@ -221,48 +192,49 @@ export const convertToSystemMessage = (message: Message): SystemMessage => {
   return {
     unix_time_milli: message.time.unix_time_milli,
     message_class: systemMessageClassMap.get(message.content.type.code) || '',
-    message_lines: convertToSayMessageLines(message.content.text)
+    message_text: convertToMessageText(message.content.text)
   } as SystemMessage
 }
 
-const regexps: RegExp[] = [
-  /(&gt;&gt;\d{1,5})/,
-  /(&gt;&gt;\+\d{1,5})/,
-  /(&gt;&gt;=\d{1,5})/,
-  /(&gt;&gt;@\d{1,5})/,
-  /(&gt;&gt;-\d{1,5})/,
-  /(&gt;&gt;\*\d{1,5})/,
-  /(&gt;&gt;#\d{1,5})/,
-  /(&gt;&gt;a\d{1,5})/,
-  /(&gt;&gt;s\d{1,5})/
+const anchorRegexps: RegExp[] = [
+  /(&gt;&gt;\d{1,5})/g,
+  /(&gt;&gt;\+\d{1,5})/g,
+  /(&gt;&gt;=\d{1,5})/g,
+  /(&gt;&gt;@\d{1,5})/g,
+  /(&gt;&gt;-\d{1,5})/g,
+  /(&gt;&gt;\*\d{1,5})/g,
+  /(&gt;&gt;#\d{1,5})/g,
+  /(&gt;&gt;a\d{1,5})/g,
+  /(&gt;&gt;s\d{1,5})/g
 ]
 
-const appendSplit = (array: string[], regex: RegExp): string[] => {
-  let splitedMessages: string[] = []
-  array.slice().forEach(mes => {
-    splitedMessages = splitedMessages.concat(mes.split(regex))
+const convertToAnchorTag = (text: string): string => {
+  let t = String(text)
+  anchorRegexps.forEach(regex => {
+    t = t.replace(regex, '<a href="javascript:void(0);" class="anchor">$1</a>')
   })
-  return splitedMessages
+  return t
 }
 
 export const getAnchorType = (mes: string): string | null => {
-  if (mes.match(/(&gt;&gt;\d{1,5})/)) {
+  const text = escapeHtml(mes)
+  if (text.match(/(&gt;&gt;\d{1,5})/)) {
     return MESSAGE_TYPE.NORMAL_SAY
-  } else if (mes.match(/(&gt;&gt;-\d{1,5})/)) {
+  } else if (text.match(/(&gt;&gt;-\d{1,5})/)) {
     return MESSAGE_TYPE.MONOLOGUE_SAY
-  } else if (mes.match(/(&gt;&gt;\*\d{1,5})/)) {
+  } else if (text.match(/(&gt;&gt;\*\d{1,5})/)) {
     return MESSAGE_TYPE.WEREWOLF_SAY
-  } else if (mes.match(/(&gt;&gt;\+\d{1,5})/)) {
+  } else if (text.match(/(&gt;&gt;\+\d{1,5})/)) {
     return MESSAGE_TYPE.GRAVE_SAY
-  } else if (mes.match(/(&gt;&gt;=\d{1,5})/)) {
+  } else if (text.match(/(&gt;&gt;=\d{1,5})/)) {
     return MESSAGE_TYPE.SYMPATHIZE_SAY
-  } else if (mes.match(/(&gt;&gt;@\d{1,5})/)) {
+  } else if (text.match(/(&gt;&gt;@\d{1,5})/)) {
     return MESSAGE_TYPE.SPECTATE_SAY
-  } else if (mes.match(/(&gt;&gt;#\d{1,5})/)) {
+  } else if (text.match(/(&gt;&gt;#\d{1,5})/)) {
     return MESSAGE_TYPE.CREATOR_SAY
-  } else if (mes.match(/(&gt;&gt;a\d{1,5})/)) {
+  } else if (text.match(/(&gt;&gt;a\d{1,5})/)) {
     return MESSAGE_TYPE.ACTION
-  } else if (mes.match(/(&gt;&gt;s\d{1,5})/)) {
+  } else if (text.match(/(&gt;&gt;s\d{1,5})/)) {
     return MESSAGE_TYPE.SECRET_SAY
   }
   return null

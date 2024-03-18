@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :id="`mc-${message.time.unix_time_milli}`">
     <div class="card" :class="isDarkTheme ? 'dark-theme' : ''">
       <message-say
         v-if="isSayType"
@@ -248,6 +248,28 @@ export default class MessageCard extends Vue {
 
   private clearAnchorMessages(): void {
     this.anchorMessages = []
+  }
+
+  private removeFunctions: any[] = []
+  private mounted() {
+    this.$nextTick(function() {
+      document
+        .querySelectorAll(`#mc-${this.message.time.unix_time_milli} a.anchor`)
+        .forEach((el: Element) => {
+          const element = el as HTMLElement
+          const event = () => {
+            this.clickAnchorMessage(element.textContent!)
+          }
+          element.addEventListener('click', event)
+          this.removeFunctions.push(() => {
+            element.removeEventListener('click', event)
+          })
+        })
+    })
+  }
+
+  private beforeDestroy() {
+    this.removeFunctions.forEach(f => f())
   }
 }
 
