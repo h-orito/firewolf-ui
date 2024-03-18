@@ -53,7 +53,6 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'nuxt-property-decorator'
-import scrollTo from 'vue-scrollto'
 // type
 import Village from '~/components/type/village'
 import { VILLAGE_STATUS, MESSAGE_TYPE } from '~/components/const/consts'

@@ -76,7 +76,7 @@ import DebugVillage from '~/components/type/debug-village'
 // helper
 import actionHelper from '~/components/village/action/village-action-helper'
 import Village from '~/components/type/village'
-import { MESSAGE_TYPE } from '~/components/const/consts'
+import Message from '~/components/type/message'
 // dynamic imports
 const participate = () =>
   import('~/components/village/action/participate/participate-card.vue')
@@ -216,6 +216,26 @@ export default class Action extends Vue {
     if (!this.$refs.say) return
     // @ts-ignore
     this.$refs.say.pasteToMessageInput(text)
+  }
+
+  private reply(text: string, message: Message): void {
+    if (!this.$refs.say) return
+    // @ts-ignore
+    this.$refs.say.reply(text, message)
+  }
+
+  private secret(message: Message, participantId: number): void {
+    if (this.situation?.participate?.myself?.id === participantId) {
+      this.$buefy.toast.open({
+        message: '自分には秘話できません',
+        type: 'is-danger',
+        position: 'is-top'
+      })
+      return
+    }
+    if (!this.$refs.say) return
+    // @ts-ignore
+    this.$refs.say.secret(message, participantId)
   }
 
   private reloadFixedStyle({ paddingBottom }): void {

@@ -21,6 +21,8 @@ export interface SayMessage {
   chara: Chara
   face_type_code: string
   message_lines: SayMessageLine[]
+  can_reply: boolean
+  can_secret: boolean
 }
 
 export interface SayMessageLine {
@@ -56,7 +58,9 @@ export const convertToSayMessage = (
   isAnchorMessage: boolean,
   isProgress: boolean,
   maxCount: number,
-  isDispDate: boolean
+  isDispDate: boolean,
+  canReply: boolean,
+  canSecret: boolean
 ): SayMessage => {
   const typeCode: string = message.content.type.code
   const isDispAnchor: boolean = _isDispAnchor(isProgress, typeCode)
@@ -72,7 +76,7 @@ export const convertToSayMessage = (
     is_anchor_message: isAnchorMessage,
     is_disp_anchor: isDispAnchor,
     anchor_string: isDispAnchor ? anchorString : '',
-    anchor_copy_string: isDispAnchor ? anchorCopyString : '',
+    anchor_copy_string: anchorCopyString,
     day: message.time.day,
     chara_name: message.from!.chara.chara_name.full_name,
     target_chara_name: message.to?.chara?.chara_name?.full_name,
@@ -91,7 +95,9 @@ export const convertToSayMessage = (
       : message.time.datetime.substring(11),
     chara: message.from!.chara,
     face_type_code: message.content.face_code,
-    message_lines: convertToSayMessageLines(message.content.text)
+    message_lines: convertToSayMessageLines(message.content.text),
+    can_reply: canReply && isDispAnchor,
+    can_secret: canSecret
   } as SayMessage
 }
 
@@ -115,7 +121,7 @@ export const convertToActionMessage = (
     is_anchor_message: isAnchorMessage,
     is_disp_anchor: isDispAnchor,
     anchor_string: isDispAnchor ? anchorString : '',
-    anchor_copy_string: isDispAnchor ? anchorCopyString : '',
+    anchor_copy_string: anchorCopyString,
     day: message.time.day,
     datetime: isDispDate
       ? message.time.datetime

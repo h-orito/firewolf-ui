@@ -97,6 +97,23 @@
             発言する
           </b-button>
         </div>
+        <div v-if="replyMessage" class="reply-message-area">
+          <message-card
+            :key="replyMessage.id"
+            :message="replyMessage"
+            :is-progress="false"
+            :is-anchor-message="false"
+            :is-dark-theme="$store.getters.isDarkTheme"
+            :is-disp-date="
+              $store.getters.getVillageUserSettings.message_display.is_disp_date
+            "
+            :is-img-large="
+              $store.getters.getVillageUserSettings.message_display.is_img_large
+            "
+            @click-anchor="() => {}"
+            @paste-message-input="() => {}"
+          ></message-card>
+        </div>
       </template>
     </action-card>
     <modal-say
@@ -143,6 +160,7 @@ import api from '~/components/village/village-api'
 import toast from '~/components/village/village-toast'
 import villageUserSettings from '~/components/village/user-settings/village-user-settings'
 import CharaFace from '~/components/type/chara-face'
+import VillageAnchorMessage from '~/components/type/village-anchor-message'
 const modalSay = () => import('~/components/village/action/say/modal-say.vue')
 const charaImage = () => import('~/components/village/chara-image.vue')
 const faceSelectModal = () =>
@@ -153,6 +171,8 @@ const notification = () =>
   import('~/components/village/village-notification.vue')
 const messageDecorators = () =>
   import('~/components/village/action/decorator/message-decorators.vue')
+const messageCard = () =>
+  import('~/components/village/message/message-card.vue')
 
 @Component({
   components: {
@@ -163,7 +183,8 @@ const messageDecorators = () =>
     faceSelectModal,
     participantSelectModal,
     notification,
-    messageDecorators
+    messageDecorators,
+    messageCard
   }
 })
 export default class Say extends Vue {
@@ -197,6 +218,9 @@ export default class Say extends Vue {
 
   // 発言確認で返ってきた発言内容
   private confirmMessage: Message | null = null
+
+  // 返信する場合の参照用
+  private replyMessage: Message | null = null
 
   // ----------------------------------------------------------------
   // computed
@@ -313,6 +337,7 @@ export default class Say extends Vue {
           : null
       )
       this.message = ''
+      this.replyMessage = null
     } catch (error) {
       toast.danger(this, '発言失敗しました。')
     }
@@ -325,6 +350,28 @@ export default class Say extends Vue {
 
   private pasteToMessageInput(text: string): void {
     this.message += text
+  }
+
+  private reply(anchorString: string, message: Message): void {
+    this.message += anchorString
+    this.replyMessage = message
+    const element = document.getElementById(this.id)
+    if (element == null) return
+    this.$scrollTo(element, {
+      container: '.village-article-wrapper'
+    })
+  }
+
+  private secret(message: Message, participantId: number): void {
+    this.replyMessage = message
+    this.messageType = MESSAGE_TYPE.SECRET_SAY
+    this.targetParticipantId = participantId
+
+    const element = document.getElementById(this.id)
+    if (element == null) return
+    this.$scrollTo(element, {
+      container: '.village-article-wrapper'
+    })
   }
 
   private toggleFixed(): void {
@@ -416,6 +463,11 @@ export default class Say extends Vue {
       flex: 1;
     }
   }
+}
+.reply-message-area {
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid $primary;
 }
 </style>
 

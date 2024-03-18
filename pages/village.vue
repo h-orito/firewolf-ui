@@ -62,6 +62,8 @@
             @change-message-page="changeMessagePage($event)"
             @paste-message-input="pasteToMessageInput($event)"
             @disp-latest="dispLatest"
+            @reply="reply($event)"
+            @secret="secret($event)"
             ref="messageCards"
           />
           <village-day-list
@@ -566,6 +568,20 @@ export default class extends Vue {
     if (this.$refs.action) {
       // @ts-ignore
       this.$refs.action.pasteToMessageInput(text)
+    }
+  }
+
+  private reply({ text, message }): void {
+    if (this.$refs.action) {
+      // @ts-ignore
+      this.$refs.action.reply(text, message)
+    }
+  }
+
+  private secret({ message, participantId }): void {
+    if (this.$refs.action) {
+      // @ts-ignore
+      this.$refs.action.secret(message, participantId)
     }
   }
 }
