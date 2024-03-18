@@ -9,6 +9,8 @@
         :is-img-large="isImgLarge"
         @click-anchor="clickAnchorMessage($event)"
         @copy-anchor-string="handleCopyAnchorString"
+        @reply="prepareReply"
+        @secret="prepareSecret"
       />
       <message-system
         v-if="isSystemType"
@@ -118,6 +120,12 @@ export default class MessageCard extends Vue {
   @Prop({ type: Boolean })
   private isImgLarge!: boolean
 
+  @Prop({ type: Boolean, default: false })
+  private canReply?: boolean
+
+  @Prop({ type: Boolean, default: false })
+  private canSecret?: boolean
+
   private anchorMessages: Message[] = []
 
   private get maxCount(): number | null {
@@ -136,7 +144,9 @@ export default class MessageCard extends Vue {
       this.isAnchorMessage || false,
       this.isProgress,
       this.maxCount!,
-      this.isDispDate
+      this.isDispDate,
+      this.canReply || false,
+      this.canSecret || false
     )
   }
 
@@ -206,6 +216,20 @@ export default class MessageCard extends Vue {
     )
     if (anchorMessage?.message == null) return
     this.anchorMessages.unshift(anchorMessage.message)
+  }
+
+  private prepareReply(): void {
+    const text: string = this.isSayType
+      ? this.sayMessage!.anchor_copy_string
+      : this.actionMessage!.anchor_copy_string
+    this.$emit('reply', { text, message: this.message })
+  }
+
+  private prepareSecret(): void {
+    this.$emit('secret', {
+      message: this.message,
+      participantId: this.message.from!.id
+    })
   }
 
   private async loadAnchorMessage(

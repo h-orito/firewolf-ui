@@ -92,6 +92,21 @@
         </p>
       </div>
     </div>
+    <div class="hw-message-reply-area">
+      <a
+        href="javascript:void(0);"
+        v-if="props.message.can_reply"
+        @click="listeners['reply']"
+        >&gt;&gt;返信</a
+      >
+      <a
+        href="javascript:void(0);"
+        v-if="props.message.can_secret"
+        class="m-l-10"
+        @click="listeners['secret']"
+        >&gt;&gt;秘話</a
+      >
+    </div>
   </div>
 </template>
 
@@ -241,6 +256,13 @@ export default class MessageSay extends Vue {
           border: 1px solid $secret-say-dark;
         }
       }
+    }
+  }
+  .hw-message-reply-area {
+    text-align: right;
+
+    a {
+      color: $primary;
     }
   }
 }
