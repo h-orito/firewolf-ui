@@ -76,20 +76,7 @@
           props.isDarkTheme ? 'dark-theme' : ''
         ]"
       >
-        <p class="hw-message-text">
-          <span v-for="line in props.message.message_lines" :key="line.id"
-            ><span v-for="sentence in line.sentences" :key="sentence.id">
-              <a
-                v-if="sentence.is_anchor"
-                @click="listeners['click-anchor'](sentence.text)"
-                v-html="sentence.text"
-                href="javascript:void(0);"
-              ></a
-              ><span v-else v-html="sentence.text"></span>
-            </span>
-            <br
-          /></span>
-        </p>
+        <p class="hw-message-text" v-html="props.message.message_text"></p>
       </div>
     </div>
     <div class="hw-message-reply-area">
@@ -112,6 +99,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'nuxt-property-decorator'
+import vFragment from './v-fragment.vue'
 import { SayMessage } from '~/components/village/message/message-converter'
 
 @Component({})
@@ -196,6 +184,7 @@ export default class MessageSay extends Vue {
       .hw-message-text {
         text-align: left;
         word-break: break-word;
+        white-space: pre-wrap;
       }
 
       &.normal-say {

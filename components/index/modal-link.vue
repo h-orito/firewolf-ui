@@ -89,7 +89,6 @@ export default class ModalSignin extends Vue {
   }
 
   private get user(): any {
-    console.log(this.$store.getters.getUser)
     return this.$store.getters.getUser
   }
 
