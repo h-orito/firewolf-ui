@@ -126,6 +126,12 @@ export default class RuleMessage extends Vue {
     const message: Message = {
       from: {
         id: 1,
+        name: '[着] きぐるみ ピギー',
+        chara_name: {
+          name: '',
+          short_name: '',
+          full_name: '[着] きぐるみ ピギー'
+        },
         chara: {
           id: 1,
           chara_name: {
