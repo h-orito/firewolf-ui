@@ -8,6 +8,9 @@
         <div v-if="charachip" class="m-b-20">
           <p>作者: {{ charachip.designer.name }}</p>
           <a :href="charachip.description_url" target="_blank">作者HP</a>
+          <p>
+            名前変更: {{ charachip.is_available_change_name ? '可能' : '不可' }}
+          </p>
         </div>
         <div class="content is-size-7">
           <loading

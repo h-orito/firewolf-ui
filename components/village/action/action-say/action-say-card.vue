@@ -135,7 +135,7 @@ export default class ActionSay extends Vue {
   }
 
   private get charaName(): string {
-    const name = this.myself.chara.chara_name.full_name
+    const name = this.myself.name
     if (this.myself.skill) {
       return `${name} （${this.myself.skill!.name}）`
     } else {
@@ -146,11 +146,9 @@ export default class ActionSay extends Vue {
   private get participantNames(): string[] {
     return this.village.participant.member_list
       .concat(this.village.spectator.member_list)
-      .map(p => {
-        return p.chara.chara_name.full_name
-      })
+      .map(p => p.name)
       .filter(name => {
-        return name !== this.charaName
+        return name !== this.myself.name
       })
   }
 
@@ -185,7 +183,7 @@ export default class ActionSay extends Vue {
       this.confirmMessage = await api.postConfirmActionSay(
         this,
         this.villageId,
-        `${this.myself.chara.chara_name.full_name}は、`,
+        `${this.myself.name}は、`,
         this.target,
         this.message
       )
@@ -200,7 +198,7 @@ export default class ActionSay extends Vue {
       await api.postAction(
         this,
         this.villageId,
-        `${this.myself.chara.chara_name.full_name}は、`,
+        `${this.myself.name}は、`,
         this.target,
         this.message
       )

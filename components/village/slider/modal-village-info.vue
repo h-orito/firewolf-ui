@@ -191,7 +191,7 @@ export default class ModalVillageInfo extends Vue {
     const self = this
     const dummyCharaName = this.village.participant.member_list.find(member => {
       return member.chara.id === self.village!.setting.charachip.dummy_chara_id
-    })!.chara.chara_name.full_name
+    })!.name
     settings.push({
       name: 'ダミーキャラ',
       value: dummyCharaName,

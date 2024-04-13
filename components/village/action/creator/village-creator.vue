@@ -61,7 +61,7 @@
                   v-for="participant in participants"
                   :value="participant.id"
                   :key="participant.id"
-                  >{{ participant.chara.chara_name.full_name }}</option
+                  >{{ participant.name }}</option
                 >
               </b-select>
               <p class="control">

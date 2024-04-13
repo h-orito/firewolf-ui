@@ -12,7 +12,7 @@
           @click="selected(participant.id)"
         >
           <chara-image :chara="participant.chara" />
-          <p class="is-size-7">{{ participant.chara.chara_name.name }}</p>
+          <p class="is-size-7">{{ participant.name }}</p>
         </div>
       </div>
     </section>
