@@ -74,7 +74,7 @@ export const convertToSayMessage = (
     anchor_string: isDispAnchor ? anchorString : '',
     anchor_copy_string: anchorCopyString,
     day: message.time.day,
-    chara_name: message.from!.chara.chara_name.full_name,
+    chara_name: message.from!.name,
     target_chara_name: message.to?.chara?.chara_name?.full_name,
     comingout:
       message.from!.comming_outs.list.length === 0

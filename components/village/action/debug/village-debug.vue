@@ -167,9 +167,9 @@ export default class Action extends Vue {
   /** キャラ名と、開始後は役職名 */
   private dummyLoginCharaName(participant: VillageParticipant): string {
     if (participant.skill == null) {
-      return participant.chara.chara_name.full_name
+      return participant.name
     } else {
-      return `${participant.chara.chara_name.full_name}: ${participant.skill.name}`
+      return `${participant.name}: ${participant.skill.name}`
     }
   }
 

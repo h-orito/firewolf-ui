@@ -139,7 +139,7 @@
                   </div>
                   <div class="name-area is-size-7">
                     <p class="chara-name">
-                      {{ participant.chara.chara_name.full_name }}
+                      {{ participant.name }}
                     </p>
                   </div>
                 </div>
@@ -190,7 +190,7 @@
                   </div>
                   <div class="name-area is-size-7">
                     <p class="chara-name">
-                      {{ participant.chara.chara_name.full_name }}
+                      {{ participant.name }}
                     </p>
                   </div>
                 </div>

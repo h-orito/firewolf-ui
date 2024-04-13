@@ -50,6 +50,11 @@
         ref="actionSay"
         @fixed="reloadFixedStyle($event)"
       />
+      <change-name
+        v-if="isDispChangeName"
+        @reload="$emit('reload', $event)"
+        ref="changeName"
+      />
       <village-debug
         v-if="isDispDebugMenu"
         :village="debugVillage"
@@ -93,6 +98,8 @@ const commit = () =>
   import('~/components/village/action/commit/commit-card.vue')
 const actionSay = () =>
   import('~/components/village/action/action-say/action-say-card.vue')
+const changeName = () =>
+  import('~/components/village/action/change-name/change-name-card.vue')
 const villageDebug = () =>
   import('~/components/village/action/debug/village-debug.vue')
 const villageCreator = () =>
@@ -114,7 +121,8 @@ const villageAdmin = () =>
     actionSay,
     villageDebug,
     villageCreator,
-    villageAdmin
+    villageAdmin,
+    changeName
   }
 })
 export default class Action extends Vue {
@@ -168,6 +176,10 @@ export default class Action extends Vue {
 
   private get isDispActionSay(): boolean {
     return actionHelper.isDispActionSay(this.situation)
+  }
+
+  private get isDispChangeName(): boolean {
+    return actionHelper.isDispChangeName(this.situation)
   }
 
   private get isDispDebugMenu(): boolean {

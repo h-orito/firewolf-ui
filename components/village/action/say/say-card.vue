@@ -52,7 +52,7 @@
                   v-for="participant in secretsayTargets"
                   :value="participant.id.toString()"
                   :key="participant.id.toString()"
-                  >{{ participant.chara.chara_name.full_name }}</option
+                  >{{ participant.name }}</option
                 >
               </b-select>
               <p class="control">
@@ -242,7 +242,7 @@ export default class Say extends Vue {
   }
 
   private get charaName(): string {
-    const name = this.myself.chara.chara_name.full_name
+    const name = this.myself.name
     if (this.myself.skill) {
       return `${name} （${this.myself.skill!.name}）`
     } else {

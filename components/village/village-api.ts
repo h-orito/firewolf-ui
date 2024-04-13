@@ -165,6 +165,18 @@ const api = {
     })
   },
 
+  postChangeName(
+    app: Vue,
+    villageId: number,
+    name: string,
+    shortName: string
+  ): Promise<void> {
+    return app.$axios.$post(`/village/${villageId}/change-name`, {
+      name,
+      short_name: shortName
+    })
+  },
+
   postConfirmSay(
     app: Vue,
     villageId: number,
