@@ -167,7 +167,13 @@ export default class RuleMessage extends Vue {
         },
         notification: null
       },
+      from_character_name: {
+        name: '',
+        short_name: '',
+        full_name: '[着] きぐるみ ピギー'
+      },
       to: null,
+      to_character_name: null,
       time: {
         village_day_id: 1,
         day: 1,
@@ -191,7 +197,9 @@ export default class RuleMessage extends Vue {
   private createCreatorSayMessage(text: string): Message {
     const message: Message = {
       from: null,
+      from_character_name: null,
       to: null,
+      to_character_name: null,
       time: {
         village_day_id: 1,
         day: 1,

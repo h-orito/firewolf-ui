@@ -64,7 +64,7 @@ export const convertToSayMessage = (
   const anchorCopyString: string = createAnchorCopyString(
     typeCode,
     anchorString,
-    message.from!.chara_name.short_name
+    message.from_character_name!.short_name
   )
   return {
     unix_time_milli: message.time.unix_time_milli,
@@ -74,8 +74,8 @@ export const convertToSayMessage = (
     anchor_string: isDispAnchor ? anchorString : '',
     anchor_copy_string: anchorCopyString,
     day: message.time.day,
-    chara_name: message.from!.name,
-    target_chara_name: message.to?.chara?.chara_name?.full_name,
+    chara_name: message.from_character_name!.full_name,
+    target_chara_name: message.to_character_name?.full_name,
     comingout:
       message.from!.comming_outs.list.length === 0
         ? null
@@ -109,7 +109,7 @@ export const convertToActionMessage = (
   const anchorCopyString: string = createAnchorCopyString(
     typeCode,
     anchorString,
-    message.from!.chara_name.short_name
+    message.from_character_name!.short_name
   )
   return {
     unix_time_milli: message.time.unix_time_milli,
