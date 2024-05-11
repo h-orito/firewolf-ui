@@ -64,7 +64,7 @@ export const convertToSayMessage = (
   const anchorCopyString: string = createAnchorCopyString(
     typeCode,
     anchorString,
-    message.from!.chara.chara_name.short_name
+    message.from!.chara_name.short_name
   )
   return {
     unix_time_milli: message.time.unix_time_milli,
@@ -109,7 +109,7 @@ export const convertToActionMessage = (
   const anchorCopyString: string = createAnchorCopyString(
     typeCode,
     anchorString,
-    message.from!.chara.chara_name.short_name
+    message.from!.chara_name.short_name
   )
   return {
     unix_time_milli: message.time.unix_time_milli,
