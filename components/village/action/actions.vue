@@ -50,6 +50,11 @@
         ref="actionSay"
         @fixed="reloadFixedStyle($event)"
       />
+      <change-name
+        v-if="isDispChangeName"
+        @reload="$emit('reload', $event)"
+        ref="changeName"
+      />
       <village-debug
         v-if="isDispDebugMenu"
         :village="debugVillage"
@@ -76,7 +81,7 @@ import DebugVillage from '~/components/type/debug-village'
 // helper
 import actionHelper from '~/components/village/action/village-action-helper'
 import Village from '~/components/type/village'
-import { MESSAGE_TYPE } from '~/components/const/consts'
+import Message from '~/components/type/message'
 // dynamic imports
 const participate = () =>
   import('~/components/village/action/participate/participate-card.vue')
@@ -93,6 +98,8 @@ const commit = () =>
   import('~/components/village/action/commit/commit-card.vue')
 const actionSay = () =>
   import('~/components/village/action/action-say/action-say-card.vue')
+const changeName = () =>
+  import('~/components/village/action/change-name/change-name-card.vue')
 const villageDebug = () =>
   import('~/components/village/action/debug/village-debug.vue')
 const villageCreator = () =>
@@ -114,7 +121,8 @@ const villageAdmin = () =>
     actionSay,
     villageDebug,
     villageCreator,
-    villageAdmin
+    villageAdmin,
+    changeName
   }
 })
 export default class Action extends Vue {
@@ -170,6 +178,10 @@ export default class Action extends Vue {
     return actionHelper.isDispActionSay(this.situation)
   }
 
+  private get isDispChangeName(): boolean {
+    return actionHelper.isDispChangeName(this.situation)
+  }
+
   private get isDispDebugMenu(): boolean {
     return this.debugVillage != null && this.situation != null
   }
@@ -216,6 +228,26 @@ export default class Action extends Vue {
     if (!this.$refs.say) return
     // @ts-ignore
     this.$refs.say.pasteToMessageInput(text)
+  }
+
+  private reply(text: string, message: Message): void {
+    if (!this.$refs.say) return
+    // @ts-ignore
+    this.$refs.say.reply(text, message)
+  }
+
+  private secret(message: Message, participantId: number): void {
+    if (this.situation?.participate?.myself?.id === participantId) {
+      this.$buefy.toast.open({
+        message: '自分には秘話できません',
+        type: 'is-danger',
+        position: 'is-top'
+      })
+      return
+    }
+    if (!this.$refs.say) return
+    // @ts-ignore
+    this.$refs.say.secret(message, participantId)
   }
 
   private reloadFixedStyle({ paddingBottom }): void {

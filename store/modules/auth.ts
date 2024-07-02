@@ -3,21 +3,18 @@ import { LOGINOUT } from '~/store/action-types'
 const state = {
   authenticated: false,
   player: null,
-  photoUrl: null,
   user: null
 }
 
 const mutations = {
-  login(state, { player, photoUrl, user }) {
+  login(state, { player, user }) {
     state.authenticated = true
     state.player = player
-    state.photoUrl = photoUrl
     state.user = user
   },
   logout(state) {
     state.authenticated = true
     state.player = null
-    state.photoUrl = null
     state.user = null
   }
 }
@@ -47,13 +44,11 @@ const actions = {
       // API call時に使うので一旦stateに詰める
       await commit('login', {
         player: null,
-        photoUrl: user.photoURL,
         user
       })
       const myPlayer = await self.$axios.$get('/my-player')
       await commit('login', {
         player: myPlayer,
-        photoUrl: user.photoURL,
         user
       })
     } else {
@@ -69,7 +64,7 @@ const getters = {
   isAuthenticated: state => state.authenticated,
   getPlayer: state => state.player,
   isLogin: state => state.player != null,
-  getPhotoUrl: state => state.photoUrl
+  getUser: state => state.user
 }
 
 export default {
