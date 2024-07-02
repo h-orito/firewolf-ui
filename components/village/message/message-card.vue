@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :id="`mc-${message.time.unix_time_milli}`">
     <div class="card" :class="isDarkTheme ? 'dark-theme' : ''">
       <message-say
         v-if="isSayType"
@@ -9,6 +9,8 @@
         :is-img-large="isImgLarge"
         @click-anchor="clickAnchorMessage($event)"
         @copy-anchor-string="handleCopyAnchorString"
+        @reply="prepareReply"
+        @secret="prepareSecret"
       />
       <message-system
         v-if="isSystemType"
@@ -36,6 +38,7 @@
         :is-disp-date="isDispDate"
         :is-img-large="isImgLarge"
         @click-anchor="clickAnchorMessage($event)"
+        @paste-message-input="$emit('paste-message-input', $event)"
       ></message-card>
       <message-participant-list
         v-if="message.content.type.code === 'PARTICIPANTS'"
@@ -117,6 +120,12 @@ export default class MessageCard extends Vue {
   @Prop({ type: Boolean })
   private isImgLarge!: boolean
 
+  @Prop({ type: Boolean, default: false })
+  private canReply?: boolean
+
+  @Prop({ type: Boolean, default: false })
+  private canSecret?: boolean
+
   private anchorMessages: Message[] = []
 
   private get maxCount(): number | null {
@@ -135,7 +144,9 @@ export default class MessageCard extends Vue {
       this.isAnchorMessage || false,
       this.isProgress,
       this.maxCount!,
-      this.isDispDate
+      this.isDispDate,
+      this.canReply || false,
+      this.canSecret || false
     )
   }
 
@@ -207,6 +218,20 @@ export default class MessageCard extends Vue {
     this.anchorMessages.unshift(anchorMessage.message)
   }
 
+  private prepareReply(): void {
+    const text: string = this.isSayType
+      ? this.sayMessage!.anchor_copy_string
+      : this.actionMessage!.anchor_copy_string
+    this.$emit('reply', { text, message: this.message })
+  }
+
+  private prepareSecret(): void {
+    this.$emit('secret', {
+      message: this.message,
+      participantId: this.message.from!.id
+    })
+  }
+
   private async loadAnchorMessage(
     typeCode: string,
     number: number
@@ -223,6 +248,28 @@ export default class MessageCard extends Vue {
 
   private clearAnchorMessages(): void {
     this.anchorMessages = []
+  }
+
+  private removeFunctions: any[] = []
+  private mounted() {
+    this.$nextTick(function() {
+      document
+        .querySelectorAll(`#mc-${this.message.time.unix_time_milli} a.anchor`)
+        .forEach((el: Element) => {
+          const element = el as HTMLElement
+          const event = () => {
+            this.clickAnchorMessage(element.textContent!)
+          }
+          element.addEventListener('click', event)
+          this.removeFunctions.push(() => {
+            element.removeEventListener('click', event)
+          })
+        })
+    })
+  }
+
+  private beforeDestroy() {
+    this.removeFunctions.forEach(f => f())
   }
 }
 

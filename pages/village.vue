@@ -62,6 +62,8 @@
             @change-message-page="changeMessagePage($event)"
             @paste-message-input="pasteToMessageInput($event)"
             @disp-latest="dispLatest"
+            @reply="reply($event)"
+            @secret="secret($event)"
             ref="messageCards"
           />
           <village-day-list
@@ -194,6 +196,8 @@ export default class extends Vue {
   private messageTypeFilter: string[] | null = null
   /** 発言抽出：参加者 */
   private participantIdFilter: number[] | null = null
+  /** 発言抽出：宛先 */
+  private toParticipantIdFilter: number[] | null = null
   /** 発言抽出：キーワード */
   private keywordFilter: string | null = null
   /** サイドバー */
@@ -350,6 +354,7 @@ export default class extends Vue {
         this.currentPageNum,
         this.messageTypeFilter,
         this.participantIdFilter,
+        this.toParticipantIdFilter,
         this.keywordFilter
       )
     })
@@ -440,10 +445,12 @@ export default class extends Vue {
   private async filter({
     messageTypeList,
     participantIdList,
+    toParticipantIdList,
     keyword
   }): Promise<void> {
     this.messageTypeFilter = messageTypeList
     this.participantIdFilter = participantIdList
+    this.toParticipantIdFilter = toParticipantIdList
     this.keywordFilter = keyword
     await this.loadMessage()
   }
@@ -561,6 +568,20 @@ export default class extends Vue {
     if (this.$refs.action) {
       // @ts-ignore
       this.$refs.action.pasteToMessageInput(text)
+    }
+  }
+
+  private reply({ text, message }): void {
+    if (this.$refs.action) {
+      // @ts-ignore
+      this.$refs.action.reply(text, message)
+    }
+  }
+
+  private secret({ message, participantId }): void {
+    if (this.$refs.action) {
+      // @ts-ignore
+      this.$refs.action.secret(message, participantId)
     }
   }
 }

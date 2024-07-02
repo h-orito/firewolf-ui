@@ -16,7 +16,7 @@
                 v-for="participant in vote.target_list"
                 :value="participant.id.toString()"
                 :key="participant.id.toString()"
-                >{{ participant.chara.chara_name.full_name }}</option
+                >{{ participant.name }}</option
               >
             </b-select>
           </b-field>
@@ -68,7 +68,7 @@ export default class Vote extends Vue {
 
   private get currentTargetName(): string {
     if (!this.vote.target) return 'なし'
-    return this.vote.target.chara.chara_name.full_name
+    return this.vote.target.name
   }
 
   private get canSubmit(): boolean {

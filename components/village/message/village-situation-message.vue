@@ -138,9 +138,7 @@ export default class MessageCard extends Vue {
   }
 
   private get suddenlyDeathMessage(): string {
-    const noSayMemberNames = this.noSayMembers.map(
-      member => member.chara.chara_name.full_name
-    )
+    const noSayMemberNames = this.noSayMembers.map(member => member.name)
     return `日付更新までに通常発言がない人は突然死します。\n現在まで発言していない人\n${noSayMemberNames.join(
       '\n'
     )}`
