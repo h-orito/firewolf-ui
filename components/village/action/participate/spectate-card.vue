@@ -31,8 +31,14 @@
               </b-modal>
             </p>
           </b-field>
-          <b-field custom-class="is-small" label="入村発言">
+          <p style="font-weight: 700; margin-bottom: 6px;">入村発言</p>
+          <message-decorators
+            selector="#specate-message-input"
+            @decorate-message="message = $event"
+          />
+          <b-field custom-class="is-small" label="">
             <message-input
+              id="specate-message-input"
               v-model="message"
               :situation="situation.say"
               :message-type="normalSay"
@@ -83,9 +89,17 @@ import toast from '~/components/village/village-toast'
 import villageUserSettings from '~/components/village/user-settings/village-user-settings'
 const modalParticipate = () =>
   import('~/components/village/action/participate/modal-participate.vue')
+const messageDecorators = () =>
+  import('~/components/village/action/decorator/message-decorators.vue')
 
 @Component({
-  components: { actionCard, messageInput, charaSelectModal, modalParticipate }
+  components: {
+    actionCard,
+    messageInput,
+    charaSelectModal,
+    modalParticipate,
+    messageDecorators
+  }
 })
 export default class Spectate extends Vue {
   private confirming: boolean = false
@@ -151,8 +165,11 @@ export default class Spectate extends Vue {
       )
       this.isParticipateModalOpen = true
     } catch (error) {
+      // @ts-ignore
       const code = parseInt(error.response && error.response.status)
+      // @ts-ignore
       if (code === 404 && error.response.data.status === 499) {
+        // @ts-ignore
         toast.danger(this, error.response.data.message)
       }
     }
