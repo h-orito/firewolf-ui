@@ -20,6 +20,8 @@ const actionHelper = {
       actions.push({ code: 'spectate', name: '見学', icon: 'sign-in-alt' })
     if (this.isDispSkillRequest(situation))
       actions.push({ code: 'skill_request', name: '役職希望', icon: 'star' })
+    if (this.isDispChangeName(situation))
+      actions.push({ code: 'change_name', name: '名前変更', icon: 'user' })
     if (this.isDispLeave(situation))
       actions.push({ code: 'leave', name: '退村', icon: 'sign-out-alt' })
     if (this.isDispVote(situation))
@@ -70,6 +72,12 @@ const actionHelper = {
     return (
       situation.participate.participating &&
       situation.skill_request.available_skill_request
+    )
+  },
+  isDispChangeName(situation: SituationAsParticipant): boolean {
+    return (
+      situation.participate.participating &&
+      situation.rp.is_available_change_name
     )
   },
   isDispLeave(situation: SituationAsParticipant): boolean {

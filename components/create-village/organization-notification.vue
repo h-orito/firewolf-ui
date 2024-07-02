@@ -19,8 +19,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-const notification = () =>
-  import('~/components/create-village/notification.vue')
+const notification = () => import('~/components/common/notification.vue')
 
 @Component({
   components: { notification }
