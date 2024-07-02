@@ -1,6 +1,7 @@
 <template>
   <section>
     <b-input
+      :id="id"
       size="is-small"
       type="textarea"
       :rows="rowSize"
@@ -23,6 +24,9 @@ import { MESSAGE_TYPE } from '~/components/const/consts'
   components: {}
 })
 export default class MessageInput extends Vue {
+  @Prop({ type: String })
+  private id!: string
+
   @Prop({ type: String })
   private value!: string
 
@@ -140,6 +144,9 @@ export default class MessageInput extends Vue {
       case MESSAGE_TYPE.SPECTATE_SAY:
         className = 'spectate-say-input'
         break
+      case MESSAGE_TYPE.SECRET_SAY:
+        className = 'secret-say-input'
+        break
       default:
         return ''
     }
@@ -201,6 +208,15 @@ export default class MessageInput extends Vue {
   &.dark-theme {
     background-color: $spectate-say-dark !important;
     color: $black !important;
+  }
+}
+.secret-say-input {
+  background-color: $secret-say !important;
+  color: $black;
+
+  &.dark-theme {
+    background-color: $secret-say-dark !important;
+    border: 1px solid $secret-say-dark !important;
   }
 }
 </style>

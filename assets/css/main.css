@@ -4,3 +4,8 @@
 .page-enter, .page-leave-active {
     opacity: 0
 }
+
+/** iOS端末でwhite-space: pre-wrapだとruby-align: start状態になる対策 */
+ruby {
+    white-space: normal !important;
+}
