@@ -14,6 +14,9 @@
           }}</a>
         </div>
         <div class="content has-text-left m-b-5">
+          <notification v-if="!isAlive" type="default" class="m-b-10">
+            アクションは生存者も参照できるため、推理発言しないよう注意ください。
+          </notification>
           <div class="myself-area">
             <div class="myself-name-area">
               <p>{{ charaName }}は、</p>
@@ -88,9 +91,11 @@ import api from '~/components/village/village-api'
 import toast from '~/components/village/village-toast'
 import villageUserSettings from '~/components/village/user-settings/village-user-settings'
 const modalSay = () => import('~/components/village/action/say/modal-say.vue')
+const notification = () =>
+  import('~/components/village/village-notification.vue')
 
 @Component({
-  components: { actionCard, messageTextInput, modalSay }
+  components: { actionCard, messageTextInput, modalSay, notification }
 })
 export default class ActionSay extends Vue {
   // ----------------------------------------------------------------
@@ -130,7 +135,7 @@ export default class ActionSay extends Vue {
   }
 
   private get charaName(): string {
-    const name = this.myself.chara.chara_name.full_name
+    const name = this.myself.name
     if (this.myself.skill) {
       return `${name} （${this.myself.skill!.name}）`
     } else {
@@ -141,11 +146,9 @@ export default class ActionSay extends Vue {
   private get participantNames(): string[] {
     return this.village.participant.member_list
       .concat(this.village.spectator.member_list)
-      .map(p => {
-        return p.chara.chara_name.full_name
-      })
+      .map(p => p.name)
       .filter(name => {
-        return name !== this.charaName
+        return name !== this.myself.name
       })
   }
 
@@ -180,7 +183,7 @@ export default class ActionSay extends Vue {
       this.confirmMessage = await api.postConfirmActionSay(
         this,
         this.villageId,
-        `${this.myself.chara.chara_name.full_name}は、`,
+        `${this.myself.name}は、`,
         this.target,
         this.message
       )
@@ -195,7 +198,7 @@ export default class ActionSay extends Vue {
       await api.postAction(
         this,
         this.villageId,
-        `${this.myself.chara.chara_name.full_name}は、`,
+        `${this.myself.name}は、`,
         this.target,
         this.message
       )

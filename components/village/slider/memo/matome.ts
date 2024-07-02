@@ -94,7 +94,7 @@ interface Matome {
 const createDefaultMatomes = (village: Village): Matomes => {
   const matomes: Matomes = {
     chara_names: village.participant.member_list.map(
-      m => m.chara.chara_name.short_name
+      m => m.chara_name.short_name
     ),
     matomes: []
   }

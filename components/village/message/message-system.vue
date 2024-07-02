@@ -7,20 +7,7 @@
     ]"
   >
     <div class="content has-text-left">
-      <p class="hw-message-text">
-        <span v-for="line in props.message.message_lines" :key="line.id"
-          ><span v-for="sentence in line.sentences" :key="sentence.id">
-            <a
-              v-if="sentence.is_anchor"
-              @click="listeners['click-anchor'](sentence.text)"
-              v-html="sentence.text"
-              href="javascript:void(0);"
-            ></a
-            ><span v-else v-html="sentence.text"></span>
-          </span>
-          <br
-        /></span>
-      </p>
+      <p class="hw-message-text" v-html="props.message.message_text"></p>
     </div>
   </div>
 </template>
@@ -45,6 +32,11 @@ export default class SystemMessageV extends Vue {
   font-family: sans-serif;
   border: 1px solid #ccc;
   border-radius: 5px;
+
+  .hw-message-text {
+    word-break: break-word;
+    white-space: pre-wrap;
+  }
 
   &.dark-theme {
     border: 1px solid $white;

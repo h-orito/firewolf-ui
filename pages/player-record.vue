@@ -31,6 +31,7 @@
           >
           <modal-intro
             :is-open="isModalOpen"
+            :current-nickname="nickname"
             :current-other-site-name="otherSiteName"
             :current-intro="introduction"
             @close-modal="isModalOpen = false"
@@ -169,7 +170,16 @@ export default class extends Vue {
   private get playerName(): string {
     if (this.loadingRecords || !this.playerRecords) return ''
     const player = this.playerRecords.player
-    return `${player.nickname}@${player.twitter_user_name}`
+    if (player.twitter_user_name) {
+      return `${player.nickname}@${player.twitter_user_name}`
+    } else {
+      return player.nickname
+    }
+  }
+
+  private get nickname(): string {
+    if (this.loadingRecords || !this.playerRecords) return ''
+    return this.playerRecords.player.nickname
   }
 
   private get otherSiteName(): string | null {
