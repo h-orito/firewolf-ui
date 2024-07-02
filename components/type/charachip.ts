@@ -7,6 +7,7 @@ interface Charachip {
   designer: Designer
   description_url: string
   chara_list: Chara[]
+  is_available_change_name: boolean
 }
 
 export default Charachip

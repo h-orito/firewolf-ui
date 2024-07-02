@@ -41,7 +41,7 @@
                   v-for="participant in ability.attacker_list"
                   :value="participant.id.toString()"
                   :key="participant.id.toString()"
-                  >{{ participant.chara.chara_name.full_name }}</option
+                  >{{ participant.name }}</option
                 >
               </b-select>
             </b-field>
@@ -63,7 +63,7 @@
                 v-for="participant in ability.target_list"
                 :value="participant.id.toString()"
                 :key="participant.id.toString()"
-                >{{ participant.chara.chara_name.full_name }}</option
+                >{{ participant.name }}</option
               >
             </b-select>
           </b-field>
@@ -140,12 +140,12 @@ export default class Ability extends Vue {
 
   private get currentAttackerName(): string {
     if (!this.ability.attacker) return 'なし'
-    return this.ability.attacker.chara.chara_name.full_name
+    return this.ability.attacker.name
   }
 
   private get currentTargetName(): string {
     if (!this.ability.target) return 'なし'
-    return this.ability.target.chara.chara_name.full_name
+    return this.ability.target.name
   }
 
   private get canSubmit(): boolean {
