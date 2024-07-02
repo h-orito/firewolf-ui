@@ -40,8 +40,12 @@
       :is-dark-theme="isDarkTheme"
       :is-disp-date="isDispDate"
       :is-img-large="isImgLarge"
+      :can-reply="canReply"
+      :can-secret="canSecret"
       ref="messageCard"
       @paste-message-input="$emit('paste-message-input', $event)"
+      @reply="$emit('reply', $event)"
+      @secret="$emit('secret', $event)"
     />
     <village-situation-message
       :is-latest-day="isLatestDay"
@@ -105,6 +109,8 @@ import messageCard from '~/components/village/message/message-card.vue'
 import Village from '~/components/type/village'
 import Messages from '~/components/type/messages'
 import { VILLAGE_STATUS } from '~/components/const/consts'
+import SituationAsParticipant from '~/components/type/situation-as-participant'
+import VillageParticipant from '~/components/type/village-participant'
 // dynamic imports
 const villageSituationMessage = () =>
   import('~/components/village/message/village-situation-message.vue')
@@ -126,6 +132,10 @@ export default class MessageCard extends Vue {
 
   private get village(): Village {
     return this.$store.getters.getVillage!
+  }
+
+  private get situation(): SituationAsParticipant {
+    return this.$store.getters.getSituation!
   }
 
   private get messages(): Messages {
@@ -152,6 +162,18 @@ export default class MessageCard extends Vue {
   private get isImgLarge(): boolean {
     return this.$store.getters.getVillageUserSettings.message_display
       .is_img_large
+  }
+
+  private get canReply(): boolean {
+    return !!this.situation.participate.myself
+  }
+
+  private get canSecret(): boolean {
+    return (
+      !!this.situation.participate.myself &&
+      (this.village.setting.rules.available_secret_say ||
+        this.situation.admin.admin)
+    )
   }
 
   private change(pageNum: number) {
