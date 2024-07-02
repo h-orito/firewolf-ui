@@ -37,6 +37,7 @@
                 :native-value="messageTypeSituation.message_type.code"
                 type="is-primary"
                 size="is-small"
+                @input="setDefaultFaceType()"
               >
                 <span>{{ messageTypeSituation.message_type.name }}</span>
               </b-radio-button>
@@ -51,16 +52,31 @@
                   v-for="participant in secretsayTargets"
                   :value="participant.id.toString()"
                   :key="participant.id.toString()"
-                  >{{ participant.chara.chara_name.full_name }}</option
+                  >{{ participant.name }}</option
                 >
               </b-select>
+              <p class="control">
+                <button
+                  class="button is-primary is-small"
+                  @click="openParticipantSelectModal"
+                >
+                  画像で選択
+                </button>
+              </p>
             </div>
+            <message-decorators
+              selector="#say-message-input"
+              @decorate-message="message = $event"
+            />
             <div class="say-content-area">
               <div class="say-face-area">
-                <chara-image :chara="chara" :face-type="faceTypeCode" />
+                <div @click="openFaceModal">
+                  <chara-image :chara="chara" :face-type="faceTypeCode" />
+                </div>
               </div>
               <div class="say-input-area">
                 <message-input
+                  id="say-message-input"
                   v-model="message"
                   :message-type="messageType"
                   :situation="situation.say"
@@ -81,6 +97,23 @@
             発言する
           </b-button>
         </div>
+        <div v-if="replyMessage" class="reply-message-area">
+          <message-card
+            :key="replyMessage.id"
+            :message="replyMessage"
+            :is-progress="false"
+            :is-anchor-message="false"
+            :is-dark-theme="$store.getters.isDarkTheme"
+            :is-disp-date="
+              $store.getters.getVillageUserSettings.message_display.is_disp_date
+            "
+            :is-img-large="
+              $store.getters.getVillageUserSettings.message_display.is_img_large
+            "
+            @click-anchor="() => {}"
+            @paste-message-input="() => {}"
+          ></message-card>
+        </div>
       </template>
     </action-card>
     <modal-say
@@ -89,6 +122,26 @@
       @close="closeSayModal"
       @say="say"
     />
+    <face-select-modal
+      :is-open="isFaceModalOpen"
+      :chara="chara"
+      :face-list="selectableFaceType"
+      @face-select="selectedFaceType($event)"
+      @close="closeFaceModal"
+    />
+    <b-modal
+      v-if="isDispSecretsayTargetArea"
+      :active.sync="isParticipantSelectModalOpen"
+      has-modal-card
+      trap-focus
+      aria-role="dialog"
+      aria-modal
+    >
+      <participant-select-modal
+        :participant-list="secretsayTargets"
+        @participant-select="participantSelect($event)"
+      />
+    </b-modal>
   </div>
 </template>
 
@@ -106,13 +159,33 @@ import { FACE_TYPE, MESSAGE_TYPE } from '~/components/const/consts'
 import api from '~/components/village/village-api'
 import toast from '~/components/village/village-toast'
 import villageUserSettings from '~/components/village/user-settings/village-user-settings'
+import CharaFace from '~/components/type/chara-face'
+import VillageAnchorMessage from '~/components/type/village-anchor-message'
 const modalSay = () => import('~/components/village/action/say/modal-say.vue')
 const charaImage = () => import('~/components/village/chara-image.vue')
+const faceSelectModal = () =>
+  import('~/components/village/action/say/face-select-modal.vue')
+const participantSelectModal = () =>
+  import('~/components/village/action/say/participant-select-modal.vue')
 const notification = () =>
   import('~/components/village/village-notification.vue')
+const messageDecorators = () =>
+  import('~/components/village/action/decorator/message-decorators.vue')
+const messageCard = () =>
+  import('~/components/village/message/message-card.vue')
 
 @Component({
-  components: { actionCard, messageInput, modalSay, charaImage, notification }
+  components: {
+    actionCard,
+    messageInput,
+    modalSay,
+    charaImage,
+    faceSelectModal,
+    participantSelectModal,
+    notification,
+    messageDecorators,
+    messageCard
+  }
 })
 export default class Say extends Vue {
   // ----------------------------------------------------------------
@@ -128,8 +201,12 @@ export default class Say extends Vue {
   ])
 
   private messageType: string = this.situation.say.default_message_type!.code
+  private faceTypeCode: string = FACE_TYPE.NORMAL
+
   private message: string = ''
   private isSayModalOpen: boolean = false
+  private isFaceModalOpen: boolean = false
+  private isParticipantSelectModalOpen: boolean = false
   private isFixed: boolean = villageUserSettings.getActionWindow(this).is_fixed!
   private id: string = 'say-aria-id'
   private isOpen: boolean =
@@ -141,6 +218,9 @@ export default class Say extends Vue {
 
   // 発言確認で返ってきた発言内容
   private confirmMessage: Message | null = null
+
+  // 返信する場合の参照用
+  private replyMessage: Message | null = null
 
   // ----------------------------------------------------------------
   // computed
@@ -162,7 +242,7 @@ export default class Say extends Vue {
   }
 
   private get charaName(): string {
-    const name = this.myself.chara.chara_name.full_name
+    const name = this.myself.name
     if (this.myself.skill) {
       return `${name} （${this.myself.skill!.name}）`
     } else {
@@ -174,17 +254,8 @@ export default class Say extends Vue {
     return this.myself.skill!.description.replaceAll('。', '。\n')
   }
 
-  private get faceTypeCode(): string {
-    const expectedFaceType = this.messageTypeFaceTypeMap.get(this.messageType)
-    if (expectedFaceType == null) return FACE_TYPE.NORMAL
-    if (
-      this.situation.participate.myself!.chara.face_list.some(
-        face => face.type === expectedFaceType
-      )
-    ) {
-      return expectedFaceType
-    }
-    return FACE_TYPE.NORMAL
+  private get selectableFaceType(): Array<CharaFace> {
+    return this.situation.participate.myself!.chara.face_list
   }
 
   private get chara(): Chara {
@@ -266,6 +337,7 @@ export default class Say extends Vue {
           : null
       )
       this.message = ''
+      this.replyMessage = null
     } catch (error) {
       toast.danger(this, '発言失敗しました。')
     }
@@ -278,6 +350,28 @@ export default class Say extends Vue {
 
   private pasteToMessageInput(text: string): void {
     this.message += text
+  }
+
+  private reply(anchorString: string, message: Message): void {
+    this.message += anchorString
+    this.replyMessage = message
+    const element = document.getElementById(this.id)
+    if (element == null) return
+    this.$scrollTo(element, {
+      container: '.village-article-wrapper'
+    })
+  }
+
+  private secret(message: Message, participantId: number): void {
+    this.replyMessage = message
+    this.messageType = MESSAGE_TYPE.SECRET_SAY
+    this.targetParticipantId = participantId
+
+    const element = document.getElementById(this.id)
+    if (element == null) return
+    this.$scrollTo(element, {
+      container: '.village-article-wrapper'
+    })
   }
 
   private toggleFixed(): void {
@@ -302,6 +396,57 @@ export default class Say extends Vue {
       paddingBottom
     })
   }
+
+  private defaultFaceTypeCode(messageType: string): string {
+    const expectedFaceType = this.messageTypeFaceTypeMap.get(messageType)
+    if (expectedFaceType == null) return FACE_TYPE.NORMAL
+    if (
+      this.situation.participate.myself!.chara.face_list.some(
+        face => face.type === expectedFaceType
+      )
+    ) {
+      return expectedFaceType
+    }
+    return FACE_TYPE.NORMAL
+  }
+
+  private setDefaultFaceType(): void {
+    this.faceTypeCode = this.defaultFaceTypeCode(this.messageType)
+  }
+
+  private openFaceModal(): void {
+    this.isFaceModalOpen = true
+  }
+
+  private closeFaceModal(): void {
+    this.isFaceModalOpen = false
+  }
+
+  private selectedFaceType({ type }: { type: string }): void {
+    this.faceTypeCode = type
+    this.closeFaceModal()
+  }
+
+  private openParticipantSelectModal(): void {
+    this.isParticipantSelectModalOpen = true
+  }
+
+  private closeParticipantSelectModal(): void {
+    this.isParticipantSelectModalOpen = false
+  }
+
+  private participantSelect({
+    participantId
+  }: {
+    participantId: number
+  }): void {
+    this.targetParticipantId = participantId
+    this.closeParticipantSelectModal()
+  }
+
+  mounted() {
+    this.faceTypeCode = this.defaultFaceTypeCode(this.messageType)
+  }
 }
 </script>
 
@@ -318,6 +463,11 @@ export default class Say extends Vue {
       flex: 1;
     }
   }
+}
+.reply-message-area {
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid $primary;
 }
 </style>
 
@@ -340,6 +490,10 @@ export default class Say extends Vue {
 
     .say-face-area {
       padding-right: 5px;
+
+      img {
+        cursor: pointer;
+      }
     }
 
     .say-input-area {
@@ -347,9 +501,6 @@ export default class Say extends Vue {
     }
   }
 }
-</style>
-
-<style lang="scss">
 .dark-theme {
   .b-radio.button {
     border: 1px solid $primary-dark;
