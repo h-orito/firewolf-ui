@@ -53,7 +53,6 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'nuxt-property-decorator'
-import scrollTo from 'vue-scrollto'
 // type
 import Village from '~/components/type/village'
 import { VILLAGE_STATUS, MESSAGE_TYPE } from '~/components/const/consts'
@@ -92,12 +91,14 @@ export default class VillageFooter extends Vue {
   private async filter({
     messageTypeList,
     participantIdList,
+    toParticipantIdList,
     keyword
   }): Promise<void> {
     this.$emit('hide-slider')
     await this.$emit('filter', {
       messageTypeList,
       participantIdList,
+      toParticipantIdList,
       keyword
     })
     this.closeFilterModal()
