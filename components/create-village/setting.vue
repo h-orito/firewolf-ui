@@ -28,9 +28,9 @@
       <div v-if="modifiableChara">
         <h2 class="title is-6">キャラチップ</h2>
         <charachip
-          :input-value.sync="charachipIdModel"
+          :input-value.sync="charachipIdsModel"
           :charachips="charachips"
-          @load-charas="loadCharasByCharachipId($event.participantId)"
+          @load-charas="loadCharasByCharachipId($event.participantIds)"
         />
         <dummy-chara
           :input-value.sync="dummyCharaIdModel"
@@ -89,112 +89,112 @@
       <hr />
       <h2 class="title is-6">発言制限</h2>
       <notification>
-        <li>回数は0〜100（通常発言は1〜100）で設定できます。</li>
-        <li>文字数は1〜400で設定できます。</li>
+        <li>回数は0〜1000（通常発言は1〜1000）で設定できます。</li>
+        <li>文字数は1〜1000で設定できます。</li>
       </notification>
       <form-number
-        rules="required|max_value:100|min_value:1"
+        rules="required|max_value:1000|min_value:1"
         label-message="通常発言回数"
-        max="100"
+        max="1000"
         min="1"
         step="1"
         :input-value.sync="normalCountModel"
         class="m-b-5"
       />
       <form-number
-        rules="required|max_value:400|min_value:1"
+        rules="required|max_value:1000|min_value:1"
         label-message="通常発言文字数"
-        max="400"
+        max="1000"
         min="1"
         step="1"
         :input-value.sync="normalLengthModel"
         class="m-b-20"
       />
       <form-number
-        rules="required|max_value:100|min_value:0"
+        rules="required|max_value:1000|min_value:0"
         label-message="人狼の囁き回数"
-        max="100"
+        max="1000"
         min="0"
         step="1"
         :input-value.sync="whisperCountModel"
         class="m-b-5"
       />
       <form-number
-        rules="required|max_value:400|min_value:1"
+        rules="required|max_value:1000|min_value:1"
         label-message="人狼の囁き文字数"
-        max="400"
+        max="1000"
         min="1"
         step="1"
         :input-value.sync="whisperLengthModel"
         class="m-b-20"
       />
       <form-number
-        rules="required|max_value:100|min_value:0"
+        rules="required|max_value:1000|min_value:0"
         label-message="共鳴発言回数"
-        max="100"
+        max="1000"
         min="0"
         step="1"
         :input-value.sync="sympathizeCountModel"
         class="m-b-5"
       />
       <form-number
-        rules="required|max_value:400|min_value:1"
+        rules="required|max_value:1000|min_value:1"
         label-message="共鳴発言文字数"
-        max="400"
+        max="1000"
         min="1"
         step="1"
         :input-value.sync="sympathizeLengthModel"
         class="m-b-20"
       />
       <form-number
-        rules="required|max_value:100|min_value:0"
+        rules="required|max_value:1000|min_value:0"
         label-message="死者の呻き回数"
-        max="100"
+        max="1000"
         min="0"
         step="1"
         :input-value.sync="graveCountModel"
         class="m-b-5"
       />
       <form-number
-        rules="required|max_value:400|min_value:1"
+        rules="required|max_value:1000|min_value:1"
         label-message="死者の呻き文字数"
-        max="400"
+        max="1000"
         min="1"
         step="1"
         :input-value.sync="graveLengthModel"
         class="m-b-20"
       />
       <form-number
-        rules="required|max_value:100|min_value:0"
+        rules="required|max_value:1000|min_value:0"
         label-message="独り言回数"
-        max="100"
+        max="1000"
         min="0"
         step="1"
         :input-value.sync="monologueCountModel"
         class="m-b-5"
       />
       <form-number
-        rules="required|max_value:400|min_value:0"
+        rules="required|max_value:1000|min_value:0"
         label-message="独り言文字数"
-        max="400"
+        max="1000"
         min="1"
         step="1"
         :input-value.sync="monologueLengthModel"
         class="m-b-20"
       />
       <form-number
-        rules="required|max_value:100|min_value:0"
+        rules="required|max_value:1000|min_value:0"
         label-message="見学発言回数"
-        max="100"
+        max="1000"
         min="0"
         step="1"
         :input-value.sync="spectateCountModel"
         class="m-b-5"
       />
       <form-number
-        rules="required|max_value:400|min_value:0"
+        rules="required|max_value:1000|min_value:0"
         label-message="見学発言文字数"
-        max="400"
+        max="1000"
         min="1"
         step="1"
         :input-value.sync="spectateLengthModel"
@@ -223,18 +223,18 @@
         :input-value.sync="availableAction"
       />
       <form-number
-        rules="required|max_value:100|min_value:0"
+        rules="required|max_value:1000|min_value:0"
         label-message="アクション回数"
-        max="100"
+        max="1000"
         min="0"
         step="1"
         :input-value.sync="actionCountModel"
         class="m-b-5"
       />
       <form-number
-        rules="required|max_value:400|min_value:1"
+        rules="required|max_value:1000|min_value:1"
         label-message="アクション文字数"
-        max="400"
+        max="1000"
         min="1"
         step="1"
         :input-value.sync="actionLengthModel"
@@ -265,6 +265,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'nuxt-property-decorator'
+import qs from 'qs'
 import dayjs from 'dayjs'
 // type
 import Charachips from '~/components/type/charachips'
@@ -283,7 +284,7 @@ import toast from '~/components/village/village-toast'
   components: {
     formNumber: () => import('~/components/common/validation/form-number.vue'),
     formSwitch: () => import('~/components/common/validation/form-switch.vue'),
-    notification: () => import('~/components/create-village/notification.vue'),
+    notification: () => import('~/components/common/notification.vue'),
     villageName: () =>
       import('~/components/create-village/form/village-name.vue'),
     startDatetime: () =>
@@ -340,16 +341,16 @@ export default class Setting extends Vue {
     this.$emit('update:silentHours', val)
   }
 
-  /** charachipId */
-  @Prop({ type: String, required: true })
-  private charachipId!: string
+  /** charachipIds */
+  @Prop({ type: Array, required: true })
+  private charachipIds!: Array<string>
 
-  private get charachipIdModel(): string {
-    return this.charachipId
+  private get charachipIdsModel(): Array<string> {
+    return this.charachipIds
   }
 
-  private set charachipIdModel(val: string) {
-    this.$emit('update:charachipId', val)
+  private set charachipIdsModel(val: Array<string>) {
+    this.$emit('update:charachipIds', val)
   }
 
   /** dummyCharaId */
@@ -672,6 +673,10 @@ export default class Setting extends Vue {
     return this.actionLength
   }
 
+  private set actionLengthModel(val: string) {
+    this.$emit('update:actionLength', val)
+  }
+
   @Prop({ type: String, required: true })
   private saveLabel!: string
 
@@ -688,8 +693,9 @@ export default class Setting extends Vue {
 
   /** computed */
   private get charachipName(): string {
-    const charachip = this.charachips.find(c => c.value === this.charachipId)
-    return charachip ? charachip.label : ''
+    return this.charachipIds
+      .map(id => this.charachips.find(c => c.value === id)?.label)
+      .join('、')
   }
 
   private get dummyCharaName(): string {
@@ -708,15 +714,21 @@ export default class Setting extends Vue {
   }
 
   private loadCharas(): void {
-    this.loadCharasByCharachipId(this.charachipId)
+    this.loadCharasByCharachipId(this.charachipIds)
   }
 
-  private async loadCharasByCharachipId(charachipId: string): Promise<void> {
-    const charachip: Charachip = await this.$axios.$get(
-      `/charachip/${charachipId}`
-    )
-    this.charas = charachip.chara_list
-    this.dummyCharaIdModel = charachip.chara_list[0].id.toString()
+  private async loadCharasByCharachipId(
+    charachipIds: Array<string>
+  ): Promise<void> {
+    const charas: Charas = await this.$axios.$get(`/charas`, {
+      params: {
+        charachipIds
+      },
+      paramsSerializer: params =>
+        qs.stringify(params, { arrayFormat: 'repeat' })
+    })
+    this.charas = charas.list
+    this.dummyCharaIdModel = charas.list[0].id.toString()
   }
 
   private async loadSkills(): Promise<void> {
@@ -808,7 +820,7 @@ export default class Setting extends Vue {
         },
         charachip: {
           dummy_chara_id: parseInt(this.dummyCharaId),
-          charachip_id: parseInt(this.charachipId)
+          charachip_ids: this.charachipIds.map(id => parseInt(id))
         },
         rule: {
           open_vote: this.openVote,
