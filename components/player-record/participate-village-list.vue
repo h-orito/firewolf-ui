@@ -15,7 +15,7 @@
           </b-table-column>
 
           <b-table-column field="chara" label="キャラ">
-            {{ props.row.chara.chara_name.full_name }}
+            {{ props.row.name }}
           </b-table-column>
 
           <b-table-column field="chara" label="役職">
@@ -76,6 +76,7 @@ export default class ParticipantVillageList extends Vue {
           participateVillage.village.setting.organizations.organization[
             participateVillage.village.participant.count
           ],
+        name: participateVillage.participant.name,
         chara: participateVillage.participant.chara,
         chara_image: this.charaImage(participateVillage.participant),
         chara_width: this.charaImageWidth(participateVillage.participant),

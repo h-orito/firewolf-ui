@@ -1,3 +1,4 @@
+import ParticipantRpSituation from './participant-rp-situation'
 import VillageAdminSituation from '~/components/type/village-admin-situation'
 import VillageSaySituation from '~/components/type/village-say-situation'
 import VillageParticipateSituation from '~/components/type/village-participate-situation'
@@ -14,6 +15,7 @@ interface SituationAsParticipant {
   commit: VillageCommitSituation
   coming_out: VillageComingOutSituation
   say: VillageSaySituation
+  rp: ParticipantRpSituation
   ability: VillageAbilitySituations
   vote: VillageVoteSituation
   creator: VillageCreatorSituation

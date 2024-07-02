@@ -126,6 +126,12 @@ export default class RuleMessage extends Vue {
     const message: Message = {
       from: {
         id: 1,
+        name: '[着] きぐるみ ピギー',
+        chara_name: {
+          name: '',
+          short_name: '',
+          full_name: '[着] きぐるみ ピギー'
+        },
         chara: {
           id: 1,
           chara_name: {
@@ -146,7 +152,7 @@ export default class RuleMessage extends Vue {
             {
               type: 'NORMAL',
               name: '',
-              image_url: 'https://wolfort.net/wmansion/6/00_100_A.png'
+              image_url: 'https://wolfort.net/wmansion/6/000_A.png'
             }
           ]
         },
@@ -158,9 +164,16 @@ export default class RuleMessage extends Vue {
         win: null,
         comming_outs: {
           list: []
-        }
+        },
+        notification: null
+      },
+      from_character_name: {
+        name: '',
+        short_name: '',
+        full_name: '[着] きぐるみ ピギー'
       },
       to: null,
+      to_character_name: null,
       time: {
         village_day_id: 1,
         day: 1,
@@ -184,7 +197,9 @@ export default class RuleMessage extends Vue {
   private createCreatorSayMessage(text: string): Message {
     const message: Message = {
       from: null,
+      from_character_name: null,
       to: null,
+      to_character_name: null,
       time: {
         village_day_id: 1,
         day: 1,

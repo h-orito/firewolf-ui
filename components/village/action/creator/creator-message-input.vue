@@ -1,6 +1,7 @@
 <template>
   <section>
     <b-input
+      :id="id"
       size="is-small"
       type="textarea"
       rows="5"
@@ -21,6 +22,9 @@ import { Component, Vue, Prop } from 'nuxt-property-decorator'
   components: {}
 })
 export default class CreatorMessageInput extends Vue {
+  @Prop({ type: String })
+  private id!: string
+
   @Prop({ type: String })
   private value!: string
 
