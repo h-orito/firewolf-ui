@@ -108,8 +108,16 @@ export default class ModalSay extends Vue {
   private get messageTypes(): any[] {
     return [
       {
-        label: '通常発言',
-        code: MESSAGE_TYPE.NORMAL_SAY
+        label: '見学発言',
+        code: MESSAGE_TYPE.SPECTATE_SAY
+      },
+      {
+        label: '独り言',
+        code: MESSAGE_TYPE.MONOLOGUE_SAY
+      },
+      {
+        label: '死者の呻き',
+        code: MESSAGE_TYPE.GRAVE_SAY
       },
       {
         label: '人狼の囁き',
@@ -120,28 +128,20 @@ export default class ModalSay extends Vue {
         code: MESSAGE_TYPE.SYMPATHIZE_SAY
       },
       {
-        label: '死者の呻き',
-        code: MESSAGE_TYPE.GRAVE_SAY
+        label: '通常発言',
+        code: MESSAGE_TYPE.NORMAL_SAY
       },
       {
-        label: '独り言',
-        code: MESSAGE_TYPE.MONOLOGUE_SAY
-      },
-      {
-        label: '見学発言',
-        code: MESSAGE_TYPE.SPECTATE_SAY
-      },
-      {
-        label: '村建て発言',
-        code: MESSAGE_TYPE.CREATOR_SAY
+        label: '秘話',
+        code: MESSAGE_TYPE.SECRET_SAY
       },
       {
         label: 'アクション',
         code: MESSAGE_TYPE.ACTION
       },
       {
-        label: '秘話',
-        code: MESSAGE_TYPE.SECRET_SAY
+        label: '村建て発言',
+        code: MESSAGE_TYPE.CREATOR_SAY
       }
     ].filter(type => this.availableMessageTypes.includes(type.code))
   }
