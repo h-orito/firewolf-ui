@@ -251,6 +251,7 @@
       <div class="content">
         <ol>
           <li>突然死</li>
+          <li>冷やし中華</li>
           <li>求愛</li>
           <li>処刑</li>
           <li>道連れ（処刑）</li>

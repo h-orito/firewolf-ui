@@ -407,6 +407,30 @@
         </li>
       </ul>
     </div>
+    <h4 class="is-7" id="hiyasichuka"><strong>冷やし中華</strong></h4>
+    <div class="content">
+      <ul>
+        <li>
+          特別な能力はありませんが、1回だけ、始まることができます。
+        </li>
+        <li>
+          自分を対象にセットすると、翌日に始まります。
+        </li>
+        <li>日付更新時のセット先は「なし」です。</li>
+        <li>
+          メッセージ例
+          <div class="card">
+            <div class="card-content p-t-10 p-b-10 m-b-5 message-system">
+              <div class="content has-text-left">
+                <p class="hw-message-text">
+                  [暗] 暗殺者 アシュリーは、始まった。
+                </p>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
