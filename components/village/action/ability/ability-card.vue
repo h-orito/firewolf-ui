@@ -56,7 +56,7 @@
               expanded
               size="is-small"
             >
-              <option v-if="ability.available_no_target" value="">
+              <option v-if="ability.available_no_target" :value="null">
                 なし
               </option>
               <option
@@ -94,6 +94,7 @@ import VillageParticipant from '~/components/type/village-participant'
 // ts
 import api from '~/components/village/village-api'
 import villageUserSettings from '~/components/village/user-settings/village-user-settings'
+import Village from '~/components/type/village'
 // dynamic import
 const notification = () =>
   import('~/components/village/village-notification.vue')

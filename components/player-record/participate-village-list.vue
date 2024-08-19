@@ -113,12 +113,15 @@ export default class ParticipantVillageList extends Vue {
 
   private skillName(participant: VillageParticipant): string {
     if (participant.spectator) return '見物人'
-    return participant.skill!.name
+    const skillName = participant.skill!.name
+    if (participant.status.lover_id_list.length > 0)
+      return `${skillName}（恋絆）`
+    return skillName
   }
 
   private campName(participant: VillageParticipant): string {
     if (participant.spectator) return ''
-    return participant.skill!.win_judge_camp.name
+    return participant.camp?.name || ''
   }
 
   private winStatus(participant: VillageParticipant): string {

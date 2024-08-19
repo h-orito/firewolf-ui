@@ -54,12 +54,18 @@
                 </div>
               </div>
             </div>
+          </div>
+          <div class="column is-6">
             <h2 class="title is-size-6">陣営戦績</h2>
-            <div class="columns is-mobile">
+            <div
+              v-for="chunkRecords in chunk(playerRecords.camp_record_list, 2)"
+              :key="chunkRecords[0].camp.code"
+              class="columns is-6 is-mobile"
+            >
               <div
-                v-for="campRecord in playerRecords.camp_record_list"
+                v-for="campRecord in chunkRecords"
                 :key="campRecord.camp.code"
-                class="column is-4 chart-container m-b-20"
+                class="column is-6 chart-container m-b-20"
               >
                 <doughnut-chart
                   :chart-data="campData(campRecord)"
@@ -71,31 +77,26 @@
               </div>
             </div>
           </div>
-          <div class="column is-6">
-            <h2 class="title is-size-6">役職戦績</h2>
-            <div class="m-b-20">
-              <div
-                v-for="chunkRecords in chunk(
-                  playerRecords.skill_record_list,
-                  2
-                )"
-                :key="chunkRecords[0].skill.code"
-                class="columns is-mobile"
-              >
-                <div
-                  v-for="skillRecord in chunkRecords"
-                  :key="skillRecord.skill.code"
-                  class="column is-6 chart-container m-b-20"
-                >
-                  <doughnut-chart
-                    :chart-data="skillData(skillRecord)"
-                    :options="chartOption"
-                    :styles="chartStyles"
-                    :text="skillRecord.skill.name"
-                  />
-                  <p class="is-size-7">{{ skillResult(skillRecord) }}</p>
-                </div>
-              </div>
+        </div>
+        <h2 class="title is-size-6">役職戦績</h2>
+        <div class="m-b-20">
+          <div
+            v-for="chunkRecords in chunk(playerRecords.skill_record_list, 4)"
+            :key="chunkRecords[0].skill.code"
+            class="columns is-mobile"
+          >
+            <div
+              v-for="skillRecord in chunkRecords"
+              :key="skillRecord.skill.code"
+              class="column is-3 chart-container m-b-20"
+            >
+              <doughnut-chart
+                :chart-data="skillData(skillRecord)"
+                :options="chartOption"
+                :styles="chartStyles"
+                :text="skillRecord.skill.name"
+              />
+              <p class="is-size-7">{{ skillResult(skillRecord) }}</p>
             </div>
           </div>
         </div>

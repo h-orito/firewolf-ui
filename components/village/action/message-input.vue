@@ -135,6 +135,9 @@ export default class MessageInput extends Vue {
       case MESSAGE_TYPE.SYMPATHIZE_SAY:
         className = 'sympathize-say-input'
         break
+      case MESSAGE_TYPE.LOVERS_SAY:
+        className = 'lovers-say-input'
+        break
       case MESSAGE_TYPE.MONOLOGUE_SAY:
         className = 'monologue-say-input'
         break
@@ -184,6 +187,15 @@ export default class MessageInput extends Vue {
   &.dark-theme {
     background-color: $sympathize-say-dark !important;
     color: $black !important;
+  }
+}
+.lovers-say-input {
+  background-color: $lovers-say !important;
+  color: $lovers-say-text !important;
+
+  &.dark-theme {
+    background-color: $lovers-say-dark !important;
+    color: $lovers-say-text !important;
   }
 }
 .monologue-say-input {

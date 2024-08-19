@@ -368,6 +368,42 @@
         </li>
       </ul>
     </div>
+    <h4 class="is-7" id="court"><strong>求愛</strong></h4>
+    <div class="content">
+      <ul>
+        <li>
+          1回だけ1人を指定し、自身と指定した人同士で恋絆を結ぶことができます。（相手にも通知されます）
+        </li>
+        <li>
+          指定なしが可能で、日付更新時のセット先は「指定なし」です。<br />（ダミーキャラは対象を指定しないため、求愛は実行されません。）
+        </li>
+        <li>
+          メッセージ例
+          <div class="card">
+            <div
+              class="card-content p-t-10 p-b-10 m-b-5 message-system-private-lovers"
+            >
+              <div class="content has-text-left">
+                <p class="hw-message-text">
+                  [暗] 暗殺者 アシュリーは、[転] 転生者 ハルトに求愛した。
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div
+              class="card-content p-t-10 p-b-10 m-b-5 message-system-private-lovers"
+            >
+              <div class="content has-text-left">
+                <p class="hw-message-text">
+                  [暗] 暗殺者 アシュリーは、[転] 転生者 ハルトに求愛された。
+                </p>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -408,6 +444,10 @@ export default class RuleAbility extends Vue {}
   &.message-system-private-mason {
     border: 1px solid $mason-system-border;
     background-color: $mason-system-bg;
+  }
+  &.message-system-private-lovers {
+    border: 1px solid $lovers-system-border;
+    background-color: $lovers-system-bg;
   }
 }
 </style>

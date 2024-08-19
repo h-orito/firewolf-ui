@@ -120,6 +120,10 @@ export default class ModalSay extends Vue {
         code: MESSAGE_TYPE.GRAVE_SAY
       },
       {
+        label: '恋人発言',
+        code: MESSAGE_TYPE.LOVERS_SAY
+      },
+      {
         label: '人狼の囁き',
         code: MESSAGE_TYPE.WEREWOLF_SAY
       },

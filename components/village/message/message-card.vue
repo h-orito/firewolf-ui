@@ -286,6 +286,7 @@ const messageTypeMap = new Map<string, string>([
   [MESSAGE_TYPE.GRAVE_SAY, 'say'],
   [MESSAGE_TYPE.MONOLOGUE_SAY, 'say'],
   [MESSAGE_TYPE.SYMPATHIZE_SAY, 'say'],
+  [MESSAGE_TYPE.LOVERS_SAY, 'say'],
   [MESSAGE_TYPE.SPECTATE_SAY, 'say'],
   [MESSAGE_TYPE.SECRET_SAY, 'say'],
   [MESSAGE_TYPE.PUBLIC_SYSTEM, 'system'],
@@ -300,6 +301,8 @@ const messageTypeMap = new Map<string, string>([
   [MESSAGE_TYPE.PRIVATE_MASON, 'system'],
   [MESSAGE_TYPE.PRIVATE_FOX, 'system'],
   [MESSAGE_TYPE.PRIVATE_SYMPATHIZER, 'system'],
+  [MESSAGE_TYPE.PRIVATE_LOVERS, 'system'],
+  [MESSAGE_TYPE.PRIVATE_ABILITY, 'system'],
   [MESSAGE_TYPE.CREATOR_SAY, 'system'],
   [MESSAGE_TYPE.PARTICIPANTS, 'participants'],
   [MESSAGE_TYPE.ACTION, 'action']
