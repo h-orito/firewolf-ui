@@ -21,6 +21,7 @@
           <li>&gt;&gt;1 通常発言へのアンカー</li>
           <li>&gt;&gt;*1 人狼の囁きへのアンカー</li>
           <li>&gt;&gt;=1 共鳴発言へのアンカー</li>
+          <li>&gt;&gt;?1 恋人発言へのアンカー</li>
           <li>&gt;&gt;+1 死者の呻きへのアンカー</li>
           <li>&gt;&gt;-1 独り言へのアンカー（エピローグ後のみ）</li>
           <li>&gt;&gt;s1 秘話へのアンカー（エピローグ後のみ）</li>
@@ -42,6 +43,24 @@
     />
     <message-card
       :message="werewolfSay"
+      :is-progress="false"
+      :index="null"
+      :is-dark-theme="false"
+      :is-disp-date="false"
+      :is-img-large="false"
+      ref="messageCard"
+    />
+    <message-card
+      :message="sympathizeSay"
+      :is-progress="false"
+      :index="null"
+      :is-dark-theme="false"
+      :is-disp-date="false"
+      :is-img-large="false"
+      ref="messageCard"
+    />
+    <message-card
+      :message="loversSay"
       :is-progress="false"
       :index="null"
       :is-dark-theme="false"
@@ -102,6 +121,13 @@ export default class RuleMessage extends Vue {
     )
   }
 
+  private get loversSay(): Message {
+    return this.createMessage(
+      MESSAGE_TYPE.LOVERS_SAY,
+      '恋人発言です。\n進行中は恋絆がついた人しか見ることができません。\nエピローグを迎えると全員が見ることができます。'
+    )
+  }
+
   private get monologueSay(): Message {
     return this.createMessage(
       MESSAGE_TYPE.MONOLOGUE_SAY,
@@ -157,11 +183,15 @@ export default class RuleMessage extends Vue {
           ]
         },
         player: null,
+        status: {
+          lover_id_list: []
+        },
         dead: null,
         spectator: false,
         skill: null,
         skill_request: null,
         win: null,
+        camp: null,
         comming_outs: {
           list: []
         },

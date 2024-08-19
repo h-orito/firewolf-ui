@@ -148,6 +148,24 @@
       />
       <form-number
         rules="required|max_value:1000|min_value:0"
+        label-message="恋人発言回数"
+        max="1000"
+        min="0"
+        step="1"
+        :input-value.sync="loversCountModel"
+        class="m-b-5"
+      />
+      <form-number
+        rules="required|max_value:1000|min_value:1"
+        label-message="恋人発言文字数"
+        max="1000"
+        min="1"
+        step="1"
+        :input-value.sync="loversLengthModel"
+        class="m-b-20"
+      />
+      <form-number
+        rules="required|max_value:1000|min_value:0"
         label-message="死者の呻き回数"
         max="1000"
         min="0"
@@ -545,6 +563,30 @@ export default class Setting extends Vue {
     this.$emit('update:sympathizeLength', val)
   }
 
+  /** loversCount */
+  @Prop({ type: String, required: true })
+  private loversCount!: string
+
+  private get loversCountModel(): string {
+    return this.loversCount
+  }
+
+  private set loversCountModel(val: string) {
+    this.$emit('update:loversCount', val)
+  }
+
+  /** loversLength */
+  @Prop({ type: String, required: true })
+  private loversLength!: string
+
+  private get loversLengthModel(): string {
+    return this.loversLength
+  }
+
+  private set loversLengthModel(val: string) {
+    this.$emit('update:loversLength', val)
+  }
+
   /** graveCount */
   @Prop({ type: String, required: true })
   private graveCount!: string
@@ -848,6 +890,11 @@ export default class Setting extends Vue {
               type: MESSAGE_TYPE.SYMPATHIZE_SAY,
               count: this.sympathizeCount,
               length: this.sympathizeLength
+            },
+            {
+              type: MESSAGE_TYPE.LOVERS_SAY,
+              count: this.loversCount,
+              length: this.loversLength
             },
             {
               type: MESSAGE_TYPE.GRAVE_SAY,

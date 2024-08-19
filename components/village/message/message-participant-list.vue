@@ -37,6 +37,9 @@
                 <strong>{{ skillName(participant) }}</strong>
                 {{ skillRequest(participant) }}
               </p>
+              <p class="chara-status" :class="winStatusClass(participant)">
+                {{ winStatus(participant) }}
+              </p>
             </div>
           </div>
           <div class="button-area m-l-5 is-size-7">
@@ -107,6 +110,7 @@ export default class ParticipantListMessage extends Vue {
   private deadReasonPriority(reason: string) {
     if (reason === '突然') return 2
     if (reason === '処刑') return 1
+    if (reason === '後追') return -1
     return 0
   }
 
@@ -119,8 +123,8 @@ export default class ParticipantListMessage extends Vue {
   private charaStatus(participant: VillageParticipant): string {
     if (participant.spectator) return ''
     if (!participant.dead) return '生存'
-    const day = participant.dead.village_day.day
-    const reason = participant.dead.reason
+    const day = participant.dead!.village_day.day
+    const reason = participant.dead!.reason
     return `${day}d${reason}`
   }
 
@@ -131,9 +135,22 @@ export default class ParticipantListMessage extends Vue {
     return 'has-text-danger'
   }
 
+  private winStatus(participant: VillageParticipant): string {
+    if (participant.spectator) return ''
+    return participant.win ? '勝利' : '敗北'
+  }
+
+  private winStatusClass(participant: VillageParticipant): string {
+    if (participant.spectator) return ''
+    return participant.win ? 'has-text-success' : 'has-text-danger'
+  }
+
   private skillName(participant: VillageParticipant): string {
     if (participant.spectator) return '見物人'
-    return participant.skill!.name
+    const skillName = participant.skill!.name
+    if (participant.status.lover_id_list.length > 0)
+      return `${skillName}（恋絆）`
+    return skillName
   }
 
   private skillRequest(participant: VillageParticipant): string {

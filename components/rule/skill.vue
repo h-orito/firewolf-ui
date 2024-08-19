@@ -182,7 +182,7 @@ export default class RuleSkill extends Vue {
   private countCamp(camp: Camp | null): string {
     if (camp == null) {
       return '-'
-    } else if (camp.name === '村人陣営') {
+    } else if (camp.name === '村人陣営' || camp.name === '恋人陣営') {
       return '人間'
     } else if (camp.name === '人狼陣営') {
       return '人狼'

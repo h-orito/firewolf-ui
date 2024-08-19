@@ -18,6 +18,9 @@
             <notification v-if="!isAlive" type="info" class="m-b-5">
               あなたは死亡しました。
             </notification>
+            <notification v-if="participantStatus" type="warning" class="m-b-5">
+              {{ participantStatus }}
+            </notification>
             <notification v-if="myself.skill" type="default" class="m-b-5">
               <span style="white-space: pre-line;">{{ skillDescription }}</span>
             </notification>
@@ -161,6 +164,7 @@ import toast from '~/components/village/village-toast'
 import villageUserSettings from '~/components/village/user-settings/village-user-settings'
 import CharaFace from '~/components/type/chara-face'
 import VillageAnchorMessage from '~/components/type/village-anchor-message'
+import Village from '~/components/type/village'
 const modalSay = () => import('~/components/village/action/say/modal-say.vue')
 const charaImage = () => import('~/components/village/chara-image.vue')
 const faceSelectModal = () =>
@@ -194,6 +198,7 @@ export default class Say extends Vue {
   private messageTypeFaceTypeMap: Map<string, string> = new Map([
     [MESSAGE_TYPE.NORMAL_SAY, FACE_TYPE.NORMAL],
     [MESSAGE_TYPE.WEREWOLF_SAY, FACE_TYPE.WEREWOLF],
+    [MESSAGE_TYPE.LOVERS_SAY, FACE_TYPE.LOVER],
     [MESSAGE_TYPE.SPECTATE_SAY, FACE_TYPE.NORMAL],
     [MESSAGE_TYPE.SECRET_SAY, FACE_TYPE.SECRET],
     [MESSAGE_TYPE.MONOLOGUE_SAY, FACE_TYPE.MONOLOGUE],
@@ -229,6 +234,10 @@ export default class Say extends Vue {
     return this.$store.getters.getVillageId!
   }
 
+  private get village(): Village {
+    return this.$store.getters.getVillage!
+  }
+
   private get situation(): SituationAsParticipant {
     return this.$store.getters.getSituation!
   }
@@ -248,6 +257,17 @@ export default class Say extends Vue {
     } else {
       return name
     }
+  }
+
+  private get participantStatus(): string | null {
+    const loverIds = this.myself.status.lover_id_list
+    if (loverIds.length === 0) return null
+    const lovers = this.village.participant.member_list.filter(participant =>
+      loverIds.includes(participant.id)
+    )
+    return `あなたは${lovers
+      .map(lover => lover.name)
+      .join('、')}に恋しています。`
   }
 
   private get skillDescription(): string {

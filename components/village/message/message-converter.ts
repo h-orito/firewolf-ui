@@ -203,6 +203,7 @@ const anchorRegexps: RegExp[] = [
   /(&gt;&gt;@\d{1,5})/g,
   /(&gt;&gt;-\d{1,5})/g,
   /(&gt;&gt;\*\d{1,5})/g,
+  /(&gt;&gt;\?\d{1,5})/g,
   /(&gt;&gt;#\d{1,5})/g,
   /(&gt;&gt;a\d{1,5})/g,
   /(&gt;&gt;s\d{1,5})/g
@@ -228,6 +229,8 @@ export const getAnchorType = (mes: string): string | null => {
     return MESSAGE_TYPE.GRAVE_SAY
   } else if (text.match(/(&gt;&gt;=\d{1,5})/)) {
     return MESSAGE_TYPE.SYMPATHIZE_SAY
+  } else if (text.match(/(&gt;&gt;\?\d{1,5})/)) {
+    return MESSAGE_TYPE.LOVERS_SAY
   } else if (text.match(/(&gt;&gt;@\d{1,5})/)) {
     return MESSAGE_TYPE.SPECTATE_SAY
   } else if (text.match(/(&gt;&gt;#\d{1,5})/)) {
@@ -248,6 +251,7 @@ const sayMessageClassMap: Map<string, string> = new Map([
   [MESSAGE_TYPE.WEREWOLF_SAY, 'werewolf-say'],
   [MESSAGE_TYPE.MONOLOGUE_SAY, 'monologue-say'],
   [MESSAGE_TYPE.SYMPATHIZE_SAY, 'sympathize-say'],
+  [MESSAGE_TYPE.LOVERS_SAY, 'lovers-say'],
   [MESSAGE_TYPE.GRAVE_SAY, 'grave-say'],
   [MESSAGE_TYPE.SPECTATE_SAY, 'spectate-say'],
   [MESSAGE_TYPE.ACTION, 'action-say'],
@@ -265,8 +269,10 @@ const systemMessageClassMap: Map<string, string> = new Map([
   [MESSAGE_TYPE.PRIVATE_WEREWOLF, 'message-system-private-werewolf'],
   [MESSAGE_TYPE.PRIVATE_FANATIC, 'message-system-private-werewolf'],
   [MESSAGE_TYPE.PRIVATE_MASON, 'message-system-private-mason'],
+  [MESSAGE_TYPE.PRIVATE_LOVERS, 'message-system-private-lovers'],
   [MESSAGE_TYPE.PRIVATE_FOX, 'message-system-private-fox'],
   [MESSAGE_TYPE.PRIVATE_SYMPATHIZER, 'message-system-private-mason'],
+  [MESSAGE_TYPE.PRIVATE_ABILITY, 'message-system-private-ability'],
   [MESSAGE_TYPE.CREATOR_SAY, 'message-system-creator'],
   [MESSAGE_TYPE.PARTICIPANTS, '']
 ])
@@ -277,6 +283,7 @@ const anchorPrefixMap: Map<string, string> = new Map([
   [MESSAGE_TYPE.GRAVE_SAY, '+'],
   [MESSAGE_TYPE.WEREWOLF_SAY, '*'],
   [MESSAGE_TYPE.SYMPATHIZE_SAY, '='],
+  [MESSAGE_TYPE.LOVERS_SAY, '?'],
   [MESSAGE_TYPE.SPECTATE_SAY, '@'],
   [MESSAGE_TYPE.CREATOR_SAY, '#'],
   [MESSAGE_TYPE.ACTION, 'a'],

@@ -209,6 +209,15 @@ export default class MessageSay extends Vue {
           border: 1px solid $sympathize-say-dark;
         }
       }
+      &.lovers-say {
+        background-color: $lovers-say;
+        color: $lovers-say-text;
+
+        &.dark-theme {
+          background-color: $lovers-say-dark;
+          border: 1px solid $lovers-say-dark;
+        }
+      }
       &.monologue-say {
         background-color: $monologue-say;
         color: $black;

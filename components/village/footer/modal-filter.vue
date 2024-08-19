@@ -72,6 +72,15 @@
             <b-checkbox-button
               v-model="messageTypeCodeGroup"
               class="message-type-checkbox"
+              native-value="LOVERS_SAY"
+              type="is-primary"
+              size="is-small"
+            >
+              恋人
+            </b-checkbox-button>
+            <b-checkbox-button
+              v-model="messageTypeCodeGroup"
+              class="message-type-checkbox"
               native-value="GRAVE_SAY"
               type="is-primary"
               size="is-small"
@@ -257,12 +266,15 @@ export default class ModalFilter extends Vue {
         MESSAGE_TYPE.PRIVATE_CORONER,
         MESSAGE_TYPE.PRIVATE_WEREWOLF,
         MESSAGE_TYPE.PRIVATE_MASON,
-        MESSAGE_TYPE.PRIVATE_SYMPATHIZER
+        MESSAGE_TYPE.PRIVATE_SYMPATHIZER,
+        MESSAGE_TYPE.PRIVATE_LOVERS,
+        MESSAGE_TYPE.PRIVATE_ABILITY
       ]
     ],
     [MESSAGE_TYPE.NORMAL_SAY, [MESSAGE_TYPE.NORMAL_SAY]],
     [MESSAGE_TYPE.WEREWOLF_SAY, [MESSAGE_TYPE.WEREWOLF_SAY]],
     [MESSAGE_TYPE.SYMPATHIZE_SAY, [MESSAGE_TYPE.SYMPATHIZE_SAY]],
+    [MESSAGE_TYPE.LOVERS_SAY, [MESSAGE_TYPE.LOVERS_SAY]],
     [MESSAGE_TYPE.MONOLOGUE_SAY, [MESSAGE_TYPE.MONOLOGUE_SAY]],
     [
       MESSAGE_TYPE.GRAVE_SAY,
@@ -278,6 +290,7 @@ export default class ModalFilter extends Vue {
     MESSAGE_TYPE.NORMAL_SAY,
     MESSAGE_TYPE.WEREWOLF_SAY,
     MESSAGE_TYPE.SYMPATHIZE_SAY,
+    MESSAGE_TYPE.LOVERS_SAY,
     MESSAGE_TYPE.MONOLOGUE_SAY,
     MESSAGE_TYPE.GRAVE_SAY,
     MESSAGE_TYPE.ACTION,

@@ -206,7 +206,9 @@
             </ul>
           </li>
           <li>何人時短希望しているか知ることはできません。</li>
-          <li>時短により次の日に遷移した場合、前日に発言していなくても突然死しません。</li>
+          <li>
+            時短により次の日に遷移した場合、前日に発言していなくても突然死しません。
+          </li>
         </ul>
       </div>
       <h3 class="title is-6">カミングアウト</h3>
@@ -249,6 +251,7 @@
       <div class="content">
         <ol>
           <li>突然死</li>
+          <li>求愛</li>
           <li>処刑</li>
           <li>道連れ（処刑）</li>
           <li>霊視</li>
@@ -256,7 +259,7 @@
           <li>護衛</li>
           <li>襲撃</li>
           <li>道連れ（襲撃）</li>
-          <li>背徳者の後追い</li>
+          <li>恋絆、背徳者の後追い</li>
           <li>勝敗判定</li>
         </ol>
       </div>
@@ -289,8 +292,90 @@
       <skill :skill-list="skillList" @scroll="scrollAbility($event)" />
       <h3 class="title is-6">能力</h3>
       <ability />
-      <h3 class="title is-6">陣営、勝利条件</h3>
+      <h3 class="title is-6">ステータス</h3>
       <div class="content">
+        <ul>
+          <li>
+            恋絆
+            <ul>
+              <li>恋絆を結んだ先の人が死亡すると、自身も後追死します。</li>
+              <li>
+                恋絆が付与されている人同士にしか聞こえない恋人発言が可能です。
+              </li>
+              <li>
+                Bさんへの恋絆がAさんに付与されていて、Aさんへの恋絆がBさんに付与されていない場合、Bさんは後追死しませんし、Bさんは恋人会話を使用することもできません。（いわゆる片想い状態）
+              </li>
+              <li>
+                自身の役職にかかわらず、勝利条件が恋人陣営に上書きされます。
+              </li>
+              <li>
+                <div class="card">
+                  <div class="card-content p-t-10 p-b-10 m-b-5 message-system">
+                    <div class="content has-text-left">
+                      <p class="hw-message-text">
+                        村長 ヴァルターは、絆に引きずられるように農夫
+                        ヤコブの後を追った。
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <h3 class="title is-6">勝敗判定</h3>
+      <strong>エピローグ遷移条件</strong>
+      <div class="m-t-10 m-b-20 content">
+        <ul>
+          <li>
+            以下のいずれかを満たすとエピローグを迎え、勝敗判定が行われます。
+            <ul>
+              <li>
+                夜明け時点で生存している人狼カウント数≧生存している人間カウント数
+              </li>
+              <li>
+                夜明け時点で生存している人狼カウント数が0人かつ生存している人間カウント数が1人以上
+              </li>
+            </ul>
+          </li>
+          <li>
+            「人間」「人狼」どちらにカウントされるかは能力欄の「勝敗判定カウント」を参照してください。
+            <ul>
+              <li>
+                「勝敗判定カウント」が「-」の場合はどちらにもカウントされません。
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <strong>個人ごとの勝敗判定</strong>
+      <div class="m-t-10 m-b-20 content">
+        <b-table
+          :data="personalWinConditions"
+          ref="table"
+          striped
+          narrowed
+          :show-detail-icon="false"
+          :mobile-cards="false"
+          id="win-personal-table"
+        >
+          <template slot-scope="props">
+            <b-table-column field="condition" label="前提">
+              <template>
+                {{ props.row.condition }}
+              </template>
+            </b-table-column>
+            <b-table-column field="result" label="勝利条件">
+              <template>
+                {{ props.row.result }}
+              </template>
+            </b-table-column>
+          </template>
+        </b-table>
+      </div>
+      <strong>陣営の勝敗判定</strong>
+      <div class="m-t-10 m-b-20 content">
         <b-table
           :data="camps"
           ref="table"
@@ -314,55 +399,66 @@
           </template>
         </b-table>
         <ul>
-          <li>
-            「人間」「人狼」どちらにカウントされるかは能力欄の「勝敗判定カウント」を参照してください。
-            <ul>
-              <li>
-                「勝敗判定カウント」が「-」の場合はどちらにもカウントされません。
-              </li>
-            </ul>
-          </li>
           <li>同時に条件を満たした場合、上にあるものが優先されます。</li>
         </ul>
       </div>
       <h3 class="title is-6">文字装飾</h3>
       <div class="content">
         <ul>
-          <li>&#091;&#091;#ff0000&#093;&#093;文字列&#091;&#091;/#&#093;&#093;で文字に色をつけられます。
-                <ul>
-                    <li>&#091;&#091;#ff0000&#093;&#093;文字列&#091;&#091;/#&#093;&#093; → <span
-                            style="color: #ff0000;">文字列</span></li>
-                </ul>
-            </li>
-            <li>&#091;&#091;large&#093;&#093;文字列&#091;&#091;/large&#093;&#093;で文字を大きくできます。
-                <ul>
-                    <li>&#091;&#091;large&#093;&#093;文字列&#091;&#091;/large&#093;&#093; → <span style="font-size: 16px;">文字列</span>
-                    </li>
-                </ul>
-            </li>
-            <li>&#091;&#091;small&#093;&#093;文字列&#091;&#091;/small&#093;&#093;で文字を小さくできます。
-                <ul>
-                    <li>&#091;&#091;small&#093;&#093;文字列&#091;&#091;/small&#093;&#093; → <span style="font-size: 10px;">文字列</span>
-                    </li>
-                </ul>
-            </li>
-            <li>&#091;&#091;b&#093;&#093;文字列&#091;&#091;/b&#093;&#093;で文字を太くできます。
-                <ul>
-                    <li>&#091;&#091;b&#093;&#093;文字列&#091;&#091;/b&#093;&#093; → <strong>文字列</strong></li>
-                </ul>
-            </li>
-            <li>&#091;&#091;s&#093;&#093;文字列&#091;&#091;/s&#093;&#093;で文字に打ち消し線をつけられます。
-                <ul>
-                    <li>&#091;&#091;s&#093;&#093;文字列&#091;&#091;/s&#093;&#093; → <span
-                            style="text-decoration: line-through;">文字列</span></li>
-                </ul>
-            </li>
-            <li>&#091;&#091;ruby&#093;&#093;文字列&#091;&#091;rt&#093;&#093;ルビ&#091;&#091;/rt&#093;&#093;&#091;&#091;/ruby&#093;&#093;でルビを振れます。
-                <ul>
-                    <li>&#091;&#091;ruby&#093;&#093;文字列&#091;&#091;rt&#093;&#093;ルビ&#091;&#091;/rt&#093;&#093;&#091;&#091;/ruby&#093;&#093; → <ruby>文字列<rt>ルビ</rt></ruby>
-                    </li>
-                </ul>
-            </li>
+          <li>
+            &#091;&#091;#ff0000&#093;&#093;文字列&#091;&#091;/#&#093;&#093;で文字に色をつけられます。
+            <ul>
+              <li>
+                &#091;&#091;#ff0000&#093;&#093;文字列&#091;&#091;/#&#093;&#093;
+                → <span style="color: #ff0000;">文字列</span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            &#091;&#091;large&#093;&#093;文字列&#091;&#091;/large&#093;&#093;で文字を大きくできます。
+            <ul>
+              <li>
+                &#091;&#091;large&#093;&#093;文字列&#091;&#091;/large&#093;&#093;
+                → <span style="font-size: 16px;">文字列</span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            &#091;&#091;small&#093;&#093;文字列&#091;&#091;/small&#093;&#093;で文字を小さくできます。
+            <ul>
+              <li>
+                &#091;&#091;small&#093;&#093;文字列&#091;&#091;/small&#093;&#093;
+                → <span style="font-size: 10px;">文字列</span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            &#091;&#091;b&#093;&#093;文字列&#091;&#091;/b&#093;&#093;で文字を太くできます。
+            <ul>
+              <li>
+                &#091;&#091;b&#093;&#093;文字列&#091;&#091;/b&#093;&#093; →
+                <strong>文字列</strong>
+              </li>
+            </ul>
+          </li>
+          <li>
+            &#091;&#091;s&#093;&#093;文字列&#091;&#091;/s&#093;&#093;で文字に打ち消し線をつけられます。
+            <ul>
+              <li>
+                &#091;&#091;s&#093;&#093;文字列&#091;&#091;/s&#093;&#093; →
+                <span style="text-decoration: line-through;">文字列</span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            &#091;&#091;ruby&#093;&#093;文字列&#091;&#091;rt&#093;&#093;ルビ&#091;&#091;/rt&#093;&#093;&#091;&#091;/ruby&#093;&#093;でルビを振れます。
+            <ul>
+              <li>
+                &#091;&#091;ruby&#093;&#093;文字列&#091;&#091;rt&#093;&#093;ルビ&#091;&#091;/rt&#093;&#093;&#091;&#091;/ruby&#093;&#093;
+                → <ruby>文字列<rt>ルビ</rt></ruby>
+              </li>
+            </ul>
+          </li>
         </ul>
       </div>
       <h3 class="title is-6">その他</h3>
@@ -406,21 +502,38 @@ export default class extends Vue {
   private skillList: Skill[] = []
 
   /** computed */
+  private get personalWinConditions(): { condition: string; result: string }[] {
+    return [
+      {
+        condition: 'ステータス「恋絆」が付与されている',
+        result: '恋人陣営の勝利'
+      },
+      {
+        condition: 'それ以外',
+        result: '役職が属する陣営の勝利'
+      }
+    ]
+  }
+
   private get camps(): Camp[] {
     return [
       {
+        name: '恋人陣営',
+        win_condition: '恋人陣営または恋絆がついた人が1名以上生存'
+      },
+      {
         name: '狐陣営',
-        win_condition:
-          '人狼陣営または村人陣営が勝利条件を満たした状態で妖狐が生存'
+        win_condition: '妖狐系役職が1名以上生存'
       },
       {
         name: '人狼陣営',
         win_condition:
-          '夜明け時点で生存している「人狼」の数 ≧ 生存している「人間」の数'
+          '夜明け時点で生存している人狼カウント数 ≧ 生存している人間カウント数'
       },
       {
         name: '村人陣営',
-        win_condition: '夜明け時点で「人狼」が全員死亡'
+        win_condition:
+          '夜明け時点で生存している人狼カウント数が0人かつ生存している人間カウント数が1人以上'
       }
     ]
   }
@@ -439,5 +552,40 @@ export default class extends Vue {
 .b-table {
   overflow: auto;
   white-space: nowrap;
+}
+.card-content {
+  padding: 10px !important;
+  font-family: sans-serif;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+
+  &:not(.dark-theme) {
+    color: $black;
+  }
+
+  &.message-system-private {
+    border: 1px solid $private-system-border;
+    background-color: $private-system-bg;
+  }
+  &.message-system-private-seer {
+    border: 1px solid $seer-system-border;
+    background-color: $seer-system-bg;
+  }
+  &.message-system-private-psychic {
+    border: 1px solid $psychic-system-border;
+    background-color: $psychic-system-bg;
+  }
+  &.message-system-private-werewolf {
+    border: 1px solid $werewolf-system-border;
+    background-color: $werewolf-system-bg;
+  }
+  &.message-system-private-mason {
+    border: 1px solid $mason-system-border;
+    background-color: $mason-system-bg;
+  }
+  &.message-system-private-lovers {
+    border: 1px solid $lovers-system-border;
+    background-color: $lovers-system-bg;
+  }
 }
 </style>

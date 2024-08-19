@@ -1,5 +1,7 @@
 import VillageParticipantNotificationCondition from './village-participant-notification-condition'
-import CharaName from './chara-name'
+import CharaName from '~/components/type/chara-name'
+import VillageParticipantStatus from '~/components/type/village-participant-status'
+import Camp from '~/components/type/camp'
 import Player from '~/components/type/player'
 import Chara from '~/components/type/chara'
 import Dead from '~/components/type/dead'
@@ -13,11 +15,13 @@ interface VillageParticipant {
   chara_name: CharaName
   chara: Chara
   player: Player | null
+  status: VillageParticipantStatus
   dead: Dead | null
   spectator: boolean
   skill: Skill | null
   skill_request: SkillRequest | null
   win: boolean | null
+  camp: Camp | null
   comming_outs: ComingOuts
   notification: VillageParticipantNotificationCondition | null
 }
