@@ -4,6 +4,7 @@
       <h1 class="title is-5">更新情報</h1>
       <div class="content">
         <ul class="has-text-left is-size-7">
+          <li>2024/08/19 役職：冷やし中華を追加</li>
           <li>2024/08/19 役職：求愛者を追加</li>
           <li>2024/04/13 名前変更機能を追加</li>
           <li>2024/03/18 各発言に返信と秘話ボタンを追加</li>
