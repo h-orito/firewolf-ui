@@ -27,7 +27,7 @@
     "dayjs": "^1.8.32",
     "firebase": "^8.10.0",
     "luxon": "1.28.1",
-    "nuxt": "^2.15.1",
+    "nuxt": "^3.13.0",
     "nuxt-buefy": "^0.3.31",
     "nuxt-clipboard2": "^0.2.1",
     "nuxt-property-decorator": "^2.7.2",
@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "@nuxt/types": "^2.14.1",
-    "@nuxt/typescript-build": "^1.0.3",
+    "@nuxt/typescript-build": "^3.0.2",
     "@nuxtjs/eslint-config-typescript": "^1.0.2",
     "@nuxtjs/style-resources": "^1.0.0",
     "eslint": "^6.8.0",
