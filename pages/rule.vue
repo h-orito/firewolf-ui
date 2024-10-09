@@ -460,6 +460,19 @@
               </li>
             </ul>
           </li>
+          <li>
+            &#091;&#091;cw&#093;&#093;文字列&#091;&#091;/cw&#093;&#093;で文字を隠せます（クリックで除去できます）。
+            <ul>
+              <li>
+                &#091;&#091;cw&#093;&#093;文字列&#091;&#091;/cw&#093;&#093; →
+                <span
+                  class="netabare"
+                  onclick="this.classList.remove('netabare')"
+                  >文字列</span
+                >
+              </li>
+            </ul>
+          </li>
         </ul>
       </div>
       <h3 class="title is-6">その他</h3>

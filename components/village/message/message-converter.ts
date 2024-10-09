@@ -173,6 +173,7 @@ const strikeRegex = /\[\[s\]\]([\s\S]*?)\[\[\/s\]\]/g
 const largeRegex = /\[\[large\]\]([\s\S]*?)\[\[\/large\]\]/g
 const smallRegex = /\[\[small\]\]([\s\S]*?)\[\[\/small\]\]/g
 const rubyRegex = /\[\[ruby\]\]([\s\S]*?)\[\[rt\]\]([\s\S]*?)\[\[\/rt\]\]\[\[\/ruby\]\]/g
+const cwRegex = /\[\[cw\]\]([\s\S]*?)\[\[\/cw\]\]/g
 
 const convertToDecoratedText = (text: string): string => {
   let t = String(text)
@@ -185,6 +186,10 @@ const convertToDecoratedText = (text: string): string => {
   t = t.replace(largeRegex, '<span style="font-size: 150%;">$1</span>')
   t = t.replace(smallRegex, '<span style="font-size: 80%;">$1</span>')
   t = t.replace(rubyRegex, '<ruby>$1<rt>$2</rt></ruby>')
+  t = t.replace(
+    cwRegex,
+    '<span class="netabare" onclick="this.classList.remove(\'netabare\')">$1</span>'
+  )
   return t
 }
 

@@ -15,6 +15,9 @@
     <decorate-button @click="addRubyTag">
       rb
     </decorate-button>
+    <decorate-button @click="addTag('cw')">
+      隠
+    </decorate-button>
     <decorate-button @click="addTag('#ff0000', '#')">
       <span style="color: #ff0000">■</span>
     </decorate-button>
