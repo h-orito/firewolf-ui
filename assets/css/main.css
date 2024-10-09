@@ -9,3 +9,9 @@
 ruby {
     white-space: normal !important;
 }
+
+.netabare {
+    color: #333;
+    background-color: #333;
+    cursor: pointer;
+}
