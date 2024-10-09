@@ -104,7 +104,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import firebase from '~/plugins/firebase'
+import { firebaseAuth, onAuthStateChanged } from '~/plugins/firebase'
 // components
 import loading from '~/components/loading.vue'
 import actions from '~/components/village/action/actions.vue'
@@ -316,7 +316,7 @@ export default class extends Vue {
     // 認証済みなら何もしない
     if (this.isAlreadyAuthenticated) return
     const user = await new Promise((resolve, reject) => {
-      firebase.auth().onAuthStateChanged(user => resolve(user))
+      onAuthStateChanged(firebaseAuth, user => resolve(user))
     })
     await this.$store.dispatch('LOGINOUT', {
       user

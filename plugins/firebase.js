@@ -1,4 +1,14 @@
-import firebase from 'firebase'
+import { initializeApp } from 'firebase/app'
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithPopup,
+  linkWithPopup,
+  signOut,
+  getRedirectResult,
+  GoogleAuthProvider,
+  TwitterAuthProvider
+} from 'firebase/auth'
 
 const config = {
   databaseURL: process.env.FIREBASE_DATABASEURL,
@@ -10,8 +20,16 @@ const config = {
   appId: process.env.FIREBASE_APPID
 }
 
-if (firebase.apps.length === 0) {
-  firebase.initializeApp(config)
-}
+const firebase = initializeApp(config)
+const firebaseAuth = getAuth(firebase)
 
-export default firebase
+export {
+  firebaseAuth,
+  onAuthStateChanged,
+  signInWithPopup,
+  linkWithPopup,
+  getRedirectResult,
+  signOut,
+  GoogleAuthProvider,
+  TwitterAuthProvider
+}

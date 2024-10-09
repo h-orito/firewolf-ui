@@ -1,4 +1,4 @@
-import firebase from '~/plugins/firebase'
+import { firebaseAuth, onAuthStateChanged } from '~/plugins/firebase'
 
 export default function({ store, route }) {
   const currentPath = route.path
@@ -6,7 +6,7 @@ export default function({ store, route }) {
   if (currentPath === '/' || currentPath === '/village') {
     return
   }
-  firebase.auth().onAuthStateChanged(user => {
+  onAuthStateChanged(firebaseAuth, user => {
     store.dispatch('LOGINOUT', {
       user
     })
