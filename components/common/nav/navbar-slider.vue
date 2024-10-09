@@ -57,7 +57,6 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'nuxt-property-decorator'
-import firebase from '~/plugins/firebase'
 
 @Component({
   components: {}
@@ -81,11 +80,6 @@ export default class NavBar extends Vue {
     const player = this.$store.getters.getPlayer
     if (!player.twitter_user_name) return null
     return `@${player.twitter_user_name}`
-  }
-
-  private async signin(): Promise<void> {
-    const provider = new firebase.auth.TwitterAuthProvider()
-    await firebase.auth().signInWithRedirect(provider)
   }
 }
 </script>

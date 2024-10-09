@@ -42,7 +42,16 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import qs from 'qs'
 import cookies from 'cookie-universal-nuxt'
-import firebase from '~/plugins/firebase'
+import { UserCredential } from 'firebase/auth'
+import {
+  firebaseAuth,
+  onAuthStateChanged,
+  linkWithPopup,
+  signInWithPopup,
+  signOut,
+  GoogleAuthProvider,
+  TwitterAuthProvider
+} from '~/plugins/firebase'
 // component
 import spotlight from '~/components/index/spotlight.vue'
 import intro from '~/components/index/intro.vue'
@@ -105,8 +114,6 @@ export default class TopPage extends Vue {
   async created() {
     // 認証を待つ
     await this.auth()
-    // ログイン後のリダイレクトの際、ユーザ情報をサーバに保存
-    this.registerUserIfNeeded()
     this.loadingAuth = false
 
     // 村一覧
@@ -118,7 +125,7 @@ export default class TopPage extends Vue {
     // 認証済みなら何もしない
     if (this.isAlreadyAuthenticated) return
     const user = await new Promise((resolve, reject) => {
-      firebase.auth().onAuthStateChanged(user => resolve(user))
+      onAuthStateChanged(firebaseAuth, user => resolve(user))
     })
     await this.$store.dispatch('LOGINOUT', {
       user
@@ -158,37 +165,44 @@ export default class TopPage extends Vue {
   }
 
   private async signinWithTwitter(): Promise<void> {
-    const provider = new firebase.auth.TwitterAuthProvider()
-    await firebase.auth().signInWithRedirect(provider)
+    const provider = new TwitterAuthProvider()
+    const result = await signInWithPopup(firebaseAuth, provider)
+    await this.registerUserIfNeeded(result)
+    window.location.reload()
   }
 
   private async signinWithGoogle(): Promise<void> {
-    const provider = new firebase.auth.GoogleAuthProvider()
-    await firebase.auth().signInWithRedirect(provider)
+    const provider = new GoogleAuthProvider()
+    const result = await signInWithPopup(firebaseAuth, provider)
+    await this.registerUserIfNeeded(result)
+    window.location.reload()
   }
 
   private async linkWithTwitter(): Promise<void> {
-    const provider = new firebase.auth.TwitterAuthProvider()
-    // @ts-ignore
-    await firebase.auth().currentUser.linkWithRedirect(provider)
+    const provider = new TwitterAuthProvider()
+    await linkWithPopup(firebaseAuth.currentUser!, provider)
+    window.location.reload()
   }
 
   private async linkWithGoogle(): Promise<void> {
-    const provider = new firebase.auth.GoogleAuthProvider()
-    // @ts-ignore
-    await firebase.auth().currentUser.linkWithRedirect(provider)
+    const provider = new GoogleAuthProvider()
+    await linkWithPopup(firebaseAuth.currentUser!, provider)
+    window.location.reload()
   }
 
-  private async registerUserIfNeeded(): Promise<void> {
-    const redirectResult = await firebase.auth().getRedirectResult()
-    if (!redirectResult.additionalUserInfo || !redirectResult.user) {
+  private async registerUserIfNeeded(
+    redirectResult: UserCredential
+  ): Promise<void> {
+    if (!redirectResult?.user) {
       return
     }
-    let twitterUsername: string | null = null
-    if (redirectResult.credential?.providerId === 'twitter.com') {
-      twitterUsername = redirectResult.additionalUserInfo.username ?? null
-    }
     const user = redirectResult.user
+    let twitterUsername: string | null = null
+    twitterUsername =
+      // @ts-ignore
+      user.reloadUserInfo?.providerUserInfo?.find(
+        providerUserInfo => providerUserInfo.providerId === 'twitter.com'
+      )?.screenName ?? null
     const idToken = await user.getIdToken(false)
     this.$cookies.set('id-token', idToken, {
       path: '/',
@@ -206,20 +220,28 @@ export default class TopPage extends Vue {
     )
     // 変更しても古いままなので取得できたら無理やりとる
     let displayName = user.displayName
-    if (
-      redirectResult.additionalUserInfo.profile != null &&
-      (redirectResult.additionalUserInfo.profile as any).name != null
-    ) {
-      displayName = (redirectResult.additionalUserInfo.profile as any).name
+    // @ts-ignore
+    if (user.reloadUserInfo?.displayName != null) {
+      // @ts-ignore
+      displayName = user.reloadUserInfo.displayName
     }
-    return this.$axios.$post('/player/nickname', {
-      nickname: displayName,
-      twitter_user_name: twitterUsername
-    })
+    // nickname登録
+    return this.$axios.$post(
+      '/player/nickname',
+      {
+        nickname: displayName,
+        twitter_user_name: twitterUsername
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${idToken}`
+        }
+      }
+    )
   }
 
   private async logout(): Promise<void> {
-    await firebase.auth().signOut()
+    await signOut(firebaseAuth)
     location.reload()
   }
 }
