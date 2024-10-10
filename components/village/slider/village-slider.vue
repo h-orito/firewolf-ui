@@ -46,6 +46,15 @@
           <b-icon pack="fas" icon="users-cog" size="is-small" type="is-white" />
           ユーザ設定
         </a>
+        <nuxt-link
+          v-if="village"
+          :to="{ path: '/scrap', query: { id: village.id } }"
+          target="_blank"
+          class="side-item"
+        >
+          <b-icon pack="fas" icon="cut" size="is-small" type="is-white" />
+          切り抜き
+        </nuxt-link>
         <nuxt-link :to="{ path: '/' }" class="side-item">
           <b-icon pack="fas" icon="home" size="is-small" type="is-white" />
           トップページ
