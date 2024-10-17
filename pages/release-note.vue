@@ -5,6 +5,9 @@
       <div class="content">
         <ul class="has-text-left is-size-7">
           <li>
+            2024/10/18 村設定に年齢制限の項目を追加
+          </li>
+          <li>
             2024/10/10 切り抜き機能を追加
           </li>
           <li>

@@ -98,6 +98,10 @@
         @chara-filter="charaFilter($event)"
         ref="slider"
       />
+      <modal-age-limit
+        :is-open="isOpenAgeLimitModal"
+        @close-modal="closeAgeLimitModal"
+      />
     </div>
   </div>
 </template>
@@ -128,6 +132,7 @@ import toast from '~/components/village/village-toast'
 const messageCards = () =>
   import('~/components/village/message/message-cards.vue')
 const villageDayList = () => import('~/components/village/village-day-list.vue')
+const modalAgeLimit = () => import('~/components/village/modal-age-limit.vue')
 
 @Component({
   components: {
@@ -137,7 +142,8 @@ const villageDayList = () => import('~/components/village/village-day-list.vue')
     villageDayList,
     villageFooter,
     villageHeader,
-    villageSlider
+    villageSlider,
+    modalAgeLimit
   },
   asyncData({ query }) {
     return {
@@ -202,6 +208,8 @@ export default class extends Vue {
   private keywordFilter: string | null = null
   /** サイドバー */
   private isSliderExpanded: boolean = false
+  /** 年齢制限モーダル */
+  private isOpenAgeLimitModal: boolean = false
 
   // ----------------------------------------------------------------
   // computed
@@ -299,6 +307,7 @@ export default class extends Vue {
       // 1回だけ実行
       updateDaychangeTimer(this.$refs.footer)
     }
+    this.displayAgeLimitIfNeeded()
   }
 
   // ----------------------------------------------------------------
@@ -583,6 +592,25 @@ export default class extends Vue {
       // @ts-ignore
       this.$refs.action.secret(message, participantId)
     }
+  }
+
+  private displayAgeLimitIfNeeded(): void {
+    if (!this.village!.setting.tags.list.some(tag => tag.startsWith('R'))) {
+      return // 年齢制限がない
+    }
+    const ageLimitSettings = villageUserSettings.getAgeLimit(this)
+    if (
+      ageLimitSettings.confirm_village_ids.some(
+        id => parseInt(id) === this.village!.id
+      )
+    ) {
+      return
+    }
+    this.isOpenAgeLimitModal = true
+  }
+
+  private closeAgeLimitModal(): void {
+    this.isOpenAgeLimitModal = false
   }
 }
 

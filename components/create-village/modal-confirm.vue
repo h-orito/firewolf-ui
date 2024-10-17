@@ -299,6 +299,14 @@ export default class ModalVillageInfo extends Vue {
 
   private addRpSetting(settings: Settings[]): void {
     const rules = this.param.setting.rule
+    // 年齢制限
+    settings.push({
+      name: '年齢制限',
+      value:
+        this.param.setting.tags.list.find(t => t.startsWith('R')) ?? '全年齢',
+      description:
+        '「全年齢」以外の場合、村画面を開いた際、警告が表示されます。'
+    })
     // 墓下見学会話公開
     settings.push({
       name: '墓下見学会話公開',

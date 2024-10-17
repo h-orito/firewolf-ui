@@ -18,6 +18,7 @@
             <p>編成: {{ organization }}</p>
             <p>発言可能時間: {{ sayableTime }}</p>
             <p>ダミー役欠け: {{ dummySkill }}</p>
+            <p v-if="ageLimit">年齢制限: {{ ageLimit }}</p>
           </div>
         </div>
       </div>
@@ -101,6 +102,10 @@ export default class VillageCard extends Vue {
 
   private get dummySkill(): string {
     return this.village.setting.rules.available_dummy_skill ? 'あり' : 'なし'
+  }
+
+  private get ageLimit(): string | null {
+    return this.village.setting.tags.list.find(t => t.startsWith('R')) || null
   }
 }
 </script>

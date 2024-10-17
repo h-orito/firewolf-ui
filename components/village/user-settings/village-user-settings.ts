@@ -76,6 +76,17 @@ const villageUserSettings = {
     const cookie = this.getCookie(app)
     cookie.operation = settings
     this.setCookie(app, cookie)
+  },
+  getAgeLimit(app: Vue): AgeLimitSettings {
+    const cookie = this.getCookie(app)
+    if (cookie.ageLimit) return cookie.ageLimit
+    this.setAgeLimit(app, DEFAULT_AGELIMIT)
+    return DEFAULT_AGELIMIT
+  },
+  setAgeLimit(app: Vue, settings: AgeLimitSettings): void {
+    const cookie = this.getCookie(app)
+    cookie.ageLimit = settings
+    this.setCookie(app, cookie)
   }
 }
 
@@ -87,6 +98,7 @@ export interface VillageUserSettings {
   message_display?: MessageDisplaySettings
   theme?: ThemeSettings
   operation?: OperationSettings
+  ageLimit?: AgeLimitSettings
 }
 
 export interface PagingSettings {
@@ -114,6 +126,10 @@ export interface OperationSettings {
   is_paste_anchor: boolean
 }
 
+export interface AgeLimitSettings {
+  confirm_village_ids: string[]
+}
+
 const DEFAULT_PAGING: PagingSettings = {
   is_paging: true,
   message_per_page: 50
@@ -139,10 +155,15 @@ const DEFAULT_OPERATION: OperationSettings = {
   is_paste_anchor: false
 }
 
+const DEFAULT_AGELIMIT: AgeLimitSettings = {
+  confirm_village_ids: []
+}
+
 const DEFAULT_SETTINGS: VillageUserSettings = {
   paging: DEFAULT_PAGING,
   action_window: DEFAULT_ACTION_WINDOW,
   message_display: DEFAULT_MESSAGE_DISPLAY,
   theme: DEFAULT_THEME,
-  operation: DEFAULT_OPERATION
+  operation: DEFAULT_OPERATION,
+  ageLimit: DEFAULT_AGELIMIT
 }

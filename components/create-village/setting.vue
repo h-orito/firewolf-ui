@@ -222,6 +222,7 @@
       <join-password :input-value.sync="joinPasswordModel" />
       <hr />
       <h2 class="title is-6">RP設定</h2>
+      <age-limit :input-value.sync="ageLimitModel" />
       <form-switch
         rules="required"
         label-message="墓下見学会話公開"
@@ -315,6 +316,7 @@ import toast from '~/components/village/village-toast'
     organizationNotification: () =>
       import('~/components/create-village/organization-notification.vue'),
     organization,
+    ageLimit: () => import('~/components/create-village/form/age-limit.vue'),
     joinPassword: () =>
       import('~/components/create-village/form/join-password.vue'),
     modalConfirm: () => import('~/components/create-village/modal-confirm.vue')
@@ -671,6 +673,18 @@ export default class Setting extends Vue {
     this.$emit('update:joinPassword', val)
   }
 
+  /** ageLimit */
+  @Prop({ type: String, required: true })
+  private ageLimit!: string
+
+  private get ageLimitModel(): string {
+    return this.ageLimit
+  }
+
+  private set ageLimitModel(val: string) {
+    this.$emit('update:ageLimit', val)
+  }
+
   /** availableSecretSay */
   @Prop({ type: Boolean, required: true })
   private availableSecretSay!: boolean
@@ -918,6 +932,9 @@ export default class Setting extends Vue {
             }
           ],
           join_password: this.joinPassword
+        },
+        tags: {
+          list: this.ageLimit === '' ? [] : [this.ageLimit]
         }
       }
     }
