@@ -32,6 +32,7 @@
         :available-commit.sync="availableCommit"
         :available-action.sync="availableAction"
         :available-secret-say.sync="availableSecretSay"
+        :age-limit.sync="ageLimit"
         :normal-count.sync="normalCount"
         :normal-length.sync="normalLength"
         :whisper-count.sync="whisperCount"
@@ -106,6 +107,7 @@ export default class VillageSetting extends Vue {
   private availableCommit: boolean = false
   private availableAction: boolean = false
   private availableSecretSay: boolean = false
+  private ageLimit: string = ''
 
   private normalCount: string = '20'
   private normalLength: string = '200'
@@ -168,6 +170,10 @@ export default class VillageSetting extends Vue {
     this.availableCommit = rules.available_commit
     this.availableAction = rules.available_action
     this.availableSecretSay = rules.available_secret_say
+
+    const tagCodes = this.village.setting.tags.list
+    this.ageLimit =
+      tagCodes.length <= 0 ? '' : tagCodes.find(t => t.startsWith('R')) ?? ''
 
     const restricts = rules.message_restrict.restrict_list
     const normal = restricts.find(r => r.type.code === MESSAGE_TYPE.NORMAL_SAY)!

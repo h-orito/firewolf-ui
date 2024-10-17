@@ -36,6 +36,7 @@
         :spectate-length.sync="spectateLength"
         :action-count.sync="actionCount"
         :action-length.sync="actionLength"
+        :age-limit.sync="ageLiimt"
         :join-password.sync="joinPassword"
         save-label="村を作成する"
         @confirm="confirmVillage"
@@ -84,6 +85,7 @@ export default class CreateVillage extends Vue {
   private availableCommit: boolean = false
   private availableAction: boolean = false
   private availableSecretSay: boolean = false
+  private ageLiimt: string = ''
 
   private normalCount: string = '20'
   private normalLength: string = '200'
