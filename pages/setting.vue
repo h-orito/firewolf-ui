@@ -21,6 +21,10 @@
         :silent-hours.sync="silentHours"
         :charachip-ids.sync="charachipIds"
         :dummy-chara-id.sync="dummyCharaId"
+        :dummy-chara-short-name.sync="dummyCharaShortName"
+        :dummy-chara-name.sync="dummyCharaName"
+        :day0-message.sync="day0Message"
+        :day1-message.sync="day1Message"
         :organization.sync="organization"
         :available-dummy-skill.sync="availableDummySkill"
         :open-vote.sync="openVote"
@@ -128,6 +132,11 @@ export default class VillageSetting extends Vue {
 
   private joinPassword: string = ''
 
+  private dummyCharaShortName: string = ''
+  private dummyCharaName: string = ''
+  private day0Message: string = ''
+  private day1Message: string = ''
+
   /** computed */
   /** mounted */
   private async mounted(): Promise<void> {
@@ -210,6 +219,17 @@ export default class VillageSetting extends Vue {
     this.actionLength = action.length.toString()
 
     this.joinPassword = ''
+
+    const dummy = this.village.participant.member_list.find(
+      p => p.chara.id === parseInt(this.dummyCharaId)
+    )!
+    console.log()
+    this.dummyCharaShortName = dummy.chara_name.short_name
+    this.dummyCharaName = dummy.chara_name.name
+    this.day0Message =
+      this.village.setting.charachip.dummy_chara_day0_message || ''
+    this.day1Message =
+      this.village.setting.charachip.dummy_chara_day1_message || ''
   }
 
   private async confirmSetting({ param, errCb, successCb }): Promise<void> {
@@ -237,5 +257,3 @@ export default class VillageSetting extends Vue {
   }
 }
 </script>
-
-<style lang="scss"></style>

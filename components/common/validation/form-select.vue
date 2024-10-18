@@ -14,7 +14,7 @@
         <b-select
           v-model="inputValueModel"
           size="is-small"
-          @input="$emit('input')"
+          @input="$emit('input', $event)"
           expanded
         >
           <option

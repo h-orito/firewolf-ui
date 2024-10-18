@@ -1,5 +1,9 @@
 <template>
-  <validation-provider v-slot="{ errors }" :rules="rules" :name="labelMessage">
+  <validation-provider
+    v-slot="{ errors }"
+    :rules="rules"
+    :name="errorLabel || labelMessage"
+  >
     <b-field
       :label="labelMessage"
       :message="errors.length ? errors[0] : ''"
@@ -7,6 +11,7 @@
       horizontal
     >
       <b-input
+        :id="id"
         v-model="inputValueModel"
         size="is-small"
         :type="inputType"
@@ -25,19 +30,25 @@ import { Component, Vue, Prop } from 'nuxt-property-decorator'
   components: {}
 })
 export default class FormInput extends Vue {
+  @Prop({ type: String })
+  private id!: string
+
   @Prop({ required: true })
   private rules!: any
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: String })
   private labelMessage!: string
+
+  @Prop({ type: String })
+  private errorLabel!: string
 
   @Prop({ type: String, required: true })
   private inputType!: string
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: String })
   private maxLength!: string
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: String })
   private placeHolderMessage!: string
 
   @Prop({ type: String, required: true })

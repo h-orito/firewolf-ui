@@ -5,6 +5,7 @@
       label-message="ダミーキャラ"
       :input-value.sync="inputValueModel"
       :options="charaOptions"
+      @input="inputSelect($event)"
     />
     <div class="has-text-right">
       <b-button
@@ -69,6 +70,10 @@ export default class DummyChara extends Vue {
 
   private charaSelect({ charaId }): void {
     this.isCharaSelectModalOpen = false
+    this.$emit('chara-select', { charaId })
+  }
+
+  private inputSelect(charaId: string): void {
     this.$emit('chara-select', { charaId })
   }
 }
