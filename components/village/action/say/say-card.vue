@@ -163,7 +163,6 @@ import api from '~/components/village/village-api'
 import toast from '~/components/village/village-toast'
 import villageUserSettings from '~/components/village/user-settings/village-user-settings'
 import CharaFace from '~/components/type/chara-face'
-import VillageAnchorMessage from '~/components/type/village-anchor-message'
 import Village from '~/components/type/village'
 const modalSay = () => import('~/components/village/action/say/modal-say.vue')
 const charaImage = () => import('~/components/village/chara-image.vue')

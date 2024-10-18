@@ -9,6 +9,10 @@
         :silent-hours.sync="silentHours"
         :charachip-ids.sync="charachipIds"
         :dummy-chara-id.sync="dummyCharaId"
+        :dummy-chara-short-name.sync="dummyCharaShortName"
+        :dummy-chara-name.sync="dummyCharaName"
+        :day0-message.sync="day0Message"
+        :day1-message.sync="day1Message"
         :organization.sync="organization"
         :available-dummy-skill.sync="availableDummySkill"
         :open-vote.sync="openVote"
@@ -50,6 +54,7 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import dayjs from 'dayjs'
 import setting from '~/components/create-village/setting.vue'
+import Chara from '~/components/type/chara'
 
 @Component({
   components: {
@@ -105,6 +110,11 @@ export default class CreateVillage extends Vue {
   private actionLength: string = '200'
 
   private joinPassword: string = ''
+
+  private dummyCharaShortName: string = ''
+  private dummyCharaName: string = ''
+  private day0Message: string = ''
+  private day1Message: string = ''
 
   /** computed */
 

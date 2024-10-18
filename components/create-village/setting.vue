@@ -27,6 +27,9 @@
       <hr />
       <div v-if="modifiableChara">
         <h2 class="title is-6">キャラチップ</h2>
+        <notification>
+          <li>村作成後は変更できません。</li>
+        </notification>
         <charachip
           :input-value.sync="charachipIdsModel"
           :charachips="charachips"
@@ -36,6 +39,48 @@
           :input-value.sync="dummyCharaIdModel"
           :charas="charas"
           @chara-select="charaSelect($event)"
+        />
+        <form-input
+          rules="required|max:40"
+          label-message="名前"
+          input-type="text"
+          max-length="40"
+          place-holder-message="ダミーキャラ名"
+          :input-value.sync="dummyCharaNameModel"
+        />
+        <form-input
+          rules="required|max:1"
+          label-message="1文字略称"
+          input-type="text"
+          max-length="1"
+          place-holder-message="ダミーキャラ1文字略称"
+          :input-value.sync="dummyCharaShortNameModel"
+        />
+        <hr />
+      </div>
+      <div>
+        <h2 class="title is-6">ダミーキャラ発言</h2>
+        <notification>
+          <li>1日目発言のみ、村作成後にも変更できます。</li>
+        </notification>
+        <h3 v-if="modifiableChara" class="title is-7">プロローグ発言</h3>
+        <dummy-chara-say
+          v-if="modifiableChara"
+          id="day0-dummy-chara-say"
+          label="プロローグ発言"
+          rules="required|max:1000"
+          :chara-id="parseInt(dummyCharaIdModel)"
+          :charas="charas"
+          :input-value.sync="day0MessageModel"
+        />
+        <h3 class="title is-7">1日目発言</h3>
+        <dummy-chara-say
+          id="day1-dummy-chara-say"
+          label="1日目発言"
+          rules="max:1000"
+          :chara-id="parseInt(dummyCharaIdModel)"
+          :charas="charas"
+          :input-value.sync="day1MessageModel"
         />
         <hr />
       </div>
@@ -272,6 +317,7 @@
       <modal-confirm
         :param="registerParam"
         :charachip-name="charachipName"
+        :dummy-chara="dummyChara"
         :dummy-chara-name="dummyCharaName"
         :is-open="isOpenConfirmModal"
         :save-label="saveLabel"
@@ -313,13 +359,16 @@ import toast from '~/components/village/village-toast'
     charachip: () => import('~/components/create-village/form/charachip.vue'),
     dummyChara: () =>
       import('~/components/create-village/form/dummy-chara.vue'),
+    dummyCharaSay: () =>
+      import('~/components/create-village/form/dummy-chara-say.vue'),
     organizationNotification: () =>
       import('~/components/create-village/organization-notification.vue'),
     organization,
     ageLimit: () => import('~/components/create-village/form/age-limit.vue'),
     joinPassword: () =>
       import('~/components/create-village/form/join-password.vue'),
-    modalConfirm: () => import('~/components/create-village/modal-confirm.vue')
+    modalConfirm: () => import('~/components/create-village/modal-confirm.vue'),
+    formInput: () => import('~/components/common/validation/form-input.vue')
   }
 })
 export default class Setting extends Vue {
@@ -383,6 +432,54 @@ export default class Setting extends Vue {
 
   private set dummyCharaIdModel(val: string) {
     this.$emit('update:dummyCharaId', val)
+  }
+
+  /** dummyCharaShortName */
+  @Prop({ type: String, required: true })
+  private dummyCharaShortName!: string
+
+  private get dummyCharaShortNameModel(): string {
+    return this.dummyCharaShortName
+  }
+
+  private set dummyCharaShortNameModel(val: string) {
+    this.$emit('update:dummyCharaShortName', val)
+  }
+
+  /** dummyCharaName */
+  @Prop({ type: String, required: true })
+  private dummyCharaName!: string
+
+  private get dummyCharaNameModel(): string {
+    return this.dummyCharaName
+  }
+
+  private set dummyCharaNameModel(val: string) {
+    this.$emit('update:dummyCharaName', val)
+  }
+
+  /** day0MessageModel */
+  @Prop({ type: String, required: true })
+  private day0Message!: string
+
+  private get day0MessageModel(): string {
+    return this.day0Message
+  }
+
+  private set day0MessageModel(val: string) {
+    this.$emit('update:day0Message', val)
+  }
+
+  /** day1MessageModel */
+  @Prop({ type: String, required: true })
+  private day1Message!: string
+
+  private get day1MessageModel(): string {
+    return this.day1Message
+  }
+
+  private set day1MessageModel(val: string) {
+    this.$emit('update:day1Message', val)
   }
 
   /** organization */
@@ -746,17 +843,13 @@ export default class Setting extends Vue {
   private charachips: FormOption[] = []
   private charas: Chara[] = []
   private skills: Skill[] = []
+  private dummyChara: Chara | null = null
 
   /** computed */
   private get charachipName(): string {
     return this.charachipIds
       .map(id => this.charachips.find(c => c.value === id)?.label)
       .join('、')
-  }
-
-  private get dummyCharaName(): string {
-    const chara = this.charas.find(c => c.id.toString() === this.dummyCharaId)
-    return chara ? chara.chara_name.name : ''
   }
 
   /** methods */
@@ -769,8 +862,9 @@ export default class Setting extends Vue {
     }))
   }
 
-  private loadCharas(): void {
-    this.loadCharasByCharachipId(this.charachipIds)
+  private async loadCharas(): Promise<void> {
+    await this.loadCharasByCharachipId(this.charachipIds)
+    this.charaSelect({ charaId: this.dummyCharaId })
   }
 
   private async loadCharasByCharachipId(
@@ -793,7 +887,24 @@ export default class Setting extends Vue {
   }
 
   private charaSelect({ charaId }): void {
-    this.dummyCharaId = charaId.toString()
+    this.dummyCharaIdModel = charaId.toString()
+    const chara = this.charas.find(c => c.id.toString() === charaId)
+    this.dummyCharaShortNameModel = chara ? chara.chara_name.short_name : ''
+    this.dummyCharaNameModel = chara ? chara.chara_name.name : ''
+    if (
+      chara &&
+      chara.default_message.join_message &&
+      chara.default_message.join_message !== ''
+    ) {
+      this.day0MessageModel = chara.default_message.join_message
+    }
+    if (
+      chara &&
+      chara.default_message.first_day_message &&
+      chara.default_message.first_day_message !== ''
+    ) {
+      this.day1MessageModel = chara.default_message.first_day_message
+    }
   }
 
   private overrideGeneralOrg(): void {
@@ -823,7 +934,8 @@ export default class Setting extends Vue {
         }
         self.confirming = false
       },
-      successCb: () => {
+      successCb: async () => {
+        this.dummyChara = await this.$axios.$get(`/chara/${this.dummyCharaId}`)
         self.isOpenConfirmModal = true
         self.confirming = false
       }
@@ -876,6 +988,10 @@ export default class Setting extends Vue {
         },
         charachip: {
           dummy_chara_id: parseInt(this.dummyCharaId),
+          dummy_chara_short_name: this.dummyCharaShortName,
+          dummy_chara_name: this.dummyCharaName,
+          dummy_chara_day0_message: this.day0Message,
+          dummy_chara_day1_message: this.day1Message,
           charachip_ids: this.charachipIds.map(id => parseInt(id))
         },
         rule: {

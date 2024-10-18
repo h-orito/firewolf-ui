@@ -46,6 +46,28 @@
             </template>
           </b-table>
         </div>
+        <div class="content" v-if="day0DummyMessage">
+          <h3 class="title is-7">プロローグ発言</h3>
+          <message-card
+            :message="day0DummyMessage"
+            :is-progress="false"
+            :index="null"
+            :is-dark-theme="false"
+            :is-disp-date="false"
+            :is-img-large="false"
+          />
+        </div>
+        <div class="content" v-if="day1DummyMessage">
+          <h3 class="title is-7">1日目発言</h3>
+          <message-card
+            :message="day1DummyMessage"
+            :is-progress="false"
+            :index="null"
+            :is-dark-theme="false"
+            :is-disp-date="false"
+            :is-img-large="false"
+          />
+        </div>
       </section>
       <footer
         class="modal-card-foot"
@@ -71,10 +93,11 @@
 import { Component, Vue, Prop } from 'nuxt-property-decorator'
 // component
 // type
-import Village from '~/components/type/village'
-import VillageTime from '~/components/type/village-time'
-import Chara from '~/components/type/chara'
-import { VILLAGE_STATUS, MESSAGE_TYPE } from '~/components/const/consts'
+import Message from '../type/message'
+import Chara from '../type/chara'
+import { MESSAGE_TYPE } from '~/components/const/consts'
+const messageCard = () =>
+  import('~/components/village/message/message-card.vue')
 
 interface Settings {
   name: string
@@ -83,7 +106,7 @@ interface Settings {
 }
 
 @Component({
-  components: {}
+  components: { messageCard }
 })
 export default class ModalVillageInfo extends Vue {
   @Prop({ type: Object })
@@ -94,6 +117,9 @@ export default class ModalVillageInfo extends Vue {
 
   @Prop({ type: String })
   private dummyCharaName!: string
+
+  @Prop({ type: Object })
+  private dummyChara!: Chara | null
 
   @Prop({ type: Boolean })
   private isOpen!: boolean
@@ -333,6 +359,96 @@ export default class ModalVillageInfo extends Vue {
     this.submitting = true
     await this.$emit('create')
     this.submitting = false
+  }
+
+  private get day0DummyMessage(): Message | null {
+    if (!this.dummyChara || !this.charachipName || this.charachipName === '') {
+      return null
+    }
+    const paramCharachip = this.param.setting.charachip
+    return this.createMessage(
+      paramCharachip.dummy_chara_short_name,
+      paramCharachip.dummy_chara_name,
+      paramCharachip.dummy_chara_day0_message,
+      this.dummyChara
+    )
+  }
+
+  private get day1DummyMessage(): Message | null {
+    if (!this.dummyChara) {
+      return null
+    }
+    const paramCharachip = this.param.setting.charachip
+    if (
+      !paramCharachip.dummy_chara_day1_message ||
+      paramCharachip.dummy_chara_day1_message === ''
+    ) {
+      return null
+    }
+    return this.createMessage(
+      paramCharachip.dummy_chara_short_name,
+      paramCharachip.dummy_chara_name,
+      paramCharachip.dummy_chara_day1_message,
+      this.dummyChara
+    )
+  }
+
+  private createMessage(
+    shortName: string,
+    name: string,
+    text: string,
+    chara: Chara
+  ): Message {
+    const message: Message = {
+      from: {
+        id: 1,
+        name: `[${shortName}] ${name}`,
+        chara_name: {
+          name: '',
+          short_name: '',
+          full_name: `[${shortName}] ${name}`
+        },
+        chara,
+        player: null,
+        status: {
+          lover_id_list: []
+        },
+        dead: null,
+        spectator: false,
+        skill: null,
+        skill_request: null,
+        win: null,
+        camp: null,
+        comming_outs: {
+          list: []
+        },
+        notification: null
+      },
+      from_character_name: {
+        name: '',
+        short_name: '',
+        full_name: '[着] きぐるみ ピギー'
+      },
+      to: null,
+      to_character_name: null,
+      time: {
+        village_day_id: 1,
+        day: 1,
+        datetime: '2000/01/01 23:59:59',
+        unix_time_milli: 1
+      },
+      content: {
+        type: {
+          code: MESSAGE_TYPE.NORMAL_SAY,
+          name: ''
+        },
+        num: 1,
+        count: 1,
+        text,
+        face_code: 'NORMAL'
+      }
+    }
+    return message
   }
 }
 </script>
