@@ -864,7 +864,8 @@ export default class Setting extends Vue {
 
   private async loadCharas(): Promise<void> {
     await this.loadCharasByCharachipId(this.charachipIds)
-    this.charaSelect({ charaId: this.dummyCharaId })
+    const chara = this.charas.find(c => c.id.toString() === this.dummyCharaId)
+    this.charaSelect({ chara })
   }
 
   private async loadCharasByCharachipId(
@@ -886,9 +887,9 @@ export default class Setting extends Vue {
     this.skills = skills.list
   }
 
-  private charaSelect({ charaId }): void {
-    this.dummyCharaIdModel = charaId.toString()
-    const chara = this.charas.find(c => c.id.toString() === charaId)
+  private charaSelect({ chara }): void {
+    this.dummyCharaIdModel = chara.id.toString()
+    // const chara = this.charas.find(c => c.id.toString() === charaId)
     this.dummyCharaShortNameModel = chara ? chara.chara_name.short_name : ''
     this.dummyCharaNameModel = chara ? chara.chara_name.name : ''
     if (

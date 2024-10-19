@@ -9,7 +9,7 @@
           v-for="chara in charaList"
           :key="chara.id"
           class="has-text-centered chara-select-box"
-          @click="selected(chara.id)"
+          @click="selected(chara)"
         >
           <chara-image :chara="chara" />
           <p class="is-size-7">{{ chara.chara_name.name }}</p>
@@ -31,8 +31,8 @@ export default class CharaSelectModal extends Vue {
   @Prop({ type: Array })
   private charaList!: Chara[]
 
-  private selected(charaId: number): void {
-    this.$emit('chara-select', { charaId })
+  private selected(chara: Chara): void {
+    this.$emit('chara-select', { chara })
   }
 }
 </script>

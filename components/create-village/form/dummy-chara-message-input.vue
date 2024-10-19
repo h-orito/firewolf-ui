@@ -9,6 +9,7 @@
       @input="$emit('input', $event)"
       :custom-class="messageClass"
       :error-label="label"
+      :horizontal="false"
     ></form-input>
     <p class="has-text-right" v-html="counter"></p>
   </section>

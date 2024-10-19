@@ -117,6 +117,8 @@ const api = {
     app: Vue,
     villageId: number,
     charaId: number,
+    charaName: string,
+    charaShortName: string,
     firstRequestSkill: string,
     secondRequestSkill: string,
     joinMessage: string,
@@ -125,6 +127,8 @@ const api = {
   ): Promise<Message | null> {
     return app.$axios.$post(`/village/${villageId}/participate-confirm`, {
       chara_id: charaId,
+      chara_name: charaName,
+      chara_short_name: charaShortName,
       first_request_skill: firstRequestSkill,
       second_request_skill: secondRequestSkill,
       join_message: joinMessage,
@@ -137,6 +141,8 @@ const api = {
     app: Vue,
     villageId: number,
     charaId: number,
+    charaName: string,
+    charaShortName: string,
     firstRequestSkill: string | null,
     secondRequestSkill: string | null,
     joinMessage: string,
@@ -145,6 +151,8 @@ const api = {
   ): Promise<void> {
     return app.$axios.$post(`/village/${villageId}/participate`, {
       chara_id: charaId,
+      chara_name: charaName,
+      chara_short_name: charaShortName,
       first_request_skill: firstRequestSkill,
       second_request_skill: secondRequestSkill,
       join_message: joinMessage,

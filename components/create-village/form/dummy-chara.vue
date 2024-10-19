@@ -68,13 +68,14 @@ export default class DummyChara extends Vue {
     }))
   }
 
-  private charaSelect({ charaId }): void {
+  private charaSelect({ chara }): void {
     this.isCharaSelectModalOpen = false
-    this.$emit('chara-select', { charaId })
+    this.$emit('chara-select', { chara })
   }
 
   private inputSelect(charaId: string): void {
-    this.$emit('chara-select', { charaId })
+    const chara = this.charas.find(c => c.id === parseInt(charaId))
+    this.$emit('chara-select', { chara })
   }
 }
 </script>

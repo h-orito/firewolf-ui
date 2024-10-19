@@ -90,10 +90,6 @@ export default class DummyCharaSay extends Vue {
   }
   .say-input-area {
     flex: 1;
-
-    section {
-      margin-top: -8px; // なぜかずれるので無理やり修正
-    }
   }
 }
 </style>

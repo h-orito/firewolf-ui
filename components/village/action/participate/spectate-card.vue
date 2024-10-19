@@ -5,7 +5,12 @@
         <div class="content has-text-left">
           <p style="font-weight: 700; margin-bottom: 6px;">キャラ</p>
           <b-field>
-            <b-select v-model="charaId" expanded size="is-small">
+            <b-select
+              v-model="charaId"
+              @input="changeChara($event)"
+              expanded
+              size="is-small"
+            >
               <option
                 v-for="chara in situation.participate.selectable_chara_list"
                 :value="chara.id.toString()"
@@ -30,6 +35,30 @@
                 />
               </b-modal>
             </p>
+          </b-field>
+          <b-field label="キャラ名" :horizontal="false" custom-class="is-small">
+            <b-input
+              v-model="charaName"
+              size="is-small"
+              type="text"
+              :maxlength="40"
+              :disabled="charaId == null"
+              expanded
+            ></b-input>
+          </b-field>
+          <b-field
+            label="キャラ名1文字略称"
+            :horizontal="false"
+            custom-class="is-small"
+          >
+            <b-input
+              v-model="charaShortName"
+              size="is-small"
+              type="text"
+              :maxlength="1"
+              :disabled="charaId == null"
+              expanded
+            ></b-input>
           </b-field>
           <p style="font-weight: 700; margin-bottom: 6px;">入村発言</p>
           <message-decorators
@@ -105,6 +134,8 @@ export default class Spectate extends Vue {
   private confirming: boolean = false
 
   private charaId: number | null = null
+  private charaName: string = ''
+  private charaShortName: string = ''
   private message: string = ''
   private joinPassword: string = ''
 
@@ -140,6 +171,9 @@ export default class Spectate extends Vue {
   private get canSubmit(): boolean {
     return (
       this.charaId != null &&
+      this.charaName.length > 0 &&
+      this.charaName.length <= 40 &&
+      this.charaShortName.length === 1 &&
       this.message != null &&
       this.message.length > 0 &&
       !this.isOver
@@ -157,6 +191,8 @@ export default class Spectate extends Vue {
         this,
         this.village.id,
         this.charaId!,
+        this.charaName!,
+        this.charaShortName!,
         'LEFTOVER',
         'LEFTOVER',
         this.message,
@@ -182,6 +218,8 @@ export default class Spectate extends Vue {
         this,
         this.village.id,
         this.charaId!,
+        this.charaName!,
+        this.charaShortName!,
         'LEFTOVER',
         'LEFTOVER',
         this.message,
@@ -200,9 +238,18 @@ export default class Spectate extends Vue {
     this.isCharaSelectModalOpen = true
   }
 
-  private charaSelect({ charaId }): void {
-    this.charaId = charaId
+  private charaSelect({ chara }): void {
+    this.charaId = chara.id
     this.isCharaSelectModalOpen = false
+    this.charaName = chara.chara_name.name
+    this.charaShortName = chara.chara_name.short_name
+  }
+
+  private changeChara(charaId: string): void {
+    const chara = this.situation.participate.selectable_chara_list.find(
+      c => c.id === parseInt(charaId)
+    )
+    this.charaSelect({ chara })
   }
 }
 </script>

@@ -5,7 +5,12 @@
         <div class="content has-text-left">
           <p style="font-weight: 700; margin-bottom: 6px;">キャラ</p>
           <b-field>
-            <b-select v-model="charaId" expanded size="is-small">
+            <b-select
+              v-model="charaId"
+              @input="changeChara($event)"
+              expanded
+              size="is-small"
+            >
               <option
                 v-for="chara in situation.participate.selectable_chara_list"
                 :value="chara.id.toString()"
@@ -30,6 +35,30 @@
                 />
               </b-modal>
             </p>
+          </b-field>
+          <b-field label="キャラ名" :horizontal="false" custom-class="is-small">
+            <b-input
+              v-model="charaName"
+              size="is-small"
+              type="text"
+              :maxlength="40"
+              :disabled="charaId == null"
+              expanded
+            ></b-input>
+          </b-field>
+          <b-field
+            label="キャラ名1文字略称"
+            :horizontal="false"
+            custom-class="is-small"
+          >
+            <b-input
+              v-model="charaShortName"
+              size="is-small"
+              type="text"
+              :maxlength="1"
+              :disabled="charaId == null"
+              expanded
+            ></b-input>
           </b-field>
           <b-field
             v-if="situation.skill_request.available_skill_request"
@@ -119,6 +148,7 @@ const modalParticipate = () =>
   import('~/components/village/action/participate/modal-participate.vue')
 const messageDecorators = () =>
   import('~/components/village/action/decorator/message-decorators.vue')
+const formInput = () => import('~/components/common/validation/form-input.vue')
 
 @Component({
   components: {
@@ -126,13 +156,16 @@ const messageDecorators = () =>
     messageInput,
     charaSelectModal,
     modalParticipate,
-    messageDecorators
+    messageDecorators,
+    formInput
   }
 })
 export default class Participate extends Vue {
   private confirming: boolean = false
 
   private charaId: number | null = null
+  private charaName: string = ''
+  private charaShortName: string = ''
   private firstRequestSkillCode: string | null =
     this.situation.skill_request.skill_request == null
       ? 'LEFTOVER'
@@ -178,6 +211,9 @@ export default class Participate extends Vue {
   private get canSubmit(): boolean {
     return (
       this.charaId != null &&
+      this.charaName.length > 0 &&
+      this.charaName.length <= 40 &&
+      this.charaShortName.length === 1 &&
       this.firstRequestSkillCode != null &&
       this.secondRequestSkillCode != null &&
       this.message != null &&
@@ -197,6 +233,8 @@ export default class Participate extends Vue {
         this,
         this.village.id,
         this.charaId!,
+        this.charaName!,
+        this.charaShortName!,
         this.firstRequestSkillCode!,
         this.secondRequestSkillCode!,
         this.message,
@@ -222,6 +260,8 @@ export default class Participate extends Vue {
         this,
         this.village.id,
         this.charaId!,
+        this.charaName!,
+        this.charaShortName!,
         this.firstRequestSkillCode!,
         this.secondRequestSkillCode!,
         this.message,
@@ -240,9 +280,18 @@ export default class Participate extends Vue {
     this.isCharaSelectModalOpen = true
   }
 
-  private charaSelect({ charaId }): void {
-    this.charaId = charaId
+  private charaSelect({ chara }): void {
+    this.charaId = chara.id
     this.isCharaSelectModalOpen = false
+    this.charaName = chara.chara_name.name
+    this.charaShortName = chara.chara_name.short_name
+  }
+
+  private changeChara(charaId: string): void {
+    const chara = this.situation.participate.selectable_chara_list.find(
+      c => c.id === parseInt(charaId)
+    )
+    this.charaSelect({ chara })
   }
 }
 </script>
