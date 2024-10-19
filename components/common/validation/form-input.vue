@@ -8,7 +8,7 @@
       :label="labelMessage"
       :message="errors.length ? errors[0] : ''"
       :type="errors.length ? 'is-danger' : ''"
-      horizontal
+      :horizontal="horizontal"
     >
       <b-input
         :id="id"
@@ -53,6 +53,9 @@ export default class FormInput extends Vue {
 
   @Prop({ type: String, required: true })
   private inputValue!: string
+
+  @Prop({ type: Boolean, default: true })
+  private horizontal!: boolean
 
   private get inputValueModel(): string {
     return this.inputValue
