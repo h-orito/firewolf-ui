@@ -5,6 +5,9 @@
       <div class="content">
         <ul class="has-text-left is-size-7">
           <li>
+            2024/12/27 役職：情緒を追加
+          </li>
+          <li>
             2024/10/19 参加時点でキャラ名と略称を設定可能になるよう機能追加
           </li>
           <li>
