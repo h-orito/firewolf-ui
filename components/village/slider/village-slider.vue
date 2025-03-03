@@ -108,7 +108,7 @@
     ></div>
     <modal-village-info
       :is-open="isOpenVillageInfoModal"
-      :charachip-name="charachipName"
+      :charachips="charachips"
       @close="closeVillageInfoModal"
     />
     <modal-user-settings
@@ -127,6 +127,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'nuxt-property-decorator'
+import Charachip from '~/components/type/charachip'
 import Village from '~/components/type/village'
 const modalVillageInfo = () =>
   import('~/components/village/slider/modal-village-info.vue')
@@ -149,8 +150,8 @@ export default class VillageSlider extends Vue {
   @Prop({ type: Boolean })
   private isExpanded!: boolean
 
-  @Prop({ type: String })
-  private charachipName?: string | null
+  @Prop({ type: Array })
+  private charachips?: Charachip[]
 
   private isOpenVillageInfoModal: boolean = false
   private isOpenUserSettingsModal: boolean = false

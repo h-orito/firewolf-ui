@@ -5,7 +5,7 @@
   >
     <div v-if="!$window.isMobile" class="village-leftside-wrapper">
       <village-slider
-        :charachip-name="charachipName"
+        :charachips="charachips"
         :is-expanded="isSliderExpanded"
         @refresh="reload"
         @hide-slider="hideSlider"
@@ -75,6 +75,7 @@
           <div id="message-bottom" />
           <actions
             v-if="village && existsAction"
+            :charachips="charachips"
             @reload="reload"
             ref="action"
           ></actions>
@@ -128,6 +129,7 @@ import villageUserSettings, {
 import actionHelper from '~/components/village/action/village-action-helper'
 import api from '~/components/village/village-api'
 import toast from '~/components/village/village-toast'
+import Charachip from '~/components/type/charachip'
 // dynamic imports
 const messageCards = () =>
   import('~/components/village/message/message-cards.vue')
@@ -196,8 +198,8 @@ export default class extends Vue {
   private latestTimer: any | null = null
   /** 残り時間表示 */
   private daychangeTimer: any | null = null
-  /** この村のキャラチップ名 */
-  private charachipName: string | null = null
+  /** この村のキャラチップ */
+  private charachips: Charachip[] = []
   /** 発言抽出：発言種別 */
   private messageTypeFilter: string[] | null = null
   /** 発言抽出：参加者 */
@@ -298,7 +300,7 @@ export default class extends Vue {
       this.$refs.footer.filterRefresh(true, true)
     }
     // キャラチップ名
-    this.charachipName = await api.fetchCharachipName(this, this.village!)
+    this.charachips = await api.fetchCharachips(this, this.village!)
     // 定期的に最新発言がないかチェックする
     if (isNotFinished(this.village!)) {
       this.latestTimer = this.setLatestTimer()
