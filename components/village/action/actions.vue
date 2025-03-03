@@ -13,11 +13,13 @@
       <participate
         v-if="isDispParticipate"
         ref="participate"
+        :charachips="charachips"
         @reload="$emit('reload', $event)"
       />
       <spectate
         v-if="isDispSpectate"
         ref="spectate"
+        :charachips="charachips"
         @reload="$emit('reload', $event)"
       />
       <skill-request
@@ -70,7 +72,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 // components
 import ability from '~/components/village/action/ability/ability-card.vue'
 import vote from '~/components/village/action/vote/vote-card.vue'
@@ -82,6 +84,7 @@ import DebugVillage from '~/components/type/debug-village'
 import actionHelper from '~/components/village/action/village-action-helper'
 import Village from '~/components/type/village'
 import Message from '~/components/type/message'
+import Charachip from '~/components/type/charachip'
 // dynamic imports
 const participate = () =>
   import('~/components/village/action/participate/participate-card.vue')
@@ -126,6 +129,9 @@ const villageAdmin = () =>
   }
 })
 export default class Action extends Vue {
+  @Prop({ type: Array })
+  private charachips?: Charachip[]
+
   /** data */
   private paddingBottom: string = '0'
 

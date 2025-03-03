@@ -65,8 +65,8 @@ import { Component, Vue, Prop } from 'nuxt-property-decorator'
 // type
 import Village from '~/components/type/village'
 import VillageTime from '~/components/type/village-time'
-import Chara from '~/components/type/chara'
 import { VILLAGE_STATUS } from '~/components/const/consts'
+import Charachip from '~/components/type/charachip'
 
 interface Settings {
   name: string
@@ -78,8 +78,8 @@ interface Settings {
   components: {}
 })
 export default class ModalVillageInfo extends Vue {
-  @Prop({ type: String })
-  private charachipName?: string | null
+  @Prop({ type: Array })
+  private charachips?: Charachip[]
 
   @Prop({ type: Boolean })
   private isOpen!: boolean
@@ -183,10 +183,10 @@ export default class ModalVillageInfo extends Vue {
 
   private addCharachipSetting(settings: Settings[]): void {
     if (!this.village) return
-    if (!this.charachipName) return
+    if (!this.charachips) return
     settings.push({
       name: 'キャラチップ',
-      value: this.charachipName
+      value: this.charachips.map(c => c.name).join('、')
     })
     const self = this
     const dummyCharaName = this.village.participant.member_list.find(member => {

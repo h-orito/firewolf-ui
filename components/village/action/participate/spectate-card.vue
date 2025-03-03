@@ -42,7 +42,7 @@
               size="is-small"
               type="text"
               :maxlength="40"
-              :disabled="charaId == null"
+              :disabled="!canChangeName"
               expanded
             ></b-input>
           </b-field>
@@ -56,7 +56,7 @@
               size="is-small"
               type="text"
               :maxlength="1"
-              :disabled="charaId == null"
+              :disabled="!canChangeName"
               expanded
             ></b-input>
           </b-field>
@@ -104,7 +104,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import messageInput from '~/components/village/action/message-input.vue'
 import charaSelectModal from '~/components/village/action/participate/chara-select-modal.vue'
 import actionCard from '~/components/village/action/action-card.vue'
@@ -116,6 +116,7 @@ import { MESSAGE_TYPE } from '~/components/const/consts'
 import api from '~/components/village/village-api'
 import toast from '~/components/village/village-toast'
 import villageUserSettings from '~/components/village/user-settings/village-user-settings'
+import Charachip from '~/components/type/charachip'
 const modalParticipate = () =>
   import('~/components/village/action/participate/modal-participate.vue')
 const messageDecorators = () =>
@@ -131,6 +132,9 @@ const messageDecorators = () =>
   }
 })
 export default class Spectate extends Vue {
+  @Prop({ type: Array })
+  private charachips?: Charachip[]
+
   private confirming: boolean = false
 
   private charaId: number | null = null
@@ -157,6 +161,15 @@ export default class Spectate extends Vue {
 
   private get situation(): SituationAsParticipant {
     return this.$store.getters.getSituation!
+  }
+
+  private get canChangeName(): boolean {
+    if (!this.charaId) return false
+    const chara = this.situation.participate.selectable_chara_list.find(
+      c => c.id === this.charaId
+    )
+    return this.charachips!.find(c => c.id === chara?.charachip_id)!
+      .is_available_change_name
   }
 
   private get normalSay(): string {

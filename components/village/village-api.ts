@@ -2,6 +2,7 @@ import { Vue } from 'nuxt-property-decorator'
 import qs from 'qs'
 import SituationAsParticipant from '../type/situation-as-participant'
 import DebugVillage from '../type/debug-village'
+import Charachip from '../type/charachip'
 import Village from '~/components/type/village'
 import VillageDay from '~/components/type/village-day'
 import Message from '~/components/type/message'
@@ -55,7 +56,7 @@ const api = {
     return app.$axios.$get(`/village/${villageId}/situation`)
   },
 
-  async fetchCharachipName(app: Vue, village: Village): Promise<string> {
+  async fetchCharachips(app: Vue, village: Village): Promise<Charachip[]> {
     const charachipIds = village.setting.charachip.charachip_ids
     const charachips: Charachips = await app.$axios.$get(`/charachips`, {
       params: {
@@ -64,7 +65,7 @@ const api = {
       paramsSerializer: params =>
         qs.stringify(params, { arrayFormat: 'repeat' })
     })
-    return charachips.list.map(c => c.name).join('、')
+    return charachips.list
   },
 
   fetchDebugVillage(app: Vue, villageId: number): Promise<DebugVillage> {
