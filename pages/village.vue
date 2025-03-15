@@ -92,7 +92,6 @@
       />
       <village-slider
         v-if="$window.isMobile"
-        :charachip-name="charachipName"
         :is-expanded="isSliderExpanded"
         @refresh="reload"
         @hide-slider="hideSlider"

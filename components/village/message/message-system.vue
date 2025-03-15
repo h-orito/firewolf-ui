@@ -54,6 +54,14 @@ export default class SystemMessageV extends Vue {
       background-color: $private-system-bg-dark;
     }
   }
+  &.message-system-private-ability {
+    border: 1px solid $private-system-border;
+    background-color: $private-system-bg;
+
+    &.dark-theme {
+      background-color: $private-system-bg-dark;
+    }
+  }
   &.message-system-private-seer {
     border: 1px solid $seer-system-border;
     background-color: $seer-system-bg;

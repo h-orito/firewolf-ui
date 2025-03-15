@@ -281,6 +281,13 @@ export default class ModalVillageInfo extends Vue {
       description:
         '「あり」の場合、生存者全員が時短を希望すると、日付が更新されます。\n時短により余った時間は翌日に繰り越されます。'
     })
+    // 連続護衛
+    settings.push({
+      name: '連続護衛',
+      value: rules.available_guard_same_target ? '可能' : '不可',
+      description:
+        '「可能」の場合、同じ人を2日連続で護衛することができます。\n「不可」の場合、同じ人を2日連続で護衛することができません。'
+    })
     // 発言制限
     const restricts = rules.message_restrict.restrict_list
       .map(restrict => {

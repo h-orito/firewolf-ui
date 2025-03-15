@@ -96,7 +96,7 @@
       <form-switch
         rules="required"
         label-message="役欠け"
-        description="ダミー役欠けをありにする"
+        description="ダミー役欠けあり"
         :input-value.sync="availableDummySkillModel"
       />
       <hr />
@@ -104,32 +104,38 @@
       <form-switch
         rules="required"
         label-message="記名投票"
-        description="記名投票にする"
+        description="記名投票あり"
         :input-value.sync="openVoteModel"
       />
       <form-switch
         rules="required"
         label-message="役職希望"
-        description="役職希望ありにする"
+        description="役職希望可能"
         :input-value.sync="availableSkillRequestModel"
       />
       <form-switch
         rules="required"
         label-message="見学"
-        description="見学ありにする"
+        description="見学可能"
         :input-value.sync="availableSpectateModel"
       />
       <form-switch
         rules="required"
         label-message="突然死"
-        description="突然死ありにする"
+        description="突然死あり"
         :input-value.sync="availableSuddelnyDeathModel"
       />
       <form-switch
         rules="required"
         label-message="時短"
-        description="時短希望ありにする"
+        description="時短希望可能"
         :input-value.sync="availableCommitModel"
+      />
+      <form-switch
+        rules="required"
+        label-message="護衛"
+        description="連続護衛可能"
+        :input-value.sync="availableGuardSameTargetModel"
       />
       <hr />
       <h2 class="title is-6">発言制限</h2>
@@ -590,6 +596,18 @@ export default class Setting extends Vue {
     this.$emit('update:availableCommit', val)
   }
 
+  /** availableGuardSameTarget */
+  @Prop({ type: Boolean, required: true })
+  private availableGuardSameTarget!: boolean
+
+  private get availableGuardSameTargetModel(): boolean {
+    return this.availableGuardSameTarget
+  }
+
+  private set availableGuardSameTargetModel(val: boolean) {
+    this.$emit('update:availableGuardSameTarget', val)
+  }
+
   /** normalCount */
   @Prop({ type: String, required: true })
   private normalCount!: string
@@ -1006,6 +1024,7 @@ export default class Setting extends Vue {
           available_dummy_skill: this.availableDummySkill,
           available_action: this.availableAction,
           available_secret_say: this.availableSecretSay,
+          available_guard_same_target: this.availableGuardSameTarget,
           restrict_list: [
             {
               type: MESSAGE_TYPE.NORMAL_SAY,

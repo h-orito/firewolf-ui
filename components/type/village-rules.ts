@@ -12,6 +12,7 @@ interface VillageRules {
   available_dummy_skill: boolean
   available_action: boolean
   available_secret_say: boolean
+  available_guard_same_target: boolean
   message_restrict: VillageMessageRestricts
 }
 

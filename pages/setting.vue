@@ -36,6 +36,7 @@
         :available-commit.sync="availableCommit"
         :available-action.sync="availableAction"
         :available-secret-say.sync="availableSecretSay"
+        :available-guard-same-target.sync="availableGuardSameTarget"
         :age-limit.sync="ageLimit"
         :normal-count.sync="normalCount"
         :normal-length.sync="normalLength"
@@ -111,6 +112,7 @@ export default class VillageSetting extends Vue {
   private availableCommit: boolean = false
   private availableAction: boolean = false
   private availableSecretSay: boolean = false
+  private availableGuardSameTarget: boolean = true
   private ageLimit: string = ''
 
   private normalCount: string = '20'
@@ -179,6 +181,7 @@ export default class VillageSetting extends Vue {
     this.availableCommit = rules.available_commit
     this.availableAction = rules.available_action
     this.availableSecretSay = rules.available_secret_say
+    this.availableGuardSameTarget = rules.available_guard_same_target
 
     const tagCodes = this.village.setting.tags.list
     this.ageLimit =
@@ -223,7 +226,6 @@ export default class VillageSetting extends Vue {
     const dummy = this.village.participant.member_list.find(
       p => p.chara.id === parseInt(this.dummyCharaId)
     )!
-    console.log()
     this.dummyCharaShortName = dummy.chara_name.short_name
     this.dummyCharaName = dummy.chara_name.name
     this.day0Message =
