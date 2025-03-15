@@ -24,6 +24,7 @@
         :available-commit.sync="availableCommit"
         :available-action.sync="availableAction"
         :available-secret-say.sync="availableSecretSay"
+        :available-guard-same-target.sync="availableGuardSameTarget"
         :normal-count.sync="normalCount"
         :normal-length.sync="normalLength"
         :whisper-count.sync="whisperCount"
@@ -90,6 +91,7 @@ export default class CreateVillage extends Vue {
   private availableCommit: boolean = false
   private availableAction: boolean = false
   private availableSecretSay: boolean = false
+  private availableGuardSameTarget: boolean = true
   private ageLiimt: string = ''
 
   private normalCount: string = '20'

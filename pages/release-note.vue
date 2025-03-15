@@ -5,6 +5,9 @@
       <div class="content">
         <ul class="has-text-left is-size-7">
           <li>
+            2025/03/15 村設定：連続護衛を追加
+          </li>
+          <li>
             2025/01/20 村建て発言の抽出を追加
           </li>
           <li>
