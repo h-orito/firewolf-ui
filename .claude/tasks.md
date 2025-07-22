@@ -5,26 +5,26 @@
 ### Phase 1: 基本セットアップとコアコンポーネント
 
 #### 1.1 プロジェクト初期設定
-- [ ] Next.js 15プロジェクトの作成（App Router使用）
-- [ ] TypeScript 5の設定
-- [ ] ESLint/Prettierの設定
-- [ ] Tailwind CSSの設定
-- [ ] 基本的なディレクトリ構造の作成
+- [x] Next.js 15プロジェクトの作成（App Router使用）
+- [x] TypeScript 5の設定
+- [x] ESLint/Prettierの設定
+- [x] Tailwind CSSの設定
+- [x] 基本的なディレクトリ構造の作成
 
 #### 1.2 開発環境設定
-- [ ] pnpmのセットアップ
-- [ ] 環境変数の設定（.env.local）
-- [ ] Gitignoreの更新
-- [ ] package.jsonのスクリプト設定（dev, build, lint, format, type-check）
+- [x] pnpmのセットアップ
+- [x] 環境変数の設定（.env.local）
+- [x] Gitignoreの更新
+- [x] package.jsonのスクリプト設定（dev, build, lint, format, type-check）
 
 #### 1.3 OpenAPI連携
-- [ ] openapi-typescriptとopenapi-fetch（またはorval）のセットアップ
-- [ ] API型生成スクリプトの作成（pnpm generate:api）
-- [ ] 生成された型の動作確認
+- [x] openapi-typescriptとopenapi-fetch（またはorval）のセットアップ
+- [x] API型生成スクリプトの作成（pnpm generate:api）
+- [x] 生成された型の動作確認
 
 #### 1.4 基本UIコンポーネント
-- [ ] shadcn/uiのセットアップ
-- [ ] 基本的なUIコンポーネントの追加（Button, Input, Card等）
+- [x] shadcn/uiのセットアップ
+- [x] 基本的なUIコンポーネントの追加（Button, Input, Card等）
 - [ ] 等幅フォントの設定（村メッセージ用）
 
 #### 1.5 認証システム
