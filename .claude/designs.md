@@ -1,0 +1,365 @@
+# FIREWOLF UI v2 設計書
+
+## 1. 概要
+
+本設計書は、FIREWOLF UI を Nuxt.js 2.x から Next.js 15（App Router）へ移行し、今後の保守開発をやりやすくするための設計方針を定めたものです。
+
+## 2. 技術選定
+
+### 2.1 コアフレームワーク
+
+- **Next.js 15 (App Router)** - 最新の React Server Components 対応、Turbopack 対応
+- **React 19** - 最新の機能とパフォーマンス改善
+- **TypeScript 5** - より強力な型システム
+
+### 2.2 状態管理
+
+- **Zustand** - シンプルで型安全な状態管理（Vuex の代替）
+- **TanStack Query (React Query)** - サーバー状態の管理とキャッシュ
+
+### 2.3 スタイリング
+
+- **Tailwind CSS** - ユーティリティファースト CSS
+- **shadcn/ui** - カスタマイズ可能な UI コンポーネントライブラリ
+- **CSS Modules** - コンポーネントスコープのスタイル（必要に応じて）
+
+#### フォント設定
+
+- **村のメッセージ内容**: 等幅フォント（monospace）を使用
+  - アスキーアートや整形されたテキストの表示を維持するため
+  - `font-mono` クラスまたは `font-family: monospace` を適用
+
+### 2.4 認証
+
+- **Firebase Authentication** - 既存システムとの互換性維持
+
+### 2.5 フォームバリデーション
+
+- **React Hook Form** - パフォーマンスの良いフォーム管理
+- **Zod** - スキーマベースのバリデーション
+
+### 2.6 その他の主要ライブラリ
+
+- **date-fns** - 日付処理（dayjs の代替）
+- **recharts** - グラフ表示（Chart.js の代替）
+- **PWA 対応** - next-pwa
+
+### 2.7 コード生成ツール
+
+- **openapi-typescript** - OpenAPI 定義から TypeScript 型を生成
+- **openapi-fetch** または **orval** - 型安全な API クライアントの生成
+
+## 3. ディレクトリ構造
+
+```
+v2/
+├── app/                          # App Router
+│   ├── (auth)/                   # 認証が必要なルート
+│   │   ├── village/
+│   │   │   └── create/
+│   │   │       └── page.tsx     # 村作成画面
+│   │   └── setting/
+│   │       └── page.tsx
+│   ├── (public)/                 # 公開ルート
+│   │   ├── page.tsx              # トップページ
+│   │   ├── village/
+│   │   │   └── [id]/
+│   │   │       ├── page.tsx     # 村画面（認証不要）
+│   │   │       └── layout.tsx
+│   │   ├── player-record/
+│   │   │   └── [id]/
+│   │   │       └── page.tsx     # プレイヤー戦績（認証不要）
+│   │   ├── about/
+│   │   ├── rule/
+│   │   └── faq/
+│   ├── layout.tsx                # ルートレイアウト
+│   └── globals.css               # グローバルスタイル
+├── components/                   # 共有コンポーネント
+│   ├── ui/                       # 基本UIコンポーネント（ボタン、インプット等）
+│   ├── layout/                   # レイアウト関連（ヘッダー、フッター、サイドバー等）
+│   ├── navigation/               # ナビゲーション関連（メニュー、パンくず等）
+│   ├── forms/                    # フォーム関連（バリデーション付きインプット等）
+│   ├── feedback/                 # フィードバック系（通知、ローディング、エラー表示等）
+│   ├── auth/                     # 認証関連（ログインフォーム、ユーザーメニュー等）
+│   ├── village/                  # 村関連コンポーネント
+│   └── providers/                # コンテキストプロバイダー
+├── hooks/                        # カスタムフック
+├── lib/                          # ユーティリティ関数
+│   ├── api/                      # API関連
+│   ├── auth/                     # 認証関連
+│   └── utils/                    # その他ユーティリティ
+├── stores/                       # Zustand ストア
+│   ├── auth.ts
+│   ├── village.ts
+│   └── settings.ts
+├── types/                        # TypeScript型定義
+├── public/                       # 静的ファイル
+└── tests/                        # テストファイル
+```
+
+## 4. 主要機能の実装方針
+
+### 4.1 認証システム
+
+```typescript
+// lib/auth/firebase.ts
+export const firebaseAuth = {
+  signInWithGoogle: async () => {
+    /* ... */
+  },
+  signInWithTwitter: async () => {
+    /* ... */
+  },
+  signOut: async () => {
+    /* ... */
+  },
+  getCurrentUser: () => {
+    /* ... */
+  },
+};
+
+// hooks/useAuth.ts
+export const useAuth = () => {
+  const { user, setUser } = useAuthStore();
+  // 認証状態の管理ロジック
+};
+```
+
+### 4.2 状態管理
+
+Zustand を使用した状態管理の例：
+
+```typescript
+// stores/auth.ts - 認証状態（グローバルで必要）
+interface AuthStore {
+  user: User | null;
+  isAuthenticated: boolean;
+  login: (provider: "google" | "twitter") => Promise<void>;
+  logout: () => Promise<void>;
+}
+
+export const useAuthStore = create<AuthStore>((set) => ({
+  user: null,
+  isAuthenticated: false,
+  // 実装
+}));
+
+// stores/village.ts - 村データ（オプション：参照しやすさのため）
+// TanStack Queryでキャッシュ管理する場合は不要
+interface VillageStore {
+  village: Village | null;
+  messages: Message[];
+  // 必要に応じて実装
+}
+```
+
+**注意**: 村データ（village, messages 等）は TanStack Query でキャッシュ管理されるため、Zustand での管理は必須ではありません。参照しやすさや特定のユースケースのために必要な場合のみ実装してください。
+
+### 4.3 API 通信
+
+#### OpenAPI 定義からの自動生成
+
+バックエンド API の OpenAPI 定義（http://localhost:8087/firewolf/v3/api-docs）から型定義と API クライアントを自動生成します。
+
+```bash
+# OpenAPI定義から型とAPIクライアントを生成
+pnpm generate:api
+```
+
+生成されるファイル：
+
+- `lib/api/generated/types.ts` - API 型定義
+- `lib/api/generated/client.ts` - API クライアント
+
+**重要な方針：**
+
+- 自動生成された型定義を最大限尊重し、設計に無理がない限りそのまま使用する
+- カスタム型を作成する場合は、自動生成された型を拡張する形で実装
+- API レスポンスの型は自動生成されたものを使用し、手動で型定義を作成しない
+
+```typescript
+// lib/api/client.ts
+import { generatedApiClient } from "./generated/client";
+import type { Village, Message, Participant } from "./generated/types";
+
+// 自動生成されたクライアントをラップ
+export const apiClient = {
+  ...generatedApiClient,
+  // 必要に応じて追加のメソッドや処理
+};
+
+// hooks/useVillageQuery.ts
+import type { Village } from "~/lib/api/generated/types";
+
+export const useVillageQuery = (id: string) => {
+  return useQuery({
+    queryKey: ["village", id],
+    queryFn: () => apiClient.villages.getVillageById(id),
+  });
+};
+```
+
+### 4.4 リアルタイム機能
+
+```typescript
+// hooks/useVillagePolling.ts
+export const useVillagePolling = (villageId: string) => {
+  const { refetch } = useVillageQuery(villageId);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      refetch();
+    }, 5000); // 5秒ごとに更新
+
+    return () => clearInterval(interval);
+  }, [villageId, refetch]);
+};
+```
+
+### 4.5 Server Components 活用
+
+```typescript
+// app/village/[id]/page.tsx
+export default async function VillagePage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  // サーバーサイドでデータ取得
+  const village = await fetchVillage(params.id);
+
+  return (
+    <VillageProvider initialData={village}>
+      <VillageContent />
+    </VillageProvider>
+  );
+}
+```
+
+## 5. 移行戦略
+
+### 5.1 段階的移行
+
+1. **Phase 1**: 基本セットアップとコアコンポーネントの移行
+
+   - Next.js 環境構築
+   - 認証システムの移行
+   - 基本的な UI コンポーネントの作成
+
+2. **Phase 2**: 主要画面の移行
+
+   - トップページ
+   - 村一覧画面
+   - 村画面（表示のみ）
+
+3. **Phase 3**: インタラクティブ機能の移行
+
+   - メッセージ投稿
+   - アクション実行
+   - リアルタイム更新
+
+4. **Phase 4**: 管理機能の移行
+   - 村作成
+   - 設定画面
+   - その他の画面
+
+### 5.2 データ構造の互換性維持
+
+- 既存の API レスポンス形式を維持
+- 型定義は既存のものを基に作成
+- 段階的にリファクタリング
+
+## 6. パフォーマンス最適化
+
+### 6.1 Next.js 最適化
+
+- **Image Optimization**: next/image の活用
+- **Font Optimization**: next/font の活用
+- **Bundle Splitting**: 自動的なコード分割
+- **ISR/SSG**: 静的ページの事前生成
+- **Turbopack**: より高速な開発環境（Next.js 15 の新機能）
+- **Partial Prerendering**: 動的コンテンツと静的コンテンツの最適化
+
+### 6.2 React 最適化
+
+- **React.memo**: 不要な再レンダリング防止
+- **useMemo/useCallback**: 計算結果のメモ化
+- **Suspense**: ローディング状態の改善
+
+## 7. テスト戦略
+
+### 7.1 テストツール
+
+- **Jest**: ユニットテスト
+- **React Testing Library**: コンポーネントテスト
+- **Playwright**: E2E テスト
+
+### 7.2 テスト範囲
+
+- コアロジックのユニットテスト
+- 重要なコンポーネントの統合テスト
+- 主要なユーザーフローの E2E テスト
+
+## 8. 開発環境
+
+### 8.1 必要なツール
+
+- Node.js 22.x LTS（Next.js 15 推奨）
+- pnpm（パッケージマネージャー）
+- VS Code + 推奨拡張機能
+
+### 8.2 開発コマンド
+
+```bash
+# 開発サーバー起動（Turbopack使用）
+pnpm dev --turbo
+
+# 開発サーバー起動（Webpack使用）
+pnpm dev
+
+# ビルド
+pnpm build
+
+# プロダクション起動
+pnpm start
+
+# 型チェック
+pnpm type-check
+
+# リント
+pnpm lint
+
+# テスト
+pnpm test
+
+# API型とクライアントの生成
+pnpm generate:api
+```
+
+## 9. セキュリティ考慮事項
+
+- XSS 対策（React 標準で対応）
+- 環境変数の適切な管理
+- API キーの秘匿
+
+## 10. 今後の拡張性
+
+- **ダークモード**: Tailwind CSS のダークモード機能
+- **WebSocket**: リアルタイム通信の改善
+- **GraphQL**: REST API からの移行（将来的）
+
+## 11. 移行時の注意点
+
+### 11.1 破壊的変更を避ける
+
+- URL パスは可能な限り維持
+- API エンドポイントの互換性維持
+- ユーザーデータの移行不要
+
+### 11.2 Netlify でのリリース戦略
+
+- **ブランチデプロイ**: Netlify の機能を活用し、ブランチごとに別 URL でデプロイ
+  - `master`ブランチ: 本番環境
+  - `feature/next`ブランチ: v2 テスト環境
+- **プレビューデプロイ**: PR ごとに自動生成されるプレビュー URL で確認
+- **即座のロールバック**: 問題があれば Git で revert するだけで対応可能
