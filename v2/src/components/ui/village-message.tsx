@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { cn } from '@/lib/utils'
+import { useVillageSettingsStore } from '@/stores/village-settings'
 import type { components } from '@/types/generated/api'
 
 type MessageView = components['schemas']['MessageView']
@@ -10,31 +11,46 @@ export interface VillageMessageProps extends React.HTMLAttributes<HTMLDivElement
 
 const VillageMessage = React.forwardRef<HTMLDivElement, VillageMessageProps>(
   ({ className, message, ...props }, ref) => {
+    const { settings } = useVillageSettingsStore()
     const messageTypeClass = getMessageTypeClass(message.content.type.code)
     const timeString = formatMessageTime(message.time.datetime)
+
+    // 文字サイズのクラスを取得
+    const fontSizeClass = getFontSizeClass(settings.display.fontSize)
+
+    // コンパクト表示の判定
+    const isCompact = settings.display.compactView
 
     return (
       <div
         ref={ref}
-        className={cn('font-mono text-sm leading-relaxed', messageTypeClass, className)}
+        className={cn(
+          'font-mono leading-relaxed',
+          fontSizeClass,
+          messageTypeClass,
+          isCompact ? 'py-1' : 'py-2',
+          className
+        )}
         {...props}
       >
         <div className="flex items-start gap-3">
           {/* 発言番号・時間 */}
-          <div className="text-xs text-gray-500 flex-shrink-0 w-16">
-            {message.content.num && (
-              <div>
-                {message.content.type.code}:{message.content.num}
-              </div>
-            )}
-            <div>{timeString}</div>
-          </div>
+          {(settings.display.showMessageNumber || settings.display.showTimestamp) && (
+            <div className="text-xs text-gray-500 flex-shrink-0 w-16">
+              {settings.display.showMessageNumber && message.content.num && (
+                <div>
+                  {message.content.type.code}:{message.content.num}
+                </div>
+              )}
+              {settings.display.showTimestamp && <div>{timeString}</div>}
+            </div>
+          )}
 
           {/* 発言者・内容 */}
           <div className="flex-1 min-w-0">
             {/* 発言者情報 */}
-            {message.from && (
-              <div className="flex items-center gap-2 mb-1">
+            {settings.display.showSpeakerName && message.from && (
+              <div className={cn('flex items-center gap-2', isCompact ? 'mb-0' : 'mb-1')}>
                 <span className="font-semibold text-gray-800">{message.from.charaName.name}</span>
                 {message.from.player && (
                   <span className="text-xs text-gray-500">({message.from.player.nickname})</span>
@@ -76,6 +92,19 @@ function getMessageTypeClass(messageType: string): string {
       return 'text-orange-600 font-medium'
     default:
       return 'text-foreground'
+  }
+}
+
+function getFontSizeClass(fontSize: 'small' | 'medium' | 'large'): string {
+  switch (fontSize) {
+    case 'small':
+      return 'text-xs'
+    case 'medium':
+      return 'text-sm'
+    case 'large':
+      return 'text-base'
+    default:
+      return 'text-sm'
   }
 }
 

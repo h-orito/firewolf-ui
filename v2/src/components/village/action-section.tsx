@@ -5,6 +5,7 @@ import { VoteForm } from '@/components/village/vote-form'
 import { AbilityForm } from '@/components/village/ability-form'
 import { CommitForm } from '@/components/village/commit-form'
 import { ParticipationForm } from '@/components/village/participation-form'
+import { LeaveForm } from '@/components/village/leave-form'
 import { useParticipateSituationQuery } from '@/hooks/useParticipateSituationQuery'
 import type { components } from '@/types/generated/api'
 
@@ -76,6 +77,9 @@ export function ActionSection({ village }: ActionSectionProps) {
       {participateSituation.commit.availableCommit && (
         <CommitForm villageId={village.id} commitSituation={participateSituation.commit} />
       )}
+
+      {/* 退村フォーム */}
+      <LeaveForm village={village} participateSituation={participateSituation.participate} />
     </div>
   )
 }
