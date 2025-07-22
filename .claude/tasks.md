@@ -62,10 +62,10 @@
 - [x] 村の状態表示（プロローグ、進行中、エピローグ等）
 
 #### 2.5 プレイヤー戦績画面
-- [ ] app/(public)/player-record/[id]/page.tsxの実装
-- [ ] プレイヤー情報の取得と表示
-- [ ] 戦績統計の表示
-- [ ] グラフ表示（recharts使用）
+- [x] app/(public)/player-record/[id]/page.tsxの実装
+- [x] プレイヤー情報の取得と表示
+- [x] 戦績統計の表示
+- [x] グラフ表示（recharts使用）
 
 ### Phase 3: インタラクティブ機能
 
