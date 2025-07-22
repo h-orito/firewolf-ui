@@ -3,7 +3,9 @@
     "allow": [
       "Bash(pnpm lint:*)",
       "Bash(pnpm format:*)",
-      "Bash(pnpm type-check:*)"
+      "Bash(pnpm type-check:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ],
     "deny": []
   }

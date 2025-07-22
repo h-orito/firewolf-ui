@@ -5,6 +5,7 @@ import { useVillageQuery } from '@/hooks/useVillageQuery'
 import { VillageInfo } from '@/components/village/village-info'
 import { ParticipantList } from '@/components/village/participant-list'
 import { MessageSection } from '@/components/village/message-section'
+import { ActionSection } from '@/components/village/action-section'
 
 export default function VillagePage() {
   const params = useParams()
@@ -52,8 +53,11 @@ export default function VillagePage() {
         </div>
 
         {/* サイドバー */}
-        <div className="lg:col-span-1">
+        <div className="lg:col-span-1 space-y-6">
           <ParticipantList village={village} />
+
+          {/* アクションセクション */}
+          <ActionSection village={village} />
         </div>
       </div>
     </div>
