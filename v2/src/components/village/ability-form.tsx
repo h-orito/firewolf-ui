@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Select } from '@/components/ui/select'
 import { apiClient } from '@/lib/api/client'
+import { validateAbility } from '@/lib/validation/action-validation'
+import { parseAbilityError } from '@/lib/api/error-handler'
 import type { components } from '@/types/generated/api'
 
 type VillageAbilitySituationsView = components['schemas']['VillageAbilitySituationsView']
@@ -45,6 +47,8 @@ interface AbilityCardProps {
 
 function AbilityCard({ villageId, ability, queryClient }: AbilityCardProps) {
   const [selectedTargetId, setSelectedTargetId] = useState<number | undefined>(ability.target?.id)
+  const [validationErrors, setValidationErrors] = useState<string[]>([])
+  const [apiError, setApiError] = useState<string>('')
 
   const abilityMutation = useMutation({
     mutationFn: async (targetId?: number) => {
@@ -63,14 +67,27 @@ function AbilityCard({ villageId, ability, queryClient }: AbilityCardProps) {
       // 村情報を再取得
       queryClient.invalidateQueries({ queryKey: ['village', villageId] })
       queryClient.invalidateQueries({ queryKey: ['participate-situation', villageId.toString()] })
+      // 成功時はAPIエラーをクリア
+      setApiError('')
     },
     onError: (error) => {
       console.error('能力実行に失敗しました:', error)
+      setApiError(parseAbilityError(error))
     },
   })
 
   const handleAbility = async () => {
-    if (!ability.usable) return
+    // バリデーション実行
+    const validation = validateAbility(ability, selectedTargetId)
+
+    if (!validation.isValid) {
+      setValidationErrors(validation.errors)
+      return
+    }
+
+    // バリデーション成功時はエラーをクリア
+    setValidationErrors([])
+    setApiError('')
 
     if (ability.availableNoTarget) {
       // 対象不要の能力
@@ -122,21 +139,22 @@ function AbilityCard({ villageId, ability, queryClient }: AbilityCardProps) {
           </>
         )}
 
-        <Button
-          onClick={handleAbility}
-          disabled={
-            !ability.usable ||
-            abilityMutation.isPending ||
-            (!ability.availableNoTarget && !selectedTargetId && hasTargetList)
-          }
-          className="w-full"
-        >
+        {/* バリデーションエラー表示 */}
+        {validationErrors.length > 0 && (
+          <div className="space-y-1">
+            {validationErrors.map((error, index) => (
+              <p key={index} className="text-sm text-red-600">
+                {error}
+              </p>
+            ))}
+          </div>
+        )}
+
+        <Button onClick={handleAbility} disabled={abilityMutation.isPending} className="w-full">
           {abilityMutation.isPending ? '実行中...' : `${ability.type.name}を実行`}
         </Button>
 
-        {abilityMutation.isError && (
-          <p className="text-sm text-red-600">能力実行に失敗しました。もう一度お試しください。</p>
-        )}
+        {apiError && <p className="text-sm text-red-600">{apiError}</p>}
 
         {abilityMutation.isSuccess && (
           <p className="text-sm text-green-600">{ability.type.name}をセットしました</p>
