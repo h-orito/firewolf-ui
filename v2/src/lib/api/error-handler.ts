@@ -137,3 +137,45 @@ export function parseCommitError(error: any): string {
 
   return apiError.message
 }
+
+/**
+ * 参加関連のエラーメッセージをカスタマイズ
+ */
+export function parseParticipateError(error: any): string {
+  const apiError = parseApiError(error)
+
+  // 参加固有のエラーハンドリング
+  if (apiError.code === 'PARTICIPATE_NOT_AVAILABLE') {
+    return '現在参加することはできません'
+  }
+
+  if (apiError.code === 'CHARA_ALREADY_SELECTED') {
+    return '選択されたキャラクターは既に使用されています'
+  }
+
+  if (apiError.code === 'INVALID_JOIN_PASSWORD') {
+    return '入村パスワードが正しくありません'
+  }
+
+  if (apiError.code === 'VILLAGE_FULL') {
+    return '村の定員に達しています'
+  }
+
+  if (apiError.code === 'INVALID_CHARA_NAME') {
+    return 'キャラクター名が不適切です'
+  }
+
+  return apiError.message
+}
+
+/**
+ * APIエラーを処理する汎用ハンドラー
+ */
+export function handleApiError(error: any): void {
+  const apiError = parseApiError(error)
+  console.error('API Error:', apiError)
+
+  // ここでトースト通知やアラートを表示することも可能
+  // 今回は基本的なエラーログのみ
+  alert(apiError.message)
+}

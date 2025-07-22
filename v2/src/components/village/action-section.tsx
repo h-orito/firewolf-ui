@@ -4,6 +4,7 @@ import { MessagePostForm } from '@/components/village/message-post-form'
 import { VoteForm } from '@/components/village/vote-form'
 import { AbilityForm } from '@/components/village/ability-form'
 import { CommitForm } from '@/components/village/commit-form'
+import { ParticipationForm } from '@/components/village/participation-form'
 import { useParticipateSituationQuery } from '@/hooks/useParticipateSituationQuery'
 import type { components } from '@/types/generated/api'
 
@@ -26,11 +27,34 @@ export function ActionSection({ village }: ActionSectionProps) {
     )
   }
 
-  // 参加者として村にいない場合は何も表示しない
+  // 参加状況データがない場合は読み込み中表示
   if (!participateSituation) {
+    return (
+      <div className="text-center p-4">
+        <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+      </div>
+    )
+  }
+
+  // 参加者でない場合は参加フォームを表示
+  if (!participateSituation.participate.participating) {
+    // 参加可能な場合のみ参加フォームを表示
+    if (participateSituation.participate.availableParticipate) {
+      return (
+        <div className="space-y-6">
+          <ParticipationForm
+            village={village}
+            participateSituation={participateSituation.participate}
+            skillRequestSituation={participateSituation.skillRequest}
+          />
+        </div>
+      )
+    }
+    // 参加できない場合は何も表示しない
     return null
   }
 
+  // 参加者の場合は既存のアクションフォームを表示
   return (
     <div className="space-y-6">
       {/* メッセージ投稿フォーム */}
