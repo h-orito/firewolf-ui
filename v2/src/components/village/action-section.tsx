@@ -3,6 +3,7 @@
 import { MessagePostForm } from '@/components/village/message-post-form'
 import { VoteForm } from '@/components/village/vote-form'
 import { AbilityForm } from '@/components/village/ability-form'
+import { CommitForm } from '@/components/village/commit-form'
 import { useParticipateSituationQuery } from '@/hooks/useParticipateSituationQuery'
 import type { components } from '@/types/generated/api'
 
@@ -45,6 +46,11 @@ export function ActionSection({ village }: ActionSectionProps) {
       {/* 能力実行フォーム */}
       {participateSituation.ability && participateSituation.ability.list.length > 0 && (
         <AbilityForm villageId={village.id} abilitySituations={participateSituation.ability} />
+      )}
+
+      {/* コミットフォーム */}
+      {participateSituation.commit.availableCommit && (
+        <CommitForm villageId={village.id} commitSituation={participateSituation.commit} />
       )}
     </div>
   )
