@@ -28,11 +28,11 @@
 - [x] 等幅フォントの設定（村メッセージ用）
 
 #### 1.5 認証システム
-- [ ] Firebase Authenticationの設定
-- [ ] 認証用のZustandストア作成（stores/auth.ts）
-- [ ] useAuthフックの実装
-- [ ] Google/Twitter認証の実装
-- [ ] 認証状態の永続化
+- [x] Firebase Authenticationの設定
+- [x] 認証用のZustandストア作成（stores/auth.ts）
+- [x] useAuthフックの実装
+- [x] Google/Twitter認証の実装
+- [x] 認証状態の永続化
 
 ### Phase 2: 主要画面の実装
 
