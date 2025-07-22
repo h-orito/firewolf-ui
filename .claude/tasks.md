@@ -37,10 +37,10 @@
 ### Phase 2: 主要画面の実装
 
 #### 2.1 レイアウトコンポーネント
-- [ ] ルートレイアウト（app/layout.tsx）の実装
-- [ ] ヘッダーコンポーネント（components/layout/header.tsx）
-- [ ] フッターコンポーネント（components/layout/footer.tsx）
-- [ ] ナビゲーションコンポーネント（components/navigation/）
+- [x] ルートレイアウト（app/layout.tsx）の実装
+- [x] ヘッダーコンポーネント（components/layout/header.tsx）
+- [x] フッターコンポーネント（components/layout/footer.tsx）
+- [x] ナビゲーションコンポーネント（components/navigation/）
 
 #### 2.2 トップページ
 - [ ] app/(public)/page.tsxの実装

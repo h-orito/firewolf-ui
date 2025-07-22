@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Inter, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
+import { Header } from '@/components/layout/header'
+import { Footer } from '@/components/layout/footer'
 
 const inter = Inter({ subsets: ['latin'] })
 const jetbrainsMono = JetBrains_Mono({
@@ -9,8 +11,27 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'FIREWOLF',
+  title: {
+    default: 'FIREWOLF',
+    template: '%s | FIREWOLF',
+  },
   description: '人狼ゲームが無料で遊べるWebサービス',
+  keywords: ['人狼', '人狼ゲーム', 'オンライン', '無料', 'ゲーム'],
+  authors: [{ name: 'h-orito' }],
+  openGraph: {
+    title: 'FIREWOLF',
+    description: '人狼ゲームが無料で遊べるWebサービス',
+    type: 'website',
+    locale: 'ja_JP',
+  },
+  twitter: {
+    card: 'summary',
+    creator: '@firewolf_bbs',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 }
 
 export default function RootLayout({
@@ -20,7 +41,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className={`${inter.className} ${jetbrainsMono.variable}`}>{children}</body>
+      <body className={`${inter.className} ${jetbrainsMono.variable} min-h-screen flex flex-col`}>
+        <Header />
+        <main className="flex-1 bg-gray-50">{children}</main>
+        <Footer />
+      </body>
     </html>
   )
 }
