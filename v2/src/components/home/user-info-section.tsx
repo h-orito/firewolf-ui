@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { useAuth } from '@/hooks/useAuth'
@@ -53,15 +52,6 @@ export default function UserInfoSection() {
         <Card className="p-6">
           <div className="flex flex-col sm:flex-row items-center justify-between">
             <div className="flex items-center space-x-4 mb-4 sm:mb-0">
-              {user?.photoURL && (
-                <Image
-                  src={user.photoURL}
-                  alt={user.displayName || 'ユーザーアバター'}
-                  width={48}
-                  height={48}
-                  className="w-12 h-12 rounded-full"
-                />
-              )}
               <div>
                 <h3 className="text-lg font-semibold text-gray-900">
                   {user?.displayName || 'プレイヤー'}
