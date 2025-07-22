@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Card } from '@/components/ui/card'
+import { ClickToReveal } from '@/components/ui/click-to-reveal'
 
 export const metadata: Metadata = {
   title: 'ルール - FIREWOLF',
@@ -504,13 +505,10 @@ export default function RulePage() {
                 [[cw]]文字列[[/cw]]で文字を隠せます（クリックで除去できます）。
                 <ul className="mt-2 ml-6 space-y-1 list-disc list-inside">
                   <li>
-                    [[cw]]文字列[[/cw]] →
-                    <span
-                      className="bg-gray-300 cursor-pointer hover:bg-gray-200 px-1 rounded"
-                      onClick={(e) => ((e.target as HTMLElement).style.display = 'none')}
-                    >
+                    [[cw]]文字列[[/cw]] →{' '}
+                    <ClickToReveal className="bg-gray-300 cursor-pointer hover:bg-gray-200 px-1 rounded">
                       文字列
-                    </span>
+                    </ClickToReveal>
                   </li>
                 </ul>
               </li>
