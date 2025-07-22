@@ -16,7 +16,7 @@ export const useVillageListQuery = (form?: VillageListForm) => {
       })
 
       if (error) {
-        throw new Error('Failed to fetch village list')
+        throw new Error(`Failed to fetch village list: ${JSON.stringify(error)}`)
       }
 
       return data
