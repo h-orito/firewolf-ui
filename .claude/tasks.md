@@ -131,16 +131,16 @@
 - [x] Service Workerの設定
 
 #### 5.3 テスト
-- [ ] ユニットテストの作成（重要なロジック）
-- [ ] 統合テストの作成（主要な機能）
-- [ ] E2Eテストの作成（主要なユーザーフロー）
+- [x] ユニットテストの作成（重要なロジック）
+- [x] 統合テストの作成（主要な機能）
+- [x] E2Eテストの作成（主要なユーザーフロー）
 
 #### 5.4 ドキュメント作成
-- [ ] doc/v2/README.mdの作成
-- [ ] doc/v2/setup.mdの作成
-- [ ] doc/v2/architecture.mdの作成
-- [ ] doc/v2/migration-guide.mdの作成
-- [ ] その他必要なドキュメントの作成
+- [x] doc/v2/README.mdの作成
+- [x] doc/v2/setup.mdの作成
+- [x] doc/v2/architecture.mdの作成
+- [x] doc/v2/migration-guide.mdの作成
+- [x] その他必要なドキュメントの作成
 
 #### 5.5 デプロイ準備
 - [ ] Netlify設定ファイルの作成
