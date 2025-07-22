@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { useQueryClient } from '@tanstack/react-query'
 import { useVillageMessagesQuery } from '@/hooks/useVillageMessagesQuery'
 import { useVillageSaySituationQuery } from '@/hooks/useVillageSaySituationQuery'
 import { VillageMessage } from '@/components/ui/village-message'
@@ -40,6 +41,7 @@ function DayTab({ day, isActive, onClick }: DayTabProps) {
 }
 
 export function MessageSection({ village }: MessageSectionProps) {
+  const queryClient = useQueryClient()
   const [selectedDay, setSelectedDay] = useState<VillageDayView | null>(null)
 
   // 最新の日を初期選択として設定
@@ -57,7 +59,9 @@ export function MessageSection({ village }: MessageSectionProps) {
   } = useVillageMessagesQuery(
     village.id.toString(),
     selectedDay?.day ?? 0,
-    selectedDay?.noonnight ?? 'noon'
+    selectedDay?.noonnight ?? 'noon',
+    undefined,
+    village.status
   )
 
   const { data: saySituation } = useVillageSaySituationQuery(village.id.toString())
@@ -158,7 +162,21 @@ export function MessageSection({ village }: MessageSectionProps) {
       </Card>
 
       {/* メッセージ投稿フォーム */}
-      <MessagePostForm village={village} saySituation={saySituation} />
+      <MessagePostForm
+        village={village}
+        saySituation={saySituation}
+        onMessagePosted={() => {
+          // 現在選択中の日のメッセージを再取得
+          queryClient.invalidateQueries({
+            queryKey: [
+              'villageMessages',
+              village.id.toString(),
+              selectedDay?.day,
+              selectedDay?.noonnight,
+            ],
+          })
+        }}
+      />
     </div>
   )
 }

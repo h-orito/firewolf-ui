@@ -21,6 +21,16 @@ export const useVillageQuery = (villageId: string) => {
       return data
     },
     staleTime: 1000 * 30, // 30秒間はキャッシュを利用
-    refetchInterval: 1000 * 60, // 1分ごとに自動更新
+    refetchInterval: (query) => {
+      // 村の状態に応じてポーリング間隔を調整
+      if (!query.state.data) return 60000 // データがない場合は60秒
+      const data = query.state.data
+      if (data.status.isFinished || data.status.isCanceled) return false // 終了した村はポーリングしない
+      if (data.status.isPrologue) return 120000 // プロローグ中は2分
+      if (data.status.isProgress) return 60000 // 進行中は1分
+      if (data.status.isEpilogue) return 120000 // エピローグ中は2分
+      return false
+    },
+    refetchIntervalInBackground: false, // バックグラウンドでは更新しない
   })
 }

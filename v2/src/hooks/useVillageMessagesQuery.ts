@@ -9,8 +9,19 @@ export const useVillageMessagesQuery = (
   villageId: string,
   day: number,
   noonnight: string,
-  form?: VillageMessageForm
+  form?: VillageMessageForm,
+  villageStatus?: components['schemas']['VillageStatus']
 ) => {
+  // 村の状態に応じてポーリング間隔を調整
+  const getRefetchInterval = () => {
+    if (!villageStatus) return false // 村情報がない場合はポーリングしない
+    if (villageStatus.isFinished || villageStatus.isCanceled) return false // 終了した村はポーリングしない
+    if (villageStatus.isPrologue) return 60000 // プロローグ中は60秒
+    if (villageStatus.isProgress) return 20000 // 進行中は20秒
+    if (villageStatus.isEpilogue) return 30000 // エピローグ中は30秒
+    return false
+  }
+
   return useQuery<MessagesView>({
     queryKey: ['villageMessages', villageId, day, noonnight, form],
     queryFn: async () => {
@@ -34,7 +45,8 @@ export const useVillageMessagesQuery = (
 
       return data
     },
-    staleTime: 1000 * 15, // 15秒間はキャッシュを利用
-    refetchInterval: 1000 * 30, // 30秒ごとに自動更新
+    staleTime: 1000 * 10, // 10秒間はキャッシュを利用
+    refetchInterval: getRefetchInterval(),
+    refetchIntervalInBackground: false, // バックグラウンドでは更新しない
   })
 }
