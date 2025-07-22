@@ -4,7 +4,9 @@ import { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { useVillageMessagesQuery } from '@/hooks/useVillageMessagesQuery'
+import { useVillageSaySituationQuery } from '@/hooks/useVillageSaySituationQuery'
 import { VillageMessage } from '@/components/ui/village-message'
+import { MessagePostForm } from '@/components/village/message-post-form'
 import type { components } from '@/types/generated/api'
 
 type VillageView = components['schemas']['VillageView']
@@ -57,6 +59,8 @@ export function MessageSection({ village }: MessageSectionProps) {
     selectedDay?.day ?? 0,
     selectedDay?.noonnight ?? 'noon'
   )
+
+  const { data: saySituation } = useVillageSaySituationQuery(village.id.toString())
 
   if (!selectedDay) {
     return (
@@ -152,6 +156,9 @@ export function MessageSection({ village }: MessageSectionProps) {
           )}
         </CardContent>
       </Card>
+
+      {/* メッセージ投稿フォーム */}
+      <MessagePostForm village={village} saySituation={saySituation} />
     </div>
   )
 }
