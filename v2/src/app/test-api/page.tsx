@@ -50,19 +50,11 @@ export default function TestApiPage() {
         </CardHeader>
         <CardContent>
           <div className="space-y-0 border border-border rounded-md">
-            <VillageMessage speaker="村人A" time="23:30" messageType="normal">
-              おはようございます。今日は良い天気ですね。 複数行のメッセージも
-              きちんと表示されるはずです。
-            </VillageMessage>
-            <VillageMessage speaker="人狼B" time="23:31" messageType="werewolf">
-              今夜は誰を襲撃しましょうか？
-            </VillageMessage>
-            <VillageMessage speaker="共有者C" time="23:32" messageType="mason">
-              相方、作戦を相談しましょう。
-            </VillageMessage>
-            <VillageMessage speaker="霊能者D" time="23:33" messageType="grave">
-              私は既に死んでいますが、まだ見守っています...
-            </VillageMessage>
+            {/* TODO: VillageMessageコンポーネントの型更新後に復旧 */}
+            <p className="p-4 text-gray-500">
+              VillageMessage コンポーネントは新しいAPI型に更新されました。
+              デモメッセージは一時的に非表示にしています。
+            </p>
           </div>
         </CardContent>
       </Card>
