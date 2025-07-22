@@ -109,9 +109,9 @@
 - [x] その他の個人設定
 
 #### 4.3 静的ページ
-- [ ] ルール説明ページ（app/(public)/rule/page.tsx）
-- [ ] FAQ（app/(public)/faq/page.tsx）
-- [ ] About（app/(public)/about/page.tsx）
+- [x] ルール説明ページ（app/(public)/rule/page.tsx）
+- [x] FAQ（app/(public)/faq/page.tsx）
+- [x] About（app/(public)/about/page.tsx）
 
 #### 4.4 エラー処理
 - [ ] エラーページ（error.tsx）

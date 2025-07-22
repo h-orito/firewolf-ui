@@ -154,8 +154,89 @@ export default function RulePage() {
         <section className="mb-8">
           <h3 className="text-lg font-bold mb-4">発言</h3>
           <Card className="p-6">
-            <p className="text-sm text-gray-600 mb-2">※ 発言の詳細説明は今後実装予定です。</p>
+            <ul className="space-y-4 list-disc list-inside">
+              <li>
+                発言種別ごとに1日に発言できる回数と最大文字数が制限されます。
+                <br />
+                （村の設定で変更できます。以下はデフォルト値です。）
+                <ul className="mt-2 ml-6 space-y-1 list-disc list-inside">
+                  <li>通常発言は1日に20回、1回に200文字まで</li>
+                  <li>人狼の囁きは1日に40回、1回に200文字まで</li>
+                  <li>死者の呻きは1日に40回、1回に200文字まで</li>
+                  <li>独り言は1日に100回、1回に200文字まで</li>
+                  <li>なお、プロローグ、エピローグは発言回数が制限されません。</li>
+                </ul>
+              </li>
+              <li>
+                村の設定で更新後沈黙時間が制限されている村では、進行中のみ、通常発言できない時間帯があります。
+              </li>
+              <li>
+                発言中にアンカー文字列を含めると、クリックすることでその発言を表示することができます。
+                <ul className="mt-2 ml-6 space-y-1 list-disc list-inside">
+                  <li>&gt;&gt;1 通常発言へのアンカー</li>
+                  <li>&gt;&gt;*1 人狼の囁きへのアンカー</li>
+                  <li>&gt;&gt;=1 共鳴発言へのアンカー</li>
+                  <li>&gt;&gt;?1 恋人発言へのアンカー</li>
+                  <li>&gt;&gt;+1 死者の呻きへのアンカー</li>
+                  <li>&gt;&gt;-1 独り言へのアンカー（エピローグ後のみ）</li>
+                  <li>&gt;&gt;s1 秘話へのアンカー（エピローグ後のみ）</li>
+                  <li>&gt;&gt;a1 アクションへのアンカー</li>
+                  <li>
+                    いずれのアンカーも、自分が見られない発言はクリックしても発言が表示されません。
+                  </li>
+                </ul>
+              </li>
+            </ul>
           </Card>
+
+          <div className="mt-6 space-y-4">
+            <h4 className="font-bold mb-2">発言種別の説明</h4>
+            <div className="space-y-3">
+              <Card className="p-4 bg-gray-50">
+                <h5 className="font-bold mb-1">通常発言</h5>
+                <p className="text-sm">参加していない人も含め全員が見ることができます。</p>
+              </Card>
+              <Card className="p-4 bg-red-50">
+                <h5 className="font-bold mb-1">人狼の囁き</h5>
+                <p className="text-sm">
+                  進行中は一部の役職しか見ることができません。
+                  エピローグを迎えると全員が見ることができます。
+                </p>
+              </Card>
+              <Card className="p-4 bg-blue-50">
+                <h5 className="font-bold mb-1">共鳴発言</h5>
+                <p className="text-sm">
+                  進行中は一部の役職しか見ることができません。
+                  エピローグを迎えると全員が見ることができます。
+                </p>
+              </Card>
+              <Card className="p-4 bg-pink-50">
+                <h5 className="font-bold mb-1">恋人発言</h5>
+                <p className="text-sm">
+                  進行中は恋絆がついた人しか見ることができません。
+                  エピローグを迎えると全員が見ることができます。
+                </p>
+              </Card>
+              <Card className="p-4 bg-purple-50">
+                <h5 className="font-bold mb-1">独り言</h5>
+                <p className="text-sm">
+                  進行中は自分しか見ることができません。
+                  エピローグを迎えると全員が見ることができます。
+                </p>
+              </Card>
+              <Card className="p-4 bg-gray-100">
+                <h5 className="font-bold mb-1">死者の呻き</h5>
+                <p className="text-sm">
+                  進行中は死亡した人しか見ることができません。
+                  エピローグを迎えると全員が見ることができます。
+                </p>
+              </Card>
+              <Card className="p-4 bg-green-50">
+                <h5 className="font-bold mb-1">村建て発言</h5>
+                <p className="text-sm">参加していない人も含め全員が見ることができます。</p>
+              </Card>
+            </div>
+          </div>
         </section>
 
         <section className="mb-8">
@@ -311,14 +392,143 @@ export default function RulePage() {
         <section className="mb-8">
           <h3 className="text-lg font-bold mb-4">役職</h3>
           <Card className="p-6">
-            <p className="text-sm text-gray-600 mb-2">※ 役職の詳細説明は今後実装予定です。</p>
+            <p className="mb-4">
+              各役職の詳細は以下の通りです。役職によって所属陣営や能力が異なります。
+            </p>
+
+            <div className="space-y-4">
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse border border-gray-300 text-sm">
+                  <thead>
+                    <tr className="bg-gray-100">
+                      <th className="border border-gray-300 p-2 text-left">役職</th>
+                      <th className="border border-gray-300 p-2 text-left">略称</th>
+                      <th className="border border-gray-300 p-2 text-left">所属陣営</th>
+                      <th className="border border-gray-300 p-2 text-left">能力</th>
+                      <th className="border border-gray-300 p-2 text-left">占い結果</th>
+                      <th className="border border-gray-300 p-2 text-left">霊能結果</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td className="border border-gray-300 p-2">村人</td>
+                      <td className="border border-gray-300 p-2">村</td>
+                      <td className="border border-gray-300 p-2">村人陣営</td>
+                      <td className="border border-gray-300 p-2">なし</td>
+                      <td className="border border-gray-300 p-2">人狼でない</td>
+                      <td className="border border-gray-300 p-2">人狼でない</td>
+                    </tr>
+                    <tr>
+                      <td className="border border-gray-300 p-2">占い師</td>
+                      <td className="border border-gray-300 p-2">占</td>
+                      <td className="border border-gray-300 p-2">村人陣営</td>
+                      <td className="border border-gray-300 p-2">占い</td>
+                      <td className="border border-gray-300 p-2">人狼でない</td>
+                      <td className="border border-gray-300 p-2">人狼でない</td>
+                    </tr>
+                    <tr>
+                      <td className="border border-gray-300 p-2">霊能者</td>
+                      <td className="border border-gray-300 p-2">霊</td>
+                      <td className="border border-gray-300 p-2">村人陣営</td>
+                      <td className="border border-gray-300 p-2">霊視</td>
+                      <td className="border border-gray-300 p-2">人狼でない</td>
+                      <td className="border border-gray-300 p-2">人狼でない</td>
+                    </tr>
+                    <tr>
+                      <td className="border border-gray-300 p-2">狩人</td>
+                      <td className="border border-gray-300 p-2">狩</td>
+                      <td className="border border-gray-300 p-2">村人陣営</td>
+                      <td className="border border-gray-300 p-2">護衛</td>
+                      <td className="border border-gray-300 p-2">人狼でない</td>
+                      <td className="border border-gray-300 p-2">人狼でない</td>
+                    </tr>
+                    <tr>
+                      <td className="border border-gray-300 p-2">人狼</td>
+                      <td className="border border-gray-300 p-2">狼</td>
+                      <td className="border border-gray-300 p-2">人狼陣営</td>
+                      <td className="border border-gray-300 p-2">襲撃</td>
+                      <td className="border border-gray-300 p-2 text-red-600 font-bold">人狼</td>
+                      <td className="border border-gray-300 p-2 text-red-600 font-bold">人狼</td>
+                    </tr>
+                    <tr>
+                      <td className="border border-gray-300 p-2">狂人</td>
+                      <td className="border border-gray-300 p-2">狂</td>
+                      <td className="border border-gray-300 p-2">人狼陣営</td>
+                      <td className="border border-gray-300 p-2">なし</td>
+                      <td className="border border-gray-300 p-2">人狼でない</td>
+                      <td className="border border-gray-300 p-2">人狼でない</td>
+                    </tr>
+                    <tr>
+                      <td className="border border-gray-300 p-2">妖狐</td>
+                      <td className="border border-gray-300 p-2">狐</td>
+                      <td className="border border-gray-300 p-2">狐陣営</td>
+                      <td className="border border-gray-300 p-2">なし</td>
+                      <td className="border border-gray-300 p-2">人狼でない</td>
+                      <td className="border border-gray-300 p-2">人狼でない</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <p className="text-sm text-gray-600 mt-4">
+                ※
+                これは基本的な役職の一部です。村の設定により、さらに多くの役職が登場する場合があります。
+              </p>
+            </div>
           </Card>
         </section>
 
         <section className="mb-8">
           <h3 className="text-lg font-bold mb-4">能力</h3>
           <Card className="p-6">
-            <p className="text-sm text-gray-600 mb-2">※ 能力の詳細説明は今後実装予定です。</p>
+            <div className="space-y-6">
+              <div>
+                <h4 className="font-bold mb-2">占い</h4>
+                <ul className="space-y-2 list-disc list-inside text-sm">
+                  <li>毎晩、生存者の中から1人を選んで占うことができます。</li>
+                  <li>占い結果は「人狼」または「人狼でない」で表示されます。</li>
+                  <li>妖狐を占った場合、妖狐は呪殺されて死亡します。</li>
+                  <li>占い結果は翌朝に知ることができます。</li>
+                </ul>
+              </div>
+
+              <div>
+                <h4 className="font-bold mb-2">霊視</h4>
+                <ul className="space-y-2 list-disc list-inside text-sm">
+                  <li>処刑や襲撃で死亡した人の霊能結果を知ることができます。</li>
+                  <li>霊能結果は「人狼」または「人狼でない」で表示されます。</li>
+                  <li>突然死した人の霊能結果は表示されません。</li>
+                </ul>
+              </div>
+
+              <div>
+                <h4 className="font-bold mb-2">護衛</h4>
+                <ul className="space-y-2 list-disc list-inside text-sm">
+                  <li>毎晩、生存者の中から1人を選んで護衛することができます。</li>
+                  <li>護衛された人は、その夜の襲撃から守られます。</li>
+                  <li>同じ人を連続で護衛できるかは村の設定によります。</li>
+                  <li>1日目は護衛できません。</li>
+                </ul>
+              </div>
+
+              <div>
+                <h4 className="font-bold mb-2">襲撃</h4>
+                <ul className="space-y-2 list-disc list-inside text-sm">
+                  <li>人狼は毎晩、生存者の中から1人を選んで襲撃することができます。</li>
+                  <li>襲撃された人は死亡します（護衛されていない場合）。</li>
+                  <li>妖狐を襲撃した場合、襲撃は失敗し妖狐は死亡しません。</li>
+                  <li>1日目はダミーキャラ固定で襲撃されます。</li>
+                </ul>
+              </div>
+
+              <div>
+                <h4 className="font-bold mb-2">その他の能力</h4>
+                <ul className="space-y-2 list-disc list-inside text-sm">
+                  <li>村の設定により、様々な特殊能力を持つ役職が登場する場合があります。</li>
+                  <li>各役職の詳細な能力は、村の情報や過去村を参考にしてください。</li>
+                </ul>
+              </div>
+            </div>
           </Card>
         </section>
 
