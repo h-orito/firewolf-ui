@@ -5,7 +5,11 @@
       "Bash(pnpm format:*)",
       "Bash(pnpm type-check:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(curl:*)",
+      "Bash(find:*)",
+      "Bash(pnpm build:*)",
+      "Bash(mkdir:*)"
     ],
     "deny": []
   }
