@@ -1,8 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useVillageListQuery } from '@/hooks/useVillageListQuery'
+import { useClientSidePagination } from '@/hooks/useClientSidePagination'
 import { VillageCard } from './village-card'
+import { ClientSidePagination } from '@/components/ui/client-side-pagination'
 import type { components } from '@/types/generated/api'
 
 type VillageStatus = string[]
@@ -26,8 +28,27 @@ export function VillageList({ initialStatuses = ['PROLOGUE', 'PROGRESS'] }: Vill
     village_status: selectedStatuses.length > 0 ? selectedStatuses : undefined,
   })
 
+  // フィルタリングされた村リスト
+  const villages = useMemo(() => {
+    return data?.list || []
+  }, [data?.list])
+
+  // クライアントサイドページネーション（1ページあたり12件）
+  const {
+    currentItems: currentVillages,
+    currentPage,
+    totalItems,
+    totalPages,
+    setPage,
+  } = useClientSidePagination({
+    items: villages,
+    itemsPerPage: 12,
+  })
+
   const handleStatusChange = (status: string, checked: boolean) => {
     setSelectedStatuses((prev) => (checked ? [...prev, status] : prev.filter((s) => s !== status)))
+    // フィルター変更時は1ページ目に戻る
+    setPage(1)
   }
 
   if (error) {
@@ -72,20 +93,29 @@ export function VillageList({ initialStatuses = ['PROLOGUE', 'PROGRESS'] }: Vill
       {/* 村一覧 */}
       {data && (
         <>
-          {data.list.length === 0 ? (
+          {villages.length === 0 ? (
             <div className="text-center py-12 text-gray-600">
               <p>条件に一致する村はありません</p>
             </div>
           ) : (
             <>
               <div className="mb-4 text-sm text-gray-600">
-                {data.list.length} 件の村が見つかりました
+                {villages.length} 件の村が見つかりました
               </div>
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {data.list.map((village) => (
+                {currentVillages.map((village) => (
                   <VillageCard key={village.id} village={village} />
                 ))}
               </div>
+
+              {/* クライアントサイドページネーション */}
+              <ClientSidePagination
+                totalItems={totalItems}
+                itemsPerPage={12}
+                currentPage={currentPage}
+                onPageChange={setPage}
+                className="mt-8"
+              />
             </>
           )}
         </>
