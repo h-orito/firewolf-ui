@@ -9,7 +9,6 @@ import { apiClient } from '@/lib/api/client'
 import type { components } from '@/types/generated/api'
 
 type VillageVoteSituation = components['schemas']['VillageVoteSituationView']
-type VillageParticipant = components['schemas']['VillageParticipantView']
 
 interface VoteFormProps {
   villageId: number
