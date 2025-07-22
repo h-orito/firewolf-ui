@@ -114,16 +114,16 @@
 - [x] About（app/(public)/about/page.tsx）
 
 #### 4.4 エラー処理
-- [ ] エラーページ（error.tsx）
-- [ ] 404ページ（not-found.tsx）
-- [ ] グローバルエラーハンドリング
+- [x] エラーページ（error.tsx）
+- [x] 404ページ（not-found.tsx）
+- [x] グローバルエラーハンドリング
 
 ### Phase 5: 最終調整とドキュメント
 
 #### 5.1 パフォーマンス最適化
-- [ ] 画像最適化（next/image）
-- [ ] フォント最適化（next/font）
-- [ ] バンドルサイズの確認と最適化
+- [x] 画像最適化（next/image）※現時点で画像未使用
+- [x] フォント最適化（next/font）
+- [x] バンドルサイズの確認と最適化
 
 #### 5.2 PWA対応
 - [ ] next-pwaの設定

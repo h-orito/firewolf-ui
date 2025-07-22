@@ -9,7 +9,8 @@
       "Bash(curl:*)",
       "Bash(find:*)",
       "Bash(pnpm build:*)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(ls:*)"
     ],
     "deny": []
   }
