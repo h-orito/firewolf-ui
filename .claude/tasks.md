@@ -137,8 +137,8 @@
 - [x] ルール説明ページ（app/(public)/rule/page.tsx）
 - [x] FAQ（app/(public)/faq/page.tsx）
 - [x] About（app/(public)/about/page.tsx）
-- [ ] キャラチップ一覧ページ（app/(public)/charachip-list/page.tsx）
-- [ ] キャラチップ詳細ページ（app/(public)/charachip/[id]/page.tsx）
+- [x] キャラチップ一覧ページ（app/(public)/charachip-list/page.tsx）
+- [x] キャラチップ詳細ページ（app/(public)/charachip/[id]/page.tsx）
 - [x] 利用規約ページ（app/(public)/terms/page.tsx）
 - [x] プライバシーポリシーページ（app/(public)/privacy/page.tsx）
 
