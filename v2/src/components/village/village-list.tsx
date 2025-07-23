@@ -11,6 +11,7 @@ type VillageStatus = string[]
 
 interface VillageListProps {
   initialStatuses?: VillageStatus
+  showFilter?: boolean
 }
 
 const statusOptions = [
@@ -21,7 +22,10 @@ const statusOptions = [
   { value: 'CANCELED', label: '廃村' },
 ]
 
-export function VillageList({ initialStatuses = ['PROLOGUE', 'PROGRESS'] }: VillageListProps) {
+export function VillageList({
+  initialStatuses = ['PROLOGUE', 'PROGRESS'],
+  showFilter = true,
+}: VillageListProps) {
   const [selectedStatuses, setSelectedStatuses] = useState<VillageStatus>(initialStatuses)
 
   const { data, isLoading, error } = useVillageListQuery({
@@ -65,22 +69,24 @@ export function VillageList({ initialStatuses = ['PROLOGUE', 'PROGRESS'] }: Vill
   return (
     <div>
       {/* フィルター */}
-      <div className="mb-6">
-        <h3 className="text-sm font-medium text-gray-700 mb-3">表示する村の状態</h3>
-        <div className="flex flex-wrap gap-4">
-          {statusOptions.map(({ value, label }) => (
-            <label key={value} className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                checked={selectedStatuses.includes(value)}
-                onChange={(e) => handleStatusChange(value, e.target.checked)}
-                className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-              />
-              <span className="text-sm text-gray-700">{label}</span>
-            </label>
-          ))}
+      {showFilter && (
+        <div className="mb-6">
+          <h3 className="text-sm font-medium text-gray-700 mb-3">表示する村の状態</h3>
+          <div className="flex flex-wrap gap-4">
+            {statusOptions.map(({ value, label }) => (
+              <label key={value} className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  checked={selectedStatuses.includes(value)}
+                  onChange={(e) => handleStatusChange(value, e.target.checked)}
+                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                />
+                <span className="text-sm text-gray-700">{label}</span>
+              </label>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* ローディング状態 */}
       {isLoading && (
