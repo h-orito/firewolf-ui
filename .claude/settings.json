@@ -18,7 +18,11 @@
       "Bash(mkdir:*)",
       "Bash(ls:*)",
       "Bash(grep:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(docker build:*)",
+      "Bash(docker stop:*)",
+      "Bash(docker rm:*)",
+      "Bash(cp:*)"
     ],
     "deny": []
   }
