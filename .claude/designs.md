@@ -356,10 +356,30 @@ pnpm generate:api
 - API エンドポイントの互換性維持
 - ユーザーデータの移行不要
 
-### 11.2 Netlify でのリリース戦略
+### 11.2 Docker/Kubernetes でのリリース戦略
 
-- **ブランチデプロイ**: Netlify の機能を活用し、ブランチごとに別 URL でデプロイ
-  - `master`ブランチ: 本番環境
-  - `feature/next`ブランチ: v2 テスト環境
-- **プレビューデプロイ**: PR ごとに自動生成されるプレビュー URL で確認
-- **即座のロールバック**: 問題があれば Git で revert するだけで対応可能
+- **Dockerイメージ戦略**:
+  - マルチステージビルドで本番用の最小イメージを作成
+  - Node.js 20 LTS（Alpine Linux）ベース
+  - ビルド時の依存関係と実行時の依存関係を分離
+  
+- **GitHub Container Registry (ghcr.io)**:
+  - masterブランチへのpush時に自動でDockerイメージをビルド
+  - `ghcr.io/[org]/firewolf-ui:latest` および `ghcr.io/[org]/firewolf-ui:[commit-sha]` でタグ付け
+  
+- **CI/CD パイプライン (GitHub Actions)**:
+  - ビルド → テスト → Dockerイメージ作成 → ghcr.ioへpush
+  - masterブランチのみ本番用イメージをpush
+  
+- **Kubernetes デプロイメント**:
+  - マニフェストは別リポジトリで管理（GitOps）
+  - ローリングアップデートによる無停止デプロイ
+  - 問題時は以前のイメージタグに即座にロールバック可能
+
+### 11.3 コンテナ設計
+
+- **ベースイメージ**: `node:20-alpine`
+- **ポート**: 3000（Next.jsデフォルト）
+- **ヘルスチェック**: `/api/health` エンドポイント
+- **環境変数**: ConfigMapとSecretで管理
+- **リソース要求/制限**: 適切なCPU/メモリ制限を設定

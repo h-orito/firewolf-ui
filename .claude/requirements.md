@@ -87,8 +87,19 @@ v1で実装されている以下の機能をすべて移行する：
 - **API型生成**: openapi-typescript
 
 ### インフラ・デプロイ
-- 既存のインフラと同様の構成を想定
-- 静的サイト生成可能な構成
+- **デプロイ環境**: Kubernetes クラスタ
+- **コンテナレジストリ**: GitHub Container Registry (ghcr.io)
+- **デプロイ戦略**: 
+  - masterブランチへのpush時に自動でDocker imageをビルド
+  - ghcr.ioへpush
+  - Kubernetesマニフェストは別途管理
+- **Dockerイメージ要件**:
+  - マルチステージビルドによる最適化
+  - 本番用の最小限のイメージサイズ
+  - Node.js 20 LTSベース
+- **SSR/ISR対応**:
+  - Next.jsのServer-Side Rendering (SSR)とIncremental Static Regeneration (ISR)をサポート
+  - サーバーアクションの実行をサポート
 
 ## 制約事項
 
