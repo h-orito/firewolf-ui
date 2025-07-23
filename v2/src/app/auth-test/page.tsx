@@ -38,7 +38,7 @@ export default function AuthTestPage() {
                   <strong>UID:</strong> {user.uid}
                 </p>
               </div>
-              <Button onClick={signOut} variant="destructive">
+              <Button onClick={signOut} variant="danger">
                 ログアウト
               </Button>
             </div>
@@ -46,7 +46,9 @@ export default function AuthTestPage() {
             <div className="space-y-4">
               <p className="text-gray-600">未ログイン</p>
               <div className="space-x-4">
-                <Button onClick={signInWithGoogle}>Google でログイン</Button>
+                <Button onClick={signInWithGoogle} variant="primary">
+                  Google でログイン
+                </Button>
                 <Button onClick={signInWithTwitter} variant="outline">
                   Twitter でログイン
                 </Button>

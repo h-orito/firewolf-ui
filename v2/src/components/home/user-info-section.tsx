@@ -32,7 +32,7 @@ export default function UserInfoSection() {
                 Googleアカウントまたは X (Twitter) アカウントでログインできます
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button onClick={() => login('google')} className="bg-blue-600 hover:bg-blue-700">
+                <Button onClick={() => login('google')} variant="primary">
                   Googleでログイン
                 </Button>
                 <Button onClick={() => login('twitter')} className="bg-black hover:bg-gray-800">

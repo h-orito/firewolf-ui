@@ -52,7 +52,7 @@ export function LeaveForm({ village, participateSituation }: LeaveFormProps) {
           </div>
           <div className="flex gap-2">
             <Button
-              variant="destructive"
+              variant="danger"
               onClick={() => leaveMutation.mutate()}
               disabled={leaveMutation.isPending}
               className="flex-1"
@@ -79,7 +79,7 @@ export function LeaveForm({ village, participateSituation }: LeaveFormProps) {
         <p className="text-sm text-gray-600">
           この村から退村します。一度退村すると再参加はできません。
         </p>
-        <Button variant="destructive" onClick={() => setShowConfirm(true)} className="w-full">
+        <Button variant="danger" onClick={() => setShowConfirm(true)} className="w-full">
           退村する
         </Button>
       </div>
