@@ -27,7 +27,7 @@ export function VillageInfo({ village }: VillageInfoProps) {
           <div className="space-y-3">
             <div className="flex justify-between">
               <span className="text-gray-600">村建て</span>
-              <span>{village.creatorPlayer.nickname}</span>
+              <span>{village.creator_player.nickname}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-600">参加者</span>
@@ -42,7 +42,7 @@ export function VillageInfo({ village }: VillageInfoProps) {
             <div className="flex justify-between">
               <span className="text-gray-600">開始予定</span>
               <span className="text-sm">
-                {formatDateTimeWithYear(village.setting.time.startDatetime)}
+                {formatDateTimeWithYear(village.setting.time.start_datetime)}
               </span>
             </div>
           </div>
@@ -51,7 +51,7 @@ export function VillageInfo({ village }: VillageInfoProps) {
           <div className="space-y-3">
             <div className="flex justify-between">
               <span className="text-gray-600">キャラチップ</span>
-              <span className="text-sm">{village.setting.charachip.dummyCharaName}</span>
+              <span className="text-sm">{village.setting.charachip.dummy_chara_name}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-600">構成</span>
@@ -66,13 +66,13 @@ export function VillageInfo({ village }: VillageInfoProps) {
             <div className="flex justify-between">
               <span className="text-gray-600">更新間隔</span>
               <span className="text-sm">
-                {Math.floor(village.setting.time.dayChangeIntervalSeconds / 3600)}時間
+                {Math.floor(village.setting.time.day_change_interval_seconds / 3600)}時間
               </span>
             </div>
-            {village.setting.time.silentHours && (
+            {village.setting.time.silent_hours && (
               <div className="flex justify-between">
                 <span className="text-gray-600">沈黙時間</span>
-                <span className="text-sm">{village.setting.time.silentHours}時間</span>
+                <span className="text-sm">{village.setting.time.silent_hours}時間</span>
               </div>
             )}
           </div>
@@ -93,11 +93,11 @@ export function VillageInfo({ village }: VillageInfoProps) {
         )}
 
         {/* 勝利陣営（終了している場合） */}
-        {village.status.isFinished && village.winCamp && (
+        {village.status.is_finished && village.win_camp && (
           <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded">
             <div className="text-center">
               <span className="text-gray-600">勝利陣営: </span>
-              <span className="font-semibold text-yellow-800">{village.winCamp.name}</span>
+              <span className="font-semibold text-yellow-800">{village.win_camp.name}</span>
             </div>
           </div>
         )}
@@ -107,19 +107,19 @@ export function VillageInfo({ village }: VillageInfoProps) {
           <div>
             <h4 className="font-medium text-gray-800 mb-2">投票・議論ルール</h4>
             <ul className="space-y-1 text-gray-600">
-              <li>・投票: {village.setting.rules.openVote ? '記名' : '無記名'}</li>
-              <li>・役職希望: {village.setting.rules.availableSkillRequest ? '可' : '不可'}</li>
-              <li>・観戦: {village.setting.rules.availableSpectate ? '可' : '不可'}</li>
-              <li>・コミット: {village.setting.rules.availableCommit ? '可' : '不可'}</li>
+              <li>・投票: {village.setting.rules.open_vote ? '記名' : '無記名'}</li>
+              <li>・役職希望: {village.setting.rules.available_skill_request ? '可' : '不可'}</li>
+              <li>・観戦: {village.setting.rules.available_spectate ? '可' : '不可'}</li>
+              <li>・コミット: {village.setting.rules.available_commit ? '可' : '不可'}</li>
             </ul>
           </div>
           <div>
             <h4 className="font-medium text-gray-800 mb-2">その他設定</h4>
             <ul className="space-y-1 text-gray-600">
-              <li>・墓下公開: {village.setting.rules.openSkillInGrave ? '可' : '不可'}</li>
-              <li>・墓下発言表示: {village.setting.rules.visibleGraveMessage ? '可' : '不可'}</li>
-              <li>・突然死: {village.setting.rules.availableSuddenlyDeath ? '有り' : '無し'}</li>
-              <li>・アクション: {village.setting.rules.availableAction ? '有り' : '無し'}</li>
+              <li>・墓下公開: {village.setting.rules.open_skill_in_grave ? '可' : '不可'}</li>
+              <li>・墓下発言表示: {village.setting.rules.visible_grave_message ? '可' : '不可'}</li>
+              <li>・突然死: {village.setting.rules.available_suddenly_death ? '有り' : '無し'}</li>
+              <li>・アクション: {village.setting.rules.available_action ? '有り' : '無し'}</li>
             </ul>
           </div>
         </div>

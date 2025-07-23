@@ -19,7 +19,7 @@ export function validateVote(
   const errors: string[] = []
 
   // 投票可能かチェック
-  if (!voteSituation.availableVote) {
+  if (!voteSituation.available_vote) {
     errors.push('現在投票することはできません')
   }
 
@@ -29,15 +29,15 @@ export function validateVote(
   }
 
   // 選択された対象が有効かチェック
-  if (selectedTargetId && voteSituation.targetList) {
-    const isValidTarget = voteSituation.targetList.some((target) => target.id === selectedTargetId)
+  if (selectedTargetId && voteSituation.target_list) {
+    const isValidTarget = voteSituation.target_list.some((target) => target.id === selectedTargetId)
     if (!isValidTarget) {
       errors.push('無効な投票対象が選択されています')
     }
   }
 
   // 対象リストが空でないかチェック
-  if (!voteSituation.targetList || voteSituation.targetList.length === 0) {
+  if (!voteSituation.target_list || voteSituation.target_list.length === 0) {
     errors.push('投票可能な対象がありません')
   }
 
@@ -62,7 +62,7 @@ export function validateAbility(
   }
 
   // 対象不要の能力の場合
-  if (ability.availableNoTarget) {
+  if (ability.available_no_target) {
     // 対象不要なので追加バリデーションは不要
     return {
       isValid: errors.length === 0,
@@ -76,15 +76,15 @@ export function validateAbility(
   }
 
   // 選択された対象が有効かチェック
-  if (selectedTargetId && ability.targetList) {
-    const isValidTarget = ability.targetList.some((target) => target.id === selectedTargetId)
+  if (selectedTargetId && ability.target_list) {
+    const isValidTarget = ability.target_list.some((target) => target.id === selectedTargetId)
     if (!isValidTarget) {
       errors.push('無効な能力対象が選択されています')
     }
   }
 
   // 対象リストが存在するかチェック（対象が必要な能力の場合）
-  if (!ability.availableNoTarget && (!ability.targetList || ability.targetList.length === 0)) {
+  if (!ability.available_no_target && (!ability.target_list || ability.target_list.length === 0)) {
     errors.push('能力を実行できる対象がありません')
   }
 
@@ -101,7 +101,7 @@ export function validateCommit(commitSituation: VillageCommitSituation): Validat
   const errors: string[] = []
 
   // コミット可能かチェック
-  if (!commitSituation.availableCommit) {
+  if (!commitSituation.available_commit) {
     errors.push('現在コミット操作はできません')
   }
 

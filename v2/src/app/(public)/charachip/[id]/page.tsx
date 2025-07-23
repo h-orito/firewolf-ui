@@ -71,10 +71,10 @@ export default function CharachipDetailPage({ params }: CharachipDetailPageProps
             <h1 className="text-4xl font-bold text-gray-900">{charachip.name}</h1>
             <p className="text-lg text-gray-600">作者: {charachip.designer.name}</p>
 
-            {charachip.descriptionUrl && (
+            {charachip.description_url && (
               <div>
                 <a
-                  href={charachip.descriptionUrl}
+                  href={charachip.description_url}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-block text-blue-600 hover:text-blue-800 underline"
@@ -85,7 +85,7 @@ export default function CharachipDetailPage({ params }: CharachipDetailPageProps
             )}
 
             <div className="text-gray-700">
-              <p>キャラクター数: {charachip.charaList?.length || 0}</p>
+              <p>キャラクター数: {charachip.chara_list?.length || 0}</p>
             </div>
           </div>
         </Card>
@@ -94,9 +94,9 @@ export default function CharachipDetailPage({ params }: CharachipDetailPageProps
         <div>
           <h2 className="text-2xl font-bold text-gray-900 mb-6">キャラクター一覧</h2>
 
-          {charachip.charaList && charachip.charaList.length > 0 ? (
+          {charachip.chara_list && charachip.chara_list.length > 0 ? (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {charachip.charaList.map((chara) => (
+              {charachip.chara_list.map((chara) => (
                 <CharaCard key={chara.id} chara={chara} />
               ))}
             </div>

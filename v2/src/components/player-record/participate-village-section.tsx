@@ -43,7 +43,7 @@ export function ParticipateVillageSection({
                       {village.name}
                     </Link>
                   </td>
-                  <td className="p-2">{participant.charaName.name}</td>
+                  <td className="p-2">{participant.chara_name.name}</td>
                   <td className="p-2">
                     {participant.skill?.name || '-'}
                     {participant.spectator && (
@@ -75,13 +75,13 @@ export function ParticipateVillageSection({
                         }`}
                       >
                         {isDead ? '死亡' : '生存'}
-                        {isDead && participant.dead && ` (${participant.dead.villageDay.day}日目)`}
+                        {isDead && participant.dead && ` (${participant.dead.village_day.day}日目)`}
                       </span>
                     )}
                   </td>
                   <td className="p-2">
-                    {village.setting.time.startDatetime
-                      ? new Date(village.setting.time.startDatetime).toLocaleDateString('ja-JP', {
+                    {village.setting.time.start_datetime
+                      ? new Date(village.setting.time.start_datetime).toLocaleDateString('ja-JP', {
                           year: 'numeric',
                           month: 'numeric',
                           day: 'numeric',

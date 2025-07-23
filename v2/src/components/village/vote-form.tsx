@@ -32,7 +32,7 @@ export function VoteForm({ villageId, voteSituation }: VoteFormProps) {
           path: { villageId },
         },
         body: {
-          targetId,
+          target_id: targetId,
         },
       })
       return data
@@ -67,7 +67,7 @@ export function VoteForm({ villageId, voteSituation }: VoteFormProps) {
     }
   }
 
-  if (!voteSituation.availableVote) {
+  if (!voteSituation.available_vote) {
     return null
   }
 
@@ -88,12 +88,12 @@ export function VoteForm({ villageId, voteSituation }: VoteFormProps) {
           <Select
             value={selectedTargetId?.toString() || ''}
             onChange={(e) => setSelectedTargetId(Number(e.target.value))}
-            disabled={voteSituation.targetList.length === 0}
+            disabled={voteSituation.target_list.length === 0}
           >
             <option value="" disabled>
               投票先を選択してください
             </option>
-            {voteSituation.targetList.map((participant) => (
+            {voteSituation.target_list.map((participant) => (
               <option key={participant.id} value={participant.id.toString()}>
                 {participant.name}
               </option>

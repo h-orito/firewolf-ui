@@ -33,14 +33,14 @@ export default function PlayerRecordPage() {
     <div className="container mx-auto px-4 py-6 space-y-6">
       <h1 className="text-2xl font-bold mb-6">プレイヤー戦績</h1>
 
-      <PlayerInfoSection player={playerRecord.player} wholeRecord={playerRecord.wholeRecord} />
+      <PlayerInfoSection player={playerRecord.player} wholeRecord={playerRecord.whole_record} />
 
       <RecordChartSection
-        campRecordList={playerRecord.campRecordList}
-        skillRecordList={playerRecord.skillRecordList}
+        campRecordList={playerRecord.camp_record_list}
+        skillRecordList={playerRecord.skill_record_list}
       />
 
-      <ParticipateVillageSection participateVillageList={playerRecord.participateVillageList} />
+      <ParticipateVillageSection participateVillageList={playerRecord.participate_village_list} />
     </div>
   )
 }

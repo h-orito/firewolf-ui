@@ -57,8 +57,8 @@ function AbilityCard({ villageId, ability, queryClient }: AbilityCardProps) {
           path: { villageId },
         },
         body: {
-          abilityType: ability.type.name,
-          targetId,
+          ability_type: ability.type.name,
+          target_id: targetId,
         },
       })
       return data
@@ -89,7 +89,7 @@ function AbilityCard({ villageId, ability, queryClient }: AbilityCardProps) {
     setValidationErrors([])
     setApiError('')
 
-    if (ability.availableNoTarget) {
+    if (ability.available_no_target) {
       // 対象不要の能力
       abilityMutation.mutate(undefined)
     } else if (selectedTargetId) {
@@ -103,7 +103,7 @@ function AbilityCard({ villageId, ability, queryClient }: AbilityCardProps) {
   }
 
   const currentTargetName = ability.target?.name || 'なし'
-  const hasTargetList = ability.targetList && ability.targetList.length > 0
+  const hasTargetList = ability.target_list && ability.target_list.length > 0
 
   return (
     <Card className="w-full">
@@ -111,7 +111,7 @@ function AbilityCard({ villageId, ability, queryClient }: AbilityCardProps) {
         <CardTitle>{ability.type.name}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        {!ability.availableNoTarget && (
+        {!ability.available_no_target && (
           <>
             <div>
               <p className="text-sm text-gray-600">現在のセット先: {currentTargetName}</p>
@@ -128,7 +128,7 @@ function AbilityCard({ villageId, ability, queryClient }: AbilityCardProps) {
                   <option value="" disabled>
                     対象を選択してください
                   </option>
-                  {ability.targetList.map((participant) => (
+                  {ability.target_list.map((participant) => (
                     <option key={participant.id} value={participant.id.toString()}>
                       {participant.name}
                     </option>

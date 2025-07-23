@@ -280,6 +280,20 @@ export default async function VillagePage({
   - `VillageListSection`コンポーネントで`initialStatuses={['PROLOGUE', 'PROGRESS', 'EPILOGUE']}`を固定設定
   - `VillageList`コンポーネントから状態選択UIを削除
   - APIクエリパラメータも固定値で送信
+
+#### 村カード情報の拡充
+
+- **表示項目の追加**:
+  - 更新時刻: `day[day.length - 1].day_change_datetime`を使用して「更新 {日時}」として表示
+  - 発言可能時間: `sayable_start`、`sayable_end`、`silent_hours`から計算
+  - ダミー役欠け: `setting.rules.available_dummy_skill`の真偽値で「あり」「なし」を表示
+  - 年齢制限: `setting.tags.list`からR指定タグを検出して表示
+
+- **実装方針**:
+  - `VillageCard`コンポーネントに新しい表示項目を追加
+  - 日時処理は既存の`utils/datetime.ts`を活用
+  - v1の実装を参考にしてロジックを移植
+  - 年齢制限は該当する場合のみ表示（条件付き表示）
   
 - **お知らせ表示**:
   - v1からお知らせ内容をコピー

@@ -47,11 +47,11 @@ export function MessageSection({ village }: MessageSectionProps) {
 
   // 最新の日を初期選択として設定
   useEffect(() => {
-    if (village.day.dayList.length > 0 && !selectedDay) {
-      const latestDay = village.day.dayList[village.day.dayList.length - 1]
+    if (village.day.day_list.length > 0 && !selectedDay) {
+      const latestDay = village.day.day_list[village.day.day_list.length - 1]
       setSelectedDay(latestDay)
     }
-  }, [village.day.dayList, selectedDay])
+  }, [village.day.day_list, selectedDay])
 
   const {
     data: messages,
@@ -89,7 +89,7 @@ export function MessageSection({ village }: MessageSectionProps) {
         </CardHeader>
         <CardContent className="pt-0">
           <div className="flex flex-wrap gap-1 border-b border-gray-200 -mb-px">
-            {village.day.dayList.map((day) => (
+            {village.day.day_list.map((day) => (
               <DayTab
                 key={`${day.day}-${day.noonnight}`}
                 day={day}
@@ -140,19 +140,19 @@ export function MessageSection({ village }: MessageSectionProps) {
               )}
 
               {/* ページネーション情報 */}
-              {messages.allPageCount && messages.allPageCount > 1 && (
+              {messages.all_page_count && messages.all_page_count > 1 && (
                 <div className="p-4 border-t bg-gray-50 text-center">
                   <div className="text-sm text-gray-600 mb-2">
-                    {messages.currentPageNum} / {messages.allPageCount} ページ （全
-                    {messages.allRecordCount}件）
+                    {messages.current_page_num} / {messages.all_page_count} ページ （全
+                    {messages.all_record_count}件）
                   </div>
                   <div className="flex justify-center gap-2">
-                    {messages.existPrePage && (
+                    {messages.exist_pre_page && (
                       <Button variant="outline" size="sm">
                         前のページ
                       </Button>
                     )}
-                    {messages.existNextPage && (
+                    {messages.exist_next_page && (
                       <Button variant="outline" size="sm">
                         次のページ
                       </Button>

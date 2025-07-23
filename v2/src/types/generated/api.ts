@@ -858,12 +858,12 @@ export interface components {
     schemas: {
         VillageCharachipCreateBody: {
             /** Format: int32 */
-            dummyCharaId: number;
-            dummyCharaShortName: string;
-            dummyCharaName: string;
-            dummyCharaDay0Message: string;
-            dummyCharaDay1Message?: string;
-            charachipIds: number[];
+            dummy_chara_id: number;
+            dummy_chara_short_name: string;
+            dummy_chara_name: string;
+            dummy_chara_day0_message: string;
+            dummy_chara_day1_message?: string;
+            charachip_ids: number[];
         };
         VillageMessageRestrictCreateBody: {
             type: string;
@@ -876,23 +876,23 @@ export interface components {
             organization: string;
         };
         VillageRegisterBody: {
-            villageName: string;
+            village_name: string;
             setting: components["schemas"]["VillageSettingRegisterBody"];
         };
         VillageRuleCreateBody: {
-            openVote: boolean;
-            availableSkillRequest: boolean;
-            availableSpectate: boolean;
-            openSkillInGrave: boolean;
-            visibleGraveMessage: boolean;
-            availableSuddenlyDeath: boolean;
-            availableCommit: boolean;
-            availableDummySkill: boolean;
-            availableAction: boolean;
-            availableSecretSay: boolean;
-            availableGuardSameTarget: boolean;
-            restrictList: components["schemas"]["VillageMessageRestrictCreateBody"][];
-            joinPassword?: string;
+            open_vote: boolean;
+            available_skill_request: boolean;
+            available_spectate: boolean;
+            open_skill_in_grave: boolean;
+            visible_grave_message: boolean;
+            available_suddenly_death: boolean;
+            available_commit: boolean;
+            available_dummy_skill: boolean;
+            available_action: boolean;
+            available_secret_say: boolean;
+            available_guard_same_target: boolean;
+            restrict_list: components["schemas"]["VillageMessageRestrictCreateBody"][];
+            join_password?: string;
         };
         VillageSettingRegisterBody: {
             time: components["schemas"]["VillageTimeCreateBody"];
@@ -906,24 +906,24 @@ export interface components {
         };
         VillageTimeCreateBody: {
             /** Format: date-time */
-            startDatetime: string;
+            start_datetime: string;
             /** Format: int32 */
-            silentHours?: number;
+            silent_hours?: number;
         };
         VillageRegisterView: {
             /** Format: int32 */
-            villageId: number;
+            village_id: number;
         };
         VillageVoteBody: {
             /** Format: int32 */
-            targetId: number;
+            target_id: number;
         };
         VillageSayBody: {
             message: string;
-            messageType: string;
-            faceType: string;
+            message_type: string;
+            face_type: string;
             /** Format: int32 */
-            targetId?: number;
+            target_id?: number;
         };
         AbilityType: {
             code: string;
@@ -935,21 +935,21 @@ export interface components {
         Camp: {
             code: string;
             name: string;
-            isFoxs: boolean;
+            is_foxs: boolean;
         };
         CharaDefaultMessage: {
-            joinMessage?: string;
-            firstDayMessage?: string;
+            join_message?: string;
+            first_day_message?: string;
         };
         CharaFace: {
             type: string;
             name: string;
-            imageUrl: string;
+            image_url: string;
         };
         CharaNameView: {
             name: string;
-            shortName: string;
-            fullName: string;
+            short_name: string;
+            full_name: string;
         };
         CharaSize: {
             /** Format: int32 */
@@ -960,12 +960,12 @@ export interface components {
         CharaView: {
             /** Format: int32 */
             id: number;
-            charaName: components["schemas"]["CharaNameView"];
+            chara_name: components["schemas"]["CharaNameView"];
             /** Format: int32 */
-            charachipId: number;
-            defaultMessage: components["schemas"]["CharaDefaultMessage"];
+            charachip_id: number;
+            default_message: components["schemas"]["CharaDefaultMessage"];
             display: components["schemas"]["CharaSize"];
-            faceList: components["schemas"]["CharaFace"][];
+            face_list: components["schemas"]["CharaFace"][];
         };
         ComingOut: {
             skill: components["schemas"]["Skill"];
@@ -976,11 +976,11 @@ export interface components {
         DeadView: {
             code: string;
             reason: string;
-            villageDay: components["schemas"]["VillageDay"];
+            village_day: components["schemas"]["VillageDay"];
         };
         MessageCondition: {
-            secretSay: boolean;
-            abilitySay: boolean;
+            secret_say: boolean;
+            ability_say: boolean;
             anchor: boolean;
             keywords: string[];
         };
@@ -991,29 +991,29 @@ export interface components {
             /** Format: int32 */
             count?: number;
             text: string;
-            faceCode?: string;
+            face_code?: string;
         };
         MessageTimeView: {
             /** Format: int32 */
-            villageDayId: number;
+            village_day_id: number;
             /** Format: int32 */
             day: number;
             /** Format: date-time */
             datetime: string;
             /** Format: int64 */
-            unixTimeMilli: number;
+            unix_time_milli: number;
         };
         MessageType: {
             code: string;
             name: string;
-            isOwlViewableType: boolean;
-            isSayType: boolean;
+            is_owl_viewable_type: boolean;
+            is_say_type: boolean;
         };
         MessageView: {
             from?: components["schemas"]["VillageParticipantView"];
-            fromCharacterName?: components["schemas"]["VillageParticipantName"];
+            from_character_name?: components["schemas"]["VillageParticipantName"];
             to?: components["schemas"]["VillageParticipantView"];
-            toCharacterName?: components["schemas"]["VillageParticipantName"];
+            to_character_name?: components["schemas"]["VillageParticipantName"];
             time: components["schemas"]["MessageTimeView"];
             content: components["schemas"]["MessageContent"];
         };
@@ -1021,30 +1021,30 @@ export interface components {
             /** Format: int32 */
             id: number;
             nickname: string;
-            twitterUserName?: string;
-            otherSiteName?: string;
+            twitter_user_name?: string;
+            other_site_name?: string;
             introduction?: string;
         };
         Skill: {
             code: string;
             name: string;
-            shortName: string;
-            winJudgeCamp: components["schemas"]["Camp"];
-            abilityList: components["schemas"]["AbilityType"][];
-            manualAbilityList: components["schemas"]["AbilityType"][];
-            divineResultWolf: boolean;
-            psychicResultWolf: boolean;
-            sayableSkillMessageTypeList: components["schemas"]["MessageType"][];
-            viewableSkillMessageTypeList: components["schemas"]["MessageType"][];
-            countCamp?: components["schemas"]["Camp"];
+            short_name: string;
+            win_judge_camp: components["schemas"]["Camp"];
+            ability_list: components["schemas"]["AbilityType"][];
+            manual_ability_list: components["schemas"]["AbilityType"][];
+            divine_result_wolf: boolean;
+            psychic_result_wolf: boolean;
+            sayable_skill_message_type_list: components["schemas"]["MessageType"][];
+            viewable_skill_message_type_list: components["schemas"]["MessageType"][];
+            count_camp?: components["schemas"]["Camp"];
             description: string;
-            isViewableWerewolfSay: boolean;
-            isAvailableWerewolfSay: boolean;
             abilities: components["schemas"]["AbilityTypes"];
-            isFoxCount: boolean;
-            isViewableSympathizeSay: boolean;
-            isViewableLoversMessage: boolean;
-            isAvailableSympathizeSay: boolean;
+            is_fox_count: boolean;
+            is_viewable_sympathize_say: boolean;
+            is_viewable_werewolf_say: boolean;
+            is_available_werewolf_say: boolean;
+            is_available_sympathize_say: boolean;
+            is_viewable_lovers_message: boolean;
         };
         SkillRequest: {
             first: components["schemas"]["Skill"];
@@ -1052,7 +1052,7 @@ export interface components {
         };
         VillageCondition: {
             start: boolean;
-            dayChange: boolean;
+            day_change: boolean;
             epilogue: boolean;
         };
         VillageDay: {
@@ -1062,74 +1062,74 @@ export interface components {
             day: number;
             noonnight: string;
             /** Format: date-time */
-            startDatetime: string;
+            start_datetime: string;
             /** Format: date-time */
-            dayChangeDatetime: string;
+            day_change_datetime: string;
         };
         VillageParticipantName: {
             name: string;
-            shortName: string;
+            short_name: string;
             full_name: string;
         };
         VillageParticipantNotificationCondition: {
-            discordWebhookUrl: string;
+            discord_webhook_url: string;
             village: components["schemas"]["VillageCondition"];
             message: components["schemas"]["MessageCondition"];
         };
         VillageParticipantStatus: {
-            loverIdList: number[];
+            lover_id_list: number[];
         };
         VillageParticipantView: {
             /** Format: int32 */
             id: number;
             name: string;
-            charaName: components["schemas"]["VillageParticipantName"];
+            chara_name: components["schemas"]["VillageParticipantName"];
             chara: components["schemas"]["CharaView"];
             player?: components["schemas"]["PlayerView"];
             status: components["schemas"]["VillageParticipantStatus"];
             dead?: components["schemas"]["DeadView"];
             spectator: boolean;
             skill?: components["schemas"]["Skill"];
-            skillRequest?: components["schemas"]["SkillRequest"];
+            skill_request?: components["schemas"]["SkillRequest"];
             win?: boolean;
             camp?: components["schemas"]["Camp"];
-            commingOuts: components["schemas"]["ComingOuts"];
+            comming_outs: components["schemas"]["ComingOuts"];
             notification?: components["schemas"]["VillageParticipantNotificationCondition"];
         };
         VillageParticipateBody: {
             /** Format: int32 */
-            charaId: number;
-            charaShortName: string;
-            charaName: string;
-            firstRequestSkill: string;
-            secondRequestSkill: string;
-            joinMessage: string;
-            joinPassword?: string;
+            chara_id: number;
+            chara_short_name: string;
+            chara_name: string;
+            first_request_skill: string;
+            second_request_skill: string;
+            join_message: string;
+            join_password?: string;
             spectator?: boolean;
         };
         VillageNotificationBody: {
-            webhookUrl: string;
-            villageStart?: boolean;
-            villageDaychange?: boolean;
-            villageEpilogue?: boolean;
-            secretSay?: boolean;
-            abilitySay?: boolean;
-            anchorSay?: boolean;
+            webhook_url: string;
+            village_start?: boolean;
+            village_daychange?: boolean;
+            village_epilogue?: boolean;
+            secret_say?: boolean;
+            ability_say?: boolean;
+            anchor_say?: boolean;
             keyword?: string;
         };
         VillageCommitBody: {
             commit: boolean;
         };
         VillageComingOutBody: {
-            skillCode?: string[];
+            skill_code?: string[];
         };
         VillageChangeSkillBody: {
-            firstRequestSkill: string;
-            secondRequestSkill: string;
+            first_request_skill: string;
+            second_request_skill: string;
         };
         VillageChangeNameBody: {
             name: string;
-            shortName: string;
+            short_name: string;
         };
         VillageActionBody: {
             myself: string;
@@ -1138,28 +1138,28 @@ export interface components {
         };
         VillageAbilityBody: {
             /** Format: int32 */
-            myselfId?: number;
+            myself_id?: number;
             /** Format: int32 */
-            targetId?: number;
-            abilityType: string;
+            target_id?: number;
+            ability_type: string;
         };
         ReservedVillageRegisterBody: {
             organization: string;
             /** Format: date-time */
-            createDatetime: string;
+            create_datetime: string;
             /** Format: date-time */
-            startDatetime: string;
+            start_datetime: string;
             /** Format: int32 */
-            silentHours: number;
-            availableDummySkill: boolean;
+            silent_hours: number;
+            available_dummy_skill: boolean;
         };
         PlayerUpdateNicknameBody: {
             nickname: string;
-            twitterUserName?: string;
+            twitter_user_name?: string;
         };
         PlayerUpdateDetailBody: {
             nickname: string;
-            otherSiteName?: string;
+            other_site_name?: string;
             introduction?: string;
         };
         CreatorSayBody: {
@@ -1167,15 +1167,15 @@ export interface components {
         };
         CreatorKickBody: {
             /** Format: int32 */
-            targetId: number;
+            target_id: number;
         };
         AdminParticipateBody: {
             /** Format: int32 */
-            participateCount: number;
+            participate_count: number;
         };
         AdminDummyLoginBody: {
             /** Format: int32 */
-            targetId: number;
+            target_id: number;
         };
         LocalTime: {
             /** Format: int32 */
@@ -1195,12 +1195,12 @@ export interface components {
         };
         VillageCharachip: {
             /** Format: int32 */
-            dummyCharaId: number;
-            dummyCharaShortName: string;
-            dummyCharaName: string;
-            dummyCharaDay0Message: string;
-            dummyCharaDay1Message?: string;
-            charachipIds: number[];
+            dummy_chara_id: number;
+            dummy_chara_short_name: string;
+            dummy_chara_name: string;
+            dummy_chara_day0_message: string;
+            dummy_chara_day1_message?: string;
+            charachip_ids: number[];
         };
         VillageDayView: {
             /** Format: int32 */
@@ -1209,13 +1209,13 @@ export interface components {
             day: number;
             noonnight: string;
             /** Format: date-time */
-            startDatetime: string;
+            start_datetime: string;
             /** Format: date-time */
-            dayChangeDatetime: string;
-            sayableStartTime: components["schemas"]["LocalTime"];
+            day_change_datetime: string;
+            sayable_start_time: components["schemas"]["LocalTime"];
         };
         VillageDaysView: {
-            dayList: components["schemas"]["VillageDayView"][];
+            day_list: components["schemas"]["VillageDayView"][];
         };
         VillageMessageRestrict: {
             type: components["schemas"]["MessageType"];
@@ -1227,8 +1227,8 @@ export interface components {
             line: number;
         };
         VillageMessageRestricts: {
-            existRestricts: boolean;
-            restrictList: components["schemas"]["VillageMessageRestrict"][];
+            exist_restricts: boolean;
+            restrict_list: components["schemas"]["VillageMessageRestrict"][];
         };
         VillageOrganizations: {
             organization: {
@@ -1238,25 +1238,25 @@ export interface components {
         VillageParticipantsView: {
             /** Format: int32 */
             count: number;
-            memberList: components["schemas"]["VillageParticipantView"][];
+            member_list: components["schemas"]["VillageParticipantView"][];
         };
         VillagePasswordView: {
-            joinPasswordRequired: boolean;
+            join_password_required: boolean;
         };
         VillageRules: {
-            openVote: boolean;
-            availableSkillRequest: boolean;
-            availableSpectate: boolean;
-            openSkillInGrave: boolean;
-            visibleGraveMessage: boolean;
-            availableSuddenlyDeath: boolean;
-            availableCommit: boolean;
-            autoGenerated: boolean;
-            availableDummySkill: boolean;
-            availableAction: boolean;
-            availableSecretSay: boolean;
-            availableGuardSameTarget: boolean;
-            messageRestrict: components["schemas"]["VillageMessageRestricts"];
+            open_vote: boolean;
+            available_skill_request: boolean;
+            available_spectate: boolean;
+            open_skill_in_grave: boolean;
+            visible_grave_message: boolean;
+            available_suddenly_death: boolean;
+            available_commit: boolean;
+            auto_generated: boolean;
+            available_dummy_skill: boolean;
+            available_action: boolean;
+            available_secret_say: boolean;
+            available_guard_same_target: boolean;
+            message_restrict: components["schemas"]["VillageMessageRestricts"];
         };
         VillageSettingsView: {
             capacity: components["schemas"]["PersonCapacity"];
@@ -1270,64 +1270,64 @@ export interface components {
         VillageStatus: {
             code: string;
             name: string;
-            isCanceled: boolean;
-            isFinished: boolean;
-            isPrologue: boolean;
-            isProgress: boolean;
-            isEpilogue: boolean;
-            isSolved: boolean;
+            is_prologue: boolean;
+            is_progress: boolean;
+            is_epilogue: boolean;
+            is_solved: boolean;
+            is_canceled: boolean;
+            is_finished: boolean;
         };
         VillageTags: {
             list: string[];
-            isR15: boolean;
-            isR18: boolean;
+            is_r18: boolean;
+            is_r15: boolean;
         };
         VillageTimeView: {
-            termType: string;
+            term_type: string;
             /** Format: date-time */
-            startDatetime: string;
+            start_datetime: string;
             /** Format: int32 */
-            dayChangeIntervalSeconds: number;
+            day_change_interval_seconds: number;
             /** Format: int32 */
-            silentHours?: number;
-            sayableStart: components["schemas"]["LocalTime"];
-            sayableEnd: components["schemas"]["LocalTime"];
+            silent_hours?: number;
+            sayable_start: components["schemas"]["LocalTime"];
+            sayable_end: components["schemas"]["LocalTime"];
         };
         VillageView: {
             /** Format: int32 */
             id: number;
             name: string;
-            creatorPlayer: components["schemas"]["PlayerView"];
+            creator_player: components["schemas"]["PlayerView"];
             status: components["schemas"]["VillageStatus"];
-            winCamp?: components["schemas"]["Camp"];
+            win_camp?: components["schemas"]["Camp"];
             setting: components["schemas"]["VillageSettingsView"];
             participant: components["schemas"]["VillageParticipantsView"];
             spectator: components["schemas"]["VillageParticipantsView"];
             day: components["schemas"]["VillageDaysView"];
-            silentTime: boolean;
+            silent_time: boolean;
         };
         Chara: {
             /** Format: int32 */
             id: number;
-            charaName: components["schemas"]["CharaName"];
+            chara_name: components["schemas"]["CharaName"];
             /** Format: int32 */
-            charachipId: number;
-            defaultMessage: components["schemas"]["CharaDefaultMessage"];
+            charachip_id: number;
+            default_message: components["schemas"]["CharaDefaultMessage"];
             display: components["schemas"]["CharaSize"];
-            faceList: components["schemas"]["CharaFace"][];
+            face_list: components["schemas"]["CharaFace"][];
         };
         CharaName: {
             name: string;
-            shortName: string;
+            short_name: string;
         };
         ParticipantRpSituation: {
-            isAvailableChangeName: boolean;
+            is_available_change_name: boolean;
         };
         SituationAsParticipantView: {
             participate: components["schemas"]["VillageParticipateSituationView"];
-            skillRequest: components["schemas"]["VillageSkillRequestSituation"];
+            skill_request: components["schemas"]["VillageSkillRequestSituation"];
             commit: components["schemas"]["VillageCommitSituation"];
-            comingOut: components["schemas"]["VillageComingOutSituation"];
+            coming_out: components["schemas"]["VillageComingOutSituation"];
             say: components["schemas"]["VillageSaySituationView"];
             rp: components["schemas"]["ParticipantRpSituation"];
             ability: components["schemas"]["VillageAbilitySituationsView"];
@@ -1337,81 +1337,81 @@ export interface components {
         };
         VillageAbilitySituationView: {
             type: components["schemas"]["AbilityType"];
-            attackerList: components["schemas"]["VillageParticipantView"][];
+            attacker_list: components["schemas"]["VillageParticipantView"][];
             attacker?: components["schemas"]["VillageParticipantView"];
-            targetList: components["schemas"]["VillageParticipantView"][];
+            target_list: components["schemas"]["VillageParticipantView"][];
             target?: components["schemas"]["VillageParticipantView"];
             usable: boolean;
-            availableNoTarget: boolean;
+            available_no_target: boolean;
         };
         VillageAbilitySituationsView: {
             list: components["schemas"]["VillageAbilitySituationView"][];
         };
         VillageAdminSituation: {
             admin: boolean;
-            participantList: components["schemas"]["VillageParticipantSituation"][];
+            participant_list: components["schemas"]["VillageParticipantSituation"][];
         };
         VillageComingOutSituation: {
-            availableComingOut: boolean;
-            currentComingOuts: components["schemas"]["ComingOuts"];
-            selectableSkillList: components["schemas"]["Skill"][];
+            available_coming_out: boolean;
+            current_coming_outs: components["schemas"]["ComingOuts"];
+            selectable_skill_list: components["schemas"]["Skill"][];
         };
         VillageCommitSituation: {
-            availableCommit: boolean;
+            available_commit: boolean;
             committing: boolean;
         };
         VillageCreatorSituation: {
-            availableCreatorSetting: boolean;
-            availableCreatorSay: boolean;
-            availableCancelVillage: boolean;
-            availableKick: boolean;
-            availableModifySetting: boolean;
-            availableExtendEpilogue: boolean;
+            available_creator_setting: boolean;
+            available_creator_say: boolean;
+            available_cancel_village: boolean;
+            available_kick: boolean;
+            available_modify_setting: boolean;
+            available_extend_epilogue: boolean;
         };
         VillageParticipantSituation: {
             name: string;
             nickname: string;
-            twitterUserName?: string;
-            skillName?: string;
+            twitter_user_name?: string;
+            skill_name?: string;
         };
         VillageParticipateSituationView: {
             participating: boolean;
-            availableParticipate: boolean;
-            availableSpectate: boolean;
-            selectableCharaList: components["schemas"]["Chara"][];
-            availableLeave: boolean;
+            available_participate: boolean;
+            available_spectate: boolean;
+            selectable_chara_list: components["schemas"]["Chara"][];
+            available_leave: boolean;
             myself?: components["schemas"]["VillageParticipantView"];
         };
         VillageSayMessageTypeSituationView: {
-            messageType: components["schemas"]["MessageType"];
+            message_type: components["schemas"]["MessageType"];
             restrict: components["schemas"]["VillageSayRestrictSituation"];
-            targetList: components["schemas"]["VillageParticipantView"][];
+            target_list: components["schemas"]["VillageParticipantView"][];
         };
         VillageSayRestrictSituation: {
             restricted: boolean;
             /** Format: int32 */
-            maxCount?: number;
+            max_count?: number;
             /** Format: int32 */
-            remainingCount?: number;
+            remaining_count?: number;
             /** Format: int32 */
-            maxLength: number;
+            max_length: number;
             /** Format: int32 */
-            maxLine: number;
+            max_line: number;
         };
         VillageSaySituationView: {
-            availableSay: boolean;
-            selectableMessageTypeList: components["schemas"]["VillageSayMessageTypeSituationView"][];
-            selectableFaceTypeList: components["schemas"]["CharaFace"][];
-            defaultMessageType?: components["schemas"]["MessageType"];
+            available_say: boolean;
+            selectable_message_type_list: components["schemas"]["VillageSayMessageTypeSituationView"][];
+            selectable_face_type_list: components["schemas"]["CharaFace"][];
+            default_message_type?: components["schemas"]["MessageType"];
         };
         VillageSkillRequestSituation: {
-            availableSkillRequest: boolean;
-            selectableSkillList: components["schemas"]["Skill"][];
-            skillRequest?: components["schemas"]["SkillRequest"];
+            available_skill_request: boolean;
+            selectable_skill_list: components["schemas"]["Skill"][];
+            skill_request?: components["schemas"]["SkillRequest"];
         };
         VillageVoteSituationView: {
-            availableVote: boolean;
-            targetList: components["schemas"]["VillageParticipantView"][];
+            available_vote: boolean;
+            target_list: components["schemas"]["VillageParticipantView"][];
             target?: components["schemas"]["VillageParticipantView"];
         };
         VillageAnchorMessageView: {
@@ -1423,9 +1423,9 @@ export interface components {
         };
         VillageLatestView: {
             /** Format: int64 */
-            unixTimeMilli: number;
+            unix_time_milli: number;
             /** Format: int32 */
-            villageDayId: number;
+            village_day_id: number;
         };
         VillageMessageForm: {
             message_type_list?: string[];
@@ -1443,15 +1443,15 @@ export interface components {
         MessagesView: {
             list: components["schemas"]["MessageView"][];
             /** Format: int32 */
-            allRecordCount?: number;
+            all_record_count?: number;
             /** Format: int32 */
-            allPageCount?: number;
-            existPrePage?: boolean;
-            existNextPage?: boolean;
+            all_page_count?: number;
+            exist_pre_page?: boolean;
+            exist_next_page?: boolean;
             /** Format: int32 */
-            currentPageNum?: number;
-            isLatest?: boolean;
-            todayMessageCountMap: {
+            current_page_num?: number;
+            is_latest?: boolean;
+            today_message_count_map: {
                 [key: string]: number;
             };
         };
@@ -1461,78 +1461,78 @@ export interface components {
         Dead: {
             code: string;
             reason: string;
-            villageDay: components["schemas"]["VillageDay"];
-            isSuddenly: boolean;
+            village_day: components["schemas"]["VillageDay"];
+            is_suddenly: boolean;
         };
         SimpleVillageView: {
             /** Format: int32 */
             id: number;
             name: string;
             /** Format: int32 */
-            creatorPlayerId: number;
+            creator_player_id: number;
             status: components["schemas"]["VillageStatus"];
-            winCamp?: components["schemas"]["Camp"];
+            win_camp?: components["schemas"]["Camp"];
             setting: components["schemas"]["VillageSettingsView"];
             participant: components["schemas"]["VillageParticipants"];
             spectator: components["schemas"]["VillageParticipants"];
             day: components["schemas"]["VillageDays"];
         };
         VillageDays: {
-            dayList: components["schemas"]["VillageDay"][];
+            day_list: components["schemas"]["VillageDay"][];
         };
         VillageParticipant: {
             /** Format: int32 */
             id: number;
-            charaName: components["schemas"]["VillageParticipantName"];
+            chara_name: components["schemas"]["VillageParticipantName"];
             /** Format: int32 */
-            charaId: number;
+            chara_id: number;
             /** Format: int32 */
-            playerId?: number;
+            player_id?: number;
             status: components["schemas"]["VillageParticipantStatus"];
             dead?: components["schemas"]["Dead"];
-            isSpectator: boolean;
-            isGone: boolean;
+            is_spectator: boolean;
+            is_gone: boolean;
             skill?: components["schemas"]["Skill"];
-            skillRequest: components["schemas"]["SkillRequest"];
-            isWin?: boolean;
+            skill_request: components["schemas"]["SkillRequest"];
+            is_win?: boolean;
             camp?: components["schemas"]["Camp"];
-            commigOuts: components["schemas"]["ComingOuts"];
-            ipAddresses: string[];
+            commig_outs: components["schemas"]["ComingOuts"];
+            ip_addresses: string[];
             notification?: components["schemas"]["VillageParticipantNotificationCondition"];
-            isAlive: boolean;
-            isAvailableComingOut: boolean;
-            isViewableLoversSay: boolean;
-            isSayableLoversSay: boolean;
-            isViewableMonologueSay: boolean;
-            isSayableMonologueSay: boolean;
-            isViewableSecretSay: boolean;
-            isSayableSecretSay: boolean;
-            isViewableSpectateSay: boolean;
-            isSayableSpectateSay: boolean;
-            isSayableSympathizeSay: boolean;
-            isViewableWerewolfSay: boolean;
-            isSayableWerewolfSay: boolean;
-            isViewableFoxMessage: boolean;
-            isViewableMasonMessage: boolean;
-            isAvailableVote: boolean;
-            isViewableGraveSay: boolean;
-            isSayableGraveSay: boolean;
-            isDead: boolean;
-            isAdmin: boolean;
-            isAvailableSkillRequest: boolean;
-            isViewableSympathizeSay: boolean;
-            isViewableAttackMessage: boolean;
-            isViewableAutopsyMessage: boolean;
-            isViewableFanaticMessage: boolean;
-            isViewableGuruPsychicMessage: boolean;
-            isViewablePrivateSystemMessage: boolean;
-            isViewablePsychicMessage: boolean;
-            isViewableSympathizerMessage: boolean;
+            is_available_skill_request: boolean;
+            is_dead: boolean;
+            is_available_coming_out: boolean;
+            is_sayable_monologue_say: boolean;
+            is_admin: boolean;
+            is_viewable_lovers_say: boolean;
+            is_sayable_lovers_say: boolean;
+            is_viewable_monologue_say: boolean;
+            is_viewable_grave_say: boolean;
+            is_sayable_grave_say: boolean;
+            is_viewable_spectate_say: boolean;
+            is_sayable_spectate_say: boolean;
+            is_viewable_sympathize_say: boolean;
+            is_sayable_sympathize_say: boolean;
+            is_viewable_werewolf_say: boolean;
+            is_sayable_werewolf_say: boolean;
+            is_viewable_attack_message: boolean;
+            is_viewable_secret_say: boolean;
+            is_sayable_secret_say: boolean;
+            is_viewable_autopsy_message: boolean;
+            is_viewable_fanatic_message: boolean;
+            is_viewable_fox_message: boolean;
+            is_viewable_guru_psychic_message: boolean;
+            is_viewable_mason_message: boolean;
+            is_viewable_private_system_message: boolean;
+            is_viewable_psychic_message: boolean;
+            is_viewable_sympathizer_message: boolean;
+            is_available_vote: boolean;
+            is_alive: boolean;
         };
         VillageParticipants: {
             /** Format: int32 */
             count: number;
-            memberList: components["schemas"]["VillageParticipant"][];
+            member_list: components["schemas"]["VillageParticipant"][];
         };
         VillagesView: {
             list: components["schemas"]["SimpleVillageView"][];
@@ -1541,16 +1541,16 @@ export interface components {
             vid?: number[];
         };
         VillageParticipantRecordView: {
-            twitterUserId?: string;
-            otherSiteUserId?: string;
-            characterName: string;
-            skillName?: string;
-            isSpectator: boolean;
-            isWin?: boolean;
-            isDead: boolean;
+            twitter_user_id?: string;
+            other_site_user_id?: string;
+            character_name: string;
+            skill_name?: string;
+            is_spectator: boolean;
+            is_win?: boolean;
+            is_dead: boolean;
             /** Format: int32 */
-            deadDay?: number;
-            deadReason?: string;
+            dead_day?: number;
+            dead_reason?: string;
         };
         VillageRecordView: {
             /** Format: int32 */
@@ -1558,14 +1558,14 @@ export interface components {
             name: string;
             status: string;
             organization: string;
-            startDatetime?: string;
-            prologueDatetime: string;
-            epilogueDatetime?: string;
+            start_datetime?: string;
+            prologue_datetime: string;
+            epilogue_datetime?: string;
             /** Format: int32 */
-            epilogueDay?: number;
+            epilogue_day?: number;
             url: string;
-            winCampName?: string;
-            participantList: components["schemas"]["VillageParticipantRecordView"][];
+            win_camp_name?: string;
+            participant_list: components["schemas"]["VillageParticipantRecordView"][];
         };
         VillageRecordsView: {
             list: components["schemas"]["VillageRecordView"][];
@@ -1576,7 +1576,7 @@ export interface components {
         };
         Version: {
             /** Format: int32 */
-            clientVersion: number;
+            client_version: number;
         };
         SkillsView: {
             list: components["schemas"]["Skill"][];
@@ -1585,15 +1585,15 @@ export interface components {
             /** Format: int32 */
             id: number;
             /** Format: date-time */
-            villageCreateDatetime: string;
+            village_create_datetime: string;
             /** Format: date-time */
-            villageStartDatetime: string;
+            village_start_datetime: string;
             organization: string;
             /** Format: int32 */
-            silentHours: number;
-            sayableStart: components["schemas"]["LocalTime"];
-            sayableEnd: components["schemas"]["LocalTime"];
-            availableDummySkill: boolean;
+            silent_hours: number;
+            sayable_start: components["schemas"]["LocalTime"];
+            sayable_end: components["schemas"]["LocalTime"];
+            available_dummy_skill: boolean;
         };
         ReservedVillagesView: {
             list: components["schemas"]["ReservedVillageView"][];
@@ -1604,27 +1604,27 @@ export interface components {
             name: string;
             status: string;
             /** Format: int32 */
-            participantCount: number;
+            participant_count: number;
             /** Format: int32 */
-            participantCapacity: number;
-            dayChangeTime: string;
-            startDatetime: string;
-            charachipName: string;
-            sayableTime: string;
+            participant_capacity: number;
+            day_change_time: string;
+            start_datetime: string;
+            charachip_name: string;
+            sayable_time: string;
             url: string;
             organization: string;
         };
         RecruitingVillagesView: {
-            villageList: components["schemas"]["RecruitingVillageView"][];
+            village_list: components["schemas"]["RecruitingVillageView"][];
         };
         CampRecord: {
             camp: components["schemas"]["Camp"];
             /** Format: int32 */
-            participateCount: number;
+            participate_count: number;
             /** Format: int32 */
-            winCount: number;
+            win_count: number;
             /** Format: float */
-            winRate: number;
+            win_rate: number;
         };
         ParticipateVillageView: {
             village: components["schemas"]["VillageView"];
@@ -1632,41 +1632,41 @@ export interface components {
         };
         PlayerRecordsView: {
             player: components["schemas"]["PlayerView"];
-            wholeRecord: components["schemas"]["Record"];
-            campRecordList: components["schemas"]["CampRecord"][];
-            skillRecordList: components["schemas"]["SkillRecord"][];
-            participateVillageList: components["schemas"]["ParticipateVillageView"][];
+            whole_record: components["schemas"]["Record"];
+            camp_record_list: components["schemas"]["CampRecord"][];
+            skill_record_list: components["schemas"]["SkillRecord"][];
+            participate_village_list: components["schemas"]["ParticipateVillageView"][];
         };
         Record: {
             /** Format: int32 */
-            participateCount: number;
+            participate_count: number;
             /** Format: int32 */
-            winCount: number;
+            win_count: number;
             /** Format: float */
-            winRate: number;
+            win_rate: number;
         };
         SkillRecord: {
             skill: components["schemas"]["Skill"];
             /** Format: int32 */
-            participateCount: number;
+            participate_count: number;
             /** Format: int32 */
-            winCount: number;
+            win_count: number;
             /** Format: float */
-            winRate: number;
+            win_rate: number;
         };
         MyselfPlayerView: {
             /** Format: int32 */
             id: number;
             nickname: string;
-            twitterUserName?: string;
-            availableCreateVillage: boolean;
-            participateProgressVillages: components["schemas"]["VillagesView"];
-            participateFinishedVillages: components["schemas"]["VillagesView"];
-            createProgressVillages: components["schemas"]["VillagesView"];
-            createFinishedVillages: components["schemas"]["VillagesView"];
+            twitter_user_name?: string;
+            available_create_village: boolean;
+            participate_progress_villages: components["schemas"]["VillagesView"];
+            participate_finished_villages: components["schemas"]["VillagesView"];
+            create_progress_villages: components["schemas"]["VillagesView"];
+            create_finished_villages: components["schemas"]["VillagesView"];
         };
         CharachipsForm: {
-            charachipIds?: number[];
+            charachip_ids?: number[];
         };
         Charas: {
             list: components["schemas"]["Chara"][];
@@ -1676,8 +1676,8 @@ export interface components {
             id: number;
             name: string;
             designer: components["schemas"]["Designer"];
-            descriptionUrl: string;
-            charaList: components["schemas"]["Chara"][];
+            description_url: string;
+            chara_list: components["schemas"]["Chara"][];
             is_available_change_name: boolean;
         };
         CharachipsView: {
@@ -1692,7 +1692,7 @@ export interface components {
             /** Format: int32 */
             id: number;
             name: string;
-            creatorPlayer: components["schemas"]["PlayerView"];
+            creator_player: components["schemas"]["PlayerView"];
             status: components["schemas"]["VillageStatus"];
             setting: components["schemas"]["VillageSettingsView"];
             participant: components["schemas"]["VillageParticipantsView"];

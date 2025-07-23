@@ -40,13 +40,13 @@ export function ActionSection({ village }: ActionSectionProps) {
   // 参加者でない場合は参加フォームを表示
   if (!participateSituation.participate.participating) {
     // 参加可能な場合のみ参加フォームを表示
-    if (participateSituation.participate.availableParticipate) {
+    if (participateSituation.participate.available_participate) {
       return (
         <div className="space-y-6">
           <ParticipationForm
             village={village}
             participateSituation={participateSituation.participate}
-            skillRequestSituation={participateSituation.skillRequest}
+            skillRequestSituation={participateSituation.skill_request}
           />
         </div>
       )
@@ -59,12 +59,12 @@ export function ActionSection({ village }: ActionSectionProps) {
   return (
     <div className="space-y-6">
       {/* メッセージ投稿フォーム */}
-      {participateSituation.say.availableSay && (
+      {participateSituation.say.available_say && (
         <MessagePostForm village={village} saySituation={participateSituation.say} />
       )}
 
       {/* 投票フォーム */}
-      {participateSituation.vote.availableVote && (
+      {participateSituation.vote.available_vote && (
         <VoteForm villageId={village.id} voteSituation={participateSituation.vote} />
       )}
 
@@ -74,7 +74,7 @@ export function ActionSection({ village }: ActionSectionProps) {
       )}
 
       {/* コミットフォーム */}
-      {participateSituation.commit.availableCommit && (
+      {participateSituation.commit.available_commit && (
         <CommitForm villageId={village.id} commitSituation={participateSituation.commit} />
       )}
 

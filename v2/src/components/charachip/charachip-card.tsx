@@ -17,13 +17,15 @@ export function CharachipCard({ charachip }: CharachipCardProps) {
           </div>
 
           <div className="text-center">
-            <p className="text-sm text-gray-700">{charachip.charaList?.length || 0} キャラクター</p>
+            <p className="text-sm text-gray-700">
+              {charachip.chara_list?.length || 0} キャラクター
+            </p>
           </div>
 
-          {charachip.descriptionUrl && (
+          {charachip.description_url && (
             <div className="text-center">
               <a
-                href={charachip.descriptionUrl}
+                href={charachip.description_url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-600 hover:text-blue-800 text-sm"

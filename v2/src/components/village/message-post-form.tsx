@@ -45,8 +45,8 @@ export function MessagePostForm({ village, saySituation, onMessagePosted }: Mess
           },
           body: {
             message: message.trim(),
-            messageType: messageType,
-            faceType: faceType,
+            message_type: messageType,
+            face_type: faceType,
           },
         })
         if (error) {
@@ -60,8 +60,8 @@ export function MessagePostForm({ village, saySituation, onMessagePosted }: Mess
           },
           body: {
             message: message.trim(),
-            messageType: messageType,
-            faceType: faceType,
+            message_type: messageType,
+            face_type: faceType,
           },
         })
         if (error) {
@@ -91,7 +91,7 @@ export function MessagePostForm({ village, saySituation, onMessagePosted }: Mess
   }
 
   // 発言可能でない場合は表示しない
-  if (!saySituation?.availableSay) {
+  if (!saySituation?.available_say) {
     return (
       <Card>
         <CardContent className="p-4 text-center text-gray-500">
@@ -103,19 +103,19 @@ export function MessagePostForm({ village, saySituation, onMessagePosted }: Mess
 
   // デフォルトのメッセージタイプとキャラクタータイプを設定
   const defaultMessageType =
-    saySituation.defaultMessageType?.code ||
-    saySituation.selectableMessageTypeList[0]?.messageType?.code ||
+    saySituation.default_message_type?.code ||
+    saySituation.selectable_message_type_list[0]?.message_type?.code ||
     ''
 
   const currentMessageType = selectedMessageType || defaultMessageType
-  const currentFaceType = selectedFaceType || saySituation.selectableFaceTypeList[0]?.type || ''
+  const currentFaceType = selectedFaceType || saySituation.selectable_face_type_list[0]?.type || ''
 
   // 文字数カウント
   const messageLength = message.length
-  const currentMessageTypeInfo = saySituation?.selectableMessageTypeList.find(
-    (item) => item.messageType.code === currentMessageType
+  const currentMessageTypeInfo = saySituation?.selectable_message_type_list.find(
+    (item) => item.message_type.code === currentMessageType
   )
-  const maxLength = currentMessageTypeInfo?.restrict.maxLength ?? 400
+  const maxLength = currentMessageTypeInfo?.restrict.max_length ?? 400
 
   // 送信処理
   const handleSubmit = (isConfirm: boolean = false) => {
@@ -135,16 +135,16 @@ export function MessagePostForm({ village, saySituation, onMessagePosted }: Mess
         <div className="text-sm font-medium text-gray-700">発言</div>
 
         {/* メッセージタイプ選択 */}
-        {saySituation.selectableMessageTypeList.length > 1 && (
+        {saySituation.selectable_message_type_list.length > 1 && (
           <div className="space-y-2">
             <label className="text-sm font-medium text-gray-600">発言種別</label>
             <Select
               value={currentMessageType}
               onChange={(e) => setSelectedMessageType(e.target.value)}
             >
-              {saySituation.selectableMessageTypeList.map(({ messageType }) => (
-                <option key={messageType.code} value={messageType.code}>
-                  {messageType.name}
+              {saySituation.selectable_message_type_list.map(({ message_type }) => (
+                <option key={message_type.code} value={message_type.code}>
+                  {message_type.name}
                 </option>
               ))}
             </Select>
@@ -152,11 +152,11 @@ export function MessagePostForm({ village, saySituation, onMessagePosted }: Mess
         )}
 
         {/* キャラクター表情選択 */}
-        {saySituation.selectableFaceTypeList.length > 1 && (
+        {saySituation.selectable_face_type_list.length > 1 && (
           <div className="space-y-2">
             <label className="text-sm font-medium text-gray-600">表情</label>
             <Select value={currentFaceType} onChange={(e) => setSelectedFaceType(e.target.value)}>
-              {saySituation.selectableFaceTypeList.map((face) => (
+              {saySituation.selectable_face_type_list.map((face) => (
                 <option key={face.type} value={face.type}>
                   {face.name}
                 </option>

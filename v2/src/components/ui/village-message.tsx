@@ -51,14 +51,14 @@ const VillageMessage = React.forwardRef<HTMLDivElement, VillageMessageProps>(
             {/* 発言者情報 */}
             {settings.display.showSpeakerName && message.from && (
               <div className={cn('flex items-center gap-2', isCompact ? 'mb-0' : 'mb-1')}>
-                <span className="font-semibold text-gray-800">{message.from.charaName.name}</span>
+                <span className="font-semibold text-gray-800">{message.from.chara_name.name}</span>
                 {message.from.player && (
                   <span className="text-xs text-gray-500">({message.from.player.nickname})</span>
                 )}
                 {message.to && (
                   <>
                     <span className="text-xs text-gray-500">→</span>
-                    <span className="text-sm text-gray-600">{message.to.charaName.name}</span>
+                    <span className="text-sm text-gray-600">{message.to.chara_name.name}</span>
                   </>
                 )}
               </div>

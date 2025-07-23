@@ -31,8 +31,8 @@ export function ParticipationForm({
     charaId: '',
     charaName: '',
     charaShortName: '',
-    firstRequestSkill: skillRequestSituation.selectableSkillList[0]?.code || 'LEFTOVER',
-    secondRequestSkill: skillRequestSituation.selectableSkillList[0]?.code || 'LEFTOVER',
+    firstRequestSkill: skillRequestSituation.selectable_skill_list[0]?.code || 'LEFTOVER',
+    secondRequestSkill: skillRequestSituation.selectable_skill_list[0]?.code || 'LEFTOVER',
     joinMessage: '',
     joinPassword: '',
     spectator: false,
@@ -45,15 +45,15 @@ export function ParticipationForm({
 
   // キャラクター変更時の処理
   const handleCharacterChange = (charaId: string) => {
-    const selectedChara = participateSituation.selectableCharaList.find(
+    const selectedChara = participateSituation.selectable_chara_list.find(
       (chara) => chara.id.toString() === charaId
     )
     if (selectedChara) {
       setFormData((prev) => ({
         ...prev,
         charaId,
-        charaName: selectedChara.charaName.name,
-        charaShortName: selectedChara.charaName.shortName,
+        charaName: selectedChara.chara_name.name,
+        charaShortName: selectedChara.chara_name.short_name,
       }))
     }
   }
@@ -64,13 +64,13 @@ export function ParticipationForm({
       const { data } = await apiClient.POST('/village/{villageId}/participate-confirm', {
         params: { path: { villageId: village.id } },
         body: {
-          charaId: parseInt(formData.charaId),
-          charaName: formData.charaName,
-          charaShortName: formData.charaShortName,
-          firstRequestSkill: formData.firstRequestSkill,
-          secondRequestSkill: formData.secondRequestSkill,
-          joinMessage: formData.joinMessage,
-          joinPassword: formData.joinPassword || undefined,
+          chara_id: parseInt(formData.charaId),
+          chara_name: formData.charaName,
+          chara_short_name: formData.charaShortName,
+          first_request_skill: formData.firstRequestSkill,
+          second_request_skill: formData.secondRequestSkill,
+          join_message: formData.joinMessage,
+          join_password: formData.joinPassword || undefined,
           spectator: formData.spectator,
         },
       })
@@ -89,13 +89,13 @@ export function ParticipationForm({
       await apiClient.POST('/village/{villageId}/participate', {
         params: { path: { villageId: village.id } },
         body: {
-          charaId: parseInt(formData.charaId),
-          charaName: formData.charaName,
-          charaShortName: formData.charaShortName,
-          firstRequestSkill: formData.firstRequestSkill,
-          secondRequestSkill: formData.secondRequestSkill,
-          joinMessage: formData.joinMessage,
-          joinPassword: formData.joinPassword || undefined,
+          chara_id: parseInt(formData.charaId),
+          chara_name: formData.charaName,
+          chara_short_name: formData.charaShortName,
+          first_request_skill: formData.firstRequestSkill,
+          second_request_skill: formData.secondRequestSkill,
+          join_message: formData.joinMessage,
+          join_password: formData.joinPassword || undefined,
           spectator: formData.spectator,
         },
       })
@@ -115,7 +115,7 @@ export function ParticipationForm({
     formData.charaName.length <= 40 &&
     formData.charaShortName.length === 1 &&
     formData.joinMessage.length > 0 &&
-    (!village.setting.password.joinPasswordRequired || formData.joinPassword)
+    (!village.setting.password.join_password_required || formData.joinPassword)
 
   if (isConfirming && confirmMessage) {
     return (
@@ -131,7 +131,7 @@ export function ParticipationForm({
               <p>
                 <span className="font-medium">第1希望役職:</span>{' '}
                 {
-                  skillRequestSituation.selectableSkillList.find(
+                  skillRequestSituation.selectable_skill_list.find(
                     (s) => s.code === formData.firstRequestSkill
                   )?.name
                 }
@@ -139,7 +139,7 @@ export function ParticipationForm({
               <p>
                 <span className="font-medium">第2希望役職:</span>{' '}
                 {
-                  skillRequestSituation.selectableSkillList.find(
+                  skillRequestSituation.selectable_skill_list.find(
                     (s) => s.code === formData.secondRequestSkill
                   )?.name
                 }
@@ -188,9 +188,9 @@ export function ParticipationForm({
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="">キャラクターを選択してください</option>
-            {participateSituation.selectableCharaList.map((chara) => (
+            {participateSituation.selectable_chara_list.map((chara) => (
               <option key={chara.id} value={chara.id.toString()}>
-                {chara.charaName.name}
+                {chara.chara_name.name}
               </option>
             ))}
           </select>
@@ -226,7 +226,7 @@ export function ParticipationForm({
         )}
 
         {/* 役職希望 */}
-        {skillRequestSituation.availableSkillRequest && (
+        {skillRequestSituation.available_skill_request && (
           <>
             <div className="space-y-2">
               <label className="text-sm font-medium">役職第1希望</label>
@@ -237,7 +237,7 @@ export function ParticipationForm({
                 }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                {skillRequestSituation.selectableSkillList.map((skill) => (
+                {skillRequestSituation.selectable_skill_list.map((skill) => (
                   <option key={skill.code} value={skill.code}>
                     {skill.name}
                   </option>
@@ -254,7 +254,7 @@ export function ParticipationForm({
                 }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                {skillRequestSituation.selectableSkillList.map((skill) => (
+                {skillRequestSituation.selectable_skill_list.map((skill) => (
                   <option key={skill.code} value={skill.code}>
                     {skill.name}
                   </option>
@@ -276,7 +276,7 @@ export function ParticipationForm({
         </div>
 
         {/* 入村パスワード */}
-        {village.setting.password.joinPasswordRequired && (
+        {village.setting.password.join_password_required && (
           <div className="space-y-2">
             <label className="text-sm font-medium">入村パスワード</label>
             <input

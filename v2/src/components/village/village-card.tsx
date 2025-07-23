@@ -28,9 +28,9 @@ export function VillageCard({ village }: VillageCardProps) {
       </CardHeader>
       <CardContent className="pt-0">
         <div className="space-y-2 text-sm">
-          {/* 参加者情報 */}
+          {/* 参加人数情報 */}
           <div className="flex justify-between items-center">
-            <span className="text-gray-600">参加者</span>
+            <span className="text-gray-600">参加人数</span>
             <span className="font-medium">
               {village.participant.count} / {village.setting.capacity.max}
               {village.spectator.count > 0 && (
@@ -39,16 +39,16 @@ export function VillageCard({ village }: VillageCardProps) {
             </span>
           </div>
 
-          {/* キャラチップ */}
+          {/* 更新時刻 */}
           <div className="flex justify-between items-center">
-            <span className="text-gray-600">キャラチップ</span>
-            <span className="text-xs">{village.setting.charachip.dummyCharaName}</span>
+            <span className="text-gray-600">更新</span>
+            <span className="text-xs">{getLastUpdateTime(village.day.day_list)}</span>
           </div>
 
-          {/* 開始予定時刻 */}
+          {/* 発言可能時間 */}
           <div className="flex justify-between items-center">
-            <span className="text-gray-600">開始予定</span>
-            <span className="text-xs">{formatDateTime(village.setting.time.startDatetime)}</span>
+            <span className="text-gray-600">発言可能時間</span>
+            <span className="text-xs">{getSayableTime(village.setting.time)}</span>
           </div>
 
           {/* 構成 */}
@@ -63,11 +63,27 @@ export function VillageCard({ village }: VillageCardProps) {
             </span>
           </div>
 
+          {/* ダミー役欠け */}
+          <div className="flex justify-between items-center">
+            <span className="text-gray-600">ダミー役欠け</span>
+            <span className="text-xs">
+              {getDummySkill(village.setting.rules.available_dummy_skill)}
+            </span>
+          </div>
+
+          {/* 年齢制限（該当する場合のみ） */}
+          {getAgeLimit(village.setting.tags.list) && (
+            <div className="flex justify-between items-center">
+              <span className="text-gray-600">年齢制限</span>
+              <span className="text-xs">{getAgeLimit(village.setting.tags.list)}</span>
+            </div>
+          )}
+
           {/* 勝利陣営（終了している場合） */}
-          {village.status.isFinished && village.winCamp && (
+          {village.status.is_finished && village.win_camp && (
             <div className="flex justify-between items-center">
               <span className="text-gray-600">勝利陣営</span>
-              <span className="text-xs font-medium">{village.winCamp.name}</span>
+              <span className="text-xs font-medium">{village.win_camp.name}</span>
             </div>
           )}
 
@@ -127,4 +143,43 @@ function getOrganizationName(
     return '不明'
   }
   return organization[keys[0]] || '不明'
+}
+
+function getLastUpdateTime(dayList: { day_change_datetime: string }[] | undefined): string {
+  if (!dayList || dayList.length === 0) {
+    return '未定'
+  }
+  const lastDay = dayList[dayList.length - 1]
+  return formatDateTime(lastDay.day_change_datetime)
+}
+
+function getSayableTime(timeSettings: {
+  silent_hours?: number
+  sayable_start: { hour?: number; minute?: number }
+  sayable_end: { hour?: number; minute?: number }
+}): string {
+  const silentHours = timeSettings.silent_hours
+  if (!silentHours) {
+    return '24時間'
+  }
+
+  const start = timeSettings.sayable_start
+  const end = timeSettings.sayable_end
+  const startTime = `${String(start.hour || 0).padStart(2, '0')}:${String(start.minute || 0).padStart(2, '0')}`
+  const endTime = `${String(end.hour || 0).padStart(2, '0')}:${String(end.minute || 0).padStart(2, '0')}`
+
+  if (startTime === endTime) {
+    return '24時間'
+  }
+
+  const activeHours = 24 - silentHours
+  return `${startTime} - ${endTime}（${activeHours}時間）`
+}
+
+function getDummySkill(available_dummy_skill: boolean): string {
+  return available_dummy_skill ? 'あり' : 'なし'
+}
+
+function getAgeLimit(tagList: string[]): string | null {
+  return tagList.find((tag) => tag.startsWith('R')) || null
 }

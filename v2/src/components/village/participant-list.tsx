@@ -23,7 +23,9 @@ function ParticipantCard({ participant, isSpectator = false }: ParticipantCardPr
 
       <div className="flex-1 min-w-0">
         <div className="flex items-center space-x-2">
-          <p className="text-sm font-medium text-gray-900 truncate">{participant.charaName.name}</p>
+          <p className="text-sm font-medium text-gray-900 truncate">
+            {participant.chara_name.name}
+          </p>
           {participant.dead && (
             <span className="px-1 py-0.5 bg-red-100 text-red-800 text-xs rounded">死亡</span>
           )}
@@ -39,11 +41,11 @@ function ParticipantCard({ participant, isSpectator = false }: ParticipantCardPr
           {participant.skill && <p className="text-blue-600">{participant.skill.name}</p>}
 
           {/* コミングアウト表示 */}
-          {participant.commingOuts.list.length > 0 && (
+          {participant.comming_outs.list.length > 0 && (
             <div className="flex flex-wrap gap-1">
-              {participant.commingOuts.list.map((co, index) => (
+              {participant.comming_outs.list.map((co, index) => (
                 <span key={index} className="px-1 py-0.5 bg-blue-100 text-blue-800 text-xs rounded">
-                  CO: {co.skill.shortName}
+                  CO: {co.skill.short_name}
                 </span>
               ))}
             </div>
@@ -52,7 +54,7 @@ function ParticipantCard({ participant, isSpectator = false }: ParticipantCardPr
           {/* 死亡情報 */}
           {participant.dead && (
             <p className="text-red-600">
-              {participant.dead.villageDay.day}日目 {participant.dead.reason}
+              {participant.dead.village_day.day}日目 {participant.dead.reason}
             </p>
           )}
         </div>
@@ -62,8 +64,8 @@ function ParticipantCard({ participant, isSpectator = false }: ParticipantCardPr
 }
 
 export function ParticipantList({ village }: ParticipantListProps) {
-  const livingParticipants = village.participant.memberList.filter((p) => !p.dead)
-  const deadParticipants = village.participant.memberList.filter((p) => p.dead)
+  const livingParticipants = village.participant.member_list.filter((p) => !p.dead)
+  const deadParticipants = village.participant.member_list.filter((p) => p.dead)
 
   return (
     <div className="space-y-6">
@@ -108,7 +110,7 @@ export function ParticipantList({ village }: ParticipantListProps) {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
-            {village.spectator.memberList.map((spectator) => (
+            {village.spectator.member_list.map((spectator) => (
               <ParticipantCard key={spectator.id} participant={spectator} isSpectator={true} />
             ))}
           </CardContent>

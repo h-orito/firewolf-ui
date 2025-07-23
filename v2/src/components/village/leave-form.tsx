@@ -35,7 +35,7 @@ export function LeaveForm({ village, participateSituation }: LeaveFormProps) {
     onError: handleApiError,
   })
 
-  if (!participateSituation.availableLeave) {
+  if (!participateSituation.available_leave) {
     return null
   }
 

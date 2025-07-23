@@ -15,10 +15,10 @@ export const useVillageMessagesQuery = (
   // 村の状態に応じてポーリング間隔を調整
   const getRefetchInterval = () => {
     if (!villageStatus) return false // 村情報がない場合はポーリングしない
-    if (villageStatus.isFinished || villageStatus.isCanceled) return false // 終了した村はポーリングしない
-    if (villageStatus.isPrologue) return 60000 // プロローグ中は60秒
-    if (villageStatus.isProgress) return 20000 // 進行中は20秒
-    if (villageStatus.isEpilogue) return 30000 // エピローグ中は30秒
+    if (villageStatus.is_finished || villageStatus.is_canceled) return false // 終了した村はポーリングしない
+    if (villageStatus.is_prologue) return 60000 // プロローグ中は60秒
+    if (villageStatus.is_progress) return 20000 // 進行中は20秒
+    if (villageStatus.is_epilogue) return 30000 // エピローグ中は30秒
     return false
   }
 

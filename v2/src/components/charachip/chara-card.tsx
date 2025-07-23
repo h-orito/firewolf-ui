@@ -10,12 +10,12 @@ export function CharaCard({ chara }: CharaCardProps) {
     <Card className="p-4">
       <div className="space-y-3">
         <div className="text-center">
-          <h3 className="font-medium text-gray-900">{chara.charaName.name}</h3>
+          <h3 className="font-medium text-gray-900">{chara.chara_name.name}</h3>
         </div>
 
-        {chara.faceList && chara.faceList.length > 0 && (
+        {chara.face_list && chara.face_list.length > 0 && (
           <div className="grid grid-cols-2 gap-2">
-            {chara.faceList.slice(0, 4).map((face, index) => (
+            {chara.face_list.slice(0, 4).map((face, index) => (
               <div key={index} className="text-center">
                 <div className="text-xs text-gray-600 mb-1">{face.type}</div>
                 {/* TODO: 画像が利用可能な場合は表示 */}
@@ -28,7 +28,7 @@ export function CharaCard({ chara }: CharaCardProps) {
         )}
 
         <div className="text-xs text-gray-600 text-center">
-          表情: {chara.faceList?.length || 0}種類
+          表情: {chara.face_list?.length || 0}種類
         </div>
       </div>
     </Card>

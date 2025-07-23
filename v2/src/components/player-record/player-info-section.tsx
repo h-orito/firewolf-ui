@@ -10,7 +10,7 @@ interface PlayerInfoSectionProps {
 }
 
 export function PlayerInfoSection({ player, wholeRecord }: PlayerInfoSectionProps) {
-  const winRate = wholeRecord.winRate * 100
+  const winRate = wholeRecord.win_rate * 100
 
   return (
     <Card className="p-6">
@@ -22,21 +22,21 @@ export function PlayerInfoSection({ player, wholeRecord }: PlayerInfoSectionProp
           <p className="text-lg font-semibold">{player.nickname}</p>
         </div>
 
-        {player.twitterUserName && (
+        {player.twitter_user_name && (
           <div className="space-y-2">
             <h3 className="text-sm font-medium text-gray-600">Twitter</h3>
-            <p className="text-lg">@{player.twitterUserName}</p>
+            <p className="text-lg">@{player.twitter_user_name}</p>
           </div>
         )}
 
         <div className="space-y-2">
           <h3 className="text-sm font-medium text-gray-600">参加回数</h3>
-          <p className="text-2xl font-bold text-blue-600">{wholeRecord.participateCount}</p>
+          <p className="text-2xl font-bold text-blue-600">{wholeRecord.participate_count}</p>
         </div>
 
         <div className="space-y-2">
           <h3 className="text-sm font-medium text-gray-600">勝利回数</h3>
-          <p className="text-2xl font-bold text-green-600">{wholeRecord.winCount}</p>
+          <p className="text-2xl font-bold text-green-600">{wholeRecord.win_count}</p>
         </div>
 
         <div className="space-y-2 md:col-span-2 lg:col-span-1">

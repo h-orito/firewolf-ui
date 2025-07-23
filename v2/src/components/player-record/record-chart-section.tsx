@@ -28,16 +28,16 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d'
 export function RecordChartSection({ campRecordList, skillRecordList }: RecordChartSectionProps) {
   const campChartData = campRecordList.map((record) => ({
     name: record.camp.name,
-    participateCount: record.participateCount,
-    winCount: record.winCount,
-    winRate: record.winRate * 100,
+    participateCount: record.participate_count,
+    winCount: record.win_count,
+    winRate: record.win_rate * 100,
   }))
 
   const skillChartData = skillRecordList.map((record) => ({
     name: record.skill.name,
-    participateCount: record.participateCount,
-    winCount: record.winCount,
-    winRate: record.winRate * 100,
+    participateCount: record.participate_count,
+    winCount: record.win_count,
+    winRate: record.win_rate * 100,
   }))
 
   return (
@@ -105,9 +105,9 @@ export function RecordChartSection({ campRecordList, skillRecordList }: RecordCh
                 {campRecordList.map((record, index) => (
                   <tr key={index} className="border-b">
                     <td className="p-2 font-medium">{record.camp.name}</td>
-                    <td className="text-right p-2">{record.participateCount}</td>
-                    <td className="text-right p-2">{record.winCount}</td>
-                    <td className="text-right p-2">{(record.winRate * 100).toFixed(1)}%</td>
+                    <td className="text-right p-2">{record.participate_count}</td>
+                    <td className="text-right p-2">{record.win_count}</td>
+                    <td className="text-right p-2">{(record.win_rate * 100).toFixed(1)}%</td>
                   </tr>
                 ))}
               </tbody>
@@ -148,9 +148,9 @@ export function RecordChartSection({ campRecordList, skillRecordList }: RecordCh
                 {skillRecordList.map((record, index) => (
                   <tr key={index} className="border-b">
                     <td className="p-2 font-medium">{record.skill.name}</td>
-                    <td className="text-right p-2">{record.participateCount}</td>
-                    <td className="text-right p-2">{record.winCount}</td>
-                    <td className="text-right p-2">{(record.winRate * 100).toFixed(1)}%</td>
+                    <td className="text-right p-2">{record.participate_count}</td>
+                    <td className="text-right p-2">{record.win_count}</td>
+                    <td className="text-right p-2">{(record.win_rate * 100).toFixed(1)}%</td>
                   </tr>
                 ))}
               </tbody>

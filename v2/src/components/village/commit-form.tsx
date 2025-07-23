@@ -62,7 +62,7 @@ export function CommitForm({ villageId, commitSituation }: CommitFormProps) {
     commitMutation.mutate(commit)
   }
 
-  if (!commitSituation.availableCommit) {
+  if (!commitSituation.available_commit) {
     return null
   }
 

@@ -16,19 +16,19 @@ export default function VillageCreatePage() {
   const [formData, setFormData] = useState({
     villageName: '',
     // 時間設定
-    startDatetime: '',
+    start_datetime: '',
     silentHours: 6,
     // 役職構成
     organization: '8人村',
     // キャラチップ設定
-    dummyCharaId: 1,
+    dummy_chara_id: 1,
     dummyCharaName: 'ダミー',
     dummyCharaShortName: 'ダ',
     dummyCharaDay0Message: 'まだ誰もいない... この静けさが、嵐の前の静けさでなければいいのだが。',
     dummyCharaDay1Message: '',
     charachipIds: [1] as number[],
     // ルール設定
-    openVote: false,
+    open_vote: false,
     availableSkillRequest: true,
     availableSpectate: true,
     openSkillInGrave: false,
@@ -52,41 +52,41 @@ export default function VillageCreatePage() {
   // 村作成のミューテーション
   const createMutation = useMutation({
     mutationFn: async () => {
-      const startDateTime = new Date(formData.startDatetime).toISOString()
+      const startDateTime = new Date(formData.start_datetime).toISOString()
 
       const { data } = await apiClient.POST('/village', {
         body: {
-          villageName: formData.villageName,
+          village_name: formData.villageName,
           setting: {
             time: {
-              startDatetime: startDateTime,
-              silentHours: formData.silentHours > 0 ? formData.silentHours : undefined,
+              start_datetime: startDateTime,
+              silent_hours: formData.silentHours > 0 ? formData.silentHours : undefined,
             },
             organization: {
               organization: formData.organization,
             },
             charachip: {
-              dummyCharaId: formData.dummyCharaId,
-              dummyCharaName: formData.dummyCharaName,
-              dummyCharaShortName: formData.dummyCharaShortName,
-              dummyCharaDay0Message: formData.dummyCharaDay0Message,
-              dummyCharaDay1Message: formData.dummyCharaDay1Message || undefined,
-              charachipIds: formData.charachipIds,
+              dummy_chara_id: formData.dummy_chara_id,
+              dummy_chara_name: formData.dummyCharaName,
+              dummy_chara_short_name: formData.dummyCharaShortName,
+              dummy_chara_day0_message: formData.dummyCharaDay0Message,
+              dummy_chara_day1_message: formData.dummyCharaDay1Message || undefined,
+              charachip_ids: formData.charachipIds,
             },
             rule: {
-              openVote: formData.openVote,
-              availableSkillRequest: formData.availableSkillRequest,
-              availableSpectate: formData.availableSpectate,
-              openSkillInGrave: formData.openSkillInGrave,
-              visibleGraveMessage: formData.visibleGraveMessage,
-              availableSuddenlyDeath: formData.availableSuddenlyDeath,
-              availableCommit: formData.availableCommit,
-              availableDummySkill: formData.availableDummySkill,
-              availableAction: formData.availableAction,
-              availableSecretSay: formData.availableSecretSay,
-              availableGuardSameTarget: formData.availableGuardSameTarget,
-              restrictList: formData.restrictList,
-              joinPassword: formData.joinPassword || undefined,
+              open_vote: formData.open_vote,
+              available_skill_request: formData.availableSkillRequest,
+              available_spectate: formData.availableSpectate,
+              open_skill_in_grave: formData.openSkillInGrave,
+              visible_grave_message: formData.visibleGraveMessage,
+              available_suddenly_death: formData.availableSuddenlyDeath,
+              available_commit: formData.availableCommit,
+              available_dummy_skill: formData.availableDummySkill,
+              available_action: formData.availableAction,
+              available_secret_say: formData.availableSecretSay,
+              available_guard_same_target: formData.availableGuardSameTarget,
+              restrict_list: formData.restrictList,
+              join_password: formData.joinPassword || undefined,
             },
             tags: {
               list: formData.tags,
@@ -115,7 +115,7 @@ export default function VillageCreatePage() {
   const canSubmit =
     formData.villageName.trim().length > 0 &&
     formData.villageName.trim().length <= 40 &&
-    formData.startDatetime &&
+    formData.start_datetime &&
     formData.organization &&
     formData.dummyCharaName.trim().length > 0 &&
     formData.dummyCharaShortName.trim().length === 1 &&
@@ -156,9 +156,9 @@ export default function VillageCreatePage() {
                 <input
                   type="datetime-local"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  value={formData.startDatetime}
+                  value={formData.start_datetime}
                   onChange={(e) =>
-                    setFormData((prev) => ({ ...prev, startDatetime: e.target.value }))
+                    setFormData((prev) => ({ ...prev, start_datetime: e.target.value }))
                   }
                   required
                 />
@@ -271,9 +271,9 @@ export default function VillageCreatePage() {
                 <label className="flex items-center space-x-2">
                   <input
                     type="checkbox"
-                    checked={formData.openVote}
+                    checked={formData.open_vote}
                     onChange={(e) =>
-                      setFormData((prev) => ({ ...prev, openVote: e.target.checked }))
+                      setFormData((prev) => ({ ...prev, open_vote: e.target.checked }))
                     }
                     className="rounded"
                   />

@@ -6,6 +6,14 @@
 
 ### 完了
 
+- [x] 村カード情報の拡充
+  - 「開始予定」を「更新 {日時}」に変更（day[day.length - 1].day_change_datetime使用）
+  - 発言可能時間を表示（sayable_start, sayable_end, silent_hoursから計算）
+  - ダミー役欠けの有無を表示（setting.rules.available_dummy_skill）
+  - 年齢制限を表示（setting.tags.listからR指定を検出）
+  - キャラチップ表示を削除
+  - 「参加者」を「参加人数」に変更
+
 - [x] トップページ開催中の村一覧のUI改善
   - 村の状態フィルター機能を削除（チェックボックス削除）
   - プロローグ、進行中、エピローグの村のみを固定表示
