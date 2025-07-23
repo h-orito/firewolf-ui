@@ -60,8 +60,8 @@
 - [x] トップページに表示する村をプロローグ、進行中、エピローグのもので固定化
 - [x] 不要な紹介文「チャット形式で気軽に人狼ゲームを楽しめます。初心者からエキスパートまで、誰でも参加できる多彩な村が開催中です。」を削除
 - [x] トップページ画像を横いっぱいに表示するよう調整
-- [ ] お知らせ表示機能の実装（v1からコピー）
-- [ ] リリースノートページ（/release-note）の作成
+- [x] お知らせ表示機能の実装（v1からコピー）
+- [x] リリースノートページ（/release-note）の作成
 
 #### 2.3 村一覧画面
 
@@ -137,6 +137,10 @@
 - [x] ルール説明ページ（app/(public)/rule/page.tsx）
 - [x] FAQ（app/(public)/faq/page.tsx）
 - [x] About（app/(public)/about/page.tsx）
+- [ ] キャラチップ一覧ページ（app/(public)/charachip-list/page.tsx）
+- [ ] キャラチップ詳細ページ（app/(public)/charachip/[id]/page.tsx）
+- [x] 利用規約ページ（app/(public)/terms/page.tsx）
+- [x] プライバシーポリシーページ（app/(public)/privacy/page.tsx）
 
 #### 4.4 エラー処理
 
