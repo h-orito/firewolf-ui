@@ -143,13 +143,13 @@
 - [x] その他必要なドキュメントの作成
 
 #### 5.5 デプロイ準備
-- [ ] Dockerfileの作成（マルチステージビルド、Node.js 22 Debian系ベース - k8s環境対応）
-- [ ] .dockerignoreファイルの作成
-- [ ] GitHub Actions設定（Docker build/push、masterブランチ対象）
+- [x] Dockerfileの作成（マルチステージビルド、Node.js 22 Debian系ベース - k8s環境対応）
+- [x] .dockerignoreファイルの作成
+- [x] GitHub Actions設定（Docker build/push、masterブランチ対象）
 - [ ] 環境変数の設定（GitHub Secrets）
-- [ ] ヘルスチェックエンドポイント（/api/health）の実装
-- [ ] ビルドコマンドの確認
-- [ ] Dockerイメージのビルドテスト
+- [x] ヘルスチェックエンドポイント（/api/health）の実装
+- [x] ビルドコマンドの確認
+- [x] Dockerイメージのビルドテスト
 - [ ] ghcr.ioへのpushテスト
 
 ## 優先順位

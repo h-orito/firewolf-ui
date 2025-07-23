@@ -22,7 +22,7 @@ FIREWOLF UI v2は、Dockerコンテナとして構築され、GitHub Container R
 
 ### ベースイメージ
 
-- Node.js 22 (Alpine Linux)
+- Node.js 22 (Debian 12 bookworm-slim) - k8s環境での互換性を重視
 
 ## CI/CD パイプライン
 
@@ -46,15 +46,15 @@ masterブランチへのpush時に以下の処理を実行：
 
 以下のSecretsをリポジトリに設定する必要があります：
 
-- `GHCR_TOKEN`: GitHub Container Registryへのアクセストークン
-- 環境変数（本番用）:
+- Firebase環境変数（Dockerビルド時に必要）:
   - `NEXT_PUBLIC_FIREBASE_API_KEY`
   - `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN`
   - `NEXT_PUBLIC_FIREBASE_PROJECT_ID`
   - `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET`
   - `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID`
   - `NEXT_PUBLIC_FIREBASE_APP_ID`
-  - `NEXT_PUBLIC_API_BASE_URL`
+
+**注意**: GitHub Container Registry (ghcr.io) へのプッシュには、GitHub Actions の組み込みトークン（GITHUB_TOKEN）を使用するため、追加のトークン設定は不要です。
 
 ## 環境変数
 
@@ -102,15 +102,21 @@ const nextConfig = {
 ## ローカルでのビルドテスト
 
 ```bash
-# Dockerイメージのビルド
-docker build -t firewolf-ui:local .
+# Dockerイメージのビルド（Firebase環境変数を指定）
+docker build \
+  --build-arg NEXT_PUBLIC_FIREBASE_API_KEY=your-api-key \
+  --build-arg NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-auth-domain \
+  --build-arg NEXT_PUBLIC_FIREBASE_PROJECT_ID=your-project-id \
+  --build-arg NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your-storage-bucket \
+  --build-arg NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your-sender-id \
+  --build-arg NEXT_PUBLIC_FIREBASE_APP_ID=your-app-id \
+  -t firewolf-ui:local .
 
 # ローカルでの実行
-docker run -p 3000:3000 \
-  -e NEXT_PUBLIC_FIREBASE_API_KEY=xxx \
-  -e NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=xxx \
-  # ... その他の環境変数
-  firewolf-ui:local
+docker run -p 3000:3000 firewolf-ui:local
+
+# ヘルスチェック確認
+curl http://localhost:3000/firewolf/api/health
 ```
 
 ## Kubernetesデプロイメント
