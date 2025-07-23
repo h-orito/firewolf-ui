@@ -8,7 +8,7 @@ export default function HeroSection() {
       <div className="container mx-auto px-6">
         <div className="max-w-6xl mx-auto">
           <Image
-            src="/images/top.jpg"
+            src="/firewolf/images/top.jpg"
             alt="FIREWOLF - 勝つのは人か狼か"
             width={1200}
             height={600}
