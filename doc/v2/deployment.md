@@ -82,6 +82,23 @@ data:
   PORT: "3000"
 ```
 
+### Next.js basePath設定
+
+全環境で `/firewolf` をベースパスとして使用します。これは`next.config.js`で設定されます：
+
+```javascript
+const nextConfig = {
+  basePath: '/firewolf',
+  // その他の設定...
+}
+```
+
+この設定により：
+- すべてのページは `/firewolf/...` でアクセス可能
+- APIルートは `/firewolf/api/...` となる
+- 静的アセットは `/firewolf/_next/...` から配信される
+- 開発環境でも `http://localhost:3000/firewolf` でアクセス
+
 ## ローカルでのビルドテスト
 
 ```bash
@@ -129,6 +146,8 @@ resources:
 
 - アプリケーションの起動状態
 - 外部API接続確認（オプション）
+
+**注意**: basePath設定により `/firewolf/api/health` でアクセスされます。
 
 ### ログ出力
 

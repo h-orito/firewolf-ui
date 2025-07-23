@@ -355,6 +355,7 @@ pnpm generate:api
 - URL パスは可能な限り維持
 - API エンドポイントの互換性維持
 - ユーザーデータの移行不要
+- 全環境で `/firewolf` をベースパスとして設定（Next.jsのbasePath）
 
 ### 11.2 Docker/Kubernetes でのリリース戦略
 
@@ -383,3 +384,21 @@ pnpm generate:api
 - **ヘルスチェック**: `/api/health` エンドポイント
 - **環境変数**: ConfigMapとSecretで管理
 - **リソース要求/制限**: 適切なCPU/メモリ制限を設定
+
+### 11.4 Next.js設定
+
+全環境で以下の設定を使用：
+
+```javascript
+// next.config.js
+const nextConfig = {
+  basePath: '/firewolf',
+  // その他の設定...
+}
+```
+
+**basePath設定の影響**:
+- すべての内部リンクは自動的に `/firewolf` プレフィックスが付与される
+- 静的アセットも `/firewolf/_next/...` のパスで配信される
+- APIルートも `/firewolf/api/...` となる
+- 開発環境でも `http://localhost:3000/firewolf` でアクセス
