@@ -22,7 +22,7 @@ FIREWOLF UI v2は、Dockerコンテナとして構築され、GitHub Container R
 
 ### ベースイメージ
 
-- Node.js 20 LTS (Alpine Linux)
+- Node.js 22 (Alpine Linux)
 
 ## CI/CD パイプライン
 

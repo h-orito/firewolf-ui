@@ -96,7 +96,7 @@ v1で実装されている以下の機能をすべて移行する：
 - **Dockerイメージ要件**:
   - マルチステージビルドによる最適化
   - 本番用の最小限のイメージサイズ
-  - Node.js 20 LTSベース
+  - Node.js 22ベース
 - **SSR/ISR対応**:
   - Next.jsのServer-Side Rendering (SSR)とIncremental Static Regeneration (ISR)をサポート
   - サーバーアクションの実行をサポート
