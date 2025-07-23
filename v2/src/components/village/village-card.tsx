@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { formatDateTime } from '@/utils/datetime'
 import type { components } from '@/types/generated/api'
 
 type SimpleVillageView = components['schemas']['SimpleVillageView']
@@ -52,9 +53,9 @@ export function VillageCard({ village }: VillageCardProps) {
 
           {/* 構成 */}
           <div className="flex justify-between items-center">
-            <span className="text-gray-600">構成</span>
+            <span className="text-gray-600">編成</span>
             <span className="text-xs">
-              {village.setting.organizations.organization['MILLER_HOLLOW'] || '不明'}
+              {getOrganizationName(village.setting.organizations.organization)}
             </span>
           </div>
 
@@ -99,12 +100,10 @@ function getStatusColor(statusCode: string): string {
   }
 }
 
-function formatDateTime(dateTime: string): string {
-  const date = new Date(dateTime)
-  return date.toLocaleString('ja-JP', {
-    month: 'numeric',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  })
+function getOrganizationName(organization: { [key: string]: string }): string {
+  const keys = Object.keys(organization)
+  if (keys.length === 0) {
+    return '不明'
+  }
+  return organization[keys[0]] || '不明'
 }

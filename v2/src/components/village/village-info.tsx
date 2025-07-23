@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { formatDateTimeWithYear } from '@/utils/datetime'
 import type { components } from '@/types/generated/api'
 
 type VillageView = components['schemas']['VillageView']
@@ -40,7 +41,9 @@ export function VillageInfo({ village }: VillageInfoProps) {
             </div>
             <div className="flex justify-between">
               <span className="text-gray-600">開始予定</span>
-              <span className="text-sm">{formatDateTime(village.setting.time.startDatetime)}</span>
+              <span className="text-sm">
+                {formatDateTimeWithYear(village.setting.time.startDatetime)}
+              </span>
             </div>
           </div>
 
@@ -53,7 +56,7 @@ export function VillageInfo({ village }: VillageInfoProps) {
             <div className="flex justify-between">
               <span className="text-gray-600">構成</span>
               <span className="text-sm">
-                {village.setting.organizations.organization['MILLER_HOLLOW'] || '不明'}
+                {getOrganizationName(village.setting.organizations.organization)}
               </span>
             </div>
             <div className="flex justify-between">
@@ -138,13 +141,10 @@ function getStatusColor(statusCode: string): string {
   }
 }
 
-function formatDateTime(dateTime: string): string {
-  const date = new Date(dateTime)
-  return date.toLocaleString('ja-JP', {
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  })
+function getOrganizationName(organization: { [key: string]: string }): string {
+  const keys = Object.keys(organization)
+  if (keys.length === 0) {
+    return '不明'
+  }
+  return organization[keys[0]] || '不明'
 }
