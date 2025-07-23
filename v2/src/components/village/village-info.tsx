@@ -56,7 +56,11 @@ export function VillageInfo({ village }: VillageInfoProps) {
             <div className="flex justify-between">
               <span className="text-gray-600">構成</span>
               <span className="text-sm">
-                {getOrganizationName(village.setting.organizations.organization)}
+                {getOrganizationName(
+                  village.setting.organizations.organization,
+                  village.participant.count,
+                  village.setting.capacity.max
+                )}
               </span>
             </div>
             <div className="flex justify-between">
@@ -141,7 +145,24 @@ function getStatusColor(statusCode: string): string {
   }
 }
 
-function getOrganizationName(organization: { [key: string]: string }): string {
+function getOrganizationName(
+  organization: { [key: string]: string },
+  participantCount: number,
+  maxCapacity: number
+): string {
+  // まず現在の参加人数に対応する構成を探す
+  const currentCountKey = String(participantCount)
+  if (organization[currentCountKey]) {
+    return organization[currentCountKey]
+  }
+
+  // なければ最大人数に対応する構成を探す
+  const maxCountKey = String(maxCapacity)
+  if (organization[maxCountKey]) {
+    return organization[maxCountKey]
+  }
+
+  // それでもなければ最初のキーの値を返す
   const keys = Object.keys(organization)
   if (keys.length === 0) {
     return '不明'

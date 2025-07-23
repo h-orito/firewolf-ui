@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
-  manifest: '/manifest.json',
+  manifest: '/firewolf/manifest.json',
 }
 
 export const viewport: Viewport = {
