@@ -14,7 +14,7 @@ export default function VillageListSection() {
         <h2 className="text-3xl font-bold text-center mb-8 text-gray-900">開催中の村</h2>
 
         <div className="mb-8">
-          <VillageList initialStatuses={['PROLOGUE', 'PROGRESS']} />
+          <VillageList initialStatuses={['PROLOGUE', 'PROGRESS', 'EPILOGUE']} />
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
