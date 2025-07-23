@@ -10,9 +10,6 @@ interface VillageCardProps {
 
 export function VillageCard({ village }: VillageCardProps) {
   const statusColor = getStatusColor(village.status.code)
-  const progressPercent = Math.round(
-    (village.participant.count / village.setting.capacity.max) * 100
-  )
 
   return (
     <Card className="hover:shadow-md transition-shadow duration-200">
@@ -35,8 +32,8 @@ export function VillageCard({ village }: VillageCardProps) {
             <span className="text-gray-600">参加者</span>
             <span className="font-medium">
               {village.participant.count} / {village.setting.capacity.max}
-              {progressPercent > 0 && (
-                <span className="text-gray-500 ml-1">({progressPercent}%)</span>
+              {village.spectator.count > 0 && (
+                <span className="text-gray-500 ml-1">+ {village.spectator.count}</span>
               )}
             </span>
           </div>
