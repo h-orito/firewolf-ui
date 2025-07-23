@@ -51,7 +51,7 @@ export function Header() {
                 href="/"
                 className="text-white font-bold text-lg hover:text-gray-300 transition-colors"
               >
-                FIREWOLF{isStaging ? ' テストサーバ' : ''}
+                FIREWOLF
               </Link>
             </div>
 
