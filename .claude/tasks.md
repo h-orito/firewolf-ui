@@ -143,10 +143,11 @@
 - [x] その他必要なドキュメントの作成
 
 #### 5.5 デプロイ準備
-- [ ] Dockerfileの作成（マルチステージビルド）
-- [ ] GitHub Actions設定（Docker build/push）
+- [ ] Dockerfileの作成（マルチステージビルド、Node.js 22ベース）
+- [ ] .dockerignoreファイルの作成
+- [ ] GitHub Actions設定（Docker build/push、masterブランチ対象）
 - [ ] 環境変数の設定（GitHub Secrets）
-- [ ] ヘルスチェックエンドポイントの実装
+- [ ] ヘルスチェックエンドポイント（/api/health）の実装
 - [ ] ビルドコマンドの確認
 - [ ] Dockerイメージのビルドテスト
 - [ ] ghcr.ioへのpushテスト
