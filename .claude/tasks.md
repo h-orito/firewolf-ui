@@ -143,7 +143,7 @@
 - [x] その他必要なドキュメントの作成
 
 #### 5.5 デプロイ準備
-- [ ] Dockerfileの作成（マルチステージビルド、Node.js 22ベース）
+- [ ] Dockerfileの作成（マルチステージビルド、Node.js 22 Debian系ベース - k8s環境対応）
 - [ ] .dockerignoreファイルの作成
 - [ ] GitHub Actions設定（Docker build/push、masterブランチ対象）
 - [ ] 環境変数の設定（GitHub Secrets）

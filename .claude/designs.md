@@ -361,7 +361,7 @@ pnpm generate:api
 
 - **Dockerイメージ戦略**:
   - マルチステージビルドで本番用の最小イメージを作成
-  - Node.js 22（Alpine Linux）ベース
+  - Node.js 22（Debian系）ベース - k8s環境での互換性と安定性を重視
   - ビルド時の依存関係と実行時の依存関係を分離
   
 - **GitHub Container Registry (ghcr.io)**:
@@ -379,7 +379,9 @@ pnpm generate:api
 
 ### 11.3 コンテナ設計
 
-- **ベースイメージ**: `node:22-alpine`
+- **ベースイメージ**: `node:22-bookworm-slim` (Debian 12ベース)
+  - k8s環境での互換性を考慮してDebian系を採用
+  - slimイメージで軽量化を維持
 - **ポート**: 3000（Next.jsデフォルト）
 - **ヘルスチェック**: `/api/health` エンドポイント
 - **環境変数**: ConfigMapとSecretで管理
