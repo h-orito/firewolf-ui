@@ -14,102 +14,106 @@ export function VillageCard({ village }: VillageCardProps) {
   const statusColor = getStatusColor(village.status.code)
 
   return (
-    <Card className="hover:shadow-md transition-shadow duration-200 overflow-hidden relative">
-      {/* 背景画像 */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: 'url(/firewolf/top-bg.jpg)' }}
-      ></div>
-
-      {/* 村名ヘッダー（panel header風） */}
-      <div className="relative z-10 bg-black/20 backdrop-blur-sm border-b border-white/20">
-        <div className="px-6 py-4 flex justify-between items-center">
-          <Link
-            href={`/village/${village.id}`}
-            className="text-white font-semibold text-lg hover:text-blue-200 transition-colors line-clamp-1"
-            style={{
-              textShadow:
-                '2px 2px 5px rgba(97, 69, 69, 1), -2px 2px 5px rgba(97, 69, 69, 1), 2px -2px 5px rgba(97, 69, 69, 1), -2px -2px 5px rgba(97, 69, 69, 1)',
-            }}
-          >
-            {village.name}
-          </Link>
-          <div
-            className="px-2 py-1 rounded text-xs font-medium bg-white/30 backdrop-blur-sm text-white"
-            style={{
-              textShadow:
-                '2px 2px 5px rgba(97, 69, 69, 1), -2px 2px 5px rgba(97, 69, 69, 1), 2px -2px 5px rgba(97, 69, 69, 1), -2px -2px 5px rgba(97, 69, 69, 1)',
-            }}
-          >
-            {village.status.name}
-          </div>
-        </div>
-      </div>
-
-      {/* 村情報コンテンツ */}
-      <div className="relative z-10 p-6">
+    <Link
+      href={`/village/${village.id}`}
+      className="block hover:shadow-lg hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200"
+    >
+      <Card className="overflow-hidden relative cursor-pointer h-full">
+        {/* 背景画像 */}
         <div
-          className="space-y-2 text-xs text-white leading-relaxed"
-          style={{
-            textShadow:
-              '2px 2px 5px rgba(97, 69, 69, 1), -2px 2px 5px rgba(97, 69, 69, 1), 2px -2px 5px rgba(97, 69, 69, 1), -2px -2px 5px rgba(97, 69, 69, 1)',
-          }}
-        >
-          {/* 参加人数情報 */}
-          <div className="text-white">
-            参加人数: {village.participant.count} / {village.setting.capacity.max}
-            {village.spectator.count > 0 && (
-              <span className="text-white/80"> + {village.spectator.count}</span>
-            )}
-          </div>
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: 'url(/firewolf/top-bg.jpg)' }}
+        ></div>
 
-          {/* 更新時刻 */}
-          <div className="text-white">更新: {getLastUpdateTime(village.day.day_list)}</div>
-
-          {/* 発言可能時間 */}
-          <div className="text-white">発言可能時間: {getSayableTime(village.setting.time)}</div>
-
-          {/* 構成 */}
-          <div className="text-white">
-            編成:{' '}
-            {getOrganizationName(
-              village.setting.organizations.organization,
-              village.participant.count,
-              village.setting.capacity.max
-            )}
-          </div>
-
-          {/* ダミー役欠け */}
-          <div className="text-white">
-            ダミー役欠け: {getDummySkill(village.setting.rules.available_dummy_skill)}
-          </div>
-
-          {/* 年齢制限（該当する場合のみ） */}
-          {getAgeLimit(village.setting.tags.list) && (
-            <div className="text-white">年齢制限: {getAgeLimit(village.setting.tags.list)}</div>
-          )}
-
-          {/* 勝利陣営（終了している場合） */}
-          {village.status.is_finished && village.win_camp && (
-            <div className="text-white font-medium">勝利陣営: {village.win_camp.name}</div>
-          )}
-
-          {/* タグ */}
-          {village.setting.tags.list.length > 0 && (
-            <div className="flex flex-wrap gap-1 mt-2">
-              {village.setting.tags.list.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-2 py-1 bg-white/20 backdrop-blur-sm text-white rounded text-xs"
-                >
-                  {tag}
-                </span>
-              ))}
+        {/* 村名ヘッダー（panel header風） */}
+        <div className="relative z-10 bg-black/20 backdrop-blur-sm border-b border-white/20">
+          <div className="px-6 py-4 flex justify-between items-center">
+            <h3
+              className="text-white font-semibold text-lg line-clamp-1"
+              style={{
+                textShadow:
+                  '2px 2px 5px rgba(97, 69, 69, 1), -2px 2px 5px rgba(97, 69, 69, 1), 2px -2px 5px rgba(97, 69, 69, 1), -2px -2px 5px rgba(97, 69, 69, 1)',
+              }}
+            >
+              {village.name}
+            </h3>
+            <div
+              className="px-2 py-1 rounded text-xs font-medium bg-white/30 backdrop-blur-sm text-white"
+              style={{
+                textShadow:
+                  '2px 2px 5px rgba(97, 69, 69, 1), -2px 2px 5px rgba(97, 69, 69, 1), 2px -2px 5px rgba(97, 69, 69, 1), -2px -2px 5px rgba(97, 69, 69, 1)',
+              }}
+            >
+              {village.status.name}
             </div>
-          )}
+          </div>
         </div>
-      </div>
-    </Card>
+
+        {/* 村情報コンテンツ */}
+        <div className="relative z-10 p-6">
+          <div
+            className="space-y-2 text-xs text-white leading-relaxed"
+            style={{
+              textShadow:
+                '2px 2px 5px rgba(97, 69, 69, 1), -2px 2px 5px rgba(97, 69, 69, 1), 2px -2px 5px rgba(97, 69, 69, 1), -2px -2px 5px rgba(97, 69, 69, 1)',
+            }}
+          >
+            {/* 参加人数情報 */}
+            <div className="text-white">
+              参加人数: {village.participant.count} / {village.setting.capacity.max}
+              {village.spectator.count > 0 && (
+                <span className="text-white/80"> + {village.spectator.count}</span>
+              )}
+            </div>
+
+            {/* 更新時刻 */}
+            <div className="text-white">更新: {getLastUpdateTime(village.day.day_list)}</div>
+
+            {/* 発言可能時間 */}
+            <div className="text-white">発言可能時間: {getSayableTime(village.setting.time)}</div>
+
+            {/* 構成 */}
+            <div className="text-white">
+              編成:{' '}
+              {getOrganizationName(
+                village.setting.organizations.organization,
+                village.participant.count,
+                village.setting.capacity.max
+              )}
+            </div>
+
+            {/* ダミー役欠け */}
+            <div className="text-white">
+              ダミー役欠け: {getDummySkill(village.setting.rules.available_dummy_skill)}
+            </div>
+
+            {/* 年齢制限（該当する場合のみ） */}
+            {getAgeLimit(village.setting.tags.list) && (
+              <div className="text-white">年齢制限: {getAgeLimit(village.setting.tags.list)}</div>
+            )}
+
+            {/* 勝利陣営（終了している場合） */}
+            {village.status.is_finished && village.win_camp && (
+              <div className="text-white font-medium">勝利陣営: {village.win_camp.name}</div>
+            )}
+
+            {/* タグ */}
+            {village.setting.tags.list.length > 0 && (
+              <div className="flex flex-wrap gap-1 mt-2">
+                {village.setting.tags.list.map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-2 py-1 bg-white/20 backdrop-blur-sm text-white rounded text-xs"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </Card>
+    </Link>
   )
 }
 
