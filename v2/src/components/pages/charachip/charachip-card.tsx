@@ -1,5 +1,5 @@
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { Card } from '@/components/ui/card'
 import type { components } from '@/types/generated/api'
 
@@ -10,13 +10,13 @@ interface CharachipCardProps {
 export function CharachipCard({ charachip }: CharachipCardProps) {
   const router = useRouter()
 
-  const handleCardClick = (e: React.MouseEvent) => {
-    // description_urlのリンククリック時はカードナビゲーションを無効化
-    if ((e.target as HTMLElement).closest('a[href^="http"]')) {
-      return
-    }
+  const handleCardClick = () => {
     router.push(`/charachip/${charachip.id}`)
   }
+
+  // 代表キャラクターの画像を取得（v1と同様に最初のキャラクターを使用）
+  const representativeChara = charachip.chara_list?.[0]
+  const representativeImageUrl = representativeChara?.face_list?.[0]?.image_url
 
   return (
     <Card
@@ -29,23 +29,24 @@ export function CharachipCard({ charachip }: CharachipCardProps) {
           <p className="text-sm text-gray-600 mt-1">{charachip.designer.name}</p>
         </div>
 
+        {/* 代表キャラクター画像 */}
+        {representativeImageUrl && (
+          <div className="flex justify-center">
+            <div className="w-24 h-24 relative">
+              <Image
+                src={representativeImageUrl}
+                alt={`${representativeChara?.chara_name?.name || 'キャラクター'}`}
+                fill
+                className="object-cover rounded-lg"
+                sizes="96px"
+              />
+            </div>
+          </div>
+        )}
+
         <div className="text-center">
           <p className="text-sm text-gray-700">{charachip.chara_list?.length || 0} キャラクター</p>
         </div>
-
-        {charachip.description_url && (
-          <div className="text-center">
-            <a
-              href={charachip.description_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-600 hover:text-blue-800 text-sm"
-              onClick={(e) => e.stopPropagation()}
-            >
-              素材サイトを見る
-            </a>
-          </div>
-        )}
       </div>
     </Card>
   )

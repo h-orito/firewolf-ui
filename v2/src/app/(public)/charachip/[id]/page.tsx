@@ -1,11 +1,17 @@
 'use client'
 
 import Link from 'next/link'
-import { use } from 'react'
+import { use, Suspense, lazy } from 'react'
 import { useCharachipQuery } from '@/hooks/useCharachipQuery'
 import { CharaCard } from '@/components/pages/charachip/chara-card'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
+
+const LazyCharaCard = lazy(() =>
+  import('@/components/pages/charachip/chara-card').then((module) => ({
+    default: module.CharaCard,
+  }))
+)
 
 interface CharachipDetailPageProps {
   params: Promise<{ id: string }>
@@ -81,13 +87,14 @@ export default function CharachipDetailPage({ params }: CharachipDetailPageProps
                   rel="noopener noreferrer"
                   className="inline-block text-blue-600 hover:text-blue-800 underline"
                 >
-                  素材サイトを見る
+                  作者 HP
                 </a>
               </div>
             )}
 
-            <div className="text-gray-700">
+            <div className="text-gray-700 space-y-2">
               <p>キャラクター数: {charachip.chara_list?.length || 0}</p>
+              <p>名前変更: {charachip.is_available_change_name ? '可能' : '不可'}</p>
             </div>
           </div>
         </Card>
@@ -99,7 +106,23 @@ export default function CharachipDetailPage({ params }: CharachipDetailPageProps
           {charachip.chara_list && charachip.chara_list.length > 0 ? (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {charachip.chara_list.map((chara) => (
-                <CharaCard key={chara.id} chara={chara} />
+                <Suspense
+                  key={chara.id}
+                  fallback={
+                    <Card className="p-4 animate-pulse">
+                      <div className="space-y-3">
+                        <div className="h-5 bg-gray-200 rounded w-3/4 mx-auto"></div>
+                        <div className="grid grid-cols-2 gap-2">
+                          {[...Array(4)].map((_, i) => (
+                            <div key={i} className="w-16 h-16 bg-gray-200 rounded mx-auto"></div>
+                          ))}
+                        </div>
+                      </div>
+                    </Card>
+                  }
+                >
+                  <LazyCharaCard chara={chara} />
+                </Suspense>
               ))}
             </div>
           ) : (

@@ -44,6 +44,9 @@ const withPWA = require('next-pwa')({
 const nextConfig = {
   basePath: '/firewolf',
   output: 'standalone',
+  images: {
+    domains: ['wolfort.net'],
+  },
 }
 
 module.exports = withPWA(nextConfig)

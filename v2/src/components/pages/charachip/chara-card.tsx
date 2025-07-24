@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { Card } from '@/components/ui/card'
 import type { components } from '@/types/generated/api'
 
@@ -17,19 +18,25 @@ export function CharaCard({ chara }: CharaCardProps) {
           <div className="grid grid-cols-2 gap-2">
             {chara.face_list.slice(0, 4).map((face, index) => (
               <div key={index} className="text-center">
-                <div className="text-xs text-gray-600 mb-1">{face.type}</div>
-                {/* TODO: 画像が利用可能な場合は表示 */}
-                <div className="w-12 h-12 bg-gray-200 rounded mx-auto flex items-center justify-center">
-                  <span className="text-xs text-gray-500">画像</span>
-                </div>
+                {face.image_url ? (
+                  <div className="w-16 h-16 relative mx-auto">
+                    <Image
+                      src={face.image_url}
+                      alt={`${chara.chara_name.name} - ${face.type || '表情'}`}
+                      fill
+                      className="object-cover rounded"
+                      sizes="64px"
+                    />
+                  </div>
+                ) : (
+                  <div className="w-16 h-16 bg-gray-200 rounded mx-auto flex items-center justify-center">
+                    <span className="text-xs text-gray-500">画像</span>
+                  </div>
+                )}
               </div>
             ))}
           </div>
         )}
-
-        <div className="text-xs text-gray-600 text-center">
-          表情: {chara.face_list?.length || 0}種類
-        </div>
       </div>
     </Card>
   )
