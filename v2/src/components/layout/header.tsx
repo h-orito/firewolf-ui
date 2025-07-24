@@ -42,20 +42,17 @@ export function Header() {
             </div>
 
             {/* ロゴ */}
-            <div className="flex-1 flex justify-center">
+            <div className="flex-1 md:flex-none">
               <Link
                 href="/"
-                className="text-white font-bold text-lg hover:text-gray-300 transition-colors"
+                className="text-white font-bold text-lg hover:text-gray-300 transition-colors block text-center md:text-left"
               >
                 FIREWOLF
               </Link>
             </div>
 
             {/* デスクトップメニュー */}
-            <div className="hidden md:flex items-center space-x-4">
-              <Link href="/" className="text-white hover:text-gray-300 transition-colors">
-                トップ
-              </Link>
+            <div className="hidden md:flex items-center space-x-4 flex-1 justify-end">
               <Link
                 href="/village-list"
                 className="text-white hover:text-gray-300 transition-colors"
@@ -78,6 +75,9 @@ export function Header() {
                     className="text-white hover:text-gray-300 transition-colors"
                   >
                     設定
+                  </Link>
+                  <Link href="/mypage" className="text-white hover:text-gray-300 transition-colors">
+                    マイページ
                   </Link>
                   <Button
                     variant="ghost"
@@ -117,13 +117,6 @@ export function Header() {
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 bg-black/95">
               <Link
-                href="/"
-                className="block px-3 py-2 text-white hover:bg-gray-800 rounded-md transition-colors"
-                onClick={closeMenu}
-              >
-                トップ
-              </Link>
-              <Link
                 href="/village-list"
                 className="block px-3 py-2 text-white hover:bg-gray-800 rounded-md transition-colors"
                 onClick={closeMenu}
@@ -152,6 +145,13 @@ export function Header() {
                     onClick={closeMenu}
                   >
                     設定
+                  </Link>
+                  <Link
+                    href="/mypage"
+                    className="block px-3 py-2 text-white hover:bg-gray-800 rounded-md transition-colors"
+                    onClick={closeMenu}
+                  >
+                    マイページ
                   </Link>
                   <Button
                     variant="ghost"
