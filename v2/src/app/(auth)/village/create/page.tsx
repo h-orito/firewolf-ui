@@ -6,13 +6,19 @@ import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Textarea } from '@/components/ui/textarea'
-import { Info } from 'lucide-react'
+import { Info, ChevronDown } from 'lucide-react'
 import { apiClient } from '@/lib/api/client'
 import { handleApiError } from '@/lib/api/error-handler'
+import { useCharachipListQuery } from '@/hooks/useCharachipListQuery'
+import { useCharasQuery } from '@/hooks/useCharasQuery'
 import type { components } from '@/types/generated/api'
 
 export default function VillageCreatePage() {
   const router = useRouter()
+
+  // キャラチップ一覧を取得
+  const { data: charachipListData } = useCharachipListQuery()
+  const charachips = (charachipListData?.data as any)?.['*/*']?.list || []
 
   // 7日後のJST0時を計算
   const getDefault7DaysLaterMidnight = () => {
@@ -41,7 +47,7 @@ export default function VillageCreatePage() {
     dummyCharaShortName: 'ダ',
     dummyCharaDay0Message: 'まだ誰もいない... この静けさが、嵐の前の静けさでなければいいのだが。',
     dummyCharaDay1Message: '',
-    charachipIds: [1] as number[],
+    charachipIds: [] as number[],
     // ルール設定
     open_vote: false,
     availableSkillRequest: true,
@@ -63,6 +69,30 @@ export default function VillageCreatePage() {
       { type: 'WHISPER', count: 10, length: 200 },
     ],
   })
+
+  // キャラチップが読み込まれた時に1つ目を初期選択
+  useEffect(() => {
+    if (charachips.length > 0 && formData.charachipIds.length === 0) {
+      setFormData((prev) => ({
+        ...prev,
+        charachipIds: [charachips[0].id],
+      }))
+    }
+  }, [charachips, formData.charachipIds.length])
+
+  // 選択されたキャラチップのキャラ一覧を取得
+  const { data: charasData } = useCharasQuery(formData.charachipIds)
+  const charas = (charasData?.data as any)?.['*/*']?.list || []
+
+  // キャラが読み込まれた時に1つ目を初期選択（ダミーキャラ）
+  useEffect(() => {
+    if (charas.length > 0 && formData.dummy_chara_id === 1) {
+      setFormData((prev) => ({
+        ...prev,
+        dummy_chara_id: charas[0].id,
+      }))
+    }
+  }, [charas, formData.dummy_chara_id])
 
   // 村作成のミューテーション
   const createMutation = useMutation({
@@ -231,6 +261,73 @@ export default function VillageCreatePage() {
             {/* キャラチップ設定 */}
             <div className="space-y-4">
               <h2 className="text-xl font-semibold border-b pb-2">キャラチップ設定</h2>
+
+              {/* キャラチップ選択 */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium">キャラチップ</label>
+                <div className="space-y-2">
+                  {charachips.map((charachip: any) => (
+                    <label key={charachip.id} className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        checked={formData.charachipIds.includes(charachip.id)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setFormData((prev) => ({
+                              ...prev,
+                              charachipIds: [...prev.charachipIds, charachip.id],
+                            }))
+                          } else {
+                            setFormData((prev) => ({
+                              ...prev,
+                              charachipIds: prev.charachipIds.filter((id) => id !== charachip.id),
+                            }))
+                          }
+                        }}
+                        className="rounded"
+                      />
+                      <span className="text-sm">{charachip.name}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* ダミーキャラ選択 */}
+              {charas.length > 0 && (
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">ダミーキャラ</label>
+                  <div className="space-y-2">
+                    <select
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      value={formData.dummy_chara_id}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          dummy_chara_id: parseInt(e.target.value),
+                        }))
+                      }
+                      required
+                    >
+                      {charas.map((chara: any) => (
+                        <option key={chara.id} value={chara.id}>
+                          {chara.chara_name.name}
+                        </option>
+                      ))}
+                    </select>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="w-full"
+                      onClick={() => {
+                        // TODO: モーダル表示の実装
+                        console.log('画像から選ぶモーダルを開く')
+                      }}
+                    >
+                      画像から選ぶ
+                    </Button>
+                  </div>
+                </div>
+              )}
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
