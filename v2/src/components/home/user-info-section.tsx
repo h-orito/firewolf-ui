@@ -7,7 +7,7 @@ import { Card } from '@/components/ui/card'
 import { useAuth } from '@/hooks/useAuth'
 
 export default function UserInfoSection() {
-  const { user, isAuthenticated, login, logout, isLoading } = useAuth()
+  const { isAuthenticated, login, isLoading } = useAuth()
 
   if (isLoading) {
     return (
@@ -49,25 +49,6 @@ export default function UserInfoSection() {
     )
   }
 
-  return (
-    <section className="py-12 bg-slate-100">
-      <div className="container mx-auto px-6">
-        <Card className="p-6">
-          <div className="flex flex-col sm:flex-row items-center justify-between">
-            <div className="flex items-center space-x-4 mb-4 sm:mb-0">
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900">
-                  {user?.displayName || 'プレイヤー'}
-                </h3>
-                <p className="text-sm text-gray-600">ログイン中</p>
-              </div>
-            </div>
-            <Button onClick={logout} variant="outline">
-              ログアウト
-            </Button>
-          </div>
-        </Card>
-      </div>
-    </section>
-  )
+  // ログイン済みの場合は何も表示しない
+  return null
 }

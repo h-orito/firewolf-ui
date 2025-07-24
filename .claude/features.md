@@ -1,1 +1,1 @@
-- ログイン済みの場合は home の user-info-section は必要ないので何も表示しないよう変更
+- user-info-section は、確認中も何も表示しないよう変更
