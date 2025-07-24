@@ -17,8 +17,12 @@ export default function VillageCreatePage() {
   const router = useRouter()
 
   // キャラチップ一覧を取得
-  const { data: charachipListData } = useCharachipListQuery()
-  const charachips = (charachipListData?.data as any)?.['*/*']?.list || []
+  const {
+    data: charachipListData,
+    error: charachipError,
+    isLoading: charachipLoading,
+  } = useCharachipListQuery()
+  const charachips = (charachipListData?.data as any)?.list || []
 
   // 7日後のJST0時を計算
   const getDefault7DaysLaterMidnight = () => {
@@ -82,7 +86,7 @@ export default function VillageCreatePage() {
 
   // 選択されたキャラチップのキャラ一覧を取得
   const { data: charasData } = useCharasQuery(formData.charachipIds)
-  const charas = (charasData?.data as any)?.['*/*']?.list || []
+  const charas = (charasData?.data as any)?.list || []
 
   // キャラが読み込まれた時に1つ目を初期選択（ダミーキャラ）
   useEffect(() => {
@@ -266,6 +270,13 @@ export default function VillageCreatePage() {
               <div className="space-y-2">
                 <label className="text-sm font-medium">キャラチップ</label>
                 <div className="space-y-2">
+                  {charachipLoading && <p className="text-gray-500">キャラチップを読み込み中...</p>}
+                  {charachipError && (
+                    <p className="text-red-500">キャラチップの読み込みに失敗しました</p>
+                  )}
+                  {charachips.length === 0 && !charachipLoading && !charachipError && (
+                    <p className="text-gray-500">キャラチップがありません</p>
+                  )}
                   {charachips.map((charachip: any) => (
                     <label key={charachip.id} className="flex items-center space-x-2">
                       <input
