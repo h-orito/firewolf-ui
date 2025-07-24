@@ -1,0 +1,1 @@
+- マイページは `/palyer-record?id={自分の player id} に遷移する

@@ -91,6 +91,29 @@ export function Header() {
               </Link>
             </div>
 
+            {/* モバイル用ログイン状態表示 */}
+            <div className="md:hidden">
+              {user ? (
+                <UserMenu
+                  username={
+                    getUserDisplayName().length > 10
+                      ? `${getUserDisplayName().slice(0, 10)}...`
+                      : getUserDisplayName()
+                  }
+                  onLogout={signOut}
+                  onOpenAccountLink={() => setIsAccountLinkModalOpen(true)}
+                />
+              ) : (
+                <Button
+                  size="sm"
+                  onClick={() => setIsLoginModalOpen(true)}
+                  className="bg-blue-600 hover:bg-blue-700 text-white border-0 text-xs px-2 py-1"
+                >
+                  ログイン
+                </Button>
+              )}
+            </div>
+
             {/* デスクトップメニュー */}
             <div className="hidden md:flex items-center space-x-4 flex-1 justify-end">
               <Link
@@ -138,67 +161,103 @@ export function Header() {
         {/* モバイルメニュー */}
         {isMenuOpen && (
           <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 bg-black/95">
-              <Link
-                href="/village-list"
-                className="block px-3 py-2 text-white hover:bg-gray-800 rounded-md transition-colors"
-                onClick={closeMenu}
-              >
-                村一覧
-              </Link>
-              <Link
-                href="/rule"
-                className="block px-3 py-2 text-white hover:bg-gray-800 rounded-md transition-colors"
-                onClick={closeMenu}
-              >
-                ルール
-              </Link>
-              {user ? (
+            <div className="px-4 pt-4 pb-6 bg-black/95">
+              {/* ゲーム */}
+              <div className="mb-6">
+                <h4 className="text-sm font-semibold mb-3 text-gray-300">ゲーム</h4>
+                <div className="space-y-2">
+                  <Link
+                    href="/village-list"
+                    className="block px-3 py-2 text-white hover:bg-gray-800 rounded-md transition-colors text-sm"
+                    onClick={closeMenu}
+                  >
+                    村一覧
+                  </Link>
+                  <Link
+                    href="/charachip-list"
+                    className="block px-3 py-2 text-white hover:bg-gray-800 rounded-md transition-colors text-sm"
+                    onClick={closeMenu}
+                  >
+                    キャラチップ一覧
+                  </Link>
+                  <Link
+                    href="/rule"
+                    className="block px-3 py-2 text-white hover:bg-gray-800 rounded-md transition-colors text-sm"
+                    onClick={closeMenu}
+                  >
+                    ルール説明
+                  </Link>
+                  <Link
+                    href="/faq"
+                    className="block px-3 py-2 text-white hover:bg-gray-800 rounded-md transition-colors text-sm"
+                    onClick={closeMenu}
+                  >
+                    よくある質問
+                  </Link>
+                </div>
+              </div>
+
+              {user && (
                 <>
-                  <Link
-                    href="/village/create"
-                    className="block px-3 py-2 text-white hover:bg-gray-800 rounded-md transition-colors"
-                    onClick={closeMenu}
-                  >
-                    村作成
-                  </Link>
-                  <Link
-                    href="/setting"
-                    className="block px-3 py-2 text-white hover:bg-gray-800 rounded-md transition-colors"
-                    onClick={closeMenu}
-                  >
-                    設定
-                  </Link>
-                  <Link
-                    href="/mypage"
-                    className="block px-3 py-2 text-white hover:bg-gray-800 rounded-md transition-colors"
-                    onClick={closeMenu}
-                  >
-                    マイページ
-                  </Link>
-                  <button
-                    onClick={() => {
-                      setIsAccountLinkModalOpen(true)
-                      closeMenu()
-                    }}
-                    className="block w-full text-left px-3 py-2 text-white hover:bg-gray-800 rounded-md transition-colors"
-                  >
-                    アカウント連携
-                  </button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => {
-                      signOut()
-                      closeMenu()
-                    }}
-                    className="mx-3 my-2 text-white border border-gray-600 hover:bg-gray-800 hover:text-white"
-                  >
-                    ログアウト
-                  </Button>
+                  {/* ユーザー */}
+                  <div className="mb-6">
+                    <h4 className="text-sm font-semibold mb-3 text-gray-300">ユーザー</h4>
+                    <div className="space-y-2">
+                      <Link
+                        href="/village/create"
+                        className="block px-3 py-2 text-white hover:bg-gray-800 rounded-md transition-colors text-sm"
+                        onClick={closeMenu}
+                      >
+                        村作成
+                      </Link>
+                      <Link
+                        href="/mypage"
+                        className="block px-3 py-2 text-white hover:bg-gray-800 rounded-md transition-colors text-sm"
+                        onClick={closeMenu}
+                      >
+                        マイページ
+                      </Link>
+                      <Link
+                        href="/setting"
+                        className="block px-3 py-2 text-white hover:bg-gray-800 rounded-md transition-colors text-sm"
+                        onClick={closeMenu}
+                      >
+                        設定
+                      </Link>
+                    </div>
+                  </div>
+
+                  {/* アカウント */}
+                  <div>
+                    <h4 className="text-sm font-semibold mb-3 text-gray-300">アカウント</h4>
+                    <div className="space-y-2">
+                      <button
+                        onClick={() => {
+                          setIsAccountLinkModalOpen(true)
+                          closeMenu()
+                        }}
+                        className="block w-full text-left px-3 py-2 text-white hover:bg-gray-800 rounded-md transition-colors text-sm"
+                      >
+                        アカウント連携
+                      </button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => {
+                          signOut()
+                          closeMenu()
+                        }}
+                        className="mx-3 text-white border border-gray-600 hover:bg-gray-800 hover:text-white text-sm"
+                      >
+                        ログアウト
+                      </Button>
+                    </div>
+                  </div>
                 </>
-              ) : (
-                <div className="px-3 py-2">
+              )}
+
+              {!user && (
+                <div className="mt-4">
                   <Button
                     size="sm"
                     onClick={() => {
