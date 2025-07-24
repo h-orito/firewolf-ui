@@ -1,4 +1,6 @@
 import Link from 'next/link'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTwitter, faGithub } from '@fortawesome/free-brands-svg-icons'
 
 export function Footer() {
   return (
@@ -8,11 +10,6 @@ export function Footer() {
           {/* サイト情報 */}
           <div className="col-span-1 md:col-span-2">
             <h3 className="text-lg font-bold mb-4">FIREWOLF</h3>
-            <p className="text-gray-400 text-sm leading-relaxed">
-              人狼ゲームが無料で遊べるWebサービスです。
-              <br />
-              オンラインで手軽に人狼ゲームを楽しむことができます。
-            </p>
           </div>
 
           {/* リンク集 */}
@@ -60,12 +57,12 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="https://twitter.com/firewolf_bbs"
+                  href="https://x.com/ort_dev"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-white transition-colors text-sm"
                 >
-                  Twitter
+                  <FontAwesomeIcon icon={faTwitter} className="mr-1" />X (Twitter)
                 </a>
               </li>
               <li>
@@ -75,6 +72,7 @@ export function Footer() {
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-white transition-colors text-sm"
                 >
+                  <FontAwesomeIcon icon={faGithub} className="mr-1" />
                   GitHub
                 </a>
               </li>
@@ -85,17 +83,17 @@ export function Footer() {
         {/* 区切り線 */}
         <div className="border-t border-gray-800 mt-8 pt-8">
           <div className="flex flex-col sm:flex-row justify-between items-center">
-            <p className="text-gray-400 text-xs">© 2025 FIREWOLF. All rights reserved.</p>
+            <p className="text-gray-400 text-xs">© 2020- h-orito</p>
             <div className="flex space-x-4 mt-4 sm:mt-0">
               <Link
-                href="/document"
+                href="/terms"
                 className="text-gray-400 hover:text-white transition-colors text-xs"
               >
                 利用規約
               </Link>
               <span className="text-gray-600">|</span>
               <Link
-                href="/document"
+                href="/privacy"
                 className="text-gray-400 hover:text-white transition-colors text-xs"
               >
                 プライバシーポリシー
