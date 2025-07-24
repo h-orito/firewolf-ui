@@ -24,8 +24,17 @@ export function LoginModal({
     <Modal isOpen={isOpen} onClose={onClose} title="ログイン">
       <div className="space-y-4">
         <p className="text-gray-600 text-sm">
-          FIREWOLFを利用するにはログインが必要です。以下のサービスでログインしてください。
+          村への参加や村の作成を行うためにはログインが必要です。以下のサービスでログインしてください。
         </p>
+
+        <div className="text-yellow-700 text-sm space-y-1 border-l-4 border-yellow-500 pl-3 py-2 bg-yellow-50">
+          <p>
+            既存のアカウントに別のログイン方法を紐付けたい場合は、まず既存のアカウントでログインしてください。
+          </p>
+          <p>
+            ログインしたことがあるアカウントは後から追加で紐付けることができないので、ご注意ください。
+          </p>
+        </div>
 
         <div className="space-y-3">
           <Button
