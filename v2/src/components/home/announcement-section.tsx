@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBullhorn } from '@fortawesome/free-solid-svg-icons'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { H2 } from '@/components/ui/heading'
 import { getLatestAnnouncements } from '@/data/announcements'
 
 const typeLabels = {
@@ -22,7 +23,7 @@ export default function AnnouncementSection() {
   return (
     <section className="py-12 bg-slate-50">
       <div className="container mx-auto px-6">
-        <h2 className="text-3xl font-bold text-center mb-8 text-gray-900">お知らせ</h2>
+        <H2 center>お知らせ</H2>
 
         <div className="space-y-4 max-w-4xl mx-auto">
           {announcements.map((announcement) => (

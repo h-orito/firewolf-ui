@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faList } from '@fortawesome/free-solid-svg-icons'
 import { Button } from '@/components/ui/button'
+import { H2 } from '@/components/ui/heading'
 import { useAuth } from '@/hooks/useAuth'
 import { VillageList } from '@/components/village/village-list'
 
@@ -13,7 +14,7 @@ export default function VillageListSection() {
   return (
     <section className="py-12 bg-white">
       <div className="container mx-auto px-6">
-        <h2 className="text-3xl font-bold text-center mb-8 text-gray-900">開催中の村</h2>
+        <H2 center>開催中の村</H2>
 
         <div className="mb-8">
           <VillageList initialStatuses={['PROLOGUE', 'PROGRESS', 'EPILOGUE']} showFilter={false} />

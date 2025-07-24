@@ -22,19 +22,6 @@ export function Footer() {
                   このサイトについて
                 </Link>
               </li>
-              <li>
-                <button
-                  type="button"
-                  className="text-gray-400 hover:text-white transition-colors text-sm text-left"
-                  onClick={() => {
-                    // TODO: 投げ銭モーダルを開く
-                    alert('投げ銭機能は準備中です')
-                  }}
-                >
-                  <FontAwesomeIcon icon={faDonate} className="mr-1" />
-                  投げ銭
-                </button>
-              </li>
             </ul>
           </div>
 
@@ -48,6 +35,14 @@ export function Footer() {
                   className="text-gray-400 hover:text-white transition-colors text-sm"
                 >
                   村一覧
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/charachip-list"
+                  className="text-gray-400 hover:text-white transition-colors text-sm"
+                >
+                  キャラチップ一覧
                 </Link>
               </li>
               <li>
@@ -93,6 +88,19 @@ export function Footer() {
                   <FontAwesomeIcon icon={faGithub} className="mr-1" />
                   GitHub
                 </a>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  className="text-gray-400 hover:text-white transition-colors text-sm text-left"
+                  onClick={() => {
+                    // TODO: 投げ銭モーダルを開く
+                    alert('投げ銭機能は準備中です')
+                  }}
+                >
+                  <FontAwesomeIcon icon={faDonate} className="mr-1" />
+                  投げ銭
+                </button>
               </li>
             </ul>
           </div>
