@@ -5,6 +5,7 @@ import {
   TwitterAuthProvider,
   signOut,
   onAuthStateChanged,
+  linkWithPopup,
 } from 'firebase/auth'
 import { auth } from '@/lib/firebase'
 import { useAuthStore } from '@/stores/auth'
@@ -73,6 +74,45 @@ export const useAuth = () => {
     }
   }
 
+  const linkWithGoogle = async () => {
+    if (!user) throw new Error('User not authenticated')
+    try {
+      setLoading(true)
+      const provider = new GoogleAuthProvider()
+      const result = await linkWithPopup(user, provider)
+      return result.user
+    } catch (error) {
+      console.error('Google account linking error:', error)
+      throw error
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const linkWithTwitter = async () => {
+    if (!user) throw new Error('User not authenticated')
+    try {
+      setLoading(true)
+      const provider = new TwitterAuthProvider()
+      const result = await linkWithPopup(user, provider)
+      return result.user
+    } catch (error) {
+      console.error('Twitter account linking error:', error)
+      throw error
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const getLinkedProviders = () => {
+    if (!user) return []
+    return user.providerData.map((provider) => provider.providerId)
+  }
+
+  const getUserDisplayName = () => {
+    return user?.displayName || user?.email || 'ユーザー'
+  }
+
   return {
     user,
     isLoading,
@@ -82,5 +122,9 @@ export const useAuth = () => {
     signInWithGoogle,
     signInWithTwitter,
     signOut: handleSignOut,
+    linkWithGoogle,
+    linkWithTwitter,
+    getLinkedProviders,
+    getUserDisplayName,
   }
 }

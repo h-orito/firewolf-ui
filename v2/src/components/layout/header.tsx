@@ -7,10 +7,25 @@ import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { faGoogle, faTwitter } from '@fortawesome/free-brands-svg-icons'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/hooks/useAuth'
+import { LoginModal } from '@/components/auth/login-modal'
+import { AccountLinkModal } from '@/components/auth/account-link-modal'
+import { UserMenu } from '@/components/auth/user-menu'
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const { user, signInWithGoogle, signInWithTwitter, signOut } = useAuth()
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+  const [isAccountLinkModalOpen, setIsAccountLinkModalOpen] = useState(false)
+  const {
+    user,
+    signInWithGoogle,
+    signInWithTwitter,
+    signOut,
+    linkWithGoogle,
+    linkWithTwitter,
+    getLinkedProviders,
+    getUserDisplayName,
+    isLoading,
+  } = useAuth()
   const isStaging = process.env.NODE_ENV !== 'production'
 
   const toggleMenu = () => {
@@ -19,6 +34,31 @@ export function Header() {
 
   const closeMenu = () => {
     setIsMenuOpen(false)
+  }
+
+  const handleLogin = async (provider: 'google' | 'twitter') => {
+    try {
+      if (provider === 'google') {
+        await signInWithGoogle()
+      } else {
+        await signInWithTwitter()
+      }
+      setIsLoginModalOpen(false)
+    } catch (error) {
+      console.error('Login error:', error)
+    }
+  }
+
+  const handleAccountLink = async (provider: 'google' | 'twitter') => {
+    try {
+      if (provider === 'google') {
+        await linkWithGoogle()
+      } else {
+        await linkWithTwitter()
+      }
+    } catch (error) {
+      console.error('Account linking error:', error)
+    }
   }
 
   return (
@@ -76,37 +116,20 @@ export function Header() {
                   >
                     設定
                   </Link>
-                  <Link href="/mypage" className="text-white hover:text-gray-300 transition-colors">
-                    マイページ
-                  </Link>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={signOut}
-                    className="text-white border border-gray-600 hover:bg-gray-800 hover:text-white"
-                  >
-                    ログアウト
-                  </Button>
+                  <UserMenu
+                    username={getUserDisplayName()}
+                    onLogout={signOut}
+                    onOpenAccountLink={() => setIsAccountLinkModalOpen(true)}
+                  />
                 </>
               ) : (
-                <div className="flex space-x-2">
-                  <Button
-                    size="sm"
-                    onClick={signInWithGoogle}
-                    className="bg-blue-600 hover:bg-blue-700 text-white border-0"
-                  >
-                    <FontAwesomeIcon icon={faGoogle} className="mr-2" />
-                    Googleログイン
-                  </Button>
-                  <Button
-                    size="sm"
-                    onClick={signInWithTwitter}
-                    className="bg-sky-500 hover:bg-sky-600 text-white border-0"
-                  >
-                    <FontAwesomeIcon icon={faTwitter} className="mr-2" />
-                    Twitterログイン
-                  </Button>
-                </div>
+                <Button
+                  size="sm"
+                  onClick={() => setIsLoginModalOpen(true)}
+                  className="bg-blue-600 hover:bg-blue-700 text-white border-0"
+                >
+                  ログイン
+                </Button>
               )}
             </div>
           </div>
@@ -153,6 +176,15 @@ export function Header() {
                   >
                     マイページ
                   </Link>
+                  <button
+                    onClick={() => {
+                      setIsAccountLinkModalOpen(true)
+                      closeMenu()
+                    }}
+                    className="block w-full text-left px-3 py-2 text-white hover:bg-gray-800 rounded-md transition-colors"
+                  >
+                    アカウント連携
+                  </button>
                   <Button
                     variant="ghost"
                     size="sm"
@@ -166,28 +198,16 @@ export function Header() {
                   </Button>
                 </>
               ) : (
-                <div className="px-3 py-2 space-y-2">
+                <div className="px-3 py-2">
                   <Button
                     size="sm"
                     onClick={() => {
-                      signInWithGoogle()
+                      setIsLoginModalOpen(true)
                       closeMenu()
                     }}
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white border-0"
                   >
-                    <FontAwesomeIcon icon={faGoogle} className="mr-2" />
-                    Googleログイン
-                  </Button>
-                  <Button
-                    size="sm"
-                    onClick={() => {
-                      signInWithTwitter()
-                      closeMenu()
-                    }}
-                    className="w-full bg-sky-500 hover:bg-sky-600 text-white border-0"
-                  >
-                    <FontAwesomeIcon icon={faTwitter} className="mr-2" />
-                    Twitterログイン
+                    ログイン
                   </Button>
                 </div>
               )}
@@ -195,6 +215,24 @@ export function Header() {
           </div>
         )}
       </nav>
+
+      {/* モーダル */}
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+        onGoogleLogin={() => handleLogin('google')}
+        onTwitterLogin={() => handleLogin('twitter')}
+        isLoading={isLoading}
+      />
+
+      <AccountLinkModal
+        isOpen={isAccountLinkModalOpen}
+        onClose={() => setIsAccountLinkModalOpen(false)}
+        onLinkGoogle={() => handleAccountLink('google')}
+        onLinkTwitter={() => handleAccountLink('twitter')}
+        linkedProviders={getLinkedProviders()}
+        isLoading={isLoading}
+      />
     </>
   )
 }
