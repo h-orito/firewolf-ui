@@ -1,17 +1,19 @@
 'use client'
 
 import Link from 'next/link'
+import { use } from 'react'
 import { useCharachipQuery } from '@/hooks/useCharachipQuery'
 import { CharaCard } from '@/components/pages/charachip/chara-card'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 
 interface CharachipDetailPageProps {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
 export default function CharachipDetailPage({ params }: CharachipDetailPageProps) {
-  const charaChipId = parseInt(params.id, 10)
+  const { id } = use(params)
+  const charaChipId = parseInt(id, 10)
   const { data, isLoading, error } = useCharachipQuery(charaChipId)
 
   if (error) {
