@@ -48,10 +48,15 @@ export default function HeroSection() {
             OLF
           </div>
         </div>
-      </div>
-      <div className="container mx-auto px-6">
-        <div className="text-center py-10">
-          <p className="text-xl md:text-2xl mb-8 text-slate-300">
+        {/* 紹介文 */}
+        <div className="absolute bottom-[5%] right-[2%] md:bottom-[8%] md:right-[3%]">
+          <p
+            className="text-sm md:text-lg lg:text-xl font-bold text-white"
+            style={{
+              textShadow:
+                '2px 2px 5px rgba(133, 97, 69, 1), -2px 2px 5px rgba(133, 97, 69, 1), 2px -2px 5px rgba(133, 97, 69, 1), -2px -2px 5px rgba(133, 97, 69, 1)',
+            }}
+          >
             FIREWOLFは長期人狼が無料で遊べるサービスです
           </p>
         </div>
