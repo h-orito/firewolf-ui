@@ -26,9 +26,24 @@ export function AccountLinkModal({
   const isGoogleLinked = linkedProviders.includes('google.com')
   const isTwitterLinked = linkedProviders.includes('twitter.com')
 
+  // 現在ログインしているプロバイダーを判定
+  const currentProvider = linkedProviders.length > 0 ? linkedProviders[0] : null
+  const isGoogleCurrent = currentProvider === 'google.com'
+  const isTwitterCurrent = currentProvider === 'twitter.com'
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="アカウント連携">
       <div className="space-y-4">
+        {/* 注意文言 */}
+        <div className="border-l-4 border-yellow-500 bg-yellow-50 p-3 rounded">
+          <p className="text-yellow-700 text-sm font-medium mb-1">連携に関する注意事項</p>
+          <div className="text-yellow-700 text-xs space-y-1">
+            <p>・他のログイン方法を連携すると、どちらの方法でもログインできるようになります。</p>
+            <p>・一度連携したアカウントは解除できませんので、ご注意ください。</p>
+            <p>・既に他のユーザーが使用しているアカウントは連携できません。</p>
+          </div>
+        </div>
+
         <p className="text-gray-600 text-sm">
           複数のソーシャルアカウントを連携することで、どちらからでもログインできるようになります。
         </p>
@@ -44,6 +59,14 @@ export function AccountLinkModal({
                 <FontAwesomeIcon icon={faCheck} className="w-4 h-4" />
                 <span className="text-sm">連携済み</span>
               </div>
+            ) : isGoogleCurrent ? (
+              <Button
+                size="sm"
+                disabled={true}
+                className="bg-gray-300 text-gray-500 border-0 cursor-not-allowed"
+              >
+                現在のログイン方法
+              </Button>
             ) : (
               <Button
                 size="sm"
@@ -66,6 +89,14 @@ export function AccountLinkModal({
                 <FontAwesomeIcon icon={faCheck} className="w-4 h-4" />
                 <span className="text-sm">連携済み</span>
               </div>
+            ) : isTwitterCurrent ? (
+              <Button
+                size="sm"
+                disabled={true}
+                className="bg-gray-300 text-gray-500 border-0 cursor-not-allowed"
+              >
+                現在のログイン方法
+              </Button>
             ) : (
               <Button
                 size="sm"

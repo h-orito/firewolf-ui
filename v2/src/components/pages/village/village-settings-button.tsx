@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { VillageSettingsModal } from '@/components/village/village-settings-modal'
+import { VillageSettingsModal } from '@/components/pages/village/village-settings-modal'
 import type { components } from '@/types/generated/api'
 
 type Village = components['schemas']['VillageView']

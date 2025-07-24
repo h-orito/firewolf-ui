@@ -1,11 +1,11 @@
 'use client'
 
 import { MessagePostForm } from '@/components/village/message-post-form'
-import { VoteForm } from '@/components/village/vote-form'
-import { AbilityForm } from '@/components/village/ability-form'
-import { CommitForm } from '@/components/village/commit-form'
-import { ParticipationForm } from '@/components/village/participation-form'
-import { LeaveForm } from '@/components/village/leave-form'
+import { VoteForm } from '@/components/pages/village/vote-form'
+import { AbilityForm } from '@/components/pages/village/ability-form'
+import { CommitForm } from '@/components/pages/village/commit-form'
+import { ParticipationForm } from '@/components/pages/village/participation-form'
+import { LeaveForm } from '@/components/pages/village/leave-form'
 import { useParticipateSituationQuery } from '@/hooks/useParticipateSituationQuery'
 import type { components } from '@/types/generated/api'
 

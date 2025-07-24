@@ -3,9 +3,9 @@
 import { useParams } from 'next/navigation'
 import { useVillageQuery } from '@/hooks/useVillageQuery'
 import { VillageInfo } from '@/components/village/village-info'
-import { ParticipantList } from '@/components/village/participant-list'
-import { MessageSection } from '@/components/village/message-section'
-import { ActionSection } from '@/components/village/action-section'
+import { ParticipantList } from '@/components/pages/village/participant-list'
+import { MessageSection } from '@/components/pages/village/message-section'
+import { ActionSection } from '@/components/pages/village/action-section'
 
 export default function VillagePage() {
   const params = useParams()

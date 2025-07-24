@@ -8,7 +8,7 @@ import { useVillageMessagesQuery } from '@/hooks/useVillageMessagesQuery'
 import { useVillageSaySituationQuery } from '@/hooks/useVillageSaySituationQuery'
 import { VillageMessage } from '@/components/ui/village-message'
 import { MessagePostForm } from '@/components/village/message-post-form'
-import { VillageSettingsButton } from '@/components/village/village-settings-button'
+import { VillageSettingsButton } from '@/components/pages/village/village-settings-button'
 import type { components } from '@/types/generated/api'
 
 type VillageView = components['schemas']['VillageView']

@@ -4,7 +4,7 @@ export const announcements: Announcement[] = [
   {
     id: 1,
     title: '村設定：連続護衛を追加',
-    content: '村設定で連続護衛を設定できるようになりました。',
+    content: '村設定で連続護衛不可を設定できるようになりました。',
     date: '2025/03/15',
     type: 'feature',
   },
