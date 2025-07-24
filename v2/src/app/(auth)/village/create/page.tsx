@@ -1,11 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Textarea } from '@/components/ui/textarea'
+import { Info } from 'lucide-react'
 import { apiClient } from '@/lib/api/client'
 import { handleApiError } from '@/lib/api/error-handler'
 import type { components } from '@/types/generated/api'
@@ -13,11 +14,25 @@ import type { components } from '@/types/generated/api'
 export default function VillageCreatePage() {
   const router = useRouter()
 
+  // 7日後のJST0時を計算
+  const getDefault7DaysLaterMidnight = () => {
+    const date = new Date()
+    date.setDate(date.getDate() + 7)
+    date.setHours(0, 0, 0, 0)
+
+    // JST（UTC+9）に調整
+    const jstOffset = 9 * 60 * 60 * 1000 // 9時間をミリ秒で
+    const utcTime = date.getTime() + date.getTimezoneOffset() * 60 * 1000
+    const jstTime = new Date(utcTime + jstOffset)
+
+    return jstTime.toISOString().slice(0, 16) // YYYY-MM-DDTHH:MM形式
+  }
+
   const [formData, setFormData] = useState({
     villageName: '',
     // 時間設定
-    start_datetime: '',
-    silentHours: 6,
+    start_datetime: getDefault7DaysLaterMidnight(),
+    silentHours: 0,
     // 役職構成
     organization: '8人村',
     // キャラチップ設定
@@ -149,6 +164,16 @@ export default function VillageCreatePage() {
                   required
                 />
                 <p className="text-xs text-gray-500">{formData.villageName.length}/40文字</p>
+              </div>
+            </div>
+
+            {/* 時間設定 */}
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold border-b pb-2">時間</h2>
+
+              <div className="bg-blue-50 border border-blue-200 rounded-md p-3 flex items-start space-x-2">
+                <Info className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
+                <p className="text-sm text-blue-800">1日の長さは24時間固定です</p>
               </div>
 
               <div className="space-y-2">

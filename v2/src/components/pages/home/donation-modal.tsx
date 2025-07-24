@@ -52,14 +52,16 @@ export function DonationModal({ open, onOpenChange }: DonationModalProps) {
               <p>
                 下記からAmazonに遷移してカートに追加＆購入すると、管理人に若干の紹介料が入ります。
               </p>
-              <iframe
-                src="https://rcm-fe.amazon-adsystem.com/e/cm?o=9&p=20&l=ez&f=ifr&linkID=c5438f7fc033eeee42260876403c6c51&t=wolfort0d-22&tracking_id=wolfort0d-22"
-                width="120"
-                height="90"
-                scrolling="no"
-                className="border-0"
-                style={{ border: 'none' }}
-              />
+              <a
+                href="https://amzn.to/48auG7Q"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block"
+              >
+                <Button size="sm" variant="default">
+                  Amazon
+                </Button>
+              </a>
             </div>
           </div>
 
