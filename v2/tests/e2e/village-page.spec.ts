@@ -10,7 +10,7 @@ test.describe('村ページ', () => {
         body: JSON.stringify({
           id: 1,
           name: 'テスト村',
-          status: 'PROGRESS',
+          status: 'IN_PROGRESS',
           participantsCount: 8,
           capacity: 12,
           daysCount: 3,

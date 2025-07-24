@@ -4,28 +4,29 @@ import { auth } from '@/lib/firebase'
 
 const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8087/firewolf'
 
-// カスタムクエリシリアライザーを定義して深くネストされたオブジェクトに対応
+// カスタムクエリシリアライザーを修正（シンプルなkey=value形式に）
 const customQuerySerializer = (queryObject: Record<string, any>): string => {
   const params = new URLSearchParams()
 
-  const addParams = (obj: any, prefix: string = '') => {
+  const addParams = (obj: any) => {
     for (const key in obj) {
       if (obj[key] === undefined || obj[key] === null) continue
 
-      const paramKey = prefix ? `${prefix}[${key}]` : key
-
       if (Array.isArray(obj[key])) {
-        obj[key].forEach((item: any, index: number) => {
+        obj[key].forEach((item: any) => {
           if (typeof item === 'object') {
-            addParams(item, `${paramKey}[${index}]`)
+            // ネストされたオブジェクトの場合は展開
+            addParams(item)
           } else {
-            params.append(`${paramKey}[]`, String(item))
+            // 配列の場合は同じキーで複数の値を追加
+            params.append(key, String(item))
           }
         })
       } else if (typeof obj[key] === 'object') {
-        addParams(obj[key], paramKey)
+        // オブジェクトの場合は中身を展開
+        addParams(obj[key])
       } else {
-        params.append(paramKey, String(obj[key]))
+        params.append(key, String(obj[key]))
       }
     }
   }

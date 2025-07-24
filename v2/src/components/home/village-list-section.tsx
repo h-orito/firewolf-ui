@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { H2 } from '@/components/ui/heading'
 import { useAuth } from '@/hooks/useAuth'
 import { VillageList } from '@/components/village/village-list'
+import { VILLAGE_STATUS_GROUPS } from '@/types/village-status'
 
 export default function VillageListSection() {
   const { isAuthenticated } = useAuth()
@@ -17,7 +18,7 @@ export default function VillageListSection() {
         <H2 center>開催中の村</H2>
 
         <div className="mb-8">
-          <VillageList initialStatuses={['PROLOGUE', 'PROGRESS', 'EPILOGUE']} showFilter={false} />
+          <VillageList initialStatuses={[...VILLAGE_STATUS_GROUPS.ACTIVE]} showFilter={false} />
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">

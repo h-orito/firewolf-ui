@@ -12,7 +12,7 @@ test.describe('村一覧ページ', () => {
             {
               id: 1,
               name: 'テスト村1',
-              status: 'PROGRESS',
+              status: 'IN_PROGRESS',
               participantsCount: 8,
               capacity: 12,
               daysCount: 3,
@@ -59,7 +59,7 @@ test.describe('村一覧ページ', () => {
       const villages = Array.from({ length: 25 }, (_, i) => ({
         id: i + 1,
         name: `テスト村${i + 1}`,
-        status: 'PROGRESS',
+        status: 'IN_PROGRESS',
         participantsCount: 8,
         capacity: 12,
         daysCount: 3,

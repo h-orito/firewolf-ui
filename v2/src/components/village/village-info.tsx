@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { formatDateTimeWithYear } from '@/utils/datetime'
 import type { components } from '@/types/generated/api'
+import { VILLAGE_STATUS } from '@/types/village-status'
 
 type VillageView = components['schemas']['VillageView']
 
@@ -130,15 +131,15 @@ export function VillageInfo({ village }: VillageInfoProps) {
 
 function getStatusColor(statusCode: string): string {
   switch (statusCode) {
-    case 'PROLOGUE':
+    case VILLAGE_STATUS.PROLOGUE:
       return 'bg-green-100 text-green-800'
-    case 'PROGRESS':
+    case VILLAGE_STATUS.IN_PROGRESS:
       return 'bg-blue-100 text-blue-800'
-    case 'EPILOGUE':
+    case VILLAGE_STATUS.EPILOGUE:
       return 'bg-yellow-100 text-yellow-800'
-    case 'FINISHED':
+    case VILLAGE_STATUS.COMPLETED:
       return 'bg-gray-100 text-gray-800'
-    case 'CANCELED':
+    case VILLAGE_STATUS.CANCEL:
       return 'bg-red-100 text-red-800'
     default:
       return 'bg-gray-100 text-gray-600'

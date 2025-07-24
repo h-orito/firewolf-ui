@@ -8,13 +8,14 @@ import { H2 } from '@/components/ui/heading'
 import { VillageCard } from '@/components/village/village-card'
 import { useAuth } from '@/hooks/useAuth'
 import { useVillageListQuery } from '@/hooks/useVillageListQuery'
+import { VILLAGE_STATUS_GROUPS } from '@/types/village-status'
 
 export default function ParticipatingVillagesSection() {
   const { user } = useAuth()
 
   // 開催中の村一覧を取得
   const { data: villagesResponse, isLoading } = useVillageListQuery({
-    village_status: ['PROLOGUE', 'PROGRESS', 'EPILOGUE'],
+    village_status: [...VILLAGE_STATUS_GROUPS.ACTIVE],
   })
 
   // ユーザーが参加している村をフィルタリング

@@ -1,4 +1,5 @@
 import { VillageList } from '@/components/village/village-list'
+import { VILLAGE_STATUS_GROUPS } from '@/types/village-status'
 
 export default function VillageListPage() {
   return (
@@ -13,10 +14,7 @@ export default function VillageListPage() {
           </p>
         </div>
 
-        <VillageList
-          initialStatuses={['PROLOGUE', 'PROGRESS', 'EPILOGUE', 'FINISHED']}
-          showFilter={true}
-        />
+        <VillageList initialStatuses={[...VILLAGE_STATUS_GROUPS.ALL]} showFilter={true} />
       </div>
     </div>
   )

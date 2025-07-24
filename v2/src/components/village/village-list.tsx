@@ -6,6 +6,7 @@ import { useClientSidePagination } from '@/hooks/useClientSidePagination'
 import { VillageCard } from './village-card'
 import { ClientSidePagination } from '@/components/ui/client-side-pagination'
 import type { components } from '@/types/generated/api'
+import { VILLAGE_STATUS, type VillageStatus as VillageStatusType } from '@/types/village-status'
 
 type VillageStatus = string[]
 
@@ -15,15 +16,15 @@ interface VillageListProps {
 }
 
 const statusOptions = [
-  { value: 'PROLOGUE', label: 'プロローグ' },
-  { value: 'PROGRESS', label: '進行中' },
-  { value: 'EPILOGUE', label: 'エピローグ' },
-  { value: 'FINISHED', label: '終了' },
-  { value: 'CANCELED', label: '廃村' },
+  { value: VILLAGE_STATUS.PROLOGUE, label: 'プロローグ' },
+  { value: VILLAGE_STATUS.IN_PROGRESS, label: '進行中' },
+  { value: VILLAGE_STATUS.EPILOGUE, label: 'エピローグ' },
+  { value: VILLAGE_STATUS.COMPLETED, label: '終了' },
+  { value: VILLAGE_STATUS.CANCEL, label: '廃村' },
 ]
 
 export function VillageList({
-  initialStatuses = ['PROLOGUE', 'PROGRESS'],
+  initialStatuses = [VILLAGE_STATUS.PROLOGUE, VILLAGE_STATUS.IN_PROGRESS],
   showFilter = true,
 }: VillageListProps) {
   const [selectedStatuses, setSelectedStatuses] = useState<VillageStatus>(initialStatuses)
