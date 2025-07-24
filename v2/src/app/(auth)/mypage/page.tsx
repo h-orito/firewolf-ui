@@ -1,21 +1,50 @@
-import { redirect } from 'next/navigation'
+'use client'
+
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { apiClient } from '@/lib/api/client'
+import { useAuth } from '@/hooks/useAuth'
 
-export default async function MyPage() {
-  try {
-    // 自分のプレイヤー情報を取得
-    const { data: myPlayer, error } = await apiClient.GET('/my-player')
+export default function MyPage() {
+  const router = useRouter()
+  const { isAuthenticated, isLoading } = useAuth()
 
-    if (error || !myPlayer) {
-      // プレイヤー情報が取得できない場合はトップページにリダイレクト
-      redirect('/')
+  useEffect(() => {
+    // 認証確認が完了してから処理
+    if (isLoading) return
+
+    if (!isAuthenticated) {
+      router.replace('/')
+      return
     }
 
-    // 自分のプレイヤー戦績ページにリダイレクト
-    redirect(`/player-record/${myPlayer.id}`)
-  } catch (error) {
-    console.error('Error fetching my player info:', error)
-    // エラーが発生した場合はトップページにリダイレクト
-    redirect('/')
-  }
+    // 自分のプレイヤー情報を取得してリダイレクト
+    const fetchMyPlayer = async () => {
+      try {
+        const { data: myPlayer, error } = await apiClient.GET('/my-player')
+
+        if (error || !myPlayer) {
+          router.replace('/')
+          return
+        }
+
+        router.replace(`/player-record/${myPlayer.id}`)
+      } catch (error) {
+        console.error('Error fetching my player info:', error)
+        router.replace('/')
+      }
+    }
+
+    fetchMyPlayer()
+  }, [isAuthenticated, isLoading, router])
+
+  // ローディング表示
+  return (
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+        <p className="text-gray-600">マイページに移動中...</p>
+      </div>
+    </div>
+  )
 }

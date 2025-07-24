@@ -1,5 +1,6 @@
 import createClient from 'openapi-fetch'
 import type { paths } from '@/types/generated/api'
+import { auth } from '@/lib/firebase'
 
 const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8087/firewolf'
 
@@ -33,7 +34,26 @@ const customQuerySerializer = (queryObject: Record<string, any>): string => {
   return params.toString()
 }
 
-export const apiClient = createClient<paths>({
+const client = createClient<paths>({
   baseUrl: apiBaseUrl,
   querySerializer: customQuerySerializer,
 })
+
+// 認証ヘッダーを自動的に追加するインターセプター
+client.use({
+  onRequest: async ({ request }) => {
+    // Firebase認証のIDトークンを取得
+    const user = auth.currentUser
+    if (user) {
+      try {
+        const token = await user.getIdToken()
+        request.headers.set('Authorization', `Bearer ${token}`)
+      } catch (error) {
+        console.error('Failed to get Firebase ID token:', error)
+      }
+    }
+    return request
+  },
+})
+
+export const apiClient = client
