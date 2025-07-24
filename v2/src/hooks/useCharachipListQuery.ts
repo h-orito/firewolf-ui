@@ -4,13 +4,6 @@ import { apiClient } from '@/lib/api/client'
 export function useCharachipListQuery() {
   return useQuery({
     queryKey: ['charachips'],
-    queryFn: () =>
-      apiClient.GET('/charachips', {
-        params: {
-          query: {
-            form: {},
-          },
-        },
-      }),
+    queryFn: () => apiClient.GET('/charachip/list'),
   })
 }
