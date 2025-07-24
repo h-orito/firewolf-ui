@@ -7,10 +7,14 @@ import { Footer } from '@/components/layout/footer'
 import { QueryProvider } from '@/components/providers/query-provider'
 import '@/lib/fontawesome'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+})
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   variable: '--font-mono',
+  display: 'swap',
 })
 
 export const metadata: Metadata = {
