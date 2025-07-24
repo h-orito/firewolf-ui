@@ -17,6 +17,11 @@
     "generate:api": "openapi-typescript http://localhost:8087/firewolf/v3/api-docs -o ./src/types/generated/api.ts"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^7.0.0",
+    "@fortawesome/free-brands-svg-icons": "^7.0.0",
+    "@fortawesome/free-regular-svg-icons": "^7.0.0",
+    "@fortawesome/free-solid-svg-icons": "^7.0.0",
+    "@fortawesome/react-fontawesome": "^0.2.3",
     "@tanstack/react-query": "^5.83.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
