@@ -268,7 +268,8 @@ export default async function VillagePage({
   - 画像の邪魔にならない位置とサイズで配置
   
 - **画像上の紹介文表示**:
-  - トップページ画像の右下に「FIREWOLFは長期人狼が無料で遊べるサービスです」を重ねて表示
+  - トップページ画像の右下に「FIREWOLFは\n長期人狼が無料で遊べるサービスです」を重ねて表示
+  - 「FIREWOLFは」で改行して2行に分けて表示
   - 適切なtext-shadowやbackground-colorで視認性を確保
   - レスポンシブ対応で各画面サイズに適したフォントサイズと配置
 

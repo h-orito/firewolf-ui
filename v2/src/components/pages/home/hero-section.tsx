@@ -51,13 +51,15 @@ export default function HeroSection() {
         {/* 紹介文 */}
         <div className="absolute bottom-[5%] right-[2%] md:bottom-[8%] md:right-[3%]">
           <p
-            className="text-sm md:text-lg lg:text-xl font-bold text-white"
+            className="text-sm md:text-lg lg:text-xl font-bold text-white text-right"
             style={{
               textShadow:
                 '2px 2px 5px rgba(133, 97, 69, 1), -2px 2px 5px rgba(133, 97, 69, 1), 2px -2px 5px rgba(133, 97, 69, 1), -2px -2px 5px rgba(133, 97, 69, 1)',
             }}
           >
-            FIREWOLFは長期人狼が無料で遊べるサービスです
+            FIREWOLFは
+            <br />
+            長期人狼が無料で遊べるサービスです
           </p>
         </div>
       </div>
