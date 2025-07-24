@@ -30,17 +30,15 @@ export function CharachipCard({ charachip }: CharachipCardProps) {
         </div>
 
         {/* 代表キャラクター画像 */}
-        {representativeImageUrl && (
+        {representativeImageUrl && representativeChara && (
           <div className="flex justify-center">
-            <div className="w-24 h-24 relative">
-              <Image
-                src={representativeImageUrl}
-                alt={`${representativeChara?.chara_name?.name || 'キャラクター'}`}
-                fill
-                className="object-cover rounded-lg"
-                sizes="96px"
-              />
-            </div>
+            <Image
+              src={representativeImageUrl}
+              alt={`${representativeChara.chara_name?.name || 'キャラクター'}`}
+              width={representativeChara.display.width}
+              height={representativeChara.display.height}
+              className="mx-auto"
+            />
           </div>
         )}
 

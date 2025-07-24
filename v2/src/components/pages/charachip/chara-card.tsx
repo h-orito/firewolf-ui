@@ -15,21 +15,25 @@ export function CharaCard({ chara }: CharaCardProps) {
         </div>
 
         {chara.face_list && chara.face_list.length > 0 && (
-          <div className="grid grid-cols-2 gap-2">
-            {chara.face_list.slice(0, 4).map((face, index) => (
+          <div className="flex flex-wrap gap-2 justify-center">
+            {chara.face_list.slice(0, 6).map((face, index) => (
               <div key={index} className="text-center">
                 {face.image_url ? (
-                  <div className="w-16 h-16 relative mx-auto">
-                    <Image
-                      src={face.image_url}
-                      alt={`${chara.chara_name.name} - ${face.type || '表情'}`}
-                      fill
-                      className="object-cover rounded"
-                      sizes="64px"
-                    />
-                  </div>
+                  <Image
+                    src={face.image_url}
+                    alt={`${chara.chara_name.name} - ${face.type || '表情'}`}
+                    width={chara.display.width}
+                    height={chara.display.height}
+                    className="mx-auto"
+                  />
                 ) : (
-                  <div className="w-16 h-16 bg-gray-200 rounded mx-auto flex items-center justify-center">
+                  <div
+                    className="bg-gray-200 mx-auto flex items-center justify-center"
+                    style={{
+                      width: `${chara.display.width}px`,
+                      height: `${chara.display.height}px`,
+                    }}
+                  >
                     <span className="text-xs text-gray-500">画像</span>
                   </div>
                 )}
