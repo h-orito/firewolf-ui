@@ -20,7 +20,7 @@ export default function UserInfoSection() {
         <div className="container mx-auto px-6">
           <Card className="p-8">
             <div className="text-center space-y-6">
-              <h2 className="text-2xl font-bold text-gray-900">ログインして人狼ゲームを楽しもう</h2>
+              <h2 className="text-xl font-bold text-gray-900">ログインして人狼ゲームを楽しもう</h2>
               <p className="text-gray-600">
                 Googleアカウントまたは X (Twitter) アカウントでログインできます
               </p>

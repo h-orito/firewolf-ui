@@ -437,6 +437,12 @@ export default async function VillagePage({
   - `components/ui/heading.tsx` で定義されたコンポーネントに置換
   - 統一されたスタイリングとタイポグラフィの実現
   
+- **H2タグサイズ調整の設計**:
+  - 現在のH2タグのサイズが大きすぎる問題を解決
+  - `text-2xl`から`text-xl`または`text-lg`へのサイズダウン
+  - 全体的なバランスと読みやすさを考慮したサイジング
+  - 統一されたheading.tsxコンポーネントでの管理
+
 - **実装方針**:
   - 既存の見出し要素を検索して一覧化
   - Heading コンポーネントの props 設計を確認

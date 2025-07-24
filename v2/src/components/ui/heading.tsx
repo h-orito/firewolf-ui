@@ -9,11 +9,11 @@ interface HeadingProps {
 
 const headingStyles = {
   1: 'text-4xl md:text-5xl font-bold',
-  2: 'text-3xl md:text-4xl font-bold',
-  3: 'text-2xl md:text-3xl font-bold',
-  4: 'text-xl md:text-2xl font-semibold',
-  5: 'text-lg md:text-xl font-semibold',
-  6: 'text-base md:text-lg font-semibold',
+  2: 'text-2xl md:text-3xl font-bold',
+  3: 'text-xl md:text-2xl font-bold',
+  4: 'text-lg md:text-xl font-semibold',
+  5: 'text-base md:text-lg font-semibold',
+  6: 'text-sm md:text-base font-semibold',
 }
 
 export function Heading({ level, children, className, center = false }: HeadingProps) {

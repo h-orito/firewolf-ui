@@ -50,7 +50,7 @@ export default function RulePage() {
           </ul>
         </Card>
 
-        <h2 className="text-2xl font-bold mb-6">仕様</h2>
+        <h2 className="text-xl font-bold mb-6">仕様</h2>
 
         <section className="mb-8">
           <h3 className="text-lg font-bold mb-4">村作成</h3>

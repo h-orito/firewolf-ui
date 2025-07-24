@@ -101,7 +101,7 @@ export default function CharachipDetailPage({ params }: CharachipDetailPageProps
 
         {/* キャラクター一覧 */}
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">キャラクター一覧</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-6">キャラクター一覧</h2>
 
           {charachip.chara_list && charachip.chara_list.length > 0 ? (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

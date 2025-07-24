@@ -17,7 +17,7 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
             <div className="max-w-2xl mx-auto text-center">
               <div className="mb-8">
                 <h1 className="text-6xl font-bold text-red-300 mb-4">エラー</h1>
-                <h2 className="text-2xl font-bold text-gray-700 mb-2">
+                <h2 className="text-xl font-bold text-gray-700 mb-2">
                   システムエラーが発生しました
                 </h2>
                 <p className="text-gray-600">
