@@ -4,7 +4,7 @@ import Image from 'next/image'
 
 export default function HeroSection() {
   return (
-    <section className="relative bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white">
+    <section className="relative text-white">
       <div className="relative w-full">
         <Image
           src="/firewolf/images/top.jpg"
@@ -61,7 +61,6 @@ export default function HeroSection() {
           </p>
         </div>
       </div>
-      <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent pointer-events-none" />
     </section>
   )
 }
