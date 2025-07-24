@@ -1,5 +1,6 @@
 import HeroSection from '@/components/home/hero-section'
 import UserInfoSection from '@/components/home/user-info-section'
+import ParticipatingVillagesSection from '@/components/home/participating-villages-section'
 import VillageListSection from '@/components/home/village-list-section'
 import AnnouncementSection from '@/components/home/announcement-section'
 
@@ -8,6 +9,7 @@ export default function Home() {
     <main>
       <HeroSection />
       <UserInfoSection />
+      <ParticipatingVillagesSection />
       <VillageListSection />
       <AnnouncementSection />
     </main>
