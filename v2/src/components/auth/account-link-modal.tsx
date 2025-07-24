@@ -26,11 +26,6 @@ export function AccountLinkModal({
   const isGoogleLinked = linkedProviders.includes('google.com')
   const isTwitterLinked = linkedProviders.includes('twitter.com')
 
-  // 現在ログインしているプロバイダーを判定
-  const currentProvider = linkedProviders.length > 0 ? linkedProviders[0] : null
-  const isGoogleCurrent = currentProvider === 'google.com'
-  const isTwitterCurrent = currentProvider === 'twitter.com'
-
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="アカウント連携">
       <div className="space-y-4">
@@ -59,14 +54,6 @@ export function AccountLinkModal({
                 <FontAwesomeIcon icon={faCheck} className="w-4 h-4" />
                 <span className="text-sm">連携済み</span>
               </div>
-            ) : isGoogleCurrent ? (
-              <Button
-                size="sm"
-                disabled={true}
-                className="bg-gray-300 text-gray-500 border-0 cursor-not-allowed"
-              >
-                現在のログイン方法
-              </Button>
             ) : (
               <Button
                 size="sm"
@@ -89,14 +76,6 @@ export function AccountLinkModal({
                 <FontAwesomeIcon icon={faCheck} className="w-4 h-4" />
                 <span className="text-sm">連携済み</span>
               </div>
-            ) : isTwitterCurrent ? (
-              <Button
-                size="sm"
-                disabled={true}
-                className="bg-gray-300 text-gray-500 border-0 cursor-not-allowed"
-              >
-                現在のログイン方法
-              </Button>
             ) : (
               <Button
                 size="sm"
