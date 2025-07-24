@@ -6,7 +6,7 @@ import { useClientSidePagination } from '@/hooks/useClientSidePagination'
 import { VillageCard } from './village-card'
 import { ClientSidePagination } from '@/components/ui/client-side-pagination'
 import type { components } from '@/types/generated/api'
-import { VILLAGE_STATUS, type VillageStatus as VillageStatusType } from '@/types/village-status'
+import { VILLAGE_STATUS, VILLAGE_STATUS_OPTIONS } from '@/types/village-status'
 
 type VillageStatus = string[]
 
@@ -14,14 +14,6 @@ interface VillageListProps {
   initialStatuses?: VillageStatus
   showFilter?: boolean
 }
-
-const statusOptions = [
-  { value: VILLAGE_STATUS.PROLOGUE, label: 'プロローグ' },
-  { value: VILLAGE_STATUS.IN_PROGRESS, label: '進行中' },
-  { value: VILLAGE_STATUS.EPILOGUE, label: 'エピローグ' },
-  { value: VILLAGE_STATUS.COMPLETED, label: '終了' },
-  { value: VILLAGE_STATUS.CANCEL, label: '廃村' },
-]
 
 export function VillageList({
   initialStatuses = [VILLAGE_STATUS.PROLOGUE, VILLAGE_STATUS.IN_PROGRESS],
@@ -43,7 +35,6 @@ export function VillageList({
     currentItems: currentVillages,
     currentPage,
     totalItems,
-    totalPages,
     setPage,
   } = useClientSidePagination({
     items: villages,
@@ -74,7 +65,7 @@ export function VillageList({
         <div className="mb-6">
           <h3 className="text-sm font-medium text-gray-700 mb-3">表示する村の状態</h3>
           <div className="flex flex-wrap gap-4">
-            {statusOptions.map(({ value, label }) => (
+            {VILLAGE_STATUS_OPTIONS.map(({ value, label }) => (
               <label key={value} className="flex items-center space-x-2">
                 <input
                   type="checkbox"
