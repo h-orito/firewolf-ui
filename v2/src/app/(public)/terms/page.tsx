@@ -1,108 +1,184 @@
+import { Metadata } from 'next'
 import { Card } from '@/components/ui/card'
+
+export const metadata: Metadata = {
+  title: '利用規約',
+  description: 'FIREWOLFの利用規約',
+}
 
 export default function TermsPage() {
   return (
-    <div className="container mx-auto px-6 py-8">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold text-gray-900 mb-8">利用規約</h1>
+    <div className="max-w-4xl mx-auto px-4 py-8">
+      <Card className="p-6 md:p-8">
+        <h1 className="text-2xl font-bold mb-8">利用規約</h1>
 
-        <Card className="p-8">
-          <div className="prose prose-gray max-w-none">
-            <div className="mb-6">
-              <p className="text-gray-600">最終更新日: 2025年1月22日</p>
-            </div>
+        <div className="prose max-w-none">
+          <h2 className="text-xl font-semibold mt-6 mb-4">利用規約</h2>
+          <p className="mb-4">
+            この利用規約（以下，「本規約」といいます。）は，FIREWOLF管理人（以下，「管理人」といいます。）がこのウェブサイト上で提供するサービス（以下，「本サービス」といいます。）の利用条件を定めるものです。登録ユーザの皆さま（以下，「ユーザ」といいます。）には，本規約に従って，本サービスをご利用いただきます。
+          </p>
 
-            <div className="space-y-6">
-              <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">第1条（適用）</h2>
-                <p className="text-gray-700 leading-relaxed">
-                  本利用規約（以下「本規約」といいます。）は、FIREWOLF（以下「本サービス」といいます。）の利用条件を定めるものです。
-                  利用者の皆さま（以下「ユーザー」といいます。）には、本規約に従って、本サービスをご利用いただきます。
-                </p>
-              </section>
+          <h2 className="text-xl font-semibold mt-6 mb-4">第1条（適用）</h2>
+          <ol className="list-decimal list-inside space-y-2 mb-4">
+            <li>
+              本規約は，ユーザと管理人との間の本サービスの利用に関わる一切の関係に適用されるものとします。
+            </li>
+            <li>
+              管理人は本サービスに関し，本規約のほか，ご利用にあたってのルール等，各種の定め（以下，「個別規定」といいます。）をすることがあります。
+              これら個別規定はその名称のいかんに関わらず，本規約の一部を構成するものとします。
+            </li>
+            <li>
+              本規約の規定が前条の個別規定の規定と矛盾する場合には，個別規定において特段の定めなき限り，個別規定の規定が優先されるものとします。
+            </li>
+          </ol>
 
-              <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">第2条（利用登録）</h2>
-                <p className="text-gray-700 leading-relaxed">
-                  本サービスにおいては、登録希望者が本規約に同意の上、所定の方法によって利用登録を申請し、
-                  これを当方が承認することによって、利用登録が完了するものとします。
-                </p>
-              </section>
+          <h2 className="text-xl font-semibold mt-6 mb-4">第2条（利用登録）</h2>
+          <ol className="list-decimal list-inside space-y-2 mb-4">
+            <li>
+              本サービスにおいては，登録希望者が本規約に同意の上，管理人の定める方法によって利用登録を申請し，管理人がこれを承認することによって，利用登録が完了するものとします。
+            </li>
+            <li>
+              管理人は，利用登録の申請者に以下の事由があると判断した場合，利用登録の申請を承認しないことがあり，その理由については一切の開示義務を負わないものとします。
+              <ol className="list-decimal list-inside ml-6 mt-2 space-y-1">
+                <li>利用登録の申請に際して虚偽の事項を届け出た場合</li>
+                <li>本規約に違反したことがある者からの申請である場合</li>
+                <li>その他，管理人が利用登録を相当でないと判断した場合</li>
+              </ol>
+            </li>
+          </ol>
 
-              <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">第3条（禁止事項）</h2>
-                <p className="text-gray-700 leading-relaxed mb-3">
-                  ユーザーは、本サービスの利用にあたり、以下の行為をしてはなりません。
-                </p>
-                <ul className="list-disc list-inside space-y-2 text-gray-700">
-                  <li>法令または公序良俗に違反する行為</li>
-                  <li>犯罪行為に関連する行為</li>
-                  <li>
-                    他のユーザー、第三者または当方の知的財産権、肖像権、プライバシー、名誉その他の権利または利益を侵害する行為
-                  </li>
-                  <li>本サービスによって得られた情報を商業的に利用する行為</li>
-                  <li>本サービスの運営を妨害するおそれのある行為</li>
-                  <li>不正アクセスをし、またはこれを試みる行為</li>
-                  <li>その他、当方が不適切と判断する行為</li>
-                </ul>
-              </section>
+          <h2 className="text-xl font-semibold mt-6 mb-4">
+            第3条（ユーザIDおよびパスワードの管理）
+          </h2>
+          <ol className="list-decimal list-inside space-y-2 mb-4">
+            <li>
+              ユーザは，本サービスで利用するユーザIDおよびパスワードを，自己の責任において適切に管理するものとします。
+            </li>
+            <li>
+              ユーザは，いかなる場合にも，ユーザIDおよびパスワードを第三者に譲渡または貸与し，もしくは第三者と共用することはできません。管理人は，ユーザIDとパスワードの組み合わせが登録情報と一致してログインされた場合には，そのユーザIDを登録しているユーザ自身による利用とみなします。
+            </li>
+            <li>
+              ユーザID及びパスワードが第三者によって使用されたことによって生じた損害は，管理人に故意又は重大な過失がある場合を除き，管理人は一切の責任を負わないものとします。
+            </li>
+          </ol>
 
-              <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                  第4条（本サービスの提供の停止等）
-                </h2>
-                <p className="text-gray-700 leading-relaxed">
-                  当方は、以下のいずれかの事由があると判断した場合、ユーザーに事前に通知することなく本サービスの全部または一部の提供を停止または中断することができるものとします。
-                </p>
-              </section>
+          <h2 className="text-xl font-semibold mt-6 mb-4">第4条（禁止事項）</h2>
+          <p className="mb-2">ユーザは，本サービスの利用にあたり，以下の行為をしてはなりません。</p>
+          <ol className="list-decimal list-inside space-y-2 mb-4">
+            <li>法令または公序良俗に違反する行為</li>
+            <li>犯罪行為に関連する行為</li>
+            <li>
+              本サービスの内容等，本サービスに含まれる著作権，商標権ほか知的財産権を侵害する行為
+            </li>
+            <li>
+              管理人，ほかのユーザ，またはその他第三者のサーバーまたはネットワークの機能を破壊したり，妨害したりする行為
+            </li>
+            <li>本サービスによって得られた情報を商業的に利用する行為</li>
+            <li>管理人のサービスの運営を妨害するおそれのある行為</li>
+            <li>不正アクセスをし，またはこれを試みる行為</li>
+            <li>他のユーザに関する個人情報等を収集または蓄積する行為</li>
+            <li>不正な目的を持って本サービスを利用する行為</li>
+            <li>本サービスの他のユーザまたはその他の第三者に不利益，損害，不快感を与える行為</li>
+            <li>他のユーザに成りすます行為</li>
+            <li>管理人が許諾しない本サービス上での宣伝，広告，勧誘，または営業行為</li>
+            <li>面識のない異性との出会いを目的とした行為</li>
+            <li>
+              管理人のサービスに関連して，反社会的勢力に対して直接または間接に利益を供与する行為
+            </li>
+            <li>その他，管理人が不適切と判断する行為</li>
+          </ol>
 
-              <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                  第5条（利用制限および登録抹消）
-                </h2>
-                <p className="text-gray-700 leading-relaxed">
-                  当方は、ユーザーが以下のいずれかに該当する場合には、事前の通知なく、ユーザーに対して、本サービスの全部もしくは一部の利用を制限し、
-                  またはユーザーとしての登録を抹消することができるものとします。
-                </p>
-              </section>
+          <h2 className="text-xl font-semibold mt-6 mb-4">第5条（本サービスの提供の停止等）</h2>
+          <ol className="list-decimal list-inside space-y-2 mb-4">
+            <li>
+              管理人は，以下のいずれかの事由があると判断した場合，ユーザに事前に通知することなく本サービスの全部または一部の提供を停止または中断することができるものとします。
+              <ol className="list-decimal list-inside ml-6 mt-2 space-y-1">
+                <li>本サービスにかかるコンピュータシステムの保守点検または更新を行う場合</li>
+                <li>
+                  地震，落雷，火災，停電または天災などの不可抗力により，本サービスの提供が困難となった場合
+                </li>
+                <li>コンピュータまたは通信回線等が事故により停止した場合</li>
+                <li>その他，管理人が本サービスの提供が困難と判断した場合</li>
+              </ol>
+            </li>
+            <li>
+              管理人は，本サービスの提供の停止または中断により，ユーザまたは第三者が被ったいかなる不利益または損害についても，一切の責任を負わないものとします。
+            </li>
+          </ol>
 
-              <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">第6条（免責事項）</h2>
-                <p className="text-gray-700 leading-relaxed">
-                  当方は、本サービスに事実上または法律上の瑕疵（安全性、信頼性、正確性、完全性、有効性、特定の目的への適合性、
-                  セキュリティなどに関する欠陥、エラーやバグ、権利侵害などを含みます。）がないことを明示的にも黙示的にも保証しておりません。
-                </p>
-              </section>
+          <h2 className="text-xl font-semibold mt-6 mb-4">第6条（利用制限および登録抹消）</h2>
+          <ol className="list-decimal list-inside space-y-2 mb-4">
+            <li>
+              管理人は，ユーザが以下のいずれかに該当する場合には，事前の通知なく，ユーザに対して，本サービスの全部もしくは一部の利用を制限し，またはユーザとしての登録を抹消することができるものとします。
+              <ol className="list-decimal list-inside ml-6 mt-2 space-y-1">
+                <li>本規約のいずれかの条項に違反した場合</li>
+                <li>登録事項に虚偽の事実があることが判明した場合</li>
+                <li>管理人からの連絡に対し，一定期間返答がない場合</li>
+                <li>その他，管理人が本サービスの利用を適当でないと判断した場合</li>
+              </ol>
+            </li>
+            <li>
+              管理人は，本条に基づき管理人が行った行為によりユーザに生じた損害について，一切の責任を負いません。
+            </li>
+          </ol>
 
-              <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                  第7条（サービス内容の変更等）
-                </h2>
-                <p className="text-gray-700 leading-relaxed">
-                  当方は、ユーザーに通知することなく、本サービスの内容を変更しまたは本サービスの提供を中止することができるものとし、
-                  これによってユーザーに生じた損害について一切の責任を負いません。
-                </p>
-              </section>
+          <h2 className="text-xl font-semibold mt-6 mb-4">第7条（退会）</h2>
+          <p className="mb-4">
+            ユーザは，管理人の定める退会手続により，本サービスから退会できるものとします。
+          </p>
 
-              <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">第8条（利用規約の変更）</h2>
-                <p className="text-gray-700 leading-relaxed">
-                  当方は、必要と判断した場合には、ユーザーに通知することなくいつでも本規約を変更することができるものとします。
-                  なお、本規約の変更後、本サービスの利用を開始した場合には、当該ユーザーは変更後の規約に同意したものとみなします。
-                </p>
-              </section>
+          <h2 className="text-xl font-semibold mt-6 mb-4">第8条（保証の否認および免責事項）</h2>
+          <ol className="list-decimal list-inside space-y-2 mb-4">
+            <li>
+              管理人は，本サービスに事実上または法律上の瑕疵（安全性，信頼性，正確性，完全性，有効性，特定の目的への適合性，セキュリティなどに関する欠陥，エラーやバグ，権利侵害などを含みます。）がないことを明示的にも黙示的にも保証しておりません。
+            </li>
+            <li>
+              管理人は，本サービスに起因してユーザに生じたあらゆる損害について一切の責任を負いません。ただし，本サービスに関する管理人とユーザとの間の契約（本規約を含みます。）が消費者契約法に定める消費者契約となる場合，この免責規定は適用されません。
+            </li>
+            <li>
+              前項ただし書に定める場合であっても，管理人は，管理人の過失（重過失を除きます。）による債務不履行または不法行為によりユーザに生じた損害のうち特別な事情から生じた損害（管理人またはユーザが損害発生につき予見し，または予見し得た場合を含みます。）について一切の責任を負いません。また，管理人の過失（重過失を除きます。）による債務不履行または不法行為によりユーザに生じた損害の賠償は，ユーザから当該損害が発生した月に受領した利用料の額を上限とします。
+            </li>
+            <li>
+              管理人は，本サービスに関して，ユーザと他のユーザまたは第三者との間において生じた取引，連絡または紛争等について一切責任を負いません。
+            </li>
+          </ol>
 
-              <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">第9条（準拠法・裁判管轄）</h2>
-                <p className="text-gray-700 leading-relaxed">
-                  本規約の解釈にあたっては、日本法を準拠法とします。
-                  本サービスに関して紛争が生じた場合には、当方の本店所在地を管轄する裁判所を専属的合意管轄とします。
-                </p>
-              </section>
-            </div>
-          </div>
-        </Card>
-      </div>
+          <h2 className="text-xl font-semibold mt-6 mb-4">第9条（サービス内容の変更等）</h2>
+          <p className="mb-4">
+            管理人は，ユーザに通知することなく，本サービスの内容を変更しまたは本サービスの提供を中止することができるものとし，これによってユーザに生じた損害について一切の責任を負いません。
+          </p>
+
+          <h2 className="text-xl font-semibold mt-6 mb-4">第10条（利用規約の変更）</h2>
+          <p className="mb-4">
+            管理人は，必要と判断した場合には，ユーザに通知することなくいつでも本規約を変更することができるものとします。なお，本規約の変更後，本サービスの利用を開始した場合には，当該ユーザは変更後の規約に同意したものとみなします。
+          </p>
+
+          <h2 className="text-xl font-semibold mt-6 mb-4">第11条（個人情報の取扱い）</h2>
+          <p className="mb-4">
+            管理人は，本サービスの利用によって取得する個人情報については，管理人「プライバシーポリシー」に従い適切に取り扱うものとします。
+          </p>
+
+          <h2 className="text-xl font-semibold mt-6 mb-4">第12条（通知または連絡）</h2>
+          <p className="mb-4">
+            ユーザと管理人との間の通知または連絡は，本サービス内で，または本サービスにログインする際に登録したTwitterアカウントに対して行うものとします。管理人は,現在登録されている連絡先が有効なものとみなして当該連絡先へ通知または連絡を行い,これらは,発信時にユーザへ到達したものとみなします。
+          </p>
+
+          <h2 className="text-xl font-semibold mt-6 mb-4">第13条（権利義務の譲渡の禁止）</h2>
+          <p className="mb-4">
+            ユーザは，管理人の書面による事前の承諾なく，利用契約上の地位または本規約に基づく権利もしくは義務を第三者に譲渡し，または担保に供することはできません。
+          </p>
+
+          <h2 className="text-xl font-semibold mt-6 mb-4">第14条（準拠法・裁判管轄）</h2>
+          <ol className="list-decimal list-inside space-y-2 mb-4">
+            <li>本規約の解釈にあたっては，日本法を準拠法とします。</li>
+            <li>
+              本サービスに関して紛争が生じた場合には，管理人の本店所在地を管轄する裁判所を専属的合意管轄とします。
+            </li>
+          </ol>
+
+          <p className="text-right mt-8">以上</p>
+        </div>
+      </Card>
     </div>
   )
 }
