@@ -2,6 +2,7 @@
 
 import { useParams } from 'next/navigation'
 import { Card } from '@/components/ui/card'
+import { H1 } from '@/components/ui/heading'
 import { usePlayerRecordQuery } from '@/hooks/usePlayerRecordQuery'
 import { PlayerInfoSection } from '@/components/pages/player-record/player-info-section'
 import { RecordChartSection } from '@/components/pages/player-record/record-chart-section'
@@ -31,7 +32,7 @@ export default function PlayerRecordPage() {
 
   return (
     <div className="container mx-auto px-4 py-6 space-y-6">
-      <h1 className="text-2xl font-bold mb-6">プレイヤー戦績</h1>
+      <H1>プレイヤー戦績</H1>
 
       <PlayerInfoSection player={playerRecord.player} wholeRecord={playerRecord.whole_record} />
 

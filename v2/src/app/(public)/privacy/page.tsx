@@ -1,5 +1,6 @@
 import { Metadata } from 'next'
 import { Card } from '@/components/ui/card'
+import { H1, H2 } from '@/components/ui/heading'
 
 export const metadata: Metadata = {
   title: 'プライバシーポリシー',
@@ -10,15 +11,15 @@ export default function PrivacyPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <Card className="p-6 md:p-8">
-        <h1 className="text-2xl font-bold mb-8">プライバシーポリシー</h1>
+        <H1>プライバシーポリシー</H1>
 
         <div className="prose max-w-none">
-          <h2 className="text-xl font-semibold mt-6 mb-4">プライバシーポリシー</h2>
+          <H2 className="mt-6">プライバシーポリシー</H2>
           <p className="mb-4">
             FIREWOLF管理人（以下，「管理人」といいます。）は，本ウェブサイト上で提供するサービス（以下,「本サービス」といいます。）における，ユーザのプライバシー情報の取扱いについて，以下のとおりプライバシーポリシー（以下，「本ポリシー」といいます。）を定めます。
           </p>
 
-          <h2 className="text-xl font-semibold mt-6 mb-4">第1条（プライバシー情報）</h2>
+          <H2 className="mt-6">第1条（プライバシー情報）</H2>
           <ol className="list-decimal list-inside space-y-2 mb-4">
             <li>本サービスでは，個人情報保護法にいう「個人情報」を収集しません。</li>
             <li>
@@ -26,7 +27,7 @@ export default function PrivacyPage() {
             </li>
           </ol>
 
-          <h2 className="text-xl font-semibold mt-6 mb-4">第2条（プライバシー情報の収集方法）</h2>
+          <H2 className="mt-6">第2条（プライバシー情報の収集方法）</H2>
           <ol className="list-decimal list-inside space-y-2 mb-4">
             <li>
               本サービスは，ユーザが利用登録をする際にTwitterアカウント名やユーザ名，他オンライン人狼サイトにおけるIDなどをお尋ねすることがあります。
@@ -36,9 +37,7 @@ export default function PrivacyPage() {
             </li>
           </ol>
 
-          <h2 className="text-xl font-semibold mt-6 mb-4">
-            第3条（プライバシー情報を収集・利用する目的）
-          </h2>
+          <H2 className="mt-6">第3条（プライバシー情報を収集・利用する目的）</H2>
           <p className="mb-2">本サービスが個人情報を収集・利用する目的は，以下のとおりです。</p>
           <ol className="list-decimal list-inside space-y-2 mb-4">
             <li>サービスの提供・運営のため</li>
@@ -53,12 +52,12 @@ export default function PrivacyPage() {
             <li>上記の利用目的に付随する目的</li>
           </ol>
 
-          <h2 className="text-xl font-semibold mt-6 mb-4">第4条（利用目的の変更）</h2>
+          <H2 className="mt-6">第4条（利用目的の変更）</H2>
           <p className="mb-4">
             管理人は，利用目的が変更前と関連性を有すると合理的に認められる場合に限り，プライバシー情報の利用目的を変更するものとします。また，この変更の際，ユーザに通知することなく変更するものとし，これによってユーザに生じた損害について一切の責任を負いません。
           </p>
 
-          <h2 className="text-xl font-semibold mt-6 mb-4">第5条（個人情報の第三者提供）</h2>
+          <H2 className="mt-6">第5条（個人情報の第三者提供）</H2>
           <p className="mb-2">
             管理人は、広告表示やアクセス解析のため、Google AdsenseおよびGoogle
             Analyticsにプライバシー情報を送信しています。
@@ -86,14 +85,12 @@ export default function PrivacyPage() {
             </li>
           </ol>
 
-          <h2 className="text-xl font-semibold mt-6 mb-4">第6条（プライバシー情報の開示）</h2>
+          <H2 className="mt-6">第6条（プライバシー情報の開示）</H2>
           <p className="mb-4">
             Twitterアカウント名やユーザ名，他オンライン人狼サイトにおけるID以外の情報については，原則として開示いたしません。
           </p>
 
-          <h2 className="text-xl font-semibold mt-6 mb-4">
-            第7条（プライバシー情報の訂正および削除）
-          </h2>
+          <H2 className="mt-6">第7条（プライバシー情報の訂正および削除）</H2>
           <ol className="list-decimal list-inside space-y-2 mb-4">
             <li>
               ユーザは，管理人の保有する自己の個人情報が誤った情報である場合には，管理人が定める手続きにより，管理人に対して個人情報の訂正，追加または削除（以下，「訂正等」といいます。）を請求することができます。
@@ -106,7 +103,7 @@ export default function PrivacyPage() {
             </li>
           </ol>
 
-          <h2 className="text-xl font-semibold mt-6 mb-4">第8条（プライバシー情報の利用停止等）</h2>
+          <H2 className="mt-6">第8条（プライバシー情報の利用停止等）</H2>
           <ol className="list-decimal list-inside space-y-2 mb-4">
             <li>
               管理人は，本人から，個人情報が，利用目的の範囲を超えて取り扱われているという理由，または不正の手段により取得されたものであるという理由により，その利用の停止または消去（以下，「利用停止等」といいます。）を求められた場合には，遅滞なく必要な調査を行います。
@@ -122,7 +119,7 @@ export default function PrivacyPage() {
             </li>
           </ol>
 
-          <h2 className="text-xl font-semibold mt-6 mb-4">第9条（プライバシーポリシーの変更）</h2>
+          <H2 className="mt-6">第9条（プライバシーポリシーの変更）</H2>
           <ol className="list-decimal list-inside space-y-2 mb-4">
             <li>
               本ポリシーの内容は，法令その他本ポリシーに別段の定めのある事項を除いて，ユーザに通知することなく，変更することができるものとします。
@@ -132,7 +129,7 @@ export default function PrivacyPage() {
             </li>
           </ol>
 
-          <h2 className="text-xl font-semibold mt-6 mb-4">第10条（お問い合わせ窓口）</h2>
+          <H2 className="mt-6">第10条（お問い合わせ窓口）</H2>
           <p className="mb-4">
             本ポリシーに関するお問い合わせは，Twitter @ort_devまでお願いいたします。
           </p>

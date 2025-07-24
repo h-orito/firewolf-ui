@@ -35,29 +35,21 @@ export default function ParticipatingVillagesSection() {
     return null
   }
 
+  // ローディング中でない場合で、参加している村がない場合は表示しない
+  if (!isLoading && participatingVillages.length === 0) {
+    return null
+  }
+
   return (
     <section className="py-16 bg-white">
       <div className="container mx-auto px-6">
         <div className="text-center mb-12">
           <H2 center>参加している村</H2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            あなたが現在参加している村の一覧です
-          </p>
         </div>
 
         {isLoading ? (
           <div className="text-center py-8">
             <div className="animate-pulse text-gray-600">村を読み込み中...</div>
-          </div>
-        ) : participatingVillages.length === 0 ? (
-          <div className="text-center py-8">
-            <p className="text-gray-600 mb-6">現在参加している村はありません</p>
-            <Button asChild variant="primary">
-              <a href="/village-list">
-                <FontAwesomeIcon icon={faSearch} className="mr-2" />
-                村を探す
-              </a>
-            </Button>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
