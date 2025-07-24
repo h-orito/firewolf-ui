@@ -109,6 +109,11 @@ export const useAuth = () => {
     return user.providerData.map((provider) => provider.providerId)
   }
 
+  const isProviderLinked = (providerId: string) => {
+    if (!user) return false
+    return user.providerData.some((provider) => provider.providerId === providerId)
+  }
+
   const getUserDisplayName = () => {
     return user?.displayName || user?.email || 'ユーザー'
   }
@@ -125,6 +130,7 @@ export const useAuth = () => {
     linkWithGoogle,
     linkWithTwitter,
     getLinkedProviders,
+    isProviderLinked,
     getUserDisplayName,
   }
 }

@@ -23,6 +23,7 @@ export function Header() {
     linkWithGoogle,
     linkWithTwitter,
     getLinkedProviders,
+    isProviderLinked,
     getUserDisplayName,
     isLoading,
   } = useAuth()
@@ -297,7 +298,7 @@ export function Header() {
         onClose={() => setIsAccountLinkModalOpen(false)}
         onLinkGoogle={() => handleAccountLink('google')}
         onLinkTwitter={() => handleAccountLink('twitter')}
-        linkedProviders={getLinkedProviders()}
+        isProviderLinked={isProviderLinked}
         isLoading={isLoading}
       />
     </>

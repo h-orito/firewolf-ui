@@ -11,7 +11,7 @@ interface AccountLinkModalProps {
   onClose: () => void
   onLinkGoogle: () => void
   onLinkTwitter: () => void
-  linkedProviders: string[]
+  isProviderLinked: (providerId: string) => boolean
   isLoading?: boolean
 }
 
@@ -20,11 +20,11 @@ export function AccountLinkModal({
   onClose,
   onLinkGoogle,
   onLinkTwitter,
-  linkedProviders,
+  isProviderLinked,
   isLoading = false,
 }: AccountLinkModalProps) {
-  const isGoogleLinked = linkedProviders.includes('google.com')
-  const isTwitterLinked = linkedProviders.includes('twitter.com')
+  const isGoogleLinked = isProviderLinked('google.com')
+  const isTwitterLinked = isProviderLinked('twitter.com')
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="アカウント連携">
