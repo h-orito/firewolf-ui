@@ -80,10 +80,10 @@ export function Header() {
                     設定
                   </Link>
                   <Button
-                    variant="outline"
+                    variant="ghost"
                     size="sm"
                     onClick={signOut}
-                    className="text-white border-gray-600 hover:bg-gray-800"
+                    className="text-white border border-gray-600 hover:bg-gray-800 hover:text-white"
                   >
                     ログアウト
                   </Button>
@@ -154,13 +154,13 @@ export function Header() {
                     設定
                   </Link>
                   <Button
-                    variant="outline"
+                    variant="ghost"
                     size="sm"
                     onClick={() => {
                       signOut()
                       closeMenu()
                     }}
-                    className="mx-3 my-2 text-white border-gray-600 hover:bg-gray-800"
+                    className="mx-3 my-2 text-white border border-gray-600 hover:bg-gray-800 hover:text-white"
                   >
                     ログアウト
                   </Button>
