@@ -93,7 +93,12 @@ export function Header() {
 
             {/* モバイル用ログイン状態表示 */}
             <div className="md:hidden">
-              {user ? (
+              {isLoading ? (
+                <div className="flex items-center space-x-1">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                  <span className="text-white text-xs">確認中...</span>
+                </div>
+              ) : user ? (
                 <UserMenu
                   username={
                     getUserDisplayName().length > 10
@@ -125,7 +130,12 @@ export function Header() {
               <Link href="/rule" className="text-white hover:text-gray-300 transition-colors">
                 ルール
               </Link>
-              {user ? (
+              {isLoading ? (
+                <div className="flex items-center space-x-2">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                  <span className="text-white text-sm">認証確認中...</span>
+                </div>
+              ) : user ? (
                 <>
                   <Link
                     href="/village/create"
