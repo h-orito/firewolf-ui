@@ -3,9 +3,9 @@
 import { useParams } from 'next/navigation'
 import { Card } from '@/components/ui/card'
 import { usePlayerRecordQuery } from '@/hooks/usePlayerRecordQuery'
-import { PlayerInfoSection } from '@/components/player-record/player-info-section'
-import { RecordChartSection } from '@/components/player-record/record-chart-section'
-import { ParticipateVillageSection } from '@/components/player-record/participate-village-section'
+import { PlayerInfoSection } from '@/components/pages/player-record/player-info-section'
+import { RecordChartSection } from '@/components/pages/player-record/record-chart-section'
+import { ParticipateVillageSection } from '@/components/pages/player-record/participate-village-section'
 
 export default function PlayerRecordPage() {
   const params = useParams()

@@ -1,4 +1,4 @@
-import { CharachipList } from '@/components/charachip/charachip-list'
+import { CharachipList } from '@/components/pages/charachip/charachip-list'
 
 export default function CharachipListPage() {
   return (

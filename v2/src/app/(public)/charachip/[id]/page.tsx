@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useCharachipQuery } from '@/hooks/useCharachipQuery'
-import { CharaCard } from '@/components/charachip/chara-card'
+import { CharaCard } from '@/components/pages/charachip/chara-card'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 
