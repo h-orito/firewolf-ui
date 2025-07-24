@@ -1,15 +1,39 @@
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTwitter, faGithub } from '@fortawesome/free-brands-svg-icons'
+import { faDonate } from '@fortawesome/free-solid-svg-icons'
 
 export function Footer() {
   return (
     <footer className="bg-gray-900 text-white border-t border-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* サイト情報 */}
+          {/* FIREWOLF */}
           <div className="col-span-1 md:col-span-2">
             <h3 className="text-lg font-bold mb-4">FIREWOLF</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link
+                  href="/about"
+                  className="text-gray-400 hover:text-white transition-colors text-sm"
+                >
+                  このサイトについて
+                </Link>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  className="text-gray-400 hover:text-white transition-colors text-sm text-left"
+                  onClick={() => {
+                    // TODO: 投げ銭モーダルを開く
+                    alert('投げ銭機能は準備中です')
+                  }}
+                >
+                  <FontAwesomeIcon icon={faDonate} className="mr-1" />
+                  投げ銭
+                </button>
+              </li>
+            </ul>
           </div>
 
           {/* リンク集 */}
@@ -43,18 +67,10 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* その他のリンク */}
+          {/* Contact */}
           <div>
-            <h4 className="text-sm font-semibold mb-4 text-gray-300">サイト情報</h4>
+            <h4 className="text-sm font-semibold mb-4 text-gray-300">Contact</h4>
             <ul className="space-y-2">
-              <li>
-                <Link
-                  href="/about"
-                  className="text-gray-400 hover:text-white transition-colors text-sm"
-                >
-                  このサイトについて
-                </Link>
-              </li>
               <li>
                 <a
                   href="https://x.com/ort_dev"
