@@ -3,6 +3,8 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faGoogle, faTwitter } from '@fortawesome/free-brands-svg-icons'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/hooks/useAuth'
 
@@ -35,7 +37,7 @@ export function Header() {
                 onClick={toggleMenu}
                 className="text-white hover:bg-gray-800"
               >
-                <FontAwesomeIcon icon={isMenuOpen ? 'times' : 'bars'} className="w-6 h-6" />
+                <FontAwesomeIcon icon={isMenuOpen ? faTimes : faBars} className="w-6 h-6" />
               </Button>
             </div>
 
@@ -93,7 +95,7 @@ export function Header() {
                     onClick={signInWithGoogle}
                     className="bg-blue-600 hover:bg-blue-700 text-white border-0"
                   >
-                    <FontAwesomeIcon icon={['fab', 'google']} className="mr-2" />
+                    <FontAwesomeIcon icon={faGoogle} className="mr-2" />
                     Googleログイン
                   </Button>
                   <Button
@@ -101,7 +103,7 @@ export function Header() {
                     onClick={signInWithTwitter}
                     className="bg-sky-500 hover:bg-sky-600 text-white border-0"
                   >
-                    <FontAwesomeIcon icon={['fab', 'twitter']} className="mr-2" />
+                    <FontAwesomeIcon icon={faTwitter} className="mr-2" />
                     Twitterログイン
                   </Button>
                 </div>
@@ -173,7 +175,7 @@ export function Header() {
                     }}
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white border-0"
                   >
-                    <FontAwesomeIcon icon={['fab', 'google']} className="mr-2" />
+                    <FontAwesomeIcon icon={faGoogle} className="mr-2" />
                     Googleログイン
                   </Button>
                   <Button
@@ -184,7 +186,7 @@ export function Header() {
                     }}
                     className="w-full bg-sky-500 hover:bg-sky-600 text-white border-0"
                   >
-                    <FontAwesomeIcon icon={['fab', 'twitter']} className="mr-2" />
+                    <FontAwesomeIcon icon={faTwitter} className="mr-2" />
                     Twitterログイン
                   </Button>
                 </div>
