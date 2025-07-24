@@ -1,5 +1,7 @@
 'use client'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faGoogle, faTwitter } from '@fortawesome/free-brands-svg-icons'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { useAuth } from '@/hooks/useAuth'
@@ -33,10 +35,11 @@ export default function UserInfoSection() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button onClick={() => login('google')} variant="primary">
+                  <FontAwesomeIcon icon={faGoogle} className="mr-2" />
                   Googleでログイン
                 </Button>
                 <Button onClick={() => login('twitter')} className="bg-black hover:bg-gray-800">
-                  X (Twitter)でログイン
+                  <FontAwesomeIcon icon={faTwitter} className="mr-2" />X (Twitter)でログイン
                 </Button>
               </div>
             </div>

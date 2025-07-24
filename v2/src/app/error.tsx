@@ -2,6 +2,8 @@
 
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faRedo, faHome } from '@fortawesome/free-solid-svg-icons'
 import { useEffect } from 'react'
 
 interface ErrorProps {
@@ -39,9 +41,11 @@ export default function Error({ error, reset }: ErrorProps) {
             </div>
             <div className="flex gap-4 justify-center pt-4">
               <Button onClick={reset} variant="default">
+                <FontAwesomeIcon icon={faRedo} className="mr-2" />
                 再試行
               </Button>
               <Button onClick={() => (window.location.href = '/')} variant="outline">
+                <FontAwesomeIcon icon={faHome} className="mr-2" />
                 トップページに戻る
               </Button>
             </div>

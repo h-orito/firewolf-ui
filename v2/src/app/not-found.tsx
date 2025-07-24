@@ -1,5 +1,7 @@
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHome } from '@fortawesome/free-solid-svg-icons'
 import Link from 'next/link'
 
 export default function NotFound() {
@@ -24,7 +26,10 @@ export default function NotFound() {
             </ul>
             <div className="pt-4">
               <Link href="/">
-                <Button>トップページに戻る</Button>
+                <Button>
+                  <FontAwesomeIcon icon={faHome} className="mr-2" />
+                  トップページに戻る
+                </Button>
               </Link>
             </div>
           </div>

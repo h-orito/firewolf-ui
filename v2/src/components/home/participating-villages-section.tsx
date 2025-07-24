@@ -1,6 +1,8 @@
 'use client'
 
 import { useMemo } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { Button } from '@/components/ui/button'
 import { VillageCard } from '@/components/village/village-card'
 import { useAuth } from '@/hooks/useAuth'
@@ -49,7 +51,10 @@ export default function ParticipatingVillagesSection() {
           <div className="text-center py-8">
             <p className="text-gray-600 mb-6">現在参加している村はありません</p>
             <Button asChild variant="primary">
-              <a href="/village-list">村を探す</a>
+              <a href="/village-list">
+                <FontAwesomeIcon icon={faSearch} className="mr-2" />
+                村を探す
+              </a>
             </Button>
           </div>
         ) : (
