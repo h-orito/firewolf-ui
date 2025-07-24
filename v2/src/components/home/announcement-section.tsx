@@ -1,4 +1,6 @@
 import Link from 'next/link'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBullhorn } from '@fortawesome/free-solid-svg-icons'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { getLatestAnnouncements } from '@/data/announcements'
@@ -57,7 +59,10 @@ export default function AnnouncementSection() {
 
           <div className="text-center mt-6">
             <Button asChild variant="outline">
-              <Link href="/release-note">すべてのお知らせを見る</Link>
+              <Link href="/release-note">
+                <FontAwesomeIcon icon={faBullhorn} className="mr-2" />
+                すべてのお知らせを見る
+              </Link>
             </Button>
           </div>
         </div>

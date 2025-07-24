@@ -1,6 +1,8 @@
 'use client'
 
 import Link from 'next/link'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus, faList } from '@fortawesome/free-solid-svg-icons'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/hooks/useAuth'
 import { VillageList } from '@/components/village/village-list'
@@ -20,11 +22,17 @@ export default function VillageListSection() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           {isAuthenticated && (
             <Link href="/village/create">
-              <Button className="bg-green-600 hover:bg-green-700">村を作成</Button>
+              <Button variant="primary">
+                <FontAwesomeIcon icon={faPlus} className="mr-2" />
+                村を作成
+              </Button>
             </Link>
           )}
           <Link href="/village-list">
-            <Button variant="outline">すべての村を見る</Button>
+            <Button variant="outline">
+              <FontAwesomeIcon icon={faList} className="mr-2" />
+              すべての村を見る
+            </Button>
           </Link>
         </div>
       </div>
