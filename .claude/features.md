@@ -1,1 +1,0 @@
-- user-info-section は、確認中も何も表示しないよう変更

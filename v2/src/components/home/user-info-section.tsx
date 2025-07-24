@@ -9,18 +9,9 @@ import { useAuth } from '@/hooks/useAuth'
 export default function UserInfoSection() {
   const { isAuthenticated, login, isLoading } = useAuth()
 
+  // 認証確認中も何も表示しない
   if (isLoading) {
-    return (
-      <section className="py-12 bg-slate-100">
-        <div className="container mx-auto px-6">
-          <Card className="p-6">
-            <div className="text-center">
-              <div className="animate-pulse text-gray-600">認証状態を確認中...</div>
-            </div>
-          </Card>
-        </div>
-      </section>
-    )
+    return null
   }
 
   if (!isAuthenticated) {
