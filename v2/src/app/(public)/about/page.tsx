@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Card } from '@/components/ui/card'
+import { H1, H2, H3 } from '@/components/ui/heading'
 
 export const metadata: Metadata = {
   title: 'このサイトは - FIREWOLF',
@@ -10,7 +11,7 @@ export default function AboutPage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-2xl font-bold mb-8">このサイトは</h1>
+        <H1>このサイトは</H1>
 
         <Card className="mb-8 p-6">
           <ul className="space-y-3 list-disc list-inside">
@@ -19,7 +20,7 @@ export default function AboutPage() {
           </ul>
         </Card>
 
-        <h2 className="text-2xl font-bold mb-6">注意事項</h2>
+        <H2>注意事項</H2>
 
         <Card className="mb-8 p-6">
           <ul className="space-y-4 list-disc list-inside">
@@ -48,12 +49,12 @@ export default function AboutPage() {
           </ul>
         </Card>
 
-        <h2 className="text-2xl font-bold mb-6">姉妹サイト</h2>
+        <H2>姉妹サイト</H2>
 
         <Card className="p-6">
           <div className="space-y-6">
             <div>
-              <h3 className="text-lg font-semibold mb-2">
+              <H3 className="mb-2">
                 <a
                   href="https://howling-wolf.com"
                   target="_blank"
@@ -62,7 +63,7 @@ export default function AboutPage() {
                 >
                   HOWLING WOLF
                 </a>
-              </h3>
+              </H3>
               <ul className="ml-6 space-y-1 list-disc list-inside text-sm">
                 <li>長期人狼が遊べるサイトです。</li>
                 <li>当サイトと似たようなUIで、知らない方と自動生成村で遊ぶことができます。</li>
@@ -70,7 +71,7 @@ export default function AboutPage() {
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold mb-2">
+              <H3 className="mb-2">
                 <a
                   href="https://wolfort.net/wolf-mansion/"
                   target="_blank"
@@ -79,7 +80,7 @@ export default function AboutPage() {
                 >
                   WOLF MANSION
                 </a>
-              </h3>
+              </H3>
               <ul className="ml-6 space-y-1 list-disc list-inside text-sm">
                 <li>特殊ルール人狼「人狼館の事件簿村」が遊べるサイトです。</li>
                 <li>対話がないため時間がない人でもパズル感覚で楽しめます。</li>
@@ -87,7 +88,7 @@ export default function AboutPage() {
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold mb-2">
+              <H3 className="mb-2">
                 <a
                   href="https://lastwolf.netlify.app"
                   target="_blank"
@@ -96,7 +97,7 @@ export default function AboutPage() {
                 >
                   LASTWOLF
                 </a>
-              </h3>
+              </H3>
               <ul className="ml-6 space-y-1 list-disc list-inside text-sm">
                 <li>短期人狼が遊べるサイトです。</li>
               </ul>
@@ -106,7 +107,7 @@ export default function AboutPage() {
 
         <div className="mt-12">
           <Card className="p-6">
-            <h2 className="text-lg font-semibold mb-4">お問い合わせ</h2>
+            <H2 className="text-lg">お問い合わせ</H2>
             <p className="text-sm text-gray-600 mb-2">
               サイトに関するご質問やお問い合わせがある場合は、以下の方法でご連絡ください。
             </p>
