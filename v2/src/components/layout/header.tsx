@@ -122,40 +122,17 @@ export function Header() {
 
             {/* デスクトップメニュー */}
             <div className="hidden md:flex items-center space-x-4 flex-1 justify-end">
-              <Link
-                href="/village-list"
-                className="text-white hover:text-gray-300 transition-colors"
-              >
-                村一覧
-              </Link>
-              <Link href="/rule" className="text-white hover:text-gray-300 transition-colors">
-                ルール
-              </Link>
               {isLoading ? (
                 <div className="flex items-center space-x-2">
                   <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
                   <span className="text-white text-sm">認証確認中...</span>
                 </div>
               ) : user ? (
-                <>
-                  <Link
-                    href="/village/create"
-                    className="text-white hover:text-gray-300 transition-colors"
-                  >
-                    村作成
-                  </Link>
-                  <Link
-                    href="/setting"
-                    className="text-white hover:text-gray-300 transition-colors"
-                  >
-                    設定
-                  </Link>
-                  <UserMenu
-                    username={getUserDisplayName()}
-                    onLogout={signOut}
-                    onOpenAccountLink={() => setIsAccountLinkModalOpen(true)}
-                  />
-                </>
+                <UserMenu
+                  username={getUserDisplayName()}
+                  onLogout={signOut}
+                  onOpenAccountLink={() => setIsAccountLinkModalOpen(true)}
+                />
               ) : (
                 <Button
                   size="sm"

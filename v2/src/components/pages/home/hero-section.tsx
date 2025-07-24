@@ -1,15 +1,8 @@
 'use client'
 
 import Image from 'next/image'
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { DonationModal } from '@/components/pages/home/donation-modal'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHeart } from '@fortawesome/free-solid-svg-icons'
 
 export default function HeroSection() {
-  const [isDonationModalOpen, setIsDonationModalOpen] = useState(false)
-
   return (
     <section className="relative text-white">
       <div className="relative w-full">
@@ -70,20 +63,6 @@ export default function HeroSection() {
           </p>
         </div>
       </div>
-      {/* 投げ銭ボタン */}
-      <div className="absolute top-[5%] right-[2%] md:top-[5%] md:right-[3%]">
-        <Button
-          onClick={() => setIsDonationModalOpen(true)}
-          size="sm"
-          variant="outline"
-          className="bg-white/80 hover:bg-white/90 backdrop-blur-sm"
-        >
-          <FontAwesomeIcon icon={faHeart} className="mr-2 h-4 w-4 text-red-500" />
-          投げ銭
-        </Button>
-      </div>
-      {/* 投げ銭モーダル */}
-      <DonationModal open={isDonationModalOpen} onOpenChange={setIsDonationModalOpen} />
     </section>
   )
 }
