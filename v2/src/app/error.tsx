@@ -18,7 +18,7 @@ export default function Error({ error, reset }: ErrorProps) {
   }, [error])
 
   return (
-    <div className="container mx-auto px-4 py-16">
+    <div className="container mx-auto px-3 md:px-6 py-16">
       <div className="max-w-2xl mx-auto text-center">
         <div className="mb-8">
           <h1 className="text-6xl font-bold text-red-300 mb-4">エラー</h1>

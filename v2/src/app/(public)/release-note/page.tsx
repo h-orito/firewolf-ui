@@ -12,7 +12,7 @@ export default function ReleaseNotePage() {
   const announcements = getAllAnnouncements()
 
   return (
-    <div className="container mx-auto px-6 py-8">
+    <div className="container mx-auto px-3 md:px-6 py-8">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl font-bold text-gray-900 mb-8">リリースノート</h1>
         <p className="text-gray-600 mb-8">FIREWOLFの更新履歴とお知らせをご確認いただけます。</p>

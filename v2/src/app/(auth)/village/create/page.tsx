@@ -48,8 +48,11 @@ export default function VillageCreatePage() {
     // 時間設定
     start_datetime: getDefault7DaysLaterMidnight(),
     silentHours: 0,
-    // 役職構成
+    // 編成設定
     organization: '8人村',
+    minParticipants: 10,
+    maxParticipants: 16,
+    isDummySkillMissing: false,
     // キャラチップ設定
     dummy_chara_id: 1,
     dummyCharaName: 'ダミー',
@@ -186,15 +189,41 @@ export default function VillageCreatePage() {
     onError: handleApiError,
   })
 
+  // 日時バリデーション関数
+  const validateDateTime = (datetime: string): boolean => {
+    if (!datetime) return false
+
+    const selectedDate = new Date(datetime)
+    const now = new Date()
+    const maxDate = new Date(now)
+    maxDate.setDate(maxDate.getDate() + 14)
+
+    // 範囲チェック
+    if (selectedDate < now || selectedDate > maxDate) return false
+
+    // 30分刻みチェック
+    const minutes = selectedDate.getMinutes()
+    if (minutes !== 0 && minutes !== 30) return false
+
+    return true
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+
+    // 提出前の最終バリデーション
+    if (!validateDateTime(formData.start_datetime)) {
+      alert('開始日時は今日から14日後まで、30分刻みで設定してください。')
+      return
+    }
+
     createMutation.mutate()
   }
 
   const canSubmit =
     formData.villageName.trim().length > 0 &&
     formData.villageName.trim().length <= 40 &&
-    formData.start_datetime &&
+    validateDateTime(formData.start_datetime) &&
     formData.organization &&
     formData.dummyCharaName.trim().length > 0 &&
     formData.dummyCharaShortName.trim().length === 1 &&
@@ -228,14 +257,6 @@ export default function VillageCreatePage() {
             }
           />
 
-          {/* 役職構成 */}
-          <OrganizationSection
-            organization={formData.organization}
-            onOrganizationChange={(organization) =>
-              setFormData((prev) => ({ ...prev, organization }))
-            }
-          />
-
           {/* キャラチップ設定 */}
           <CharachipSettingsSection
             charachips={charachips}
@@ -263,6 +284,26 @@ export default function VillageCreatePage() {
               setFormData((prev) => ({ ...prev, dummyCharaDay1Message: message }))
             }
             onOpenDummyCharaModal={() => setIsDummyCharaModalOpen(true)}
+          />
+
+          {/* 編成 */}
+          <OrganizationSection
+            organization={formData.organization}
+            minParticipants={formData.minParticipants}
+            maxParticipants={formData.maxParticipants}
+            isDummySkillMissing={formData.isDummySkillMissing}
+            onOrganizationChange={(organization) =>
+              setFormData((prev) => ({ ...prev, organization }))
+            }
+            onMinParticipantsChange={(min) =>
+              setFormData((prev) => ({ ...prev, minParticipants: min }))
+            }
+            onMaxParticipantsChange={(max) =>
+              setFormData((prev) => ({ ...prev, maxParticipants: max }))
+            }
+            onIsDummySkillMissingChange={(isDummySkillMissing) =>
+              setFormData((prev) => ({ ...prev, isDummySkillMissing }))
+            }
           />
 
           {/* ルール設定 */}

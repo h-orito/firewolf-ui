@@ -73,7 +73,7 @@ export default function SettingPage() {
   }
 
   return (
-    <div className="container mx-auto px-6 py-8">
+    <div className="container mx-auto px-3 md:px-6 py-8">
       <h1 className="text-2xl font-bold mb-8">設定</h1>
 
       <div className="space-y-8">

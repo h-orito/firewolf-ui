@@ -16,7 +16,7 @@ export default function PlayerRecordPage() {
 
   if (isLoading) {
     return (
-      <div className="container mx-auto px-4 py-6">
+      <div className="container mx-auto px-3 md:px-6 py-6">
         <div className="text-center py-8">戦績データを読み込み中...</div>
       </div>
     )
@@ -24,14 +24,14 @@ export default function PlayerRecordPage() {
 
   if (error || !playerRecord) {
     return (
-      <div className="container mx-auto px-4 py-6">
+      <div className="container mx-auto px-3 md:px-6 py-6">
         <div className="text-center py-8 text-red-600">戦績データの取得に失敗しました</div>
       </div>
     )
   }
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6">
+    <div className="container mx-auto px-3 md:px-6 py-6 space-y-6">
       <H1>プレイヤー戦績</H1>
 
       <PlayerInfoSection player={playerRecord.player} wholeRecord={playerRecord.whole_record} />

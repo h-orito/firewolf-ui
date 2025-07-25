@@ -14,6 +14,15 @@ export function TimeSettingsSection({
   onStartDateTimeChange,
   onSilentHoursChange,
 }: TimeSettingsSectionProps) {
+  // 現在時刻を取得（最小値として使用）
+  const now = new Date()
+  const minDateTime = now.toISOString().slice(0, 16)
+
+  // 14日後の日時を取得（最大値として使用）
+  const maxDate = new Date(now)
+  maxDate.setDate(maxDate.getDate() + 14)
+  const maxDateTime = maxDate.toISOString().slice(0, 16)
+
   return (
     <Card className="p-4 md:p-6">
       <div className="space-y-4">
@@ -21,7 +30,12 @@ export function TimeSettingsSection({
 
         <div className="bg-blue-50 border border-blue-200 rounded-md p-3 flex items-start space-x-2">
           <Info className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
-          <p className="text-sm text-blue-800">1日の長さは24時間固定です</p>
+          <div className="text-sm text-blue-800">
+            <p>1日の長さは24時間固定です</p>
+            <p className="mt-1">
+              開始日時は今日から14日後まで、時間は1時間刻み、分は30分刻みで選択できます
+            </p>
+          </div>
         </div>
 
         <div className="space-y-2">
@@ -31,6 +45,9 @@ export function TimeSettingsSection({
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={startDateTime}
             onChange={(e) => onStartDateTimeChange(e.target.value)}
+            min={minDateTime}
+            max={maxDateTime}
+            step={1800}
             required
           />
         </div>

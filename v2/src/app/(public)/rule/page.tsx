@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default async function RulePage() {
   const skills = await getSkillList()
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-3 md:px-6 py-8">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-2xl font-bold mb-6">共通ルール</h1>
 
@@ -392,7 +392,7 @@ export default async function RulePage() {
           </Card>
         </section>
 
-        <section className="mb-8">
+        <section className="mb-8" id="skill">
           <h3 className="text-lg font-bold mb-4">役職</h3>
           <Card className="p-6">
             <p className="mb-4">

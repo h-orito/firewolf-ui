@@ -24,7 +24,7 @@ export default function CharachipDetailPage({ params }: CharachipDetailPageProps
 
   if (error) {
     return (
-      <div className="container mx-auto px-6 py-8">
+      <div className="container mx-auto px-3 md:px-6 py-8">
         <div className="text-center py-12">
           <p className="text-red-600 mb-4">キャラチップの取得に失敗しました</p>
           <Link href="/charachip-list">
@@ -37,7 +37,7 @@ export default function CharachipDetailPage({ params }: CharachipDetailPageProps
 
   if (isLoading) {
     return (
-      <div className="container mx-auto px-6 py-8">
+      <div className="container mx-auto px-3 md:px-6 py-8">
         <div className="text-center py-12">
           <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
           <p className="mt-4 text-gray-600">キャラチップ詳細を読み込み中...</p>
@@ -50,7 +50,7 @@ export default function CharachipDetailPage({ params }: CharachipDetailPageProps
 
   if (!charachip) {
     return (
-      <div className="container mx-auto px-6 py-8">
+      <div className="container mx-auto px-3 md:px-6 py-8">
         <div className="text-center py-12">
           <p className="text-gray-600 mb-4">キャラチップが見つかりません</p>
           <Link href="/charachip-list">
@@ -62,7 +62,7 @@ export default function CharachipDetailPage({ params }: CharachipDetailPageProps
   }
 
   return (
-    <div className="container mx-auto px-6 py-8">
+    <div className="container mx-auto px-3 md:px-6 py-8">
       <div className="max-w-6xl mx-auto">
         {/* ヘッダー */}
         <div className="mb-6">

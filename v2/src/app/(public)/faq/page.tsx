@@ -35,7 +35,7 @@ const faqData: FAQItem[] = [
 
 export default function FAQPage() {
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-3 md:px-6 py-8">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-2xl font-bold mb-8">FAQ</h1>
 

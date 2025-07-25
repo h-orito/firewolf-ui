@@ -13,7 +13,7 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
     <html>
       <body>
         <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-3 md:px-6">
             <div className="max-w-2xl mx-auto text-center">
               <div className="mb-8">
                 <h1 className="text-6xl font-bold text-red-300 mb-4">エラー</h1>

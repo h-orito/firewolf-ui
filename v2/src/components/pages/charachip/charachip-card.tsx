@@ -1,6 +1,6 @@
 import { useRouter } from 'next/navigation'
-import Image from 'next/image'
 import { Card } from '@/components/ui/card'
+import { CharacterImage } from '@/components/ui/character-image'
 import type { components } from '@/types/generated/api'
 
 interface CharachipCardProps {
@@ -16,7 +16,6 @@ export function CharachipCard({ charachip }: CharachipCardProps) {
 
   // 代表キャラクターの画像を取得（v1と同様に最初のキャラクターを使用）
   const representativeChara = charachip.chara_list?.[0]
-  const representativeImageUrl = representativeChara?.face_list?.[0]?.image_url
 
   return (
     <Card
@@ -30,13 +29,11 @@ export function CharachipCard({ charachip }: CharachipCardProps) {
         </div>
 
         {/* 代表キャラクター画像 */}
-        {representativeImageUrl && representativeChara && (
+        {representativeChara && (
           <div className="flex justify-center">
-            <Image
-              src={representativeImageUrl}
+            <CharacterImage
+              chara={representativeChara}
               alt={`${representativeChara.chara_name?.name || 'キャラクター'}`}
-              width={representativeChara.display.width}
-              height={representativeChara.display.height}
               className="mx-auto"
             />
           </div>

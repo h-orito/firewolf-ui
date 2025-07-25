@@ -3,7 +3,7 @@ import { H1 } from '@/components/ui/heading'
 
 export default function CharachipListPage() {
   return (
-    <div className="container mx-auto px-6 py-8">
+    <div className="container mx-auto px-3 md:px-6 py-8">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8">
           <H1 center>キャラチップ一覧</H1>
