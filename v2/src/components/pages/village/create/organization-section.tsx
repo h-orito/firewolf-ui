@@ -1,12 +1,16 @@
 import { Card } from '@/components/ui/card'
 import { ToggleSlider } from '@/components/ui/toggle-slider'
-import { Info, ExternalLink } from 'lucide-react'
+import { NumberInput } from '@/components/ui/number-input'
+import { SkillCompositionInput } from './skill-composition-input'
+import { ExternalLink, Info } from 'lucide-react'
+import type { Skill } from '@/types/skill'
 
 interface OrganizationSectionProps {
   organization: string
   minParticipants: number
   maxParticipants: number
   isDummySkillMissing: boolean
+  skills?: Skill[]
   onOrganizationChange: (organization: string) => void
   onMinParticipantsChange: (min: number) => void
   onMaxParticipantsChange: (max: number) => void
@@ -18,6 +22,7 @@ export function OrganizationSection({
   minParticipants,
   maxParticipants,
   isDummySkillMissing,
+  skills,
   onOrganizationChange,
   onMinParticipantsChange,
   onMaxParticipantsChange,
@@ -25,7 +30,7 @@ export function OrganizationSection({
 }: OrganizationSectionProps) {
   return (
     <Card className="p-4 md:p-6">
-      <div className="space-y-4">
+      <div className="space-y-6">
         <h2 className="text-xl font-semibold border-b pb-2">編成</h2>
 
         {/* 編成設定時の注意事項 */}
@@ -60,55 +65,45 @@ export function OrganizationSection({
           </ul>
         </div>
 
-        <div className="space-y-2">
-          <label className="text-sm font-medium">構成</label>
-          <select
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={organization}
-            onChange={(e) => onOrganizationChange(e.target.value)}
-            required
-          >
-            <option value="8人村">8人村</option>
-            <option value="11人村">11人村</option>
-            <option value="15人村">15人村</option>
-            <option value="17人村">17人村</option>
-            <option value="22人村">22人村</option>
-          </select>
-        </div>
-
+        {/* 人数設定 */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <label className="text-sm font-medium">最小人数</label>
-            <input
-              type="number"
-              min="5"
-              max="999"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={minParticipants}
-              onChange={(e) => onMinParticipantsChange(parseInt(e.target.value) || 5)}
-              required
-            />
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-sm font-medium">定員</label>
-            <input
-              type="number"
-              min={minParticipants}
-              max="999"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={maxParticipants}
-              onChange={(e) => onMaxParticipantsChange(parseInt(e.target.value) || minParticipants)}
-              required
-            />
-          </div>
+          <NumberInput
+            label="最小人数"
+            value={minParticipants}
+            onChange={onMinParticipantsChange}
+            min={5}
+            max={999}
+            suffix="人"
+          />
+          <NumberInput
+            label="定員"
+            value={maxParticipants}
+            onChange={onMaxParticipantsChange}
+            min={minParticipants}
+            max={999}
+            suffix="人"
+          />
         </div>
 
+        {/* 役欠け設定 */}
         <ToggleSlider
           checked={isDummySkillMissing}
           onChange={onIsDummySkillMissingChange}
-          label="役欠け設定"
+          label="役欠けあり"
         />
+
+        {/* 編成入力 */}
+        <div className="space-y-3">
+          <h3 className="text-sm font-medium">役職編成</h3>
+          <SkillCompositionInput
+            value={organization}
+            onChange={onOrganizationChange}
+            skills={skills}
+            isDummySkillMissing={isDummySkillMissing}
+            minParticipants={minParticipants}
+            maxParticipants={maxParticipants}
+          />
+        </div>
       </div>
     </Card>
   )

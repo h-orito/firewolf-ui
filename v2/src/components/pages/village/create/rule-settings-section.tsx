@@ -7,14 +7,16 @@ interface RuleSettingsSectionProps {
   availableSpectate: boolean
   visibleGraveMessage: boolean
   availableCommit: boolean
-  availableSecretSay: boolean
+  availableSuddenlyDeath: boolean
+  availableGuardSameTarget: boolean
   joinPassword: string
   onOpenVoteChange: (checked: boolean) => void
   onAvailableSkillRequestChange: (checked: boolean) => void
   onAvailableSpectateChange: (checked: boolean) => void
   onVisibleGraveMessageChange: (checked: boolean) => void
   onAvailableCommitChange: (checked: boolean) => void
-  onAvailableSecretSayChange: (checked: boolean) => void
+  onAvailableSuddenlyDeathChange: (checked: boolean) => void
+  onAvailableGuardSameTargetChange: (checked: boolean) => void
   onJoinPasswordChange: (password: string) => void
 }
 
@@ -24,14 +26,16 @@ export function RuleSettingsSection({
   availableSpectate,
   visibleGraveMessage,
   availableCommit,
-  availableSecretSay,
+  availableSuddenlyDeath,
+  availableGuardSameTarget,
   joinPassword,
   onOpenVoteChange,
   onAvailableSkillRequestChange,
   onAvailableSpectateChange,
   onVisibleGraveMessageChange,
   onAvailableCommitChange,
-  onAvailableSecretSayChange,
+  onAvailableSuddenlyDeathChange,
+  onAvailableGuardSameTargetChange,
   onJoinPasswordChange,
 }: RuleSettingsSectionProps) {
   return (
@@ -40,7 +44,7 @@ export function RuleSettingsSection({
         <h2 className="text-xl font-semibold border-b pb-2">ルール設定</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <ToggleSlider checked={openVote} onChange={onOpenVoteChange} label="投票公開" />
+          <ToggleSlider checked={openVote} onChange={onOpenVoteChange} label="記名投票" />
 
           <ToggleSlider
             checked={availableSkillRequest}
@@ -63,13 +67,19 @@ export function RuleSettingsSection({
           <ToggleSlider
             checked={availableCommit}
             onChange={onAvailableCommitChange}
-            label="コミット可能"
+            label="時短希望可能"
           />
 
           <ToggleSlider
-            checked={availableSecretSay}
-            onChange={onAvailableSecretSayChange}
-            label="独り言可能"
+            checked={availableSuddenlyDeath}
+            onChange={onAvailableSuddenlyDeathChange}
+            label="突然死あり"
+          />
+
+          <ToggleSlider
+            checked={availableGuardSameTarget}
+            onChange={onAvailableGuardSameTargetChange}
+            label="連続護衛可能"
           />
         </div>
 

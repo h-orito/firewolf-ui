@@ -13,6 +13,12 @@ import { apiClient } from '@/lib/api/client'
 import { handleApiError } from '@/lib/api/error-handler'
 import { useCharachipListQuery } from '@/hooks/useCharachipListQuery'
 import { useCharasQuery } from '@/hooks/useCharasQuery'
+import { useQuery } from '@tanstack/react-query'
+import { skillApi } from '@/lib/api/skill'
+import {
+  generateV1StyleCompositions,
+  basicCompositionPattern,
+} from '@/lib/utils/skill-composition-generator'
 import { DummyCharacterModal } from '@/components/pages/village/create/dummy-character-modal'
 import type { components } from '@/types/generated/api'
 import type { CharachipView, CharachipsView, Chara, Charas } from '@/types/charachip'
@@ -28,6 +34,17 @@ export default function VillageCreatePage() {
     isLoading: charachipLoading,
   } = useCharachipListQuery()
   const charachips: CharachipView[] = (charachipListData?.data as CharachipsView)?.list || []
+
+  // 役職一覧を取得
+  const {
+    data: skillsData,
+    error: skillsError,
+    isLoading: skillsLoading,
+  } = useQuery({
+    queryKey: ['skills'],
+    queryFn: skillApi.getSkills,
+  })
+  const skills = skillsData?.data?.list || []
 
   // 7日後のJST0時を計算
   const getDefault7DaysLaterMidnight = () => {
@@ -49,7 +66,7 @@ export default function VillageCreatePage() {
     start_datetime: getDefault7DaysLaterMidnight(),
     silentHours: 0,
     // 編成設定
-    organization: '8人村',
+    organization: '',
     minParticipants: 10,
     maxParticipants: 16,
     isDummySkillMissing: false,
@@ -63,15 +80,14 @@ export default function VillageCreatePage() {
     // ルール設定
     open_vote: false,
     availableSkillRequest: true,
-    availableSpectate: true,
+    availableSpectate: false, // 初期値を「なし」に変更
     openSkillInGrave: false,
     visibleGraveMessage: true,
-    availableSuddenlyDeath: false,
+    availableSuddenlyDeath: true, // 初期値を「あり」に変更
     availableCommit: true,
     availableDummySkill: false,
     availableAction: false,
-    availableSecretSay: true,
-    availableGuardSameTarget: false,
+    availableGuardSameTarget: true, // 初期値を「あり」に変更
     joinPassword: '',
     // タグ
     tags: [] as string[],
@@ -114,6 +130,26 @@ export default function VillageCreatePage() {
       }))
     }
   }, [charas, formData.dummy_chara_id])
+
+  // 役職データが読み込まれた時に初期編成を生成
+  useEffect(() => {
+    if (skills && skills.length > 0 && !formData.organization) {
+      try {
+        const initialOrganization = generateV1StyleCompositions(
+          formData.minParticipants,
+          formData.maxParticipants,
+          basicCompositionPattern,
+          skills
+        )
+        setFormData((prev) => ({
+          ...prev,
+          organization: initialOrganization,
+        }))
+      } catch (error) {
+        console.error('初期編成生成エラー:', error)
+      }
+    }
+  }, [skills, formData.organization, formData.minParticipants, formData.maxParticipants])
 
   // ダミーキャラ選択時の処理
   const handleSelectDummyChara = (chara: Chara) => {
@@ -165,7 +201,7 @@ export default function VillageCreatePage() {
               available_commit: formData.availableCommit,
               available_dummy_skill: formData.availableDummySkill,
               available_action: formData.availableAction,
-              available_secret_say: formData.availableSecretSay,
+              available_secret_say: false, // 「独り言可能」機能は削除、常にfalseに設定
               available_guard_same_target: formData.availableGuardSameTarget,
               restrict_list: formData.restrictList,
               join_password: formData.joinPassword || undefined,
@@ -292,6 +328,7 @@ export default function VillageCreatePage() {
             minParticipants={formData.minParticipants}
             maxParticipants={formData.maxParticipants}
             isDummySkillMissing={formData.isDummySkillMissing}
+            skills={skills}
             onOrganizationChange={(organization) =>
               setFormData((prev) => ({ ...prev, organization }))
             }
@@ -313,7 +350,8 @@ export default function VillageCreatePage() {
             availableSpectate={formData.availableSpectate}
             visibleGraveMessage={formData.visibleGraveMessage}
             availableCommit={formData.availableCommit}
-            availableSecretSay={formData.availableSecretSay}
+            availableSuddenlyDeath={formData.availableSuddenlyDeath}
+            availableGuardSameTarget={formData.availableGuardSameTarget}
             joinPassword={formData.joinPassword}
             onOpenVoteChange={(checked) => setFormData((prev) => ({ ...prev, open_vote: checked }))}
             onAvailableSkillRequestChange={(checked) =>
@@ -328,8 +366,11 @@ export default function VillageCreatePage() {
             onAvailableCommitChange={(checked) =>
               setFormData((prev) => ({ ...prev, availableCommit: checked }))
             }
-            onAvailableSecretSayChange={(checked) =>
-              setFormData((prev) => ({ ...prev, availableSecretSay: checked }))
+            onAvailableSuddenlyDeathChange={(checked) =>
+              setFormData((prev) => ({ ...prev, availableSuddenlyDeath: checked }))
+            }
+            onAvailableGuardSameTargetChange={(checked) =>
+              setFormData((prev) => ({ ...prev, availableGuardSameTarget: checked }))
             }
             onJoinPasswordChange={(password) =>
               setFormData((prev) => ({ ...prev, joinPassword: password }))
