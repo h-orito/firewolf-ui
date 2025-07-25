@@ -305,6 +305,26 @@ v1で実装されている以下の機能をすべて移行する：
 3. 村作成・ゲーム機能の移行
 4. 管理機能・その他機能の移行
 
+#### ルールページの役職一覧機能
+- **API `/skill/list` を使用した役職一覧表示**:
+  - 役職名（クリックで description を展開表示）
+  - 略称
+  - 所属陣営（例：村人陣営）
+  - 能力（manual_ability_list）
+    - クリックすると能力説明の項目にアンカーで移動（`id="#divine"` - code を lowercase にしたもの）
+  - 占い結果（divine_result_wolf）
+    - 人狼の場合は赤文字で表示
+  - 霊視結果（psychic_result_wolf）
+    - 人狼の場合は赤文字で表示
+  - 発言可能（sayable_skill_message_type_list）
+    - 例：共鳴発言
+  - 可視（viewable_skill_message_type_list）
+    - 例：共鳴発言
+  - 勝敗判定カウント
+    - count_camp == null の場合は「-」を表示
+    - count_camp.name を表示
+    - 人狼陣営の場合は赤文字で表示
+
 ## 成功基準
 
 ### 定量的指標
