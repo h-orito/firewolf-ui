@@ -1,17 +1,18 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Textarea } from '@/components/ui/textarea'
-import { Info, ChevronDown } from 'lucide-react'
+import { Info } from 'lucide-react'
 import { apiClient } from '@/lib/api/client'
 import { handleApiError } from '@/lib/api/error-handler'
 import { useCharachipListQuery } from '@/hooks/useCharachipListQuery'
 import { useCharasQuery } from '@/hooks/useCharasQuery'
 import type { components } from '@/types/generated/api'
+import type { CharachipView, CharachipsView, Chara, Charas } from '@/types/charachip'
 
 export default function VillageCreatePage() {
   const router = useRouter()
@@ -22,7 +23,7 @@ export default function VillageCreatePage() {
     error: charachipError,
     isLoading: charachipLoading,
   } = useCharachipListQuery()
-  const charachips = (charachipListData?.data as any)?.list || []
+  const charachips: CharachipView[] = (charachipListData?.data as CharachipsView)?.list || []
 
   // 7日後のJST0時を計算
   const getDefault7DaysLaterMidnight = () => {
@@ -86,7 +87,7 @@ export default function VillageCreatePage() {
 
   // 選択されたキャラチップのキャラ一覧を取得
   const { data: charasData } = useCharasQuery(formData.charachipIds)
-  const charas = (charasData?.data as any)?.list || []
+  const charas: Chara[] = (charasData?.data as Charas)?.list || []
 
   // キャラが読み込まれた時に1つ目を初期選択（ダミーキャラ）
   useEffect(() => {
@@ -277,29 +278,32 @@ export default function VillageCreatePage() {
                   {charachips.length === 0 && !charachipLoading && !charachipError && (
                     <p className="text-gray-500">キャラチップがありません</p>
                   )}
-                  {charachips.map((charachip: any) => (
-                    <label key={charachip.id} className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        checked={formData.charachipIds.includes(charachip.id)}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setFormData((prev) => ({
-                              ...prev,
-                              charachipIds: [...prev.charachipIds, charachip.id],
-                            }))
-                          } else {
-                            setFormData((prev) => ({
-                              ...prev,
-                              charachipIds: prev.charachipIds.filter((id) => id !== charachip.id),
-                            }))
-                          }
-                        }}
-                        className="rounded"
-                      />
-                      <span className="text-sm">{charachip.name}</span>
-                    </label>
-                  ))}
+                  {charachips.length > 0 && (
+                    <select
+                      multiple
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[120px]"
+                      value={formData.charachipIds.map(String)}
+                      onChange={(e) => {
+                        const selectedValues = Array.from(e.target.selectedOptions, (option) =>
+                          parseInt(option.value)
+                        )
+                        setFormData((prev) => ({
+                          ...prev,
+                          charachipIds: selectedValues,
+                        }))
+                      }}
+                      required
+                    >
+                      {charachips.map((charachip) => (
+                        <option key={charachip.id} value={charachip.id}>
+                          {charachip.name}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                  <p className="text-xs text-gray-500">
+                    複数選択する場合はCtrl/Cmd + クリックしてください
+                  </p>
                 </div>
               </div>
 
@@ -319,7 +323,7 @@ export default function VillageCreatePage() {
                       }
                       required
                     >
-                      {charas.map((chara: any) => (
+                      {charas.map((chara) => (
                         <option key={chara.id} value={chara.id}>
                           {chara.chara_name.name}
                         </option>

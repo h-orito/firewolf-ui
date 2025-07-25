@@ -60,7 +60,7 @@ const api = {
     const charachipIds = village.setting.charachip.charachip_ids
     const charachips: Charachips = await app.$axios.$get(`/charachips`, {
       params: {
-        charachipIds
+        charachip_ids: charachipIds
       },
       paramsSerializer: params =>
         qs.stringify(params, { arrayFormat: 'repeat' })
