@@ -206,15 +206,15 @@ export default function VillageCreatePage() {
 
   return (
     <div className="container mx-auto px-3 md:px-6 py-8">
-      <Card className="max-w-4xl mx-auto p-4 md:p-8">
-        <div className="space-y-6">
-          <div className="text-center">
-            <h1 className="text-3xl font-bold mb-2">村作成</h1>
-            <p className="text-gray-600">新しい人狼村を作成します</p>
-          </div>
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold mb-2">村作成</h1>
+          <p className="text-gray-600">新しい人狼村を作成します</p>
+        </div>
 
-          <form onSubmit={handleSubmit} className="space-y-8">
-            {/* 基本設定 */}
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* 基本設定 */}
+          <Card className="p-4 md:p-6">
             <div className="space-y-4">
               <h2 className="text-xl font-semibold border-b pb-2">基本設定</h2>
 
@@ -233,8 +233,10 @@ export default function VillageCreatePage() {
                 <p className="text-xs text-gray-500">{formData.villageName.length}/40文字</p>
               </div>
             </div>
+          </Card>
 
-            {/* 時間設定 */}
+          {/* 時間設定 */}
+          <Card className="p-4 md:p-6">
             <div className="space-y-4">
               <h2 className="text-xl font-semibold border-b pb-2">時間</h2>
 
@@ -271,8 +273,10 @@ export default function VillageCreatePage() {
                 <p className="text-xs text-gray-500">0を指定すると沈黙時間なしになります</p>
               </div>
             </div>
+          </Card>
 
-            {/* 役職構成 */}
+          {/* 役職構成 */}
+          <Card className="p-4 md:p-6">
             <div className="space-y-4">
               <h2 className="text-xl font-semibold border-b pb-2">役職構成</h2>
 
@@ -294,8 +298,10 @@ export default function VillageCreatePage() {
                 </select>
               </div>
             </div>
+          </Card>
 
-            {/* キャラチップ設定 */}
+          {/* キャラチップ設定 */}
+          <Card className="p-4 md:p-6">
             <div className="space-y-4">
               <h2 className="text-xl font-semibold border-b pb-2">キャラチップ設定</h2>
 
@@ -468,8 +474,10 @@ export default function VillageCreatePage() {
                 </div>
               </div>
             </div>
+          </Card>
 
-            {/* ルール設定 */}
+          {/* ルール設定 */}
+          <Card className="p-4 md:p-6">
             <div className="space-y-4">
               <h2 className="text-xl font-semibold border-b pb-2">ルール設定</h2>
 
@@ -536,29 +544,29 @@ export default function VillageCreatePage() {
                 </p>
               </div>
             </div>
+          </Card>
 
-            {/* 送信ボタン */}
-            <div className="flex justify-center pt-6">
-              <Button
-                type="submit"
-                disabled={!canSubmit || createMutation.isPending}
-                className="px-8 py-2"
-              >
-                {createMutation.isPending ? '作成中...' : '村を作成する'}
-              </Button>
-            </div>
-          </form>
-        </div>
-      </Card>
+          {/* 送信ボタン */}
+          <div className="flex justify-center pt-6">
+            <Button
+              type="submit"
+              disabled={!canSubmit || createMutation.isPending}
+              className="px-8 py-2"
+            >
+              {createMutation.isPending ? '作成中...' : '村を作成する'}
+            </Button>
+          </div>
+        </form>
 
-      {/* ダミーキャラ選択モーダル */}
-      <DummyCharacterModal
-        isOpen={isDummyCharaModalOpen}
-        onClose={() => setIsDummyCharaModalOpen(false)}
-        charas={charas}
-        selectedCharaId={formData.dummy_chara_id}
-        onSelectChara={handleSelectDummyChara}
-      />
+        {/* ダミーキャラ選択モーダル */}
+        <DummyCharacterModal
+          isOpen={isDummyCharaModalOpen}
+          onClose={() => setIsDummyCharaModalOpen(false)}
+          charas={charas}
+          selectedCharaId={formData.dummy_chara_id}
+          onSelectChara={handleSelectDummyChara}
+        />
+      </div>
     </div>
   )
 }
