@@ -1,13 +1,16 @@
 import type { Metadata } from 'next'
 import { Card } from '@/components/ui/card'
 import { ClickToReveal } from '@/components/ui/click-to-reveal'
+import { SkillList } from '@/components/pages/rule/skill-list'
+import { getSkillList } from '@/lib/api/skill'
 
 export const metadata: Metadata = {
   title: 'ルール - FIREWOLF',
   description: 'FIREWOLF（人狼）のルール説明',
 }
 
-export default function RulePage() {
+export default async function RulePage() {
+  const skills = await getSkillList()
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto">
@@ -396,85 +399,11 @@ export default function RulePage() {
               各役職の詳細は以下の通りです。役職によって所属陣営や能力が異なります。
             </p>
 
-            <div className="space-y-4">
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse border border-gray-300 text-sm">
-                  <thead>
-                    <tr className="bg-gray-100">
-                      <th className="border border-gray-300 p-2 text-left">役職</th>
-                      <th className="border border-gray-300 p-2 text-left">略称</th>
-                      <th className="border border-gray-300 p-2 text-left">所属陣営</th>
-                      <th className="border border-gray-300 p-2 text-left">能力</th>
-                      <th className="border border-gray-300 p-2 text-left">占い結果</th>
-                      <th className="border border-gray-300 p-2 text-left">霊能結果</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="border border-gray-300 p-2">村人</td>
-                      <td className="border border-gray-300 p-2">村</td>
-                      <td className="border border-gray-300 p-2">村人陣営</td>
-                      <td className="border border-gray-300 p-2">なし</td>
-                      <td className="border border-gray-300 p-2">人狼でない</td>
-                      <td className="border border-gray-300 p-2">人狼でない</td>
-                    </tr>
-                    <tr>
-                      <td className="border border-gray-300 p-2">占い師</td>
-                      <td className="border border-gray-300 p-2">占</td>
-                      <td className="border border-gray-300 p-2">村人陣営</td>
-                      <td className="border border-gray-300 p-2">占い</td>
-                      <td className="border border-gray-300 p-2">人狼でない</td>
-                      <td className="border border-gray-300 p-2">人狼でない</td>
-                    </tr>
-                    <tr>
-                      <td className="border border-gray-300 p-2">霊能者</td>
-                      <td className="border border-gray-300 p-2">霊</td>
-                      <td className="border border-gray-300 p-2">村人陣営</td>
-                      <td className="border border-gray-300 p-2">霊視</td>
-                      <td className="border border-gray-300 p-2">人狼でない</td>
-                      <td className="border border-gray-300 p-2">人狼でない</td>
-                    </tr>
-                    <tr>
-                      <td className="border border-gray-300 p-2">狩人</td>
-                      <td className="border border-gray-300 p-2">狩</td>
-                      <td className="border border-gray-300 p-2">村人陣営</td>
-                      <td className="border border-gray-300 p-2">護衛</td>
-                      <td className="border border-gray-300 p-2">人狼でない</td>
-                      <td className="border border-gray-300 p-2">人狼でない</td>
-                    </tr>
-                    <tr>
-                      <td className="border border-gray-300 p-2">人狼</td>
-                      <td className="border border-gray-300 p-2">狼</td>
-                      <td className="border border-gray-300 p-2">人狼陣営</td>
-                      <td className="border border-gray-300 p-2">襲撃</td>
-                      <td className="border border-gray-300 p-2 text-red-600 font-bold">人狼</td>
-                      <td className="border border-gray-300 p-2 text-red-600 font-bold">人狼</td>
-                    </tr>
-                    <tr>
-                      <td className="border border-gray-300 p-2">狂人</td>
-                      <td className="border border-gray-300 p-2">狂</td>
-                      <td className="border border-gray-300 p-2">人狼陣営</td>
-                      <td className="border border-gray-300 p-2">なし</td>
-                      <td className="border border-gray-300 p-2">人狼でない</td>
-                      <td className="border border-gray-300 p-2">人狼でない</td>
-                    </tr>
-                    <tr>
-                      <td className="border border-gray-300 p-2">妖狐</td>
-                      <td className="border border-gray-300 p-2">狐</td>
-                      <td className="border border-gray-300 p-2">狐陣営</td>
-                      <td className="border border-gray-300 p-2">なし</td>
-                      <td className="border border-gray-300 p-2">人狼でない</td>
-                      <td className="border border-gray-300 p-2">人狼でない</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              <p className="text-sm text-gray-600 mt-4">
-                ※
-                これは基本的な役職の一部です。村の設定により、さらに多くの役職が登場する場合があります。
-              </p>
-            </div>
+            {skills && skills.length > 0 ? (
+              <SkillList skills={skills} />
+            ) : (
+              <p className="text-gray-500">役職情報を読み込んでいます...</p>
+            )}
           </Card>
         </section>
 
@@ -482,7 +411,7 @@ export default function RulePage() {
           <h3 className="text-lg font-bold mb-4">能力</h3>
           <Card className="p-6">
             <div className="space-y-6">
-              <div>
+              <div id="divine">
                 <h4 className="font-bold mb-2">占い</h4>
                 <ul className="space-y-2 list-disc list-inside text-sm">
                   <li>毎晩、生存者の中から1人を選んで占うことができます。</li>
@@ -492,7 +421,7 @@ export default function RulePage() {
                 </ul>
               </div>
 
-              <div>
+              <div id="psychic">
                 <h4 className="font-bold mb-2">霊視</h4>
                 <ul className="space-y-2 list-disc list-inside text-sm">
                   <li>処刑や襲撃で死亡した人の霊能結果を知ることができます。</li>
@@ -501,7 +430,7 @@ export default function RulePage() {
                 </ul>
               </div>
 
-              <div>
+              <div id="guard">
                 <h4 className="font-bold mb-2">護衛</h4>
                 <ul className="space-y-2 list-disc list-inside text-sm">
                   <li>毎晩、生存者の中から1人を選んで護衛することができます。</li>
@@ -511,7 +440,7 @@ export default function RulePage() {
                 </ul>
               </div>
 
-              <div>
+              <div id="attack">
                 <h4 className="font-bold mb-2">襲撃</h4>
                 <ul className="space-y-2 list-disc list-inside text-sm">
                   <li>人狼は毎晩、生存者の中から1人を選んで襲撃することができます。</li>
