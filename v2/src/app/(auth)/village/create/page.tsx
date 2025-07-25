@@ -6,16 +6,19 @@ import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Textarea } from '@/components/ui/textarea'
+import { CharacterImage } from '@/components/ui/character-image'
 import { Info } from 'lucide-react'
 import { apiClient } from '@/lib/api/client'
 import { handleApiError } from '@/lib/api/error-handler'
 import { useCharachipListQuery } from '@/hooks/useCharachipListQuery'
 import { useCharasQuery } from '@/hooks/useCharasQuery'
+import { DummyCharacterModal } from '@/components/pages/village/create/dummy-character-modal'
 import type { components } from '@/types/generated/api'
 import type { CharachipView, CharachipsView, Chara, Charas } from '@/types/charachip'
 
 export default function VillageCreatePage() {
   const router = useRouter()
+  const [isDummyCharaModalOpen, setIsDummyCharaModalOpen] = useState(false)
 
   // キャラチップ一覧を取得
   const {
@@ -92,12 +95,40 @@ export default function VillageCreatePage() {
   // キャラが読み込まれた時に1つ目を初期選択（ダミーキャラ）
   useEffect(() => {
     if (charas.length > 0 && formData.dummy_chara_id === 1) {
+      const firstChara = charas[0]
       setFormData((prev) => ({
         ...prev,
-        dummy_chara_id: charas[0].id,
+        dummy_chara_id: firstChara.id,
+        dummyCharaName: firstChara.chara_name.name,
+        dummyCharaShortName: firstChara.chara_name.short_name,
+        ...(firstChara.default_message?.join_message && {
+          dummyCharaDay0Message: firstChara.default_message.join_message,
+        }),
+        ...(firstChara.default_message?.first_day_message && {
+          dummyCharaDay1Message: firstChara.default_message.first_day_message,
+        }),
       }))
     }
   }, [charas, formData.dummy_chara_id])
+
+  // 選択されたダミーキャラを取得
+  const selectedDummyChara = charas.find((chara) => chara.id === formData.dummy_chara_id)
+
+  // ダミーキャラ選択時の処理
+  const handleSelectDummyChara = (chara: Chara) => {
+    setFormData((prev) => ({
+      ...prev,
+      dummy_chara_id: chara.id,
+      dummyCharaName: chara.chara_name.name,
+      dummyCharaShortName: chara.chara_name.short_name,
+      ...(chara.default_message?.join_message && {
+        dummyCharaDay0Message: chara.default_message.join_message,
+      }),
+      ...(chara.default_message?.first_day_message && {
+        dummyCharaDay1Message: chara.default_message.first_day_message,
+      }),
+    }))
+  }
 
   // 村作成のミューテーション
   const createMutation = useMutation({
@@ -311,16 +342,29 @@ export default function VillageCreatePage() {
               {charas.length > 0 && (
                 <div className="space-y-2">
                   <label className="text-sm font-medium">ダミーキャラ</label>
-                  <div className="space-y-2">
+                  <div className="flex gap-2">
                     <select
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       value={formData.dummy_chara_id}
-                      onChange={(e) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          dummy_chara_id: parseInt(e.target.value),
-                        }))
-                      }
+                      onChange={(e) => {
+                        const selectedCharaId = parseInt(e.target.value)
+                        const selectedChara = charas.find((chara) => chara.id === selectedCharaId)
+                        if (selectedChara) {
+                          setFormData((prev) => ({
+                            ...prev,
+                            dummy_chara_id: selectedCharaId,
+                            dummyCharaName: selectedChara.chara_name.name,
+                            dummyCharaShortName: selectedChara.chara_name.short_name,
+                            ...(selectedChara.default_message?.join_message && {
+                              dummyCharaDay0Message: selectedChara.default_message.join_message,
+                            }),
+                            ...(selectedChara.default_message?.first_day_message && {
+                              dummyCharaDay1Message:
+                                selectedChara.default_message.first_day_message,
+                            }),
+                          }))
+                        }
+                      }}
                       required
                     >
                       {charas.map((chara) => (
@@ -332,11 +376,7 @@ export default function VillageCreatePage() {
                     <Button
                       type="button"
                       variant="outline"
-                      className="w-full"
-                      onClick={() => {
-                        // TODO: モーダル表示の実装
-                        console.log('画像から選ぶモーダルを開く')
-                      }}
+                      onClick={() => setIsDummyCharaModalOpen(true)}
                     >
                       画像から選ぶ
                     </Button>
@@ -374,29 +414,57 @@ export default function VillageCreatePage() {
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <label className="text-sm font-medium">プロローグメッセージ</label>
-                <Textarea
-                  value={formData.dummyCharaDay0Message}
-                  onChange={(e) =>
-                    setFormData((prev) => ({ ...prev, dummyCharaDay0Message: e.target.value }))
-                  }
-                  placeholder="プロローグでのダミーキャラクターのメッセージ"
-                  rows={3}
-                  required
-                />
-              </div>
+              {/* ダミーキャラ発言セクション */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <h3 className="text-lg font-medium">ダミーキャラ発言</h3>
+                </div>
 
-              <div className="space-y-2">
-                <label className="text-sm font-medium">1日目メッセージ（任意）</label>
-                <Textarea
-                  value={formData.dummyCharaDay1Message}
-                  onChange={(e) =>
-                    setFormData((prev) => ({ ...prev, dummyCharaDay1Message: e.target.value }))
-                  }
-                  placeholder="1日目でのダミーキャラクターのメッセージ（空の場合は発言なし）"
-                  rows={2}
-                />
+                <div className="flex items-start gap-2 p-3 bg-blue-50 border border-blue-200 rounded-md">
+                  <Info className="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" />
+                  <p className="text-sm text-blue-800">1日目発言のみ、村作成後も変更できます</p>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">プロローグ発言</label>
+                  <div className="flex" style={{ gap: '5px' }}>
+                    {selectedDummyChara && (
+                      <div className="flex-shrink-0">
+                        <CharacterImage chara={selectedDummyChara} faceType="NORMAL" />
+                      </div>
+                    )}
+                    <Textarea
+                      className="flex-1"
+                      value={formData.dummyCharaDay0Message}
+                      onChange={(e) =>
+                        setFormData((prev) => ({ ...prev, dummyCharaDay0Message: e.target.value }))
+                      }
+                      placeholder="プロローグでのダミーキャラクターのメッセージ"
+                      rows={3}
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">1日目発言</label>
+                  <div className="flex" style={{ gap: '5px' }}>
+                    {selectedDummyChara && (
+                      <div className="flex-shrink-0">
+                        <CharacterImage chara={selectedDummyChara} faceType="NORMAL" />
+                      </div>
+                    )}
+                    <Textarea
+                      className="flex-1"
+                      value={formData.dummyCharaDay1Message}
+                      onChange={(e) =>
+                        setFormData((prev) => ({ ...prev, dummyCharaDay1Message: e.target.value }))
+                      }
+                      placeholder="1日目でのダミーキャラクターのメッセージ（空の場合は発言なし）"
+                      rows={2}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -507,6 +575,15 @@ export default function VillageCreatePage() {
           </form>
         </div>
       </Card>
+
+      {/* ダミーキャラ選択モーダル */}
+      <DummyCharacterModal
+        isOpen={isDummyCharaModalOpen}
+        onClose={() => setIsDummyCharaModalOpen(false)}
+        charas={charas}
+        selectedCharaId={formData.dummy_chara_id}
+        onSelectChara={handleSelectDummyChara}
+      />
     </div>
   )
 }
