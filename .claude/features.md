@@ -1,2 +1,1 @@
-- 村作成など true/false なものを選択する際は、checkbox でなく、toggle slider にする
-  - designs.md にも記載する
+- スマホ画面の一番外側の横の padding を半分にして、表示内容を多くする

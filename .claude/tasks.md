@@ -5,9 +5,11 @@
 ### 実装待ち
 
 #### UI改善タスク
-- [ ] CharacterImageコンポーネントの改善
-  - CharacterImageコンポーネントにrounded-smスタイルを適用
-  - キャラクター画像に角丸効果を追加
+- [ ] ToggleSliderコンポーネントの実装と適用
+  - ToggleSliderコンポーネントを新規作成
+  - ON/OFF状態のデザインとアニメーション実装
+  - 村作成画面のcheckboxをToggleSliderに置き換え
+  - アクセシビリティ対応（キーボード操作、aria属性）
 
 - [ ] キャラチップ一覧・詳細画面でのCharacterImage使用
   - キャラチップ一覧画面でCharacterImageコンポーネントを使用

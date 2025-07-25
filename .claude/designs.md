@@ -262,6 +262,38 @@ pnpm generate:api   # API型とクライアント生成
 - キャラチップ詳細画面
 - その他キャラクター画像を表示する全ての箇所
 
+### 5.8 Toggle Slider コンポーネント設計
+
+#### コンポーネント仕様
+- **コンポーネント名**: `ToggleSlider`
+- **Props**:
+  - `checked: boolean` - 現在の状態
+  - `onChange: (checked: boolean) => void` - 状態変更時のコールバック
+  - `disabled?: boolean` - 無効状態
+  - `label?: string` - ラベルテキスト
+  - `className?: string` - 追加CSSクラス
+- **デザイン仕様**:
+  - ON状態: 青色背景（`bg-blue-600`）、右側に白いスライダー
+  - OFF状態: グレー背景（`bg-gray-300`）、左側に白いスライダー
+  - ホバー時: 色の濃度を上げる（`hover:bg-blue-700`, `hover:bg-gray-400`）
+  - トランジション: スムーズなアニメーション（`transition-all duration-200`）
+  - アクセシビリティ: キーボード操作対応、適切なaria属性
+
+#### 利用箇所
+- **村作成画面のルール設定セクション**:
+  - 投票公開（open_vote）
+  - 役職希望可能（availableSkillRequest）
+  - 見学可能（availableSpectate）
+  - 墓下発言表示（visibleGraveMessage）
+  - コミット可能（availableCommit）
+  - 独り言可能（availableSecretSay）
+  - その他のboolean型設定項目
+
+#### 実装方針
+- 既存のcheckbox要素をToggleSliderコンポーネントに置き換え
+- フォームの状態管理は既存のuseStateを継続使用
+- ラベルクリックでもトグル操作を可能にする
+
 ### 5.5 村作成画面設計
 
 #### ダミーキャラ機能の改善

@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Textarea } from '@/components/ui/textarea'
 import { CharacterImage } from '@/components/ui/character-image'
+import { ToggleSlider } from '@/components/ui/toggle-slider'
 import { Info } from 'lucide-react'
 import { apiClient } from '@/lib/api/client'
 import { handleApiError } from '@/lib/api/error-handler'
@@ -473,77 +474,51 @@ export default function VillageCreatePage() {
               <h2 className="text-xl font-semibold border-b pb-2">ルール設定</h2>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <label className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    checked={formData.open_vote}
-                    onChange={(e) =>
-                      setFormData((prev) => ({ ...prev, open_vote: e.target.checked }))
-                    }
-                    className="rounded"
-                  />
-                  <span className="text-sm">投票公開</span>
-                </label>
+                <ToggleSlider
+                  checked={formData.open_vote}
+                  onChange={(checked) => setFormData((prev) => ({ ...prev, open_vote: checked }))}
+                  label="投票公開"
+                />
 
-                <label className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    checked={formData.availableSkillRequest}
-                    onChange={(e) =>
-                      setFormData((prev) => ({ ...prev, availableSkillRequest: e.target.checked }))
-                    }
-                    className="rounded"
-                  />
-                  <span className="text-sm">役職希望可能</span>
-                </label>
+                <ToggleSlider
+                  checked={formData.availableSkillRequest}
+                  onChange={(checked) =>
+                    setFormData((prev) => ({ ...prev, availableSkillRequest: checked }))
+                  }
+                  label="役職希望可能"
+                />
 
-                <label className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    checked={formData.availableSpectate}
-                    onChange={(e) =>
-                      setFormData((prev) => ({ ...prev, availableSpectate: e.target.checked }))
-                    }
-                    className="rounded"
-                  />
-                  <span className="text-sm">見学可能</span>
-                </label>
+                <ToggleSlider
+                  checked={formData.availableSpectate}
+                  onChange={(checked) =>
+                    setFormData((prev) => ({ ...prev, availableSpectate: checked }))
+                  }
+                  label="見学可能"
+                />
 
-                <label className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    checked={formData.visibleGraveMessage}
-                    onChange={(e) =>
-                      setFormData((prev) => ({ ...prev, visibleGraveMessage: e.target.checked }))
-                    }
-                    className="rounded"
-                  />
-                  <span className="text-sm">墓下発言表示</span>
-                </label>
+                <ToggleSlider
+                  checked={formData.visibleGraveMessage}
+                  onChange={(checked) =>
+                    setFormData((prev) => ({ ...prev, visibleGraveMessage: checked }))
+                  }
+                  label="墓下発言表示"
+                />
 
-                <label className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    checked={formData.availableCommit}
-                    onChange={(e) =>
-                      setFormData((prev) => ({ ...prev, availableCommit: e.target.checked }))
-                    }
-                    className="rounded"
-                  />
-                  <span className="text-sm">コミット可能</span>
-                </label>
+                <ToggleSlider
+                  checked={formData.availableCommit}
+                  onChange={(checked) =>
+                    setFormData((prev) => ({ ...prev, availableCommit: checked }))
+                  }
+                  label="コミット可能"
+                />
 
-                <label className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    checked={formData.availableSecretSay}
-                    onChange={(e) =>
-                      setFormData((prev) => ({ ...prev, availableSecretSay: e.target.checked }))
-                    }
-                    className="rounded"
-                  />
-                  <span className="text-sm">独り言可能</span>
-                </label>
+                <ToggleSlider
+                  checked={formData.availableSecretSay}
+                  onChange={(checked) =>
+                    setFormData((prev) => ({ ...prev, availableSecretSay: checked }))
+                  }
+                  label="独り言可能"
+                />
               </div>
 
               <div className="space-y-2">
