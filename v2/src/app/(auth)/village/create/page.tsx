@@ -4,11 +4,11 @@ import { useState, useEffect } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
-import { Textarea } from '@/components/ui/textarea'
-import { CharacterImage } from '@/components/ui/character-image'
-import { ToggleSlider } from '@/components/ui/toggle-slider'
-import { Info } from 'lucide-react'
+import { BasicSettingsSection } from '@/components/pages/village/create/basic-settings-section'
+import { TimeSettingsSection } from '@/components/pages/village/create/time-settings-section'
+import { OrganizationSection } from '@/components/pages/village/create/organization-section'
+import { CharachipSettingsSection } from '@/components/pages/village/create/charachip-settings-section'
+import { RuleSettingsSection } from '@/components/pages/village/create/rule-settings-section'
 import { apiClient } from '@/lib/api/client'
 import { handleApiError } from '@/lib/api/error-handler'
 import { useCharachipListQuery } from '@/hooks/useCharachipListQuery'
@@ -112,9 +112,6 @@ export default function VillageCreatePage() {
     }
   }, [charas, formData.dummy_chara_id])
 
-  // 選択されたダミーキャラを取得
-  const selectedDummyChara = charas.find((chara) => chara.id === formData.dummy_chara_id)
-
   // ダミーキャラ選択時の処理
   const handleSelectDummyChara = (chara: Chara) => {
     setFormData((prev) => ({
@@ -214,337 +211,89 @@ export default function VillageCreatePage() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* 基本設定 */}
-          <Card className="p-4 md:p-6">
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold border-b pb-2">基本設定</h2>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium">村名</label>
-                <input
-                  type="text"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  value={formData.villageName}
-                  onChange={(e) =>
-                    setFormData((prev) => ({ ...prev, villageName: e.target.value }))
-                  }
-                  maxLength={40}
-                  required
-                />
-                <p className="text-xs text-gray-500">{formData.villageName.length}/40文字</p>
-              </div>
-            </div>
-          </Card>
+          <BasicSettingsSection
+            villageName={formData.villageName}
+            onVillageNameChange={(name) => setFormData((prev) => ({ ...prev, villageName: name }))}
+          />
 
           {/* 時間設定 */}
-          <Card className="p-4 md:p-6">
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold border-b pb-2">時間</h2>
-
-              <div className="bg-blue-50 border border-blue-200 rounded-md p-3 flex items-start space-x-2">
-                <Info className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
-                <p className="text-sm text-blue-800">1日の長さは24時間固定です</p>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium">開始日時</label>
-                <input
-                  type="datetime-local"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  value={formData.start_datetime}
-                  onChange={(e) =>
-                    setFormData((prev) => ({ ...prev, start_datetime: e.target.value }))
-                  }
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium">沈黙時間（時間）</label>
-                <input
-                  type="number"
-                  min="0"
-                  max="24"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  value={formData.silentHours}
-                  onChange={(e) =>
-                    setFormData((prev) => ({ ...prev, silentHours: parseInt(e.target.value) }))
-                  }
-                />
-                <p className="text-xs text-gray-500">0を指定すると沈黙時間なしになります</p>
-              </div>
-            </div>
-          </Card>
+          <TimeSettingsSection
+            startDateTime={formData.start_datetime}
+            silentHours={formData.silentHours}
+            onStartDateTimeChange={(datetime) =>
+              setFormData((prev) => ({ ...prev, start_datetime: datetime }))
+            }
+            onSilentHoursChange={(hours) =>
+              setFormData((prev) => ({ ...prev, silentHours: hours }))
+            }
+          />
 
           {/* 役職構成 */}
-          <Card className="p-4 md:p-6">
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold border-b pb-2">役職構成</h2>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium">構成</label>
-                <select
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  value={formData.organization}
-                  onChange={(e) =>
-                    setFormData((prev) => ({ ...prev, organization: e.target.value }))
-                  }
-                  required
-                >
-                  <option value="8人村">8人村</option>
-                  <option value="11人村">11人村</option>
-                  <option value="15人村">15人村</option>
-                  <option value="17人村">17人村</option>
-                  <option value="22人村">22人村</option>
-                </select>
-              </div>
-            </div>
-          </Card>
+          <OrganizationSection
+            organization={formData.organization}
+            onOrganizationChange={(organization) =>
+              setFormData((prev) => ({ ...prev, organization }))
+            }
+          />
 
           {/* キャラチップ設定 */}
-          <Card className="p-4 md:p-6">
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold border-b pb-2">キャラチップ設定</h2>
-
-              {/* キャラチップ選択 */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium">キャラチップ</label>
-                <div className="space-y-2">
-                  {charachipLoading && <p className="text-gray-500">キャラチップを読み込み中...</p>}
-                  {charachipError && (
-                    <p className="text-red-500">キャラチップの読み込みに失敗しました</p>
-                  )}
-                  {charachips.length === 0 && !charachipLoading && !charachipError && (
-                    <p className="text-gray-500">キャラチップがありません</p>
-                  )}
-                  {charachips.length > 0 && (
-                    <select
-                      multiple
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[120px]"
-                      value={formData.charachipIds.map(String)}
-                      onChange={(e) => {
-                        const selectedValues = Array.from(e.target.selectedOptions, (option) =>
-                          parseInt(option.value)
-                        )
-                        setFormData((prev) => ({
-                          ...prev,
-                          charachipIds: selectedValues,
-                        }))
-                      }}
-                      required
-                    >
-                      {charachips.map((charachip) => (
-                        <option key={charachip.id} value={charachip.id}>
-                          {charachip.name}
-                        </option>
-                      ))}
-                    </select>
-                  )}
-                  <p className="text-xs text-gray-500">
-                    複数選択する場合はCtrl/Cmd + クリックしてください
-                  </p>
-                </div>
-              </div>
-
-              {/* ダミーキャラ選択 */}
-              {charas.length > 0 && (
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">ダミーキャラ</label>
-                  <div className="flex gap-2">
-                    <select
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      value={formData.dummy_chara_id}
-                      onChange={(e) => {
-                        const selectedCharaId = parseInt(e.target.value)
-                        const selectedChara = charas.find((chara) => chara.id === selectedCharaId)
-                        if (selectedChara) {
-                          setFormData((prev) => ({
-                            ...prev,
-                            dummy_chara_id: selectedCharaId,
-                            dummyCharaName: selectedChara.chara_name.name,
-                            dummyCharaShortName: selectedChara.chara_name.short_name,
-                            ...(selectedChara.default_message?.join_message && {
-                              dummyCharaDay0Message: selectedChara.default_message.join_message,
-                            }),
-                            ...(selectedChara.default_message?.first_day_message && {
-                              dummyCharaDay1Message:
-                                selectedChara.default_message.first_day_message,
-                            }),
-                          }))
-                        }
-                      }}
-                      required
-                    >
-                      {charas.map((chara) => (
-                        <option key={chara.id} value={chara.id}>
-                          {chara.chara_name.name}
-                        </option>
-                      ))}
-                    </select>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={() => setIsDummyCharaModalOpen(true)}
-                    >
-                      画像から選ぶ
-                    </Button>
-                  </div>
-                </div>
-              )}
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">ダミーキャラ名</label>
-                  <input
-                    type="text"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    value={formData.dummyCharaName}
-                    onChange={(e) =>
-                      setFormData((prev) => ({ ...prev, dummyCharaName: e.target.value }))
-                    }
-                    maxLength={40}
-                    required
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">ダミーキャラ略称</label>
-                  <input
-                    type="text"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    value={formData.dummyCharaShortName}
-                    onChange={(e) =>
-                      setFormData((prev) => ({ ...prev, dummyCharaShortName: e.target.value }))
-                    }
-                    maxLength={1}
-                    required
-                  />
-                </div>
-              </div>
-
-              {/* ダミーキャラ発言セクション */}
-              <div className="space-y-4">
-                <div className="flex items-center gap-2">
-                  <h3 className="text-lg font-medium">ダミーキャラ発言</h3>
-                </div>
-
-                <div className="flex items-start gap-2 p-3 bg-blue-50 border border-blue-200 rounded-md">
-                  <Info className="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" />
-                  <p className="text-sm text-blue-800">1日目発言のみ、村作成後も変更できます</p>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">プロローグ発言</label>
-                  <div className="flex" style={{ gap: '5px' }}>
-                    {selectedDummyChara && (
-                      <div className="flex-shrink-0">
-                        <CharacterImage chara={selectedDummyChara} faceType="NORMAL" />
-                      </div>
-                    )}
-                    <Textarea
-                      className="flex-1"
-                      value={formData.dummyCharaDay0Message}
-                      onChange={(e) =>
-                        setFormData((prev) => ({ ...prev, dummyCharaDay0Message: e.target.value }))
-                      }
-                      placeholder="プロローグでのダミーキャラクターのメッセージ"
-                      rows={3}
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">1日目発言</label>
-                  <div className="flex" style={{ gap: '5px' }}>
-                    {selectedDummyChara && (
-                      <div className="flex-shrink-0">
-                        <CharacterImage chara={selectedDummyChara} faceType="NORMAL" />
-                      </div>
-                    )}
-                    <Textarea
-                      className="flex-1"
-                      value={formData.dummyCharaDay1Message}
-                      onChange={(e) =>
-                        setFormData((prev) => ({ ...prev, dummyCharaDay1Message: e.target.value }))
-                      }
-                      placeholder="1日目でのダミーキャラクターのメッセージ（空の場合は発言なし）"
-                      rows={2}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Card>
+          <CharachipSettingsSection
+            charachips={charachips}
+            charachipLoading={charachipLoading}
+            charachipError={charachipError}
+            charachipIds={formData.charachipIds}
+            onCharachipIdsChange={(ids) => setFormData((prev) => ({ ...prev, charachipIds: ids }))}
+            charas={charas}
+            dummyCharaId={formData.dummy_chara_id}
+            dummyCharaName={formData.dummyCharaName}
+            dummyCharaShortName={formData.dummyCharaShortName}
+            dummyCharaDay0Message={formData.dummyCharaDay0Message}
+            dummyCharaDay1Message={formData.dummyCharaDay1Message}
+            onDummyCharaChange={handleSelectDummyChara}
+            onDummyCharaNameChange={(name) =>
+              setFormData((prev) => ({ ...prev, dummyCharaName: name }))
+            }
+            onDummyCharaShortNameChange={(shortName) =>
+              setFormData((prev) => ({ ...prev, dummyCharaShortName: shortName }))
+            }
+            onDummyCharaDay0MessageChange={(message) =>
+              setFormData((prev) => ({ ...prev, dummyCharaDay0Message: message }))
+            }
+            onDummyCharaDay1MessageChange={(message) =>
+              setFormData((prev) => ({ ...prev, dummyCharaDay1Message: message }))
+            }
+            onOpenDummyCharaModal={() => setIsDummyCharaModalOpen(true)}
+          />
 
           {/* ルール設定 */}
-          <Card className="p-4 md:p-6">
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold border-b pb-2">ルール設定</h2>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <ToggleSlider
-                  checked={formData.open_vote}
-                  onChange={(checked) => setFormData((prev) => ({ ...prev, open_vote: checked }))}
-                  label="投票公開"
-                />
-
-                <ToggleSlider
-                  checked={formData.availableSkillRequest}
-                  onChange={(checked) =>
-                    setFormData((prev) => ({ ...prev, availableSkillRequest: checked }))
-                  }
-                  label="役職希望可能"
-                />
-
-                <ToggleSlider
-                  checked={formData.availableSpectate}
-                  onChange={(checked) =>
-                    setFormData((prev) => ({ ...prev, availableSpectate: checked }))
-                  }
-                  label="見学可能"
-                />
-
-                <ToggleSlider
-                  checked={formData.visibleGraveMessage}
-                  onChange={(checked) =>
-                    setFormData((prev) => ({ ...prev, visibleGraveMessage: checked }))
-                  }
-                  label="墓下発言表示"
-                />
-
-                <ToggleSlider
-                  checked={formData.availableCommit}
-                  onChange={(checked) =>
-                    setFormData((prev) => ({ ...prev, availableCommit: checked }))
-                  }
-                  label="コミット可能"
-                />
-
-                <ToggleSlider
-                  checked={formData.availableSecretSay}
-                  onChange={(checked) =>
-                    setFormData((prev) => ({ ...prev, availableSecretSay: checked }))
-                  }
-                  label="独り言可能"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium">入村パスワード（任意）</label>
-                <input
-                  type="password"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  value={formData.joinPassword}
-                  onChange={(e) =>
-                    setFormData((prev) => ({ ...prev, joinPassword: e.target.value }))
-                  }
-                />
-                <p className="text-xs text-gray-500">
-                  設定すると、入村にパスワードが必要になります
-                </p>
-              </div>
-            </div>
-          </Card>
+          <RuleSettingsSection
+            openVote={formData.open_vote}
+            availableSkillRequest={formData.availableSkillRequest}
+            availableSpectate={formData.availableSpectate}
+            visibleGraveMessage={formData.visibleGraveMessage}
+            availableCommit={formData.availableCommit}
+            availableSecretSay={formData.availableSecretSay}
+            joinPassword={formData.joinPassword}
+            onOpenVoteChange={(checked) => setFormData((prev) => ({ ...prev, open_vote: checked }))}
+            onAvailableSkillRequestChange={(checked) =>
+              setFormData((prev) => ({ ...prev, availableSkillRequest: checked }))
+            }
+            onAvailableSpectateChange={(checked) =>
+              setFormData((prev) => ({ ...prev, availableSpectate: checked }))
+            }
+            onVisibleGraveMessageChange={(checked) =>
+              setFormData((prev) => ({ ...prev, visibleGraveMessage: checked }))
+            }
+            onAvailableCommitChange={(checked) =>
+              setFormData((prev) => ({ ...prev, availableCommit: checked }))
+            }
+            onAvailableSecretSayChange={(checked) =>
+              setFormData((prev) => ({ ...prev, availableSecretSay: checked }))
+            }
+            onJoinPasswordChange={(password) =>
+              setFormData((prev) => ({ ...prev, joinPassword: password }))
+            }
+          />
 
           {/* 送信ボタン */}
           <div className="flex justify-center pt-6">
