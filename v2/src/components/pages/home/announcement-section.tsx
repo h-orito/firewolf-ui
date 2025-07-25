@@ -22,12 +22,12 @@ export default function AnnouncementSection() {
 
   return (
     <section className="py-12 bg-slate-50">
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-3 md:px-6">
         <H2 center>お知らせ</H2>
 
         <div className="space-y-4 max-w-4xl mx-auto">
           {announcements.map((announcement) => (
-            <Card key={announcement.id} className="p-6">
+            <Card key={announcement.id} className="p-4 md:p-6">
               <div className="space-y-3">
                 <div className="flex justify-between items-start">
                   <div className="flex items-center gap-3">

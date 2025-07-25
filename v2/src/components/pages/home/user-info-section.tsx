@@ -17,8 +17,8 @@ export default function UserInfoSection() {
   if (!isAuthenticated) {
     return (
       <section className="py-12 bg-slate-100">
-        <div className="container mx-auto px-6">
-          <Card className="p-8">
+        <div className="container mx-auto px-3 md:px-6">
+          <Card className="p-4 md:p-8">
             <div className="text-center space-y-6">
               <h2 className="text-xl font-bold text-gray-900">ログインして人狼ゲームを楽しもう</h2>
               <p className="text-gray-600">

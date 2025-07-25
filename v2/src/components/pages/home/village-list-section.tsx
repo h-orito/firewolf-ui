@@ -14,7 +14,7 @@ export default function VillageListSection() {
 
   return (
     <section className="py-12 bg-white">
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-3 md:px-6">
         <H2 center>開催中の村</H2>
 
         <div className="mb-8">

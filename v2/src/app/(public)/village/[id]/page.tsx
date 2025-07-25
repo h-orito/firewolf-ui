@@ -15,7 +15,7 @@ export default function VillagePage() {
 
   if (isLoading) {
     return (
-      <div className="container mx-auto px-6 py-8">
+      <div className="container mx-auto px-3 md:px-6 py-8">
         <div className="text-center">
           <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
           <p className="mt-4 text-gray-600">村情報を読み込み中...</p>
@@ -26,7 +26,7 @@ export default function VillagePage() {
 
   if (error || !village) {
     return (
-      <div className="container mx-auto px-6 py-8">
+      <div className="container mx-auto px-3 md:px-6 py-8">
         <div className="text-center">
           <p className="text-red-600 mb-2">村情報の取得に失敗しました</p>
           <button
@@ -41,7 +41,7 @@ export default function VillagePage() {
   }
 
   return (
-    <div className="container mx-auto px-6 py-8">
+    <div className="container mx-auto px-3 md:px-6 py-8">
       <div className="grid lg:grid-cols-4 gap-6">
         {/* メイン領域 */}
         <div className="lg:col-span-3 space-y-6">

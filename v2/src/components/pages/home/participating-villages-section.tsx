@@ -42,7 +42,7 @@ export default function ParticipatingVillagesSection() {
 
   return (
     <section className="py-16 bg-white">
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-3 md:px-6">
         <div className="text-center mb-12">
           <H2 center>参加している村</H2>
         </div>
