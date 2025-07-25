@@ -1,367 +1,330 @@
-# FIREWOLF UI v2 設計書
+# v2プロジェクト設計書
 
-## 1. 概要
+## 概要
 
-本設計書は、FIREWOLF UI を Nuxt.js 2.x から Next.js 15（App Router）へ移行し、今後の保守開発をやりやすくするための設計方針を定めたものです。
+FIREWOLF UI v2プロジェクトの設計書です。v1から刷新したアーキテクチャと技術選定、実装方針を記載します。
 
-## 2. 技術選定
+## アーキテクチャ設計
 
-### 2.1 コアフレームワーク
+### 技術スタック
 
-- **Next.js 15 (App Router)** - 最新の React Server Components 対応、Turbopack 対応
-- **React 19** - 最新の機能とパフォーマンス改善
-- **TypeScript 5** - より強力な型システム
+- **フレームワーク**: Next.js 14 (App Router)
+- **言語**: TypeScript
+- **UI**: React 18
+- **スタイリング**: Tailwind CSS
+- **状態管理**: Zustand
+- **フォーム**: React Hook Form + Zod
+- **API通信**: TanStack Query (React Query) + Axios
+- **認証**: Firebase Auth
+- **テスト**: Jest + React Testing Library + Playwright
+- **パッケージマネージャー**: pnpm
 
-### 2.2 状態管理
-
-- **Zustand** - シンプルで型安全な状態管理（Vuex の代替）
-- **TanStack Query (React Query)** - サーバー状態の管理とキャッシュ
-
-### 2.3 スタイリング
-
-- **Tailwind CSS** - ユーティリティファースト CSS
-- **shadcn/ui** - カスタマイズ可能な UI コンポーネントライブラリ
-- **CSS Modules** - コンポーネントスコープのスタイル（必要に応じて）
-
-### 2.4 その他の主要ライブラリ
-
-- **Firebase Authentication** - 既存システムとの互換性維持
-- **React Hook Form + Zod** - フォーム管理とバリデーション
-- **date-fns** - 日付処理（dayjs の代替）
-- **recharts** - グラフ表示（Chart.js の代替）
-- **Font Awesome** - アイコン表示用ライブラリ
-- **next-pwa** - PWA 対応
-- **openapi-typescript + openapi-fetch** - 型安全な API クライアントの生成
-
-## 3. ディレクトリ構造
+### ディレクトリ構成
 
 ```
-v2/
-├── app/                          # App Router
-│   ├── (auth)/                   # 認証が必要なルート
-│   │   ├── village/create/       # 村作成画面
-│   │   └── setting/              # 設定画面
-│   ├── (public)/                 # 公開ルート
-│   │   ├── page.tsx              # トップページ
-│   │   ├── village/[id]/         # 村画面（認証不要）
-│   │   ├── player-record/[id]/   # プレイヤー戦績
-│   │   ├── charachip-list/       # キャラチップ一覧
-│   │   ├── charachip/[id]/       # キャラチップ詳細
-│   │   ├── terms/                # 利用規約
-│   │   ├── privacy/              # プライバシーポリシー
-│   │   ├── about/ rule/ faq/     # その他静的ページ
-│   ├── layout.tsx                # ルートレイアウト
-│   └── globals.css               # グローバルスタイル
-├── components/                   # 共有コンポーネント
-│   ├── ui/                       # 基本UIコンポーネント
-│   ├── layout/                   # レイアウト関連
-│   ├── pages/                    # 各ページ専用コンポーネント
-│   ├── auth/                     # 認証関連
-│   └── providers/                # コンテキストプロバイダー
-├── hooks/                        # カスタムフック
-├── lib/                          # ユーティリティ関数
-│   ├── api/                      # API関連
-│   ├── auth/                     # 認証関連
-│   └── utils/                    # その他ユーティリティ
-├── stores/                       # Zustand ストア
-├── types/                        # TypeScript型定義
-├── public/                       # 静的ファイル
-└── tests/                        # テストファイル
+src/
+├── app/                    # Next.js App Router
+│   ├── (auth)/            # 認証が必要なページ
+│   ├── (public)/          # 公開ページ
+│   └── api/               # API Routes
+├── components/            # コンポーネント
+│   ├── ui/               # 汎用UIコンポーネント
+│   ├── pages/            # ページ固有コンポーネント
+│   └── layout/           # レイアウトコンポーネント
+├── hooks/                # カスタムフック
+├── lib/                  # ユーティリティライブラリ
+├── stores/               # 状態管理
+├── types/                # 型定義
+└── utils/                # ユーティリティ関数
 ```
 
-## 4. 主要機能の実装方針
+## UI/UX設計
 
-### 4.1 認証システム
+### ルール設定セクションのUI/UX設計
 
-Firebase Authentication を使用し、既存システムとの互換性を維持します。
+#### 基本設定項目
 
-### 4.2 状態管理
+ルール設定セクションでは以下の5つの基本設定項目を提供します：
 
-- **Zustand**: 認証状態などのグローバル状態管理
-- **TanStack Query**: サーバーデータのキャッシュと同期
+1. **記名投票**: 投票者が誰に投票したかを公開するかの設定
+2. **見学可能**: 村への見学参加を許可するかの設定
+3. **突然死あり**: プレイヤーの突然死（離脱）を許可するかの設定
+4. **時短希望可能**: 時短希望の投票を許可するかの設定
+5. **連続護衛可能**: 同じ対象を連続して護衛できるかの設定
 
-### 4.3 API 通信
+#### UIコンポーネント設計
 
-OpenAPI 定義（`http://localhost:8087/firewolf/v3/api-docs`）から型定義と API クライアントを自動生成し、型安全性を確保します。
+**トグルスイッチによるON/OFF設定**
+- 各設定項目にはトグルスイッチを使用
+- ON状態とOFF状態が視覚的に分かりやすいデザイン
+- 設定項目のラベルとヘルプテキストを併記
+- 既存の`ToggleSlider`コンポーネントを活用
 
-### 4.4 Server Components 活用
-
-Next.js 15 の Server Components を活用し、初期表示パフォーマンスを向上させます。
-
-## 5. UI/UX設計方針
-
-### 5.1 デザインテーマ
-
-#### カラーパレット
-- **Primary（青系）**: `bg-blue-600 hover:bg-blue-700` - 基本操作、メインCTA
-- **Danger（赤系）**: `bg-red-600 hover:bg-red-700` - 削除、危険な操作
-- **Success（緑系）**: `bg-green-600 hover:bg-green-700` - 成功、完了、作成
-- **Warning（黄色系）**: `bg-yellow-600 hover:bg-yellow-700` - 注意、警告
-
-#### フォント設定
-- **村のメッセージ内容**: 等幅フォント（monospace）を使用
-
-### 5.2 レイアウト・コンポーネント設計
-
-#### ヘッダー
-- **デスクトップ**: シンプルなデザイン（「村一覧」「ルール」等のリンクを削除）
-- **モバイル**: ハンバーガーメニューでグループ化された構造
-  - FIREWOLFグループ（基本情報）
-  - ゲームグループ（村一覧、ルール等）
-  - ユーザーグループ（村作成、マイページ等、ログイン時のみ）
-
-#### フッター
-- 簡潔な構成で冗長な紹介文を削除
-- SNSリンクの更新（X: `https://x.com/ort_dev`）
-- 著作権表記を「© 2020- h-orito」に統一
-
-### 5.3 主要画面設計
-
-#### トップページ
-- **ビジュアル**: v1のトップページ画像を継続使用（横幅100%）
-- **サイト名**: 画像右側に「FIREWOLF」を重ね表示（赤茶系shadow）
-- **紹介文**: 画像右下に「FIREWOLFは\n長期人狼が無料で遊べるサービスです」
-- **村一覧**: プロローグ、進行中、エピローグの村を固定表示（フィルター削除）
-- **参加している村セクション**: ログイン時のみ表示、0件時は非表示
-
-#### 村関連画面
-- **村カード**: v1スタイルの背景画像上にテキスト重ね表示
-- **村詳細**: キャラクター画像の最適化、不要項目削除
-
-#### キャラチップ関連
-- **一覧画面**: 代表キャラクター画像表示、素材サイトリンク削除
-- **詳細画面**: 画像表示修正、名前変更可否表示、「作者 HP」表記
-
-#### 認証関連
-- **ログインモーダル**: 注意文の赤色表示、ボタンの視認性改善
-- **アカウント連携**: 他SNS連携モーダルの実装
-
-## 6. 移行戦略
-
-### 6.1 段階的移行
-
-1. **Phase 1**: 基本セットアップとコアコンポーネント
-2. **Phase 2**: 主要画面（トップ、村一覧、村画面表示）
-3. **Phase 3**: インタラクティブ機能（投稿、アクション）
-4. **Phase 4**: 管理機能（村作成、設定画面）
-
-### 6.2 データ構造の互換性維持
-
-- 既存 API レスポンス形式を維持
-- 型定義は自動生成されたものを優先
-- URL パスの互換性確保
-
-## 7. デプロイメント・インフラ
-
-### 7.1 コンテナ化
-
-- **ベースイメージ**: `node:22-bookworm-slim`
-- **ポート**: 3000
-- **basePath**: `/firewolf`（全環境統一）
-
-### 7.2 CI/CD
-
-- **GitHub Actions**: ビルド → テスト → ghcr.io push
-- **Kubernetes**: ローリングアップデート、GitOps
-
-## 8. 開発環境・ツール
-
-### 8.1 開発コマンド
-
-```bash
-pnpm dev --turbo    # 開発サーバー（Turbopack）
-pnpm build          # ビルド
-pnpm type-check     # 型チェック
-pnpm lint           # リント
-pnpm format         # フォーマット
-pnpm test           # テスト
-pnpm generate:api   # API型とクライアント生成
+**初期値の設定と表示方法**
+```typescript
+interface RuleSettings {
+  isOpenVote: boolean;           // 記名投票（初期値: false）
+  isAvailableSpectate: boolean;  // 見学可能（初期値: true）
+  isAvailableSuddenlyDeath: boolean; // 突然死あり（初期値: true）
+  isAvailableCommit: boolean;    // 時短希望可能（初期値: true）
+  isAvailableGuardSameTarget: boolean; // 連続護衛可能（初期値: false）
+}
 ```
 
-### 8.2 品質管理
+#### レイアウト設計
 
-- TypeScript strict mode
-- ESLint + Prettier
-- Jest + React Testing Library
-- Playwright（E2E）
+```
+[ルール設定]
+┌─────────────────────────────────────┐
+│ □ 記名投票                           │
+│   投票者が公開されます              │
+│                                     │
+│ ■ 見学可能                           │
+│   見学者の参加を許可します          │
+│                                     │
+│ ■ 突然死あり                         │
+│   プレイヤーの離脱を許可します      │
+│                                     │
+│ ■ 時短希望可能                       │
+│   時短希望の投票ができます          │
+│                                     │
+│ □ 連続護衛可能                       │
+│   同じ対象を連続護衛できます        │
+└─────────────────────────────────────┘
+```
 
-### 8.3 型定義のルール
+### 発言制限設定の設計
 
-- **API自動生成型の使用制限**: `components['schemas']['XXX']` のような自動生成された型定義を直接使用することは禁止
-- **型定義の配置**: すべての型定義は `src/types/` ディレクトリに配置
-- **型の再エクスポート**: API自動生成型は `src/types/` で適切な名前で再定義・エクスポートしてから使用
-- **命名規則**: 
-  - API レスポンス型: `XXXResponse`
-  - API リクエスト型: `XXXRequest`
-  - ドメインモデル型: シンプルな名前（例: `Skill`, `Village`）
+#### 発言種別と制限項目
 
-## 9. セキュリティ・パフォーマンス
+7つの発言種別それぞれに対して回数制限と文字数制限を設定できます：
 
-### 9.1 セキュリティ
-- XSS 対策（React 標準）
-- 環境変数の適切な管理
-- API キーの秘匿
+1. **通常発言**: 昼間の通常発言
+2. **囁き**: 人狼間の秘密会話
+3. **独り言**: 個人のメモ的発言
+4. **見学者発言**: 見学者の発言
+5. **死者発言**: 死亡後の発言
+6. **秘話**: 特定の相手との秘密会話
+7. **村建て発言**: 村建て人の管理発言
 
-### 9.2 パフォーマンス最適化
-- Next.js Image/Font Optimization
-- React.memo, useMemo/useCallback
-- Suspense によるローディング改善
-- Bundle splitting
+#### 制限設定の種類
 
-### 5.4 ルールページ設計
+**回数制限**
+- 1日あたりの発言回数上限
+- 範囲: 0〜999回
+- 0の場合は発言禁止を意味
 
-#### 役職一覧機能
-- **データ取得**: API `/skill/list` から役職情報を取得
-- **表示形式**: テーブル形式での役職一覧表示
-- **インタラクション**:
-  - 役職名クリックで詳細説明（description）をアコーディオン展開
-  - 能力リンククリックで該当セクションへスムーズスクロール
-- **視覚的強調**:
-  - 人狼陣営の関連項目は赤文字（`text-red-600`）で表示
-  - 勝敗判定カウントがnullの場合は「-」表示
-- **レスポンシブ対応**: モバイル表示での横スクロール対応
+**文字数制限**
+- 1回の発言あたりの文字数上限
+- 範囲: 1〜10000文字
+- デフォルト値: 200文字
 
-#### 能力欄の拡充
-- **v1コンテンツの移行**: v1のルールページから能力説明を移行
-- **ID属性の統一**: 役職一覧からのアンカーリンクに対応したID設定
-- **説明の網羅性**: v1と同等レベルの能力説明を提供
+#### UIコンポーネント設計
 
-### 5.6 村作成画面設計（編成セクション）
+**数値入力コンポーネント**
+```typescript
+interface MessageRestrictSetting {
+  messageType: string;      // 発言種別
+  maxCount: number;         // 最大回数（0-999）
+  maxLength: number;        // 最大文字数（1-10000）
+}
 
-#### 編成セクションの設計
-- **セクション順序**: キャラチップ設定の後、ルール設定の前に配置
-- **セクション名**: 「役職構成」から「編成」に変更
-- **入力フィールド構成**:
-  - 最小人数（number input, 初期値: 10, min: 5, max: 999）
-  - 定員（number input, 初期値: 16, min: 最小人数, max: 999）
-  - 役欠け設定（ラジオボタン or セレクト, 初期値: なし）
-- **注意事項の表示**:
-  - info boxスタイル（青色背景）で複数行の注意事項を表示
-  - ルールページへのリンクはtarget="_blank"で新しいタブで開く
+interface MessageRestrictSettings {
+  normalSay: MessageRestrictSetting;    // 通常発言
+  werewolfSay: MessageRestrictSetting;  // 囁き
+  monologueSay: MessageRestrictSetting; // 独り言
+  spectateSay: MessageRestrictSetting;  // 見学者発言
+  graveSay: MessageRestrictSetting;     // 死者発言
+  secretSay: MessageRestrictSetting;    // 秘話
+  creatorSay: MessageRestrictSetting;   // 村建て発言
+}
+```
 
-### 5.7 CharacterImageコンポーネント設計
+**バリデーション機能**
+- 回数: 0〜999の範囲チェック
+- 文字数: 1〜10000の範囲チェック
+- リアルタイムバリデーション
+- エラーメッセージの表示
 
-#### コンポーネント仕様
-- **Props**:
-  - `chara: Chara` - キャラクター情報
-  - `faceType?: string` - 表情タイプ（デフォルト: 'NORMAL'）
-  - `alt?: string` - alt属性
-  - `className?: string` - 追加CSSクラス
-- **機能**:
-  - 指定されたfaceTypeの画像を表示
-  - faceTypeが存在しない場合は最初の画像をfallback
-  - 画像がない場合は「画像なし」のプレースホルダーを表示
-- **スタイル**:
-  - 軽微なrounded（`rounded-sm`）を適用
-  - キャラクターのdisplay.width/heightを使用した自動サイズ調整
+#### レイアウト設計
 
-#### 利用箇所の統一
-- 村作成ページのダミーキャラ発言セクション
-- ダミーキャラ選択モーダル
-- キャラチップ一覧画面
-- キャラチップ詳細画面
-- その他キャラクター画像を表示する全ての箇所
+```
+[発言制限設定]
+┌─────────────────────────────────────┐
+│ 通常発言                            │
+│ 回数: [___20___] 回/日               │
+│ 文字数: [___200___] 文字/回          │
+│                                     │
+│ 囁き                                │
+│ 回数: [___20___] 回/日               │
+│ 文字数: [___200___] 文字/回          │
+│                                     │
+│ 独り言                              │
+│ 回数: [___20___] 回/日               │
+│ 文字数: [___200___] 文字/回          │
+│                                     │
+│ 見学者発言                          │
+│ 回数: [___20___] 回/日               │
+│ 文字数: [___200___] 文字/回          │
+│                                     │
+│ 死者発言                            │
+│ 回数: [___5___] 回/日                │
+│ 文字数: [___200___] 文字/回          │
+│                                     │
+│ 秘話                                │
+│ 回数: [___20___] 回/日               │
+│ 文字数: [___200___] 文字/回          │
+│                                     │
+│ 村建て発言                          │
+│ 回数: [___20___] 回/日               │
+│ 文字数: [___200___] 文字/回          │
+└─────────────────────────────────────┘
+```
 
-### 5.8 Toggle Slider コンポーネント設計
+## コンポーネント設計
 
-#### コンポーネント仕様
-- **コンポーネント名**: `ToggleSlider`
-- **Props**:
-  - `checked: boolean` - 現在の状態
-  - `onChange: (checked: boolean) => void` - 状態変更時のコールバック
-  - `disabled?: boolean` - 無効状態
-  - `label?: string` - ラベルテキスト
-  - `className?: string` - 追加CSSクラス
-- **デザイン仕様**:
-  - ON状態: 青色背景（`bg-blue-600`）、右側に白いスライダー
-  - OFF状態: グレー背景（`bg-gray-300`）、左側に白いスライダー
-  - ホバー時: 色の濃度を上げる（`hover:bg-blue-700`, `hover:bg-gray-400`）
-  - トランジション: スムーズなアニメーション（`transition-all duration-200`）
-  - アクセシビリティ: キーボード操作対応、適切なaria属性
+### RuleSettingsSection コンポーネントの拡張
 
-#### 利用箇所
-- **村作成画面のルール設定セクション**:
-  - 投票公開（open_vote）
-  - 役職希望可能（availableSkillRequest）
-  - 見学可能（availableSpectate）
-  - 墓下発言表示（visibleGraveMessage）
-  - コミット可能（availableCommit）
-  - 独り言可能（availableSecretSay）
-  - その他のboolean型設定項目
+**既存機能**
+- 基本的なルール設定のUI表示
+- フォーム状態管理
 
-#### 実装方針
-- 既存のcheckbox要素をToggleSliderコンポーネントに置き換え
-- フォームの状態管理は既存のuseStateを継続使用
-- ラベルクリックでもトグル操作を可能にする
+**拡張機能**
+```typescript
+interface RuleSettingsSectionProps {
+  ruleSettings: RuleSettings;
+  onRuleSettingsChange: (settings: RuleSettings) => void;
+  messageRestrictSettings: MessageRestrictSettings;
+  onMessageRestrictSettingsChange: (settings: MessageRestrictSettings) => void;
+}
+```
 
-### 5.9 モバイル表示最適化設計
+**実装方針**
+- 既存のRuleSettingsSectionを拡張
+- トグルスイッチ設定セクションを追加
+- フォーム状態はReact Hook Formで管理
+- バリデーションはZodスキーマで実装
 
-#### 横paddingの調整
-- **現在の設定**: `px-6`（24px）を多くの画面で使用
-- **変更後の設定**: スマートフォン表示では`px-3`（12px）に変更
-- **適用方法**: レスポンシブクラス `px-3 md:px-6` を使用
-- **対象コンポーネント**:
-  - ページ全体のコンテナ要素
-  - カード内の要素
-  - その他の主要なレイアウト要素
+### MessageRestrictSettingsSection コンポーネントの新規作成
 
-#### 影響範囲
-- 全画面のモバイル表示
-- タブレット以上では従来のpaddingを維持
-- コンテンツの可読性を損なわない範囲での調整
+**責務**
+- 発言制限設定のUI表示
+- 数値入力フォームの管理
+- バリデーション処理
+- エラー表示
 
-#### 実装方針
-- 段階的に主要画面から適用
-- 各画面での表示確認を行いながら調整
-- 必要に応じて個別の要素で微調整
+**Props定義**
+```typescript
+interface MessageRestrictSettingsSectionProps {
+  settings: MessageRestrictSettings;
+  onChange: (settings: MessageRestrictSettings) => void;
+  errors?: Record<string, string>;
+}
+```
 
-### 5.10 村作成画面レイアウト改善設計
+**内部コンポーネント**
+```typescript
+// 個別の発言制限設定
+interface MessageRestrictItemProps {
+  label: string;
+  setting: MessageRestrictSetting;
+  onChange: (setting: MessageRestrictSetting) => void;
+  errors?: {
+    maxCount?: string;
+    maxLength?: string;
+  };
+}
+```
 
-#### 現在の構造
-- 全体が1つの大きなCardコンポーネントで囲まれている
-- 内部でセクション分けはされているが、視覚的な区分けが不明確
+### バリデーション機能の実装方針
 
-#### 改善後の構造
-- **セクション単位でのCard分割**:
-  - 基本設定セクション → 独立したCard
-  - 時間セクション → 独立したCard  
-  - 役職構成セクション → 独立したCard
-  - キャラチップ設定セクション → 独立したCard
-  - ルール設定セクション → 独立したCard
+**Zodスキーマ定義**
+```typescript
+const messageRestrictSettingSchema = z.object({
+  maxCount: z.number()
+    .min(0, "回数は0以上で入力してください")
+    .max(999, "回数は999以下で入力してください"),
+  maxLength: z.number()
+    .min(1, "文字数は1以上で入力してください")
+    .max(10000, "文字数は10000以下で入力してください")
+});
 
-#### デザイン仕様
-- **Card間の間隔**: `space-y-6` でセクション間の適切な間隔を確保
-- **Cardスタイル**: 統一されたCardデザインでシャドウとborderを適用
-- **内部padding**: 各Card内は`p-4 md:p-6`で適切な内部余白を確保
-- **見出しスタイル**: 各セクションの見出しはCard内の最上部に配置
+const messageRestrictSettingsSchema = z.object({
+  normalSay: messageRestrictSettingSchema,
+  werewolfSay: messageRestrictSettingSchema,
+  monologueSay: messageRestrictSettingSchema,
+  spectateSay: messageRestrictSettingSchema,
+  graveSay: messageRestrictSettingSchema,
+  secretSay: messageRestrictSettingSchema,
+  creatorSay: messageRestrictSettingSchema
+});
 
-#### 実装方針
-- 既存の大きなCardを分割して個別のCardコンポーネントに変更
-- フォーム送信機能は保持したまま、視覚的な構造のみを変更
-- レスポンシブ対応も継続して維持
+const ruleSettingsSchema = z.object({
+  isOpenVote: z.boolean(),
+  isAvailableSpectate: z.boolean(),
+  isAvailableSuddenlyDeath: z.boolean(),
+  isAvailableCommit: z.boolean(),
+  isAvailableGuardSameTarget: z.boolean()
+});
+```
 
-### 5.5 村作成画面設計
+**リアルタイムバリデーション**
+- 入力値変更時に即座にバリデーション実行
+- エラーメッセージをフィールド下部に表示
+- フォーム送信時の最終バリデーション
 
-#### ダミーキャラ機能の改善
-- **ダミーキャラ選択UI**: ダミーキャラ select の右側に「画像から選ぶ」ボタンを配置
-- **ダミーキャラ選択モーダル**:
-  - モーダルタイトル: 「ダミーキャラを選択」
-  - キャラクター画像とキャラ名をカード形式で表示
-  - カードクリックで選択、選択されたキャラクターは視覚的にハイライト
-  - 「決定」ボタンで選択を確定してモーダルを閉じる
-- **自動入力機能**: 
-  - ダミーキャラを選択すると、ダミーキャラ名フィールドにキャラクター名を自動入力
-  - ダミーキャラ略称フィールドに略称を自動入力
-  - 既存の入力内容は上書きされる
-- **ダミーキャラ発言セクション**:
-  - セクション名: 「ダミーキャラ発言」
-  - プロローグ発言入力フィールド（Textarea）
-  - 1日目発言入力フィールド（Textarea）
-  - Info表示: 「1日目発言のみ、村作成後も変更できます」
-  - 各フィールドには適切なプレースホルダーを設定
+**エラーハンドリング**
+- バリデーションエラーの適切な表示
+- フィールドごとのエラー状態管理
+- アクセシビリティを考慮したエラー表示
 
-## 10. 今後の拡張性
+### 数値入力コンポーネント
 
-- ダークモード対応（Tailwind CSS）
-- WebSocket によるリアルタイム通信改善
-- GraphQL への移行（将来的）
+**NumberInput コンポーネント**
+```typescript
+interface NumberInputProps {
+  label: string;
+  value: number;
+  onChange: (value: number) => void;
+  min?: number;
+  max?: number;
+  suffix?: string;
+  error?: string;
+  placeholder?: string;
+}
+```
+
+**特徴**
+- 数値のみ入力可能
+- 最小値・最大値の制限
+- 単位表示（回/日、文字/回）
+- エラー状態の表示
+
+## 実装優先順位
+
+1. **Phase 1**: 基本的なトグルスイッチ設定
+   - RuleSettingsSectionの拡張
+   - トグルスイッチUI実装
+   - 基本的なフォーム状態管理
+
+2. **Phase 2**: 発言制限設定UI
+   - MessageRestrictSettingsSectionの実装
+   - 数値入力コンポーネントの作成
+   - レイアウトとスタイリング
+
+3. **Phase 3**: バリデーション機能
+   - Zodスキーマの実装
+   - リアルタイムバリデーション
+   - エラーハンドリング
+
+4. **Phase 4**: 統合とテスト
+   - コンポーネント統合
+   - ユニットテスト作成
+   - E2Eテスト作成
+
+## 注意事項
+
+- 既存のデザインシステムとの一貫性を保つ
+- アクセシビリティガイドラインに準拠
+- モバイル対応を考慮したレスポンシブデザイン
+- パフォーマンスを考慮した実装（不要な再レンダリングの回避）
