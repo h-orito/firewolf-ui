@@ -25,7 +25,7 @@ export function CharacterImage({
   if (!imageUrl) {
     return (
       <div
-        className={`flex items-center justify-center bg-gray-100 text-gray-500 text-xs ${className}`}
+        className={`flex items-center justify-center bg-gray-100 text-gray-500 text-xs rounded ${className}`}
         style={{
           width: chara.display.width,
           height: chara.display.height,
@@ -42,7 +42,7 @@ export function CharacterImage({
       alt={alt || chara.chara_name.name}
       width={chara.display.width}
       height={chara.display.height}
-      className={className}
+      className={`rounded ${className}`}
     />
   )
 }
