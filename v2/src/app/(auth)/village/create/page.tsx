@@ -9,6 +9,7 @@ import { TimeSettingsSection } from '@/components/pages/village/create/time-sett
 import { OrganizationSection } from '@/components/pages/village/create/organization-section'
 import { CharachipSettingsSection } from '@/components/pages/village/create/charachip-settings-section'
 import { RuleSettingsSection } from '@/components/pages/village/create/rule-settings-section'
+import { MessageRestrictSettingsSection } from '@/components/pages/village/create/message-restrict-settings-section'
 import { apiClient } from '@/lib/api/client'
 import { handleApiError } from '@/lib/api/error-handler'
 import { useCharachipListQuery } from '@/hooks/useCharachipListQuery'
@@ -91,11 +92,15 @@ export default function VillageCreatePage() {
     joinPassword: '',
     // タグ
     tags: [] as string[],
-    // メッセージ制限
-    restrictList: [
-      { type: 'NORMAL_SAY', count: 20, length: 200 },
-      { type: 'WHISPER', count: 10, length: 200 },
-    ],
+    // 発言制限設定
+    messageRestrict: {
+      normalSay: { maxCount: 20, maxLength: 200 },
+      werewolfSay: { maxCount: 40, maxLength: 200 },
+      sympathizeSay: { maxCount: 40, maxLength: 200 },
+      graveSay: { maxCount: 40, maxLength: 200 },
+      monologueSay: { maxCount: 100, maxLength: 200 },
+      spectateSay: { maxCount: 40, maxLength: 200 },
+    },
   })
 
   // キャラチップが読み込まれた時に1つ目を初期選択
@@ -203,7 +208,38 @@ export default function VillageCreatePage() {
               available_action: formData.availableAction,
               available_secret_say: false, // 「独り言可能」機能は削除、常にfalseに設定
               available_guard_same_target: formData.availableGuardSameTarget,
-              restrict_list: formData.restrictList,
+              restrict_list: [
+                {
+                  type: 'NORMAL_SAY',
+                  count: formData.messageRestrict.normalSay.maxCount,
+                  length: formData.messageRestrict.normalSay.maxLength,
+                },
+                {
+                  type: 'WEREWOLF_SAY',
+                  count: formData.messageRestrict.werewolfSay.maxCount,
+                  length: formData.messageRestrict.werewolfSay.maxLength,
+                },
+                {
+                  type: 'SYMPATHIZE_SAY',
+                  count: formData.messageRestrict.sympathizeSay.maxCount,
+                  length: formData.messageRestrict.sympathizeSay.maxLength,
+                },
+                {
+                  type: 'GRAVE_SAY',
+                  count: formData.messageRestrict.graveSay.maxCount,
+                  length: formData.messageRestrict.graveSay.maxLength,
+                },
+                {
+                  type: 'MONOLOGUE_SAY',
+                  count: formData.messageRestrict.monologueSay.maxCount,
+                  length: formData.messageRestrict.monologueSay.maxLength,
+                },
+                {
+                  type: 'SPECTATE_SAY',
+                  count: formData.messageRestrict.spectateSay.maxCount,
+                  length: formData.messageRestrict.spectateSay.maxLength,
+                },
+              ],
               join_password: formData.joinPassword || undefined,
             },
             tags: {
@@ -374,6 +410,52 @@ export default function VillageCreatePage() {
             }
             onJoinPasswordChange={(password) =>
               setFormData((prev) => ({ ...prev, joinPassword: password }))
+            }
+          />
+
+          {/* 発言制限設定 */}
+          <MessageRestrictSettingsSection
+            normalSay={formData.messageRestrict.normalSay}
+            werewolfSay={formData.messageRestrict.werewolfSay}
+            sympathizeSay={formData.messageRestrict.sympathizeSay}
+            graveSay={formData.messageRestrict.graveSay}
+            monologueSay={formData.messageRestrict.monologueSay}
+            spectateSay={formData.messageRestrict.spectateSay}
+            onNormalSayChange={(setting) =>
+              setFormData((prev) => ({
+                ...prev,
+                messageRestrict: { ...prev.messageRestrict, normalSay: setting },
+              }))
+            }
+            onWerewolfSayChange={(setting) =>
+              setFormData((prev) => ({
+                ...prev,
+                messageRestrict: { ...prev.messageRestrict, werewolfSay: setting },
+              }))
+            }
+            onSympathizeSayChange={(setting) =>
+              setFormData((prev) => ({
+                ...prev,
+                messageRestrict: { ...prev.messageRestrict, sympathizeSay: setting },
+              }))
+            }
+            onGraveSayChange={(setting) =>
+              setFormData((prev) => ({
+                ...prev,
+                messageRestrict: { ...prev.messageRestrict, graveSay: setting },
+              }))
+            }
+            onMonologueSayChange={(setting) =>
+              setFormData((prev) => ({
+                ...prev,
+                messageRestrict: { ...prev.messageRestrict, monologueSay: setting },
+              }))
+            }
+            onSpectateSayChange={(setting) =>
+              setFormData((prev) => ({
+                ...prev,
+                messageRestrict: { ...prev.messageRestrict, spectateSay: setting },
+              }))
             }
           />
 

@@ -6,6 +6,8 @@ interface CharacterImageProps {
   faceType?: string
   alt?: string
   className?: string
+  loading?: 'lazy' | 'eager'
+  priority?: boolean
 }
 
 export function CharacterImage({
@@ -13,6 +15,8 @@ export function CharacterImage({
   faceType = 'NORMAL',
   alt,
   className = '',
+  loading = 'lazy',
+  priority = false,
 }: CharacterImageProps) {
   // 指定されたfaceTypeの画像を取得、なければ最初の画像を使用
   const getImageUrl = () => {
@@ -43,6 +47,8 @@ export function CharacterImage({
       width={chara.display.width}
       height={chara.display.height}
       className={`rounded ${className}`}
+      loading={loading}
+      priority={priority}
     />
   )
 }

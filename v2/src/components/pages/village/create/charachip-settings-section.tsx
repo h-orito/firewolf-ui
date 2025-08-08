@@ -2,7 +2,7 @@ import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { CharacterImage } from '@/components/ui/character-image'
-import { Info } from 'lucide-react'
+import { Alert } from '@/components/ui/alert'
 import type { CharachipView, Chara } from '@/types/charachip'
 
 interface CharachipSettingsSectionProps {
@@ -151,10 +151,9 @@ export function CharachipSettingsSection({
             <h3 className="text-lg font-medium">ダミーキャラ発言</h3>
           </div>
 
-          <div className="flex items-start gap-2 p-3 bg-blue-50 border border-blue-200 rounded-md">
-            <Info className="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" />
-            <p className="text-sm text-blue-800">1日目発言のみ、村作成後も変更できます</p>
-          </div>
+          <Alert>
+            <p>1日目発言のみ、村作成後も変更できます</p>
+          </Alert>
 
           <div className="space-y-2">
             <label className="text-sm font-medium">プロローグ発言</label>

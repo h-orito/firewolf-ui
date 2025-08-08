@@ -1,5 +1,5 @@
 import { Card } from '@/components/ui/card'
-import { Info } from 'lucide-react'
+import { Alert } from '@/components/ui/alert'
 
 interface TimeSettingsSectionProps {
   startDateTime: string
@@ -28,15 +28,14 @@ export function TimeSettingsSection({
       <div className="space-y-4">
         <h2 className="text-xl font-semibold border-b pb-2">時間</h2>
 
-        <div className="bg-blue-50 border border-blue-200 rounded-md p-3 flex items-start space-x-2">
-          <Info className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
-          <div className="text-sm text-blue-800">
+        <Alert>
+          <div>
             <p>1日の長さは24時間固定です</p>
             <p className="mt-1">
               開始日時は今日から14日後まで、時間は1時間刻み、分は30分刻みで選択できます
             </p>
           </div>
-        </div>
+        </Alert>
 
         <div className="space-y-2">
           <label className="text-sm font-medium">開始日時</label>

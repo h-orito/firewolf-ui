@@ -13,6 +13,7 @@ import {
 import type { Skill } from '@/types/skill'
 import { AlertCircle, CheckCircle, HelpCircle, Info, RefreshCw } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { Alert } from '@/components/ui/alert'
 
 interface SkillCompositionInputProps {
   value: string
@@ -140,9 +141,9 @@ export function SkillCompositionInput({
             </div>
           </div>
           {!skills && (
-            <div className="text-sm text-amber-600 bg-amber-50 border border-amber-200 rounded-md p-3">
+            <Alert variant="warning" showIcon={false}>
               役職データの読み込み中です...
-            </div>
+            </Alert>
           )}
         </div>
 
