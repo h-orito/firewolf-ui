@@ -154,6 +154,50 @@ interface NumberInputProps {
 - 単位表示（回/日、文字/回）
 - エラー状態の表示
 
+### 村作成確認モーダルの設計
+
+**VillageCreateConfirmModal コンポーネント**
+
+村作成前の最終確認を行うモーダルダイアログ。サーバーサイドバリデーション後に表示する。
+
+**設計要件**:
+- `/village/confirm` API でのバリデーション実行
+- 確認モーダル内での設定内容表示
+- 最終確認後の村作成処理
+- エラーハンドリングとユーザーフィードバック
+
+**フロー設計**:
+1. 村作成フォーム送信
+2. `/village/confirm` API 呼び出し（バリデーション）
+3. バリデーション成功時に確認モーダル表示
+4. 設定内容確認後、「村作成」ボタンで実際の村作成API実行
+5. 村作成完了時の遷移処理
+
+**API統合**:
+```typescript
+interface VillageConfirmRequest {
+  // 村作成フォームの全データ
+  name: string;
+  settings: VillageSettings;
+  // その他必要なフィールド
+}
+
+interface VillageConfirmResponse {
+  // 確認用の設定内容
+  confirmedSettings: VillageSettings;
+  // バリデーション結果
+  isValid: boolean;
+  // エラーメッセージ（ある場合）
+  errors?: string[];
+}
+```
+
+**UI/UX設計**:
+- 設定内容の分かりやすい表示
+- 重要な設定項目のハイライト
+- キャンセル/確認の明確な選択肢
+- レスポンシブデザイン（モバイル対応）
+
 ## 注意事項
 
 - 既存のデザインシステムとの一貫性を保つ

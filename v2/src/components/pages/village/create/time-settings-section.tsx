@@ -6,6 +6,8 @@ interface TimeSettingsSectionProps {
   silentHours: number
   onStartDateTimeChange: (datetime: string) => void
   onSilentHoursChange: (hours: number) => void
+  isStartDateTimeValid?: boolean
+  startDateTimeError?: string
 }
 
 export function TimeSettingsSection({
@@ -13,6 +15,8 @@ export function TimeSettingsSection({
   silentHours,
   onStartDateTimeChange,
   onSilentHoursChange,
+  isStartDateTimeValid = true,
+  startDateTimeError,
 }: TimeSettingsSectionProps) {
   // 現在時刻を取得（最小値として使用）
   const now = new Date()
@@ -31,9 +35,7 @@ export function TimeSettingsSection({
         <Alert>
           <div>
             <p>1日の長さは24時間固定です</p>
-            <p className="mt-1">
-              開始日時は今日から14日後まで、時間は1時間刻み、分は30分刻みで選択できます
-            </p>
+            <p className="mt-1">開始日時は今日から14日後まで設定できます</p>
           </div>
         </Alert>
 
@@ -41,14 +43,20 @@ export function TimeSettingsSection({
           <label className="text-sm font-medium">開始日時</label>
           <input
             type="datetime-local"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 ${
+              isStartDateTimeValid
+                ? 'border-gray-300 focus:ring-blue-500'
+                : 'border-red-500 focus:ring-red-500'
+            }`}
             value={startDateTime}
             onChange={(e) => onStartDateTimeChange(e.target.value)}
             min={minDateTime}
             max={maxDateTime}
-            step={1800}
             required
           />
+          {!isStartDateTimeValid && startDateTimeError && (
+            <p className="text-sm text-red-600">{startDateTimeError}</p>
+          )}
         </div>
 
         <div className="space-y-2">

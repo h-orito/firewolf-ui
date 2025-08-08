@@ -5,14 +5,12 @@ interface RuleSettingsSectionProps {
   openVote: boolean
   availableSkillRequest: boolean
   availableSpectate: boolean
-  visibleGraveMessage: boolean
   availableCommit: boolean
   availableSuddenlyDeath: boolean
   availableGuardSameTarget: boolean
   onOpenVoteChange: (checked: boolean) => void
   onAvailableSkillRequestChange: (checked: boolean) => void
   onAvailableSpectateChange: (checked: boolean) => void
-  onVisibleGraveMessageChange: (checked: boolean) => void
   onAvailableCommitChange: (checked: boolean) => void
   onAvailableSuddenlyDeathChange: (checked: boolean) => void
   onAvailableGuardSameTargetChange: (checked: boolean) => void
@@ -22,14 +20,12 @@ export function RuleSettingsSection({
   openVote,
   availableSkillRequest,
   availableSpectate,
-  visibleGraveMessage,
   availableCommit,
   availableSuddenlyDeath,
   availableGuardSameTarget,
   onOpenVoteChange,
   onAvailableSkillRequestChange,
   onAvailableSpectateChange,
-  onVisibleGraveMessageChange,
   onAvailableCommitChange,
   onAvailableSuddenlyDeathChange,
   onAvailableGuardSameTargetChange,
@@ -52,12 +48,6 @@ export function RuleSettingsSection({
             checked={availableSpectate}
             onChange={onAvailableSpectateChange}
             label="見学可能"
-          />
-
-          <ToggleSlider
-            checked={visibleGraveMessage}
-            onChange={onVisibleGraveMessageChange}
-            label="墓下発言表示"
           />
 
           <ToggleSlider

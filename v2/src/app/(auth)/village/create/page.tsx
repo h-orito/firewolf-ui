@@ -1,36 +1,39 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
-import { useMutation } from '@tanstack/react-query'
-import { useRouter } from 'next/navigation'
-import { Button } from '@/components/ui/button'
 import { BasicSettingsSection } from '@/components/pages/village/create/basic-settings-section'
-import { TimeSettingsSection } from '@/components/pages/village/create/time-settings-section'
-import { OrganizationSection } from '@/components/pages/village/create/organization-section'
 import { CharachipSettingsSection } from '@/components/pages/village/create/charachip-settings-section'
-import { RuleSettingsSection } from '@/components/pages/village/create/rule-settings-section'
+import { DummyCharacterModal } from '@/components/pages/village/create/dummy-character-modal'
 import { MessageRestrictSettingsSection } from '@/components/pages/village/create/message-restrict-settings-section'
+import { OrganizationSection } from '@/components/pages/village/create/organization-section'
 import { ParticipationPasswordSection } from '@/components/pages/village/create/participation-password-section'
 import {
   RPSettingsSection,
   type RPSettings,
 } from '@/components/pages/village/create/rp-settings-section'
-import { apiClient } from '@/lib/api/client'
-import { handleApiError } from '@/lib/api/error-handler'
+import { RuleSettingsSection } from '@/components/pages/village/create/rule-settings-section'
+import { TimeSettingsSection } from '@/components/pages/village/create/time-settings-section'
+import VillageCreateConfirmModal from '@/components/pages/village/create/village-create-confirm-modal'
+import { Button } from '@/components/ui/button'
 import { useCharachipListQuery } from '@/hooks/useCharachipListQuery'
 import { useCharasQuery } from '@/hooks/useCharasQuery'
-import { useQuery } from '@tanstack/react-query'
+import { apiClient } from '@/lib/api/client'
+import { handleApiError } from '@/lib/api/error-handler'
 import { skillApi } from '@/lib/api/skill'
+import { VillageRegisterRequest } from '@/types/village-register'
 import {
-  generateV1StyleCompositions,
   basicCompositionPattern,
+  generateV1StyleCompositions,
 } from '@/lib/utils/skill-composition-generator'
-import { DummyCharacterModal } from '@/components/pages/village/create/dummy-character-modal'
-import type { CharachipView, CharachipsView, Chara, Charas } from '@/types/charachip'
+import type { Chara, CharachipView, CharachipsView, Charas } from '@/types/charachip'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { useRouter } from 'next/navigation'
+import { useEffect, useMemo, useState } from 'react'
 
 export default function VillageCreatePage() {
   const router = useRouter()
   const [isDummyCharaModalOpen, setIsDummyCharaModalOpen] = useState(false)
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false)
+  const [confirmVillageData, setConfirmVillageData] = useState<VillageRegisterRequest | null>(null)
 
   // キャラチップ一覧を取得
   const {
@@ -88,7 +91,6 @@ export default function VillageCreatePage() {
     availableSkillRequest: true,
     availableSpectate: false, // 初期値を「なし」に変更
     openSkillInGrave: false,
-    visibleGraveMessage: true,
     availableSuddenlyDeath: true, // 初期値を「あり」に変更
     availableCommit: true,
     availableDummySkill: false,
@@ -186,102 +188,107 @@ export default function VillageCreatePage() {
     }))
   }
 
-  // 村作成のミューテーション
-  const createMutation = useMutation({
-    mutationFn: async () => {
-      const startDateTime = new Date(formData.start_datetime).toISOString()
+  // 村作成データを生成する関数
+  const buildVillageData = (): VillageRegisterRequest => {
+    const startDateTime = new Date(formData.start_datetime).toISOString()
 
-      const { data } = await apiClient.POST('/village', {
-        body: {
-          village_name: formData.villageName,
-          setting: {
-            time: {
-              start_datetime: startDateTime,
-              silent_hours: formData.silentHours > 0 ? formData.silentHours : undefined,
-            },
-            organization: {
-              organization: formData.organization.replace(/^\d+人：/gm, ''),
-            },
-            charachip: {
-              dummy_chara_id: formData.dummy_chara_id,
-              dummy_chara_name: formData.dummyCharaName,
-              dummy_chara_short_name: formData.dummyCharaShortName,
-              dummy_chara_day0_message: formData.dummyCharaDay0Message,
-              dummy_chara_day1_message: formData.dummyCharaDay1Message || undefined,
-              charachip_ids: formData.charachipIds,
-            },
-            rule: {
-              open_vote: formData.open_vote,
-              available_skill_request: formData.availableSkillRequest,
-              available_spectate: formData.availableSpectate,
-              open_skill_in_grave: formData.openSkillInGrave,
-              visible_grave_message: formData.visibleGraveMessage,
-              open_grave_spectate_message: formData.rpSettings.isOpenGraveSpectateMessage,
-              available_suddenly_death: formData.availableSuddenlyDeath,
-              available_commit: formData.availableCommit,
-              available_dummy_skill: formData.availableDummySkill,
-              available_action: formData.rpSettings.isAvailableActionMessage,
-              available_secret_say: false, // 「独り言可能」機能は削除、常にfalseに設定
-              available_guard_same_target: formData.availableGuardSameTarget,
-              restrict_list: [
-                {
-                  type: 'NORMAL_SAY',
-                  count: formData.messageRestrict.normalSay.maxCount,
-                  length: formData.messageRestrict.normalSay.maxLength,
-                },
-                {
-                  type: 'WEREWOLF_SAY',
-                  count: formData.messageRestrict.werewolfSay.maxCount,
-                  length: formData.messageRestrict.werewolfSay.maxLength,
-                },
-                {
-                  type: 'SYMPATHIZE_SAY',
-                  count: formData.messageRestrict.sympathizeSay.maxCount,
-                  length: formData.messageRestrict.sympathizeSay.maxLength,
-                },
-                {
-                  type: 'GRAVE_SAY',
-                  count: formData.messageRestrict.graveSay.maxCount,
-                  length: formData.messageRestrict.graveSay.maxLength,
-                },
-                {
-                  type: 'MONOLOGUE_SAY',
-                  count: formData.messageRestrict.monologueSay.maxCount,
-                  length: formData.messageRestrict.monologueSay.maxLength,
-                },
-                {
-                  type: 'SPECTATE_SAY',
-                  count: formData.messageRestrict.spectateSay.maxCount,
-                  length: formData.messageRestrict.spectateSay.maxLength,
-                },
-                {
-                  type: 'ACTION_SAY',
-                  count: formData.rpSettings.actionMessageRestrict.maxCount,
-                  length: formData.rpSettings.actionMessageRestrict.maxLength,
-                },
-              ],
-              join_password: formData.joinPassword || undefined,
-            },
-            tags: {
-              list: [
-                ...formData.tags,
-                ...(formData.rpSettings.ageRestriction !== ''
-                  ? [formData.rpSettings.ageRestriction]
-                  : []),
-              ],
-            },
-          },
+    return {
+      village_name: formData.villageName,
+      setting: {
+        time: {
+          start_datetime: startDateTime,
+          silent_hours: formData.silentHours > 0 ? formData.silentHours : undefined,
         },
+        organization: {
+          organization: formData.organization.replace(/^\d+人：/gm, ''),
+        },
+        charachip: {
+          dummy_chara_id: formData.dummy_chara_id,
+          dummy_chara_name: formData.dummyCharaName,
+          dummy_chara_short_name: formData.dummyCharaShortName,
+          dummy_chara_day0_message: formData.dummyCharaDay0Message,
+          dummy_chara_day1_message: formData.dummyCharaDay1Message || undefined,
+          charachip_ids: formData.charachipIds,
+        },
+        rule: {
+          open_vote: formData.open_vote,
+          available_skill_request: formData.availableSkillRequest,
+          available_spectate: formData.availableSpectate,
+          open_skill_in_grave: formData.openSkillInGrave,
+          visible_grave_message: formData.rpSettings.isOpenGraveSpectateMessage,
+          available_suddenly_death: formData.availableSuddenlyDeath,
+          available_commit: formData.availableCommit,
+          available_dummy_skill: formData.availableDummySkill,
+          available_action: formData.rpSettings.isAvailableActionMessage,
+          available_secret_say: false, // 「独り言可能」機能は削除、常にfalseに設定
+          available_guard_same_target: formData.availableGuardSameTarget,
+          restrict_list: [
+            {
+              type: 'NORMAL_SAY',
+              count: formData.messageRestrict.normalSay.maxCount,
+              length: formData.messageRestrict.normalSay.maxLength,
+            },
+            {
+              type: 'WEREWOLF_SAY',
+              count: formData.messageRestrict.werewolfSay.maxCount,
+              length: formData.messageRestrict.werewolfSay.maxLength,
+            },
+            {
+              type: 'SYMPATHIZE_SAY',
+              count: formData.messageRestrict.sympathizeSay.maxCount,
+              length: formData.messageRestrict.sympathizeSay.maxLength,
+            },
+            {
+              type: 'GRAVE_SAY',
+              count: formData.messageRestrict.graveSay.maxCount,
+              length: formData.messageRestrict.graveSay.maxLength,
+            },
+            {
+              type: 'MONOLOGUE_SAY',
+              count: formData.messageRestrict.monologueSay.maxCount,
+              length: formData.messageRestrict.monologueSay.maxLength,
+            },
+            {
+              type: 'SPECTATE_SAY',
+              count: formData.messageRestrict.spectateSay.maxCount,
+              length: formData.messageRestrict.spectateSay.maxLength,
+            },
+            {
+              type: 'ACTION',
+              count: formData.rpSettings.actionMessageRestrict.maxCount,
+              length: formData.rpSettings.actionMessageRestrict.maxLength,
+            },
+          ],
+          join_password: formData.joinPassword || undefined,
+        },
+        tags: {
+          list: [
+            ...formData.tags,
+            ...(formData.rpSettings.ageRestriction !== ''
+              ? [formData.rpSettings.ageRestriction]
+              : []),
+          ],
+        },
+      },
+    }
+  }
+
+  // 村作成確認のミューテーション
+  const confirmMutation = useMutation({
+    mutationFn: async () => {
+      const villageData = buildVillageData()
+
+      // 確認APIを呼び出し
+      await apiClient.POST('/village/confirm', {
+        body: villageData,
       })
-      return data
+
+      return villageData
     },
-    onSuccess: (data) => {
-      if (data && typeof data === 'object' && '*/*' in data) {
-        const content = data['*/*'] as { villageId: number }
-        if (content && typeof content.villageId === 'number') {
-          router.push(`/village/${content.villageId}`)
-        }
-      }
+    onSuccess: (villageData) => {
+      // 確認APIが成功したら、確認モーダルを表示
+      setConfirmVillageData(villageData)
+      setIsConfirmModalOpen(true)
     },
     onError: handleApiError,
   })
@@ -356,7 +363,7 @@ export default function VillageCreatePage() {
       return
     }
 
-    createMutation.mutate()
+    confirmMutation.mutate()
   }
 
   const canSubmit =
@@ -455,7 +462,6 @@ export default function VillageCreatePage() {
             openVote={formData.open_vote}
             availableSkillRequest={formData.availableSkillRequest}
             availableSpectate={formData.availableSpectate}
-            visibleGraveMessage={formData.visibleGraveMessage}
             availableCommit={formData.availableCommit}
             availableSuddenlyDeath={formData.availableSuddenlyDeath}
             availableGuardSameTarget={formData.availableGuardSameTarget}
@@ -465,9 +471,6 @@ export default function VillageCreatePage() {
             }
             onAvailableSpectateChange={(checked) =>
               setFormData((prev) => ({ ...prev, availableSpectate: checked }))
-            }
-            onVisibleGraveMessageChange={(checked) =>
-              setFormData((prev) => ({ ...prev, visibleGraveMessage: checked }))
             }
             onAvailableCommitChange={(checked) =>
               setFormData((prev) => ({ ...prev, availableCommit: checked }))
@@ -542,10 +545,10 @@ export default function VillageCreatePage() {
           <div className="flex justify-center pt-6">
             <Button
               type="submit"
-              disabled={!canSubmit || createMutation.isPending}
+              disabled={!canSubmit || confirmMutation.isPending}
               className="px-8 py-2"
             >
-              {createMutation.isPending ? '作成中...' : '村を作成する'}
+              {confirmMutation.isPending ? '確認中...' : '村作成確認へ'}
             </Button>
           </div>
         </form>
@@ -558,6 +561,19 @@ export default function VillageCreatePage() {
           selectedCharaId={formData.dummy_chara_id}
           onSelectChara={handleSelectDummyChara}
         />
+
+        {/* 村作成確認モーダル */}
+        {confirmVillageData && (
+          <VillageCreateConfirmModal
+            isOpen={isConfirmModalOpen}
+            onClose={() => {
+              setIsConfirmModalOpen(false)
+              setConfirmVillageData(null)
+            }}
+            villageData={confirmVillageData}
+            charachips={charachips}
+          />
+        )}
       </div>
     </div>
   )
