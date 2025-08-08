@@ -200,7 +200,7 @@ export default function VillageCreatePage() {
               silent_hours: formData.silentHours > 0 ? formData.silentHours : undefined,
             },
             organization: {
-              organization: formData.organization,
+              organization: formData.organization.replace(/^\d+人：/gm, ''),
             },
             charachip: {
               dummy_chara_id: formData.dummy_chara_id,
