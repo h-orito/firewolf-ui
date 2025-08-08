@@ -1,20 +1,20 @@
-# v2プロジェクト設計書
+# v2 プロジェクト設計書
 
 ## 概要
 
-FIREWOLF UI v2プロジェクトの設計書です。v1から刷新したアーキテクチャと技術選定、実装方針を記載します。
+FIREWOLF UI v2 プロジェクトの設計書です。v1 から刷新したアーキテクチャと技術選定、実装方針を記載します。
 
 ## アーキテクチャ設計
 
 ### 技術スタック
 
-- **フレームワーク**: Next.js 14 (App Router)
+- **フレームワーク**: Next.js 15 (App Router)
 - **言語**: TypeScript
-- **UI**: React 18
+- **UI**: React 19
 - **スタイリング**: Tailwind CSS
 - **状態管理**: Zustand
 - **フォーム**: React Hook Form + Zod
-- **API通信**: TanStack Query (React Query) + Axios
+- **API 通信**: TanStack Query (React Query) + Axios
 - **認証**: Firebase Auth
 - **テスト**: Jest + React Testing Library + Playwright
 - **パッケージマネージャー**: pnpm
@@ -38,215 +38,33 @@ src/
 └── utils/                # ユーティリティ関数
 ```
 
-## UI/UX設計
+## UI/UX 設計
 
-### ルール設定セクションのUI/UX設計
+#### UI コンポーネント設計
 
-#### 基本設定項目
+**トグルスイッチによる ON/OFF 設定**
 
-ルール設定セクションでは以下の5つの基本設定項目を提供します：
-
-1. **記名投票**: 投票者が誰に投票したかを公開するかの設定
-2. **見学可能**: 村への見学参加を許可するかの設定
-3. **突然死あり**: プレイヤーの突然死（離脱）を許可するかの設定
-4. **時短希望可能**: 時短希望の投票を許可するかの設定
-5. **連続護衛可能**: 同じ対象を連続して護衛できるかの設定
-
-#### UIコンポーネント設計
-
-**トグルスイッチによるON/OFF設定**
 - 各設定項目にはトグルスイッチを使用
-- ON状態とOFF状態が視覚的に分かりやすいデザイン
+- ON 状態と OFF 状態が視覚的に分かりやすいデザイン
 - 設定項目のラベルとヘルプテキストを併記
 - 既存の`ToggleSlider`コンポーネントを活用
 
-**初期値の設定と表示方法**
-```typescript
-interface RuleSettings {
-  isOpenVote: boolean;           // 記名投票（初期値: false）
-  isAvailableSpectate: boolean;  // 見学可能（初期値: true）
-  isAvailableSuddenlyDeath: boolean; // 突然死あり（初期値: true）
-  isAvailableCommit: boolean;    // 時短希望可能（初期値: true）
-  isAvailableGuardSameTarget: boolean; // 連続護衛可能（初期値: false）
-}
-```
-
-#### レイアウト設計
-
-```
-[ルール設定]
-┌─────────────────────────────────────┐
-│ □ 記名投票                           │
-│   投票者が公開されます              │
-│                                     │
-│ ■ 見学可能                           │
-│   見学者の参加を許可します          │
-│                                     │
-│ ■ 突然死あり                         │
-│   プレイヤーの離脱を許可します      │
-│                                     │
-│ ■ 時短希望可能                       │
-│   時短希望の投票ができます          │
-│                                     │
-│ □ 連続護衛可能                       │
-│   同じ対象を連続護衛できます        │
-└─────────────────────────────────────┘
-```
-
-### 発言制限設定の設計
-
-#### 発言種別と制限項目
-
-7つの発言種別それぞれに対して回数制限と文字数制限を設定できます：
-
-1. **通常発言**: 昼間の通常発言
-2. **囁き**: 人狼間の秘密会話
-3. **独り言**: 個人のメモ的発言
-4. **見学者発言**: 見学者の発言
-5. **死者発言**: 死亡後の発言
-6. **秘話**: 特定の相手との秘密会話
-7. **村建て発言**: 村建て人の管理発言
-
-#### 制限設定の種類
-
-**回数制限**
-- 1日あたりの発言回数上限
-- 範囲: 0〜999回
-- 0の場合は発言禁止を意味
-
-**文字数制限**
-- 1回の発言あたりの文字数上限
-- 範囲: 1〜10000文字
-- デフォルト値: 200文字
-
-#### UIコンポーネント設計
-
-**数値入力コンポーネント**
-```typescript
-interface MessageRestrictSetting {
-  messageType: string;      // 発言種別
-  maxCount: number;         // 最大回数（0-999）
-  maxLength: number;        // 最大文字数（1-10000）
-}
-
-interface MessageRestrictSettings {
-  normalSay: MessageRestrictSetting;    // 通常発言
-  werewolfSay: MessageRestrictSetting;  // 囁き
-  monologueSay: MessageRestrictSetting; // 独り言
-  spectateSay: MessageRestrictSetting;  // 見学者発言
-  graveSay: MessageRestrictSetting;     // 死者発言
-  secretSay: MessageRestrictSetting;    // 秘話
-  creatorSay: MessageRestrictSetting;   // 村建て発言
-}
-```
-
-**バリデーション機能**
-- 回数: 0〜999の範囲チェック
-- 文字数: 1〜10000の範囲チェック
-- リアルタイムバリデーション
-- エラーメッセージの表示
-
-#### レイアウト設計
-
-```
-[発言制限設定]
-┌─────────────────────────────────────┐
-│ 通常発言                            │
-│ 回数: [___20___] 回/日               │
-│ 文字数: [___200___] 文字/回          │
-│                                     │
-│ 囁き                                │
-│ 回数: [___20___] 回/日               │
-│ 文字数: [___200___] 文字/回          │
-│                                     │
-│ 独り言                              │
-│ 回数: [___20___] 回/日               │
-│ 文字数: [___200___] 文字/回          │
-│                                     │
-│ 見学者発言                          │
-│ 回数: [___20___] 回/日               │
-│ 文字数: [___200___] 文字/回          │
-│                                     │
-│ 死者発言                            │
-│ 回数: [___5___] 回/日                │
-│ 文字数: [___200___] 文字/回          │
-│                                     │
-│ 秘話                                │
-│ 回数: [___20___] 回/日               │
-│ 文字数: [___200___] 文字/回          │
-│                                     │
-│ 村建て発言                          │
-│ 回数: [___20___] 回/日               │
-│ 文字数: [___200___] 文字/回          │
-└─────────────────────────────────────┘
-```
-
-## コンポーネント設計
-
-### RuleSettingsSection コンポーネントの拡張
-
-**既存機能**
-- 基本的なルール設定のUI表示
-- フォーム状態管理
-
-**拡張機能**
-```typescript
-interface RuleSettingsSectionProps {
-  ruleSettings: RuleSettings;
-  onRuleSettingsChange: (settings: RuleSettings) => void;
-  messageRestrictSettings: MessageRestrictSettings;
-  onMessageRestrictSettingsChange: (settings: MessageRestrictSettings) => void;
-}
-```
-
-**実装方針**
-- 既存のRuleSettingsSectionを拡張
-- トグルスイッチ設定セクションを追加
-- フォーム状態はReact Hook Formで管理
-- バリデーションはZodスキーマで実装
-
-### MessageRestrictSettingsSection コンポーネントの新規作成
-
-**責務**
-- 発言制限設定のUI表示
-- 数値入力フォームの管理
-- バリデーション処理
-- エラー表示
-
-**Props定義**
-```typescript
-interface MessageRestrictSettingsSectionProps {
-  settings: MessageRestrictSettings;
-  onChange: (settings: MessageRestrictSettings) => void;
-  errors?: Record<string, string>;
-}
-```
-
-**内部コンポーネント**
-```typescript
-// 個別の発言制限設定
-interface MessageRestrictItemProps {
-  label: string;
-  setting: MessageRestrictSetting;
-  onChange: (setting: MessageRestrictSetting) => void;
-  errors?: {
-    maxCount?: string;
-    maxLength?: string;
-  };
-}
-```
+#### UI コンポーネント設計
 
 ### バリデーション機能の実装方針
 
-**Zodスキーマ定義**
+**Zod スキーマ定義**
+
 ```typescript
 const messageRestrictSettingSchema = z.object({
-  maxCount: z.number()
+  maxCount: z
+    .number()
     .min(0, "回数は0以上で入力してください")
     .max(999, "回数は999以下で入力してください"),
-  maxLength: z.number()
+  maxLength: z
+    .number()
     .min(1, "文字数は1以上で入力してください")
-    .max(10000, "文字数は10000以下で入力してください")
+    .max(10000, "文字数は10000以下で入力してください"),
 });
 
 const messageRestrictSettingsSchema = z.object({
@@ -256,7 +74,7 @@ const messageRestrictSettingsSchema = z.object({
   spectateSay: messageRestrictSettingSchema,
   graveSay: messageRestrictSettingSchema,
   secretSay: messageRestrictSettingSchema,
-  creatorSay: messageRestrictSettingSchema
+  creatorSay: messageRestrictSettingSchema,
 });
 
 const ruleSettingsSchema = z.object({
@@ -264,16 +82,18 @@ const ruleSettingsSchema = z.object({
   isAvailableSpectate: z.boolean(),
   isAvailableSuddenlyDeath: z.boolean(),
   isAvailableCommit: z.boolean(),
-  isAvailableGuardSameTarget: z.boolean()
+  isAvailableGuardSameTarget: z.boolean(),
 });
 ```
 
 **リアルタイムバリデーション**
+
 - 入力値変更時に即座にバリデーション実行
 - エラーメッセージをフィールド下部に表示
 - フォーム送信時の最終バリデーション
 
 **エラーハンドリング**
+
 - バリデーションエラーの適切な表示
 - フィールドごとのエラー状態管理
 - アクセシビリティを考慮したエラー表示
@@ -281,6 +101,7 @@ const ruleSettingsSchema = z.object({
 ### 数値入力コンポーネント
 
 **NumberInput コンポーネント**
+
 ```typescript
 interface NumberInputProps {
   label: string;
@@ -295,6 +116,7 @@ interface NumberInputProps {
 ```
 
 **特徴**
+
 - 数値のみ入力可能
 - 最小値・最大値の制限
 - 単位表示（回/日、文字/回）
@@ -303,24 +125,153 @@ interface NumberInputProps {
 ## 実装優先順位
 
 1. **Phase 1**: 基本的なトグルスイッチ設定
-   - RuleSettingsSectionの拡張
-   - トグルスイッチUI実装
+
+   - RuleSettingsSection の拡張
+   - トグルスイッチ UI 実装
    - 基本的なフォーム状態管理
 
-2. **Phase 2**: 発言制限設定UI
-   - MessageRestrictSettingsSectionの実装
+2. **Phase 2**: 発言制限設定 UI
+
+   - MessageRestrictSettingsSection の実装
    - 数値入力コンポーネントの作成
    - レイアウトとスタイリング
 
 3. **Phase 3**: バリデーション機能
-   - Zodスキーマの実装
+
+   - Zod スキーマの実装
    - リアルタイムバリデーション
    - エラーハンドリング
 
 4. **Phase 4**: 統合とテスト
    - コンポーネント統合
    - ユニットテスト作成
-   - E2Eテスト作成
+   - E2E テスト作成
+
+## ダミーキャラクター選択モーダルのページング機能
+
+### 概要
+表示キャラクター数が多い場合の画像表示負荷を軽減するため、クライアントサイドページングを実装する。
+
+### 技術方針
+
+**コンポーネント設計**
+```typescript
+interface PaginationProps {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+  itemsPerPage: number;
+}
+
+interface DummyCharacterModalProps {
+  isOpen: boolean;
+  characters: Character[];
+  onSelect: (character: Character) => void;
+  onClose: () => void;
+}
+```
+
+**ページング仕様**
+- 1ページあたり表示数: 20キャラクター
+- ページネーション UI: 前/次ボタンとページ番号表示
+- 遅延ローディング: 画像の lazy loading 実装
+- 検索機能: キャラクター名での絞り込み対応
+
+**パフォーマンス最適化**
+- `React.memo` による不要な再レンダリング防止
+- 画像の `loading="lazy"` 属性使用
+- 仮想化スクロール（大量データの場合）
+
+### 実装手順
+
+1. **ページング機能の基盤実装**
+   - usePagination カスタムフック作成
+   - Pagination コンポーネント実装
+
+2. **モーダル内ページング統合**
+   - DummyCharacterModal の拡張
+   - キャラクターリストの分割表示
+
+3. **パフォーマンス最適化**
+   - 画像の遅延読み込み実装
+   - レンダリング最適化
+
+## 発言制限設定機能の設計
+
+### 概要
+村作成画面のルール設定セクションの次に、発言制限設定セクションを追加する。各発言種別ごとに1日の発言回数と1回の発言ごとの最大文字数を設定可能にする。
+
+### UI設計
+
+**レイアウト構成**
+```
+発言制限設定
+├── 説明文
+│   ├── 回数は 0〜1000（通常発言は 1〜1000）で設定できます。
+│   └── 文字数は 1〜1000 で設定できます。
+└── 発言種別ごとの設定
+    ├── 通常発言
+    ├── 人狼の囁き
+    ├── 共鳴発言
+    ├── 死者の呻き
+    ├── 独り言
+    └── 見学発言
+```
+
+**各発言種別の設定項目**
+- 発言種別名
+- 回数設定（数値入力フィールド）
+- 文字数設定（数値入力フィールド）
+
+**デフォルト値**
+```typescript
+const defaultMessageRestrictSettings = {
+  normalSay: { maxCount: 20, maxLength: 200 },
+  werewolfSay: { maxCount: 40, maxLength: 200 },
+  sympathizeSay: { maxCount: 40, maxLength: 200 },
+  graveSay: { maxCount: 40, maxLength: 200 },
+  monologueSay: { maxCount: 100, maxLength: 200 },
+  spectateSay: { maxCount: 40, maxLength: 200 }
+};
+```
+
+### バリデーション設計
+
+**入力値制限**
+- 通常発言の回数: 1〜1000
+- その他発言の回数: 0〜1000
+- 文字数: 1〜1000（全発言種別共通）
+
+**バリデーションメッセージ**
+- 回数が範囲外の場合: 「回数は{min}〜{max}で入力してください」
+- 文字数が範囲外の場合: 「文字数は1〜1000で入力してください」
+
+### コンポーネント設計
+
+**MessageRestrictSettingsSection**
+```typescript
+interface MessageRestrictSettingsProps {
+  settings: MessageRestrictSettings;
+  onChange: (settings: MessageRestrictSettings) => void;
+}
+```
+
+**MessageRestrictSettingItem**
+```typescript
+interface MessageRestrictSettingItemProps {
+  label: string;
+  setting: MessageRestrictSetting;
+  onChange: (setting: MessageRestrictSetting) => void;
+  minCount?: number; // 通常発言のみ1、その他は0
+}
+```
+
+### 実装方針
+
+1. **段階的実装**: UI作成 → バリデーション追加 → 統合テスト
+2. **再利用性**: NumberInputコンポーネントを活用
+3. **アクセシビリティ**: ラベル、エラーメッセージの適切な関連付け
+4. **レスポンシブ**: モバイル表示での適切なレイアウト
 
 ## 注意事項
 
