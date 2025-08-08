@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
@@ -26,7 +26,6 @@ import {
   basicCompositionPattern,
 } from '@/lib/utils/skill-composition-generator'
 import { DummyCharacterModal } from '@/components/pages/village/create/dummy-character-modal'
-import type { components } from '@/types/generated/api'
 import type { CharachipView, CharachipsView, Chara, Charas } from '@/types/charachip'
 
 export default function VillageCreatePage() {
@@ -39,31 +38,32 @@ export default function VillageCreatePage() {
     error: charachipError,
     isLoading: charachipLoading,
   } = useCharachipListQuery()
-  const charachips: CharachipView[] = (charachipListData?.data as CharachipsView)?.list || []
+  const charachips: CharachipView[] = useMemo(
+    () => (charachipListData?.data as CharachipsView)?.list || [],
+    [charachipListData]
+  )
 
   // 役職一覧を取得
-  const {
-    data: skillsData,
-    error: skillsError,
-    isLoading: skillsLoading,
-  } = useQuery({
+  const { data: skillsData } = useQuery({
     queryKey: ['skills'],
     queryFn: skillApi.getSkills,
   })
-  const skills = skillsData?.data?.list || []
+  const skills = useMemo(() => skillsData?.data?.list || [], [skillsData])
 
-  // 7日後のJST0時を計算
+  // 7日後の0時を計算（ローカルタイムゾーン）
   const getDefault7DaysLaterMidnight = () => {
     const date = new Date()
     date.setDate(date.getDate() + 7)
     date.setHours(0, 0, 0, 0)
 
-    // JST（UTC+9）に調整
-    const jstOffset = 9 * 60 * 60 * 1000 // 9時間をミリ秒で
-    const utcTime = date.getTime() + date.getTimezoneOffset() * 60 * 1000
-    const jstTime = new Date(utcTime + jstOffset)
+    // ローカルタイムゾーンでのISO文字列を生成
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    const hours = String(date.getHours()).padStart(2, '0')
+    const minutes = String(date.getMinutes()).padStart(2, '0')
 
-    return jstTime.toISOString().slice(0, 16) // YYYY-MM-DDTHH:MM形式
+    return `${year}-${month}-${day}T${hours}:${minutes}`
   }
 
   const [formData, setFormData] = useState({
@@ -129,7 +129,7 @@ export default function VillageCreatePage() {
 
   // 選択されたキャラチップのキャラ一覧を取得
   const { data: charasData } = useCharasQuery(formData.charachipIds)
-  const charas: Chara[] = (charasData?.data as Charas)?.list || []
+  const charas: Chara[] = useMemo(() => (charasData?.data as Charas)?.list || [], [charasData])
 
   // キャラが読み込まれた時に1つ目を初期選択（ダミーキャラ）
   useEffect(() => {
@@ -295,14 +295,30 @@ export default function VillageCreatePage() {
     const maxDate = new Date(now)
     maxDate.setDate(maxDate.getDate() + 14)
 
-    // 範囲チェック
+    // 範囲チェックのみ
     if (selectedDate < now || selectedDate > maxDate) return false
 
-    // 30分刻みチェック
-    const minutes = selectedDate.getMinutes()
-    if (minutes !== 0 && minutes !== 30) return false
-
     return true
+  }
+
+  // 日時バリデーション（エラーメッセージ付き）
+  const getDateTimeValidation = (datetime: string): { isValid: boolean; error?: string } => {
+    if (!datetime) return { isValid: false, error: '開始日時を入力してください。' }
+
+    const selectedDate = new Date(datetime)
+    const now = new Date()
+    const maxDate = new Date(now)
+    maxDate.setDate(maxDate.getDate() + 14)
+
+    if (selectedDate < now) {
+      return { isValid: false, error: '開始日時は現在時刻以降で設定してください。' }
+    }
+
+    if (selectedDate > maxDate) {
+      return { isValid: false, error: '開始日時は14日後までで設定してください。' }
+    }
+
+    return { isValid: true }
   }
 
   // 参加パスワードバリデーション関数
@@ -326,7 +342,7 @@ export default function VillageCreatePage() {
 
     // 提出前の最終バリデーション
     if (!validateDateTime(formData.start_datetime)) {
-      alert('開始日時は今日から14日後まで、30分刻みで設定してください。')
+      alert('開始日時は今日から14日後までで設定してください。')
       return
     }
 
@@ -380,6 +396,8 @@ export default function VillageCreatePage() {
             onSilentHoursChange={(hours) =>
               setFormData((prev) => ({ ...prev, silentHours: hours }))
             }
+            isStartDateTimeValid={getDateTimeValidation(formData.start_datetime).isValid}
+            startDateTimeError={getDateTimeValidation(formData.start_datetime).error}
           />
 
           {/* キャラチップ設定 */}
