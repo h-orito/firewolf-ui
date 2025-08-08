@@ -9,7 +9,6 @@ interface RuleSettingsSectionProps {
   availableCommit: boolean
   availableSuddenlyDeath: boolean
   availableGuardSameTarget: boolean
-  joinPassword: string
   onOpenVoteChange: (checked: boolean) => void
   onAvailableSkillRequestChange: (checked: boolean) => void
   onAvailableSpectateChange: (checked: boolean) => void
@@ -17,7 +16,6 @@ interface RuleSettingsSectionProps {
   onAvailableCommitChange: (checked: boolean) => void
   onAvailableSuddenlyDeathChange: (checked: boolean) => void
   onAvailableGuardSameTargetChange: (checked: boolean) => void
-  onJoinPasswordChange: (password: string) => void
 }
 
 export function RuleSettingsSection({
@@ -28,7 +26,6 @@ export function RuleSettingsSection({
   availableCommit,
   availableSuddenlyDeath,
   availableGuardSameTarget,
-  joinPassword,
   onOpenVoteChange,
   onAvailableSkillRequestChange,
   onAvailableSpectateChange,
@@ -36,7 +33,6 @@ export function RuleSettingsSection({
   onAvailableCommitChange,
   onAvailableSuddenlyDeathChange,
   onAvailableGuardSameTargetChange,
-  onJoinPasswordChange,
 }: RuleSettingsSectionProps) {
   return (
     <Card className="p-4 md:p-6">
@@ -81,17 +77,6 @@ export function RuleSettingsSection({
             onChange={onAvailableGuardSameTargetChange}
             label="連続護衛可能"
           />
-        </div>
-
-        <div className="space-y-2">
-          <label className="text-sm font-medium">入村パスワード（任意）</label>
-          <input
-            type="password"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={joinPassword}
-            onChange={(e) => onJoinPasswordChange(e.target.value)}
-          />
-          <p className="text-xs text-gray-500">設定すると、入村にパスワードが必要になります</p>
         </div>
       </div>
     </Card>

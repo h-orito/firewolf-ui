@@ -10,6 +10,11 @@ import { OrganizationSection } from '@/components/pages/village/create/organizat
 import { CharachipSettingsSection } from '@/components/pages/village/create/charachip-settings-section'
 import { RuleSettingsSection } from '@/components/pages/village/create/rule-settings-section'
 import { MessageRestrictSettingsSection } from '@/components/pages/village/create/message-restrict-settings-section'
+import { ParticipationPasswordSection } from '@/components/pages/village/create/participation-password-section'
+import {
+  RPSettingsSection,
+  type RPSettings,
+} from '@/components/pages/village/create/rp-settings-section'
 import { apiClient } from '@/lib/api/client'
 import { handleApiError } from '@/lib/api/error-handler'
 import { useCharachipListQuery } from '@/hooks/useCharachipListQuery'
@@ -87,7 +92,6 @@ export default function VillageCreatePage() {
     availableSuddenlyDeath: true, // 初期値を「あり」に変更
     availableCommit: true,
     availableDummySkill: false,
-    availableAction: false,
     availableGuardSameTarget: true, // 初期値を「あり」に変更
     joinPassword: '',
     // タグ
@@ -101,6 +105,16 @@ export default function VillageCreatePage() {
       monologueSay: { maxCount: 100, maxLength: 200 },
       spectateSay: { maxCount: 40, maxLength: 200 },
     },
+    // RP設定
+    rpSettings: {
+      ageRestriction: '',
+      isOpenGraveSpectateMessage: false,
+      isAvailableActionMessage: false,
+      actionMessageRestrict: {
+        maxCount: 40,
+        maxLength: 200,
+      },
+    } as RPSettings,
   })
 
   // キャラチップが読み込まれた時に1つ目を初期選択
@@ -202,10 +216,11 @@ export default function VillageCreatePage() {
               available_spectate: formData.availableSpectate,
               open_skill_in_grave: formData.openSkillInGrave,
               visible_grave_message: formData.visibleGraveMessage,
+              open_grave_spectate_message: formData.rpSettings.isOpenGraveSpectateMessage,
               available_suddenly_death: formData.availableSuddenlyDeath,
               available_commit: formData.availableCommit,
               available_dummy_skill: formData.availableDummySkill,
-              available_action: formData.availableAction,
+              available_action: formData.rpSettings.isAvailableActionMessage,
               available_secret_say: false, // 「独り言可能」機能は削除、常にfalseに設定
               available_guard_same_target: formData.availableGuardSameTarget,
               restrict_list: [
@@ -239,11 +254,21 @@ export default function VillageCreatePage() {
                   count: formData.messageRestrict.spectateSay.maxCount,
                   length: formData.messageRestrict.spectateSay.maxLength,
                 },
+                {
+                  type: 'ACTION_SAY',
+                  count: formData.rpSettings.actionMessageRestrict.maxCount,
+                  length: formData.rpSettings.actionMessageRestrict.maxLength,
+                },
               ],
               join_password: formData.joinPassword || undefined,
             },
             tags: {
-              list: formData.tags,
+              list: [
+                ...formData.tags,
+                ...(formData.rpSettings.ageRestriction !== ''
+                  ? [formData.rpSettings.ageRestriction]
+                  : []),
+              ],
             },
           },
         },
@@ -280,12 +305,38 @@ export default function VillageCreatePage() {
     return true
   }
 
+  // 参加パスワードバリデーション関数
+  const validateParticipationPassword = (password: string): boolean => {
+    return password.length <= 50
+  }
+
+  // RP設定バリデーション関数
+  const validateRPSettings = (rpSettings: RPSettings): boolean => {
+    const { actionMessageRestrict } = rpSettings
+    return (
+      actionMessageRestrict.maxCount >= 1 &&
+      actionMessageRestrict.maxCount <= 1000 &&
+      actionMessageRestrict.maxLength >= 1 &&
+      actionMessageRestrict.maxLength <= 1000
+    )
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
     // 提出前の最終バリデーション
     if (!validateDateTime(formData.start_datetime)) {
       alert('開始日時は今日から14日後まで、30分刻みで設定してください。')
+      return
+    }
+
+    if (!validateParticipationPassword(formData.joinPassword)) {
+      alert('参加パスワードは50文字以内で入力してください。')
+      return
+    }
+
+    if (!validateRPSettings(formData.rpSettings)) {
+      alert('アクション発言制限の回数・文字数は1〜1000の範囲で入力してください。')
       return
     }
 
@@ -300,7 +351,9 @@ export default function VillageCreatePage() {
     formData.dummyCharaName.trim().length > 0 &&
     formData.dummyCharaShortName.trim().length === 1 &&
     formData.dummyCharaDay0Message.trim().length > 0 &&
-    formData.charachipIds.length > 0
+    formData.charachipIds.length > 0 &&
+    validateParticipationPassword(formData.joinPassword) &&
+    validateRPSettings(formData.rpSettings)
 
   return (
     <div className="container mx-auto px-3 md:px-6 py-8">
@@ -388,7 +441,6 @@ export default function VillageCreatePage() {
             availableCommit={formData.availableCommit}
             availableSuddenlyDeath={formData.availableSuddenlyDeath}
             availableGuardSameTarget={formData.availableGuardSameTarget}
-            joinPassword={formData.joinPassword}
             onOpenVoteChange={(checked) => setFormData((prev) => ({ ...prev, open_vote: checked }))}
             onAvailableSkillRequestChange={(checked) =>
               setFormData((prev) => ({ ...prev, availableSkillRequest: checked }))
@@ -407,9 +459,6 @@ export default function VillageCreatePage() {
             }
             onAvailableGuardSameTargetChange={(checked) =>
               setFormData((prev) => ({ ...prev, availableGuardSameTarget: checked }))
-            }
-            onJoinPasswordChange={(password) =>
-              setFormData((prev) => ({ ...prev, joinPassword: password }))
             }
           />
 
@@ -457,6 +506,18 @@ export default function VillageCreatePage() {
                 messageRestrict: { ...prev.messageRestrict, spectateSay: setting },
               }))
             }
+          />
+
+          {/* 参加パスワード */}
+          <ParticipationPasswordSection
+            password={formData.joinPassword}
+            onChange={(password) => setFormData((prev) => ({ ...prev, joinPassword: password }))}
+          />
+
+          {/* RP設定 */}
+          <RPSettingsSection
+            settings={formData.rpSettings}
+            onChange={(rpSettings) => setFormData((prev) => ({ ...prev, rpSettings }))}
           />
 
           {/* 送信ボタン */}
