@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
-import { Card } from '@/components/ui/card'
-import { H1, H2 } from '@/components/ui/heading'
+import { Card } from '@/components/ui/Card'
+import { H1, H2 } from '@/components/ui/Heading'
 
 export const metadata: Metadata = {
   title: '利用規約',
@@ -20,7 +20,7 @@ export default function TermsPage() {
           </p>
 
           <H2 className="mt-6">第1条（適用）</H2>
-          <ol className="list-decimal list-inside space-y-2 mb-4">
+          <ol className="listUdecimal listUinside space-y-2 mb-4">
             <li>
               本規約は，ユーザと管理人との間の本サービスの利用に関わる一切の関係に適用されるものとします。
             </li>
@@ -34,13 +34,13 @@ export default function TermsPage() {
           </ol>
 
           <H2 className="mt-6">第2条（利用登録）</H2>
-          <ol className="list-decimal list-inside space-y-2 mb-4">
+          <ol className="listUdecimal listUinside space-y-2 mb-4">
             <li>
               本サービスにおいては，登録希望者が本規約に同意の上，管理人の定める方法によって利用登録を申請し，管理人がこれを承認することによって，利用登録が完了するものとします。
             </li>
             <li>
               管理人は，利用登録の申請者に以下の事由があると判断した場合，利用登録の申請を承認しないことがあり，その理由については一切の開示義務を負わないものとします。
-              <ol className="list-decimal list-inside ml-6 mt-2 space-y-1">
+              <ol className="listUdecimal listUinside ml-6 mt-2 space-y-1">
                 <li>利用登録の申請に際して虚偽の事項を届け出た場合</li>
                 <li>本規約に違反したことがある者からの申請である場合</li>
                 <li>その他，管理人が利用登録を相当でないと判断した場合</li>
@@ -49,7 +49,7 @@ export default function TermsPage() {
           </ol>
 
           <H2 className="mt-6">第3条（ユーザIDおよびパスワードの管理）</H2>
-          <ol className="list-decimal list-inside space-y-2 mb-4">
+          <ol className="listUdecimal listUinside space-y-2 mb-4">
             <li>
               ユーザは，本サービスで利用するユーザIDおよびパスワードを，自己の責任において適切に管理するものとします。
             </li>
@@ -63,7 +63,7 @@ export default function TermsPage() {
 
           <H2 className="mt-6">第4条（禁止事項）</H2>
           <p className="mb-2">ユーザは，本サービスの利用にあたり，以下の行為をしてはなりません。</p>
-          <ol className="list-decimal list-inside space-y-2 mb-4">
+          <ol className="listUdecimal listUinside space-y-2 mb-4">
             <li>法令または公序良俗に違反する行為</li>
             <li>犯罪行為に関連する行為</li>
             <li>
@@ -88,10 +88,10 @@ export default function TermsPage() {
           </ol>
 
           <H2 className="mt-6">第5条（本サービスの提供の停止等）</H2>
-          <ol className="list-decimal list-inside space-y-2 mb-4">
+          <ol className="listUdecimal listUinside space-y-2 mb-4">
             <li>
               管理人は，以下のいずれかの事由があると判断した場合，ユーザに事前に通知することなく本サービスの全部または一部の提供を停止または中断することができるものとします。
-              <ol className="list-decimal list-inside ml-6 mt-2 space-y-1">
+              <ol className="listUdecimal listUinside ml-6 mt-2 space-y-1">
                 <li>本サービスにかかるコンピュータシステムの保守点検または更新を行う場合</li>
                 <li>
                   地震，落雷，火災，停電または天災などの不可抗力により，本サービスの提供が困難となった場合
@@ -106,10 +106,10 @@ export default function TermsPage() {
           </ol>
 
           <H2 className="mt-6">第6条（利用制限および登録抹消）</H2>
-          <ol className="list-decimal list-inside space-y-2 mb-4">
+          <ol className="listUdecimal listUinside space-y-2 mb-4">
             <li>
               管理人は，ユーザが以下のいずれかに該当する場合には，事前の通知なく，ユーザに対して，本サービスの全部もしくは一部の利用を制限し，またはユーザとしての登録を抹消することができるものとします。
-              <ol className="list-decimal list-inside ml-6 mt-2 space-y-1">
+              <ol className="listUdecimal listUinside ml-6 mt-2 space-y-1">
                 <li>本規約のいずれかの条項に違反した場合</li>
                 <li>登録事項に虚偽の事実があることが判明した場合</li>
                 <li>管理人からの連絡に対し，一定期間返答がない場合</li>
@@ -127,7 +127,7 @@ export default function TermsPage() {
           </p>
 
           <H2 className="mt-6">第8条（保証の否認および免責事項）</H2>
-          <ol className="list-decimal list-inside space-y-2 mb-4">
+          <ol className="listUdecimal listUinside space-y-2 mb-4">
             <li>
               管理人は，本サービスに事実上または法律上の瑕疵（安全性，信頼性，正確性，完全性，有効性，特定の目的への適合性，セキュリティなどに関する欠陥，エラーやバグ，権利侵害などを含みます。）がないことを明示的にも黙示的にも保証しておりません。
             </li>
@@ -168,14 +168,14 @@ export default function TermsPage() {
           </p>
 
           <H2 className="mt-6">第14条（準拠法・裁判管轄）</H2>
-          <ol className="list-decimal list-inside space-y-2 mb-4">
+          <ol className="listUdecimal listUinside space-y-2 mb-4">
             <li>本規約の解釈にあたっては，日本法を準拠法とします。</li>
             <li>
               本サービスに関して紛争が生じた場合には，管理人の本店所在地を管轄する裁判所を専属的合意管轄とします。
             </li>
           </ol>
 
-          <p className="text-right mt-8">以上</p>
+          <p className="textUright mt-8">以上</p>
         </div>
       </Card>
     </div>

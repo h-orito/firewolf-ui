@@ -3,8 +3,8 @@
  */
 
 import { useMemo } from 'react'
-import { useMessageFilterStore } from '@/stores/village/messageFilterStore'
-import { useVillageMessagesFlat } from './useVillageMessagesInfiniteQuery'
+import { useMessageFilterStore } from '@/stores/village/message-filter-store'
+import { useVillageMessagesFlat } from './use-village-messages-infinite-query'
 import type { components } from '@/types/generated/api'
 import type { MessageFilterState } from '@/types/village'
 

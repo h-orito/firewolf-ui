@@ -1,6 +1,6 @@
-import { VillageList } from '@/components/village/village-list'
+import { VillageList } from '@/components/village/VillageList'
 import { VILLAGE_STATUS_GROUPS } from '@/types/village-status'
-import { H1 } from '@/components/ui/heading'
+import { H1 } from '@/components/ui/Heading'
 
 export default function VillageListPage() {
   return (

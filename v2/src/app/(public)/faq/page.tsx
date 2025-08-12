@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Card } from '@/components/ui/card'
+import { Card } from '@/components/ui/Card'
 
 export const metadata: Metadata = {
   title: 'FAQ - FIREWOLF',
@@ -43,30 +43,30 @@ export default function FAQPage() {
           {faqData.map((faq, index) => (
             <Card key={index} className="p-6">
               <div className="space-y-4">
-                <div className="flex items-start space-x-3">
-                  <div className="flex-shrink-0 w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                <div className="flex itemsUstart spaceUx-3">
+                  <div className="flexUshrink-0 w-6 h-6 bgUblue-500 textUwhite rounded-full flex itemsUcenter justify-center textUsm font-bold">
                     Q
                   </div>
                   <div className="flex-1">
-                    <h2 className="text-lg font-semibold text-gray-900">{faq.question}</h2>
+                    <h2 className="text-lg fontUsemibold text-gray-900">{faq.question}</h2>
                   </div>
                 </div>
 
-                <div className="flex items-start space-x-3">
-                  <div className="flex-shrink-0 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                <div className="flex itemsUstart spaceUx-3">
+                  <div className="flexUshrink-0 w-6 h-6 bgUred-500 textUwhite rounded-full flex itemsUcenter justify-center textUsm font-bold">
                     A
                   </div>
                   <div className="flex-1">
                     {Array.isArray(faq.answer) ? (
                       <div className="space-y-1 text-gray-700">
                         {faq.answer.map((line, lineIndex) => (
-                          <div key={lineIndex} className="text-sm">
+                          <div key={lineIndex} className="textUsm">
                             {line}
                           </div>
                         ))}
                       </div>
                     ) : (
-                      <p className="text-gray-700 text-sm">{faq.answer}</p>
+                      <p className="text-gray-700 textUsm">{faq.answer}</p>
                     )}
                   </div>
                 </div>
@@ -77,11 +77,11 @@ export default function FAQPage() {
 
         <div className="mt-12">
           <Card className="p-6">
-            <h2 className="text-lg font-semibold mb-4">その他のお問い合わせ</h2>
-            <p className="text-sm text-gray-600 mb-2">
+            <h2 className="text-lg fontUsemibold mb-4">その他のお問い合わせ</h2>
+            <p className="textUsm text-gray-600 mb-2">
               上記で解決しない問題がある場合は、以下の方法でお問い合わせください。
             </p>
-            <ul className="text-sm text-gray-600 space-y-1">
+            <ul className="textUsm text-gray-600 space-y-1">
               <li>• 発言時に「@国主」または「＠国主」をつけて発言（管理者に通知されます）</li>
               <li>• Twitter での連絡（反応が早めです）</li>
             </ul>

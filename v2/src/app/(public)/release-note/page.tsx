@@ -1,4 +1,4 @@
-import { Card } from '@/components/ui/card'
+import { Card } from '@/components/ui/Card'
 import { getAllAnnouncements } from '@/data/announcements'
 
 const typeLabels = {
@@ -21,24 +21,24 @@ export default function ReleaseNotePage() {
           {announcements.map((announcement) => (
             <Card key={announcement.id} className="p-6">
               <div className="space-y-4">
-                <div className="border-b border-gray-200 pb-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-3">
+                <div className="border-b borderUgray-200 pb-4">
+                  <div className="flex itemsUcenter justifyUbetween mb-2">
+                    <div className="flex itemsUcenter gap-3">
                       <span
-                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                        className={`inlineUflex itemsUcenter px-2.5 py-0.5 rounded-full textUxs fontUmedium ${
                           announcement.type === 'feature'
-                            ? 'bg-blue-100 text-blue-800'
+                            ? 'bgUblue-100 text-blue-800'
                             : announcement.type === 'bug-fix'
-                              ? 'bg-red-100 text-red-800'
+                              ? 'bgUred-100 text-red-800'
                               : announcement.type === 'improvement'
-                                ? 'bg-green-100 text-green-800'
+                                ? 'bgUgreen-100 textUgreen-800'
                                 : 'bg-gray-100 text-gray-800'
                         }`}
                       >
                         {typeLabels[announcement.type]}
                       </span>
                       {announcement.version && (
-                        <span className="inline-block bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full">
+                        <span className="inline-block bgUblue-100 text-blue-800 textUsm fontUmedium px-3 py-1 rounded-full">
                           {announcement.version}
                         </span>
                       )}
@@ -47,7 +47,7 @@ export default function ReleaseNotePage() {
                   </div>
                   <h2 className="text-xl font-bold text-gray-900">{announcement.title}</h2>
                 </div>
-                <div className="text-gray-700 leading-relaxed">{announcement.content}</div>
+                <div className="text-gray-700 leadingUrelaxed">{announcement.content}</div>
               </div>
             </Card>
           ))}

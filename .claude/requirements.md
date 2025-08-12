@@ -109,6 +109,12 @@ v1 で実装されている以下の機能をすべて移行する：
   - 現在リンク切れになっている利用規約・プライバシーポリシーページを修正
   - v1 と同じ内容を表示するよう実装
 
+### コーディング規約・命名規則
+
+- **v2 コンポーネントファイル命名**: tsx ファイルは PascalCase で統一（例: `MessageList.tsx`、`VillageInfo.tsx`）
+- **v2 TypeScript ファイル命名**: ts ファイルは kebab-case で統一（例: `village-api.ts`、`message-utils.ts`）
+- **命名の一貫性**: 既存のファイルでcamelCaseとPascalCaseが混在している箇所を統一する
+
 ## 非機能要件
 
 ### パフォーマンス要件

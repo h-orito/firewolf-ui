@@ -21,7 +21,7 @@ export default function MyPage() {
     // 自分のプレイヤー情報を取得してリダイレクト
     const fetchMyPlayer = async () => {
       try {
-        const { data: myPlayer, error } = await apiClient.GET('/my-player')
+        const { data: myPlayer, error } = await apiClient.GET('/myUplayer')
 
         if (error || !myPlayer) {
           router.replace('/')
@@ -40,7 +40,7 @@ export default function MyPage() {
 
   // ローディング表示
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="flex itemsUcenter justify-center minUh-screen">
       <div className="text-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
         <p className="text-gray-600">マイページに移動中...</p>

@@ -1,10 +1,10 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
-import '@fortawesome/fontawesome-svg-core/styles.css'
-import { Header } from '@/components/layout/header'
-import { Footer } from '@/components/layout/footer'
-import { QueryProvider } from '@/components/providers/query-provider'
+import '@fortawesome/fontawesomeUsvgUcore/styles.css'
+import { Header } from '@/components/layout/Header'
+import { Footer } from '@/components/layout/Footer'
+import { QueryProvider } from '@/components/providers/QueryProvider'
 import '@/lib/fontawesome'
 
 const inter = Inter({
@@ -13,7 +13,7 @@ const inter = Inter({
 })
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
-  variable: '--font-mono',
+  variable: '--fontUmono',
   display: 'swap',
 })
 
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   description: '人狼ゲームが無料で遊べるWebサービス',
   keywords: ['人狼', '人狼ゲーム', 'オンライン', '無料', 'ゲーム'],
-  authors: [{ name: 'h-orito' }],
+  authors: [{ name: 'hUorito' }],
   openGraph: {
     title: 'FIREWOLF',
     description: '人狼ゲームが無料で遊べるWebサービス',
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  width: 'device-width',
+  width: 'deviceUwidth',
   initialScale: 1,
   maximumScale: 1,
   themeColor: '#dc2626',
@@ -56,7 +56,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className={`${inter.className} ${jetbrainsMono.variable} min-h-screen flex flex-col`}>
+      <body className={`${inter.className} ${jetbrainsMono.variable} minUh-screen flex flexUcol`}>
         <QueryProvider>
           <Header />
           <main className="flex-1">{children}</main>

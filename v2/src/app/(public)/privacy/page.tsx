@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
-import { Card } from '@/components/ui/card'
-import { H1, H2 } from '@/components/ui/heading'
+import { Card } from '@/components/ui/Card'
+import { H1, H2 } from '@/components/ui/Heading'
 
 export const metadata: Metadata = {
   title: 'プライバシーポリシー',
@@ -20,7 +20,7 @@ export default function PrivacyPage() {
           </p>
 
           <H2 className="mt-6">第1条（プライバシー情報）</H2>
-          <ol className="list-decimal list-inside space-y-2 mb-4">
+          <ol className="listUdecimal listUinside space-y-2 mb-4">
             <li>本サービスでは，個人情報保護法にいう「個人情報」を収集しません。</li>
             <li>
               本サービスは，ログインに利用したTwitterアカウント名やユーザ名，他オンライン人狼サイトにおけるID，ご覧になったページや広告の履歴，ユーザが検索された検索キーワード，ご利用日時，ご利用の方法，ご利用環境，ユーザのIPアドレス，クッキー情報などのプライバシー情報を収集します。
@@ -28,7 +28,7 @@ export default function PrivacyPage() {
           </ol>
 
           <H2 className="mt-6">第2条（プライバシー情報の収集方法）</H2>
-          <ol className="list-decimal list-inside space-y-2 mb-4">
+          <ol className="listUdecimal listUinside space-y-2 mb-4">
             <li>
               本サービスは，ユーザが利用登録をする際にTwitterアカウント名やユーザ名，他オンライン人狼サイトにおけるIDなどをお尋ねすることがあります。
             </li>
@@ -39,7 +39,7 @@ export default function PrivacyPage() {
 
           <H2 className="mt-6">第3条（プライバシー情報を収集・利用する目的）</H2>
           <p className="mb-2">本サービスが個人情報を収集・利用する目的は，以下のとおりです。</p>
-          <ol className="list-decimal list-inside space-y-2 mb-4">
+          <ol className="listUdecimal listUinside space-y-2 mb-4">
             <li>サービスの提供・運営のため</li>
             <li>ユーザからのお問い合わせに回答するため（本人確認を行うことを含む）</li>
             <li>メンテナンス，重要なお知らせなど必要に応じたご連絡のため</li>
@@ -63,7 +63,7 @@ export default function PrivacyPage() {
             Analyticsにプライバシー情報を送信しています。
             それ以外の送信先については，次に掲げる場合を除いて，あらかじめユーザの同意を得ることなく提供することはありません。ただし，個人情報保護法その他の法令で認められる場合を除きます。
           </p>
-          <ol className="list-decimal list-inside space-y-2 mb-4">
+          <ol className="listUdecimal listUinside space-y-2 mb-4">
             <li>
               人の生命，身体または財産の保護のために必要がある場合であって，本人の同意を得ることが困難であるとき
             </li>
@@ -75,7 +75,7 @@ export default function PrivacyPage() {
             </li>
             <li>
               予め次の事項を告知あるいは公表し，かつ管理人が個人情報保護委員会に届出をしたとき
-              <ol className="list-decimal list-inside ml-6 mt-2 space-y-1">
+              <ol className="listUdecimal listUinside ml-6 mt-2 space-y-1">
                 <li>利用目的に第三者への提供を含むこと</li>
                 <li>第三者に提供されるデータの項目</li>
                 <li>第三者への提供の手段または方法</li>
@@ -91,7 +91,7 @@ export default function PrivacyPage() {
           </p>
 
           <H2 className="mt-6">第7条（プライバシー情報の訂正および削除）</H2>
-          <ol className="list-decimal list-inside space-y-2 mb-4">
+          <ol className="listUdecimal listUinside space-y-2 mb-4">
             <li>
               ユーザは，管理人の保有する自己の個人情報が誤った情報である場合には，管理人が定める手続きにより，管理人に対して個人情報の訂正，追加または削除（以下，「訂正等」といいます。）を請求することができます。
             </li>
@@ -104,7 +104,7 @@ export default function PrivacyPage() {
           </ol>
 
           <H2 className="mt-6">第8条（プライバシー情報の利用停止等）</H2>
-          <ol className="list-decimal list-inside space-y-2 mb-4">
+          <ol className="listUdecimal listUinside space-y-2 mb-4">
             <li>
               管理人は，本人から，個人情報が，利用目的の範囲を超えて取り扱われているという理由，または不正の手段により取得されたものであるという理由により，その利用の停止または消去（以下，「利用停止等」といいます。）を求められた場合には，遅滞なく必要な調査を行います。
             </li>
@@ -120,7 +120,7 @@ export default function PrivacyPage() {
           </ol>
 
           <H2 className="mt-6">第9条（プライバシーポリシーの変更）</H2>
-          <ol className="list-decimal list-inside space-y-2 mb-4">
+          <ol className="listUdecimal listUinside space-y-2 mb-4">
             <li>
               本ポリシーの内容は，法令その他本ポリシーに別段の定めのある事項を除いて，ユーザに通知することなく，変更することができるものとします。
             </li>

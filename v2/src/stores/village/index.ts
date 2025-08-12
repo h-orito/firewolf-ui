@@ -11,8 +11,8 @@ export {
   initializeMessageFilterFromUrl,
   isDefaultFilterState,
   getFilterUrlParams,
-} from './messageFilterStore'
-export { useUserSettingsStore, exportUserSettings, importUserSettings } from './userSettingsStore'
+} from './message-filter-store'
+export { useUserSettingsStore, exportUserSettings, importUserSettings } from './user-settings-store'
 export {
   useMemoStore,
   createMemoSafe,
@@ -26,7 +26,7 @@ export {
 
 // 初期化関数
 import { initializeVillageState, resetVillageState } from './villageStore'
-import { initializeMessageFilterFromUrl } from './messageFilterStore'
+import { initializeMessageFilterFromUrl } from './message-filter-store'
 
 /**
  * 村画面の状態初期化
@@ -71,7 +71,7 @@ export const cleanupVillageStores = () => {
 
   // フィルタ状態のリセット
   const { reset: resetMessageFilter } =
-    require('./messageFilterStore').useMessageFilterStore.getState()
+    require('./message-filter-store').useMessageFilterStore.getState()
   resetMessageFilter()
 }
 
@@ -148,8 +148,8 @@ export const getStoreDebugInfo = () => {
 
   return {
     village: require('./villageStore').useVillageStore.getState(),
-    messageFilter: require('./messageFilterStore').useMessageFilterStore.getState(),
-    userSettings: require('./userSettingsStore').useUserSettingsStore.getState(),
+    messageFilter: require('./message-filter-store').useMessageFilterStore.getState(),
+    userSettings: require('./user-settings-store').useUserSettingsStore.getState(),
     memo: require('./memoStore').useMemoStore.getState(),
     validation: validateStoreState(),
   }
@@ -167,7 +167,7 @@ export const resetAllStores = () => {
 
   // 各ストアのリセット
   require('./villageStore').useVillageStore.getState().reset()
-  require('./messageFilterStore').useMessageFilterStore.getState().reset()
-  require('./userSettingsStore').useUserSettingsStore.getState().resetAll()
+  require('./message-filter-store').useMessageFilterStore.getState().reset()
+  require('./user-settings-store').useUserSettingsStore.getState().resetAll()
   require('./memoStore').useMemoStore.getState().clearAllMemos()
 }

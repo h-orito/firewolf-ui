@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { Card } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/Card'
+import { Button } from '@/components/ui/Button'
 import { useAuth } from '@/hooks/useAuth'
 
 export default function SettingPage() {
@@ -79,11 +79,11 @@ export default function SettingPage() {
       <div className="space-y-8">
         {/* プロフィール設定 */}
         <Card className="p-6">
-          <h2 className="text-xl font-semibold mb-4">プロフィール設定</h2>
+          <h2 className="text-xl fontUsemibold mb-4">プロフィール設定</h2>
 
           <div className="space-y-4">
             <div>
-              <label htmlFor="displayName" className="block text-sm font-medium mb-2">
+              <label htmlFor="displayName" className="block textUsm fontUmedium mb-2">
                 表示名
               </label>
               <input
@@ -93,13 +93,13 @@ export default function SettingPage() {
                 onChange={(e) =>
                   setProfileSettings((prev) => ({ ...prev, displayName: e.target.value }))
                 }
-                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="wUfull p-3 border borderUgray-300 roundedUmd focus:outlineUnone focus:ring-2 focus:ringUblue-500"
                 placeholder="表示名を入力してください"
               />
             </div>
 
             <div>
-              <label htmlFor="introduction" className="block text-sm font-medium mb-2">
+              <label htmlFor="introduction" className="block textUsm fontUmedium mb-2">
                 自己紹介
               </label>
               <textarea
@@ -109,7 +109,7 @@ export default function SettingPage() {
                   setProfileSettings((prev) => ({ ...prev, introduction: e.target.value }))
                 }
                 rows={4}
-                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="wUfull p-3 border borderUgray-300 roundedUmd focus:outlineUnone focus:ring-2 focus:ringUblue-500"
                 placeholder="自己紹介を入力してください（任意）"
               />
             </div>
@@ -124,10 +124,10 @@ export default function SettingPage() {
 
         {/* 通知設定 */}
         <Card className="p-6">
-          <h2 className="text-xl font-semibold mb-4">通知設定</h2>
+          <h2 className="text-xl fontUsemibold mb-4">通知設定</h2>
 
           <div className="space-y-4">
-            <div className="flex items-center justify-between">
+            <div className="flex itemsUcenter justifyUbetween">
               <span>メール通知</span>
               <input
                 type="checkbox"
@@ -142,7 +142,7 @@ export default function SettingPage() {
               />
             </div>
 
-            <div className="flex items-center justify-between">
+            <div className="flex itemsUcenter justifyUbetween">
               <span>プッシュ通知</span>
               <input
                 type="checkbox"
@@ -157,7 +157,7 @@ export default function SettingPage() {
               />
             </div>
 
-            <div className="flex items-center justify-between">
+            <div className="flex itemsUcenter justifyUbetween">
               <span>ゲーム開始通知</span>
               <input
                 type="checkbox"
@@ -172,7 +172,7 @@ export default function SettingPage() {
               />
             </div>
 
-            <div className="flex items-center justify-between">
+            <div className="flex itemsUcenter justifyUbetween">
               <span>日付更新通知</span>
               <input
                 type="checkbox"
@@ -187,7 +187,7 @@ export default function SettingPage() {
               />
             </div>
 
-            <div className="flex items-center justify-between">
+            <div className="flex itemsUcenter justifyUbetween">
               <span>メッセージ通知</span>
               <input
                 type="checkbox"
@@ -212,11 +212,11 @@ export default function SettingPage() {
 
         {/* ゲーム設定 */}
         <Card className="p-6">
-          <h2 className="text-xl font-semibold mb-4">ゲーム設定</h2>
+          <h2 className="text-xl fontUsemibold mb-4">ゲーム設定</h2>
 
           <div className="space-y-4">
             <div>
-              <label htmlFor="defaultMessageType" className="block text-sm font-medium mb-2">
+              <label htmlFor="defaultMessageType" className="block textUsm fontUmedium mb-2">
                 デフォルトメッセージタイプ
               </label>
               <select
@@ -225,7 +225,7 @@ export default function SettingPage() {
                 onChange={(e) =>
                   setGameSettings((prev) => ({ ...prev, defaultMessageType: e.target.value }))
                 }
-                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="wUfull p-3 border borderUgray-300 roundedUmd focus:outlineUnone focus:ring-2 focus:ringUblue-500"
               >
                 <option value="normal">通常発言</option>
                 <option value="monologue">独り言</option>
@@ -233,7 +233,7 @@ export default function SettingPage() {
               </select>
             </div>
 
-            <div className="flex items-center justify-between">
+            <div className="flex itemsUcenter justifyUbetween">
               <span>自動保存</span>
               <input
                 type="checkbox"
@@ -245,7 +245,7 @@ export default function SettingPage() {
               />
             </div>
 
-            <div className="flex items-center justify-between">
+            <div className="flex itemsUcenter justifyUbetween">
               <span>効果音</span>
               <input
                 type="checkbox"
@@ -257,7 +257,7 @@ export default function SettingPage() {
               />
             </div>
 
-            <div className="flex items-center justify-between">
+            <div className="flex itemsUcenter justifyUbetween">
               <span>ダークモード</span>
               <input
                 type="checkbox"

@@ -1,5 +1,5 @@
-import { Card } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/Card'
+import { Button } from '@/components/ui/Button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome } from '@fortawesome/free-solid-svg-icons'
 import Link from 'next/link'
@@ -18,8 +18,8 @@ export default function NotFound() {
 
         <Card className="p-8">
           <div className="space-y-4">
-            <p className="text-sm text-gray-600">以下のいずれかをお試しください：</p>
-            <ul className="text-sm text-gray-600 space-y-2 text-left">
+            <p className="textUsm text-gray-600">以下のいずれかをお試しください：</p>
+            <ul className="textUsm text-gray-600 space-y-2 textUleft">
               <li>• URLのスペルを確認してください</li>
               <li>• ブラウザの戻るボタンで前のページに戻ってください</li>
               <li>• トップページから目的のページを探してください</li>

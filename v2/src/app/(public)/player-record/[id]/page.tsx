@@ -1,12 +1,12 @@
 'use client'
 
 import { useParams } from 'next/navigation'
-import { Card } from '@/components/ui/card'
-import { H1 } from '@/components/ui/heading'
-import { usePlayerRecordQuery } from '@/hooks/usePlayerRecordQuery'
-import { PlayerInfoSection } from '@/components/pages/player-record/player-info-section'
-import { RecordChartSection } from '@/components/pages/player-record/record-chart-section'
-import { ParticipateVillageSection } from '@/components/pages/player-record/participate-village-section'
+import { Card } from '@/components/ui/Card'
+import { H1 } from '@/components/ui/Heading'
+import { usePlayerRecordQuery } from '@/hooks/use-player-record-query'
+import { PlayerInfoSection } from '@/components/pages/player-record/PlayerInfoSection'
+import { RecordChartSection } from '@/components/pages/player-record/RecordChartSection'
+import { ParticipateVillageSection } from '@/components/pages/player-record/ParticipateVillageSection'
 
 export default function PlayerRecordPage() {
   const params = useParams()

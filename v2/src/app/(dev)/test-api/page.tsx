@@ -2,9 +2,9 @@
 
 import { apiClient } from '@/lib/api/client'
 import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { VillageMessage } from '@/components/ui/village-message'
+import { Button } from '@/components/ui/Button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
+import { VillageMessage } from '@/components/ui/VillageMessage'
 
 export default function TestApiPage() {
   const [status, setStatus] = useState('')

@@ -2,13 +2,13 @@
 
 import Link from 'next/link'
 import { use, Suspense, lazy } from 'react'
-import { useCharachipQuery } from '@/hooks/useCharachipQuery'
-import { CharaCard } from '@/components/pages/charachip/chara-card'
-import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
+import { useCharachipQuery } from '@/hooks/use-charachip-query'
+import { CharaCard } from '@/components/pages/charachip/CharaCard'
+import { Button } from '@/components/ui/Button'
+import { Card } from '@/components/ui/Card'
 
 const LazyCharaCard = lazy(() =>
-  import('@/components/pages/charachip/chara-card').then((module) => ({
+  import('@/components/pages/charachip/CharaCard').then((module) => ({
     default: module.CharaCard,
   }))
 )

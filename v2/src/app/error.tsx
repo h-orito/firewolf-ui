@@ -1,7 +1,7 @@
 'use client'
 
-import { Card } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/Card'
+import { Button } from '@/components/ui/Button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRedo, faHome } from '@fortawesome/free-solid-svg-icons'
 import { useEffect } from 'react'
@@ -30,7 +30,7 @@ export default function Error({ error, reset }: ErrorProps) {
 
         <Card className="p-8">
           <div className="space-y-4">
-            <div className="text-sm text-gray-600 text-left">
+            <div className="textUsm text-gray-600 textUleft">
               <p className="mb-2">エラーが続く場合は以下をお試しください：</p>
               <ul className="space-y-1">
                 <li>• ページを再読み込みしてください</li>
@@ -53,22 +53,22 @@ export default function Error({ error, reset }: ErrorProps) {
         </Card>
 
         {process.env.NODE_ENV === 'development' && (
-          <Card className="mt-8 p-4 bg-red-50 border-red-200">
-            <h3 className="text-lg font-semibold text-red-800 mb-2">開発者向け情報</h3>
-            <div className="text-left">
-              <p className="text-sm text-red-700 mb-2">
+          <Card className="mt-8 p-4 bgUred-50 borderUred-200">
+            <h3 className="text-lg fontUsemibold text-red-800 mb-2">開発者向け情報</h3>
+            <div className="textUleft">
+              <p className="textUsm text-red-700 mb-2">
                 <strong>エラーメッセージ:</strong> {error.message}
               </p>
               {error.digest && (
-                <p className="text-sm text-red-700 mb-2">
+                <p className="textUsm text-red-700 mb-2">
                   <strong>Digest:</strong> {error.digest}
                 </p>
               )}
-              <details className="text-sm">
-                <summary className="cursor-pointer text-red-700 font-medium">
+              <details className="textUsm">
+                <summary className="cursorUpointer text-red-700 fontUmedium">
                   スタックトレース
                 </summary>
-                <pre className="mt-2 p-2 bg-red-100 rounded text-xs overflow-auto">
+                <pre className="mt-2 p-2 bgUred-100 rounded textUxs overflowUauto">
                   {error.stack}
                 </pre>
               </details>

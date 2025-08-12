@@ -1,5 +1,5 @@
-import { CharachipList } from '@/components/pages/charachip/charachip-list'
-import { H1 } from '@/components/ui/heading'
+import { CharachipList } from '@/components/pages/charachip/CharachipList'
+import { H1 } from '@/components/ui/Heading'
 
 export default function CharachipListPage() {
   return (

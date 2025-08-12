@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { useVillageQuery } from '../useVillageQuery'
+import { useVillageQuery } from '../use-village-query'
 import type { components } from '@/types/generated/api'
 
 type VillageParticipantView = components['schemas']['VillageParticipantView']

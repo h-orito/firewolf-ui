@@ -433,9 +433,47 @@ VillagePage (メインエントリ)
 4. **パフォーマンステスト**: 大量データでの動作確認
 5. **アクセシビリティテスト**: axe-coreによる自動検証
 
+## コーディング規約・ファイル命名戦略
+
+### ファイル命名規則
+
+**v2 プロジェクトの統一命名規則**
+
+- **React コンポーネント (.tsx)**: PascalCase
+  - `MessageList.tsx`、`VillageInfo.tsx`、`ParticipantList.tsx`
+  - コンポーネント名とファイル名を一致させる
+  
+- **TypeScript ファイル (.ts)**: kebab-case  
+  - `village-api.ts`、`message-utils.ts`、`user-settings-store.ts`
+  - ユーティリティ、型定義、API層、ストア等
+
+- **設定ファイル**: 既存の規則に従う
+  - `package.json`、`tsconfig.json`、`tailwind.config.js`
+
+### 既存ファイルの統一化方針
+
+**統一対象**
+- v2 ディレクトリ内のファイルで命名規則が混在している箇所
+- camelCase と PascalCase が混在しているコンポーネントファイル
+- 新規作成時は必ず統一規則を適用
+
+**統一手順**
+1. 現在の命名状況の調査
+2. PascalCase への変更（.tsx ファイル）
+3. kebab-case への変更（.ts ファイル）
+4. import 文の更新
+5. 関連ファイルの参照更新
+
+### 実装原則
+
+- 新規ファイル作成時は統一規則を厳格に適用
+- 既存ファイルの修正時に合わせて命名も統一
+- TypeScript の型定義も命名規則に従う（PascalCase for types/interfaces）
+
 ## 注意事項
 
 - 既存のデザインシステムとの一貫性を保つ
 - アクセシビリティガイドラインに準拠
 - モバイル対応を考慮したレスポンシブデザイン
 - パフォーマンスを考慮した実装（不要な再レンダリングの回避）
+- ファイル命名規則の厳守

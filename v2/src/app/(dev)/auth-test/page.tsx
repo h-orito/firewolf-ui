@@ -1,8 +1,8 @@
 'use client'
 
 import { useAuth } from '@/hooks/useAuth'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/Button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 
 export default function AuthTestPage() {
   const { user, isLoading, signInWithGoogle, signInWithTwitter, signOut } = useAuth()

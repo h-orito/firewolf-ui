@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useMemo, useState } from 'react'
-import { useVillageQuery } from '../useVillageQuery'
-import { useVillageLatestMessagesQuery } from './useVillageMessagesInfiniteQuery'
+import { useVillageQuery } from '../use-village-query'
+import { useVillageLatestMessagesQuery } from './use-village-messages-infinite-query'
 import type { components } from '@/types/generated/api'
 import type { RealtimeUpdateIntervals, RemainingTime } from '@/types/village'
 
