@@ -13,6 +13,8 @@ interface MessageFilterStoreState extends MessageFilterState {
   addSelectedParticipant: (participantId: number) => void
   removeSelectedParticipant: (participantId: number) => void
   clearSelectedParticipants: () => void
+  setParticipantFilter: (participantId: number, enabled: boolean) => void
+  toggleParticipantFilter: (participantId: number) => void
 
   setPersonalExtraction: (isPersonalExtraction: boolean, targetId?: number) => void
 
@@ -22,6 +24,7 @@ interface MessageFilterStoreState extends MessageFilterState {
 
   resetToDefaults: () => void
   reset: () => void
+  applyFilters: () => void
 }
 
 /**
@@ -177,6 +180,20 @@ export const useMessageFilterStore = create<MessageFilterStoreState>()(
         )
       },
 
+      setParticipantFilter: (participantId, enabled) => {
+        if (enabled) {
+          get().addSelectedParticipant(participantId)
+        } else {
+          get().removeSelectedParticipant(participantId)
+        }
+      },
+
+      toggleParticipantFilter: (participantId) => {
+        const { selectedParticipantIds } = get().participants
+        const isSelected = selectedParticipantIds.includes(participantId)
+        get().setParticipantFilter(participantId, !isSelected)
+      },
+
       // Personal Extraction Actions
       setPersonalExtraction: (isPersonalExtraction, personalExtractionTargetId) => {
         set(
@@ -220,6 +237,13 @@ export const useMessageFilterStore = create<MessageFilterStoreState>()(
 
       reset: () => {
         set(getDefaultState(), false, 'messageFilter/reset')
+      },
+
+      // Apply Filters (実際のフィルタリングロジックは別の場所で実装予定)
+      applyFilters: () => {
+        // TODO: 実際のメッセージフィルタリング処理を実装
+        // 現在は状態を保存するのみ
+        console.log('フィルタを適用しました', get())
       },
     }),
     {
