@@ -5,7 +5,7 @@
 import React, { useState, useEffect } from 'react'
 import type { components } from '@/types/generated/api'
 
-import { MessageFilterModal } from '../message-filter-modal'
+import { MessageFilterModal } from '../MessageFilterModal'
 type VillageView = components['schemas']['VillageView']
 
 interface BottomFixedMenuProps {

@@ -12,7 +12,7 @@ import { MessageList } from './main/MessageList'
 import { ActionPanel } from './main/ActionPanel'
 import { Advertisement } from './sidebar/Advertisement'
 import { useVillageStore } from '@/stores/village'
-import { useVillageMessagesFlat } from '@/hooks/village/useVillageMessagesInfiniteQuery'
+import { useVillageMessagesFlat } from '@/hooks/village/use-village-messages-infinite-query'
 import type { components } from '@/types/generated/api'
 
 type VillageView = components['schemas']['VillageView']

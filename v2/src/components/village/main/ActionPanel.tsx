@@ -4,7 +4,7 @@
 
 import React, { useState } from 'react'
 import type { components } from '@/types/generated/api'
-import { useUserSettingsStore } from '@/stores/village/userSettingsStore'
+import { useUserSettingsStore } from '@/stores/village/user-settings-store'
 
 type VillageView = components['schemas']['VillageView']
 

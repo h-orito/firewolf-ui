@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation'
 import { VillageLayout } from './VillageLayout'
 import { VillageErrorBoundary } from './VillageErrorBoundary'
 import { initializeVillageStores, cleanupVillageStores } from '@/stores/village'
-import { useVillageQuery } from '@/hooks/useVillageQuery'
+import { useVillageQuery } from '@/hooks/use-village-query'
 import { useAuth } from '@/hooks/useAuth'
 import type { components } from '@/types/generated/api'
 
