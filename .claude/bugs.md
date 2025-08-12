@@ -1,0 +1,1 @@
+- {project root}/src/components/village に component が実装されているので、必要なければ消してください

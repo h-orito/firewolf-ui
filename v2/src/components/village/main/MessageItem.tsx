@@ -6,6 +6,7 @@ import React from 'react'
 import type { components } from '@/types/generated/api'
 import { CharacterIcon } from '@/components/common/CharacterIcon'
 import { MessageContent } from './MessageContent'
+import { ParticipantsList } from './ParticipantsList'
 
 type MessageView = components['schemas']['MessageView']
 
@@ -33,8 +34,8 @@ interface MessageItemProps {
 export const MessageItem: React.FC<MessageItemProps> = ({
   message,
   villageId,
-  user,
-  isPersonalExtraction = false,
+  user: _user,
+  isPersonalExtraction: _isPersonalExtraction = false,
   onAnchorClick,
   onPersonalExtractionClick,
 }) => {
@@ -46,9 +47,10 @@ export const MessageItem: React.FC<MessageItemProps> = ({
   const time = message.time
   const content = message.content
 
-  // 発言種別に応じたスタイリング
+  // 発言種別に応じたスタイリング（7種類の発言系メッセージ + システムメッセージ）
   const getMessageTypeStyle = (typeCode: string) => {
     switch (typeCode) {
+      // === 発言系メッセージ（7種類） ===
       case 'NORMAL_SAY':
         return {
           borderColor: 'border-l-blue-500',
@@ -74,14 +76,14 @@ export const MessageItem: React.FC<MessageItemProps> = ({
         return {
           borderColor: 'border-l-purple-500',
           bgColor: 'bg-purple-50',
-          typeLabel: '独り言',
+          typeLabel: '墓下',
           typeLabelStyle: 'bg-purple-100 text-purple-800',
         }
       case 'MONOLOGUE_SAY':
         return {
           borderColor: 'border-l-yellow-500',
           bgColor: 'bg-yellow-50',
-          typeLabel: 'モノローグ',
+          typeLabel: '独り言',
           typeLabelStyle: 'bg-yellow-100 text-yellow-800',
         }
       case 'SPECTATE_SAY':
@@ -91,6 +93,87 @@ export const MessageItem: React.FC<MessageItemProps> = ({
           typeLabel: '見学',
           typeLabelStyle: 'bg-indigo-100 text-indigo-800',
         }
+      case 'ACTION_SAY':
+        return {
+          borderColor: 'border-l-orange-500',
+          bgColor: 'bg-orange-50',
+          typeLabel: 'アクション',
+          typeLabelStyle: 'bg-orange-100 text-orange-800',
+        }
+
+      // === システムメッセージ（10種類の役職別窓発言） ===
+      case 'PSYCHIC_MESSAGE':
+        return {
+          borderColor: 'border-l-cyan-500',
+          bgColor: 'bg-cyan-50',
+          typeLabel: '占い結果',
+          typeLabelStyle: 'bg-cyan-100 text-cyan-800',
+        }
+      case 'WISE_WOLF_MESSAGE':
+        return {
+          borderColor: 'border-l-pink-500',
+          bgColor: 'bg-pink-50',
+          typeLabel: '賢狼占い',
+          typeLabelStyle: 'bg-pink-100 text-pink-800',
+        }
+      case 'NECROMANCER_MESSAGE':
+        return {
+          borderColor: 'border-l-violet-500',
+          bgColor: 'bg-violet-50',
+          typeLabel: '降霊結果',
+          typeLabelStyle: 'bg-violet-100 text-violet-800',
+        }
+      case 'HUNTER_MESSAGE':
+        return {
+          borderColor: 'border-l-emerald-500',
+          bgColor: 'bg-emerald-50',
+          typeLabel: '狩人護衛',
+          typeLabelStyle: 'bg-emerald-100 text-emerald-800',
+        }
+      case 'DETECTIVE_MESSAGE':
+        return {
+          borderColor: 'border-l-teal-500',
+          bgColor: 'bg-teal-50',
+          typeLabel: '探偵調査',
+          typeLabelStyle: 'bg-teal-100 text-teal-800',
+        }
+      case 'LOVER_MESSAGE':
+        return {
+          borderColor: 'border-l-rose-500',
+          bgColor: 'bg-rose-50',
+          typeLabel: '恋人',
+          typeLabelStyle: 'bg-rose-100 text-rose-800',
+        }
+      case 'FOX_MESSAGE':
+        return {
+          borderColor: 'border-l-amber-500',
+          bgColor: 'bg-amber-50',
+          typeLabel: '妖狐',
+          typeLabelStyle: 'bg-amber-100 text-amber-800',
+        }
+      case 'MASON_MESSAGE':
+        return {
+          borderColor: 'border-l-lime-500',
+          bgColor: 'bg-lime-50',
+          typeLabel: '共有',
+          typeLabelStyle: 'bg-lime-100 text-lime-800',
+        }
+      case 'WEREWOLF_MESSAGE':
+        return {
+          borderColor: 'border-l-red-600',
+          bgColor: 'bg-red-50',
+          typeLabel: '人狼',
+          typeLabelStyle: 'bg-red-100 text-red-800',
+        }
+      case 'CORONER_MESSAGE':
+        return {
+          borderColor: 'border-l-slate-500',
+          bgColor: 'bg-slate-50',
+          typeLabel: '検死',
+          typeLabelStyle: 'bg-slate-100 text-slate-800',
+        }
+
+      // === 一般システムメッセージ ===
       case 'SYSTEM_MESSAGE':
         return {
           borderColor: 'border-l-gray-500',
@@ -98,6 +181,14 @@ export const MessageItem: React.FC<MessageItemProps> = ({
           typeLabel: 'システム',
           typeLabelStyle: 'bg-gray-100 text-gray-800',
         }
+      case 'PARTICIPANTS_MESSAGE':
+        return {
+          borderColor: 'border-l-blue-400',
+          bgColor: 'bg-blue-25',
+          typeLabel: '参加者',
+          typeLabelStyle: 'bg-blue-100 text-blue-900',
+        }
+
       default:
         return {
           borderColor: 'border-l-gray-300',
@@ -214,7 +305,28 @@ export const MessageItem: React.FC<MessageItemProps> = ({
 
       {/* 発言内容 */}
       <div className="text-sm text-gray-800 leading-relaxed pl-11">
-        <MessageContent text={content.text} villageId={villageId} onAnchorClick={onAnchorClick} />
+        {messageType.code === 'PARTICIPANTS_MESSAGE' ? (
+          // PARTICIPANTS メッセージは特別レイアウトを使用
+          (() => {
+            try {
+              const participantsData = JSON.parse(content.text)
+              return <ParticipantsList participants={participantsData} />
+            } catch (error) {
+              // JSON パースエラーの場合は通常の表示
+              console.warn('PARTICIPANTS メッセージのJSONパースに失敗:', error)
+              return (
+                <MessageContent
+                  text={content.text}
+                  villageId={villageId}
+                  onAnchorClick={onAnchorClick}
+                />
+              )
+            }
+          })()
+        ) : (
+          // 通常のメッセージ表示
+          <MessageContent text={content.text} villageId={villageId} onAnchorClick={onAnchorClick} />
+        )}
         {/* 表情アイコン */}
         {content.face_code && (
           <div className="mt-2 text-right">

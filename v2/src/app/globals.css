@@ -57,3 +57,22 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  /* FIREWOLF スポイラー（隠し文字）スタイル */
+  .spoiler {
+    @apply bg-gray-800 text-gray-800 rounded px-1 transition-colors cursor-pointer;
+  }
+
+  .spoiler[data-spoiler='revealed'] {
+    @apply bg-transparent text-gray-900;
+  }
+
+  .dark .spoiler {
+    @apply bg-gray-200 text-gray-200;
+  }
+
+  .dark .spoiler[data-spoiler='revealed'] {
+    @apply bg-transparent text-gray-100;
+  }
+}
