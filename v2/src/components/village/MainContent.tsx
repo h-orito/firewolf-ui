@@ -58,7 +58,19 @@ export const MainContent: React.FC<MainContentProps> = ({ village, user, initial
               <Advertisement slot="main-top" className="w-full" style={{ minHeight: '90px' }} />
 
               {/* 発言一覧 */}
-              <MessageList village={village} />
+              <MessageList
+                village={village}
+                messages={[]}
+                isLoading={false}
+                onAnchorClick={(anchorType, anchorValue) => {
+                  // TODO: アンカークリック処理の実装
+                  console.log('アンカークリック:', anchorType, anchorValue)
+                }}
+                onPersonalExtractionClick={(participantId) => {
+                  // TODO: 個人抽出処理の実装
+                  console.log('個人抽出クリック:', participantId)
+                }}
+              />
 
               {/* レスポンシブ広告（メインコンテンツ下部） */}
               <Advertisement slot="main-bottom" className="w-full" style={{ minHeight: '90px' }} />
