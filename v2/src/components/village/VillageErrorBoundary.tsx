@@ -162,9 +162,7 @@ export class VillageErrorBoundary extends Component<Props, State> {
             <CardTitle className="text-center text-red-600">エラーが発生しました</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <Alert variant="error">
-              {userMessage}
-            </Alert>
+            <Alert variant="error">{userMessage}</Alert>
 
             {/* 開発環境でのみエラー詳細を表示 */}
             {process.env.NODE_ENV === 'development' && (
