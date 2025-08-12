@@ -4,7 +4,7 @@
  * 固定メニュー、村ヘッダー、発言一覧、アクションパネルを含む
  */
 
-import React from 'react'
+import React, { useEffect, useRef, useCallback, useState } from 'react'
 import { TopFixedMenu } from './main/TopFixedMenu'
 import { BottomFixedMenu } from './main/BottomFixedMenu'
 import { VillageHeader } from './main/VillageHeader'
@@ -12,6 +12,7 @@ import { MessageList } from './main/MessageList'
 import { ActionPanel } from './main/ActionPanel'
 import { Advertisement } from './sidebar/Advertisement'
 import { useVillageStore } from '@/stores/village'
+import { useVillageMessagesFlat } from '@/hooks/village/useVillageMessagesInfiniteQuery'
 import type { components } from '@/types/generated/api'
 
 type VillageView = components['schemas']['VillageView']
@@ -31,12 +32,111 @@ interface MainContentProps {
  * 責任:
  * - 上部・下部固定メニューの表示
  * - 村ヘッダー（村名・日付ナビゲーション）
- * - 発言一覧の表示
+ * - 発言一覧の表示（無限スクロール対応）
  * - アクションパネルの表示
  * - レスポンシブ広告の表示
  */
 export const MainContent: React.FC<MainContentProps> = ({ village, user, initialDay }) => {
   const { currentDay } = useVillageStore()
+
+  // 現在の日付情報を取得（APIから村の日数情報を取得し、現在の日を決定）
+  const currentVillageDay = currentDay || village.day.day_list.length || 1
+
+  // TODO: 現在時刻（昼/夜）の決定ロジックを実装
+  // 仮で昼（day）を設定、実際は村の状態から判断する必要がある
+  const currentNoonnight = 'day'
+
+  // 表示モードの状態管理
+  const [displayMode, setDisplayMode] = useState<'infinite' | 'pagination' | 'virtualized'>(
+    'infinite'
+  )
+  const [currentPage, setCurrentPage] = useState(1)
+  const [itemsPerPage] = useState(50) // 1ページあたりの表示件数
+
+  // メッセージデータの取得（無限スクロール対応）
+  const { allMessages, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage, error } =
+    useVillageMessagesFlat({
+      villageId: village.id.toString(),
+      day: currentVillageDay,
+      noonnight: currentNoonnight,
+      villageStatus: village.status,
+      enabled: true,
+    })
+
+  // 無限スクロール用のセンチネル要素の参照
+  const sentinelRef = useRef<HTMLDivElement>(null)
+
+  // 無限スクロールの実装
+  const handleObserver = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      const [target] = entries
+      if (target.isIntersecting && hasNextPage && !isFetchingNextPage && !isLoading) {
+        fetchNextPage()
+      }
+    },
+    [hasNextPage, isFetchingNextPage, isLoading, fetchNextPage]
+  )
+
+  // Intersection Observerの設定
+  useEffect(() => {
+    const element = sentinelRef.current
+    if (!element) return
+
+    const observer = new IntersectionObserver(handleObserver, {
+      threshold: 0.1,
+      rootMargin: '100px', // 100px手前で次のページを読み込む
+    })
+
+    observer.observe(element)
+
+    return () => {
+      observer.unobserve(element)
+      observer.disconnect()
+    }
+  }, [handleObserver])
+
+  // アンカークリック処理
+  const handleAnchorClick = useCallback((anchorType: string, anchorValue: string) => {
+    // TODO: アンカークリック処理の実装
+    // 設定に応じて貼り付けまたはコピー処理を実行
+    console.log('アンカークリック:', anchorType, anchorValue)
+  }, [])
+
+  // 個人抽出クリック処理
+  const handlePersonalExtractionClick = useCallback((participantId: number) => {
+    // TODO: 個人抽出処理の実装
+    // URLパラメータを更新して個人抽出表示に切り替え
+    console.log('個人抽出クリック:', participantId)
+  }, [])
+
+  // ページネーション用のメッセージ処理
+  const paginatedMessages = React.useMemo(() => {
+    if (displayMode === 'infinite') {
+      return allMessages
+    }
+
+    const startIndex = (currentPage - 1) * itemsPerPage
+    const endIndex = startIndex + itemsPerPage
+    return allMessages.slice(startIndex, endIndex)
+  }, [allMessages, displayMode, currentPage, itemsPerPage])
+
+  // 総ページ数の計算
+  const totalPages = Math.ceil(allMessages.length / itemsPerPage)
+
+  // ページ変更ハンドラー
+  const handlePageChange = useCallback((page: number) => {
+    setCurrentPage(page)
+    // ページ変更時に最上部にスクロール
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [])
+
+  // 表示モード変更ハンドラー
+  const handleDisplayModeChange = useCallback((mode: 'infinite' | 'pagination' | 'virtualized') => {
+    setDisplayMode(mode)
+    if (mode === 'pagination') {
+      setCurrentPage(1) // ページネーションモードに切り替え時は1ページ目に戻る
+    }
+  }, [])
 
   return (
     <div className="relative min-h-screen bg-gray-50">
@@ -57,20 +157,91 @@ export const MainContent: React.FC<MainContentProps> = ({ village, user, initial
               {/* レスポンシブ広告（メインコンテンツ上部） */}
               <Advertisement slot="main-top" className="w-full" style={{ minHeight: '90px' }} />
 
+              {/* 表示モード切り替え */}
+              <div className="bg-white rounded-lg shadow p-4 mb-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-sm font-medium text-gray-700">表示モード</h3>
+                  <div className="flex space-x-2">
+                    <button
+                      onClick={() => handleDisplayModeChange('infinite')}
+                      className={`px-3 py-1 rounded text-sm ${
+                        displayMode === 'infinite'
+                          ? 'bg-blue-600 text-white'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                    >
+                      無限スクロール
+                    </button>
+                    <button
+                      onClick={() => handleDisplayModeChange('pagination')}
+                      className={`px-3 py-1 rounded text-sm ${
+                        displayMode === 'pagination'
+                          ? 'bg-blue-600 text-white'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                    >
+                      ページネーション
+                    </button>
+                    <button
+                      onClick={() => handleDisplayModeChange('virtualized')}
+                      className={`px-3 py-1 rounded text-sm ${
+                        displayMode === 'virtualized'
+                          ? 'bg-blue-600 text-white'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                    >
+                      仮想化
+                    </button>
+                  </div>
+                </div>
+                <div className="mt-2 text-xs text-gray-500">
+                  {displayMode === 'pagination' && (
+                    <span>
+                      {itemsPerPage} 件ずつ表示 | 全 {allMessages.length} 件
+                    </span>
+                  )}
+                  {displayMode === 'virtualized' && (
+                    <span>大量データ最適表示 | 全 {allMessages.length} 件</span>
+                  )}
+                  {displayMode === 'infinite' && (
+                    <span>自動読み込み | 全 {allMessages.length} 件</span>
+                  )}
+                </div>
+              </div>
+
               {/* 発言一覧 */}
               <MessageList
                 village={village}
-                messages={[]}
-                isLoading={false}
-                onAnchorClick={(anchorType, anchorValue) => {
-                  // TODO: アンカークリック処理の実装
-                  console.log('アンカークリック:', anchorType, anchorValue)
+                messages={paginatedMessages}
+                isLoading={isLoading}
+                displayMode={displayMode}
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+                hasNextPage={hasNextPage}
+                isNextPageLoading={isFetchingNextPage}
+                loadNextPage={async (startIndex, stopIndex) => {
+                  // 仮想化モードでの無限スクロール対応
+                  if (displayMode === 'virtualized' && hasNextPage && !isFetchingNextPage) {
+                    await fetchNextPage()
+                  }
                 }}
-                onPersonalExtractionClick={(participantId) => {
-                  // TODO: 個人抽出処理の実装
-                  console.log('個人抽出クリック:', participantId)
-                }}
+                onAnchorClick={handleAnchorClick}
+                onPersonalExtractionClick={handlePersonalExtractionClick}
               />
+
+              {/* 次ページ読み込み中の表示（無限スクロールモード時のみ） */}
+              {displayMode === 'infinite' && isFetchingNextPage && (
+                <div className="flex justify-center py-4">
+                  <div className="text-sm text-gray-500 flex items-center gap-2">
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
+                    さらに読み込み中...
+                  </div>
+                </div>
+              )}
+
+              {/* 無限スクロール用のセンチネル（無限スクロールモード時のみ） */}
+              {displayMode === 'infinite' && <div ref={sentinelRef} className="h-1"></div>}
 
               {/* レスポンシブ広告（メインコンテンツ下部） */}
               <Advertisement slot="main-bottom" className="w-full" style={{ minHeight: '90px' }} />
