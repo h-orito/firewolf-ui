@@ -1,6 +1,7 @@
 import { Card } from '@/components/ui/card'
 import { NumberInput } from '@/components/ui/number-input'
 import { Alert } from '@/components/ui/alert'
+import { MESSAGE_TYPE_LABELS } from '@/types/message-type'
 
 interface MessageRestrictSetting {
   maxCount: number
@@ -93,45 +94,45 @@ export function MessageRestrictSettingsSection({
 
         <Alert>
           <div className="space-y-1">
-            <p>• 回数は 0〜1000（通常発言は 1〜1000）で設定できます。</p>
-            <p>• 文字数は 1〜1000 で設定できます。</p>
+            <p>• 回数は 0～1000（通常発言は 1～1000）で設定できます。</p>
+            <p>• 文字数は 1～1000 で設定できます。</p>
           </div>
         </Alert>
 
         <div className="space-y-4">
           <MessageRestrictSettingItem
-            label="通常発言"
+            label={MESSAGE_TYPE_LABELS.NORMAL_SAY}
             setting={normalSay}
             onChange={onNormalSayChange}
             minCount={1}
           />
 
           <MessageRestrictSettingItem
-            label="人狼の囁き"
+            label={MESSAGE_TYPE_LABELS.WEREWOLF_SAY}
             setting={werewolfSay}
             onChange={onWerewolfSayChange}
           />
 
           <MessageRestrictSettingItem
-            label="共鳴発言"
+            label={MESSAGE_TYPE_LABELS.SYMPATHIZE_SAY}
             setting={sympathizeSay}
             onChange={onSympathizeSayChange}
           />
 
           <MessageRestrictSettingItem
-            label="死者の呻き"
+            label={MESSAGE_TYPE_LABELS.GRAVE_SAY}
             setting={graveSay}
             onChange={onGraveSayChange}
           />
 
           <MessageRestrictSettingItem
-            label="独り言"
+            label={MESSAGE_TYPE_LABELS.MONOLOGUE_SAY}
             setting={monologueSay}
             onChange={onMonologueSayChange}
           />
 
           <MessageRestrictSettingItem
-            label="見学発言"
+            label={MESSAGE_TYPE_LABELS.SPECTATE_SAY}
             setting={spectateSay}
             onChange={onSpectateSayChange}
           />
