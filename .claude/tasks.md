@@ -10,65 +10,65 @@
 
 **[村画面仕様書](../doc/v2/village/README.md)** に基づく実装タスク：
 
-##### フェーズ1: 基盤構築（最優先）
+##### フェーズ1: 基盤構築（完了）
 
 1. **プロジェクト構造とコンポーネント基盤**
-   - [ ] `src/components/village/` ディレクトリ構造作成
-   - [ ] `src/stores/village/` 状態管理ディレクトリ作成
-   - [ ] `src/hooks/village/` カスタムフック用ディレクトリ作成
-   - [ ] 村画面用の型定義ファイル作成 (`src/types/village.ts`)
-   - [ ] ErrorBoundary コンポーネント実装 (`VillageErrorBoundary`)
+   - [x] `src/components/village/` ディレクトリ構造作成
+   - [x] `src/stores/village/` 状態管理ディレクトリ作成
+   - [x] `src/hooks/village/` カスタムフック用ディレクトリ作成
+   - [x] 村画面用の型定義ファイル作成 (`src/types/village.ts`)
+   - [x] ErrorBoundary コンポーネント実装 (`VillageErrorBoundary`)
 
 2. **状態管理基盤構築**
-   - [ ] VillageStore実装（村ID、現在日、サイドバー開閉状態）
-   - [ ] MessageFilterStore実装（フィルタ設定、各タブ独立セッション状態）
-   - [ ] UserSettingsStore実装（表示・操作・Webhook設定）
-   - [ ] MemoStore実装（Cookie保存、最大3個）
-   - [ ] 状態初期化関数実装（ユーザー設定・メモのみ復元）
-   - [ ] Cookie永続化ユーティリティ実装（フィルタ・日付状態は永続化なし）
+   - [x] VillageStore実装（村ID、現在日、サイドバー開閉状態）
+   - [x] MessageFilterStore実装（フィルタ設定、各タブ独立セッション状態）
+   - [x] UserSettingsStore実装（表示・操作・Webhook設定）
+   - [x] MemoStore実装（Cookie保存、最大3個）
+   - [x] 状態初期化関数実装（ユーザー設定・メモのみ復元）
+   - [x] Cookie永続化ユーティリティ実装（フィルタ・日付状態は永続化なし）
 
 3. **API統合基盤**
-   - [ ] 村情報取得Query (`useVillageQuery`)
-   - [ ] 参加者一覧Query (`useParticipantsQuery`) 
-   - [ ] 発言一覧InfiniteQuery (`useMessagesQuery`)
-   - [ ] 発言投稿Mutation (`usePostMessageMutation`)
-   - [ ] リアルタイム更新Query（残り時間1秒、新着確認30秒、村情報60秒）
-   - [ ] APIエラー境界とリトライ戦略実装
+   - [x] 村情報取得Query (`useVillageQuery`) - 既存実装済み
+   - [x] 参加者一覧Query (`useVillageParticipantsQuery`) - 新規実装済み
+   - [x] 発言一覧InfiniteQuery (`useVillageMessagesInfiniteQuery`) - 新規実装済み
+   - [x] 発言投稿Mutation (`usePostVillageMessageMutation`) - 新規実装済み
+   - [x] リアルタイム更新Query（残り時間1秒、新着確認30秒、村情報60秒）- 新規実装済み
+   - [x] APIエラー境界とリトライ戦略実装 (`useVillageErrorHandler`) - 新規実装済み
 
-##### フェーズ2: レイアウト実装（高優先）
+##### フェーズ2: レイアウト実装（完了）
 
 4. **基本レイアウトコンポーネント**
-   - [ ] `VillagePage`メインエントリ実装
-   - [ ] `VillageLayout`レスポンシブレイアウト実装
-   - [ ] デスクトップ用左右分割レイアウト
-   - [ ] モバイル用ハンバーガーメニューレイアウト
-   - [ ] サイドバーオーバーレイ・スライダー動作
-   - [ ] 共通ヘッダー非表示機能
+   - [x] `VillagePage`メインエントリ実装
+   - [x] `VillageLayout`レスポンシブレイアウト実装
+   - [x] デスクトップ用左右分割レイアウト
+   - [x] モバイル用ハンバーガーメニューレイアウト
+   - [x] サイドバーオーバーレイ・スライダー動作
+   - [x] 共通ヘッダー非表示機能
 
 5. **サイドバー実装**
-   - [ ] `Sidebar`メインコンポーネント
-   - [ ] `VillageInfo`（村名・村設定モーダル）
-   - [ ] `ParticipantList`基本実装
-   - [ ] `ParticipantGroup`（生存・死亡・見学グループ）
-   - [ ] `ParticipantItem`（キャラアイコン・情報表示）
-   - [ ] 個人抽出機能（別タブ/同一タブ切り替え）
-   - [ ] `MemoSection`（作成・編集・削除）
-   - [ ] `UserSettings`パネル実装
-   - [ ] `NavigationLinks`（切り抜き・トップ・Xポスト）
-   - [ ] ログイン状態表示コンポーネント
+   - [x] `Sidebar`メインコンポーネント
+   - [x] `VillageInfo`（村名・村設定モーダル）- 暫定実装
+   - [x] `ParticipantList`基本実装
+   - [x] `ParticipantGroup`（生存・死亡・見学グループ）
+   - [x] `ParticipantItem`（キャラアイコン・情報表示）- プレースホルダー
+   - [x] 個人抽出機能（別タブ/同一タブ切り替え）- 暫定実装
+   - [x] `MemoSection`（作成・編集・削除）
+   - [x] `UserSettings`パネル実装
+   - [x] `NavigationLinks`（切り抜き・トップ・Xポスト）- 暫定実装
+   - [x] ログイン状態表示コンポーネント - 暫定実装
 
-##### フェーズ3: メインコンテンツ実装（高優先）
+##### フェーズ3: メインコンテンツ実装（基盤完了）
 
 6. **メインコンテンツ構造**
-   - [ ] `MainContent`コンテナコンポーネント
-   - [ ] `TopFixedMenu`（前日・翌日・最上部へボタン）
-   - [ ] `BottomFixedMenu`（更新・抽出・最下部へ・残り時間）
-   - [ ] `VillageHeader`（村名・日付ナビゲーション）
-   - [ ] パンくずリスト風日付リンク実装
+   - [x] `MainContent`コンテナコンポーネント
+   - [x] `TopFixedMenu`（前日・翌日・最上部へボタン）- 暫定実装
+   - [x] `BottomFixedMenu`（更新・抽出・最下部へ・残り時間）- 暫定実装
+   - [x] `VillageHeader`（村名・日付ナビゲーション）- 暫定実装
+   - [x] パンくずリスト風日付リンク実装
 
 7. **発言一覧システム**
-   - [ ] `MessageList`コンテナ実装
-   - [ ] `MessageItem`個別発言コンポーネント
+   - [x] `MessageList`コンテナ実装 - サンプル表示
+   - [ ] `MessageItem`個別発言コンポーネント - 詳細実装
    - [ ] `MessageContent`（HTML変換・アンカー処理）
    - [ ] `CharacterIcon`共通コンポーネント
    - [ ] ページネーション機能実装
@@ -76,9 +76,16 @@
    - [ ] 仮想化（react-window）実装
    - [ ] メッセージフィルタリング機能統合
 
+8. **アクションパネル基盤**
+   - [x] `ActionPanel`汎用パネルコンポーネント - 基本実装
+   - [x] 権限ベース表示制御（SituationAsParticipant）- 暫定実装
+   - [ ] パネル固定表示機能
+   - [x] 発言アクション基盤 - タブ形式で実装
+   - [ ] 投票・能力行使アクション基盤
+
 ##### フェーズ4: 発言抽出・フィルタ機能（高優先）
 
-8. **発言抽出システム**
+9. **発言抽出システム**
    - [ ] `MessageFilterModal`実装
    - [ ] 発言種別フィルタUI（11種類の発言種別）
    - [ ] 発言者フィルタ（参加者選択・個人抽出）
@@ -91,7 +98,7 @@
 
 ##### フェーズ5: メッセージ表示・装飾機能（中優先）
 
-9. **メッセージ変換・表示**
+10. **メッセージ変換・表示**
    - [ ] HTMLエスケープ処理実装
    - [ ] デコレーション変換システム（11種類の装飾）
    - [ ] アンカーリンク生成・処理（7種類のアンカー形式対応）
@@ -103,8 +110,8 @@
 ##### フェーズ6: アクション機能実装（中優先）
 
 10. **基本アクション機能**
-    - [ ] `ActionPanel`汎用パネルコンポーネント
-    - [ ] 権限ベース表示制御（SituationAsParticipant）
+    - [x] `ActionPanel`汎用パネルコンポーネント - 基盤実装完了
+    - [x] 権限ベース表示制御（SituationAsParticipant）- 暫定実装
     - [ ] パネル固定表示機能
 
 11. **発言アクション**
