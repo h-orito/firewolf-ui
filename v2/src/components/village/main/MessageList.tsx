@@ -160,7 +160,7 @@ export const MessageList: React.FC<MessageListProps> = ({
         <div className="space-y-1">
           {filteredMessages.map((message) => (
             <MessageItem
-              key={`${message.time.village_day_id}-${message.content.num}`}
+              key={`${message.content.type.code}-${message.content.num}`}
               message={message}
               villageId={village.id}
               onAnchorClick={onAnchorClick}
