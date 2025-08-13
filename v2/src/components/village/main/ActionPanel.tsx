@@ -6,14 +6,17 @@ import React, { useState } from 'react'
 import type { components } from '@/types/generated/api'
 import { useUserSettingsStore } from '@/stores/village/user-settings-store'
 import { MessageConfirmModal } from '../MessageConfirmModal'
-import { CharacterSelectModal } from '../CharacterSelectModal'
-import { ParticipateConfirmModal } from '../ParticipateConfirmModal'
-import { useSkillsQuery } from '@/hooks/use-skills-query'
+import { VoteConfirmModal } from '../VoteConfirmModal'
+import { ParticipateAction } from '../actions/ParticipateAction'
+import { SpectateAction } from '../actions/SpectateAction'
+import { LeaveAction } from '../actions/LeaveAction'
+import { ActionSayAction } from '../actions/ActionSayAction'
+import { ChangeNameAction } from '../actions/ChangeNameAction'
+import { useVoteMutation } from '@/hooks/village/use-vote-mutation'
+import { useAbilityMutation } from '@/hooks/village/use-ability-mutation'
 import type { MessageType } from '@/types/village'
 
 type VillageView = components['schemas']['VillageView']
-type Chara = components['schemas']['Chara']
-type Skill = components['schemas']['Skill']
 
 interface ActionPanelProps {
   /** 村情報 */
@@ -30,24 +33,20 @@ interface ActionPanelProps {
  * 暫定実装
  */
 export const ActionPanel: React.FC<ActionPanelProps> = ({ village, user }) => {
-  const [activeTab, setActiveTab] = useState<'say' | 'vote' | 'ability'>('say')
+  const [activeTab, setActiveTab] = useState<'say' | 'vote' | 'ability' | 'other'>('say')
   const [messageContent, setMessageContent] = useState('')
   const [messageType, setMessageType] = useState<MessageType>('NORMAL_SAY')
   const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [selectedVoteTarget, setSelectedVoteTarget] = useState<number | null>(null)
+  const [showVoteConfirmModal, setShowVoteConfirmModal] = useState(false)
+  const [selectedAbilityTarget, setSelectedAbilityTarget] = useState<number | null>(null)
+  const [selectedAbilityType, setSelectedAbilityType] = useState<string>('')
 
-  // 入村関連の状態
-  const [showCharacterSelectModal, setShowCharacterSelectModal] = useState(false)
-  const [showParticipateConfirmModal, setShowParticipateConfirmModal] = useState(false)
-  const [selectedCharacter, setSelectedCharacter] = useState<Chara | null>(null)
-  const [firstRequestSkill, setFirstRequestSkill] = useState<Skill | null>(null)
-  const [secondRequestSkill, setSecondRequestSkill] = useState<Skill | null>(null)
-  const [participateMessage, setParticipateMessage] = useState('')
+  const voteMutation = useVoteMutation()
+  const abilityMutation = useAbilityMutation()
 
   // ユーザー設定から固定表示設定を取得
   const { operation } = useUserSettingsStore()
-
-  // スキル一覧を取得
-  const { data: skillsData } = useSkillsQuery()
 
   const isParticipant =
     user && village.participant?.member_list?.some((p) => p.player?.id === user.uid)
@@ -119,39 +118,21 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({ village, user }) => {
     }, 0)
   }
 
-  const handleJoinVillage = () => {
-    // キャラクター選択モーダルを開く
-    setShowCharacterSelectModal(true)
+  // 参加・見学完了時のハンドラー
+  const handleParticipated = () => {
+    // 参加完了後の処理（必要に応じて実装）
+    console.log('参加完了')
   }
 
-  // キャラクター選択完了後の処理
-  const handleCharacterSelected = (character: Chara) => {
-    setSelectedCharacter(character)
-    setShowCharacterSelectModal(false)
-    setShowParticipateConfirmModal(true)
+  const handleSpectated = () => {
+    // 見学開始後の処理（必要に応じて実装）
+    console.log('見学開始')
   }
 
-  // 入村確認完了後の処理
-  const handleParticipateConfirmed = async () => {
-    // 実際の入村API呼び出し（未実装）
-    console.log('入村処理実行', {
-      characterId: selectedCharacter?.id,
-      firstRequestSkill: firstRequestSkill?.code,
-      secondRequestSkill: secondRequestSkill?.code,
-      message: participateMessage,
-    })
-
-    // 成功時の状態リセット
-    setSelectedCharacter(null)
-    setFirstRequestSkill(null)
-    setSecondRequestSkill(null)
-    setParticipateMessage('')
-    setShowParticipateConfirmModal(false)
-  }
-
-  const handleSpectate = () => {
-    // 見学処理（未実装）
-    console.log('見学処理')
+  // 退村完了時のハンドラー
+  const handleLeft = () => {
+    // 退村完了後の処理（必要に応じて実装）
+    console.log('退村完了')
   }
 
   // 共通のコンテナクラス（固定表示設定に応じてスタイルを変更）
@@ -190,7 +171,7 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({ village, user }) => {
           {/* タブナビゲーション */}
           <div className="border-b">
             <nav className="flex space-x-4 px-4">
-              {['say', 'vote', 'ability'].map((tab) => (
+              {['say', 'vote', 'ability', 'other'].map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab as any)}
@@ -203,6 +184,7 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({ village, user }) => {
                   {tab === 'say' && '発言'}
                   {tab === 'vote' && '投票'}
                   {tab === 'ability' && '能力'}
+                  {tab === 'other' && 'その他'}
                 </button>
               ))}
             </nav>
@@ -310,7 +292,68 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({ village, user }) => {
             {activeTab === 'vote' && (
               <div className="space-y-4">
                 <h3 className="text-lg font-medium text-gray-900">投票</h3>
-                <p className="text-sm text-gray-600">投票機能は実装予定です。</p>
+
+                {village.participant?.member_list && village.participant.member_list.length > 0 ? (
+                  <>
+                    <div className="space-y-3">
+                      <label className="text-sm font-medium text-gray-700">投票先を選択</label>
+                      <div className="space-y-2">
+                        {village.participant.member_list
+                          .filter((participant) => !participant.dead) // 生存者のみ
+                          .filter((participant) => participant.player?.id !== user?.uid) // 自分以外
+                          .map((participant) => (
+                            <label
+                              key={participant.id}
+                              className={`flex items-center p-3 border rounded-lg cursor-pointer transition-colors ${
+                                selectedVoteTarget === participant.id
+                                  ? 'border-blue-500 bg-blue-50'
+                                  : 'border-gray-200 hover:border-gray-300'
+                              }`}
+                            >
+                              <input
+                                type="radio"
+                                name="voteTarget"
+                                value={participant.id}
+                                checked={selectedVoteTarget === participant.id}
+                                onChange={(e) => setSelectedVoteTarget(Number(e.target.value))}
+                                className="sr-only"
+                              />
+                              <div className="flex items-center space-x-3">
+                                <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
+                                  <span className="text-xs font-medium">
+                                    {participant.chara_name?.short_name ||
+                                      participant.name?.charAt(0)}
+                                  </span>
+                                </div>
+                                <div>
+                                  <div className="text-sm font-medium text-gray-900">
+                                    {participant.chara_name?.name || participant.name}
+                                  </div>
+                                  <div className="text-xs text-gray-500">
+                                    {participant.player?.nickname || 'プレイヤー'}
+                                  </div>
+                                </div>
+                              </div>
+                            </label>
+                          ))}
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={() => {
+                        if (selectedVoteTarget) {
+                          setShowVoteConfirmModal(true)
+                        }
+                      }}
+                      disabled={!selectedVoteTarget}
+                      className="w-full py-2 px-4 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:bg-gray-300 disabled:cursor-not-allowed"
+                    >
+                      {selectedVoteTarget ? '投票する' : '投票先を選択してください'}
+                    </button>
+                  </>
+                ) : (
+                  <p className="text-sm text-gray-600">投票可能な参加者がいません。</p>
+                )}
               </div>
             )}
 
@@ -318,7 +361,140 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({ village, user }) => {
             {activeTab === 'ability' && (
               <div className="space-y-4">
                 <h3 className="text-lg font-medium text-gray-900">能力行使</h3>
-                <p className="text-sm text-gray-600">能力行使機能は実装予定です。</p>
+
+                {/* 能力種別選択 */}
+                <div className="space-y-3">
+                  <label className="text-sm font-medium text-gray-700">能力種別</label>
+                  <div className="space-y-2">
+                    {[
+                      { value: 'DIVINE', label: '占い', icon: '🔮' },
+                      { value: 'GUARD', label: '護衛', icon: '🛡️' },
+                      { value: 'ATTACK', label: '襲撃', icon: '⚔️' },
+                      { value: 'PSYCHIC', label: '霊能', icon: '👻' },
+                    ].map((ability) => (
+                      <label
+                        key={ability.value}
+                        className={`flex items-center p-2 border rounded-lg cursor-pointer transition-colors ${
+                          selectedAbilityType === ability.value
+                            ? 'border-blue-500 bg-blue-50'
+                            : 'border-gray-200 hover:border-gray-300'
+                        }`}
+                      >
+                        <input
+                          type="radio"
+                          name="abilityType"
+                          value={ability.value}
+                          checked={selectedAbilityType === ability.value}
+                          onChange={(e) => setSelectedAbilityType(e.target.value)}
+                          className="sr-only"
+                        />
+                        <span className="text-sm mr-2">{ability.icon}</span>
+                        <span className="text-sm text-gray-700">{ability.label}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                {/* 対象選択 */}
+                {selectedAbilityType && (
+                  <div className="space-y-3">
+                    <label className="text-sm font-medium text-gray-700">対象を選択</label>
+                    <div className="space-y-2">
+                      {village.participant?.member_list
+                        ?.filter((participant) => {
+                          // 能力によってフィルタリングを変更
+                          if (selectedAbilityType === 'ATTACK') {
+                            return !participant.dead && participant.player?.id !== user?.uid
+                          }
+                          return !participant.dead
+                        })
+                        .map((participant) => (
+                          <label
+                            key={participant.id}
+                            className={`flex items-center p-3 border rounded-lg cursor-pointer transition-colors ${
+                              selectedAbilityTarget === participant.id
+                                ? 'border-blue-500 bg-blue-50'
+                                : 'border-gray-200 hover:border-gray-300'
+                            }`}
+                          >
+                            <input
+                              type="radio"
+                              name="abilityTarget"
+                              value={participant.id}
+                              checked={selectedAbilityTarget === participant.id}
+                              onChange={(e) => setSelectedAbilityTarget(Number(e.target.value))}
+                              className="sr-only"
+                            />
+                            <div className="flex items-center space-x-3">
+                              <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
+                                <span className="text-xs font-medium">
+                                  {participant.chara_name?.short_name ||
+                                    participant.name?.charAt(0)}
+                                </span>
+                              </div>
+                              <div>
+                                <div className="text-sm font-medium text-gray-900">
+                                  {participant.chara_name?.name || participant.name}
+                                </div>
+                                <div className="text-xs text-gray-500">
+                                  {participant.player?.nickname || 'プレイヤー'}
+                                </div>
+                              </div>
+                            </div>
+                          </label>
+                        ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* 能力行使ボタン */}
+                <button
+                  onClick={() => {
+                    if (selectedAbilityType && selectedAbilityTarget) {
+                      abilityMutation.mutate({
+                        villageId: village.id,
+                        targetId: selectedAbilityTarget,
+                        abilityType: selectedAbilityType,
+                      })
+                    }
+                  }}
+                  disabled={
+                    !selectedAbilityType || !selectedAbilityTarget || abilityMutation.isPending
+                  }
+                  className="w-full py-2 px-4 bg-purple-600 text-white rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:bg-gray-300 disabled:cursor-not-allowed"
+                >
+                  {abilityMutation.isPending
+                    ? '実行中...'
+                    : selectedAbilityType && selectedAbilityTarget
+                      ? '能力を使う'
+                      : '能力と対象を選択してください'}
+                </button>
+              </div>
+            )}
+
+            {/* その他タブ */}
+            {activeTab === 'other' && (
+              <div className="space-y-4">
+                <h3 className="text-lg font-medium text-gray-900">その他のアクション</h3>
+                <div className="space-y-3">
+                  <ActionSayAction
+                    village={village}
+                    user={user}
+                    onMessagePosted={() => {
+                      // アクション発言投稿後の処理（必要に応じて実装）
+                      console.log('アクション発言投稿完了')
+                    }}
+                  />
+                  <ChangeNameAction
+                    village={village}
+                    user={user}
+                    onNameChanged={() => {
+                      // 名前変更後の処理（必要に応じて実装）
+                      console.log('名前変更完了')
+                    }}
+                  />
+                  <LeaveAction village={village} user={user} onLeft={handleLeft} />
+                </div>
               </div>
             )}
           </div>
@@ -335,6 +511,34 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({ village, user }) => {
             messageType: messageType,
             ...getCurrentUser(),
           }}
+        />
+
+        {/* 投票確認モーダル */}
+        <VoteConfirmModal
+          isOpen={showVoteConfirmModal}
+          onClose={() => setShowVoteConfirmModal(false)}
+          onConfirmed={() => {
+            if (selectedVoteTarget) {
+              voteMutation.mutate(
+                {
+                  villageId: village.id,
+                  targetId: selectedVoteTarget,
+                },
+                {
+                  onSuccess: () => {
+                    setShowVoteConfirmModal(false)
+                    setSelectedVoteTarget(null)
+                  },
+                }
+              )
+            }
+          }}
+          target={
+            selectedVoteTarget
+              ? village.participant?.member_list?.find((p) => p.id === selectedVoteTarget) || null
+              : null
+          }
+          isLoading={voteMutation.isPending}
         />
       </>
     )
@@ -389,64 +593,14 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({ village, user }) => {
             <h3 className="text-lg font-medium text-gray-900">村に参加</h3>
             <p className="text-sm text-gray-600">この村に参加または見学することができます。</p>
 
-            <div className="space-y-2">
-              <button
-                onClick={handleJoinVillage}
-                className="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                村に参加する
-              </button>
+            {/* 入村アクション */}
+            <ParticipateAction village={village} user={user} onParticipated={handleParticipated} />
 
-              <button
-                onClick={handleSpectate}
-                className="w-full py-2 px-4 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                見学する
-              </button>
-            </div>
-
-            <div className="text-xs text-gray-500">
-              参加者: {village.participant?.count || 0} / {village.setting?.capacity?.max || 0}
-            </div>
+            {/* 見学アクション */}
+            <SpectateAction village={village} user={user} onSpectated={handleSpectated} />
           </div>
         </div>
       </div>
-
-      {/* 発言確認モーダル（未参加者用） */}
-      <MessageConfirmModal
-        isOpen={showConfirmModal}
-        onClose={() => setShowConfirmModal(false)}
-        onConfirmed={handleConfirmed}
-        village={village}
-        preview={{
-          content: messageContent,
-          messageType: messageType,
-          ...getCurrentUser(),
-        }}
-      />
-
-      {/* キャラクター選択モーダル */}
-      <CharacterSelectModal
-        isOpen={showCharacterSelectModal}
-        onClose={() => setShowCharacterSelectModal(false)}
-        onSelect={handleCharacterSelected}
-        village={village}
-        selectedCharacterId={selectedCharacter?.id}
-      />
-
-      {/* 入村確認モーダル */}
-      {selectedCharacter && (
-        <ParticipateConfirmModal
-          isOpen={showParticipateConfirmModal}
-          onClose={() => setShowParticipateConfirmModal(false)}
-          onConfirmed={handleParticipateConfirmed}
-          village={village}
-          selectedCharacter={selectedCharacter}
-          firstRequestSkill={firstRequestSkill || undefined}
-          secondRequestSkill={secondRequestSkill || undefined}
-          participateMessage={participateMessage}
-        />
-      )}
     </>
   )
 }

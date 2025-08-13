@@ -5,6 +5,7 @@ import Image from 'next/image'
 export default function HeroSection() {
   return (
     <section className="relative text-white">
+      <h1 className="sr-only">FIREWOLF - 長期人狼が無料で遊べるサービス</h1>
       <div className="relative w-full">
         <Image
           src="/firewolf/images/top.jpg"

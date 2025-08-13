@@ -28,6 +28,12 @@ export {
   useSubmitVillageMessageMutation,
 } from './use-post-village-message-mutation'
 
+// 投票機能
+export { useVoteMutation } from './use-vote-mutation'
+
+// 能力行使機能
+export { useAbilityMutation } from './use-ability-mutation'
+
 // リアルタイム更新
 export {
   useVillageRealTimeQueries,

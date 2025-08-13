@@ -142,6 +142,7 @@ export type MessageType =
   | 'GRAVE_SAY' // 死者の呻き
   | 'MONOLOGUE_SAY' // 独り言
   | 'SPECTATE_SAY' // 見学発言
+  | 'ACTION_SAY' // アクション発言
   | 'SYSTEM_MESSAGE' // システムメッセージ
   | 'PRIVATE_SYSTEM' // プライベートシステムメッセージ
   | 'PARTICIPANTS' // 参加者メッセージ

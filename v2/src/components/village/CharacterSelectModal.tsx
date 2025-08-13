@@ -35,6 +35,7 @@ export const CharacterSelectModal: React.FC<CharacterSelectModalProps> = ({
   const [internalSelectedId, setInternalSelectedId] = useState<number | null>(
     selectedCharacterId || null
   )
+  const [searchTerm, setSearchTerm] = useState('')
 
   // 村のキャラチップIDからキャラクター一覧を取得
   const charachipIds = village.setting?.charachip?.charachip_ids || []
@@ -58,10 +59,22 @@ export const CharacterSelectModal: React.FC<CharacterSelectModalProps> = ({
     [charas, usedCharacterIds]
   )
 
+  // 検索フィルタリングされたキャラクター
+  const filteredCharas = useMemo(() => {
+    if (!searchTerm) return availableCharas
+    const term = searchTerm.toLowerCase()
+    return availableCharas.filter(
+      (chara) =>
+        chara.chara_name.name.toLowerCase().includes(term) ||
+        chara.chara_name.short_name.toLowerCase().includes(term)
+    )
+  }, [availableCharas, searchTerm])
+
   // モーダルが開かれた時の初期化
   useEffect(() => {
     if (isOpen) {
       setInternalSelectedId(selectedCharacterId || null)
+      setSearchTerm('')
     }
   }, [isOpen, selectedCharacterId])
 
@@ -93,10 +106,30 @@ export const CharacterSelectModal: React.FC<CharacterSelectModalProps> = ({
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="キャラクター選択" className="max-w-4xl">
       <div className="space-y-6">
-        {/* キャラチップグループ選択タブ（将来的な拡張用・現在は1つのみ） */}
-        <div className="border-b">
+        {/* 検索フィールドと統計情報 */}
+        <div className="space-y-3">
+          <div className="flex items-center space-x-3">
+            <input
+              type="text"
+              placeholder="キャラクター名で検索..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            {searchTerm && (
+              <button
+                onClick={() => setSearchTerm('')}
+                className="text-gray-400 hover:text-gray-600"
+                title="検索をクリア"
+              >
+                ✕
+              </button>
+            )}
+          </div>
           <div className="text-sm text-gray-600">
-            利用可能なキャラクター: {availableCharas.length}
+            {searchTerm
+              ? `検索結果: ${filteredCharas.length}件 / ${availableCharas.length}件中`
+              : `利用可能なキャラクター: ${availableCharas.length}`}
           </div>
         </div>
 
@@ -115,10 +148,10 @@ export const CharacterSelectModal: React.FC<CharacterSelectModalProps> = ({
         )}
 
         {/* キャラクター一覧 */}
-        {availableCharas.length > 0 && (
+        {filteredCharas.length > 0 && (
           <div className="space-y-4">
             <div className="grid grid-cols-4 gap-4 max-h-96 overflow-y-auto">
-              {availableCharas.map((chara) => (
+              {filteredCharas.map((chara) => (
                 <button
                   key={chara.id}
                   onClick={() => handleCharacterClick(chara)}
@@ -181,6 +214,22 @@ export const CharacterSelectModal: React.FC<CharacterSelectModalProps> = ({
         {!isLoading && !error && availableCharas.length === 0 && (
           <div className="text-center py-8">
             <div className="text-gray-500">利用可能なキャラクターがありません</div>
+            <div className="text-xs text-gray-400 mt-2">
+              全てのキャラクターが既に使用されています
+            </div>
+          </div>
+        )}
+
+        {/* 検索結果がない場合 */}
+        {!isLoading && !error && availableCharas.length > 0 && filteredCharas.length === 0 && (
+          <div className="text-center py-8">
+            <div className="text-gray-500">検索条件に一致するキャラクターが見つかりません</div>
+            <button
+              onClick={() => setSearchTerm('')}
+              className="text-blue-600 hover:text-blue-800 text-sm mt-2"
+            >
+              検索をクリア
+            </button>
           </div>
         )}
 

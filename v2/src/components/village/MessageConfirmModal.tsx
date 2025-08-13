@@ -86,6 +86,12 @@ export const MessageConfirmModal: React.FC<MessageConfirmModalProps> = ({
         bgColor: 'bg-indigo-50',
         borderColor: 'border-indigo-200',
       },
+      ACTION_SAY: {
+        label: 'アクション発言',
+        icon: '🎭',
+        bgColor: 'bg-orange-50',
+        borderColor: 'border-orange-200',
+      },
       SYSTEM_MESSAGE: {
         label: 'システム',
         icon: '⚙️',
