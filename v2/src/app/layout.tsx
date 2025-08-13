@@ -2,9 +2,8 @@ import type { Metadata, Viewport } from 'next'
 import { Inter, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import '@fortawesome/fontawesome-svg-core/styles.css'
-import { Header } from '@/components/layout/Header'
-import { Footer } from '@/components/layout/Footer'
 import { QueryProvider } from '@/components/providers/QueryProvider'
+import { ConditionalHeader } from '@/components/layout/ConditionalHeader'
 import { ConditionalFooter } from '@/components/layout/ConditionalFooter'
 import '@/lib/fontawesome'
 
@@ -63,7 +62,7 @@ export default function RootLayout({
     <html lang="ja">
       <body className={`${inter.className} ${jetbrainsMono.variable} min-h-screen flex flex-col`}>
         <QueryProvider>
-          <Header />
+          <ConditionalHeader />
           <main className="flex-1">{children}</main>
           <ConditionalFooter />
         </QueryProvider>
