@@ -4,6 +4,7 @@
 
 import React, { useState } from 'react'
 import { useUserSettingsStore } from '@/stores/village'
+import { UserSettingsModal } from '../UserSettingsModal'
 
 /**
  * ユーザー設定セクション
@@ -15,6 +16,7 @@ export const UserSettings: React.FC = () => {
   const { display, operation, updateDisplaySettings, updateOperationSettings } =
     useUserSettingsStore()
   const [isExpanded, setIsExpanded] = useState(false)
+  const [showDetailModal, setShowDetailModal] = useState(false)
 
   return (
     <div className="space-y-3">
@@ -149,15 +151,15 @@ export const UserSettings: React.FC = () => {
 
           <button
             className="w-full text-xs py-2 px-3 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            onClick={() => {
-              // 詳細設定モーダル表示（未実装）
-              console.log('詳細設定モーダルを表示')
-            }}
+            onClick={() => setShowDetailModal(true)}
           >
             詳細設定
           </button>
         </div>
       )}
+
+      {/* ユーザー設定詳細モーダル */}
+      <UserSettingsModal isOpen={showDetailModal} onClose={() => setShowDetailModal(false)} />
     </div>
   )
 }

@@ -55,11 +55,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ village, user }) => {
           <UserSettings />
 
           {/* サイドバー広告（260x90px） */}
-          <Advertisement
-            slot="sidebar"
-            style={{ width: '260px', height: '90px' }}
-            className="mx-auto"
-          />
+          <Advertisement slot="sidebar" size={{ width: 260, height: 90 }} className="mx-auto" />
 
           {/* ナビゲーションリンクセクション */}
           <NavigationLinks village={village} />

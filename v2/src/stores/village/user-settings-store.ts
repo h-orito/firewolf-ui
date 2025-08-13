@@ -20,13 +20,7 @@ interface UserSettingsStoreState extends UserSettings {
   setFixedActionPanel: (fixed: boolean) => void
 
   // Webhook Settings
-  setWebhookUrl: (url?: string) => void
-  setNotificationTypes: (types: string[]) => void
-  addNotificationType: (type: string) => void
-  removeNotificationType: (type: string) => void
-  setKeywords: (keywords: string[]) => void
-  addKeyword: (keyword: string) => void
-  removeKeyword: (keyword: string) => void
+  setWebhookUrl: (url: string) => void
 
   // Bulk Actions
   updateDisplaySettings: (settings: Partial<UserSettings['display']>) => void
@@ -59,8 +53,15 @@ const getDefaultSettings = (): UserSettings => ({
     fixedActionPanel: false,
   },
   webhook: {
-    webhookUrl: undefined,
-    notificationTypes: [],
+    enabled: false,
+    url: '',
+    events: {
+      newMessage: false,
+      mentioned: true,
+      dayChange: true,
+      gameEnd: true,
+    },
+    messageTemplate: '{{village_name}}で新しい発言がありました: {{message}}',
     keywords: [],
   },
 })
@@ -217,109 +218,16 @@ export const useUserSettingsStore = create<UserSettingsStoreState>()(
         },
 
         // Webhook Settings Actions
-        setWebhookUrl: (webhookUrl) => {
+        setWebhookUrl: (url) => {
           set(
             (state) => ({
               webhook: {
                 ...state.webhook,
-                webhookUrl,
+                url,
               },
             }),
             false,
             'userSettings/setWebhookUrl'
-          )
-        },
-
-        setNotificationTypes: (notificationTypes) => {
-          set(
-            (state) => ({
-              webhook: {
-                ...state.webhook,
-                notificationTypes,
-              },
-            }),
-            false,
-            'userSettings/setNotificationTypes'
-          )
-        },
-
-        addNotificationType: (type) => {
-          set(
-            (state) => {
-              const { notificationTypes } = state.webhook
-              if (notificationTypes.includes(type)) {
-                return state // 既に追加済みの場合は何もしない
-              }
-              return {
-                webhook: {
-                  ...state.webhook,
-                  notificationTypes: [...notificationTypes, type],
-                },
-              }
-            },
-            false,
-            'userSettings/addNotificationType'
-          )
-        },
-
-        removeNotificationType: (type) => {
-          set(
-            (state) => ({
-              webhook: {
-                ...state.webhook,
-                notificationTypes: state.webhook.notificationTypes.filter((t) => t !== type),
-              },
-            }),
-            false,
-            'userSettings/removeNotificationType'
-          )
-        },
-
-        setKeywords: (keywords) => {
-          set(
-            (state) => ({
-              webhook: {
-                ...state.webhook,
-                keywords,
-              },
-            }),
-            false,
-            'userSettings/setKeywords'
-          )
-        },
-
-        addKeyword: (keyword) => {
-          const trimmedKeyword = keyword.trim()
-          if (!trimmedKeyword) return
-
-          set(
-            (state) => {
-              const { keywords } = state.webhook
-              if (keywords.includes(trimmedKeyword)) {
-                return state // 既に追加済みの場合は何もしない
-              }
-              return {
-                webhook: {
-                  ...state.webhook,
-                  keywords: [...keywords, trimmedKeyword],
-                },
-              }
-            },
-            false,
-            'userSettings/addKeyword'
-          )
-        },
-
-        removeKeyword: (keyword) => {
-          set(
-            (state) => ({
-              webhook: {
-                ...state.webhook,
-                keywords: state.webhook.keywords.filter((k) => k !== keyword),
-              },
-            }),
-            false,
-            'userSettings/removeKeyword'
           )
         },
 
@@ -411,7 +319,7 @@ export const useUserSettingsStore = create<UserSettingsStoreState>()(
           webhook: {
             ...state.webhook,
             // Webhook URLは機密情報の可能性があるため、永続化しない場合は以下をコメントアウト
-            webhookUrl: state.webhook.webhookUrl,
+            url: state.webhook.url,
           },
         }),
         version: 1,
@@ -445,7 +353,7 @@ export const exportUserSettings = (): string => {
     webhook: {
       ...webhook,
       // エクスポート時はWebhook URLを除外（セキュリティのため）
-      webhookUrl: undefined,
+      url: undefined,
     },
     exportedAt: new Date().toISOString(),
     version: 1,
@@ -477,7 +385,7 @@ export const importUserSettings = (jsonString: string): boolean => {
 
     if (importData.webhook) {
       // インポート時はWebhook URLは除外
-      const { webhookUrl, ...webhookSettings } = importData.webhook
+      const { url, ...webhookSettings } = importData.webhook
       updateWebhookSettings(webhookSettings)
     }
 

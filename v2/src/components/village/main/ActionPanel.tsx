@@ -15,6 +15,10 @@ import { ChangeNameAction } from '../actions/ChangeNameAction'
 import { SkillRequestAction } from '../actions/SkillRequestAction'
 import { ComingoutAction } from '../actions/ComingoutAction'
 import { CommitAction } from '../actions/CommitAction'
+import { CreatorActions } from '../actions/CreatorActions'
+import { AdminActions } from '../actions/AdminActions'
+import { DebugActions } from '../actions/DebugActions'
+import { AbilityActions } from '../actions/AbilityActions'
 import { useVoteMutation } from '@/hooks/village/use-vote-mutation'
 import { useAbilityMutation } from '@/hooks/village/use-ability-mutation'
 import { useParticipateSituationQuery } from '@/hooks/use-participate-situation-query'
@@ -58,6 +62,12 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({ village, user }) => {
   const isParticipant =
     user && village.participant?.member_list?.some((p) => p.player?.id === user.uid)
   const isSpectator = user && village.spectator?.member_list?.some((s) => s.player?.id === user.uid)
+
+  // 村建て権限チェック
+  const isCreator = user && village.creator_player?.id === user.uid
+
+  // 管理者権限チェック（実際の実装では適切な権限チェックロジックを実装）
+  const isAdmin = user && (user.role === 'admin' || user.isAdmin)
 
   const handleSubmitMessage = () => {
     if (!messageContent.trim()) return
@@ -157,10 +167,10 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({ village, user }) => {
             <p className="text-sm text-gray-600">村に参加するには、まずログインしてください。</p>
             <button
               onClick={() => {
-                // ログインモーダル表示（未実装）
-                console.log('ログインモーダルを表示')
+                // ログインモーダルを開く処理（実装時に追加）
+                console.log('ログインモーダルを開く')
               }}
-              className="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               ログイン
             </button>
@@ -170,22 +180,48 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({ village, user }) => {
     )
   }
 
+  // 参加者でも見学者でもない場合（村への参加・見学選択）
+  if (!isParticipant && !isSpectator) {
+    return (
+      <>
+        <div className={containerClass}>
+          <div className="p-4">
+            <div className="text-center space-y-4">
+              <h3 className="text-lg font-medium text-gray-900">村への参加</h3>
+              <p className="text-sm text-gray-600">
+                この村に参加するか、見学するかを選択してください。
+              </p>
+              <div className="space-y-3">
+                <ParticipateAction
+                  village={village}
+                  user={user}
+                  onParticipated={handleParticipated}
+                />
+                <SpectateAction village={village} user={user} onSpectated={handleSpectated} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    )
+  }
+
   // 参加者の場合
   if (isParticipant) {
     return (
       <>
         <div className={containerClass}>
-          {/* タブナビゲーション */}
-          <div className="border-b">
-            <nav className="flex space-x-4 px-4">
+          {/* タブ選択 */}
+          <div className="border-b border-gray-200">
+            <nav className="-mb-px flex">
               {['say', 'vote', 'ability', 'other'].map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab as any)}
-                  className={`py-3 text-sm font-medium border-b-2 transition-colors ${
+                  className={`py-2 px-4 text-sm font-medium border-b-2 ${
                     activeTab === tab
                       ? 'border-blue-500 text-blue-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700'
+                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                   }`}
                 >
                   {tab === 'say' && '発言'}
@@ -299,185 +335,65 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({ village, user }) => {
             {activeTab === 'vote' && (
               <div className="space-y-4">
                 <h3 className="text-lg font-medium text-gray-900">投票</h3>
-
-                {village.participant?.member_list && village.participant.member_list.length > 0 ? (
-                  <>
-                    <div className="space-y-3">
-                      <label className="text-sm font-medium text-gray-700">投票先を選択</label>
-                      <div className="space-y-2">
-                        {village.participant.member_list
-                          .filter((participant) => !participant.dead) // 生存者のみ
-                          .filter((participant) => participant.player?.id !== user?.uid) // 自分以外
-                          .map((participant) => (
-                            <label
-                              key={participant.id}
-                              className={`flex items-center p-3 border rounded-lg cursor-pointer transition-colors ${
-                                selectedVoteTarget === participant.id
-                                  ? 'border-blue-500 bg-blue-50'
-                                  : 'border-gray-200 hover:border-gray-300'
-                              }`}
-                            >
-                              <input
-                                type="radio"
-                                name="voteTarget"
-                                value={participant.id}
-                                checked={selectedVoteTarget === participant.id}
-                                onChange={(e) => setSelectedVoteTarget(Number(e.target.value))}
-                                className="sr-only"
-                              />
-                              <div className="flex items-center space-x-3">
-                                <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
-                                  <span className="text-xs font-medium">
-                                    {participant.chara_name?.short_name ||
-                                      participant.name?.charAt(0)}
-                                  </span>
-                                </div>
-                                <div>
-                                  <div className="text-sm font-medium text-gray-900">
-                                    {participant.chara_name?.name || participant.name}
-                                  </div>
-                                  <div className="text-xs text-gray-500">
-                                    {participant.player?.nickname || 'プレイヤー'}
-                                  </div>
-                                </div>
-                              </div>
-                            </label>
-                          ))}
-                      </div>
-                    </div>
-
-                    <button
-                      onClick={() => {
-                        if (selectedVoteTarget) {
-                          setShowVoteConfirmModal(true)
-                        }
-                      }}
-                      disabled={!selectedVoteTarget}
-                      className="w-full py-2 px-4 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:bg-gray-300 disabled:cursor-not-allowed"
-                    >
-                      {selectedVoteTarget ? '投票する' : '投票先を選択してください'}
-                    </button>
-                  </>
-                ) : (
-                  <p className="text-sm text-gray-600">投票可能な参加者がいません。</p>
-                )}
-              </div>
-            )}
-
-            {/* 能力タブ */}
-            {activeTab === 'ability' && (
-              <div className="space-y-4">
-                <h3 className="text-lg font-medium text-gray-900">能力行使</h3>
-
-                {/* 能力種別選択 */}
                 <div className="space-y-3">
-                  <label className="text-sm font-medium text-gray-700">能力種別</label>
+                  <label className="text-sm font-medium text-gray-700">投票先を選択</label>
                   <div className="space-y-2">
-                    {[
-                      { value: 'DIVINE', label: '占い', icon: '🔮' },
-                      { value: 'GUARD', label: '護衛', icon: '🛡️' },
-                      { value: 'ATTACK', label: '襲撃', icon: '⚔️' },
-                      { value: 'PSYCHIC', label: '霊能', icon: '👻' },
-                    ].map((ability) => (
-                      <label
-                        key={ability.value}
-                        className={`flex items-center p-2 border rounded-lg cursor-pointer transition-colors ${
-                          selectedAbilityType === ability.value
-                            ? 'border-blue-500 bg-blue-50'
-                            : 'border-gray-200 hover:border-gray-300'
-                        }`}
-                      >
-                        <input
-                          type="radio"
-                          name="abilityType"
-                          value={ability.value}
-                          checked={selectedAbilityType === ability.value}
-                          onChange={(e) => setSelectedAbilityType(e.target.value)}
-                          className="sr-only"
-                        />
-                        <span className="text-sm mr-2">{ability.icon}</span>
-                        <span className="text-sm text-gray-700">{ability.label}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-
-                {/* 対象選択 */}
-                {selectedAbilityType && (
-                  <div className="space-y-3">
-                    <label className="text-sm font-medium text-gray-700">対象を選択</label>
-                    <div className="space-y-2">
-                      {village.participant?.member_list
-                        ?.filter((participant) => {
-                          // 能力によってフィルタリングを変更
-                          if (selectedAbilityType === 'ATTACK') {
-                            return !participant.dead && participant.player?.id !== user?.uid
-                          }
-                          return !participant.dead
-                        })
-                        .map((participant) => (
-                          <label
-                            key={participant.id}
-                            className={`flex items-center p-3 border rounded-lg cursor-pointer transition-colors ${
-                              selectedAbilityTarget === participant.id
-                                ? 'border-blue-500 bg-blue-50'
-                                : 'border-gray-200 hover:border-gray-300'
-                            }`}
-                          >
-                            <input
-                              type="radio"
-                              name="abilityTarget"
-                              value={participant.id}
-                              checked={selectedAbilityTarget === participant.id}
-                              onChange={(e) => setSelectedAbilityTarget(Number(e.target.value))}
-                              className="sr-only"
-                            />
-                            <div className="flex items-center space-x-3">
-                              <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
-                                <span className="text-xs font-medium">
-                                  {participant.chara_name?.short_name ||
-                                    participant.name?.charAt(0)}
-                                </span>
+                    {village.participant?.member_list
+                      ?.filter(
+                        (participant) => !participant.dead && participant.player?.id !== user?.uid
+                      )
+                      .map((participant) => (
+                        <label
+                          key={participant.id}
+                          className={`flex items-center p-3 border rounded-lg cursor-pointer transition-colors ${
+                            selectedVoteTarget === participant.id
+                              ? 'border-blue-500 bg-blue-50'
+                              : 'border-gray-200 hover:border-gray-300'
+                          }`}
+                        >
+                          <input
+                            type="radio"
+                            name="voteTarget"
+                            value={participant.id}
+                            checked={selectedVoteTarget === participant.id}
+                            onChange={(e) => setSelectedVoteTarget(Number(e.target.value))}
+                            className="sr-only"
+                          />
+                          <div className="flex items-center space-x-3">
+                            <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
+                              <span className="text-xs font-medium">
+                                {participant.chara_name?.short_name || participant.name?.charAt(0)}
+                              </span>
+                            </div>
+                            <div>
+                              <div className="text-sm font-medium text-gray-900">
+                                {participant.chara_name?.name || participant.name}
                               </div>
-                              <div>
-                                <div className="text-sm font-medium text-gray-900">
-                                  {participant.chara_name?.name || participant.name}
-                                </div>
-                                <div className="text-xs text-gray-500">
-                                  {participant.player?.nickname || 'プレイヤー'}
-                                </div>
+                              <div className="text-xs text-gray-500">
+                                {participant.player?.nickname || 'プレイヤー'}
                               </div>
                             </div>
-                          </label>
-                        ))}
-                    </div>
+                          </div>
+                        </label>
+                      ))}
                   </div>
-                )}
-
-                {/* 能力行使ボタン */}
+                </div>
                 <button
                   onClick={() => {
-                    if (selectedAbilityType && selectedAbilityTarget) {
-                      abilityMutation.mutate({
-                        villageId: village.id,
-                        targetId: selectedAbilityTarget,
-                        abilityType: selectedAbilityType,
-                      })
+                    if (selectedVoteTarget) {
+                      setShowVoteConfirmModal(true)
                     }
                   }}
-                  disabled={
-                    !selectedAbilityType || !selectedAbilityTarget || abilityMutation.isPending
-                  }
-                  className="w-full py-2 px-4 bg-purple-600 text-white rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:bg-gray-300 disabled:cursor-not-allowed"
+                  disabled={!selectedVoteTarget}
+                  className="w-full py-2 px-4 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:bg-gray-300 disabled:cursor-not-allowed"
                 >
-                  {abilityMutation.isPending
-                    ? '実行中...'
-                    : selectedAbilityType && selectedAbilityTarget
-                      ? '能力を使う'
-                      : '能力と対象を選択してください'}
+                  {selectedVoteTarget ? '投票する' : '投票先を選択してください'}
                 </button>
               </div>
             )}
+
+            {/* 能力タブ - 新しいAbilityActionsコンポーネントを使用 */}
+            {activeTab === 'ability' && <AbilityActions village={village} user={user} />}
 
             {/* その他タブ */}
             {activeTab === 'other' && (
@@ -534,6 +450,28 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({ village, user }) => {
                     />
                   )}
                   <LeaveAction village={village} user={user} onLeft={handleLeft} />
+
+                  {/* 新しい特権アクション */}
+                  {isCreator && (
+                    <div className="border-t pt-4">
+                      <h4 className="text-md font-medium text-gray-900 mb-2">村建て専用</h4>
+                      <CreatorActions village={village} user={user} />
+                    </div>
+                  )}
+
+                  {isAdmin && (
+                    <div className="border-t pt-4">
+                      <h4 className="text-md font-medium text-gray-900 mb-2">管理者専用</h4>
+                      <AdminActions village={village} user={user} />
+                    </div>
+                  )}
+
+                  {(isAdmin || process.env.NODE_ENV === 'development') && (
+                    <div className="border-t pt-4">
+                      <h4 className="text-md font-medium text-gray-900 mb-2">デバッグ機能</h4>
+                      <DebugActions village={village} user={user} />
+                    </div>
+                  )}
                 </div>
               </div>
             )}
@@ -601,46 +539,16 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({ village, user }) => {
                   rows={3}
                 />
                 <button className="w-full py-2 px-4 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500">
-                  見学発言
+                  見学発言する
                 </button>
               </div>
             </div>
           </div>
         </div>
-
-        {/* 発言確認モーダル（見学者用） */}
-        <MessageConfirmModal
-          isOpen={showConfirmModal}
-          onClose={() => setShowConfirmModal(false)}
-          onConfirmed={handleConfirmed}
-          village={village}
-          preview={{
-            content: messageContent,
-            messageType: messageType,
-            ...getCurrentUser(),
-          }}
-        />
       </>
     )
   }
 
-  // 未参加の場合
-  return (
-    <>
-      <div className={containerClass}>
-        <div className="p-4">
-          <div className="text-center space-y-4">
-            <h3 className="text-lg font-medium text-gray-900">村に参加</h3>
-            <p className="text-sm text-gray-600">この村に参加または見学することができます。</p>
-
-            {/* 入村アクション */}
-            <ParticipateAction village={village} user={user} onParticipated={handleParticipated} />
-
-            {/* 見学アクション */}
-            <SpectateAction village={village} user={user} onSpectated={handleSpectated} />
-          </div>
-        </div>
-      </div>
-    </>
-  )
+  // フォールバック（通常はここに到達しない）
+  return null
 }

@@ -105,11 +105,24 @@ export interface OperationSettings {
  * Webhook設定
  */
 export interface WebhookSettings {
+  /** Webhook機能の有効/無効 */
+  enabled: boolean
   /** Webhook URL */
-  webhookUrl?: string
-  /** 通知対象の発言種別 */
-  notificationTypes: string[]
-  /** 通知対象のキーワード */
+  url: string
+  /** 通知イベント設定 */
+  events: {
+    /** 新しい発言通知 */
+    newMessage?: boolean
+    /** メンション通知 */
+    mentioned?: boolean
+    /** 日付更新通知 */
+    dayChange?: boolean
+    /** ゲーム終了通知 */
+    gameEnd?: boolean
+  }
+  /** カスタムメッセージテンプレート */
+  messageTemplate: string
+  /** 通知対象のキーワード（下位互換性のため残す） */
   keywords: string[]
 }
 

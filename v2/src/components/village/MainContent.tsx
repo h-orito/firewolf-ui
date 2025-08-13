@@ -155,7 +155,7 @@ export const MainContent: React.FC<MainContentProps> = ({ village, user, initial
             {/* メインコンテンツ（発言一覧） */}
             <div className="xl:col-span-3 space-y-6">
               {/* レスポンシブ広告（メインコンテンツ上部） */}
-              <Advertisement slot="main-top" className="w-full" style={{ minHeight: '90px' }} />
+              <Advertisement slot="main-top" responsive={true} className="w-full" />
 
               {/* 表示モード切り替え */}
               <div className="bg-white rounded-lg shadow p-4 mb-4">
@@ -244,7 +244,7 @@ export const MainContent: React.FC<MainContentProps> = ({ village, user, initial
               {displayMode === 'infinite' && <div ref={sentinelRef} className="h-1"></div>}
 
               {/* レスポンシブ広告（メインコンテンツ下部） */}
-              <Advertisement slot="main-bottom" className="w-full" style={{ minHeight: '90px' }} />
+              <Advertisement slot="main-bottom" responsive={true} className="w-full" />
             </div>
 
             {/* アクションパネル */}
