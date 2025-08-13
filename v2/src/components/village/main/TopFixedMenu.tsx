@@ -34,7 +34,7 @@ export const TopFixedMenu: React.FC<TopFixedMenuProps> = ({ village }) => {
   }
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-30 bg-white border-b shadow-sm">
+    <div className="fixed top-0 left-0 right-0 z-30 bg-white border-b shadow-sm dark-fixed-menu">
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center space-x-2">
           {/* 日付ナビゲーション */}

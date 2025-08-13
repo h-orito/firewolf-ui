@@ -68,7 +68,7 @@ export const BottomFixedMenu: React.FC<BottomFixedMenuProps> = ({ village }) => 
 
   return (
     <>
-      <div className="fixed bottom-0 left-0 right-0 z-30 bg-white border-t shadow-sm">
+      <div className="fixed bottom-0 left-0 right-0 z-30 bg-white border-t shadow-sm dark-fixed-menu">
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center space-x-2">
             {/* 更新ボタン */}

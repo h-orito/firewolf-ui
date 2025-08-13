@@ -38,7 +38,7 @@ interface SidebarProps {
  */
 export const Sidebar: React.FC<SidebarProps> = ({ village, user }) => {
   return (
-    <div className="h-full flex flex-col bg-white">
+    <div className="h-full flex flex-col bg-white dark-fixed-menu">
       {/* スクロール可能なメインコンテンツ */}
       <div className="flex-1 overflow-y-auto">
         <div className="p-4 space-y-6">
@@ -73,7 +73,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ village, user }) => {
 // サイドバーのローディング状態
 export const SidebarSkeleton: React.FC = () => {
   return (
-    <div className="h-full flex flex-col bg-white">
+    <div className="h-full flex flex-col bg-white dark-fixed-menu">
       <div className="flex-1 overflow-y-auto">
         <div className="p-4 space-y-6">
           {/* 村情報のスケルトン */}
@@ -138,7 +138,7 @@ export const SidebarError: React.FC<{ error: Error; onRetry?: () => void }> = ({
   onRetry,
 }) => {
   return (
-    <div className="h-full flex flex-col items-center justify-center p-4 bg-white">
+    <div className="h-full flex flex-col items-center justify-center p-4 bg-white dark-fixed-menu">
       <div className="text-center space-y-4">
         <div className="w-16 h-16 mx-auto rounded-full bg-red-100 flex items-center justify-center">
           <svg

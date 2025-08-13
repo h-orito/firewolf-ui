@@ -75,4 +75,86 @@
   .dark .spoiler[data-spoiler='revealed'] {
     @apply bg-transparent text-gray-100;
   }
+
+  /* 固定メニュー部分の統一テーマ（ライト・ダーク共通） */
+  .dark-fixed-menu {
+    background-color: #363636 !important;
+    color: #ffffff !important;
+  }
+
+  /* 固定メニュー内のテキスト色（テーマ共通） */
+  .dark-fixed-menu .text-primary {
+    color: #e0e0e0 !important;
+  }
+
+  .dark-fixed-menu .text-secondary {
+    color: #b0b0b0 !important;
+  }
+
+  .dark-fixed-menu .text-muted {
+    color: #888888 !important;
+  }
+
+  .dark-fixed-menu .text-gray-900 {
+    color: #e0e0e0 !important;
+  }
+
+  .dark-fixed-menu .text-gray-700 {
+    color: #b0b0b0 !important;
+  }
+
+  .dark-fixed-menu .text-gray-600 {
+    color: #b0b0b0 !important;
+  }
+
+  .dark-fixed-menu .text-gray-500 {
+    color: #888888 !important;
+  }
+
+  /* ボーダー色（テーマ共通） */
+  .dark-fixed-menu .border {
+    border-color: #555555 !important;
+  }
+
+  .dark-fixed-menu .border-gray-300 {
+    border-color: #555555 !important;
+  }
+
+  .dark-fixed-menu .border-t {
+    border-color: #555555 !important;
+  }
+
+  .dark-fixed-menu .border-b {
+    border-color: #555555 !important;
+  }
+
+  /* ボタンスタイル（テーマ共通） */
+  .dark-fixed-menu .bg-gray-50 {
+    background-color: #4a4a4a !important;
+  }
+
+  .dark-fixed-menu .bg-white {
+    background-color: #363636 !important;
+  }
+
+  .dark-fixed-menu .hover\:bg-gray-50:hover {
+    background-color: #4a4a4a !important;
+  }
+
+  .dark-fixed-menu .hover\:bg-gray-100:hover {
+    background-color: #4a4a4a !important;
+  }
+
+  .dark-fixed-menu .bg-blue-100 {
+    background-color: #1e3a5f !important;
+  }
+
+  .dark-fixed-menu .text-blue-800 {
+    color: #87ceeb !important;
+  }
+
+  /* ボタンリング（テーマ共通） */
+  .dark-fixed-menu .focus\:ring-blue-500:focus {
+    --tw-ring-color: #4a90e2 !important;
+  }
 }
