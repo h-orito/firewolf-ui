@@ -117,7 +117,7 @@ export const validateStoreState = (): {
   }
 
   // ユーザー設定の検証
-  const userSettingsState = require('./userSettingsStore').useUserSettingsStore.getState()
+  const userSettingsState = require('./user-settings-store').useUserSettingsStore.getState()
   if (
     userSettingsState.display.messagesPerPage < 10 ||
     userSettingsState.display.messagesPerPage > 200

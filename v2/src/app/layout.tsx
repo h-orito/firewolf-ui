@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
-import '@fortawesome/fontawesomeUsvgUcore/styles.css'
+import '@fortawesome/fontawesome-svg-core/styles.css'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { QueryProvider } from '@/components/providers/QueryProvider'
@@ -13,7 +13,7 @@ const inter = Inter({
 })
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
-  variable: '--fontUmono',
+  variable: '--font-mono',
   display: 'swap',
 })
 
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  width: 'deviceUwidth',
+  width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
   themeColor: '#dc2626',
@@ -56,7 +56,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className={`${inter.className} ${jetbrainsMono.variable} minUh-screen flex flexUcol`}>
+      <body className={`${inter.className} ${jetbrainsMono.variable} min-h-screen flex flex-col`}>
         <QueryProvider>
           <Header />
           <main className="flex-1">{children}</main>

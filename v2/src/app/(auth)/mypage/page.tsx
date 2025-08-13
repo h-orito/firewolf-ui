@@ -21,7 +21,7 @@ export default function MyPage() {
     // 自分のプレイヤー情報を取得してリダイレクト
     const fetchMyPlayer = async () => {
       try {
-        const { data: myPlayer, error } = await apiClient.GET('/myUplayer')
+        const { data: myPlayer, error } = await apiClient.GET('/my-player')
 
         if (error || !myPlayer) {
           router.replace('/')
