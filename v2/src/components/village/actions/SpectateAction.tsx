@@ -5,8 +5,17 @@
 'use client'
 
 import React, { useState } from 'react'
+import dynamic from 'next/dynamic'
 import { Button } from '@/components/ui/Button'
-import { CharacterSelectModal } from '../CharacterSelectModal'
+
+// 動的インポートでコード分割
+const CharacterSelectModal = dynamic(
+  () => import('../CharacterSelectModal').then((mod) => ({ default: mod.CharacterSelectModal })),
+  {
+    ssr: false,
+    loading: () => <div className="animate-pulse">読み込み中...</div>,
+  }
+)
 import { apiClient } from '@/lib/api/client'
 import { useQueryClient } from '@tanstack/react-query'
 import type { components } from '@/types/generated/api'

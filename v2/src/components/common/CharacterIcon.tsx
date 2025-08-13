@@ -45,20 +45,20 @@ export const CharacterIcon: React.FC<CharacterIconProps> = ({
   className = '',
 }) => {
   // サイズ設定
-  const getSizeClasses = (size: string) => {
+  const getSizeConfig = (size: string) => {
     switch (size) {
       case 'xs':
-        return 'w-4 h-4 text-xs'
+        return { classes: 'w-4 h-4 text-xs', pixels: 16 }
       case 'sm':
-        return 'w-6 h-6 text-xs'
+        return { classes: 'w-6 h-6 text-xs', pixels: 24 }
       case 'md':
-        return 'w-8 h-8 text-xs'
+        return { classes: 'w-8 h-8 text-xs', pixels: 32 }
       case 'lg':
-        return 'w-10 h-10 text-sm'
+        return { classes: 'w-10 h-10 text-sm', pixels: 40 }
       case 'xl':
-        return 'w-12 h-12 text-sm'
+        return { classes: 'w-12 h-12 text-sm', pixels: 48 }
       default:
-        return 'w-8 h-8 text-xs'
+        return { classes: 'w-8 h-8 text-xs', pixels: 32 }
     }
   }
 
@@ -68,23 +68,31 @@ export const CharacterIcon: React.FC<CharacterIconProps> = ({
     return characterName?.name || participant?.chara_name?.name || 'Unknown'
   }
 
-  // キャラクター画像URLの取得（暫定：プレースホルダー）
+  // キャラクター画像URLの取得
   const getCharacterImageUrl = (): string | null => {
-    // TODO: 実際のキャラクター画像URL取得ロジック
-    // participant?.chara_image?.url などから取得予定
+    if (isSystem) return null
+
+    // キャラクター情報から画像URL構築
+    const charaId = participant?.chara?.id
+    const charachipId = participant?.chara?.charachip_id
+    if (charaId && charachipId) {
+      // 標準的なキャラクター画像URLパターン（実際のAPIに合わせて調整必要）
+      return `/api/charachip/${charachipId}/chara/${charaId}/image`
+    }
+
     return null
   }
 
   const characterName_value = getCharacterName()
   const imageUrl = getCharacterImageUrl()
-  const sizeClasses = getSizeClasses(size)
+  const sizeConfig = getSizeConfig(size)
   const isClickable = clickable && onClick
 
   // システムメッセージ用のアイコン
   if (isSystem) {
     return (
       <div
-        className={`${sizeClasses} bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 ${className} ${
+        className={`${sizeConfig.classes} bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 ${className} ${
           isClickable ? 'cursor-pointer hover:bg-blue-200' : ''
         }`}
         onClick={isClickable ? onClick : undefined}
@@ -107,12 +115,16 @@ export const CharacterIcon: React.FC<CharacterIconProps> = ({
         <Image
           src={imageUrl}
           alt={characterName_value}
-          width={32}
-          height={32}
-          className={`rounded-full object-cover flex-shrink-0 ${sizeClasses} ${
+          width={sizeConfig.pixels}
+          height={sizeConfig.pixels}
+          className={`rounded-full object-cover flex-shrink-0 ${sizeConfig.classes} ${
             isDead ? 'opacity-60 grayscale' : ''
           } ${isClickable ? 'cursor-pointer hover:opacity-80' : ''}`}
           onClick={isClickable ? onClick : undefined}
+          loading="lazy"
+          placeholder="blur"
+          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+          priority={size === 'xl' || size === 'lg'} // 大きいアイコンは優先読み込み
         />
         {isDead && (
           <div className="absolute inset-0 flex items-center justify-center">
@@ -126,7 +138,7 @@ export const CharacterIcon: React.FC<CharacterIconProps> = ({
   // デフォルト：文字アイコン
   return (
     <div
-      className={`${sizeClasses} rounded-full flex items-center justify-center font-medium flex-shrink-0 ${className} ${
+      className={`${sizeConfig.classes} rounded-full flex items-center justify-center font-medium flex-shrink-0 ${className} ${
         isDead ? 'bg-gray-200 text-gray-500 opacity-60' : 'bg-gray-200 text-gray-600'
       } ${isClickable ? 'cursor-pointer hover:bg-gray-300' : ''}`}
       onClick={isClickable ? onClick : undefined}

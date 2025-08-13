@@ -1,8 +1,20 @@
 'use client'
 
 import { useState } from 'react'
+import dynamic from 'next/dynamic'
 import { Button } from '@/components/ui/Button'
-import { VillageSettingsModal } from '@/components/pages/village/VillageSettingsModal'
+
+// 動的インポートでコード分割
+const VillageSettingsModal = dynamic(
+  () =>
+    import('@/components/pages/village/VillageSettingsModal').then((mod) => ({
+      default: mod.VillageSettingsModal,
+    })),
+  {
+    ssr: false,
+    loading: () => <div className="animate-pulse">読み込み中...</div>,
+  }
+)
 import type { components } from '@/types/generated/api'
 
 type Village = components['schemas']['VillageView']

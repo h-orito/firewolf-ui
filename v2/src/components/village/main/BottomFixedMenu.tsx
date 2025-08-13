@@ -3,9 +3,17 @@
  */
 
 import React, { useState, useEffect } from 'react'
+import dynamic from 'next/dynamic'
 import type { components } from '@/types/generated/api'
 
-import { MessageFilterModal } from '../MessageFilterModal'
+// 動的インポートでコード分割
+const MessageFilterModal = dynamic(
+  () => import('../MessageFilterModal').then((mod) => ({ default: mod.MessageFilterModal })),
+  {
+    ssr: false,
+    loading: () => <div className="animate-pulse">読み込み中...</div>,
+  }
+)
 type VillageView = components['schemas']['VillageView']
 
 interface BottomFixedMenuProps {

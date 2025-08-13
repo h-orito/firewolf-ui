@@ -3,8 +3,17 @@
  */
 
 import React, { useState } from 'react'
+import dynamic from 'next/dynamic'
 import { useUserSettingsStore } from '@/stores/village'
-import { UserSettingsModal } from '../UserSettingsModal'
+
+// 動的インポートでコード分割
+const UserSettingsModal = dynamic(
+  () => import('../UserSettingsModal').then((mod) => ({ default: mod.UserSettingsModal })),
+  {
+    ssr: false,
+    loading: () => <div className="animate-pulse">読み込み中...</div>,
+  }
+)
 
 /**
  * ユーザー設定セクション
