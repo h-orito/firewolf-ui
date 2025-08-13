@@ -3,7 +3,13 @@
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown, faUser, faLink, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+import {
+  faChevronDown,
+  faChevronRight,
+  faUser,
+  faLink,
+  faSignOutAlt,
+} from '@fortawesome/free-solid-svg-icons'
 import { Button } from '@/components/ui/Button'
 
 interface UserMenuProps {
@@ -65,8 +71,8 @@ export function UserMenu({ username, onLogout, onOpenAccountLink }: UserMenuProp
       >
         <span className="max-w-20 truncate">{username}</span>
         <FontAwesomeIcon
-          icon={faChevronDown}
-          className={`w-3 h-3 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          icon={isOpen ? faChevronDown : faChevronRight}
+          className="w-3 h-3 transition-transform"
         />
       </Button>
 

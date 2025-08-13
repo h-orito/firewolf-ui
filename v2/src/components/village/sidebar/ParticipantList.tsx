@@ -3,6 +3,8 @@
  */
 
 import React, { useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronDown, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import type { components } from '@/types/generated/api'
 
 type VillageView = components['schemas']['VillageView']
@@ -48,14 +50,10 @@ export const ParticipantList: React.FC<ParticipantListProps> = ({ village, user 
         <span>
           参加者一覧 ({aliveParticipants.length + deadParticipants.length + spectators.length})
         </span>
-        <svg
-          className={`w-4 h-4 transform transition-transform ${isExpanded ? 'rotate-180' : ''}`}
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-        </svg>
+        <FontAwesomeIcon
+          icon={isExpanded ? faChevronDown : faChevronRight}
+          className="h-4 w-4 transition-transform"
+        />
       </button>
 
       {/* 展開可能なコンテンツエリア */}
