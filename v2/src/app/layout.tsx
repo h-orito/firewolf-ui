@@ -25,6 +25,10 @@ export const metadata: Metadata = {
   description: '人狼ゲームが無料で遊べるWebサービス',
   keywords: ['人狼', '人狼ゲーム', 'オンライン', '無料', 'ゲーム'],
   authors: [{ name: 'hUorito' }],
+  icons: {
+    icon: '/firewolf/favicon.ico',
+    shortcut: '/firewolf/favicon.ico',
+  },
   openGraph: {
     title: 'FIREWOLF',
     description: '人狼ゲームが無料で遊べるWebサービス',

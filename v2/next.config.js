@@ -51,6 +51,14 @@ const nextConfig = {
   images: {
     domains: ['wolfort.net'],
   },
+  async rewrites() {
+    return [
+      {
+        source: '/favicon.ico',
+        destination: '/firewolf/favicon.ico',
+      },
+    ]
+  },
 }
 
 module.exports = withBundleAnalyzer(withPWA(nextConfig))
