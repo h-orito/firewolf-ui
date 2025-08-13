@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/Button'
 import { Textarea } from '@/components/ui/Textarea'
 import { MessageConfirmModal } from '../MessageConfirmModal'
 import { usePostVillageMessageMutation } from '@/hooks/village/use-post-village-message-mutation'
+import { MESSAGE_TYPE_CODE } from '@/types/village'
 import type { components } from '@/types/generated/api'
 
 type VillageView = components['schemas']['VillageView']
@@ -184,7 +185,7 @@ export const ActionSayAction: React.FC<ActionSayActionProps> = ({
           village={village}
           preview={{
             content: messageContent,
-            messageType: 'ACTION_SAY',
+            messageType: MESSAGE_TYPE_CODE.ACTION_SAY,
             ...getCurrentUser(),
           }}
         />

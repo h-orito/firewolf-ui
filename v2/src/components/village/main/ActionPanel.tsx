@@ -5,6 +5,7 @@
 import React, { useState } from 'react'
 import type { components } from '@/types/generated/api'
 import { useUserSettingsStore } from '@/stores/village/user-settings-store'
+import { MESSAGE_TYPE_CODE, type MessageTypeCode } from '@/types/village'
 import { MessageConfirmModal } from '../MessageConfirmModal'
 import { VoteConfirmModal } from '../VoteConfirmModal'
 import { ParticipateAction } from '../actions/ParticipateAction'
@@ -22,7 +23,8 @@ import { AbilityActions } from '../actions/AbilityActions'
 import { useVoteMutation } from '@/hooks/village/use-vote-mutation'
 import { useAbilityMutation } from '@/hooks/village/use-ability-mutation'
 import { useParticipateSituationQuery } from '@/hooks/use-participate-situation-query'
-import type { MessageType } from '@/types/village'
+
+type MessageType = components['schemas']['MessageType']
 
 type VillageView = components['schemas']['VillageView']
 
@@ -43,7 +45,7 @@ interface ActionPanelProps {
 export const ActionPanel: React.FC<ActionPanelProps> = ({ village, user }) => {
   const [activeTab, setActiveTab] = useState<'say' | 'vote' | 'ability' | 'other'>('say')
   const [messageContent, setMessageContent] = useState('')
-  const [messageType, setMessageType] = useState<MessageType>('NORMAL_SAY')
+  const [messageType, setMessageType] = useState<MessageTypeCode>(MESSAGE_TYPE_CODE.NORMAL_SAY)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
   const [selectedVoteTarget, setSelectedVoteTarget] = useState<number | null>(null)
   const [showVoteConfirmModal, setShowVoteConfirmModal] = useState(false)
@@ -262,7 +264,7 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({ village, user }) => {
                           name="messageType"
                           value={type.value}
                           checked={messageType === type.value}
-                          onChange={(e) => setMessageType(e.target.value as MessageType)}
+                          onChange={(e) => setMessageType(e.target.value as MessageTypeCode)}
                           className="sr-only"
                         />
                         <span className="text-sm mr-1">{type.icon}</span>

@@ -145,22 +145,28 @@ export interface Memo {
 // 発言・メッセージ関連の型
 // =============================================================================
 
+// MessageType は自動生成API型を使用: components['schemas']['MessageType']
+// ただし、code値は自動生成に含まれていないため、定数として定義
+
 /**
- * 発言種別（11種類の発言種別に対応）
+ * 発言種別のcode値（11種類の発言種別に対応）
  */
-export type MessageType =
-  | 'NORMAL_SAY' // 通常発言
-  | 'WEREWOLF_SAY' // 人狼の囁き
-  | 'SYMPATHIZE_SAY' // 共鳴発言
-  | 'GRAVE_SAY' // 死者の呻き
-  | 'MONOLOGUE_SAY' // 独り言
-  | 'SPECTATE_SAY' // 見学発言
-  | 'ACTION_SAY' // アクション発言
-  | 'SYSTEM_MESSAGE' // システムメッセージ
-  | 'PRIVATE_SYSTEM' // プライベートシステムメッセージ
-  | 'PARTICIPANTS' // 参加者メッセージ
-  | 'PSYCHIC_MESSAGE' // 占い結果
-  | 'HUNTER_MESSAGE' // 狩人メッセージ
+export const MESSAGE_TYPE_CODE = {
+  NORMAL_SAY: 'NORMAL_SAY',
+  WEREWOLF_SAY: 'WEREWOLF_SAY',
+  SYMPATHIZE_SAY: 'SYMPATHIZE_SAY',
+  GRAVE_SAY: 'GRAVE_SAY',
+  MONOLOGUE_SAY: 'MONOLOGUE_SAY',
+  SPECTATE_SAY: 'SPECTATE_SAY',
+  ACTION_SAY: 'ACTION_SAY',
+  SYSTEM_MESSAGE: 'SYSTEM_MESSAGE',
+  PRIVATE_SYSTEM: 'PRIVATE_SYSTEM',
+  PARTICIPANTS: 'PARTICIPANTS',
+  PSYCHIC_MESSAGE: 'PSYCHIC_MESSAGE',
+  HUNTER_MESSAGE: 'HUNTER_MESSAGE',
+} as const
+
+export type MessageTypeCode = (typeof MESSAGE_TYPE_CODE)[keyof typeof MESSAGE_TYPE_CODE]
 
 /**
  * デコレーション種別（11種類の装飾に対応）
@@ -194,31 +200,7 @@ export type AnchorType =
 // アクション・権限関連の型
 // =============================================================================
 
-/**
- * 参加者としての状況（権限ベース表示制御用）
- */
-export interface SituationAsParticipant {
-  /** 発言可能な種別リスト */
-  availableSayTypes: MessageType[]
-  /** 投票可能かどうか */
-  canVote: boolean
-  /** 能力行使可能かどうか */
-  canUseAbility: boolean
-  /** コミット可能かどうか */
-  canCommit: boolean
-  /** 退村可能かどうか */
-  canLeave: boolean
-  /** 名前変更可能かどうか */
-  canChangeName: boolean
-  /** 役職希望変更可能かどうか */
-  canChangeSkillRequest: boolean
-  /** カミングアウト可能かどうか */
-  canComingOut: boolean
-  /** 村建て権限があるかどうか */
-  isCreator: boolean
-  /** 管理権限があるかどうか */
-  isAdmin: boolean
-}
+// SituationAsParticipant は自動生成API型を使用: components['schemas']['SituationAsParticipantView']
 
 /**
  * アクション種別
@@ -279,106 +261,21 @@ export interface InfiniteScrollState {
 }
 
 // =============================================================================
-// API関連の型（将来的にAPI型定義から生成される想定）
+// API関連の型
 // =============================================================================
 
-/**
- * 村情報（API応答）
- */
-export interface Village {
-  id: number
-  name: string
-  status: VillageStatus
-  dayCount: number
-  participantCount: number
-  capacity: number
-  creator: {
-    id: number
-    name: string
-  }
-  settings: VillageSettings
-  createdAt: Date
-  updatedAt: Date
-}
-
-/**
- * 村設定
- */
-export interface VillageSettings {
-  /** キャラクターチップID */
-  charachipId: number
-  /** 組織設定 */
-  organization: string
-  /** 役職構成 */
-  skillComposition: Record<string, number>
-  /** 時間設定 */
-  timeSettings: {
-    startDatetime?: Date
-    dayChangeIntervalSeconds: number
-    voteTimeIntervalSeconds?: number
-  }
-  /** 参加設定 */
-  participantSettings: {
-    password?: string
-    isDummyCharacterDisabled: boolean
-  }
-  /** RP設定 */
-  rpSettings: {
-    isOriginalCharacterDisabled: boolean
-  }
-  /** 発言制限設定 */
-  messageRestrictions: {
-    normalSayMaxLength: number
-    normalSayMaxLengthPerDay: number
-    werewolfSayMaxLength: number
-    // ... 他の発言種別の制限
-  }
-  /** ルール設定 */
-  ruleSettings: {
-    availableSkillRequests: string[]
-    allowSkillRequestChange: boolean
-    // ... 他のルール設定
-  }
-}
-
-/**
- * 参加者情報
- */
-export interface Participant {
-  id: number
-  name: string
-  characterName: string
-  characterImageUrl: string
-  isAlive: boolean
-  skill?: {
-    name: string
-    shortName: string
-  }
-  skillRequest?: {
-    first: string
-    second: string
-  }
-  lastAccessDatetime?: Date
-  comingOuts: string[]
-  memo?: string
-}
-
-/**
- * 発言情報
- */
-export interface Message {
-  id: number
-  type: MessageType
-  content: string
-  participantId?: number
-  participantName?: string
-  characterName?: string
-  characterImageUrl?: string
-  day: number
-  datetime: Date
-  messageNumber: number
-  isConverted: boolean
-}
+// 以下の型は自動生成API型を使用:
+// - Village → components['schemas']['VillageView']
+// - VillageSettings → components['schemas']['VillageSettingsView']
+// - Participant → components['schemas']['VillageParticipantView']
+// - Message → components['schemas']['MessageView']
+//
+// TODO: MessageType が string → object に変更されたため、以下のファイルで型修正が必要:
+// - src/components/village/main/ActionPanel.tsx
+// - src/components/village/MessageConfirmModal.tsx
+// - src/components/village/ParticipateConfirmModal.tsx
+// - src/components/village/actions/ActionSayAction.tsx
+// MessageType.code でコード値にアクセスする必要がある
 
 // =============================================================================
 // リアルタイム更新関連の型

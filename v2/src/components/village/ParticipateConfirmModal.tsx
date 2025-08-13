@@ -6,7 +6,9 @@ import { Button } from '@/components/ui/Button'
 import { CharacterIcon } from '@/components/common/CharacterIcon'
 import { MessageContent } from './main/MessageContent'
 import type { components } from '@/types/generated/api'
-import type { MessageType } from '@/types/village'
+import { MESSAGE_TYPE_CODE, type MessageTypeCode } from '@/types/village'
+
+type MessageType = components['schemas']['MessageType']
 
 type VillageView = components['schemas']['VillageView']
 type Chara = components['schemas']['Chara']

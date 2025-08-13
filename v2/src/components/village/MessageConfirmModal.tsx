@@ -7,14 +7,16 @@ import { MessageContent } from './main/MessageContent'
 import { CharacterIcon } from '@/components/common/CharacterIcon'
 import { useSubmitVillageMessageMutation } from '@/hooks/village/use-post-village-message-mutation'
 import { useUserSettingsStore } from '@/stores/village/user-settings-store'
-import type { MessageType } from '@/types/village'
+import { MESSAGE_TYPE_CODE, type MessageTypeCode } from '@/types/village'
 import type { components } from '@/types/generated/api'
+
+type MessageType = components['schemas']['MessageType']
 
 type VillageView = components['schemas']['VillageView']
 
 interface MessagePreview {
   content: string
-  messageType: MessageType
+  messageType: MessageTypeCode
   characterName: string
   characterImageUrl?: string
   playerName: string
@@ -47,7 +49,7 @@ export const MessageConfirmModal: React.FC<MessageConfirmModalProps> = ({
   // 発言種別の表示名とスタイリング
   const messageTypeInfo = useMemo(() => {
     const typeMap: Record<
-      MessageType,
+      MessageTypeCode,
       { label: string; icon: string; bgColor: string; borderColor: string }
     > = {
       NORMAL_SAY: {
@@ -131,17 +133,17 @@ export const MessageConfirmModal: React.FC<MessageConfirmModalProps> = ({
     // 暫定実装：デフォルト値を使用
     // 実際のAPIからの制限値取得は将来的な実装で対応
     switch (preview.messageType) {
-      case 'NORMAL_SAY':
+      case MESSAGE_TYPE_CODE.NORMAL_SAY:
         return { maxLength: 400, maxLengthPerDay: 2000 }
-      case 'WEREWOLF_SAY':
+      case MESSAGE_TYPE_CODE.WEREWOLF_SAY:
         return { maxLength: 400, maxLengthPerDay: 1600 }
-      case 'SYMPATHIZE_SAY':
+      case MESSAGE_TYPE_CODE.SYMPATHIZE_SAY:
         return { maxLength: 400, maxLengthPerDay: 1600 }
-      case 'GRAVE_SAY':
+      case MESSAGE_TYPE_CODE.GRAVE_SAY:
         return { maxLength: 400, maxLengthPerDay: 1600 }
-      case 'MONOLOGUE_SAY':
+      case MESSAGE_TYPE_CODE.MONOLOGUE_SAY:
         return { maxLength: 200, maxLengthPerDay: 1000 }
-      case 'SPECTATE_SAY':
+      case MESSAGE_TYPE_CODE.SPECTATE_SAY:
         return { maxLength: 200, maxLengthPerDay: 1000 }
       default:
         return { maxLength: 400, maxLengthPerDay: 2000 }
