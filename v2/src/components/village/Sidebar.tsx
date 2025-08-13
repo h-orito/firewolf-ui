@@ -55,7 +55,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ village, user }) => {
           <UserSettings />
 
           {/* サイドバー広告（260x90px） */}
-          <Advertisement slot="sidebar" size={{ width: 260, height: 90 }} className="mx-auto" />
+          <div className="flex justify-center">
+            <Advertisement slot="sidebar" size={{ width: 260, height: 90 }} />
+          </div>
 
           {/* ナビゲーションリンクセクション */}
           <NavigationLinks village={village} />
@@ -113,7 +115,9 @@ export const SidebarSkeleton: React.FC = () => {
           </div>
 
           {/* 広告のスケルトン */}
-          <div className="w-full h-20 bg-gray-200 rounded animate-pulse mx-auto"></div>
+          <div className="flex justify-center">
+            <div className="w-64 h-20 bg-gray-200 rounded animate-pulse"></div>
+          </div>
 
           {/* ナビゲーションリンクのスケルトン */}
           <div className="space-y-2">

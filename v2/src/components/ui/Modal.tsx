@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import { Button } from '@/components/ui/Button'
@@ -36,7 +37,7 @@ export function Modal({ isOpen, onClose, title, children, className = '' }: Moda
 
   if (!isOpen) return null
 
-  return (
+  const modalElement = (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center"
       onClick={onClose}
@@ -72,4 +73,6 @@ export function Modal({ isOpen, onClose, title, children, className = '' }: Moda
       </div>
     </div>
   )
+
+  return createPortal(modalElement, document.body)
 }

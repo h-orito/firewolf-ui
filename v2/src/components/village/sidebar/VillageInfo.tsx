@@ -2,8 +2,8 @@
  * 村情報表示コンポーネント
  */
 
-import React from 'react'
 import type { components } from '@/types/generated/api'
+import React from 'react'
 
 type VillageView = components['schemas']['VillageView']
 
@@ -21,8 +21,6 @@ interface VillageInfoProps {
 export const VillageInfo: React.FC<VillageInfoProps> = ({ village }) => {
   return (
     <div className="space-y-3 dark-fixed-menu">
-      <h3 className="text-sm font-medium text-gray-900">村情報</h3>
-
       <div className="bg-gray-50 rounded-lg p-3 space-y-2">
         <div>
           <div className="text-sm font-medium text-gray-700 truncate">{village.name}</div>

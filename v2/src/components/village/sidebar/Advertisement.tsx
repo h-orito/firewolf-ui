@@ -132,7 +132,7 @@ export const Advertisement: React.FC<AdvertisementProps> = ({
   if (showFallback) {
     return (
       <div
-        className={`border-2 border-dashed border-gray-300 bg-gray-50 flex items-center justify-center text-gray-500 text-sm ${className}`}
+        className={`border-2 border-dashed border-gray-300 bg-gray-50 flex items-center justify-center text-gray-500 text-sm mx-auto ${className}`}
         style={containerStyle}
       >
         <div className="text-center p-2">
@@ -160,7 +160,7 @@ export const Advertisement: React.FC<AdvertisementProps> = ({
   }
 
   return (
-    <div ref={adRef} className={className} style={containerStyle}>
+    <div ref={adRef} className={`mx-auto ${className}`} style={containerStyle}>
       <ins
         className="adsbygoogle"
         style={{

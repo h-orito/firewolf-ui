@@ -2,9 +2,9 @@
  * ナビゲーションリンクセクション
  */
 
-import React from 'react'
-import Link from 'next/link'
 import type { components } from '@/types/generated/api'
+import Link from 'next/link'
+import React from 'react'
 
 type VillageView = components['schemas']['VillageView']
 
@@ -40,8 +40,6 @@ export const NavigationLinks: React.FC<NavigationLinksProps> = ({ village }) => 
 
   return (
     <div className="space-y-3">
-      <h3 className="text-sm font-medium text-gray-900">ナビゲーション</h3>
-
       <div className="space-y-2">
         {/* 切り抜き機能 */}
         <button
@@ -68,14 +66,6 @@ export const NavigationLinks: React.FC<NavigationLinksProps> = ({ village }) => 
           className="block w-full text-xs py-2 px-3 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 text-center"
         >
           トップページ
-        </Link>
-
-        {/* 村一覧へ */}
-        <Link
-          href="/village-list"
-          className="block w-full text-xs py-2 px-3 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 text-center"
-        >
-          村一覧
         </Link>
 
         {/* URL関連 */}

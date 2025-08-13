@@ -151,7 +151,9 @@ export const MainContent: React.FC<MainContentProps> = ({ village, user, initial
             {/* メインコンテンツ（発言一覧） */}
             <div className="xl:col-span-3 space-y-6">
               {/* レスポンシブ広告（メインコンテンツ上部） */}
-              <Advertisement slot="main-top" responsive={true} className="w-full" />
+              <div className="flex justify-center">
+                <Advertisement slot="main-top" responsive={true} className="w-full" />
+              </div>
 
               {/* 表示モード切り替え */}
               <div className="bg-white rounded-lg shadow p-4 mb-4">
@@ -240,8 +242,10 @@ export const MainContent: React.FC<MainContentProps> = ({ village, user, initial
               {displayMode === 'infinite' && <div ref={sentinelRef} className="h-1"></div>}
 
               {/* レスポンシブ広告（メインコンテンツ下部） */}
-              <Advertisement slot="main-bottom" responsive={true} className="w-full" />
-              
+              <div className="flex justify-center">
+                <Advertisement slot="main-bottom" responsive={true} className="w-full" />
+              </div>
+
               {/* 下部固定メニュー分の余白 */}
               <div className="h-16"></div>
             </div>
@@ -299,7 +303,9 @@ export const MainContentSkeleton: React.FC = () => {
             {/* 発言一覧のスケルトン */}
             <div className="xl:col-span-3 space-y-6">
               {/* 広告のスケルトン */}
-              <div className="w-full h-20 bg-gray-200 rounded animate-pulse"></div>
+              <div className="flex justify-center">
+                <div className="w-full h-20 bg-gray-200 rounded animate-pulse"></div>
+              </div>
 
               {/* 発言アイテムのスケルトン */}
               <div className="bg-white rounded-lg shadow">
@@ -317,7 +323,9 @@ export const MainContentSkeleton: React.FC = () => {
               </div>
 
               {/* 広告のスケルトン */}
-              <div className="w-full h-20 bg-gray-200 rounded animate-pulse"></div>
+              <div className="flex justify-center">
+                <div className="w-full h-20 bg-gray-200 rounded animate-pulse"></div>
+              </div>
             </div>
 
             {/* アクションパネルのスケルトン */}
