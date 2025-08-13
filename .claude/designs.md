@@ -394,6 +394,64 @@ VillagePage (メインエントリ)
 - **配置戦略**: サイドバー下部、発言一覧下部の自然な位置
 - **広告ブロッカー対応**: フォールバック表示、UX劣化の防止
 
+### UIテーマ設計
+
+#### 固定メニュー部分のダークテーマ
+
+**設計方針**
+- サイドバーとメインコンテンツの画面上下に固定されたメニュー部分には統一のダークテーマを適用
+- 背景色: `#363636` (濃いグレー) を基調とした洗練されたデザイン
+- コントラストとアクセシビリティを維持しつつ、モダンで落ち着いた印象を提供
+
+**適用対象コンポーネント**
+1. **サイドバー固定メニュー部分**
+   - VillageInfo コンポーネント内の村情報表示エリア
+   - 村名、現在日時、残り時間などの重要情報表示部分
+
+2. **メインコンテンツ固定メニュー部分**
+   - TopFixedMenu コンポーネント (上部固定メニュー)
+   - BottomFixedMenu コンポーネント (下部固定メニュー)
+   - 発言抽出ボタン、個人抽出ボタン、設定ボタンなどの操作メニュー
+
+**カラースキーム**
+```css
+/* 基本背景色 */
+.dark-fixed-menu {
+  background-color: #363636;
+  color: #ffffff;
+}
+
+/* テキスト色 */
+.dark-fixed-menu .text-primary { color: #e0e0e0; }
+.dark-fixed-menu .text-secondary { color: #b0b0b0; }
+.dark-fixed-menu .text-muted { color: #888888; }
+
+/* ボーダー色 */
+.dark-fixed-menu .border { border-color: #555555; }
+
+/* ボタンスタイル */
+.dark-fixed-menu .btn-primary {
+  background-color: #4a90e2;
+  border-color: #357abd;
+}
+
+.dark-fixed-menu .btn-secondary {
+  background-color: #555555;
+  border-color: #666666;
+  color: #ffffff;
+}
+```
+
+**アクセシビリティ考慮**
+- コントラスト比 WCAG 2.1 AA レベル準拠 (4.5:1以上)
+- フォーカス表示の視認性確保
+- 色のみに依存しない情報伝達
+
+**実装方針**
+- Tailwind CSS のカスタムクラスで統一実装
+- 既存のコンポーネント構造を活用し、最小限の変更で適用
+- レスポンシブデザインでの一貫性維持
+
 ### メッセージ表示システム
 
 #### セキュリティとパフォーマンス

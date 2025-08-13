@@ -2,21 +2,21 @@ name: V2 CI
 
 on:
   push:
-    branches: [ master, develop, feature/* ]
+    branches: [master, feature/next]
     paths:
-      - 'v2/**'
-      - '.github/workflows/v2-ci.yml'
+      - "v2/**"
+      - ".github/workflows/v2-ci.yml"
   pull_request:
-    branches: [ master ]
+    branches: [master, feature/next]
     paths:
-      - 'v2/**'
-      - '.github/workflows/v2-ci.yml'
+      - "v2/**"
+      - ".github/workflows/v2-ci.yml"
 
 jobs:
   test:
     name: Test V2
     runs-on: ubuntu-latest
-    
+
     defaults:
       run:
         working-directory: ./v2
@@ -28,9 +28,9 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
-          cache: 'pnpm'
-          cache-dependency-path: 'v2/pnpm-lock.yaml'
+          node-version: "22"
+          cache: "pnpm"
+          cache-dependency-path: "v2/pnpm-lock.yaml"
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2
@@ -66,7 +66,7 @@ jobs:
         run: pnpm test:e2e
 
       - name: Upload E2E test results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: playwright-report
@@ -77,7 +77,7 @@ jobs:
     name: Build V2
     runs-on: ubuntu-latest
     needs: test
-    
+
     defaults:
       run:
         working-directory: ./v2
@@ -89,9 +89,9 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
-          cache: 'pnpm'
-          cache-dependency-path: 'v2/pnpm-lock.yaml'
+          node-version: "22"
+          cache: "pnpm"
+          cache-dependency-path: "v2/pnpm-lock.yaml"
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2
@@ -113,7 +113,7 @@ jobs:
           NEXT_PUBLIC_API_BASE_URL: ${{ secrets.NEXT_PUBLIC_API_BASE_URL }}
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-files
           path: v2/.next/
