@@ -173,15 +173,15 @@
     - [x] 広告ブロッカー検出・フォールバック
 
 17. **ユーザー設定**
-    - [ ] `DisplaySettings`表示設定パネル
-    - [ ] `OperationSettings`操作設定パネル  
-    - [ ] `WebhookSettings`Webhook通知設定
-    - [ ] ユーザー設定の永続化（Cookie）
-    - [ ] Webhook設定更新API連携
+    - [x] `DisplaySettings`表示設定パネル
+    - [x] `OperationSettings`操作設定パネル  
+    - [x] `WebhookSettings`Webhook通知設定
+    - [x] ユーザー設定の永続化（Cookie）
+    - [x] Webhook設定更新API連携
 
 18. **追加モーダル・ダイアログ**
     - [x] `VillageSettingsModal`村設定表示モーダル
-    - [ ] `UserSettingsModal`ユーザー設定モーダル
+    - [x] `UserSettingsModal`ユーザー設定モーダル
     - [x] 各種確認ダイアログ（退村・廃村・強制退村等） - MessageConfirmModal、VoteConfirmModal、ParticipateConfirmModal、VillageCreateConfirmModal実装済み
 
 ##### フェーズ8: パフォーマンス最適化・テスト（低優先）
