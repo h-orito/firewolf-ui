@@ -4,16 +4,16 @@
  * 固定メニュー、村ヘッダー、発言一覧、アクションパネルを含む
  */
 
-import React, { useEffect, useRef, useCallback, useState } from 'react'
-import { TopFixedMenu } from './main/TopFixedMenu'
-import { BottomFixedMenu } from './main/BottomFixedMenu'
-import { VillageHeader } from './main/VillageHeader'
-import { MessageList } from './main/MessageList'
-import { ActionPanel } from './main/ActionPanel'
-import { Advertisement } from './sidebar/Advertisement'
-import { useVillageStore } from '@/stores/village'
 import { useVillageMessagesFlat } from '@/hooks/village/use-village-messages-infinite-query'
+import { useVillageStore } from '@/stores/village'
 import type { components } from '@/types/generated/api'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { ActionPanel } from './main/ActionPanel'
+import { BottomFixedMenu } from './main/BottomFixedMenu'
+import { MessageList } from './main/MessageList'
+import { TopFixedMenu } from './main/TopFixedMenu'
+import { VillageHeader } from './main/VillageHeader'
+import { Advertisement } from './sidebar/Advertisement'
 
 type VillageView = components['schemas']['VillageView']
 
@@ -40,11 +40,7 @@ export const MainContent: React.FC<MainContentProps> = ({ village, user, initial
   const { currentDay } = useVillageStore()
 
   // 現在の日付情報を取得（APIから村の日数情報を取得し、現在の日を決定）
-  const currentVillageDay = currentDay || village.day.day_list.length || 1
-
-  // TODO: 現在時刻（昼/夜）の決定ロジックを実装
-  // 仮で昼（day）を設定、実際は村の状態から判断する必要がある
-  const currentNoonnight = 'day'
+  const currentVillageDay = currentDay || village.day.day_list[village.day.day_list.length - 1].day
 
   // 表示モードの状態管理
   const [displayMode, setDisplayMode] = useState<'infinite' | 'pagination' | 'virtualized'>(
@@ -58,7 +54,7 @@ export const MainContent: React.FC<MainContentProps> = ({ village, user, initial
     useVillageMessagesFlat({
       villageId: village.id.toString(),
       day: currentVillageDay,
-      noonnight: currentNoonnight,
+      noonnight: 'NOON',
       villageStatus: village.status,
       enabled: true,
     })

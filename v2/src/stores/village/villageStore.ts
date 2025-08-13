@@ -1,6 +1,6 @@
+import type { VillageState } from '@/types/village'
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
-import type { VillageState } from '@/types/village'
 
 interface VillageStoreState extends VillageState {
   // Actions
@@ -24,7 +24,7 @@ export const useVillageStore = create<VillageStoreState>()(
     (set, get) => ({
       // State
       villageId: 0,
-      currentDay: 1, // デフォルトは最新日（実際は API から取得した値で更新）
+      currentDay: 0, // デフォルトは最新日（実際は API から取得した値で更新）
       isSidebarOpen: false, // モバイルでは閉じた状態から開始
 
       // Actions
@@ -49,7 +49,7 @@ export const useVillageStore = create<VillageStoreState>()(
         set(
           {
             villageId: 0,
-            currentDay: 1,
+            currentDay: 0,
             isSidebarOpen: false,
           },
           false,
