@@ -241,6 +241,9 @@ export const MainContent: React.FC<MainContentProps> = ({ village, user, initial
 
               {/* レスポンシブ広告（メインコンテンツ下部） */}
               <Advertisement slot="main-bottom" responsive={true} className="w-full" />
+              
+              {/* 下部固定メニュー分の余白 */}
+              <div className="h-16"></div>
             </div>
 
             {/* アクションパネル */}

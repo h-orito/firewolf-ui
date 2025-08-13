@@ -17,8 +17,8 @@ import type { components } from '@/types/generated/api'
 type VillageView = components['schemas']['VillageView']
 
 interface VillagePageProps {
-  /** 村ID */
-  villageId: number
+  /** 村情報（サーバーから取得済み） */
+  village: VillageView
   /** 初期表示日（URLパラメータから） */
   initialDay?: number
   /** 個人抽出対象ID（URLパラメータから） */
@@ -39,7 +39,7 @@ interface VillagePageProps {
  * - レイアウトコンポーネントへの状態連携
  */
 export const VillagePage: React.FC<VillagePageProps> = ({
-  villageId,
+  village,
   initialDay,
   participantId,
   keyword,
@@ -48,18 +48,11 @@ export const VillagePage: React.FC<VillagePageProps> = ({
   const router = useRouter()
   const { user, isLoading: isAuthLoading } = useAuth()
 
-  // 村情報の取得
-  const {
-    data: village,
-    isLoading: isVillageLoading,
-    error: villageError,
-  } = useVillageQuery(villageId.toString())
-
   // ストアの初期化とクリーンアップ
   useEffect(() => {
     // 村画面用ストアの初期化
     initializeVillageStores({
-      villageId,
+      villageId: village.id,
       initialDay,
       participantId,
       keyword,
@@ -70,55 +63,15 @@ export const VillagePage: React.FC<VillagePageProps> = ({
     return () => {
       cleanupVillageStores()
     }
-  }, [villageId, initialDay, participantId, keyword, onlyToMe])
+  }, [village.id, initialDay, participantId, keyword, onlyToMe])
 
   // ローディング状態
-  if (isAuthLoading || isVillageLoading) {
+  if (isAuthLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center space-y-4">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="text-gray-600">村情報を読み込み中...</p>
-        </div>
-      </div>
-    )
-  }
-
-  // エラー状態
-  if (villageError) {
-    return (
-      <VillageErrorBoundary>
-        <div className="flex items-center justify-center min-h-screen">
-          <div className="text-center space-y-4">
-            <h2 className="text-xl font-bold text-red-600">村の読み込みに失敗しました</h2>
-            <p className="text-gray-600">
-              {villageError instanceof Error ? villageError.message : '不明なエラーが発生しました'}
-            </p>
-            <button
-              onClick={() => router.push('/village-list')}
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
-            >
-              村一覧に戻る
-            </button>
-          </div>
-        </div>
-      </VillageErrorBoundary>
-    )
-  }
-
-  // 村が見つからない場合
-  if (!village) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center space-y-4">
-          <h2 className="text-xl font-bold text-gray-800">村が見つかりません</h2>
-          <p className="text-gray-600">指定された村は存在しないか、アクセスできません。</p>
-          <button
-            onClick={() => router.push('/village-list')}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
-          >
-            村一覧に戻る
-          </button>
+          <p className="text-gray-600">認証情報を確認中...</p>
         </div>
       </div>
     )

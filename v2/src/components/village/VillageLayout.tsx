@@ -29,13 +29,12 @@ interface VillageLayoutProps {
  * 責任:
  * - デスクトップ/モバイルの画面サイズ対応
  * - サイドバーの開閉状態管理
- * - 共通ヘッダーの非表示機能
+
  * - レイアウトの動的切り替え
  */
 export const VillageLayout: React.FC<VillageLayoutProps> = ({ village, user, initialDay }) => {
   const { isSidebarOpen, setSidebarOpen } = useVillageStore()
   const [isMobile, setIsMobile] = useState(false)
-  const [hideCommonHeader, setHideCommonHeader] = useState(false)
 
   // レスポンシブ対応: 画面サイズの監視
   useEffect(() => {
@@ -71,96 +70,19 @@ export const VillageLayout: React.FC<VillageLayoutProps> = ({ village, user, ini
     }
   }
 
-  // 共通ヘッダー表示切り替え
-  const toggleCommonHeader = () => {
-    setHideCommonHeader(!hideCommonHeader)
-  }
-
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* 共通ヘッダー（切り替え可能） */}
-      {!hideCommonHeader && (
-        <header className="bg-white border-b shadow-sm">
-          <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              {/* モバイル用ハンバーガーメニュー */}
-              {isMobile && (
-                <button
-                  onClick={toggleSidebar}
-                  className="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  aria-label="サイドバーを開く"
-                >
-                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4 6h16M4 12h16M4 18h16"
-                    />
-                  </svg>
-                </button>
-              )}
-
-              {/* 村名表示 */}
-              <div className="flex items-center space-x-2">
-                <h1 className="text-lg font-semibold text-gray-900 truncate max-w-xs sm:max-w-md">
-                  {village.name}
-                </h1>
-                <span className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">
-                  {village.status.name}
-                </span>
-              </div>
-            </div>
-
-            <div className="flex items-center space-x-4">
-              {/* ヘッダー表示切り替えボタン */}
-              <button
-                onClick={toggleCommonHeader}
-                className="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                aria-label="ヘッダーを隠す"
-                title="ヘッダーを隠す"
-              >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M5 15l7-7 7 7"
-                  />
-                </svg>
-              </button>
-
-              {/* デスクトップ用サイドバー切り替え（常に表示のため削除）*/}
-            </div>
-          </div>
-        </header>
-      )}
-
-      {/* ヘッダーが隠れている場合の復活ボタン */}
-      {hideCommonHeader && (
-        <button
-          onClick={toggleCommonHeader}
-          className="fixed top-4 right-4 z-50 p-2 bg-white rounded-full shadow-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          aria-label="ヘッダーを表示"
-          title="ヘッダーを表示"
-        >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
-      )}
-
       {/* メインレイアウト */}
       <div className="flex">
         {/* デスクトップ用サイドバー */}
         {!isMobile && (
           <aside
-            className={`transition-all duration-300 ease-in-out ${
+            className={`sticky top-0 h-screen transition-all duration-300 ease-in-out ${
               isSidebarOpen ? 'w-80' : 'w-0'
-            } overflow-hidden bg-white border-r shadow-sm`}
+            } overflow-hidden bg-white border-r shadow-sm flex-shrink-0`}
           >
             {isSidebarOpen && (
-              <div className="w-80 h-full">
+              <div className="w-80 h-full overflow-y-auto">
                 <Sidebar village={village} user={user} />
               </div>
             )}
@@ -172,7 +94,9 @@ export const VillageLayout: React.FC<VillageLayoutProps> = ({ village, user, ini
           <div className="flex-1">
             <MainContent village={village} user={user} initialDay={initialDay} />
           </div>
-          <Footer />
+          <div className="mb-16">
+            <Footer />
+          </div>
         </main>
       </div>
 
@@ -196,7 +120,12 @@ export const VillageLayout: React.FC<VillageLayoutProps> = ({ village, user, ini
           >
             {/* モバイル用ヘッダー */}
             <div className="flex items-center justify-between p-4 border-b">
-              <h2 className="text-lg font-semibold text-gray-900 truncate">{village.name}</h2>
+              <div className="flex items-center space-x-2">
+                <h2 className="text-lg font-semibold text-gray-900 truncate">{village.name}</h2>
+                <span className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">
+                  {village.status.name}
+                </span>
+              </div>
               <button
                 onClick={() => setSidebarOpen(false)}
                 className="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
