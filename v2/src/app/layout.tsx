@@ -5,6 +5,7 @@ import '@fortawesome/fontawesome-svg-core/styles.css'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { QueryProvider } from '@/components/providers/QueryProvider'
+import { ConditionalFooter } from '@/components/layout/ConditionalFooter'
 import '@/lib/fontawesome'
 
 const inter = Inter({
@@ -64,7 +65,7 @@ export default function RootLayout({
         <QueryProvider>
           <Header />
           <main className="flex-1">{children}</main>
-          <Footer />
+          <ConditionalFooter />
         </QueryProvider>
       </body>
     </html>

@@ -9,6 +9,7 @@ import React, { useState, useEffect } from 'react'
 import { useVillageStore } from '@/stores/village'
 import { Sidebar } from './Sidebar'
 import { MainContent } from './MainContent'
+import { Footer } from '@/components/layout/Footer'
 import type { components } from '@/types/generated/api'
 
 type VillageView = components['schemas']['VillageView']
@@ -47,16 +48,20 @@ export const VillageLayout: React.FC<VillageLayoutProps> = ({ village, user, ini
     return () => window.removeEventListener('resize', checkIsMobile)
   }, [])
 
-  // モバイル時のサイドバー初期状態設定
+  // 画面サイズに応じたサイドバー初期状態設定
   useEffect(() => {
     if (isMobile) {
       setSidebarOpen(false) // モバイルでは初期状態で閉じる
+    } else {
+      setSidebarOpen(true) // PC・タブレットでは常に開く
     }
   }, [isMobile, setSidebarOpen])
 
-  // サイドバーの開閉ハンドラー
+  // サイドバーの開閉ハンドラー（モバイル時のみ使用）
   const toggleSidebar = () => {
-    setSidebarOpen(!isSidebarOpen)
+    if (isMobile) {
+      setSidebarOpen(!isSidebarOpen)
+    }
   }
 
   // オーバーレイクリック時のサイドバー閉じる（モバイルのみ）
@@ -125,30 +130,7 @@ export const VillageLayout: React.FC<VillageLayoutProps> = ({ village, user, ini
                 </svg>
               </button>
 
-              {/* デスクトップ用サイドバー切り替え */}
-              {!isMobile && (
-                <button
-                  onClick={toggleSidebar}
-                  className="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  aria-label={isSidebarOpen ? 'サイドバーを閉じる' : 'サイドバーを開く'}
-                >
-                  <svg
-                    className={`w-5 h-5 transition-transform duration-200 ${
-                      isSidebarOpen ? 'rotate-180' : ''
-                    }`}
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </button>
-              )}
+              {/* デスクトップ用サイドバー切り替え（常に表示のため削除）*/}
             </div>
           </div>
         </header>
@@ -186,8 +168,11 @@ export const VillageLayout: React.FC<VillageLayoutProps> = ({ village, user, ini
         )}
 
         {/* メインコンテンツ */}
-        <main className="flex-1 min-h-screen">
-          <MainContent village={village} user={user} initialDay={initialDay} />
+        <main className="flex-1 min-h-screen flex flex-col">
+          <div className="flex-1">
+            <MainContent village={village} user={user} initialDay={initialDay} />
+          </div>
+          <Footer />
         </main>
       </div>
 
