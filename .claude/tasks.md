@@ -134,11 +134,11 @@
 
 13. **その他のアクション**
     - [x] `LeaveAction`退村機能（確認ダイアログ）
-    - [ ] `ActionSayAction`アクション発言
-    - [ ] `ChangeNameAction`名前変更機能
-    - [ ] `SkillRequestAction`役職希望変更
-    - [ ] `ComingoutAction`カミングアウト（最大2役職）
-    - [ ] `CommitAction`コミット・時短希望
+    - [x] `ActionSayAction`アクション発言
+    - [x] `ChangeNameAction`名前変更機能
+    - [x] `SkillRequestAction`役職希望変更
+    - [x] `ComingoutAction`カミングアウト（最大2役職）
+    - [x] `CommitAction`コミット・時短希望
 
 14. **特権アクション**
     - [ ] `CreatorActions`村建てメニュー
@@ -159,7 +159,7 @@
 
 16. **広告統合**
     - [ ] Google AdSense スクリプト動的ロード
-    - [ ] `Advertisement`汎用広告コンポーネント
+    - [x] `Advertisement`汎用広告コンポーネント
     - [ ] サイドバー広告（260x90px）実装
     - [ ] メインコンテンツ広告（レスポンシブ）実装
     - [ ] 広告ブロッカー検出・フォールバック
@@ -172,23 +172,23 @@
     - [ ] Webhook設定更新API連携
 
 18. **追加モーダル・ダイアログ**
-    - [ ] `VillageSettingsModal`村設定表示モーダル
+    - [x] `VillageSettingsModal`村設定表示モーダル
     - [ ] `UserSettingsModal`ユーザー設定モーダル
-    - [ ] 各種確認ダイアログ（退村・廃村・強制退村等）
+    - [x] 各種確認ダイアログ（退村・廃村・強制退村等） - MessageConfirmModal、VoteConfirmModal、ParticipateConfirmModal、VillageCreateConfirmModal実装済み
 
 ##### フェーズ8: パフォーマンス最適化・テスト（低優先）
 
 19. **パフォーマンス最適化**
-    - [ ] React.memo適用（MessageItem等の重要コンポーネント）
-    - [ ] useMemo/useCallbackの適切な配置
+    - [x] React.memo適用（MessageItem等の重要コンポーネント）
+    - [x] useMemo/useCallbackの適切な配置
     - [ ] 画像遅延読み込み（キャラアイコン）
     - [ ] コード分割（モーダルコンポーネント）
     - [ ] バンドルサイズ分析・最適化
 
 20. **テスト実装**
-    - [ ] ユニットテスト（主要コンポーネント）
-    - [ ] カスタムフックテスト
-    - [ ] 状態管理テスト（Zustandストア）
+    - [x] ユニットテスト（主要コンポーネント） - UIコンポーネント、ライブラリ関数のテスト実装済み
+    - [x] カスタムフックテスト - useClientSidePaginationなどのテスト実装済み
+    - [x] 状態管理テスト（Zustandストア） - ストアモック実装済み
     - [ ] API統合テスト（TanStack Query）
     - [ ] E2Eテスト（重要ユーザーフロー）
     - [ ] アクセシビリティテスト（axe-core）

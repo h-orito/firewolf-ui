@@ -12,8 +12,12 @@ import { SpectateAction } from '../actions/SpectateAction'
 import { LeaveAction } from '../actions/LeaveAction'
 import { ActionSayAction } from '../actions/ActionSayAction'
 import { ChangeNameAction } from '../actions/ChangeNameAction'
+import { SkillRequestAction } from '../actions/SkillRequestAction'
+import { ComingoutAction } from '../actions/ComingoutAction'
+import { CommitAction } from '../actions/CommitAction'
 import { useVoteMutation } from '@/hooks/village/use-vote-mutation'
 import { useAbilityMutation } from '@/hooks/village/use-ability-mutation'
+import { useParticipateSituationQuery } from '@/hooks/use-participate-situation-query'
 import type { MessageType } from '@/types/village'
 
 type VillageView = components['schemas']['VillageView']
@@ -44,6 +48,9 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({ village, user }) => {
 
   const voteMutation = useVoteMutation()
   const abilityMutation = useAbilityMutation()
+
+  // 参加状況を取得
+  const { data: participateSituation } = useParticipateSituationQuery(village.id.toString())
 
   // ユーザー設定から固定表示設定を取得
   const { operation } = useUserSettingsStore()
@@ -493,6 +500,39 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({ village, user }) => {
                       console.log('名前変更完了')
                     }}
                   />
+                  {participateSituation && (
+                    <SkillRequestAction
+                      village={village}
+                      user={user}
+                      situation={participateSituation}
+                      onSkillRequestChanged={() => {
+                        // 役職希望変更後の処理（必要に応じて実装）
+                        console.log('役職希望変更完了')
+                      }}
+                    />
+                  )}
+                  {participateSituation && (
+                    <ComingoutAction
+                      village={village}
+                      user={user}
+                      situation={participateSituation}
+                      onComingOutChanged={() => {
+                        // カミングアウト変更後の処理（必要に応じて実装）
+                        console.log('カミングアウト変更完了')
+                      }}
+                    />
+                  )}
+                  {participateSituation && (
+                    <CommitAction
+                      village={village}
+                      user={user}
+                      situation={participateSituation}
+                      onCommitChanged={() => {
+                        // コミット変更後の処理（必要に応じて実装）
+                        console.log('コミット変更完了')
+                      }}
+                    />
+                  )}
                   <LeaveAction village={village} user={user} onLeft={handleLeft} />
                 </div>
               </div>
