@@ -47,6 +47,9 @@ interface AbilityCardProps {
 
 function AbilityCard({ villageId, ability, queryClient }: AbilityCardProps) {
   const [selectedTargetId, setSelectedTargetId] = useState<number | undefined>(ability.target?.id)
+  const [selectedAttackerId, setSelectedAttackerId] = useState<number | undefined>(
+    ability.attacker?.id
+  )
   const [validationErrors, setValidationErrors] = useState<string[]>([])
   const [apiError, setApiError] = useState<string>('')
 
@@ -59,6 +62,7 @@ function AbilityCard({ villageId, ability, queryClient }: AbilityCardProps) {
         body: {
           ability_type: ability.type.name,
           target_id: targetId,
+          myself_id: selectedAttackerId,
         },
       })
       return data
@@ -103,7 +107,10 @@ function AbilityCard({ villageId, ability, queryClient }: AbilityCardProps) {
   }
 
   const currentTargetName = ability.target?.name || 'なし'
+  const currentAttackerName = ability.attacker?.name || 'なし'
   const hasTargetList = ability.target_list && ability.target_list.length > 0
+  const hasAttackerList = ability.attacker_list && ability.attacker_list.length > 0
+  const isAttackAbility = ability.type.code === 'ATTACK' || ability.type.code === 'BITE'
 
   return (
     <Card className="w-full">
@@ -111,6 +118,31 @@ function AbilityCard({ villageId, ability, queryClient }: AbilityCardProps) {
         <CardTitle>{ability.type.name}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
+        {/* 襲撃担当者設定（人狼系の襲撃能力のみ） */}
+        {isAttackAbility && hasAttackerList && (
+          <>
+            <div>
+              <p className="text-sm text-gray-600">現在の襲撃担当者: {currentAttackerName}</p>
+            </div>
+            <div className="space-y-2">
+              <label className="block text-sm font-medium">襲撃担当者</label>
+              <Select
+                value={selectedAttackerId?.toString() || ''}
+                onChange={(e) => setSelectedAttackerId(Number(e.target.value))}
+              >
+                <option value="" disabled>
+                  襲撃担当者を選択してください
+                </option>
+                {ability.attacker_list.map((participant) => (
+                  <option key={participant.id} value={participant.id.toString()}>
+                    {participant.name}
+                  </option>
+                ))}
+              </Select>
+            </div>
+          </>
+        )}
+
         {!ability.available_no_target && (
           <>
             <div>
@@ -157,7 +189,22 @@ function AbilityCard({ villageId, ability, queryClient }: AbilityCardProps) {
         {apiError && <p className="text-sm text-red-600">{apiError}</p>}
 
         {abilityMutation.isSuccess && (
-          <p className="text-sm text-green-600">{ability.type.name}をセットしました</p>
+          <>
+            <p className="text-sm text-green-600">{ability.type.name}をセットしました</p>
+            {isAttackAbility && (
+              <div className="bg-red-50 border border-red-200 rounded-lg p-3 mt-2">
+                <div className="flex items-center">
+                  <span className="text-red-600 mr-2">⚠️</span>
+                  <span className="text-sm text-red-800 font-medium">
+                    襲撃を実行しました。対象が死亡する可能性があります。
+                  </span>
+                </div>
+                <p className="text-xs text-red-600 mt-1">
+                  ※ 護衛や特殊能力により、襲撃が失敗する場合があります。
+                </p>
+              </div>
+            )}
+          </>
         )}
       </CardContent>
     </Card>
