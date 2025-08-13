@@ -81,7 +81,7 @@
    - [x] 権限ベース表示制御（SituationAsParticipant）- 暫定実装
    - [x] パネル固定表示機能
    - [x] 発言アクション基盤 - タブ形式で実装
-   - [ ] 投票・能力行使アクション基盤
+   - [x] 投票・能力行使アクション基盤
 
 ##### フェーズ4: 発言抽出・フィルタ機能（高優先）
 
@@ -124,16 +124,16 @@
     - [x] `MessageConfirmModal`発言確認モーダル
 
 12. **入村・見学アクション**
-    - [ ] `ParticipateAction`入村機能
-    - [ ] `SpectateAction`見学機能  
-    - [ ] キャラクター選択（ドロップダウン・ビジュアル選択）
-    - [ ] `CharacterSelectModal`実装
-    - [ ] 役職希望選択（第1・第2希望）
-    - [ ] 入村発言機能（デコレーション付き）
-    - [ ] `ParticipateConfirmModal`入村確認モーダル
+    - [x] `ParticipateAction`入村機能
+    - [x] `SpectateAction`見学機能（暫定実装・APIは未実装）  
+    - [x] キャラクター選択（ビジュアル選択・検索機能付き）
+    - [x] `CharacterSelectModal`実装
+    - [x] 役職希望選択（第1・第2希望）
+    - [x] 入村発言機能（デコレーション付きは既存実装を利用）
+    - [x] `ParticipateConfirmModal`入村確認モーダル
 
 13. **その他のアクション**
-    - [ ] `LeaveAction`退村機能（確認ダイアログ）
+    - [x] `LeaveAction`退村機能（確認ダイアログ）
     - [ ] `ActionSayAction`アクション発言
     - [ ] `ChangeNameAction`名前変更機能
     - [ ] `SkillRequestAction`役職希望変更
