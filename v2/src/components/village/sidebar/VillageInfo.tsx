@@ -20,7 +20,7 @@ interface VillageInfoProps {
  */
 export const VillageInfo: React.FC<VillageInfoProps> = ({ village }) => {
   return (
-    <div className="space-y-3">
+    <div className="space-y-3 dark-fixed-menu">
       <h3 className="text-sm font-medium text-gray-900">村情報</h3>
 
       <div className="bg-gray-50 rounded-lg p-3 space-y-2">

@@ -394,6 +394,74 @@ VillagePage (メインエントリ)
 - **配置戦略**: サイドバー下部、発言一覧下部の自然な位置
 - **広告ブロッカー対応**: フォールバック表示、UX劣化の防止
 
+### レイアウト設計
+
+#### メインコンテンツ固定メニューのサイドバー分離
+
+**設計方針**
+- 画面最上部・最下部の固定メニューはメインコンテンツ専用とし、サイドバーエリアにはかからない
+- サイドバー（320px）とメインコンテンツエリアを明確に分離
+- ユーザビリティと視覚的整合性を向上させるレイアウト
+
+**技術実装**
+```css
+/* サイドバー: 固定幅320px */
+.sidebar {
+  width: 320px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+}
+
+/* メインコンテンツ: サイドバー分だけ左マージン */
+.main-content {
+  margin-left: 320px;
+  position: relative;
+}
+
+/* 上下固定メニュー: メインコンテンツ幅のみ */
+.top-fixed-menu,
+.bottom-fixed-menu {
+  position: fixed;
+  left: 320px; /* サイドバー幅分のオフセット */
+  right: 0;    /* 右端まで */
+  z-index: 10;
+}
+
+.top-fixed-menu {
+  top: 0;
+}
+
+.bottom-fixed-menu {
+  bottom: 0;
+}
+```
+
+**レスポンシブ対応**
+```css
+/* モバイル: サイドバーはオーバーレイ式 */
+@media (max-width: 767px) {
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+  }
+  
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  
+  .main-content {
+    margin-left: 0;
+  }
+  
+  .top-fixed-menu,
+  .bottom-fixed-menu {
+    left: 0;
+  }
+}
+```
+
 ### UIテーマ設計
 
 #### 固定メニュー部分のダークテーマ
@@ -510,6 +578,86 @@ VillagePage (メインエントリ)
 - **状態リセット**: エラー時の適切な状態初期化
 - **セッション継続**: 可能な限りユーザーセッションを維持
 - **オフライン対応**: キャッシュデータでの部分的機能提供
+
+### CI/CD設計
+
+#### GitHub Actions によるDocker自動ビルド
+
+**ワークフロー設計方針**
+- master ブランチへのpush時に自動でDockerイメージをビルド
+- GitHub Container Registry (ghcr.io) へのpush
+- arm64 本番環境に対応したマルチアーキテクチャビルド
+- セキュリティを考慮したシークレット管理
+
+**実装要件**
+- **トリガー**: master ブランチへのpush
+- **ビルド対象**: v2 プロジェクト
+- **アーキテクチャ**: linux/amd64, linux/arm64
+- **ベースイメージ**: Debian系 Node.js 22
+- **認証**: GITHUB_TOKEN をGitHub Secretで管理
+- **タグ戦略**: latest + コミットハッシュ
+
+**ワークフロー設計**
+```yaml
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches: [master]
+    paths: ['v2/**']
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: firewolf-ui-v2
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        
+      - name: Log in to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=sha,prefix={{branch}}-
+            type=raw,value=latest,enable={{is_default_branch}}
+            
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: ./v2
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+```
+
+**Dockerfile設計方針**
+- マルチステージビルドによる最適化
+- 最小限のランタイムイメージ
+- セキュリティベストプラクティス
+- pnpm使用による効率的な依存関係管理
 
 ### テスト戦略
 
