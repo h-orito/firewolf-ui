@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 
 test.describe('認証不要ページ', () => {
   test('ルールページが正しく表示される', async ({ page }) => {
-    await page.goto('/rule')
+    await page.goto('/firewolf/rule')
 
     // h1要素の存在確認
     await expect(page.locator('h1')).toBeVisible()
@@ -19,7 +19,7 @@ test.describe('認証不要ページ', () => {
   })
 
   test('FAQページが正しく表示される', async ({ page }) => {
-    await page.goto('/faq')
+    await page.goto('/firewolf/faq')
 
     // h1要素の存在確認
     await expect(page.locator('h1')).toBeVisible()
@@ -36,7 +36,7 @@ test.describe('認証不要ページ', () => {
   })
 
   test('aboutページが正しく表示される', async ({ page }) => {
-    await page.goto('/about')
+    await page.goto('/firewolf/about')
 
     // h1要素の存在確認
     await expect(page.locator('h1')).toBeVisible()
@@ -53,7 +53,7 @@ test.describe('認証不要ページ', () => {
   })
 
   test('リリースノートページが正しく表示される', async ({ page }) => {
-    await page.goto('/release-note')
+    await page.goto('/firewolf/release-note')
 
     // h1要素の存在確認
     await expect(page.locator('h1')).toBeVisible()
@@ -70,7 +70,7 @@ test.describe('認証不要ページ', () => {
   })
 
   test('キャラチップ一覧ページが正しく表示される', async ({ page }) => {
-    await page.goto('/charachip-list')
+    await page.goto('/firewolf/charachip-list')
 
     // h1要素の存在確認
     await expect(page.locator('h1')).toBeVisible()
@@ -87,7 +87,7 @@ test.describe('認証不要ページ', () => {
   })
 
   test('利用規約ページが正しく表示される', async ({ page }) => {
-    await page.goto('/terms')
+    await page.goto('/firewolf/terms')
 
     // h1要素の存在確認
     await expect(page.locator('h1')).toBeVisible()
@@ -104,7 +104,7 @@ test.describe('認証不要ページ', () => {
   })
 
   test('プライバシーポリシーページが正しく表示される', async ({ page }) => {
-    await page.goto('/privacy')
+    await page.goto('/firewolf/privacy')
 
     // h1要素の存在確認
     await expect(page.locator('h1')).toBeVisible()

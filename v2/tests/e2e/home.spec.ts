@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 
 test.describe('ホームページ', () => {
   test('ホームページが正しく表示される', async ({ page }) => {
-    await page.goto('/')
+    await page.goto('/firewolf')
 
     // h1要素の存在確認
     await expect(page.locator('h1')).toBeVisible()
