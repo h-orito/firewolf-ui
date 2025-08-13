@@ -40,6 +40,35 @@ src/
 
 ## UI/UX 設計
 
+### ページメタデータ設計
+
+#### ページタイトル動的設定
+
+**村画面でのタイトル形式**
+- 基本形式: `FIREWOLF | {村名}`
+- 例: `FIREWOLF | 薔薇の下国`
+
+**実装方針**
+- Next.js App Router の metadata API を使用
+- `generateMetadata` 関数で動的にタイトルを生成
+- 村データから村名を取得し、テンプレート形式で設定
+- デフォルト値: `FIREWOLF` (村名取得失敗時)
+
+**技術実装**
+```typescript
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string }
+}): Promise<Metadata> {
+  const village = await getVillageData(params.id)
+  
+  return {
+    title: village?.name ? `FIREWOLF | ${village.name}` : 'FIREWOLF'
+  }
+}
+```
+
 ### 共通 UI コンポーネント
 
 #### RadioGroup コンポーネント
