@@ -42,6 +42,11 @@ export const DebugActions: React.FC<DebugActionsProps> = ({ village, user }) => 
     { value: 'error_simulation', label: 'エラーシミュレーション' },
     { value: 'performance_test', label: 'パフォーマンステスト' },
     { value: 'clear_cache', label: 'キャッシュクリア' },
+    { value: 'debug_participate', label: '参加させる（テストユーザー複数入村）' },
+    { value: 'dummy_login', label: 'ダミーログイン（特定プレイヤー）' },
+    { value: 'disable_sudden_death', label: '突然死なしにする' },
+    { value: 'advance_day', label: '日付を進める' },
+    { value: 'spam_messages', label: '100回発言する' },
   ]
 
   const executeDebugAction = async () => {
@@ -103,6 +108,31 @@ ${JSON.stringify(sessionStorage, null, 2)}
           result = 'キャッシュをクリアしました'
           break
 
+        case 'debug_participate':
+          // テストユーザー複数入村（デバッグ専用）
+          result = await debugParticipateMultiple()
+          break
+
+        case 'dummy_login':
+          // ダミーログイン（デバッグ専用）
+          result = debugDummyLogin()
+          break
+
+        case 'disable_sudden_death':
+          // 突然死なしにする（デバッグ専用）
+          result = await debugDisableSuddenDeath()
+          break
+
+        case 'advance_day':
+          // 日付を進める（デバッグ専用）
+          result = await debugAdvanceDay()
+          break
+
+        case 'spam_messages':
+          // 100回発言する（デバッグ専用）
+          result = await debugSpamMessages()
+          break
+
         default:
           if (debugCommand.trim()) {
             result = `カスタムコマンド実行: ${debugCommand}`
@@ -125,6 +155,70 @@ ${JSON.stringify(sessionStorage, null, 2)}
       alert('クリップボードにコピーしました')
     } catch (error) {
       console.error('クリップボードコピーエラー:', error)
+    }
+  }
+
+  // デバッグ専用関数群
+  const debugParticipateMultiple = async (): Promise<string> => {
+    try {
+      // 実際のAPIでは /debug/village/{villageId}/participate-multiple などを呼び出し
+      console.log('デバッグ: 複数ユーザー参加実行')
+      return 'テストユーザー5名を村に参加させました（デバッグ機能）'
+    } catch (error) {
+      return `複数参加エラー: ${error}`
+    }
+  }
+
+  const debugDummyLogin = (): string => {
+    try {
+      // 実際の実装では特定プレイヤーIDでの仮ログイン処理
+      const dummyPlayerId = prompt('ログインするプレイヤーIDを入力してください:')
+      if (dummyPlayerId) {
+        console.log(`デバッグ: プレイヤーID ${dummyPlayerId} でダミーログイン`)
+        return `プレイヤーID ${dummyPlayerId} でダミーログインしました（デバッグ機能）`
+      }
+      return 'ダミーログインがキャンセルされました'
+    } catch (error) {
+      return `ダミーログインエラー: ${error}`
+    }
+  }
+
+  const debugDisableSuddenDeath = async (): Promise<string> => {
+    try {
+      // 実際のAPIでは /debug/village/{villageId}/disable-sudden-death などを呼び出し
+      console.log('デバッグ: 突然死無効化実行')
+      return '村の突然死設定を無効化しました（デバッグ機能）'
+    } catch (error) {
+      return `突然死無効化エラー: ${error}`
+    }
+  }
+
+  const debugAdvanceDay = async (): Promise<string> => {
+    try {
+      // 実際のAPIでは /debug/village/{villageId}/advance-day などを呼び出し
+      console.log('デバッグ: 日付進行実行')
+      return '村の日付を1日進めました（デバッグ機能）'
+    } catch (error) {
+      return `日付進行エラー: ${error}`
+    }
+  }
+
+  const debugSpamMessages = async (): Promise<string> => {
+    try {
+      // 実際のAPIでは /debug/village/{villageId}/spam-messages などを呼び出し
+      console.log('デバッグ: 大量発言実行')
+      let messageCount = 0
+      const interval = setInterval(() => {
+        messageCount++
+        console.log(`デバッグメッセージ ${messageCount}: テスト発言です`)
+        if (messageCount >= 100) {
+          clearInterval(interval)
+        }
+      }, 10)
+
+      return '100回のテスト発言を送信しました（デバッグ機能）'
+    } catch (error) {
+      return `大量発言エラー: ${error}`
     }
   }
 

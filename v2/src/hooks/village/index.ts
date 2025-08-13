@@ -34,6 +34,14 @@ export { useVoteMutation } from './use-vote-mutation'
 // 能力行使機能
 export { useAbilityMutation } from './use-ability-mutation'
 
+// 村建て専用機能
+export {
+  useCreatorSayMutation,
+  useCreatorActionMutation,
+  useConfirmCreatorSayMutation,
+  useSubmitCreatorSayMutation,
+} from './use-creator-actions-mutation'
+
 // リアルタイム更新
 export {
   useVillageRealTimeQueries,

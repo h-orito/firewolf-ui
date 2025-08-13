@@ -6,6 +6,7 @@ import React, { useState } from 'react'
 import { Button } from '@/components/ui/Button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/Dialog'
 import { CharacterIcon } from '@/components/common/CharacterIcon'
+import { Textarea } from '@/components/ui/Textarea'
 import type { components } from '@/types/generated/api'
 
 type VillageView = components['schemas']['VillageView']
@@ -25,13 +26,61 @@ interface AdminActionsProps {
 export const AdminActions: React.FC<AdminActionsProps> = ({ village, user }) => {
   const [showParticipantInfo, setShowParticipantInfo] = useState(false)
   const [selectedParticipant, setSelectedParticipant] = useState<any>(null)
+  const [showAdminAction, setShowAdminAction] = useState(false)
+  const [adminActionType, setAdminActionType] = useState<'ban' | 'warn' | 'note'>('warn')
+  const [adminMessage, setAdminMessage] = useState('')
 
-  // 管理者権限チェック（実際の実装では適切な権限チェックロジックを実装）
-  const isAdmin = user && (user.role === 'admin' || user.isAdmin)
+  // 管理者権限チェック
+  // 実際の権限は participateSituation.admin?.available_admin で判定
+  // 暫定的に user.role で判定
+  const isAdmin = user && (user.role === 'admin' || user.isAdmin === true)
 
   const handleShowParticipantInfo = (participant: any) => {
     setSelectedParticipant(participant)
     setShowParticipantInfo(true)
+  }
+
+  const handleAdminAction = (participant: any, actionType: 'ban' | 'warn' | 'note') => {
+    setSelectedParticipant(participant)
+    setAdminActionType(actionType)
+    setShowAdminAction(true)
+    setAdminMessage('')
+  }
+
+  const executeAdminAction = async () => {
+    if (!selectedParticipant || !adminMessage.trim()) return
+
+    try {
+      // 管理者アクション実行（実際のAPI呼び出しは後で実装）
+      console.log('管理者アクション実行:', {
+        type: adminActionType,
+        target: selectedParticipant.player?.id,
+        message: adminMessage,
+      })
+
+      // 成功時の処理
+      setShowAdminAction(false)
+      setAdminMessage('')
+      setSelectedParticipant(null)
+
+      alert(`${getActionTypeLabel(adminActionType)}を実行しました`)
+    } catch (error) {
+      console.error('管理者アクション実行エラー:', error)
+      alert('アクション実行中にエラーが発生しました')
+    }
+  }
+
+  const getActionTypeLabel = (type: 'ban' | 'warn' | 'note') => {
+    switch (type) {
+      case 'ban':
+        return 'アカウント停止'
+      case 'warn':
+        return '警告'
+      case 'note':
+        return 'メモ追加'
+      default:
+        return 'アクション'
+    }
   }
 
   const getParticipantDetailInfo = (participant: any) => {
@@ -109,13 +158,31 @@ export const AdminActions: React.FC<AdminActionsProps> = ({ village, user }) => 
                   </div>
                 </div>
               </div>
-              <Button
-                onClick={() => handleShowParticipantInfo(participant)}
-                variant="outline"
-                size="sm"
-              >
-                詳細
-              </Button>
+              <div className="flex space-x-1">
+                <Button
+                  onClick={() => handleShowParticipantInfo(participant)}
+                  variant="outline"
+                  size="sm"
+                >
+                  詳細
+                </Button>
+                <Button
+                  onClick={() => handleAdminAction(participant, 'warn')}
+                  variant="outline"
+                  size="sm"
+                  className="text-yellow-600 hover:text-yellow-700"
+                >
+                  警告
+                </Button>
+                <Button
+                  onClick={() => handleAdminAction(participant, 'ban')}
+                  variant="outline"
+                  size="sm"
+                  className="text-red-600 hover:text-red-700"
+                >
+                  停止
+                </Button>
+              </div>
             </div>
           ))}
         </div>
@@ -148,7 +215,40 @@ export const AdminActions: React.FC<AdminActionsProps> = ({ village, user }) => 
       {/* システム情報 */}
       <div className="border rounded-lg p-4">
         <h4 className="font-medium text-gray-900 mb-2">システム情報</h4>
-        <div className="space-y-2 text-sm"></div>
+        <div className="space-y-2 text-sm">
+          <div className="flex justify-between">
+            <span className="text-gray-600">現在日:</span>
+            <span>{village.day?.day_list?.[village.day.day_list.length - 1]?.day || 0}日目</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-gray-600">昼夜:</span>
+            <span>
+              {village.day?.day_list?.[village.day.day_list.length - 1]?.noonnight || '不明'}
+            </span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-gray-600">村開始日時:</span>
+            <span>{village.setting?.time?.start_datetime || '未設定'}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-gray-600">キャラチップ:</span>
+            <span>ID: {village.setting?.charachip?.dummy_chara_id || '未設定'}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-gray-600">構成:</span>
+            <span>
+              {Object.keys(village.setting?.organizations?.organization || {}).length}パターン設定
+            </span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-gray-600">最大人数:</span>
+            <span>{village.setting?.capacity?.max || 0}人</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-gray-600">日付変更間隔:</span>
+            <span>{village.setting?.time?.day_change_interval_seconds || 0}秒</span>
+          </div>
+        </div>
       </div>
 
       {/* 参加者詳細情報ダイアログ */}
@@ -226,6 +326,69 @@ export const AdminActions: React.FC<AdminActionsProps> = ({ village, user }) => 
               <div className="flex justify-end">
                 <Button onClick={() => setShowParticipantInfo(false)} variant="outline">
                   閉じる
+                </Button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* 管理者アクションダイアログ */}
+      <Dialog open={showAdminAction} onOpenChange={setShowAdminAction}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{getActionTypeLabel(adminActionType)}</DialogTitle>
+          </DialogHeader>
+          {selectedParticipant && (
+            <div className="space-y-4">
+              <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded">
+                <CharacterIcon participant={selectedParticipant} size="sm" />
+                <div>
+                  <div className="font-medium">{selectedParticipant.chara?.chara_name?.name}</div>
+                  <div className="text-sm text-gray-500">
+                    {selectedParticipant.player?.nickname} (ID: {selectedParticipant.player?.id})
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700">
+                  {adminActionType === 'ban' && '停止理由'}
+                  {adminActionType === 'warn' && '警告内容'}
+                  {adminActionType === 'note' && 'メモ内容'}
+                </label>
+                <Textarea
+                  value={adminMessage}
+                  onChange={(e) => setAdminMessage(e.target.value)}
+                  placeholder={
+                    adminActionType === 'ban'
+                      ? 'アカウント停止の理由を入力してください...'
+                      : adminActionType === 'warn'
+                        ? '警告内容を入力してください...'
+                        : 'メモ内容を入力してください...'
+                  }
+                  rows={4}
+                  className="resize-none"
+                />
+                <div className="text-sm text-gray-500">{adminMessage.length}/500文字</div>
+              </div>
+
+              <div className="flex space-x-2 justify-end">
+                <Button onClick={() => setShowAdminAction(false)} variant="outline">
+                  キャンセル
+                </Button>
+                <Button
+                  onClick={executeAdminAction}
+                  disabled={!adminMessage.trim() || adminMessage.length > 500}
+                  className={
+                    adminActionType === 'ban'
+                      ? 'bg-red-600 hover:bg-red-700'
+                      : adminActionType === 'warn'
+                        ? 'bg-yellow-600 hover:bg-yellow-700'
+                        : ''
+                  }
+                >
+                  {getActionTypeLabel(adminActionType)}を実行
                 </Button>
               </div>
             </div>

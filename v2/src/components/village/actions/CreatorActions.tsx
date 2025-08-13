@@ -6,6 +6,7 @@ import React, { useState } from 'react'
 import { Button } from '@/components/ui/Button'
 import { Textarea } from '@/components/ui/Textarea'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/Dialog'
+import { useSubmitCreatorSayMutation, useCreatorActionMutation } from '@/hooks/village'
 import type { components } from '@/types/generated/api'
 
 type VillageView = components['schemas']['VillageView']
@@ -30,6 +31,10 @@ export const CreatorActions: React.FC<CreatorActionsProps> = ({ village, user })
   >('message')
   const [selectedPlayerId, setSelectedPlayerId] = useState<number | null>(null)
 
+  // API mutation hooks
+  const creatorSayMutation = useSubmitCreatorSayMutation()
+  const creatorActionMutation = useCreatorActionMutation()
+
   // 村建て権限チェック
   const isCreator = user && village.creator_player?.id === user.uid
 
@@ -37,6 +42,9 @@ export const CreatorActions: React.FC<CreatorActionsProps> = ({ village, user })
   const maxLength = 400
   const maxLines = 40
   const currentLines = creatorMessage.split('\n').length
+
+  // ローディング状態
+  const isLoading = creatorSayMutation.isPending || creatorActionMutation.isPending
 
   const handleCreatorMessage = () => {
     if (!creatorMessage.trim()) return
@@ -68,24 +76,54 @@ export const CreatorActions: React.FC<CreatorActionsProps> = ({ village, user })
       switch (actionType) {
         case 'message':
           // 村建て発言API呼び出し
-          console.log('村建て発言:', creatorMessage)
-          setCreatorMessage('')
+          const sayResult = await creatorSayMutation.mutateAsync({
+            villageId: village.id,
+            message: creatorMessage,
+          })
+          if (sayResult.success) {
+            setCreatorMessage('')
+          } else {
+            alert(`村建て発言に失敗しました: ${sayResult.error?.message || '不明なエラー'}`)
+          }
           break
         case 'force_leave':
+          if (!selectedPlayerId) return
           // 強制退村API呼び出し
-          console.log('強制退村:', selectedPlayerId)
+          const forceLeaveResult = await creatorActionMutation.mutateAsync({
+            villageId: village.id,
+            actionType: 'force_leave',
+            targetPlayerId: selectedPlayerId,
+          })
+          if (!forceLeaveResult.success) {
+            alert(`強制退村に失敗しました: ${forceLeaveResult.error?.message || '不明なエラー'}`)
+          }
           break
         case 'destroy':
           // 廃村API呼び出し
-          console.log('廃村実行')
+          const destroyResult = await creatorActionMutation.mutateAsync({
+            villageId: village.id,
+            actionType: 'destroy',
+          })
+          if (!destroyResult.success) {
+            alert(`廃村に失敗しました: ${destroyResult.error?.message || '不明なエラー'}`)
+          }
           break
         case 'extend_epilogue':
           // エピローグ延長API呼び出し
-          console.log('エピローグ延長')
+          const extendResult = await creatorActionMutation.mutateAsync({
+            villageId: village.id,
+            actionType: 'extend_epilogue',
+          })
+          if (!extendResult.success) {
+            alert(`エピローグ延長に失敗しました: ${extendResult.error?.message || '不明なエラー'}`)
+          }
           break
       }
     } catch (error) {
       console.error('アクション実行エラー:', error)
+      alert(
+        `アクション実行中にエラーが発生しました: ${error instanceof Error ? error.message : '不明なエラー'}`
+      )
     } finally {
       setShowConfirmDialog(false)
       setSelectedPlayerId(null)
@@ -140,11 +178,14 @@ export const CreatorActions: React.FC<CreatorActionsProps> = ({ village, user })
           <Button
             onClick={handleCreatorMessage}
             disabled={
-              !creatorMessage.trim() || creatorMessage.length > maxLength || currentLines > maxLines
+              !creatorMessage.trim() ||
+              creatorMessage.length > maxLength ||
+              currentLines > maxLines ||
+              isLoading
             }
             className="w-full"
           >
-            村建て発言を投稿
+            {isLoading ? '投稿中...' : '村建て発言を投稿'}
           </Button>
         </div>
       </div>
@@ -182,8 +223,9 @@ export const CreatorActions: React.FC<CreatorActionsProps> = ({ village, user })
                 variant="outline"
                 size="sm"
                 className="text-red-600 hover:text-red-700"
+                disabled={isLoading}
               >
-                強制退村
+                {isLoading ? '処理中...' : '強制退村'}
               </Button>
             </div>
           ))}
@@ -198,16 +240,17 @@ export const CreatorActions: React.FC<CreatorActionsProps> = ({ village, user })
             onClick={handleExtendEpilogue}
             variant="outline"
             className="w-full"
-            disabled={village.status?.code !== 'EPILOGUE'}
+            disabled={village.status?.code !== 'EPILOGUE' || isLoading}
           >
-            エピローグ延長
+            {isLoading ? '処理中...' : 'エピローグ延長'}
           </Button>
           <Button
             onClick={handleDestroyVillage}
             variant="outline"
             className="w-full text-red-600 hover:text-red-700 border-red-300"
+            disabled={isLoading}
           >
-            村を廃村
+            {isLoading ? '処理中...' : '村を廃村'}
           </Button>
         </div>
       </div>
@@ -227,8 +270,9 @@ export const CreatorActions: React.FC<CreatorActionsProps> = ({ village, user })
               <Button
                 onClick={executeAction}
                 className={actionType === 'destroy' ? 'bg-red-600 hover:bg-red-700' : ''}
+                disabled={isLoading}
               >
-                実行
+                {isLoading ? '実行中...' : '実行'}
               </Button>
             </div>
           </div>
