@@ -1,12 +1,9 @@
 {
   "mcpServers": {
     "playwright": {
-      "type": "stdio",
-      "command": "npx",
-      "args": ["-y", "@playwright/mcp@latest"],
-      "env": {}
+      "url": "http://localhost:3003/mcp"
     },
-    "context7": {
+    "serena": {
       "type": "stdio",
       "command": "npx",
       "args": ["-y", "@upstash/context7-mcp"],
