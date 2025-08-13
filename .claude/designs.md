@@ -302,7 +302,7 @@ interface NumberInputProps {
 ### 全体アーキテクチャ
 
 #### レイアウト戦略
-- **デスクトップ**: 左側固定サイドバー（320px） + 右側メインコンテンツ
+- **デスクトップ**: 左側固定サイドバー（280px） + 右側メインコンテンツ
 - **モバイル**: ハンバーガーメニュー + 全幅メインコンテンツ
 - **タブレット**: 中間サイズでの適応的レイアウト
 - **共通ヘッダーを非表示**: 村専用のクリーンな体験を提供
@@ -405,9 +405,9 @@ VillagePage (メインエントリ)
 
 **技術実装**
 ```css
-/* サイドバー: 固定幅320px */
+/* サイドバー: 固定幅280px */
 .sidebar {
-  width: 320px;
+  width: 280px;
   position: fixed;
   left: 0;
   top: 0;
@@ -416,7 +416,7 @@ VillagePage (メインエントリ)
 
 /* メインコンテンツ: サイドバー分だけ左マージン */
 .main-content {
-  margin-left: 320px;
+  margin-left: 280px;
   position: relative;
 }
 
@@ -424,7 +424,7 @@ VillagePage (メインエントリ)
 .top-fixed-menu,
 .bottom-fixed-menu {
   position: fixed;
-  left: 320px; /* サイドバー幅分のオフセット */
+  left: 280px; /* サイドバー幅分のオフセット */
   right: 0;    /* 右端まで */
   z-index: 10;
 }

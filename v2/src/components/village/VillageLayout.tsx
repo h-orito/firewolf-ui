@@ -78,11 +78,11 @@ export const VillageLayout: React.FC<VillageLayoutProps> = ({ village, user, ini
         {!isMobile && (
           <aside
             className={`sticky top-0 h-screen transition-all duration-300 ease-in-out ${
-              isSidebarOpen ? 'w-80' : 'w-0'
+              isSidebarOpen ? 'w-[280px]' : 'w-0'
             } overflow-hidden bg-white border-r shadow-sm flex-shrink-0`}
           >
             {isSidebarOpen && (
-              <div className="w-80 h-full overflow-y-auto">
+              <div className="w-[280px] h-full overflow-y-auto">
                 <Sidebar village={village} user={user} />
               </div>
             )}
@@ -114,7 +114,7 @@ export const VillageLayout: React.FC<VillageLayoutProps> = ({ village, user, ini
 
           {/* スライダーサイドバー */}
           <aside
-            className={`fixed top-0 left-0 z-50 h-full w-80 bg-white shadow-xl transform transition-transform duration-300 ease-in-out ${
+            className={`fixed top-0 left-0 z-50 h-full w-[280px] bg-white shadow-xl transform transition-transform duration-300 ease-in-out ${
               isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
             }`}
           >

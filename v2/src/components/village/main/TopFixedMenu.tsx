@@ -53,7 +53,7 @@ export const TopFixedMenu: React.FC<TopFixedMenuProps> = ({ village }) => {
   }
 
   return (
-    <div className="fixed top-0 left-80 right-0 z-30 bg-white border-b shadow-sm dark-fixed-menu lg:left-80 left-0">
+    <div className="fixed top-0 left-[280px] right-0 z-30 bg-white border-b shadow-sm dark-fixed-menu lg:left-[280px] left-0">
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center space-x-2">
           {/* モバイル用ハンバーガーメニュー */}
