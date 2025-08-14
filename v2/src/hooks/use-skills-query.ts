@@ -7,9 +7,7 @@ export function useSkillsQuery() {
     queryFn: async () => {
       const { data, error } = await apiClient.GET('/skill/list')
 
-      if (error) {
-        throw new Error('Failed to fetch skills')
-      }
+      // エラーはより上位でハンドリング済み
 
       return data
     },

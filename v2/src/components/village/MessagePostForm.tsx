@@ -49,9 +49,6 @@ export function MessagePostForm({ village, saySituation, onMessagePosted }: Mess
             face_type: faceType,
           },
         })
-        if (error) {
-          throw new Error('メッセージの投稿に失敗しました')
-        }
         return data
       } else {
         const { data, error } = await apiClient.POST('/village/{villageId}/say', {
@@ -64,9 +61,6 @@ export function MessagePostForm({ village, saySituation, onMessagePosted }: Mess
             face_type: faceType,
           },
         })
-        if (error) {
-          throw new Error('メッセージの投稿に失敗しました')
-        }
         return data
       }
     },
@@ -112,7 +106,7 @@ export function MessagePostForm({ village, saySituation, onMessagePosted }: Mess
 
   // 文字数カウント
   const messageLength = message.length
-  const currentMessageTypeInfo = saySituation?.selectable_message_type_list.find(
+  const currentMessageTypeInfo = saySituation.selectable_message_type_list.find(
     (item) => item.message_type.code === currentMessageType
   )
   const maxLength = currentMessageTypeInfo?.restrict.max_length ?? 400

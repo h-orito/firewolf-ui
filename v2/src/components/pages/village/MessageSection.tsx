@@ -175,8 +175,8 @@ export function MessageSection({ village }: MessageSectionProps) {
             queryKey: [
               'villageMessages',
               village.id.toString(),
-              selectedDay?.day,
-              selectedDay?.noonnight,
+              selectedDay.day,
+              selectedDay.noonnight,
             ],
           })
         }}

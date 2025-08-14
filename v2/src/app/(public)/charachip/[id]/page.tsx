@@ -93,7 +93,7 @@ export default function CharachipDetailPage({ params }: CharachipDetailPageProps
             )}
 
             <div className="text-gray-700 space-y-2">
-              <p>キャラクター数: {charachip.chara_list?.length || 0}</p>
+              <p>キャラクター数: {charachip.chara_list.length}</p>
               <p>名前変更: {charachip.is_available_change_name ? '可能' : '不可'}</p>
             </div>
           </div>
@@ -103,7 +103,7 @@ export default function CharachipDetailPage({ params }: CharachipDetailPageProps
         <div>
           <h2 className="text-xl font-bold text-gray-900 mb-6">キャラクター一覧</h2>
 
-          {charachip.chara_list && charachip.chara_list.length > 0 ? (
+          {charachip.chara_list.length > 0 ? (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {charachip.chara_list.map((chara) => (
                 <Suspense

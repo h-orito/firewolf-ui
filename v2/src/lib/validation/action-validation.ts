@@ -29,7 +29,7 @@ export function validateVote(
   }
 
   // 選択された対象が有効かチェック
-  if (selectedTargetId && voteSituation.target_list) {
+  if (selectedTargetId) {
     const isValidTarget = voteSituation.target_list.some((target) => target.id === selectedTargetId)
     if (!isValidTarget) {
       errors.push('無効な投票対象が選択されています')
@@ -37,7 +37,7 @@ export function validateVote(
   }
 
   // 対象リストが空でないかチェック
-  if (!voteSituation.target_list || voteSituation.target_list.length === 0) {
+  if (voteSituation.target_list.length === 0) {
     errors.push('投票可能な対象がありません')
   }
 
@@ -76,7 +76,7 @@ export function validateAbility(
   }
 
   // 選択された対象が有効かチェック
-  if (selectedTargetId && ability.target_list) {
+  if (selectedTargetId) {
     const isValidTarget = ability.target_list.some((target) => target.id === selectedTargetId)
     if (!isValidTarget) {
       errors.push('無効な能力対象が選択されています')
@@ -84,7 +84,7 @@ export function validateAbility(
   }
 
   // 対象リストが存在するかチェック（対象が必要な能力の場合）
-  if (!ability.available_no_target && (!ability.target_list || ability.target_list.length === 0)) {
+  if (ability.target_list.length === 0) {
     errors.push('能力を実行できる対象がありません')
   }
 

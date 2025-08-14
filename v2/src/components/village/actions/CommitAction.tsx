@@ -41,8 +41,8 @@ export const CommitAction: React.FC<CommitActionProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   // コミットが可能かどうかの確認
-  const canCommit = situation.commit?.available_commit || false
-  const isCurrentlyCommitting = situation.commit?.committing || false
+  const canCommit = situation.commit.available_commit || false
+  const isCurrentlyCommitting = situation.commit.committing || false
 
   // コミットが利用できない場合は表示しない
   if (!canCommit) {

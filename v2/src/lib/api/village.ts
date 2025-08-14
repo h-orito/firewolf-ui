@@ -16,11 +16,7 @@ export async function getVillageData(villageId: number): Promise<VillageView | n
       },
     })
 
-    if (error) {
-      console.error('Failed to fetch village data:', error)
-      return null
-    }
-
+    // 成功時の処理（エラーハンドリングは上位で実行済み）
     return data || null
   } catch (error) {
     console.error('Failed to fetch village data:', error)

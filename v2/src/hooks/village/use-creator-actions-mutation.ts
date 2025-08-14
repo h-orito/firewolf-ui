@@ -77,7 +77,7 @@ export const useCreatorSayMutation = () => {
     },
     retry: (failureCount, error) => {
       // ネットワークエラーの場合のみリトライ
-      return failureCount < 2 && (error?.message?.includes('fetch') ?? false)
+      return failureCount < 2 && error.message.includes('fetch')
     },
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
   })
@@ -157,7 +157,7 @@ export const useCreatorActionMutation = () => {
     },
     retry: (failureCount, error) => {
       // ネットワークエラーの場合のみリトライ
-      return failureCount < 2 && (error?.message?.includes('fetch') ?? false)
+      return failureCount < 2 && error.message.includes('fetch')
     },
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
   })

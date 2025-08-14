@@ -67,10 +67,8 @@ export const useAuth = () => {
   const login = async (provider: 'google' | 'twitter') => {
     if (provider === 'google') {
       return signInWithGoogle()
-    } else if (provider === 'twitter') {
-      return signInWithTwitter()
     } else {
-      throw new Error('Unsupported provider')
+      return signInWithTwitter()
     }
   }
 

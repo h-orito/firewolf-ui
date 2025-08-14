@@ -66,11 +66,11 @@ export const MainContent: React.FC<MainContentProps> = ({ village, user, initial
   const handleObserver = useCallback(
     (entries: IntersectionObserverEntry[]) => {
       const [target] = entries
-      if (target.isIntersecting && hasNextPage && !isFetchingNextPage && !isLoading) {
+      if (target.isIntersecting && !isFetchingNextPage) {
         fetchNextPage()
       }
     },
-    [hasNextPage, isFetchingNextPage, isLoading, fetchNextPage]
+    [isFetchingNextPage, fetchNextPage]
   )
 
   // Intersection Observerの設定

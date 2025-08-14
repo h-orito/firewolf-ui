@@ -47,23 +47,20 @@ export const AbilityActions: React.FC<AbilityActionsProps> = ({ village, user })
   const [showDeathAlert, setShowDeathAlert] = useState(false)
 
   // 現在のユーザーの参加情報を取得
-  const currentParticipant = village.participant?.member_list?.find(
-    (p) => p.player?.id === user?.uid
-  )
+  const currentParticipant = village.participant.member_list.find((p) => p.player?.id === user?.uid)
 
   // 生存している参加者のリストを取得
-  const aliveParticipants = village.participant?.member_list?.filter((p) => !p.dead) || []
+  const aliveParticipants = village.participant.member_list.filter((p) => !p.dead)
 
   // 死亡している参加者のリストを取得（霊能用）
-  const deadParticipants = village.participant?.member_list?.filter((p) => p.dead) || []
+  const deadParticipants = village.participant.member_list.filter((p) => p.dead)
 
   // 人狼メンバーの取得（襲撃担当者設定用）
-  const werewolfMembers =
-    village.participant?.member_list?.filter((p) => {
-      if (!p.skill) return false
-      const skillCode = typeof p.skill === 'string' ? p.skill : p.skill.code
-      return ['WEREWOLF', 'WISE_WEREWOLF'].includes(skillCode)
-    }) || []
+  const werewolfMembers = village.participant.member_list.filter((p) => {
+    if (!p.skill) return false
+    const skillCode = typeof p.skill === 'string' ? p.skill : p.skill.code
+    return ['WEREWOLF', 'WISE_WEREWOLF'].includes(skillCode)
+  })
 
   // 利用可能な能力を取得（現在のユーザーの役職に基づく）
   const getAvailableAbilities = () => {
@@ -164,10 +161,10 @@ export const AbilityActions: React.FC<AbilityActionsProps> = ({ village, user })
     if (!ability || !target) return ''
 
     let message = `${ability.label}を実行しますか？\n\n`
-    message += `対象: ${target.chara?.chara_name?.name} (${target.player?.nickname})`
+    message += `対象: ${target.chara.chara_name.name} (${target.player?.nickname})`
 
     if (selectedAbility === 'ATTACK' && assignee) {
-      message += `\n襲撃担当: ${assignee.chara?.chara_name?.name} (${assignee.player?.nickname})`
+      message += `\n襲撃担当: ${assignee.chara.chara_name.name} (${assignee.player?.nickname})`
     }
 
     return message
@@ -260,7 +257,7 @@ export const AbilityActions: React.FC<AbilityActionsProps> = ({ village, user })
                 />
                 <CharacterIcon participant={participant} size="sm" />
                 <div>
-                  <div className="text-sm font-medium">{participant.chara?.chara_name?.name}</div>
+                  <div className="text-sm font-medium">{participant.chara.chara_name.name}</div>
                   <div className="text-xs text-gray-500">{participant.player?.nickname}</div>
                 </div>
               </label>
@@ -280,7 +277,7 @@ export const AbilityActions: React.FC<AbilityActionsProps> = ({ village, user })
             <option value="">襲撃担当者を選択...</option>
             {werewolfMembers.map((member) => (
               <option key={member.id} value={member.player?.id}>
-                {member.chara?.chara_name?.name} ({member.player?.nickname})
+                {member.chara.chara_name.name} ({member.player?.nickname})
               </option>
             ))}
           </Select>

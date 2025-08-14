@@ -15,7 +15,7 @@ export function CharachipCard({ charachip }: CharachipCardProps) {
   }
 
   // 代表キャラクターの画像を取得（v1と同様に最初のキャラクターを使用）
-  const representativeChara = charachip.chara_list?.[0]
+  const representativeChara = charachip.chara_list[0]
 
   return (
     <Card
@@ -29,18 +29,16 @@ export function CharachipCard({ charachip }: CharachipCardProps) {
         </div>
 
         {/* 代表キャラクター画像 */}
-        {representativeChara && (
-          <div className="flex justify-center">
-            <CharacterImage
-              chara={representativeChara}
-              alt={`${representativeChara.chara_name?.name || 'キャラクター'}`}
-              className="mx-auto"
-            />
-          </div>
-        )}
+        <div className="flex justify-center">
+          <CharacterImage
+            chara={representativeChara}
+            alt={`${representativeChara.chara_name.name || 'キャラクター'}`}
+            className="mx-auto"
+          />
+        </div>
 
         <div className="text-center">
-          <p className="text-sm text-gray-700">{charachip.chara_list?.length || 0} キャラクター</p>
+          <p className="text-sm text-gray-700">{charachip.chara_list.length || 0} キャラクター</p>
         </div>
       </div>
     </Card>

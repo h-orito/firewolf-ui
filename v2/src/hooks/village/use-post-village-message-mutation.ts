@@ -48,46 +48,6 @@ export const usePostVillageMessageMutation = () => {
           },
         })
 
-        if (error) {
-          // APIエラーを詳細に分類
-          let errorType: VillageErrorType = 'MESSAGE_POST_FAILED'
-          let errorMessage = 'メッセージの投稿に失敗しました'
-
-          if (error && typeof error === 'object') {
-            const errorObj = error as any
-
-            // よくあるエラーパターンの分類
-            if (errorObj.message?.includes('validation') || errorObj.message?.includes('invalid')) {
-              errorType = 'VALIDATION_ERROR'
-              errorMessage = '入力内容に問題があります。内容を確認してください。'
-            } else if (
-              errorObj.message?.includes('permission') ||
-              errorObj.message?.includes('403')
-            ) {
-              errorType = 'PERMISSION_DENIED'
-              errorMessage = 'この操作を実行する権限がありません。'
-            } else if (
-              errorObj.message?.includes('network') ||
-              errorObj.message?.includes('timeout')
-            ) {
-              errorType = 'NETWORK_ERROR'
-              errorMessage = 'ネットワークエラーが発生しました。接続を確認してください。'
-            } else if (errorObj.message?.includes('server') || errorObj.message?.includes('500')) {
-              errorType = 'SERVER_ERROR'
-              errorMessage = 'サーバーエラーが発生しました。時間をおいて再試行してください。'
-            }
-          }
-
-          return {
-            success: false,
-            error: {
-              type: errorType,
-              message: errorMessage,
-              detail: JSON.stringify(error),
-            },
-          }
-        }
-
         return {
           success: true,
           data,

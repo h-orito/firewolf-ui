@@ -69,7 +69,7 @@ export function ActionSection({ village }: ActionSectionProps) {
       )}
 
       {/* 能力実行フォーム */}
-      {participateSituation.ability && participateSituation.ability.list.length > 0 && (
+      {participateSituation.ability.list.length > 0 && (
         <AbilityForm villageId={village.id} abilitySituations={participateSituation.ability} />
       )}
 

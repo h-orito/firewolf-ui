@@ -28,7 +28,7 @@ export const VillageHeader: React.FC<VillageHeaderProps> = ({ village }) => {
   }
 
   // 村の日付一覧を取得（暫定実装）
-  const days = village.day?.day_list || []
+  const days = village.day.day_list
 
   return (
     <div className="bg-white border-b">
@@ -113,7 +113,7 @@ export const VillageHeader: React.FC<VillageHeaderProps> = ({ village }) => {
           {currentDay > 0 && !village.status.is_finished && (
             <div className="flex items-center space-x-4">
               <span>進行中</span>
-              <span>参加者: {village.participant?.count || 0}人</span>
+              <span>参加者: {village.participant.count}人</span>
               {/* TODO: 残り時間表示 */}
             </div>
           )}

@@ -20,8 +20,8 @@ export function CharacterImage({
 }: CharacterImageProps) {
   // 指定されたfaceTypeの画像を取得、なければ最初の画像を使用
   const getImageUrl = () => {
-    const targetFace = chara.face_list?.find((face) => face.type === faceType)
-    return targetFace?.image_url || chara.face_list?.[0]?.image_url
+    const targetFace = chara.face_list.find((face) => face.type === faceType)
+    return targetFace?.image_url || chara.face_list[0]?.image_url
   }
 
   const imageUrl = getImageUrl()

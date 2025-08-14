@@ -44,14 +44,14 @@ export const ComingoutAction: React.FC<ComingoutActionProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   // カミングアウトが可能かどうかの確認
-  const canComingOut = situation.coming_out?.available_coming_out || false
+  const canComingOut = situation.coming_out.available_coming_out || false
   const selectableSkills = useMemo(
-    () => situation.coming_out?.selectable_skill_list || [],
-    [situation.coming_out?.selectable_skill_list]
+    () => situation.coming_out.selectable_skill_list,
+    [situation.coming_out.selectable_skill_list]
   )
   const currentComingOuts = useMemo(
-    () => situation.coming_out?.current_coming_outs?.list || [],
-    [situation.coming_out?.current_coming_outs?.list]
+    () => situation.coming_out.current_coming_outs.list,
+    [situation.coming_out.current_coming_outs.list]
   )
 
   // 現在のカミングアウトを初期値として設定

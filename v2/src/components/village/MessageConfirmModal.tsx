@@ -125,7 +125,7 @@ export const MessageConfirmModal: React.FC<MessageConfirmModalProps> = ({
         borderColor: 'border-green-200',
       },
     }
-    return typeMap[preview.messageType] || typeMap.NORMAL_SAY
+    return typeMap[preview.messageType]
   }, [preview.messageType])
 
   // メッセージ制限を確認

@@ -26,8 +26,8 @@ interface ParticipantListProps {
 export const ParticipantList: React.FC<ParticipantListProps> = ({ village, user }) => {
   const [isExpanded, setIsExpanded] = useState(false)
 
-  const participants = village.participant?.member_list || []
-  const spectators = village.spectator?.member_list || []
+  const participants = village.participant.member_list
+  const spectators = village.spectator.member_list
 
   const aliveParticipants = participants.filter((p) => !p.spectator && !p.dead)
   const deadParticipants = participants.filter((p) => !p.spectator && !!p.dead)

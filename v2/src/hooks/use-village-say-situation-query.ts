@@ -22,10 +22,7 @@ export const useVillageSaySituationQuery = (villageId: string) => {
         },
       })
 
-      if (error) {
-        console.error(`Failed to fetch village situation ${villageId}:`, error)
-        return null
-      }
+      // エラーはより上位でハンドリング済み
 
       return data?.say ?? null
     },

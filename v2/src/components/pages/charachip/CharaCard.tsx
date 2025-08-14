@@ -14,7 +14,7 @@ export function CharaCard({ chara }: CharaCardProps) {
           <h3 className="font-medium text-gray-900">{chara.chara_name.name}</h3>
         </div>
 
-        {chara.face_list && chara.face_list.length > 0 && (
+        {chara.face_list.length > 0 && (
           <div className="flex flex-wrap gap-2 justify-center">
             {chara.face_list.slice(0, 6).map((face, index) => (
               <div key={index} className="text-center">

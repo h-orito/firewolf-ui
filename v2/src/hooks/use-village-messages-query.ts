@@ -22,7 +22,7 @@ export const useVillageMessagesQuery = (
     return false
   }
 
-  return useQuery<MessagesView>({
+  return useQuery<MessagesView | undefined>({
     queryKey: ['villageMessages', villageId, day, noonnight, form],
     queryFn: async () => {
       const { data, error } = await apiClient.GET(
@@ -39,8 +39,9 @@ export const useVillageMessagesQuery = (
         }
       )
 
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (error) {
-        throw new Error(`Failed to fetch messages for village ${villageId}`)
+        throw new Error('Failed to fetch messages')
       }
 
       return data

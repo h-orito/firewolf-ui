@@ -44,12 +44,12 @@ export const SkillRequestAction: React.FC<SkillRequestActionProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   // 役職希望変更が可能かどうかの確認
-  const canChangeSkillRequest = situation.skill_request?.available_skill_request || false
+  const canChangeSkillRequest = situation.skill_request.available_skill_request || false
   const selectableSkills = useMemo(
-    () => situation.skill_request?.selectable_skill_list || [],
-    [situation.skill_request?.selectable_skill_list]
+    () => situation.skill_request.selectable_skill_list,
+    [situation.skill_request.selectable_skill_list]
   )
-  const currentSkillRequest = situation.skill_request?.skill_request
+  const currentSkillRequest = situation.skill_request.skill_request
 
   // 現在の役職希望を初期値として設定
   useEffect(() => {

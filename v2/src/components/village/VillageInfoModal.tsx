@@ -82,7 +82,7 @@ export const VillageInfoModal: React.FC<VillageInfoModalProps> = ({ isOpen, onCl
                       {village.participant.count}/{village.setting.capacity.max}名
                     </span>
                   </div>
-                  {village.spectator && village.spectator.count > 0 && (
+                  {village.spectator.count > 0 && (
                     <div className="grid grid-cols-2 gap-2">
                       <span className="font-medium">見学者数:</span>
                       <span className="text-gray-700">{village.spectator.count}名</span>
@@ -136,7 +136,7 @@ export const VillageInfoModal: React.FC<VillageInfoModalProps> = ({ isOpen, onCl
           {/* 右カラム */}
           <div className="space-y-3 md:space-y-4">
             {/* 編成設定 */}
-            {village.setting.organizations.organization && (
+            {Object.keys(village.setting.organizations.organization).length > 0 && (
               <Card>
                 <div className="p-3 md:p-4">
                   <h3 className="font-bold mb-3 text-blue-700">編成設定</h3>
@@ -181,7 +181,7 @@ export const VillageInfoModal: React.FC<VillageInfoModalProps> = ({ isOpen, onCl
                         village.setting.rules.available_spectate ? 'text-green-600' : 'text-red-600'
                       }
                     >
-                      {village.setting?.rules?.available_spectate ? 'あり' : 'なし'}
+                      {village.setting.rules.available_spectate ? 'あり' : 'なし'}
                     </span>
                   </div>
                   <div className="flex justify-between">
@@ -193,7 +193,7 @@ export const VillageInfoModal: React.FC<VillageInfoModalProps> = ({ isOpen, onCl
                           : 'text-red-600'
                       }
                     >
-                      {village.setting?.rules?.open_skill_in_grave ? 'あり' : 'なし'}
+                      {village.setting.rules.open_skill_in_grave ? 'あり' : 'なし'}
                     </span>
                   </div>
                   <div className="flex justify-between">
@@ -205,7 +205,7 @@ export const VillageInfoModal: React.FC<VillageInfoModalProps> = ({ isOpen, onCl
                           : 'text-red-600'
                       }
                     >
-                      {village.setting?.rules?.available_suddenly_death ? 'あり' : 'なし'}
+                      {village.setting.rules.available_suddenly_death ? 'あり' : 'なし'}
                     </span>
                   </div>
                   <div className="flex justify-between">
@@ -215,7 +215,7 @@ export const VillageInfoModal: React.FC<VillageInfoModalProps> = ({ isOpen, onCl
                         village.setting.rules.available_commit ? 'text-green-600' : 'text-red-600'
                       }
                     >
-                      {village.setting?.rules?.available_commit ? 'あり' : 'なし'}
+                      {village.setting.rules.available_commit ? 'あり' : 'なし'}
                     </span>
                   </div>
                   <div className="flex justify-between">
@@ -227,7 +227,7 @@ export const VillageInfoModal: React.FC<VillageInfoModalProps> = ({ isOpen, onCl
                           : 'text-red-600'
                       }
                     >
-                      {village.setting?.rules?.available_dummy_skill ? 'あり' : 'なし'}
+                      {village.setting.rules.available_dummy_skill ? 'あり' : 'なし'}
                     </span>
                   </div>
                   <div className="flex justify-between">
@@ -239,7 +239,7 @@ export const VillageInfoModal: React.FC<VillageInfoModalProps> = ({ isOpen, onCl
                           : 'text-red-600'
                       }
                     >
-                      {village.setting?.rules?.available_guard_same_target ? 'あり' : 'なし'}
+                      {village.setting.rules.available_guard_same_target ? 'あり' : 'なし'}
                     </span>
                   </div>
                 </div>
@@ -259,8 +259,8 @@ export const VillageInfoModal: React.FC<VillageInfoModalProps> = ({ isOpen, onCl
               </Card>
 
               {/* RP設定 */}
-              {(village.setting.rules.visible_grave_message !== undefined ||
-                village.setting.rules.available_action !== undefined) && (
+              {(village.setting.rules.visible_grave_message ||
+                village.setting.rules.available_action) && (
                 <Card>
                   <div className="p-3 md:p-4">
                     <h3 className="font-bold mb-3 text-blue-700">RP設定</h3>
@@ -274,7 +274,7 @@ export const VillageInfoModal: React.FC<VillageInfoModalProps> = ({ isOpen, onCl
                               : 'text-red-600'
                           }
                         >
-                          {village.setting?.rules?.visible_grave_message ? 'あり' : 'なし'}
+                          {village.setting.rules.visible_grave_message ? 'あり' : 'なし'}
                         </span>
                       </div>
                       <div className="flex justify-between">
@@ -286,7 +286,7 @@ export const VillageInfoModal: React.FC<VillageInfoModalProps> = ({ isOpen, onCl
                               : 'text-red-600'
                           }
                         >
-                          {village.setting?.rules?.available_action ? 'あり' : 'なし'}
+                          {village.setting.rules.available_action ? 'あり' : 'なし'}
                         </span>
                       </div>
                     </div>
@@ -295,7 +295,7 @@ export const VillageInfoModal: React.FC<VillageInfoModalProps> = ({ isOpen, onCl
               )}
 
               {/* タグ設定 */}
-              {village.setting.tags.list && village.setting.tags.list.length > 0 && (
+              {village.setting.tags.list.length > 0 && (
                 <Card>
                   <div className="p-3 md:p-4">
                     <h3 className="font-bold mb-3 text-blue-700">タグ設定</h3>

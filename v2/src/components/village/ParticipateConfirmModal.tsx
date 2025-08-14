@@ -209,14 +209,14 @@ export const ParticipateConfirmModal: React.FC<ParticipateConfirmModalProps> = (
               <div className="text-xs text-gray-700 space-y-1">
                 <div>
                   • 発言時間:{' '}
-                  {village.setting?.time?.day_change_interval_seconds
+                  {village.setting.time.day_change_interval_seconds
                     ? `${Math.floor(village.setting.time.day_change_interval_seconds / 3600)}時間`
                     : '未設定'}
                 </div>
                 <div>
-                  • 突然死: {village.setting?.rules?.available_suddenly_death ? '有効' : '無効'}
+                  • 突然死: {village.setting.rules.available_suddenly_death ? '有効' : '無効'}
                 </div>
-                <div>• コミット: {village.setting?.rules?.available_commit ? '有効' : '無効'}</div>
+                <div>• コミット: {village.setting.rules.available_commit ? '有効' : '無効'}</div>
               </div>
             </div>
           </div>

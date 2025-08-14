@@ -5,7 +5,7 @@ import type { components } from '@/types/generated/api'
 type VillageView = components['schemas']['VillageView']
 
 export const useVillageQuery = (villageId: string) => {
-  return useQuery<VillageView>({
+  return useQuery<VillageView | undefined>({
     queryKey: ['village', villageId],
     queryFn: async () => {
       const { data, error } = await apiClient.GET('/village/{villageId}', {
@@ -14,8 +14,9 @@ export const useVillageQuery = (villageId: string) => {
         },
       })
 
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (error) {
-        throw new Error(`Failed to fetch village ${villageId}`)
+        throw new Error('Failed to fetch village')
       }
 
       return data

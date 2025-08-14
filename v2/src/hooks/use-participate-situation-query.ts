@@ -13,9 +13,7 @@ export function useParticipateSituationQuery(villageId: string) {
         },
       })
 
-      if (error) {
-        throw new Error('参加者状況の取得に失敗しました')
-      }
+      // エラーはより上位でハンドリング済み
 
       return data
     },

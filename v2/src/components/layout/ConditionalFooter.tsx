@@ -12,7 +12,7 @@ export const ConditionalFooter: React.FC = () => {
 
   // 村画面のパス（/village/[id]）の場合はフッターを表示しない
   // basePath設定により実際のpathnameは /village/[id] になる
-  const isVillagePage = pathname?.startsWith('/village/')
+  const isVillagePage = pathname.startsWith('/village/')
 
   if (isVillagePage) {
     return null

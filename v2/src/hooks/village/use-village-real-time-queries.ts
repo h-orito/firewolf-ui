@@ -68,9 +68,9 @@ export const useVillageRealTimeQueries = ({
 
     // 村情報から時間情報を取得
     const updateRemainingTime = () => {
-      if (!villageQuery.data?.day?.day_list) return
+      if (!villageQuery.data) return
 
-      const currentDayData = villageQuery.data.day.day_list.find((d) => d.day === currentDay)
+      const currentDayData = villageQuery.data.day.day_list.find((d: any) => d.day === currentDay)
       if (!currentDayData?.day_change_datetime) return
 
       const dayChangeTime = new Date(currentDayData.day_change_datetime)
@@ -107,7 +107,8 @@ export const useVillageRealTimeQueries = ({
   const [hasNewMessages, setHasNewMessages] = useState(false)
 
   useEffect(() => {
-    if (latestMessagesQuery.data?.pages?.[0]?.list?.length) {
+    const firstPage = latestMessagesQuery.data?.pages[0]
+    if (firstPage && firstPage.list.length) {
       // 新着メッセージがある場合にフラグを立てる
       // （実際の判定は前回チェック時との比較が必要だが、ここでは簡略化）
       setHasNewMessages(true)
@@ -151,12 +152,12 @@ export const useVillageRealTimeQueries = ({
     // クエリ結果
     village: villageQuery.data,
     villageStatus,
-    latestMessages: latestMessagesQuery.data?.pages?.[0]?.list ?? [],
+    latestMessages: (latestMessagesQuery.data?.pages[0] as any)?.list || [],
 
     // ロード状態
     isVillageLoading: villageQuery.isLoading,
     isMessagesLoading: latestMessagesQuery.isLoading,
-    isLoading: villageQuery.isLoading || latestMessagesQuery.isLoading,
+    isLoading: villageQuery.isLoading,
 
     // エラー状態
     villageError: villageQuery.error,

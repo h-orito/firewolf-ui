@@ -121,21 +121,19 @@ export const AdminActions: React.FC<AdminActionsProps> = ({ village, user }) => 
           </div>
           <div className="flex justify-between">
             <span className="text-gray-600">作成者ID:</span>
-            <span>{village.creator_player?.id}</span>
+            <span>{village.creator_player.id}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-gray-600">現在の状態:</span>
-            <span>
-              {typeof village.status === 'string' ? village.status : village.status?.name}
-            </span>
+            <span>{typeof village.status === 'string' ? village.status : village.status.name}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-gray-600">参加者数:</span>
-            <span>{village.participant?.member_list?.length || 0}</span>
+            <span>{village.participant.member_list.length}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-gray-600">見学者数:</span>
-            <span>{village.spectator?.member_list?.length || 0}</span>
+            <span>{village.spectator.member_list.length}</span>
           </div>
         </div>
       </div>
@@ -144,7 +142,7 @@ export const AdminActions: React.FC<AdminActionsProps> = ({ village, user }) => 
       <div className="border rounded-lg p-4">
         <h4 className="font-medium text-gray-900 mb-2">参加者管理</h4>
         <div className="space-y-2">
-          {village.participant?.member_list?.map((participant) => (
+          {village.participant.member_list.map((participant) => (
             <div
               key={participant.id}
               className="flex items-center justify-between p-2 bg-gray-50 rounded"
@@ -152,7 +150,7 @@ export const AdminActions: React.FC<AdminActionsProps> = ({ village, user }) => 
               <div className="flex items-center space-x-2">
                 <CharacterIcon participant={participant} size="sm" />
                 <div>
-                  <div className="text-sm font-medium">{participant.chara?.chara_name?.name}</div>
+                  <div className="text-sm font-medium">{participant.chara.chara_name.name}</div>
                   <div className="text-xs text-gray-500">
                     {participant.player?.nickname} (ID: {participant.player?.id})
                   </div>
@@ -192,7 +190,7 @@ export const AdminActions: React.FC<AdminActionsProps> = ({ village, user }) => 
       <div className="border rounded-lg p-4">
         <h4 className="font-medium text-gray-900 mb-2">見学者管理</h4>
         <div className="space-y-2">
-          {village.spectator?.member_list?.map((spectator) => (
+          {village.spectator.member_list.map((spectator) => (
             <div
               key={spectator.id}
               className="flex items-center justify-between p-2 bg-gray-50 rounded"
@@ -218,35 +216,33 @@ export const AdminActions: React.FC<AdminActionsProps> = ({ village, user }) => 
         <div className="space-y-2 text-sm">
           <div className="flex justify-between">
             <span className="text-gray-600">現在日:</span>
-            <span>{village.day?.day_list?.[village.day.day_list.length - 1]?.day || 0}日目</span>
+            <span>{village.day.day_list[village.day.day_list.length - 1].day}日目</span>
           </div>
           <div className="flex justify-between">
             <span className="text-gray-600">昼夜:</span>
-            <span>
-              {village.day?.day_list?.[village.day.day_list.length - 1]?.noonnight || '不明'}
-            </span>
+            <span>{village.day.day_list[village.day.day_list.length - 1].noonnight}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-gray-600">村開始日時:</span>
-            <span>{village.setting?.time?.start_datetime || '未設定'}</span>
+            <span>{village.setting.time.start_datetime || '未設定'}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-gray-600">キャラチップ:</span>
-            <span>ID: {village.setting?.charachip?.dummy_chara_id || '未設定'}</span>
+            <span>ID: {village.setting.charachip.dummy_chara_id || '未設定'}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-gray-600">構成:</span>
             <span>
-              {Object.keys(village.setting?.organizations?.organization || {}).length}パターン設定
+              {Object.keys(village.setting.organizations.organization).length}パターン設定
             </span>
           </div>
           <div className="flex justify-between">
             <span className="text-gray-600">最大人数:</span>
-            <span>{village.setting?.capacity?.max || 0}人</span>
+            <span>{village.setting.capacity.max || 0}人</span>
           </div>
           <div className="flex justify-between">
             <span className="text-gray-600">日付変更間隔:</span>
-            <span>{village.setting?.time?.day_change_interval_seconds || 0}秒</span>
+            <span>{village.setting.time.day_change_interval_seconds || 0}秒</span>
           </div>
         </div>
       </div>

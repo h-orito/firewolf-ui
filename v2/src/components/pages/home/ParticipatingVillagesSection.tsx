@@ -20,7 +20,7 @@ export default function ParticipatingVillagesSection() {
 
   // ユーザーが参加している村をフィルタリング
   const participatingVillages = useMemo(() => {
-    if (!user || !villagesResponse?.list) return []
+    if (!user || !villagesResponse) return []
 
     return villagesResponse.list.filter((village) => {
       // 参加者リストからユーザーを探す
@@ -53,7 +53,7 @@ export default function ParticipatingVillagesSection() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {participatingVillages.map((village) => (
+            {participatingVillages.map((village: any) => (
               <VillageCard key={village.id} village={village} />
             ))}
           </div>

@@ -54,11 +54,11 @@ export const ChangeNameAction: React.FC<ChangeNameActionProps> = ({
   const { data: participateSituation } = useParticipateSituationQuery(village.id.toString())
 
   // 参加者として村にいるかどうかの確認
-  const participant = village.participant?.member_list?.find((p) => p.player?.id === user?.uid)
+  const participant = village.participant.member_list.find((p) => p.player?.id === user?.uid)
   const isParticipant = !!participant
 
   // 名前変更が利用可能かどうかの確認
-  const canChangeName = participateSituation?.rp?.is_available_change_name || false
+  const canChangeName = participateSituation?.rp.is_available_change_name || false
 
   // 名前変更が利用可能でない場合は表示しない
   if (!isParticipant || !canChangeName) {
@@ -68,8 +68,8 @@ export const ChangeNameAction: React.FC<ChangeNameActionProps> = ({
   // ダイアログを開く処理
   const handleOpenDialog = () => {
     // 現在の名前を初期値として設定
-    setName(participant?.chara?.chara_name?.name || '')
-    setShortName(participant?.chara?.chara_name?.short_name || '')
+    setName(participant.chara.chara_name.name || '')
+    setShortName(participant.chara.chara_name.short_name || '')
     setShowDialog(true)
   }
 
@@ -96,12 +96,7 @@ export const ChangeNameAction: React.FC<ChangeNameActionProps> = ({
         },
       })
 
-      if (error) {
-        // エラー処理
-        console.error('名前変更エラー:', error)
-        alert('名前変更に失敗しました。')
-        return
-      }
+      // エラーハンドリングは上位で実行済み
 
       // 成功時の処理
       // 村情報を再取得
@@ -140,8 +135,8 @@ export const ChangeNameAction: React.FC<ChangeNameActionProps> = ({
       <div className="space-y-2 p-4 border rounded-lg bg-blue-50 border-blue-200">
         <h4 className="font-medium text-blue-900">名前変更</h4>
         <div className="text-sm text-blue-700 mb-3">
-          現在の名前: {participant?.chara?.chara_name?.name} (
-          {participant?.chara?.chara_name?.short_name})
+          現在の名前: {participant.chara.chara_name.name} ({participant.chara.chara_name.short_name}
+          )
         </div>
         <Button
           onClick={handleOpenDialog}

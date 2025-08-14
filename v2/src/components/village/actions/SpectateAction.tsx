@@ -113,9 +113,9 @@ export const SpectateAction: React.FC<SpectateActionProps> = ({ village, user, o
 
   // 既に参加している場合は表示しない
   const isAlreadyParticipant =
-    user && village.participant?.member_list?.some((p) => p.player?.id === user.uid)
+    user && village.participant.member_list.some((p) => p.player?.id === user.uid)
   const isAlreadySpectator =
-    user && village.spectator?.member_list?.some((s) => s.player?.id === user.uid)
+    user && village.spectator.member_list.some((s) => s.player?.id === user.uid)
 
   if (isAlreadyParticipant || isAlreadySpectator) {
     return null
@@ -174,11 +174,7 @@ export const SpectateAction: React.FC<SpectateActionProps> = ({ village, user, o
               <Button variant="outline" onClick={handleCancel} className="flex-1">
                 キャンセル
               </Button>
-              <Button
-                onClick={handleSpectateConfirmed}
-                className="flex-1"
-                disabled={!selectedCharacter || isSpectating}
-              >
+              <Button onClick={handleSpectateConfirmed} className="flex-1" disabled={isSpectating}>
                 {isSpectating ? '見学開始中...' : '見学を開始'}
               </Button>
             </div>
@@ -198,9 +194,7 @@ export const SpectateAction: React.FC<SpectateActionProps> = ({ village, user, o
         )}
 
         {/* 見学者数表示 */}
-        <div className="text-xs text-gray-500 text-center">
-          見学者: {village.spectator?.count || 0}人
-        </div>
+        <div className="text-xs text-gray-500 text-center">見学者: {village.spectator.count}人</div>
       </div>
 
       {/* キャラクター選択モーダル */}

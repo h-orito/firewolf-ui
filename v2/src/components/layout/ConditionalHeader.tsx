@@ -12,7 +12,7 @@ export const ConditionalHeader: React.FC = () => {
 
   // 村画面のパス（/village/[id]）の場合はヘッダーを表示しない
   // basePath設定により実際のpathnameは /village/[id] になる
-  const isVillagePage = pathname?.startsWith('/village/')
+  const isVillagePage = pathname.startsWith('/village/')
 
   if (isVillagePage) {
     return null

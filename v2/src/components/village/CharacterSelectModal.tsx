@@ -38,20 +38,22 @@ export const CharacterSelectModal: React.FC<CharacterSelectModalProps> = ({
   const [searchTerm, setSearchTerm] = useState('')
 
   // 村のキャラチップIDからキャラクター一覧を取得
-  const charachipIds = village.setting?.charachip?.charachip_ids || []
+  const charachipIds = village.setting.charachip.charachip_ids
   const { data: charasData, isLoading, error } = useCharasQuery(charachipIds)
-  const charas: Chara[] = useMemo(() => (charasData?.data as Charas)?.list || [], [charasData])
+  const charas: Chara[] = useMemo(() => charasData?.data.list || [], [charasData])
 
   // 既に使用されているキャラクターのIDを取得
   const usedCharacterIds = useMemo(() => {
-    const participantCharIds =
-      village.participant?.member_list?.map((member) => member.chara?.id).filter(Boolean) || []
+    const participantCharIds = village.participant.member_list
+      .map((member) => member.chara.id)
+      .filter(Boolean)
 
-    const spectatorCharIds =
-      village.spectator?.member_list?.map((member) => member.chara?.id).filter(Boolean) || []
+    const spectatorCharIds = village.spectator.member_list
+      .map((member) => member.chara.id)
+      .filter(Boolean)
 
     return [...participantCharIds, ...spectatorCharIds]
-  }, [village.participant?.member_list, village.spectator?.member_list])
+  }, [village.participant.member_list, village.spectator.member_list])
 
   // 選択可能なキャラクター（使用されていないキャラクター）
   const availableCharas = useMemo(

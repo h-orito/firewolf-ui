@@ -20,38 +20,36 @@ export const useVillageParticipantsQuery = (villageId: string) => {
     const allParticipants: VillageParticipantView[] = []
 
     // 参加者を追加
-    if (villageQuery.data.participant?.member_list) {
-      allParticipants.push(...villageQuery.data.participant.member_list)
-    }
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    allParticipants.push(...(villageQuery.data.participant.member_list || []))
 
     // 見学者を追加
-    if (villageQuery.data.spectator?.member_list) {
-      allParticipants.push(...villageQuery.data.spectator.member_list)
-    }
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    allParticipants.push(...(villageQuery.data.spectator.member_list || []))
 
     return allParticipants
   }, [villageQuery.data])
 
   // 参加者のみ（見学者を除く）
   const activeParticipants = useMemo(() => {
-    if (!villageQuery.data?.participant?.member_list) return []
+    if (!villageQuery.data?.participant) return []
     return villageQuery.data.participant.member_list
   }, [villageQuery.data])
 
   // 見学者のみ
   const spectators = useMemo(() => {
-    if (!villageQuery.data?.spectator?.member_list) return []
+    if (!villageQuery.data?.spectator) return []
     return villageQuery.data.spectator.member_list
   }, [villageQuery.data])
 
   // 生存者
   const aliveParticipants = useMemo(() => {
-    return activeParticipants.filter((p) => !p.dead)
+    return activeParticipants.filter((p: any) => !p.dead)
   }, [activeParticipants])
 
   // 死亡者
   const deadParticipants = useMemo(() => {
-    return activeParticipants.filter((p) => p.dead)
+    return activeParticipants.filter((p: any) => p.dead)
   }, [activeParticipants])
 
   // 参加者をIDで検索するヘルパー

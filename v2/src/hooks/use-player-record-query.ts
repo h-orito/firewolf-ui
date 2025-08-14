@@ -10,9 +10,7 @@ export function usePlayerRecordQuery(playerId: number) {
       const response = await apiClient.GET('/player/{playerId}/record', {
         params: { path: { playerId } },
       })
-      if (response.error) {
-        throw new Error('プレイヤー戦績データの取得に失敗しました')
-      }
+      // エラーはより上位でハンドリング済み
       return response.data
     },
   })

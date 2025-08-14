@@ -42,7 +42,7 @@ export const useVillageMessagesInfiniteQuery = ({
     return false
   }
 
-  return useInfiniteQuery<MessagesView>({
+  return useInfiniteQuery<MessagesView | undefined>({
     queryKey: ['villageMessagesInfinite', villageId, day, noonnight, form],
     queryFn: async ({ pageParam = 1 }) => {
       const { data, error } = await apiClient.GET(
@@ -64,15 +64,16 @@ export const useVillageMessagesInfiniteQuery = ({
         }
       )
 
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (error) {
-        throw new Error(`Failed to fetch messages for village ${villageId}`)
+        throw new Error('Failed to fetch messages')
       }
 
       return data
     },
     getNextPageParam: (lastPage, allPages) => {
-      // 次のページが存在するかチェック
-      if (!lastPage.exist_next_page) {
+      // lastPageがundefinedの場合は次のページなし
+      if (!lastPage || !lastPage.exist_next_page) {
         return undefined
       }
 
@@ -81,8 +82,8 @@ export const useVillageMessagesInfiniteQuery = ({
       return currentPage + 1
     },
     getPreviousPageParam: (firstPage) => {
-      // 前のページが存在するかチェック
-      if (!firstPage.exist_pre_page) {
+      // firstPageがundefinedの場合は前のページなし
+      if (!firstPage || !firstPage.exist_pre_page) {
         return undefined
       }
 
@@ -107,16 +108,22 @@ export const useVillageMessagesFlat = (options: UseVillageMessagesInfiniteQueryO
   const query = useVillageMessagesInfiniteQuery(options)
 
   // 全ページのメッセージを統合
-  const allMessages = query.data?.pages.flatMap((page) => page.list) ?? []
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  const allMessages = query.data ? query.data.pages.flatMap((page) => page?.list ?? []) : []
 
   // 総メッセージ数（最初のページから取得）
-  const totalCount = query.data?.pages[0]?.all_record_count ?? 0
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  const totalCount = query.data ? (query.data.pages[0]?.all_record_count ?? 0) : 0
 
   // 今日のメッセージ数マップ（最新ページから取得）
-  const todayMessageCountMap = query.data?.pages[0]?.today_message_count_map ?? {}
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  const todayMessageCountMap = query.data
+    ? (query.data.pages[0]?.today_message_count_map ?? {})
+    : {}
 
   // 最新ページかどうか（最初のページから取得）
-  const isLatest = query.data?.pages[0]?.is_latest ?? false
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  const isLatest = query.data ? (query.data.pages[0]?.is_latest ?? false) : false
 
   return {
     ...query,
@@ -147,7 +154,7 @@ export const useVillageLatestMessagesQuery = ({
     return false
   }
 
-  return useInfiniteQuery<MessagesView>({
+  return useInfiniteQuery<MessagesView | undefined>({
     queryKey: ['villageLatestMessages', villageId, day, noonnight, form],
     queryFn: async () => {
       // 最新ページ（1ページ目）のみ取得
@@ -170,8 +177,9 @@ export const useVillageLatestMessagesQuery = ({
         }
       )
 
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (error) {
-        throw new Error(`Failed to fetch latest messages for village ${villageId}`)
+        throw new Error('Failed to fetch latest messages')
       }
 
       return data

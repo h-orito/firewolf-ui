@@ -1,9 +1,9 @@
 'use client'
 
-import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import { apiClient } from '@/lib/api/client'
 import { useAuth } from '@/hooks/useAuth'
+import { apiClient } from '@/lib/api/client'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 export default function MyPage() {
   const router = useRouter()
@@ -22,8 +22,8 @@ export default function MyPage() {
     const fetchMyPlayer = async () => {
       try {
         const { data: myPlayer, error } = await apiClient.GET('/my-player')
-
-        if (error || !myPlayer) {
+        if (!myPlayer) {
+          console.error('My player data is null')
           router.replace('/')
           return
         }

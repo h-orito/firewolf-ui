@@ -42,11 +42,11 @@ export const VoteConfirmModal: React.FC<VoteConfirmModalProps> = ({
           <div className="mb-4">
             <div className="w-16 h-16 bg-gray-200 rounded-full mx-auto flex items-center justify-center mb-2">
               <span className="text-xl font-medium">
-                {target.chara_name?.short_name || target.name?.charAt(0)}
+                {target.chara_name.short_name || target.name.charAt(0)}
               </span>
             </div>
             <h3 className="text-lg font-medium text-gray-900">
-              {target.chara_name?.name || target.name}
+              {target.chara_name.name || target.name}
             </h3>
             <p className="text-sm text-gray-500">{target.player?.nickname || 'プレイヤー'}</p>
           </div>

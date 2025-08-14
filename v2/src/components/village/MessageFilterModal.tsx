@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Image from 'next/image'
 import { Modal } from '@/components/ui/Modal'
 import { Button } from '@/components/ui/Button'
 import { useMessageFilterStore } from '@/stores/village'
@@ -163,7 +164,13 @@ export function MessageFilterModal({ isOpen, onClose, participants }: MessageFil
                 />
                 {/* キャラアイコン */}
                 {participant.characterIcon && (
-                  <img src={participant.characterIcon} alt="" className="w-6 h-6 rounded" />
+                  <Image
+                    src={participant.characterIcon}
+                    alt=""
+                    width={24}
+                    height={24}
+                    className="w-6 h-6 rounded"
+                  />
                 )}
                 <div className="flex-1 min-w-0">
                   <div className="text-sm truncate">

@@ -28,7 +28,7 @@ export const ActionSayAction: React.FC<ActionSayActionProps> = ({
   const postMessageMutation = usePostVillageMessageMutation()
 
   // 参加者として村にいるかどうかの確認
-  const participant = village.participant?.member_list?.find((p) => p.player?.id === user?.uid)
+  const participant = village.participant.member_list.find((p) => p.player?.id === user?.uid)
   const isParticipant = !!participant
 
   // アクション発言が利用可能かどうかの確認
@@ -36,10 +36,7 @@ export const ActionSayAction: React.FC<ActionSayActionProps> = ({
   // 実際のAPIレスポンスに応じて調整が必要
   const canUseActionSay = true // TODO: 村設定からアクション発言可否を取得
 
-  // アクション発言が利用可能でない場合は表示しない
-  if (!isParticipant || !canUseActionSay) {
-    return null
-  }
+  // TODO: 実際の村設定でアクション発言可否を確認
 
   // 発言送信処理
   const handleSubmitMessage = () => {
@@ -83,7 +80,7 @@ export const ActionSayAction: React.FC<ActionSayActionProps> = ({
     const textArea = document.querySelector(
       'textarea[data-action-say="true"]'
     ) as HTMLTextAreaElement
-    if (!textArea) return
+    // textAreaが存在しない場合の処理（通常は実行されない）
 
     const start = textArea.selectionStart
     const end = textArea.selectionEnd
@@ -117,7 +114,7 @@ export const ActionSayAction: React.FC<ActionSayActionProps> = ({
   // 現在のユーザー情報を取得（プレビュー用）
   const getCurrentUser = () => {
     return {
-      characterName: participant?.chara?.chara_name?.name || 'キャラクター',
+      characterName: participant?.chara.chara_name.name || 'キャラクター',
       characterImageUrl: '',
       playerName: participant?.player?.nickname || 'あなた',
     }

@@ -23,6 +23,7 @@ import { AbilityActions } from '../actions/AbilityActions'
 import { useVoteMutation } from '@/hooks/village/use-vote-mutation'
 import { useAbilityMutation } from '@/hooks/village/use-ability-mutation'
 import { useParticipateSituationQuery } from '@/hooks/use-participate-situation-query'
+import { CollapsiblePanel } from '@/components/ui/CollapsiblePanel'
 
 type MessageType = components['schemas']['MessageType']
 
@@ -62,11 +63,11 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({ village, user }) => {
   const { operation } = useUserSettingsStore()
 
   const isParticipant =
-    user && village.participant?.member_list?.some((p) => p.player?.id === user.uid)
-  const isSpectator = user && village.spectator?.member_list?.some((s) => s.player?.id === user.uid)
+    user && village.participant.member_list.some((p) => p.player?.id === user.uid)
+  const isSpectator = user && village.spectator.member_list.some((s) => s.player?.id === user.uid)
 
   // 村建て権限チェック
-  const isCreator = user && village.creator_player?.id === user.uid
+  const isCreator = user && village.creator_player.id === user.uid
 
   // 管理者権限チェック（実際の実装では適切な権限チェックロジックを実装）
   const isAdmin = user && (user.role === 'admin' || user.isAdmin)
@@ -87,9 +88,9 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({ village, user }) => {
   // 現在のユーザー情報を取得（プレビュー用）
   const getCurrentUser = () => {
     if (isParticipant) {
-      const participant = village.participant?.member_list?.find((p) => p.player?.id === user.uid)
+      const participant = village.participant.member_list.find((p) => p.player?.id === user.uid)
       return {
-        characterName: participant?.chara?.chara_name?.name || 'キャラクター',
+        characterName: participant?.chara.chara_name.name || 'キャラクター',
         characterImageUrl: '',
         playerName: participant?.player?.nickname || 'あなた',
       }
@@ -106,8 +107,6 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({ village, user }) => {
     const textArea = document.querySelector(
       'textarea[placeholder="発言を入力してください..."]'
     ) as HTMLTextAreaElement
-    if (!textArea) return
-
     const start = textArea.selectionStart
     const end = textArea.selectionEnd
     const selectedText = textArea.value.substring(start, end)
@@ -340,8 +339,8 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({ village, user }) => {
                 <div className="space-y-3">
                   <label className="text-sm font-medium text-gray-700">投票先を選択</label>
                   <div className="space-y-2">
-                    {village.participant?.member_list
-                      ?.filter(
+                    {village.participant.member_list
+                      .filter(
                         (participant) => !participant.dead && participant.player?.id !== user?.uid
                       )
                       .map((participant) => (
@@ -364,12 +363,12 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({ village, user }) => {
                           <div className="flex items-center space-x-3">
                             <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
                               <span className="text-xs font-medium">
-                                {participant.chara_name?.short_name || participant.name?.charAt(0)}
+                                {participant.chara_name.short_name || participant.name.charAt(0)}
                               </span>
                             </div>
                             <div>
                               <div className="text-sm font-medium text-gray-900">
-                                {participant.chara_name?.name || participant.name}
+                                {participant.chara_name.name || participant.name}
                               </div>
                               <div className="text-xs text-gray-500">
                                 {participant.player?.nickname || 'プレイヤー'}
@@ -456,22 +455,40 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({ village, user }) => {
                   {/* 新しい特権アクション */}
                   {isCreator && (
                     <div className="border-t pt-4">
-                      <h4 className="text-md font-medium text-gray-900 mb-2">村建て専用</h4>
-                      <CreatorActions village={village} user={user} />
+                      <CollapsiblePanel
+                        title="村建て専用"
+                        defaultOpen={false}
+                        titleClassName="text-sm bg-orange-50 border border-orange-200"
+                        contentClassName="space-y-2"
+                      >
+                        <CreatorActions village={village} user={user} />
+                      </CollapsiblePanel>
                     </div>
                   )}
 
                   {isAdmin && (
                     <div className="border-t pt-4">
-                      <h4 className="text-md font-medium text-gray-900 mb-2">管理者専用</h4>
-                      <AdminActions village={village} user={user} />
+                      <CollapsiblePanel
+                        title="管理者専用"
+                        defaultOpen={false}
+                        titleClassName="text-sm bg-red-50 border border-red-200"
+                        contentClassName="space-y-2"
+                      >
+                        <AdminActions village={village} user={user} />
+                      </CollapsiblePanel>
                     </div>
                   )}
 
                   {(isAdmin || process.env.NODE_ENV === 'development') && (
                     <div className="border-t pt-4">
-                      <h4 className="text-md font-medium text-gray-900 mb-2">デバッグ機能</h4>
-                      <DebugActions village={village} user={user} />
+                      <CollapsiblePanel
+                        title="デバッグ機能"
+                        defaultOpen={false}
+                        titleClassName="text-sm bg-gray-50 border border-gray-200"
+                        contentClassName="space-y-2"
+                      >
+                        <DebugActions village={village} user={user} />
+                      </CollapsiblePanel>
                     </div>
                   )}
                 </div>
@@ -515,7 +532,7 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({ village, user }) => {
           }}
           target={
             selectedVoteTarget
-              ? village.participant?.member_list?.find((p) => p.id === selectedVoteTarget) || null
+              ? village.participant.member_list.find((p) => p.id === selectedVoteTarget) || null
               : null
           }
           isLoading={voteMutation.isPending}

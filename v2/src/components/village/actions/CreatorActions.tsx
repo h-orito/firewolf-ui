@@ -36,7 +36,7 @@ export const CreatorActions: React.FC<CreatorActionsProps> = ({ village, user })
   const creatorActionMutation = useCreatorActionMutation()
 
   // 村建て権限チェック
-  const isCreator = user && village.creator_player?.id === user.uid
+  const isCreator = user && village.creator_player.id === user.uid
 
   // 文字数制限（最大40行400文字）
   const maxLength = 400
@@ -135,7 +135,7 @@ export const CreatorActions: React.FC<CreatorActionsProps> = ({ village, user })
       case 'message':
         return `以下の村建て発言を投稿しますか？\n\n${creatorMessage}`
       case 'force_leave':
-        const player = village.participant?.member_list?.find(
+        const player = village.participant.member_list.find(
           (p) => p.player?.id === selectedPlayerId
         )
         return `${player?.player?.nickname || '不明なプレイヤー'}を強制退村させますか？`
@@ -209,13 +209,13 @@ export const CreatorActions: React.FC<CreatorActionsProps> = ({ village, user })
       <div className="border rounded-lg p-4">
         <h4 className="font-medium text-gray-900 mb-2">参加者管理</h4>
         <div className="space-y-2">
-          {village.participant?.member_list?.map((participant) => (
+          {village.participant.member_list.map((participant) => (
             <div
               key={participant.id}
               className="flex items-center justify-between p-2 bg-gray-50 rounded"
             >
               <div className="flex items-center space-x-2">
-                <span className="text-sm font-medium">{participant.chara?.chara_name?.name}</span>
+                <span className="text-sm font-medium">{participant.chara.chara_name.name}</span>
                 <span className="text-xs text-gray-500">({participant.player?.nickname})</span>
               </div>
               <Button
@@ -240,7 +240,7 @@ export const CreatorActions: React.FC<CreatorActionsProps> = ({ village, user })
             onClick={handleExtendEpilogue}
             variant="outline"
             className="w-full"
-            disabled={village.status?.code !== 'EPILOGUE' || isLoading}
+            disabled={village.status.code !== 'EPILOGUE' || isLoading}
           >
             {isLoading ? '処理中...' : 'エピローグ延長'}
           </Button>

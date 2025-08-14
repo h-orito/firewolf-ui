@@ -250,25 +250,15 @@ export const MessageContent: React.FC<MessageContentProps> = ({
       }
 
       // クリップボードにコピー
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        await navigator.clipboard.writeText(textToCopy)
+      // モダンブラウザのClipboard APIを使用
+      await navigator.clipboard.writeText(textToCopy)
 
-        // 成功の視覚的フィードバック（簡易実装）
-        const originalColor = targetElement.style.color
-        targetElement.style.color = '#10b981'
-        setTimeout(() => {
-          targetElement.style.color = originalColor
-        }, 200)
-      } else {
-        // フォールバック：古いブラウザ対応
-        const textArea = document.createElement('textarea')
-        textArea.value = textToCopy
-        document.body.appendChild(textArea)
-        textArea.focus()
-        textArea.select()
-        document.execCommand('copy')
-        document.body.removeChild(textArea)
-      }
+      // 成功の視覚的フィードバック（簡易実装）
+      const originalColor = targetElement.style.color
+      targetElement.style.color = '#10b981'
+      setTimeout(() => {
+        targetElement.style.color = originalColor
+      }, 200)
     } catch (error) {
       console.warn('アンカーテキストのコピーに失敗しました:', error)
     }

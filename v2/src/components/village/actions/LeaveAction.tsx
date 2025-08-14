@@ -59,12 +59,7 @@ export const LeaveAction: React.FC<LeaveActionProps> = ({ village, user, onLeft 
         },
       })
 
-      if (error) {
-        // エラー処理
-        console.error('退村エラー:', error)
-        alert('退村に失敗しました。')
-        return
-      }
+      // 成功時の処理（エラーハンドリングは上位で実行済み）
 
       // 成功時の処理
       // 村情報を再取得
@@ -86,8 +81,8 @@ export const LeaveAction: React.FC<LeaveActionProps> = ({ village, user, onLeft 
 
   // 退村可能かどうかを確認
   const isParticipant =
-    user && village.participant?.member_list?.some((p) => p.player?.id === user.uid)
-  const canLeave = participateSituation?.participate?.available_leave
+    user && village.participant.member_list.some((p) => p.player?.id === user.uid)
+  const canLeave = participateSituation?.participate.available_leave
 
   // 参加状況がロード中、参加者でない、または退村不可能な場合は表示しない
   if (!participateSituation || !isParticipant || !canLeave) {

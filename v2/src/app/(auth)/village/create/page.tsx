@@ -19,12 +19,12 @@ import { useCharasQuery } from '@/hooks/use-charas-query'
 import { apiClient } from '@/lib/api/client'
 import { handleApiError } from '@/lib/api/error-handler'
 import { skillApi } from '@/lib/api/skill'
-import { VillageRegisterRequest } from '@/types/village-register'
 import {
   basicCompositionPattern,
   generateV1StyleCompositions,
 } from '@/lib/utils/skill-composition-generator'
-import type { Chara, CharachipView, CharachipsView, Charas } from '@/types/charachip'
+import type { Chara, CharachipView } from '@/types/charachip'
+import { VillageRegisterRequest } from '@/types/village-register'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { useEffect, useMemo, useState } from 'react'
@@ -42,7 +42,7 @@ export default function VillageCreatePage() {
     isLoading: charachipLoading,
   } = useCharachipListQuery()
   const charachips: CharachipView[] = useMemo(
-    () => (charachipListData?.data as CharachipsView)?.list || [],
+    () => charachipListData?.data.list || [],
     [charachipListData]
   )
 
@@ -51,7 +51,7 @@ export default function VillageCreatePage() {
     queryKey: ['skills'],
     queryFn: skillApi.getSkills,
   })
-  const skills = useMemo(() => skillsData?.data?.list || [], [skillsData])
+  const skills = useMemo(() => skillsData?.data.list || [], [skillsData])
 
   // 7日後の0時を計算（ローカルタイムゾーン）
   const getDefault7DaysLaterMidnight = () => {
@@ -131,7 +131,7 @@ export default function VillageCreatePage() {
 
   // 選択されたキャラチップのキャラ一覧を取得
   const { data: charasData } = useCharasQuery(formData.charachipIds)
-  const charas: Chara[] = useMemo(() => (charasData?.data as Charas)?.list || [], [charasData])
+  const charas: Chara[] = useMemo(() => charasData?.data.list || [], [charasData])
 
   // キャラが読み込まれた時に1つ目を初期選択（ダミーキャラ）
   useEffect(() => {
@@ -142,10 +142,10 @@ export default function VillageCreatePage() {
         dummy_chara_id: firstChara.id,
         dummyCharaName: firstChara.chara_name.name,
         dummyCharaShortName: firstChara.chara_name.short_name,
-        ...(firstChara.default_message?.join_message && {
+        ...(firstChara.default_message.join_message && {
           dummyCharaDay0Message: firstChara.default_message.join_message,
         }),
-        ...(firstChara.default_message?.first_day_message && {
+        ...(firstChara.default_message.first_day_message && {
           dummyCharaDay1Message: firstChara.default_message.first_day_message,
         }),
       }))
@@ -154,7 +154,7 @@ export default function VillageCreatePage() {
 
   // 役職データが読み込まれた時に初期編成を生成
   useEffect(() => {
-    if (skills && skills.length > 0 && !formData.organization) {
+    if (skills.length > 0 && !formData.organization) {
       try {
         const initialOrganization = generateV1StyleCompositions(
           formData.minParticipants,
@@ -179,10 +179,10 @@ export default function VillageCreatePage() {
       dummy_chara_id: chara.id,
       dummyCharaName: chara.chara_name.name,
       dummyCharaShortName: chara.chara_name.short_name,
-      ...(chara.default_message?.join_message && {
+      ...(chara.default_message.join_message && {
         dummyCharaDay0Message: chara.default_message.join_message,
       }),
-      ...(chara.default_message?.first_day_message && {
+      ...(chara.default_message.first_day_message && {
         dummyCharaDay1Message: chara.default_message.first_day_message,
       }),
     }))

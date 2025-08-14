@@ -83,7 +83,7 @@ export default function VillageCreateConfirmModal({
                     <span className="font-medium">最小人数:</span>
                     <span className="text-gray-700">
                       {(() => {
-                        const org = villageData.setting?.organization?.organization || ''
+                        const org = villageData.setting.organization.organization || ''
                         const lines = org.split('\n').filter((line: string) => line.trim())
                         if (lines.length === 0) return '未設定'
                         const minLength = Math.min(...lines.map((line) => line.length))
@@ -95,7 +95,7 @@ export default function VillageCreateConfirmModal({
                     <span className="font-medium">定員:</span>
                     <span className="text-gray-700">
                       {(() => {
-                        const org = villageData.setting?.organization?.organization || ''
+                        const org = villageData.setting.organization.organization || ''
                         const lines = org.split('\n').filter((line: string) => line.trim())
                         if (lines.length === 0) return '未設定'
                         const maxLength = Math.max(...lines.map((line) => line.length))
@@ -149,7 +149,7 @@ export default function VillageCreateConfirmModal({
                     <span className="font-medium">キャラチップ:</span>
                     <span className="text-gray-700 text-sm">
                       {(() => {
-                        const selectedIds = villageData.setting.charachip.charachip_ids || []
+                        const selectedIds = villageData.setting.charachip.charachip_ids
                         if (selectedIds.length === 0) return '未選択'
                         const selectedNames = selectedIds
                           .map((id) => {
@@ -191,7 +191,7 @@ export default function VillageCreateConfirmModal({
               <div className="p-3 md:p-4">
                 <h3 className="font-bold mb-3 text-blue-700">発言制限設定</h3>
                 <div className="space-y-1">
-                  {villageData.setting.rule.restrict_list?.map((restrict: any, index: number) => (
+                  {villageData.setting.rule.restrict_list.map((restrict: any, index: number) => (
                     <div key={index} className="grid grid-cols-2 gap-2 text-xs">
                       <span className="font-medium">
                         {restrict.type === 'NORMAL_SAY' && '通常発言'}
@@ -361,7 +361,7 @@ export default function VillageCreateConfirmModal({
                     <div className="flex justify-between">
                       <span>年齢制限:</span>
                       <span className="text-gray-700">
-                        {villageData.setting.tags?.list?.find(
+                        {villageData.setting.tags.list.find(
                           (tag: string) => tag === 'R15' || tag === 'R18'
                         ) || '全年齢'}
                       </span>
@@ -393,11 +393,11 @@ export default function VillageCreateConfirmModal({
                     <div className="flex justify-between">
                       <span>アクション発言制限:</span>
                       <span className="text-gray-700">
-                        {villageData.setting.rule.restrict_list?.find(
+                        {villageData.setting.rule.restrict_list.find(
                           (r: any) => r.type === 'ACTION'
                         )?.count || 0}
                         回/日 •
-                        {villageData.setting.rule.restrict_list?.find(
+                        {villageData.setting.rule.restrict_list.find(
                           (r: any) => r.type === 'ACTION'
                         )?.length || 0}
                         文字/回
@@ -408,7 +408,7 @@ export default function VillageCreateConfirmModal({
               </Card>
 
               {/* タグ設定 */}
-              {villageData.setting.tags?.list && villageData.setting.tags.list.length > 0 && (
+              {villageData.setting.tags.list.length > 0 && (
                 <Card>
                   <div className="p-3 md:p-4">
                     <h3 className="font-bold mb-3 text-blue-700">タグ設定</h3>

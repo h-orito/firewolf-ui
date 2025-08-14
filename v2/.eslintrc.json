@@ -5,6 +5,13 @@
   "parserOptions": {
     "project": "./tsconfig.json"
   },
+  "ignorePatterns": [
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.test.js",
+    "**/*.spec.ts",
+    "tests/e2e/**/*"
+  ],
   "rules": {
     "prettier/prettier": "error",
     "no-explicit-any": "off",

@@ -1,12 +1,12 @@
-import { useQuery } from '@tanstack/react-query'
 import { apiClient } from '@/lib/api/client'
 import type { components } from '@/types/generated/api'
+import { useQuery } from '@tanstack/react-query'
 
 type VillageListForm = components['schemas']['VillageListForm']
 type VillagesView = components['schemas']['VillagesView']
 
 export const useVillageListQuery = (form?: VillageListForm) => {
-  return useQuery<VillagesView>({
+  return useQuery<VillagesView | undefined>({
     queryKey: ['villageList', form],
     queryFn: async () => {
       const { data, error } = await apiClient.GET('/village/list', {
@@ -15,8 +15,9 @@ export const useVillageListQuery = (form?: VillageListForm) => {
         },
       })
 
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (error) {
-        throw new Error(`Failed to fetch village list: ${JSON.stringify(error)}`)
+        throw new Error('Failed to fetch villages')
       }
 
       return data

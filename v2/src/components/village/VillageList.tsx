@@ -28,7 +28,7 @@ export function VillageList({
   // フィルタリングされた村リスト
   const villages = useMemo(() => {
     return data?.list || []
-  }, [data?.list])
+  }, [data])
 
   // クライアントサイドページネーション（1ページあたり12件）
   const {
@@ -101,7 +101,7 @@ export function VillageList({
                 {villages.length} 件の村が見つかりました
               </div>
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {currentVillages.map((village) => (
+                {currentVillages.map((village: any) => (
                   <VillageCard key={village.id} village={village} />
                 ))}
               </div>

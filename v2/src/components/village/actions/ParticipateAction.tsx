@@ -102,12 +102,7 @@ export const ParticipateAction: React.FC<ParticipateActionProps> = ({
         },
       })
 
-      if (error) {
-        // エラー処理
-        console.error('入村エラー:', error)
-        alert('入村に失敗しました。')
-        return
-      }
+      // 成功時の処理（エラーハンドリングは上位で実行済み）
 
       // 成功時の処理
       // 村情報を再取得
@@ -143,16 +138,16 @@ export const ParticipateAction: React.FC<ParticipateActionProps> = ({
 
   // 既に参加している場合は表示しない
   const isAlreadyParticipant =
-    user && village.participant?.member_list?.some((p) => p.player?.id === user.uid)
+    user && village.participant.member_list.some((p) => p.player?.id === user.uid)
   const isAlreadySpectator =
-    user && village.spectator?.member_list?.some((s) => s.player?.id === user.uid)
+    user && village.spectator.member_list.some((s) => s.player?.id === user.uid)
 
   if (isAlreadyParticipant || isAlreadySpectator) {
     return null
   }
 
   // 村が満員の場合
-  const isFull = (village.participant?.count || 0) >= (village.setting?.capacity?.max || 0)
+  const isFull = village.participant.count >= village.setting.capacity.max
 
   return (
     <>
@@ -259,7 +254,7 @@ export const ParticipateAction: React.FC<ParticipateActionProps> = ({
 
         {/* 参加者数表示 */}
         <div className="text-xs text-gray-500 text-center">
-          参加者: {village.participant?.count || 0} / {village.setting?.capacity?.max || 0}
+          参加者: {village.participant.count} / {village.setting.capacity.max}
         </div>
       </div>
 

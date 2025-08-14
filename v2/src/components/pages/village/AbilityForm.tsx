@@ -21,7 +21,7 @@ interface AbilityFormProps {
 export function AbilityForm({ villageId, abilitySituations }: AbilityFormProps) {
   const queryClient = useQueryClient()
 
-  if (!abilitySituations.list || abilitySituations.list.length === 0) {
+  if (abilitySituations.list.length === 0) {
     return null
   }
 
@@ -108,8 +108,8 @@ function AbilityCard({ villageId, ability, queryClient }: AbilityCardProps) {
 
   const currentTargetName = ability.target?.name || 'なし'
   const currentAttackerName = ability.attacker?.name || 'なし'
-  const hasTargetList = ability.target_list && ability.target_list.length > 0
-  const hasAttackerList = ability.attacker_list && ability.attacker_list.length > 0
+  const hasTargetList = ability.target_list.length > 0
+  const hasAttackerList = ability.attacker_list.length > 0
   const isAttackAbility = ability.type.code === 'ATTACK' || ability.type.code === 'BITE'
 
   return (

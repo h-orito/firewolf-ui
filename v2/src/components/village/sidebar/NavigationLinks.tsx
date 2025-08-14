@@ -95,47 +95,6 @@ export const NavigationLinks: React.FC<NavigationLinksProps> = ({ village }) => 
             <span>X</span>
           </button>
         </div>
-
-        {/* 管理者向けリンク（権限がある場合のみ） */}
-        {/* TODO: 権限チェック実装 */}
-        <details className="group">
-          <summary className="text-xs text-gray-500 cursor-pointer hover:text-gray-700 list-none flex items-center justify-between">
-            <span>管理</span>
-            <svg
-              className="w-3 h-3 group-open:rotate-180 transition-transform"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
-          </summary>
-          <div className="mt-2 space-y-1">
-            <button
-              onClick={() => {
-                // 管理機能（未実装）
-                console.log('管理機能')
-              }}
-              className="w-full text-xs py-1 px-2 text-left text-gray-600 hover:bg-gray-50 rounded"
-            >
-              参加者情報
-            </button>
-            <button
-              onClick={() => {
-                // デバッグ機能（未実装）
-                console.log('デバッグ機能')
-              }}
-              className="w-full text-xs py-1 px-2 text-left text-gray-600 hover:bg-gray-50 rounded"
-            >
-              デバッグ
-            </button>
-          </div>
-        </details>
       </div>
     </div>
   )

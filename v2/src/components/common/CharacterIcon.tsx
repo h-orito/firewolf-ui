@@ -65,7 +65,7 @@ export const CharacterIcon: React.FC<CharacterIconProps> = ({
   // キャラクター名の取得
   const getCharacterName = (): string => {
     if (isSystem) return 'システム'
-    return characterName?.name || participant?.chara_name?.name || 'Unknown'
+    return characterName?.name || participant?.chara_name.name || 'Unknown'
   }
 
   // キャラクター画像URLの取得
@@ -73,8 +73,8 @@ export const CharacterIcon: React.FC<CharacterIconProps> = ({
     if (isSystem) return null
 
     // キャラクター情報から画像URL構築
-    const charaId = participant?.chara?.id
-    const charachipId = participant?.chara?.charachip_id
+    const charaId = participant?.chara.id
+    const charachipId = participant?.chara.charachip_id
     if (charaId && charachipId) {
       // 標準的なキャラクター画像URLパターン（実際のAPIに合わせて調整必要）
       return `/api/charachip/${charachipId}/chara/${charaId}/image`

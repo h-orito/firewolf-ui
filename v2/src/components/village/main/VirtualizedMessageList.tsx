@@ -51,21 +51,6 @@ const VirtualizedMessageItem = forwardRef<
   const { village, messages, onAnchorClick, onPersonalExtractionClick } = data
   const message = messages[index]
 
-  if (!message) {
-    // ローディング中の場合のプレースホルダー
-    return (
-      <div ref={ref} style={style} className="px-4 py-2">
-        <div className="animate-pulse flex items-start space-x-3">
-          <div className="w-10 h-10 bg-gray-200 rounded-full"></div>
-          <div className="flex-1 space-y-2">
-            <div className="h-4 bg-gray-200 rounded w-1/4"></div>
-            <div className="h-16 bg-gray-200 rounded"></div>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div ref={ref} style={style} className="px-1">
       <MessageItem
@@ -157,9 +142,8 @@ export const VirtualizedMessageList: React.FC<VirtualizedMessageListProps> = ({
             <List
               ref={(listInstance) => {
                 listRef.current = listInstance
-                if (infiniteLoaderRef) {
-                  infiniteLoaderRef.current = listInstance
-                }
+                // infiniteLoaderRefは常に存在する
+                infiniteLoaderRef.current = listInstance
               }}
               width="100%"
               height={height}
