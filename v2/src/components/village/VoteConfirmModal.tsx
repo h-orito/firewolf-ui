@@ -54,7 +54,7 @@ export const VoteConfirmModal: React.FC<VoteConfirmModalProps> = ({
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <span className="text-yellow-400 text-xl">⚠️</span>
+                <i className="fas fa-exclamation-triangle text-yellow-400 text-xl"></i>
               </div>
               <div className="ml-3">
                 <h3 className="text-sm font-medium text-yellow-800">投票確認</h3>

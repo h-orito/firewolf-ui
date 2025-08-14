@@ -111,7 +111,8 @@ export const LeaveAction: React.FC<LeaveActionProps> = ({ village, user, onLeft 
                 <strong>{village.name}</strong> から退村しますか？
               </p>
               <p className="text-red-600 text-sm">
-                ⚠️ 退村すると、この村での発言や投票などの行動はすべて失われます。
+                <i className="fas fa-exclamation-triangle text-red-600 mr-2"></i>
+                退村すると、この村での発言や投票などの行動はすべて失われます。
               </p>
               <p className="text-red-600 text-sm">この操作は取り消すことができません。</p>
             </DialogDescription>

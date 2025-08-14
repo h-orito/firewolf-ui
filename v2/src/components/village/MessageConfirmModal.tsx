@@ -54,73 +54,73 @@ export const MessageConfirmModal: React.FC<MessageConfirmModalProps> = ({
     > = {
       NORMAL_SAY: {
         label: '通常発言',
-        icon: '💬',
+        icon: 'fa-comment',
         bgColor: 'bg-blue-50',
         borderColor: 'border-blue-200',
       },
       WEREWOLF_SAY: {
         label: '人狼の囁き',
-        icon: '🐺',
+        icon: 'fa-paw',
         bgColor: 'bg-red-50',
         borderColor: 'border-red-200',
       },
       SYMPATHIZE_SAY: {
         label: '共鳴発言',
-        icon: '🔮',
+        icon: 'fa-wave-square',
         bgColor: 'bg-purple-50',
         borderColor: 'border-purple-200',
       },
       GRAVE_SAY: {
         label: '死者の呻き',
-        icon: '👻',
+        icon: 'fa-skull',
         bgColor: 'bg-cyan-50',
         borderColor: 'border-cyan-200',
       },
       MONOLOGUE_SAY: {
         label: '独り言',
-        icon: '💭',
+        icon: 'fa-comment-dots',
         bgColor: 'bg-gray-50',
         borderColor: 'border-gray-200',
       },
       SPECTATE_SAY: {
         label: '見学発言',
-        icon: '👀',
+        icon: 'fa-eye',
         bgColor: 'bg-indigo-50',
         borderColor: 'border-indigo-200',
       },
       ACTION_SAY: {
         label: 'アクション発言',
-        icon: '🎭',
+        icon: 'fa-theater-masks',
         bgColor: 'bg-orange-50',
         borderColor: 'border-orange-200',
       },
       SYSTEM_MESSAGE: {
         label: 'システム',
-        icon: '⚙️',
+        icon: 'fa-cog',
         bgColor: 'bg-gray-50',
         borderColor: 'border-gray-200',
       },
       PRIVATE_SYSTEM: {
         label: 'プライベート',
-        icon: '🔒',
+        icon: 'fa-lock',
         bgColor: 'bg-gray-50',
         borderColor: 'border-gray-200',
       },
       PARTICIPANTS: {
         label: '参加者',
-        icon: '👥',
+        icon: 'fa-users',
         bgColor: 'bg-blue-50',
         borderColor: 'border-blue-200',
       },
       PSYCHIC_MESSAGE: {
         label: '占い結果',
-        icon: '🔮',
+        icon: 'fa-crystal-ball',
         bgColor: 'bg-purple-50',
         borderColor: 'border-purple-200',
       },
       HUNTER_MESSAGE: {
         label: '狩人結果',
-        icon: '🛡️',
+        icon: 'fa-shield-alt',
         bgColor: 'bg-green-50',
         borderColor: 'border-green-200',
       },
@@ -219,14 +219,14 @@ export const MessageConfirmModal: React.FC<MessageConfirmModalProps> = ({
   if (!isOpen) return null
 
   return (
-    <Modal isOpen={isOpen} onClose={handleCancel} title="発言内容の確認" className="max-w-2xl">
+    <Modal isOpen={isOpen} onClose={handleCancel} title="発言内容の確認" className="!max-w-4xl">
       <div className="space-y-6">
         {/* 発言種別表示 */}
         <div
           className={`p-3 rounded-lg ${messageTypeInfo.bgColor} ${messageTypeInfo.borderColor} border`}
         >
           <div className="flex items-center space-x-2">
-            <span className="text-lg">{messageTypeInfo.icon}</span>
+            <i className={`fas ${messageTypeInfo.icon} text-lg`}></i>
             <span className="text-sm font-medium text-gray-700">{messageTypeInfo.label}</span>
           </div>
         </div>
@@ -283,13 +283,15 @@ export const MessageConfirmModal: React.FC<MessageConfirmModalProps> = ({
 
           {isOverLimit && (
             <div className="text-xs text-red-600 bg-red-50 p-2 rounded border border-red-200">
-              ⚠️ 文字数制限を超えています。内容を短くしてください。
+              <i className="fas fa-exclamation-triangle text-red-500 mr-1"></i>
+              文字数制限を超えています。内容を短くしてください。
             </div>
           )}
 
           {isNearLimit && !isOverLimit && (
             <div className="text-xs text-amber-600 bg-amber-50 p-2 rounded border border-amber-200">
-              ⚠️ 文字数制限に近づいています。
+              <i className="fas fa-exclamation-triangle text-yellow-500 mr-1"></i>
+              文字数制限に近づいています。
             </div>
           )}
         </div>

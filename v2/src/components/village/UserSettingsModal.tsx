@@ -1,9 +1,10 @@
 'use client'
 
-import React, { useState } from 'react'
-import { Modal } from '@/components/ui/Modal'
 import { Button } from '@/components/ui/Button'
+import { Modal } from '@/components/ui/Modal'
 import { Textarea } from '@/components/ui/Textarea'
+import { ToggleSlider } from '@/components/ui/ToggleSlider'
+import React, { useState } from 'react'
 
 import { useUserSettingsStore } from '@/stores/village'
 
@@ -49,15 +50,20 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="ユーザー設定" className="max-w-2xl">
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title="ユーザー設定"
+      className="!max-w-5xl !max-h-[90vh]"
+    >
       <div className="space-y-6">
         {/* タブナビゲーション */}
         <div className="border-b border-gray-200">
           <nav className="-mb-px flex space-x-8">
             {[
-              { id: 'display', label: '表示設定', icon: '👁️' },
-              { id: 'operation', label: '操作設定', icon: '⚙️' },
-              { id: 'webhook', label: 'Webhook設定', icon: '🔗' },
+              { id: 'display', label: '表示設定', icon: 'fa-eye' },
+              { id: 'operation', label: '操作設定', icon: 'fa-cog' },
+              { id: 'webhook', label: 'Webhook設定', icon: 'fa-link' },
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -68,7 +74,7 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
-                <span>{tab.icon}</span>
+                <i className={`fas ${tab.icon}`}></i>
                 <span>{tab.label}</span>
               </button>
             ))}
@@ -78,18 +84,14 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
         {/* 表示設定タブ */}
         {activeTab === 'display' && (
           <div className="space-y-6">
-            <h3 className="text-lg font-medium text-gray-900">表示設定</h3>
-
             {/* メッセージ表示設定 */}
             <div className="space-y-4">
               <h4 className="text-md font-medium text-gray-700">メッセージ表示</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <label className="flex items-center space-x-3">
-                  <input
-                    type="checkbox"
+              <div className="space-y-4">
+                <div className="flex items-center space-x-3">
+                  <ToggleSlider
                     checked={display.showCharacterIcon}
-                    onChange={(e) => updateDisplaySettings({ showCharacterIcon: e.target.checked })}
-                    className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                    onChange={(checked) => updateDisplaySettings({ showCharacterIcon: checked })}
                   />
                   <div>
                     <span className="text-sm font-medium text-gray-700">キャラアイコン表示</span>
@@ -97,27 +99,23 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
                       発言者のキャラクターアイコンを表示します
                     </p>
                   </div>
-                </label>
+                </div>
 
-                <label className="flex items-center space-x-3">
-                  <input
-                    type="checkbox"
+                <div className="flex items-center space-x-3">
+                  <ToggleSlider
                     checked={display.showTimestamp}
-                    onChange={(e) => updateDisplaySettings({ showTimestamp: e.target.checked })}
-                    className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                    onChange={(checked) => updateDisplaySettings({ showTimestamp: checked })}
                   />
                   <div>
                     <span className="text-sm font-medium text-gray-700">発言時刻表示</span>
                     <p className="text-xs text-gray-500">各発言の投稿時刻を表示します</p>
                   </div>
-                </label>
+                </div>
 
-                <label className="flex items-center space-x-3">
-                  <input
-                    type="checkbox"
+                <div className="flex items-center space-x-3">
+                  <ToggleSlider
                     checked={display.showSystemMessage}
-                    onChange={(e) => updateDisplaySettings({ showSystemMessage: e.target.checked })}
-                    className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                    onChange={(checked) => updateDisplaySettings({ showSystemMessage: checked })}
                   />
                   <div>
                     <span className="text-sm font-medium text-gray-700">
@@ -127,7 +125,7 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
                       村の進行に関するシステムメッセージを表示します
                     </p>
                   </div>
-                </label>
+                </div>
               </div>
             </div>
 
@@ -160,26 +158,20 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
         {/* 操作設定タブ */}
         {activeTab === 'operation' && (
           <div className="space-y-6">
-            <h3 className="text-lg font-medium text-gray-900">操作設定</h3>
-
             {/* 確認ダイアログ設定 */}
             <div className="space-y-4">
               <h4 className="text-md font-medium text-gray-700">確認ダイアログ</h4>
               <div className="space-y-3">
-                <label className="flex items-center space-x-3">
-                  <input
-                    type="checkbox"
+                <div className="flex items-center space-x-3">
+                  <ToggleSlider
                     checked={operation.showConfirmDialog}
-                    onChange={(e) =>
-                      updateOperationSettings({ showConfirmDialog: e.target.checked })
-                    }
-                    className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                    onChange={(checked) => updateOperationSettings({ showConfirmDialog: checked })}
                   />
                   <div>
                     <span className="text-sm font-medium text-gray-700">発言確認ダイアログ</span>
                     <p className="text-xs text-gray-500">発言投稿前に確認ダイアログを表示します</p>
                   </div>
-                </label>
+                </div>
               </div>
             </div>
 
@@ -187,14 +179,10 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
             <div className="space-y-4">
               <h4 className="text-md font-medium text-gray-700">パネル表示</h4>
               <div className="space-y-3">
-                <label className="flex items-center space-x-3">
-                  <input
-                    type="checkbox"
+                <div className="flex items-center space-x-3">
+                  <ToggleSlider
                     checked={operation.fixedActionPanel}
-                    onChange={(e) =>
-                      updateOperationSettings({ fixedActionPanel: e.target.checked })
-                    }
-                    className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                    onChange={(checked) => updateOperationSettings({ fixedActionPanel: checked })}
                   />
                   <div>
                     <span className="text-sm font-medium text-gray-700">アクションパネル固定</span>
@@ -202,7 +190,7 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
                       アクションパネルを画面下部に固定表示します
                     </p>
                   </div>
-                </label>
+                </div>
               </div>
             </div>
 
@@ -259,22 +247,18 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
         {/* Webhook設定タブ */}
         {activeTab === 'webhook' && (
           <div className="space-y-6">
-            <h3 className="text-lg font-medium text-gray-900">Webhook設定</h3>
-
             {/* Webhook有効/無効 */}
             <div className="space-y-4">
-              <label className="flex items-center space-x-3">
-                <input
-                  type="checkbox"
+              <div className="flex items-center space-x-3">
+                <ToggleSlider
                   checked={webhook.enabled}
-                  onChange={(e) => updateWebhookSettings({ enabled: e.target.checked })}
-                  className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                  onChange={(checked) => updateWebhookSettings({ enabled: checked })}
                 />
                 <div>
                   <span className="text-sm font-medium text-gray-700">Webhook通知を有効にする</span>
                   <p className="text-xs text-gray-500">村の更新情報を外部サービスに通知します</p>
                 </div>
-              </label>
+              </div>
             </div>
 
             {webhook.enabled && (
@@ -297,7 +281,7 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
                 {/* 通知イベント設定 */}
                 <div className="space-y-4">
                   <h4 className="text-md font-medium text-gray-700">通知イベント</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div className="space-y-3">
                     {[
                       {
                         key: 'newMessage',
@@ -320,24 +304,22 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
                         description: '村のゲームが終了したとき',
                       },
                     ].map((event) => (
-                      <label key={event.key} className="flex items-start space-x-3">
-                        <input
-                          type="checkbox"
+                      <div key={event.key} className="flex items-center space-x-3">
+                        <ToggleSlider
                           checked={
                             webhook.events[event.key as keyof typeof webhook.events] || false
                           }
-                          onChange={(e) =>
+                          onChange={(checked) =>
                             updateWebhookSettings({
-                              events: { ...webhook.events, [event.key]: e.target.checked },
+                              events: { ...webhook.events, [event.key]: checked },
                             })
                           }
-                          className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-0.5"
                         />
                         <div>
                           <span className="text-sm font-medium text-gray-700">{event.label}</span>
                           <p className="text-xs text-gray-500">{event.description}</p>
                         </div>
-                      </label>
+                      </div>
                     ))}
                   </div>
                 </div>

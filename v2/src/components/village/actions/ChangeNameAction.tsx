@@ -197,7 +197,8 @@ export const ChangeNameAction: React.FC<ChangeNameActionProps> = ({
             {/* 注意事項 */}
             <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-md">
               <p className="text-sm text-yellow-800">
-                ⚠️ 名前変更は村の設定によって制限される場合があります。
+                <i className="fas fa-exclamation-triangle text-yellow-600 mr-2"></i>
+                名前変更は村の設定によって制限される場合があります。
               </p>
             </div>
           </div>

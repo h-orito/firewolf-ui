@@ -243,12 +243,12 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({ village, user }) => {
                   <label className="text-sm font-medium text-gray-700">発言種別</label>
                   <div className="grid grid-cols-2 gap-2">
                     {[
-                      { value: 'NORMAL_SAY', label: '通常発言', icon: '💬' },
-                      { value: 'WEREWOLF_SAY', label: '人狼の囁き', icon: '🐺' },
-                      { value: 'SYMPATHIZE_SAY', label: '共鳴発言', icon: '🔮' },
-                      { value: 'GRAVE_SAY', label: '死者の呻き', icon: '👻' },
-                      { value: 'MONOLOGUE_SAY', label: '独り言', icon: '💭' },
-                      { value: 'SPECTATE_SAY', label: '見学発言', icon: '👀' },
+                      { value: 'NORMAL_SAY', label: '通常発言', icon: 'fa-comment' },
+                      { value: 'WEREWOLF_SAY', label: '人狼の囁き', icon: 'fa-paw' },
+                      { value: 'SYMPATHIZE_SAY', label: '共鳴発言', icon: 'fa-wave-square' },
+                      { value: 'GRAVE_SAY', label: '死者の呻き', icon: 'fa-skull' },
+                      { value: 'MONOLOGUE_SAY', label: '独り言', icon: 'fa-comment-dots' },
+                      { value: 'SPECTATE_SAY', label: '見学発言', icon: 'fa-eye' },
                     ].map((type) => (
                       <label
                         key={type.value}
@@ -266,7 +266,7 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({ village, user }) => {
                           onChange={(e) => setMessageType(e.target.value as MessageTypeCode)}
                           className="sr-only"
                         />
-                        <span className="text-sm mr-1">{type.icon}</span>
+                        <i className={`fas ${type.icon} text-sm mr-1`}></i>
                         <span className="text-xs text-gray-700 leading-tight">{type.label}</span>
                       </label>
                     ))}
@@ -302,12 +302,12 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({ village, user }) => {
                   <label className="text-sm font-medium text-gray-700">装飾機能</label>
                   <div className="grid grid-cols-3 gap-1 text-xs">
                     {[
-                      { tag: 'b', label: '太字', icon: '𝐁' },
-                      { tag: 'large', label: '大文字', icon: '🔍' },
-                      { tag: 'small', label: '小文字', icon: '🔍' },
-                      { tag: 's', label: '打消線', icon: '̶T̶' },
-                      { tag: 'ruby', label: 'ルビ', icon: 'ㄅ' },
-                      { tag: 'cw', label: '隠し文字', icon: '■' },
+                      { tag: 'b', label: '太字', icon: 'fa-bold' },
+                      { tag: 'large', label: '大文字', icon: 'fa-search-plus' },
+                      { tag: 'small', label: '小文字', icon: 'fa-search-minus' },
+                      { tag: 's', label: '打消線', icon: 'fa-strikethrough' },
+                      { tag: 'ruby', label: 'ルビ', icon: 'fa-language' },
+                      { tag: 'cw', label: '隠し文字', icon: 'fa-eye-slash' },
                     ].map((decoration) => (
                       <button
                         key={decoration.tag}
@@ -315,7 +315,7 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({ village, user }) => {
                         className="flex items-center justify-center p-2 border border-gray-200 rounded hover:bg-gray-50 hover:border-gray-300 transition-colors"
                         title={`${decoration.label} [[${decoration.tag}]]text[[/${decoration.tag}]]`}
                       >
-                        <span className="text-xs mr-1">{decoration.icon}</span>
+                        <i className={`fas ${decoration.icon} text-xs mr-1`}></i>
                         <span className="text-xs text-gray-700">{decoration.label}</span>
                       </button>
                     ))}

@@ -5,6 +5,7 @@
 import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown, faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import { CharacterImage } from '@/components/ui/CharacterImage'
 import type { components } from '@/types/generated/api'
 
 type VillageView = components['schemas']['VillageView']
@@ -76,9 +77,7 @@ export const ParticipantList: React.FC<ParticipantListProps> = ({ village, user 
                   onClick={() => handlePersonalExtraction(participant.id)}
                 >
                   <div className="flex items-center space-x-2 min-w-0">
-                    <div className="w-6 h-6 bg-gray-200 rounded-full flex-shrink-0">
-                      {/* キャラアイコンプレースホルダー */}
-                    </div>
+                    <CharacterImage chara={participant.chara} size="sm" />
                     <div className="min-w-0">
                       <div className="text-xs font-medium text-gray-900 truncate">
                         {participant.chara_name.name}
@@ -116,8 +115,15 @@ export const ParticipantList: React.FC<ParticipantListProps> = ({ village, user 
                     onClick={() => handlePersonalExtraction(participant.id)}
                   >
                     <div className="flex items-center space-x-2 min-w-0">
-                      <div className="w-6 h-6 bg-gray-200 rounded-full flex-shrink-0">
-                        {/* キャラアイコンプレースホルダー */}
+                      <div className="relative">
+                        <CharacterImage
+                          chara={participant.chara}
+                          size="sm"
+                          className="opacity-60 grayscale"
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="w-full h-0.5 bg-red-500 transform rotate-45"></div>
+                        </div>
                       </div>
                       <div className="min-w-0">
                         <div className="text-xs font-medium text-gray-900 truncate line-through">
@@ -159,9 +165,7 @@ export const ParticipantList: React.FC<ParticipantListProps> = ({ village, user 
                     onClick={() => handlePersonalExtraction(spectator.id)}
                   >
                     <div className="flex items-center space-x-2 min-w-0">
-                      <div className="w-6 h-6 bg-gray-200 rounded-full flex-shrink-0">
-                        {/* キャラアイコンプレースホルダー */}
-                      </div>
+                      <CharacterImage chara={spectator.chara} size="sm" />
                       <div className="text-xs font-medium text-gray-600 truncate">
                         {spectator.chara_name.name}
                       </div>

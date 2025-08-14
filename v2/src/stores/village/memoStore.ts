@@ -3,6 +3,29 @@ import { persist, createJSONStorage } from 'zustand/middleware'
 import { devtools } from 'zustand/middleware'
 import type { MemoState, Memo } from '@/types/village'
 
+// Cookie操作のユーティリティ
+const cookieStorage = {
+  getItem: (key: string): string | null => {
+    if (typeof window === 'undefined') return null
+    const value = document.cookie
+      .split('; ')
+      .find((row) => row.startsWith(key + '='))
+      ?.split('=')[1]
+    return value ? decodeURIComponent(value) : null
+  },
+  setItem: (key: string, value: string): void => {
+    if (typeof window === 'undefined') return
+    // 30日間のCookie保存
+    const expires = new Date()
+    expires.setDate(expires.getDate() + 30)
+    document.cookie = `${key}=${encodeURIComponent(value)}; expires=${expires.toUTCString()}; path=/; SameSite=Lax`
+  },
+  removeItem: (key: string): void => {
+    if (typeof window === 'undefined') return
+    document.cookie = `${key}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`
+  },
+}
+
 interface MemoStoreState extends MemoState {
   // Actions
   createMemo: (title: string, content: string) => string
@@ -120,7 +143,7 @@ export const useMemoStore = create<MemoStoreState>()(
       }),
       {
         name: 'firewolf-village-memos',
-        storage: createJSONStorage(() => localStorage),
+        storage: createJSONStorage(() => cookieStorage),
         partialize: (state) => ({
           memos: state.memos.map((memo) => ({
             ...memo,

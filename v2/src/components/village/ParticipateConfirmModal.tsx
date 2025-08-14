@@ -113,7 +113,7 @@ export const ParticipateConfirmModal: React.FC<ParticipateConfirmModalProps> = (
   if (!isOpen) return null
 
   return (
-    <Modal isOpen={isOpen} onClose={handleCancel} title="入村確認" className="max-w-2xl">
+    <Modal isOpen={isOpen} onClose={handleCancel} title="入村確認" className="!max-w-3xl">
       <div className="space-y-6">
         {/* 選択したキャラクター・役職希望の確認 */}
         <div className="space-y-4">

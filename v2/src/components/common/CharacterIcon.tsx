@@ -76,8 +76,8 @@ export const CharacterIcon: React.FC<CharacterIconProps> = ({
     const charaId = participant?.chara.id
     const charachipId = participant?.chara.charachip_id
     if (charaId && charachipId) {
-      // 標準的なキャラクター画像URLパターン（実際のAPIに合わせて調整必要）
-      return `/api/charachip/${charachipId}/chara/${charaId}/image`
+      // NORMAL表情種別のキャラクター画像URLを構築
+      return `/api/charachip/${charachipId}/chara/${charaId}/image?face_type=NORMAL`
     }
 
     return null

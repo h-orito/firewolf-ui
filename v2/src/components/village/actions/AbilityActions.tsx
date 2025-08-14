@@ -21,17 +21,37 @@ interface AbilityActionsProps {
 
 // 能力の種類定義
 const abilityTypes = [
-  { value: 'DIVINE', label: '占い', icon: '🔮', description: '対象の正体を知ることができます' },
-  { value: 'GUARD', label: '護衛', icon: '🛡️', description: '対象を人狼の襲撃から守ります' },
-  { value: 'ATTACK', label: '襲撃', icon: '🗡️', description: '対象を襲撃します（人狼のみ）' },
+  {
+    value: 'DIVINE',
+    label: '占い',
+    icon: 'fa-crystal-ball',
+    description: '対象の正体を知ることができます',
+  },
+  {
+    value: 'GUARD',
+    label: '護衛',
+    icon: 'fa-shield-alt',
+    description: '対象を人狼の襲撃から守ります',
+  },
+  { value: 'ATTACK', label: '襲撃', icon: 'fa-sword', description: '対象を襲撃します（人狼のみ）' },
   {
     value: 'PSYCHIC',
     label: '霊能',
-    icon: '👻',
+    icon: 'fa-skull',
     description: '処刑された人の正体を知ることができます',
   },
-  { value: 'INVESTIGATE', label: '捜査', icon: '🔍', description: '対象を調査します（探偵のみ）' },
-  { value: 'TRAP', label: '罠設置', icon: '🪤', description: '罠を設置します（狩人系のみ）' },
+  {
+    value: 'INVESTIGATE',
+    label: '捜査',
+    icon: 'fa-search',
+    description: '対象を調査します（探偵のみ）',
+  },
+  {
+    value: 'TRAP',
+    label: '罠設置',
+    icon: 'fa-hand-paper',
+    description: '罠を設置します（狩人系のみ）',
+  },
 ]
 
 /**
@@ -209,7 +229,7 @@ export const AbilityActions: React.FC<AbilityActionsProps> = ({ village, user })
       {/* 役職情報 */}
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
         <div className="flex items-center">
-          <span className="text-blue-600 mr-2">ℹ️</span>
+          <i className="fas fa-info-circle text-blue-600 mr-2"></i>
           <span className="text-sm text-blue-800 font-medium">
             あなたの役職:{' '}
             {typeof currentParticipant.skill === 'string'
@@ -228,7 +248,7 @@ export const AbilityActions: React.FC<AbilityActionsProps> = ({ village, user })
           onChange={setSelectedAbility}
           options={availableAbilities.map((ability) => ({
             value: ability.value,
-            label: `${ability.icon} ${ability.label} - ${ability.description}`,
+            label: `${ability.label} - ${ability.description}`,
           }))}
         />
       </div>
@@ -319,7 +339,10 @@ export const AbilityActions: React.FC<AbilityActionsProps> = ({ village, user })
       <Dialog open={showDeathAlert} onOpenChange={setShowDeathAlert}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>⚠️ 重要な確認</DialogTitle>
+            <DialogTitle>
+              <i className="fas fa-exclamation-triangle text-yellow-500 mr-2"></i>
+              重要な確認
+            </DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             <p className="text-sm text-gray-600">

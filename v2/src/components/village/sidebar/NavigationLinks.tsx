@@ -44,8 +44,8 @@ export const NavigationLinks: React.FC<NavigationLinksProps> = ({ village }) => 
         {/* 切り抜き機能 */}
         <button
           onClick={() => {
-            // 切り抜きモーダル表示（未実装）
-            console.log('切り抜きモーダルを表示')
+            const scrapUrl = `/scrap?id=${village.id}`
+            window.open(scrapUrl, '_blank')
           }}
           className="w-full text-xs py-2 px-3 bg-green-600 text-white rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 flex items-center justify-center space-x-1"
         >

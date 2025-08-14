@@ -30,25 +30,56 @@ interface VillageInfoModalProps {
 export const VillageInfoModal: React.FC<VillageInfoModalProps> = ({ isOpen, onClose, village }) => {
   // キャラチップ一覧を取得
   const { data: charachipListData } = useCharachipListQuery()
-  const charachipList = useMemo(() => charachipListData?.data?.list || [], [charachipListData])
+  const charachipList = useMemo(() => {
+    if (!charachipListData?.data) return []
+    return charachipListData.data.list
+  }, [charachipListData])
 
-  // 村のキャラチップ名を取得（自動生成型に存在するプロパティのみ使用）
-  const charachipName = useMemo(() => {
+  // 村のキャラチップ情報を取得
+  const charachipInfo = useMemo(() => {
     // キャラチップIDsから最初のキャラチップを取得
     if (village.setting.charachip.charachip_ids.length > 0) {
       const charachipId = village.setting.charachip.charachip_ids[0]
       const charachip = charachipList.find((c) => c.id === charachipId)
       if (charachip) {
-        return charachip.name
+        return {
+          name: charachip.name,
+          id: charachipId,
+        }
       }
     }
 
     // フォールバック
-    return '設定なし'
+    return {
+      name: '設定なし',
+      id: null,
+    }
   }, [village.setting.charachip.charachip_ids, charachipList])
 
+  // 編成設定の詳細表示（プロローグ中は全人数の編成を表示）
+  const organizationDisplay = useMemo(() => {
+    const organizations = village.setting.organizations.organization
+    if (Object.keys(organizations).length === 0) {
+      return '設定なし'
+    }
+
+    // プロローグ中（エピローグ以外で進行日数が1日以下）は全編成を表示
+    const isProlog = village.status.code !== 'EPILOGUE' && village.day.day_list.length <= 1
+
+    if (isProlog && Object.keys(organizations).length > 1) {
+      // 人数順にソートして全編成を表示
+      const sortedEntries = Object.entries(organizations).sort(
+        ([a], [b]) => parseInt(a) - parseInt(b)
+      )
+      return sortedEntries.map(([count, org]) => `${count}人: ${org}`).join('\n')
+    } else {
+      // プロローグ以外または単一編成の場合は最初の編成のみ表示
+      return Object.values(organizations)[0] || '設定なし'
+    }
+  }, [village.setting.organizations.organization, village.status.code, village.day.day_list.length])
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="村情報" className="!max-w-4xl !max-h-[95vh]">
+    <Modal isOpen={isOpen} onClose={onClose} title="村情報" className="!max-w-6xl !max-h-[95vh]">
       <div className="p-3 md:p-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-6 mb-4 md:mb-8 max-h-[65vh] md:max-h-[60vh] overflow-y-auto">
           {/* 左カラム */}
@@ -99,7 +130,18 @@ export const VillageInfoModal: React.FC<VillageInfoModalProps> = ({ isOpen, onCl
                 <div className="space-y-2">
                   <div className="grid grid-cols-2 gap-2">
                     <span className="font-medium">キャラチップ:</span>
-                    <span className="text-gray-700">{charachipName}</span>
+                    {charachipInfo.id ? (
+                      <a
+                        href={`/charachip/${charachipInfo.id}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:text-blue-800 hover:underline"
+                      >
+                        {charachipInfo.name}
+                      </a>
+                    ) : (
+                      <span className="text-gray-700">{charachipInfo.name}</span>
+                    )}
                   </div>
                   {village.setting.charachip.dummy_chara_name && (
                     <div className="grid grid-cols-2 gap-2">
@@ -140,8 +182,8 @@ export const VillageInfoModal: React.FC<VillageInfoModalProps> = ({ isOpen, onCl
               <Card>
                 <div className="p-3 md:p-4">
                   <h3 className="font-bold mb-3 text-blue-700">編成設定</h3>
-                  <div className="text-gray-700 bg-gray-50 p-3 rounded">
-                    {Object.values(village.setting.organizations.organization)[0] || '設定なし'}
+                  <div className="text-gray-700 bg-gray-50 p-3 rounded whitespace-pre-line">
+                    {organizationDisplay}
                   </div>
                 </div>
               </Card>

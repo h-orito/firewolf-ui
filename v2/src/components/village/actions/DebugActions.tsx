@@ -237,7 +237,7 @@ ${JSON.stringify(sessionStorage, null, 2)}
       {/* 警告メッセージ */}
       <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
         <div className="flex items-center">
-          <span className="text-yellow-600 mr-2">⚠️</span>
+          <i className="fas fa-exclamation-triangle text-yellow-600 mr-2"></i>
           <span className="text-sm text-yellow-800 font-medium">
             デバッグモード（開発環境専用）
           </span>
