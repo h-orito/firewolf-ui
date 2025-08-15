@@ -56,6 +56,7 @@ const VirtualizedMessageItem = forwardRef<
       <MessageItem
         message={message}
         villageId={village.id}
+        village={village}
         onAnchorClick={onAnchorClick}
         onPersonalExtractionClick={onPersonalExtractionClick}
       />

@@ -45,8 +45,8 @@ export const UserSettings: React.FC = () => {
             アイコン{display.showCharacterIcon ? 'ON' : 'OFF'}
           </span>
           {' • '}
-          <span className={display.showTimestamp ? 'text-green-600' : 'text-gray-400'}>
-            時刻{display.showTimestamp ? 'ON' : 'OFF'}
+          <span className={display.showDateDisplay ? 'text-green-600' : 'text-gray-400'}>
+            日付{display.showDateDisplay ? 'ON' : 'OFF'}
           </span>
         </div>
         <div className="text-xs text-gray-600">

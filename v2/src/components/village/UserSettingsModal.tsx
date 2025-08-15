@@ -120,12 +120,14 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
 
                 <div className="flex items-center space-x-3">
                   <ToggleSlider
-                    checked={display.showTimestamp}
-                    onChange={(checked) => updateDisplaySettings({ showTimestamp: checked })}
+                    checked={display.showDateDisplay}
+                    onChange={(checked) => updateDisplaySettings({ showDateDisplay: checked })}
                   />
                   <div>
-                    <span className="text-sm font-medium text-gray-700">発言時刻表示</span>
-                    <p className="text-xs text-gray-500">各発言の投稿時刻を表示します</p>
+                    <span className="text-sm font-medium text-gray-700">発言日付表示</span>
+                    <p className="text-xs text-gray-500">
+                      各発言の日付を表示します（OFF時は時刻のみ）
+                    </p>
                   </div>
                 </div>
 

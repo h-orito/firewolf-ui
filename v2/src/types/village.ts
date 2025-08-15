@@ -77,8 +77,8 @@ export interface DisplaySettings {
   showCharacterIcon: boolean
   /** キャラ画像を大きく表示する */
   showLargeCharacterImage: boolean
-  /** 発言時刻表示 */
-  showTimestamp: boolean
+  /** 発言日付表示 */
+  showDateDisplay: boolean
   /** 発言番号表示 */
   showMessageNumber: boolean
   /** システムメッセージ表示 */

@@ -163,6 +163,7 @@ export const MessageList: React.FC<MessageListProps> = ({
               key={`${message.content.type.code}-${message.content.num}`}
               message={message}
               villageId={village.id}
+              village={village}
               onAnchorClick={onAnchorClick}
               onPersonalExtractionClick={onPersonalExtractionClick}
             />

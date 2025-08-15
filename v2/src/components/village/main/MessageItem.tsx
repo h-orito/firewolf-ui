@@ -3,6 +3,7 @@
  */
 
 import { CharacterIcon } from '@/components/common/CharacterIcon'
+import { useUserSettingsStore } from '@/stores/village/user-settings-store'
 import type { components } from '@/types/generated/api'
 import React from 'react'
 import { MessageContent } from './MessageContent'
@@ -15,6 +16,8 @@ interface MessageItemProps {
   message: MessageView
   /** 村ID */
   villageId: number
+  /** 村情報（発言回数制限取得用） */
+  village?: components['schemas']['VillageView']
   /** 現在のユーザー情報 */
   user?: any
   /** 個人抽出モード */
@@ -34,6 +37,7 @@ interface MessageItemProps {
 export const MessageItem: React.FC<MessageItemProps> = ({
   message,
   villageId,
+  village,
   user: _user,
   isPersonalExtraction: _isPersonalExtraction = false,
   onAnchorClick,
@@ -201,16 +205,45 @@ export const MessageItem: React.FC<MessageItemProps> = ({
 
   const messageStyle = getMessageTypeStyle(messageType.code)
 
-  // 時間の表示フォーマット
+  // ユーザー設定を取得
+  const { display } = useUserSettingsStore()
+  const { showDateDisplay, showLargeCharacterImage } = display
+
+  // キャラクター画像の高さを計算（発言内容のmin-heightに使用）
+  const getCharacterImageHeight = () => {
+    // キャラクター画像の実際の高さを取得
+    if (fromParticipant?.chara) {
+      const finalScale = 1 * (showLargeCharacterImage ? 1.5 : 1)
+      return Math.round(fromParticipant.chara.display.height * finalScale)
+    }
+
+    // システムメッセージまたはキャラクター情報がない場合のデフォルト
+    const defaultIconSize = 32 // システムアイコンまたはフォールバックアイコンのサイズ
+    const finalScale = 1 * (showLargeCharacterImage ? 1.5 : 1)
+    return Math.round(defaultIconSize * finalScale)
+  }
+
+  // 時間の表示フォーマット（ユーザー設定に応じて切り替え）
   const formatTime = (datetime: string) => {
     const date = new Date(datetime)
-    return date.toLocaleString('ja-JP', {
-      month: 'numeric',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-    })
+
+    if (showDateDisplay) {
+      // 日付表示ON: 月/日 時:分:秒
+      return date.toLocaleString('ja-JP', {
+        month: 'numeric',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      })
+    } else {
+      // 日付表示OFF: 時:分:秒のみ
+      return date.toLocaleString('ja-JP', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      })
+    }
   }
 
   // キャラクター名の表示
@@ -230,116 +263,166 @@ export const MessageItem: React.FC<MessageItemProps> = ({
     }
   }
 
+  // 発言種別に応じた最大発言回数を取得
+  const getMaxSayCount = (messageTypeCode: string) => {
+    if (!village?.setting.rules.message_restrict.restrict_list) return 0
+
+    const restrictions = village.setting.rules.message_restrict.restrict_list
+    const restriction = restrictions.find((r: any) => r.type.code === messageTypeCode)
+    return restriction?.count || 0
+  }
+
+  // 参加者の現在の発言回数を取得（発言番号から推測）
+  const getCurrentSayCount = () => {
+    if (!content.num || !fromParticipant) return 0
+    // TODO: より正確な現在回数の取得方法があれば使用
+    return content.num
+  }
+
   return (
     <div
-      className={`border-l-4 ${messageStyle.borderColor} ${messageStyle.bgColor} rounded-r-lg p-4 mb-3`}
+      className={`border-l-4 ${messageStyle.borderColor} ${messageStyle.bgColor} rounded-r-lg p-2 mb-3`}
     >
-      {/* ヘッダー部分 */}
-      <div className="flex items-center justify-between mb-2">
-        <div className="flex items-center space-x-3">
-          {/* キャラアイコン */}
-          <CharacterIcon
-            participant={fromParticipant}
-            characterName={fromCharacterName}
-            isSystem={!fromParticipant && !fromCharacterName}
-            isDead={isFromDead}
-            clickable={!!fromParticipant}
-            onClick={handlePersonalExtraction}
-          />
-
-          {/* 発言者名と宛先 */}
-          <div className="min-w-0 flex-1">
-            <div className="flex items-center space-x-2">
-              <span
-                className={`text-sm font-medium truncate ${
-                  isFromDead ? 'text-gray-500 line-through' : 'text-gray-900'
-                }`}
+      {/* ヘッダー部分: [発言アンカー] [発言者名] [プレイヤー名] (発言回数) 日時（システムメッセージ以外のみ表示） */}
+      {fromParticipant && (
+        <div className="flex items-center justify-between mb-1">
+          <div className="flex items-center space-x-2 min-w-0 flex-1">
+            {/* 発言アンカー */}
+            {content.num && (
+              <button
+                className="text-sm text-blue-600 hover:text-blue-800 font-mono"
+                onClick={() => {
+                  const anchor = `>>${content.num}`
+                  // TODO: ユーザー設定に応じてクリップボードコピーまたは発言欄に貼り付け
+                  navigator.clipboard.writeText(anchor)
+                }}
+                title="アンカーをコピー"
               >
-                {getCharacterDisplayName(fromParticipant, fromCharacterName)}
+                &gt;&gt;{content.num}
+              </button>
+            )}
+
+            {/* 発言者名 */}
+            <span
+              className={`text-sm font-bold truncate ${
+                isFromDead ? 'text-gray-500 line-through' : 'text-gray-900'
+              }`}
+            >
+              [{fromCharacterName?.short_name || fromParticipant.chara_name.short_name || '?'}]{' '}
+              {getCharacterDisplayName(fromParticipant, fromCharacterName)}
+            </span>
+
+            {/* プレイヤー名 */}
+            {fromParticipant.player?.nickname && (
+              <span className="text-sm text-gray-600 truncate">
+                {fromParticipant.player.nickname}
               </span>
-              {toParticipant && (
-                <>
-                  <span className="text-xs text-gray-500">→</span>
-                  <span
-                    className={`text-sm truncate ${
-                      isToDead ? 'text-gray-500 line-through' : 'text-gray-700'
-                    }`}
-                  >
-                    {getCharacterDisplayName(toParticipant, toCharacterName)}
-                  </span>
-                </>
-              )}
-            </div>
-            {/* 役職表示（生存者のみ、システムメッセージ以外） */}
-            {fromParticipant && fromParticipant.skill && messageType.code !== 'SYSTEM_MESSAGE' && (
-              <div className="text-xs text-gray-500 mt-1">{fromParticipant.skill.short_name}</div>
+            )}
+
+            {/* 宛先表示 */}
+            {toParticipant && (
+              <>
+                <span className="text-xs text-gray-500">→</span>
+                <span
+                  className={`text-sm truncate ${
+                    isToDead ? 'text-gray-500 line-through' : 'text-gray-700'
+                  }`}
+                >
+                  {getCharacterDisplayName(toParticipant, toCharacterName)}
+                </span>
+              </>
             )}
           </div>
 
-          {/* 発言種別ラベル */}
-          <span
-            className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${messageStyle.typeLabelStyle}`}
-          >
-            {messageStyle.typeLabel}
-          </span>
-        </div>
+          {/* 右側: (発言回数) 日時 */}
+          <div className="flex items-center space-x-2 text-xs text-gray-500 flex-shrink-0">
+            {/* 発言回数: (現在回数/最大回数) 形式 */}
+            <span className="text-xs">
+              ({getCurrentSayCount()}/{getMaxSayCount(messageType.code)})
+            </span>
 
-        {/* 時刻とアクション */}
-        <div className="flex items-center space-x-2 text-xs text-gray-500">
-          <span>{formatTime(time.datetime)}</span>
-          {content.num && (
-            <span className="bg-gray-100 text-gray-700 px-1 rounded">#{content.num}</span>
-          )}
-          {/* アクションボタン（個人抽出など） */}
-          {fromParticipant && (
-            <button
-              className="opacity-0 group-hover:opacity-100 px-2 py-1 text-blue-600 hover:bg-blue-50 rounded transition-opacity"
+            {/* 日時 */}
+            <span>{formatTime(time.datetime)}</span>
+          </div>
+        </div>
+      )}
+
+      {/* 中部（本文）: 左側キャラ画像、右側発言内容 */}
+      <div className="flex gap-3">
+        {/* 左側: キャラ画像（システムメッセージ以外のみ表示） */}
+        {fromParticipant && (
+          <div className="flex-shrink-0">
+            <CharacterIcon
+              participant={fromParticipant}
+              characterName={fromCharacterName}
+              isDead={isFromDead}
+              clickable={!!fromParticipant}
               onClick={handlePersonalExtraction}
-            >
-              抽出
-            </button>
-          )}
-        </div>
-      </div>
-
-      {/* 発言内容 */}
-      <div className="text-sm text-gray-800 leading-relaxed pl-11">
-        {messageType.code === 'PARTICIPANTS_MESSAGE' ? (
-          // PARTICIPANTS メッセージは特別レイアウトを使用
-          (() => {
-            try {
-              const participantsData = JSON.parse(content.text)
-              return <ParticipantsList participants={participantsData} />
-            } catch (error) {
-              // JSON パースエラーの場合は通常の表示
-              console.warn('PARTICIPANTS メッセージのJSONパースに失敗:', error)
-              return (
-                <MessageContent
-                  text={content.text}
-                  villageId={villageId}
-                  onAnchorClick={onAnchorClick}
-                />
-              )
-            }
-          })()
-        ) : (
-          // 通常のメッセージ表示
-          <MessageContent text={content.text} villageId={villageId} onAnchorClick={onAnchorClick} />
-        )}
-        {/* 表情アイコン */}
-        {content.face_code && (
-          <div className="mt-2 text-right">
-            <span className="text-lg">{content.face_code}</span>
+            />
           </div>
         )}
+
+        {/* 右側: 発言内容 */}
+        <div className="flex-1 min-w-0">
+          <div
+            className="text-sm text-gray-800 leading-relaxed p-3 border border-gray-300 rounded break-words whitespace-pre-wrap"
+            style={fromParticipant ? { minHeight: `${getCharacterImageHeight()}px` } : {}}
+          >
+            {messageType.code === 'PARTICIPANTS_MESSAGE' ? (
+              // PARTICIPANTS メッセージは特別レイアウトを使用
+              (() => {
+                try {
+                  const participantsData = JSON.parse(content.text)
+                  return <ParticipantsList participants={participantsData} />
+                } catch (error) {
+                  // JSON パースエラーの場合は通常の表示
+                  console.warn('PARTICIPANTS メッセージのJSONパースに失敗:', error)
+                  return (
+                    <MessageContent
+                      text={content.text}
+                      villageId={villageId}
+                      onAnchorClick={onAnchorClick}
+                    />
+                  )
+                }
+              })()
+            ) : (
+              // 通常のメッセージ表示
+              <MessageContent
+                text={content.text}
+                villageId={villageId}
+                onAnchorClick={onAnchorClick}
+              />
+            )}
+          </div>
+        </div>
       </div>
 
-      {/* カウント表示（投票結果など） */}
-      {content.count !== undefined && content.count > 0 && (
-        <div className="mt-2 pl-11">
-          <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
-            カウント: {content.count}
-          </span>
+      {/* 下部（アクション）: >>返信 >>秘話 ボタン */}
+      {fromParticipant && (
+        <div className="flex justify-end gap-2">
+          <button
+            className="text-xs text-blue-600 hover:text-blue-800 hover:bg-blue-50 px-2 py-1 rounded transition-colors"
+            onClick={() => {
+              const anchor = `>>${content.num}`
+              // TODO: 発言欄に貼り付け、発言欄へスクロール
+              navigator.clipboard.writeText(anchor)
+            }}
+            title="返信"
+          >
+            &gt;&gt;返信
+          </button>
+
+          <button
+            className="text-xs text-blue-600 hover:text-blue-800 hover:bg-blue-50 pl-2 py-1 rounded transition-colors"
+            onClick={() => {
+              // TODO: 秘話モードに切り替え、発言者を秘話相手に設定
+              console.log('秘話モード切り替え:', fromParticipant)
+            }}
+            title="秘話"
+          >
+            &gt;&gt;秘話
+          </button>
         </div>
       )}
     </div>

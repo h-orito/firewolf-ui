@@ -8,7 +8,7 @@ interface UserSettingsStoreState extends UserSettings {
   // Display Settings
   setShowCharacterIcon: (show: boolean) => void
   setShowLargeCharacterImage: (show: boolean) => void
-  setShowTimestamp: (show: boolean) => void
+  setShowDateDisplay: (show: boolean) => void
   setShowMessageNumber: (show: boolean) => void
   setShowSystemMessage: (show: boolean) => void
   setMessagesPerPage: (count: number) => void
@@ -42,7 +42,7 @@ const getDefaultSettings = (): UserSettings => ({
   display: {
     showCharacterIcon: true,
     showLargeCharacterImage: false,
-    showTimestamp: true,
+    showDateDisplay: false,
     showMessageNumber: true,
     showSystemMessage: true,
     messagesPerPage: 50,
@@ -110,16 +110,16 @@ export const useUserSettingsStore = create<UserSettingsStoreState>()(
           )
         },
 
-        setShowTimestamp: (showTimestamp) => {
+        setShowDateDisplay: (showDateDisplay) => {
           set(
             (state) => ({
               display: {
                 ...state.display,
-                showTimestamp,
+                showDateDisplay,
               },
             }),
             false,
-            'userSettings/setShowTimestamp'
+            'userSettings/setShowDateDisplay'
           )
         },
 
