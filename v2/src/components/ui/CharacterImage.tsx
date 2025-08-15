@@ -9,9 +9,8 @@ interface CharacterImageProps {
   faceType?: string
   alt?: string
   className?: string
-  loading?: 'lazy' | 'eager'
-  priority?: boolean
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'original'
+  /** 画像サイズの倍率（1.0 = 元サイズ） */
+  scale?: number
 }
 
 export function CharacterImage({
@@ -19,9 +18,7 @@ export function CharacterImage({
   faceType = 'NORMAL',
   alt,
   className = '',
-  loading = 'lazy',
-  priority = false,
-  size = 'original',
+  scale = 1,
 }: CharacterImageProps) {
   // 指定されたfaceTypeの画像を取得、なければ最初の画像を使用
   const getImageUrl = () => {
@@ -29,24 +26,13 @@ export function CharacterImage({
     return targetFace?.image_url || chara.face_list[0]?.image_url
   }
 
-  // サイズ設定を取得
+  // サイズ設定を取得（スケール適用）
   const getSizeConfig = () => {
-    if (size === 'original') {
-      return {
-        width: chara.display.width,
-        height: chara.display.height,
-      }
+    // キャラクターの元サイズにスケールを適用
+    return {
+      width: Math.round(chara.display.width * scale),
+      height: Math.round(chara.display.height * scale),
     }
-
-    const sizeMap = {
-      xs: { width: 16, height: 16 },
-      sm: { width: 24, height: 24 },
-      md: { width: 32, height: 32 },
-      lg: { width: 40, height: 40 },
-      xl: { width: 48, height: 48 },
-    }
-
-    return sizeMap[size]
   }
 
   const imageUrl = getImageUrl()
@@ -73,8 +59,7 @@ export function CharacterImage({
       width={sizeConfig.width}
       height={sizeConfig.height}
       className={`rounded ${className}`}
-      loading={loading}
-      priority={priority}
+      loading="lazy"
     />
   )
 }

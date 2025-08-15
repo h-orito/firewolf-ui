@@ -245,7 +245,7 @@ export const MessageConfirmModal: React.FC<MessageConfirmModalProps> = ({
                   short_name: preview.characterName,
                   full_name: preview.characterName,
                 }}
-                size="sm"
+                size={0.375}
               />
               <div className="flex-1 min-w-0">
                 <div className="text-sm font-medium text-gray-900">{preview.characterName}</div>

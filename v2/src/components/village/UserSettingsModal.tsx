@@ -103,6 +103,23 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = ({ isOpen, on
 
                 <div className="flex items-center space-x-3">
                   <ToggleSlider
+                    checked={display.showLargeCharacterImage}
+                    onChange={(checked) =>
+                      updateDisplaySettings({ showLargeCharacterImage: checked })
+                    }
+                  />
+                  <div>
+                    <span className="text-sm font-medium text-gray-700">
+                      キャラ画像を大きく表示する
+                    </span>
+                    <p className="text-xs text-gray-500">
+                      キャラクター画像を1.5倍のサイズで表示します
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-3">
+                  <ToggleSlider
                     checked={display.showTimestamp}
                     onChange={(checked) => updateDisplaySettings({ showTimestamp: checked })}
                   />

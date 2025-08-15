@@ -2,9 +2,9 @@
  * 個別発言コンポーネント
  */
 
-import React from 'react'
-import type { components } from '@/types/generated/api'
 import { CharacterIcon } from '@/components/common/CharacterIcon'
+import type { components } from '@/types/generated/api'
+import React from 'react'
 import { MessageContent } from './MessageContent'
 import { ParticipantsList } from './ParticipantsList'
 
@@ -241,7 +241,6 @@ export const MessageItem: React.FC<MessageItemProps> = ({
           <CharacterIcon
             participant={fromParticipant}
             characterName={fromCharacterName}
-            size="md"
             isSystem={!fromParticipant && !fromCharacterName}
             isDead={isFromDead}
             clickable={!!fromParticipant}

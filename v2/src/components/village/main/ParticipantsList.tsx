@@ -89,7 +89,7 @@ export const ParticipantsList: React.FC<ParticipantsListProps> = ({ participants
               <CharacterIcon
                 participant={participant}
                 characterName={participant.chara_name}
-                size="sm" // 1/2 サイズ相当
+                size={0.375} // 1/2 サイズ相当
                 isDead={isDead}
                 clickable={false}
               />

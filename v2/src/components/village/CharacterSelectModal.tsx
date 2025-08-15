@@ -171,7 +171,7 @@ export const CharacterSelectModal: React.FC<CharacterSelectModalProps> = ({
                         short_name: chara.chara_name.short_name,
                         full_name: chara.chara_name.name,
                       }}
-                      size="md"
+                      size={0.5}
                     />
                     <div className="text-center">
                       <div className="text-xs font-medium text-gray-900">
@@ -196,7 +196,7 @@ export const CharacterSelectModal: React.FC<CharacterSelectModalProps> = ({
                       short_name: selectedChara.chara_name.short_name,
                       full_name: selectedChara.chara_name.name,
                     }}
-                    size="sm"
+                    size={0.375}
                   />
                   <div>
                     <div className="text-sm font-medium text-gray-900">

@@ -148,7 +148,7 @@ export const AdminActions: React.FC<AdminActionsProps> = ({ village, user }) => 
               className="flex items-center justify-between p-2 bg-gray-50 rounded"
             >
               <div className="flex items-center space-x-2">
-                <CharacterIcon participant={participant} size="sm" />
+                <CharacterIcon participant={participant} size={0.375} />
                 <div>
                   <div className="text-sm font-medium">{participant.chara.chara_name.name}</div>
                   <div className="text-xs text-gray-500">
@@ -262,7 +262,7 @@ export const AdminActions: React.FC<AdminActionsProps> = ({ village, user }) => 
                 return (
                   <div className="space-y-3">
                     <div className="flex items-center space-x-3">
-                      <CharacterIcon participant={selectedParticipant} size="md" />
+                      <CharacterIcon participant={selectedParticipant} size={0.5} />
                       <div>
                         <div className="font-medium">{info.characterName}</div>
                         <div className="text-sm text-gray-500">{info.playerName}</div>
@@ -338,7 +338,7 @@ export const AdminActions: React.FC<AdminActionsProps> = ({ village, user }) => 
           {selectedParticipant && (
             <div className="space-y-4">
               <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded">
-                <CharacterIcon participant={selectedParticipant} size="sm" />
+                <CharacterIcon participant={selectedParticipant} size={0.375} />
                 <div>
                   <div className="font-medium">{selectedParticipant.chara?.chara_name?.name}</div>
                   <div className="text-sm text-gray-500">

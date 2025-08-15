@@ -275,7 +275,7 @@ export const AbilityActions: React.FC<AbilityActionsProps> = ({ village, user })
                   onChange={(e) => setSelectedTarget(Number(e.target.value))}
                   className="text-blue-600"
                 />
-                <CharacterIcon participant={participant} size="sm" />
+                <CharacterIcon participant={participant} size={0.375} />
                 <div>
                   <div className="text-sm font-medium">{participant.chara.chara_name.name}</div>
                   <div className="text-xs text-gray-500">{participant.player?.nickname}</div>

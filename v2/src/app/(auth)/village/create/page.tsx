@@ -545,6 +545,7 @@ export default function VillageCreatePage() {
           <div className="flex justify-center pt-6">
             <Button
               type="submit"
+              size="lg"
               disabled={!canSubmit || confirmMutation.isPending}
               className="px-8 py-2"
             >

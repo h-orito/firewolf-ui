@@ -26,7 +26,7 @@ export function CharachipList() {
     )
   }
 
-  const charachips = data?.data?.list || []
+  const charachips = data?.data.list || []
 
   if (charachips.length === 0) {
     return (

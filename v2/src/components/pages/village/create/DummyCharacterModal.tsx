@@ -82,7 +82,6 @@ const DummyCharacterModal = memo(function DummyCharacterModal({
                           faceType={face.type}
                           alt={`${chara.chara_name.name} - ${face.type || '表情'}`}
                           className="mx-auto"
-                          loading="lazy"
                         />
                       </div>
                     ))}

@@ -77,7 +77,7 @@ export const ParticipantList: React.FC<ParticipantListProps> = ({ village, user 
                   onClick={() => handlePersonalExtraction(participant.id)}
                 >
                   <div className="flex items-center space-x-2 min-w-0">
-                    <CharacterImage chara={participant.chara} size="sm" />
+                    <CharacterImage chara={participant.chara} scale={0.375} />
                     <div className="min-w-0">
                       <div className="text-xs font-medium text-gray-900 truncate">
                         {participant.chara_name.name}
@@ -118,7 +118,7 @@ export const ParticipantList: React.FC<ParticipantListProps> = ({ village, user 
                       <div className="relative">
                         <CharacterImage
                           chara={participant.chara}
-                          size="sm"
+                          scale={0.375}
                           className="opacity-60 grayscale"
                         />
                         <div className="absolute inset-0 flex items-center justify-center">
@@ -165,7 +165,7 @@ export const ParticipantList: React.FC<ParticipantListProps> = ({ village, user 
                     onClick={() => handlePersonalExtraction(spectator.id)}
                   >
                     <div className="flex items-center space-x-2 min-w-0">
-                      <CharacterImage chara={spectator.chara} size="sm" />
+                      <CharacterImage chara={spectator.chara} scale={0.375} />
                       <div className="text-xs font-medium text-gray-600 truncate">
                         {spectator.chara_name.name}
                       </div>

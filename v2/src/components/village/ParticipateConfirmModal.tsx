@@ -124,7 +124,7 @@ export const ParticipateConfirmModal: React.FC<ParticipateConfirmModalProps> = (
                 short_name: selectedCharacter.chara_name.short_name,
                 full_name: selectedCharacter.chara_name.name,
               }}
-              size="md"
+              size={0.5}
             />
             <div className="flex-1">
               <div className="font-medium text-gray-900">

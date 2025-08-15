@@ -7,6 +7,7 @@ interface UserSettingsStoreState extends UserSettings {
   // Actions
   // Display Settings
   setShowCharacterIcon: (show: boolean) => void
+  setShowLargeCharacterImage: (show: boolean) => void
   setShowTimestamp: (show: boolean) => void
   setShowMessageNumber: (show: boolean) => void
   setShowSystemMessage: (show: boolean) => void
@@ -40,6 +41,7 @@ interface UserSettingsStoreState extends UserSettings {
 const getDefaultSettings = (): UserSettings => ({
   display: {
     showCharacterIcon: true,
+    showLargeCharacterImage: false,
     showTimestamp: true,
     showMessageNumber: true,
     showSystemMessage: true,
@@ -92,6 +94,19 @@ export const useUserSettingsStore = create<UserSettingsStoreState>()(
             }),
             false,
             'userSettings/setShowCharacterIcon'
+          )
+        },
+
+        setShowLargeCharacterImage: (showLargeCharacterImage) => {
+          set(
+            (state) => ({
+              display: {
+                ...state.display,
+                showLargeCharacterImage,
+              },
+            }),
+            false,
+            'userSettings/setShowLargeCharacterImage'
           )
         },
 

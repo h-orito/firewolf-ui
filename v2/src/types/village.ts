@@ -75,6 +75,8 @@ export interface UserSettings {
 export interface DisplaySettings {
   /** キャラクターアイコン表示 */
   showCharacterIcon: boolean
+  /** キャラ画像を大きく表示する */
+  showLargeCharacterImage: boolean
   /** 発言時刻表示 */
   showTimestamp: boolean
   /** 発言番号表示 */
