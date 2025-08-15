@@ -82,6 +82,7 @@ function escapeHtml(text: string): string {
 
 - `min-height` はキャラ画像の高さに合わせる
 - `word-break: break-word; white-space: pre-wrap;` で改行
+- `border: 1px solid #ddd; border-radius:5px;`
 
 #### 下部（アクション）
 
