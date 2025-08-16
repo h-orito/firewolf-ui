@@ -280,9 +280,7 @@ export const MessageItem: React.FC<MessageItemProps> = ({
   }
 
   return (
-    <div
-      className={`border-l-4 ${messageStyle.borderColor} ${messageStyle.bgColor} rounded-r-lg p-2 mb-3`}
-    >
+    <div className={`${messageStyle.bgColor} rounded-lg p-2 mb-3`}>
       {/* ヘッダー部分: [発言アンカー] [発言者名] [プレイヤー名] (発言回数) 日時（システムメッセージ以外のみ表示） */}
       {fromParticipant && (
         <div className="flex items-center justify-between mb-1">
