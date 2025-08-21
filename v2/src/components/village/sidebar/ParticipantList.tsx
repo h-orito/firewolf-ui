@@ -2,11 +2,11 @@
  * 参加者一覧コンポーネント
  */
 
-import React, { useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import { CharacterImage } from '@/components/ui/CharacterImage'
 import type { components } from '@/types/generated/api'
+import { faChevronDown, faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React, { useState } from 'react'
 
 type VillageView = components['schemas']['VillageView']
 
@@ -73,29 +73,35 @@ export const ParticipantList: React.FC<ParticipantListProps> = ({ village, user 
               {aliveParticipants.map((participant) => (
                 <div
                   key={participant.id}
-                  className="flex items-center justify-between p-2 rounded hover:bg-gray-50 cursor-pointer group"
+                  className="flex items-center justify-between py-2 rounded group border-t border-gray-200"
                   onClick={() => handlePersonalExtraction(participant.id)}
                 >
                   <div className="flex items-center space-x-2 min-w-0">
-                    <CharacterImage chara={participant.chara} scale={0.375} />
-                    <div className="min-w-0">
-                      <div className="text-xs font-medium text-gray-900 truncate">
-                        {participant.chara_name.name}
+                    <CharacterImage chara={participant.chara} scale={0.5} />
+                    <div className="min-w-0 flex flex-col">
+                      <div>
+                        <div className="text-xs font-medium text-gray-900 truncate">
+                          {participant.chara_name.name}
+                        </div>
+                        {participant.skill && (
+                          <div className="text-xs text-gray-500">
+                            {participant.skill.short_name}
+                          </div>
+                        )}
                       </div>
-                      {participant.skill && (
-                        <div className="text-xs text-gray-500">{participant.skill.short_name}</div>
-                      )}
+                      <div className="w-full">
+                        <button
+                          className="ml-auto text-xs px-2 py-1 text-blue-600 rounded"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            handlePersonalExtraction(participant.id)
+                          }}
+                        >
+                          抽出
+                        </button>
+                      </div>
                     </div>
                   </div>
-                  <button
-                    className="opacity-0 group-hover:opacity-100 text-xs px-2 py-1 text-blue-600 hover:bg-blue-50 rounded transition-opacity"
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      handlePersonalExtraction(participant.id)
-                    }}
-                  >
-                    抽出
-                  </button>
                 </div>
               ))}
             </div>

@@ -10,9 +10,9 @@ import { Footer } from './Footer'
 export const ConditionalFooter: React.FC = () => {
   const pathname = usePathname()
 
-  // 村画面のパス（/village/[id]）の場合はフッターを表示しない
-  // basePath設定により実際のpathnameは /village/[id] になる
-  const isVillagePage = pathname.startsWith('/village/')
+  // 村画面のパス（/village）の場合はフッターを表示しない
+  // 村作成画面（/village/create）は表示する
+  const isVillagePage = pathname === '/village'
 
   if (isVillagePage) {
     return null

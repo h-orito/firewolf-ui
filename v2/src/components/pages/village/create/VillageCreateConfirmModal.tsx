@@ -39,7 +39,7 @@ export default function VillageCreateConfirmModal({
     onSuccess: (data) => {
       if (data && typeof data === 'object' && 'village_id' in data) {
         const villageResponse = data as VillageRegisterResponse
-        router.push(`/village/${villageResponse.village_id}`)
+        router.push(`/village?id=${villageResponse.village_id}`)
         return
       }
       console.error('予期しないAPIレスポンス構造:', data)

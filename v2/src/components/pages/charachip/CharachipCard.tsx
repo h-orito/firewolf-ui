@@ -11,7 +11,7 @@ export function CharachipCard({ charachip }: CharachipCardProps) {
   const router = useRouter()
 
   const handleCardClick = () => {
-    router.push(`/charachip/${charachip.id}`)
+    router.push(`/charachip?id=${charachip.id}`)
   }
 
   // 代表キャラクターの画像を取得（v1と同様に最初のキャラクターを使用）

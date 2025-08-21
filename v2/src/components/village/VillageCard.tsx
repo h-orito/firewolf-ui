@@ -15,7 +15,7 @@ export function VillageCard({ village }: VillageCardProps) {
 
   return (
     <Link
-      href={`/village/${village.id}`}
+      href={`/village?id=${village.id}`}
       className="block hover:shadow-lg hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200"
     >
       <Card className="overflow-hidden relative cursor-pointer h-full">

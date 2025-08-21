@@ -10,10 +10,9 @@ import { Header } from './Header'
 export const ConditionalHeader: React.FC = () => {
   const pathname = usePathname()
 
-  // 村詳細画面のパス（/village/[id]）の場合はヘッダーを表示しない
+  // 村詳細画面のパス（/village）の場合はヘッダーを表示しない
   // 村作成画面（/village/create）は除外する
-  // basePath設定により実際のpathnameは /village/[id] になる
-  const isVillageDetailPage = pathname.startsWith('/village/') && pathname !== '/village/create'
+  const isVillageDetailPage = pathname === '/village'
 
   if (isVillageDetailPage) {
     return null

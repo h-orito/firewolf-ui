@@ -37,7 +37,7 @@ export function ParticipateVillageSection({
                 <tr key={index} className="border-b hover:bg-gray-50">
                   <td className="p-2">
                     <Link
-                      href={`/village/${village.id}`}
+                      href={`/village?id=${village.id}`}
                       className="text-blue-600 hover:text-blue-800 hover:underline"
                     >
                       {village.name}

@@ -105,6 +105,22 @@
   - 全てのアコーディオン要素での統一実装
   - 優先度: 中、推定工数: 0.8 日
 
+##### URLパラメータ化タスク
+
+- [x] **村画面URLのクエリパラメータ化**
+  - `/village/{village_id}` から `/village?id={village_id}` に変更
+  - `app/village/[id]/page.tsx` を `app/village/page.tsx` に移動
+  - searchParamsからidを取得するように修正
+  - 関連するリンクやナビゲーションの更新
+  - 優先度: 高、推定工数: 0.5 日、実施日: 2025-01-21
+
+- [x] **キャラチップURLのクエリパラメータ化**
+  - `/charachip/{charachip_id}` から `/charachip?id={charachip_id}` に変更
+  - `app/charachip/[id]/page.tsx` を `app/charachip/page.tsx` に移動
+  - searchParamsからidを取得するように修正
+  - 関連するリンクやナビゲーションの更新
+  - 優先度: 高、推定工数: 0.5 日、実施日: 2025-01-21
+
 ## 優先順位
 
 1. **最優先**: bugs.md に記載されたバグ修正

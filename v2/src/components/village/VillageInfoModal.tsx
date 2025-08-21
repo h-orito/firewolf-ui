@@ -132,7 +132,7 @@ export const VillageInfoModal: React.FC<VillageInfoModalProps> = ({ isOpen, onCl
                     <span className="font-medium">キャラチップ:</span>
                     {charachipInfo.id ? (
                       <a
-                        href={`/charachip/${charachipInfo.id}`}
+                        href={`/charachip?id=${charachipInfo.id}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-blue-600 hover:text-blue-800 hover:underline"

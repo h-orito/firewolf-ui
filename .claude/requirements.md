@@ -116,6 +116,15 @@ v1 で実装されている以下の機能をすべて移行する：
 - **v2 TypeScript ファイル命名**: ts ファイルは kebab-case で統一（例: `village-api.ts`、`message-utils.ts`）
 - **命名の一貫性**: 既存のファイルでcamelCaseとPascalCaseが混在している箇所を統一する
 
+### URL構造設計
+
+- **村画面URL**: `/village?id={village_id}` 形式（パラメータベース）
+  - 例: `/village?id=123` で村ID 123の画面を表示
+  - パスパラメータ形式 `/village/{village_id}` から変更
+- **キャラチップURL**: `/charachip?id={charachip_id}` 形式（パラメータベース）
+  - 例: `/charachip?id=456` でキャラチップID 456の画面を表示
+  - パスパラメータ形式 `/charachip/{charachip_id}` から変更
+
 ## 非機能要件
 
 ### パフォーマンス要件

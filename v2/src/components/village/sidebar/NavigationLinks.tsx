@@ -21,14 +21,14 @@ interface NavigationLinksProps {
  */
 export const NavigationLinks: React.FC<NavigationLinksProps> = ({ village }) => {
   const handleXPost = () => {
-    const url = `${window.location.origin}/village/${village.id}`
+    const url = `${window.location.origin}/village?id=${village.id}`
     const text = `${village.name} - 人狼ゲーム`
     const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`
     window.open(twitterUrl, '_blank', 'width=600,height=400')
   }
 
   const handleCopyUrl = async () => {
-    const url = `${window.location.origin}/village/${village.id}`
+    const url = `${window.location.origin}/village?id=${village.id}`
     try {
       await navigator.clipboard.writeText(url)
       // 成功通知（未実装）
