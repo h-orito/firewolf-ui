@@ -123,10 +123,260 @@
         </div>
       </div>
     </div>
+
+    <!-- Firebase認証テスト -->
+    <div class="mb-8">
+      <h2 class="text-2xl font-bold mb-4">Firebase認証テスト</h2>
+
+      <div class="space-y-4">
+        <!-- 認証状態表示 -->
+        <div class="p-4 border rounded-lg">
+          <h3 class="font-bold mb-2">認証状態</h3>
+          <div class="space-y-2">
+            <p>
+              <span class="font-semibold">ログイン状態:</span>
+              <UBadge :color="isAuthenticated ? 'green' : 'red'" class="ml-2">
+                {{ isAuthenticated ? 'ログイン中' : '未ログイン' }}
+              </UBadge>
+            </p>
+            <p v-if="authUser">
+              <span class="font-semibold">ユーザーID:</span>
+              <code class="ml-2">{{ authUser.uid }}</code>
+            </p>
+            <p v-if="authUser">
+              <span class="font-semibold">Email:</span>
+              <span class="ml-2">{{ authUser.email || '未設定' }}</span>
+            </p>
+            <p>
+              <span class="font-semibold">読み込み状態:</span>
+              <UBadge :color="authLoading ? 'yellow' : 'gray'" class="ml-2">
+                {{ authLoading ? '読み込み中...' : '完了' }}
+              </UBadge>
+            </p>
+          </div>
+        </div>
+
+        <!-- 認証操作ボタン -->
+        <div class="flex space-x-4 flex-wrap gap-2">
+          <UButton
+            @click="handleGoogleSignIn"
+            :loading="isSigningIn"
+            color="blue"
+            :disabled="isAuthenticated"
+            icon="i-simple-icons-google"
+          >
+            Googleでログイン
+          </UButton>
+          <UButton
+            @click="handleTwitterSignIn"
+            :loading="isSigningIn"
+            color="gray"
+            :disabled="isAuthenticated"
+            icon="i-simple-icons-x"
+          >
+            X(Twitter)でログイン
+          </UButton>
+          <UButton
+            @click="handleLogout"
+            :loading="isSigningOut"
+            color="red"
+            variant="outline"
+            :disabled="!isAuthenticated"
+          >
+            ログアウト
+          </UButton>
+        </div>
+
+        <!-- 認証テスト結果 -->
+        <div v-if="authTestResults.length > 0" class="mt-4">
+          <h3 class="font-bold mb-2">認証テスト結果</h3>
+          <div class="space-y-2">
+            <UAlert
+              v-for="(result, index) in authTestResults"
+              :key="index"
+              :icon="
+                result.success
+                  ? 'i-heroicons-check-circle'
+                  : 'i-heroicons-x-circle'
+              "
+              :title="result.action"
+              :description="result.message"
+              :color="result.success ? 'green' : 'red'"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- API通信テスト -->
+    <div class="mb-8">
+      <h2 class="text-2xl font-bold mb-4">API通信テスト</h2>
+
+      <div class="space-y-4">
+        <div class="flex space-x-4">
+          <UButton
+            @click="testPublicAPI"
+            :loading="isTestingPublic"
+            color="primary"
+          >
+            パブリックAPI テスト (/health)
+          </UButton>
+          <UButton
+            @click="testAuthenticatedAPI"
+            :loading="isTestingAuth"
+            color="green"
+            :disabled="!isAuthenticated"
+          >
+            認証付きAPI テスト (/player)
+          </UButton>
+        </div>
+
+        <div v-if="apiTestResults.length > 0" class="mt-4">
+          <h3 class="font-bold mb-2">テスト結果</h3>
+          <div class="space-y-2">
+            <UAlert
+              v-for="(result, index) in apiTestResults"
+              :key="index"
+              :icon="
+                result.success
+                  ? 'i-heroicons-check-circle'
+                  : 'i-heroicons-x-circle'
+              "
+              :title="result.endpoint"
+              :description="result.message"
+              :color="result.success ? 'green' : 'red'"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
+const { apiCall } = useApi()
+const {
+  user: authUser,
+  isAuthenticated,
+  isLoading: authLoading,
+  signInWithGoogle,
+  signInWithTwitter,
+  logout
+} = useAuthStore()
+
+// API通信テスト
+const isTestingPublic = ref(false)
+const isTestingAuth = ref(false)
+const apiTestResults = ref([])
+
+// 認証テスト
+const isSigningIn = ref(false)
+const isSigningOut = ref(false)
+const authTestResults = ref([])
+
+// パブリックAPIテスト
+const testPublicAPI = async () => {
+  isTestingPublic.value = true
+  try {
+    await apiCall('/health')
+    apiTestResults.value.unshift({
+      endpoint: 'GET /health',
+      success: true,
+      message: 'パブリックAPI呼び出し成功'
+    })
+  } catch (error) {
+    apiTestResults.value.unshift({
+      endpoint: 'GET /health',
+      success: false,
+      message: `エラー: ${error.message || error}`
+    })
+  } finally {
+    isTestingPublic.value = false
+  }
+}
+
+// 認証付きAPIテスト
+const testAuthenticatedAPI = async () => {
+  isTestingAuth.value = true
+  try {
+    await apiCall('/player')
+    apiTestResults.value.unshift({
+      endpoint: 'GET /player',
+      success: true,
+      message: '認証付きAPI呼び出し成功'
+    })
+  } catch (error) {
+    apiTestResults.value.unshift({
+      endpoint: 'GET /player',
+      success: false,
+      message: `エラー: ${error.message || error}`
+    })
+  } finally {
+    isTestingAuth.value = false
+  }
+}
+
+// 認証テスト関数
+const handleGoogleSignIn = async () => {
+  isSigningIn.value = true
+  try {
+    await signInWithGoogle()
+    authTestResults.value.unshift({
+      action: 'Googleログイン',
+      success: true,
+      message: 'Googleログイン成功'
+    })
+  } catch (error) {
+    authTestResults.value.unshift({
+      action: 'Googleログイン',
+      success: false,
+      message: `エラー: ${error.message || error}`
+    })
+  } finally {
+    isSigningIn.value = false
+  }
+}
+
+const handleTwitterSignIn = async () => {
+  isSigningIn.value = true
+  try {
+    await signInWithTwitter()
+    authTestResults.value.unshift({
+      action: 'X(Twitter)ログイン',
+      success: true,
+      message: 'X(Twitter)ログイン成功'
+    })
+  } catch (error) {
+    authTestResults.value.unshift({
+      action: 'X(Twitter)ログイン',
+      success: false,
+      message: `エラー: ${error.message || error}`
+    })
+  } finally {
+    isSigningIn.value = false
+  }
+}
+
+const handleLogout = async () => {
+  isSigningOut.value = true
+  try {
+    await logout()
+    authTestResults.value.unshift({
+      action: 'ログアウト',
+      success: true,
+      message: 'ログアウト成功'
+    })
+  } catch (error) {
+    authTestResults.value.unshift({
+      action: 'ログアウト',
+      success: false,
+      message: `エラー: ${error.message || error}`
+    })
+  } finally {
+    isSigningOut.value = false
+  }
+}
+
 useHead({
   title: '@nuxt/ui Component Test - FIREWOLF'
 })

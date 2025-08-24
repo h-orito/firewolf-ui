@@ -6,7 +6,7 @@ export default defineNuxtConfig({
   typescript: {
     typeCheck: true
   },
-  pages: false,
+  pages: true,
   ssr: false,
   vuefire: {
     auth: {

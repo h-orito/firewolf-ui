@@ -121,3 +121,5 @@ Desktop.ini
 
 # Claude
 .claude/settings.local.json
+
+.playwright-mcp
