@@ -42,9 +42,9 @@
       <!-- Buttons -->
       <div class="space-x-2 mb-6">
         <UButton color="primary" variant="solid">Primary</UButton>
-        <UButton color="gray" variant="outline">Secondary</UButton>
-        <UButton color="red" variant="soft">Danger</UButton>
-        <UButton color="green" variant="ghost">Success</UButton>
+        <UButton color="neutral" variant="outline">Secondary</UButton>
+        <UButton color="error" variant="soft">Danger</UButton>
+        <UButton color="success" variant="ghost">Success</UButton>
       </div>
 
       <!-- Card -->
