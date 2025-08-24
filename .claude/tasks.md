@@ -55,8 +55,8 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
 
 - [x] TypeScript 5.7+設定
 - [x] ESLint 9 + Prettier 3設定
-- [ ] VSCode設定ファイル作成
-- [ ] .gitignore設定
+- [x] VSCode設定ファイル作成
+- [x] .gitignore設定
 
 ### 🔧 開発コマンド設定・検証
 

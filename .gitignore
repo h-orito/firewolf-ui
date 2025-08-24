@@ -67,6 +67,7 @@ typings/
 
 # nuxt.js build output
 .nuxt
+.output
 
 # Nuxt generate
 dist
@@ -82,3 +83,38 @@ dist
 
 # Service worker
 sw.*
+
+# pnpm
+.pnpm-debug.log*
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# Vitest
+coverage/
+
+# Environment files
+.env.local
+.env.production
+.env.test
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Nitro
+.nitro
+
+# Firebase
+.firebase/
+
+# Temporary files
+*.tmp
+*.temp
