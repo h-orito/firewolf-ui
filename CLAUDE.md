@@ -44,6 +44,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
    1. commit 前にユーザーに修正内容の確認を依頼する
 7. **適切な粒度で commit**:
    1. ユーザーの承認を得られたら、機能追加、バグ修正、リファクタリングなど論理的な単位で commit
+   2. **commit message に絵文字を使用しない** - シンプルで読みやすいメッセージにする
 8. `{project_root}/.claude/tasks.md` のタスクがなくなるまでこのフローを 1 から繰り返す
    1. 途中で features や bugs に追記されることがある
 
