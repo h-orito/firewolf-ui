@@ -73,14 +73,13 @@ export const ParticipantList: React.FC<ParticipantListProps> = ({ village, user 
               {aliveParticipants.map((participant) => (
                 <div
                   key={participant.id}
-                  className="flex items-center justify-between py-2 rounded group border-t border-gray-200"
-                  onClick={() => handlePersonalExtraction(participant.id)}
+                  className="items-center justify-between py-2 rounded group border-t border-gray-200 w-full"
                 >
                   <div className="flex items-center space-x-2 min-w-0">
                     <CharacterImage chara={participant.chara} scale={0.5} />
-                    <div className="min-w-0 flex flex-col">
-                      <div>
-                        <div className="text-xs font-medium text-gray-900 truncate">
+                    <div className="flex-1 flex flex-col">
+                      <div className="flex w-full">
+                        <div className="text-xs font-medium text-gray-900 content-center">
                           {participant.chara_name.name}
                         </div>
                         {participant.skill && (
@@ -88,18 +87,19 @@ export const ParticipantList: React.FC<ParticipantListProps> = ({ village, user 
                             {participant.skill.short_name}
                           </div>
                         )}
+                        <div className="flex-1 justify-end flex">
+                          <button
+                            className="ml-auto text-xs px-2 py-1 text-blue-600 rounded"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              handlePersonalExtraction(participant.id)
+                            }}
+                          >
+                            抽出
+                          </button>
+                        </div>
                       </div>
-                      <div className="w-full">
-                        <button
-                          className="ml-auto text-xs px-2 py-1 text-blue-600 rounded"
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            handlePersonalExtraction(participant.id)
-                          }}
-                        >
-                          抽出
-                        </button>
-                      </div>
+                      <div>&nbsp;</div>
                     </div>
                   </div>
                 </div>
