@@ -16,12 +16,15 @@
   "dependencies": {
     "@nuxt/ui": "^3.3.2",
     "@pinia/nuxt": "^0.5.5",
+    "@vee-validate/yup": "^4.15.1",
     "firebase": "^12.1.0",
     "nuxt": "^4.0.3",
     "nuxt-vuefire": "^1.1.0",
     "pinia": "^2.2.7",
+    "vee-validate": "^4.15.1",
     "vue": "latest",
-    "vuefire": "^3.2.2"
+    "vuefire": "^3.2.2",
+    "yup": "^1.7.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",
