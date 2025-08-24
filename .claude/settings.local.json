@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl:*)",
+      "Bash(git diff:*)",
+      "Bash(tail:*)",
+      "Bash(pnmp lint:*)",
+      "Bash(mv:*)",
+      "Bash(npm run lint)",
+      "Bash(npm run format:*)",
+      "Bash(npm run type-check:*)",
+      "Bash(pnmp type-check:*)",
+      "Bash(pnmp:*)",
+      "Bash(git mv:*)",
+      "Bash(PORT=3010 pnpm dev)",
+      "Bash(npx:*)",
+      "Bash(pnpm list:*)",
+      "Bash(pnpm next lint:*)",
+      "WebSearch",
+      "WebFetch(domain:openapi-ts.dev)",
+      "Bash(PORT=3010 pnpm test:e2e)",
+      "Bash(BASE_URL=http://localhost:3010 npx playwright test --reporter=list)",
+      "mcp__playwright",
+      "mcp__serena",
+      "Bash(git add:*)"
+    ],
+    "deny": []
+  }
+}
