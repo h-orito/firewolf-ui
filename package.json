@@ -9,7 +9,9 @@
     "preview": "nuxt preview",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "type-check": "nuxt typecheck"
+    "type-check": "nuxt typecheck",
+    "generate:api-types": "curl -o types/api/openapi.json http://localhost:8087/firewolf/v3/api-docs && openapi-typescript types/api/openapi.json -o types/api/schema.ts",
+    "prebuild": "pnpm generate:api-types"
   },
   "dependencies": {
     "@nuxt/ui": "^3.3.2",
@@ -27,6 +29,7 @@
     "eslint": "^9.11.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-vue": "^9.28.0",
+    "openapi-typescript": "^7.9.1",
     "prettier": "^3.3.3",
     "tailwindcss": "^4.1.12",
     "typescript": "^5.7.2",

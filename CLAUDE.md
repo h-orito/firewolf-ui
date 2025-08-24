@@ -43,6 +43,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
    1. 必要に応じて doc/ディレクトリに記録
 5. **commit 前作業**:
    1. **commit 前に必ず lint・format・type-check を実行** - `pnpm lint && pnpm format && pnpm type-check` を実行
+   2. **API型定義が最新であることを確認** - 必要に応じて `pnpm generate:api-types` を実行
 6. **ユーザーに確認を依頼**:
    1. commit 前にユーザーに修正内容の確認を依頼する
 7. **適切な粒度で commit**:
@@ -108,6 +109,46 @@ npm run lint    # ESLintでコード検証（必須）
 - TypeScript strict mode (noImplicitAny: false)
 - Vue Class Components (vue-property-decorator使用)
 
+## 🔥 API型定義の使用ルール（重要）
+
+**🚨 必須事項: OpenAPI自動生成型の正しい活用**
+
+1. **型定義の自動生成**
+   - APIサーバーのOpenAPI定義から自動生成される型定義を必ず使用する
+   - 生成コマンド: `pnpm generate:api-types`
+   - 生成ファイル: `types/api/schema.ts`
+
+2. **型の使用方法**
+   - ✅ **推奨**: types/api配下にラッパー型を定義してから使用
+   - ❌ **禁止**: components['schemas']['ModelName'] を直接使用
+
+   ```typescript
+   // ✅ 正しい使用例
+   // types/api/village.ts
+   import type { components } from './schema'
+   export type VillageView = components['schemas']['VillageView']
+   export type VillageRegisterBody =
+     components['schemas']['VillageRegisterBody']
+
+   // Vue コンポーネントで使用
+   import type { VillageView } from '~/types/api/village'
+   ```
+
+3. **API通信の型安全性**
+   - API呼び出し時は必ず生成された型を使用
+   - リクエストボディ・レスポンスの両方で型チェックを行う
+   - $fetch 使用時は適切な型注釈を付ける
+
+4. **型定義の更新管理**
+   - APIサーバー側の変更後は即座に `pnpm generate:api-types` を実行
+   - ビルド前に自動で最新型定義を取得（prebuildフック）
+   - 型エラーが発生した場合は必ずAPI仕様書との整合性を確認
+
+5. **開発フロー統合**
+   - 新機能実装前に最新のAPI型定義を生成
+   - Pinia store実装時は生成された型を活用
+   - 型安全性を損なうany型の使用は禁止
+
 ## Architecture
 
 ```
@@ -116,12 +157,45 @@ npm run lint    # ESLintでコード検証（必須）
   village/        # 村関連コンポーネント
   create-village/ # 村作成関連
 /pages/           # ルーティング用ページコンポーネント
-/store/           # Vuexストア
+/store/           # Vuexストア (旧) → /stores/ (新Pinia)
   modules/        # ストアモジュール
 /middleware/      # 認証、バージョン管理など
 /plugins/         # axios、バリデーションなど
 /assets/          # SCSS、CSS、画像
 /static/          # 静的ファイル
+/types/           # 型定義ファイル
+  api/            # API関連型定義
+    schema.ts     # OpenAPI自動生成型定義（直接編集禁止）
+    village.ts    # 村関連型のラッパー
+    player.ts     # プレイヤー関連型のラッパー
+    chara.ts      # キャラクター関連型のラッパー
+    index.ts      # 型定義のre-export
+```
+
+### API型定義ファイルの構成例
+
+```typescript
+// types/api/village.ts - 村関連型のラッパー
+import type { components, operations } from './schema'
+
+// レスポンス型
+export type VillageView = components['schemas']['VillageView']
+export type VillagesView = components['schemas']['VillagesView']
+export type VillageStatus = components['schemas']['VillageStatus']
+
+// リクエスト型
+export type VillageRegisterBody = components['schemas']['VillageRegisterBody']
+export type VillageParticipateBody =
+  components['schemas']['VillageParticipateBody']
+
+// オペレーション型
+export type RegisterVillageOperation = operations['registerVillage']
+export type VillageListOperation = operations['villageList']
+
+// types/api/index.ts - 統合エクスポート
+export * from './village'
+export * from './player'
+export * from './chara'
 ```
 
 ## Development Notes

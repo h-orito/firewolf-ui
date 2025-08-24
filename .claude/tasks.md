@@ -119,6 +119,13 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
 - [x] ログイン・ログアウト機能実装
 - [x] 既存ユーザーデータとの互換性確認
 
+### 📡 OpenAPI型定義自動生成の導入
+
+- [x] openapi-typescript パッケージの導入
+- [x] APIサーバーのOpenAPI定義取得・配置
+- [x] 型定義生成スクリプトの作成
+- [x] package.jsonにbuildスクリプト追加
+
 ### 🗄️ Pinia状態管理実装
 
 - [ ] Pinia導入・基本設定
