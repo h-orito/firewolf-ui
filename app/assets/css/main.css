@@ -1,7 +1,35 @@
 @import 'tailwindcss';
 @import '@nuxt/ui';
 
+/* 既存Bulma色の@nuxt/ui CSS変数オーバーライド */
+:root {
+  --ui-primary: #3991f4;
+  --ui-info: #209cee;
+  --ui-success: #23d160;
+  --ui-warning: #ffdd57;
+  --ui-error: #ff3860;
+}
+
+.dark {
+  --ui-primary: #14b4ff; /* 既存のprimary-dark色 */
+}
+
 @theme {
+  /* 既存Bulma色の@nuxt/ui v3オーバーライド */
+  --color-primary-500: #3991f4;
+  --color-primary-600: #2c7ae0;
+  --color-primary-700: #1f63cc;
+  --color-primary-400: #4da3f6;
+  --color-primary-300: #61b5f8;
+  --color-primary-200: #8cc7fa;
+  --color-primary-100: #b7d9fc;
+  --color-primary-50: #e3ecfe;
+
+  --color-cyan-500: #209cee;
+  --color-green-500: #23d160;
+  --color-yellow-500: #ffdd57;
+  --color-red-500: #ff3860;
+
   /* 人狼ゲーム固有の発言色 */
   --color-say-normal: #ffffff;
   --color-say-werewolf: #f2cece;
@@ -74,4 +102,158 @@ ruby {
   color: #333;
   background-color: #333;
   cursor: pointer;
+}
+
+/* RadioGroup button style - b-radio-button風スタイル */
+.radio-button-style fieldset {
+  display: inline-flex;
+  gap: 0 !important;
+}
+
+.radio-button-style fieldset > div {
+  margin-left: -1px;
+}
+
+.radio-button-style fieldset > div:first-child {
+  margin-left: 0;
+}
+
+/* ボタンとラベルのスタイル */
+.radio-button-style label {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0.375rem 0.75rem !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  border: 1px solid var(--ui-primary) !important;
+  color: var(--ui-primary) !important;
+  background-color: white !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease-in-out !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  min-height: 32px !important;
+  margin: 0 !important;
+}
+
+/* 最初の要素の左角を丸くする */
+.radio-button-style fieldset > div:first-child label {
+  border-top-left-radius: 0.375rem !important;
+  border-bottom-left-radius: 0.375rem !important;
+}
+
+/* 最後の要素の右角を丸くする */
+.radio-button-style fieldset > div:last-child label {
+  border-top-right-radius: 0.375rem !important;
+  border-bottom-right-radius: 0.375rem !important;
+}
+
+/* ホバー状態 */
+.radio-button-style label:hover {
+  background-color: rgba(57, 145, 244, 0.05) !important;
+}
+
+/* 選択状態のスタイル - data-state="checked"を持つbuttonの親のlabel */
+.radio-button-style fieldset > div:has(button[data-state='checked']) label {
+  background-color: var(--ui-primary) !important;
+  color: white !important;
+  z-index: 10;
+}
+
+/* data-activeを持つbuttonの親のlabel */
+.radio-button-style fieldset > div:has(button[data-active]) label {
+  background-color: var(--ui-primary) !important;
+  color: white !important;
+  z-index: 10;
+}
+
+/* 無効化状態 */
+.radio-button-style fieldset > div:has(button:disabled) label {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ボタン自体は非表示 */
+.radio-button-style button {
+  display: none !important;
+}
+
+/* Small button style */
+.radio-button-small-style fieldset {
+  display: inline-flex;
+  gap: 0 !important;
+}
+
+.radio-button-small-style fieldset > div {
+  margin-left: -1px;
+}
+
+.radio-button-small-style fieldset > div:first-child {
+  margin-left: 0;
+}
+
+/* ボタンとラベルのスタイル（小サイズ） */
+.radio-button-small-style label {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0.25rem 0.5rem !important;
+  font-size: 0.75rem !important;
+  font-weight: 500 !important;
+  border: 1px solid var(--ui-primary) !important;
+  color: var(--ui-primary) !important;
+  background-color: white !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease-in-out !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  min-height: 28px !important;
+  margin: 0 !important;
+}
+
+/* 最初の要素の左角を丸くする（小サイズ） */
+.radio-button-small-style fieldset > div:first-child label {
+  border-top-left-radius: 0.25rem !important;
+  border-bottom-left-radius: 0.25rem !important;
+}
+
+/* 最後の要素の右角を丸くする（小サイズ） */
+.radio-button-small-style fieldset > div:last-child label {
+  border-top-right-radius: 0.25rem !important;
+  border-bottom-right-radius: 0.25rem !important;
+}
+
+/* ホバー状態（小サイズ） */
+.radio-button-small-style label:hover {
+  background-color: rgba(57, 145, 244, 0.05) !important;
+}
+
+/* 選択状態のスタイル（小サイズ） */
+.radio-button-small-style
+  fieldset
+  > div:has(button[data-state='checked'])
+  label {
+  background-color: var(--ui-primary) !important;
+  color: white !important;
+  z-index: 10;
+}
+
+.radio-button-small-style fieldset > div:has(button[data-active]) label {
+  background-color: var(--ui-primary) !important;
+  color: white !important;
+  z-index: 10;
+}
+
+/* 無効化状態（小サイズ） */
+.radio-button-small-style fieldset > div:has(button:disabled) label {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ボタン自体は非表示（小サイズ） */
+.radio-button-small-style button {
+  display: none !important;
 }
