@@ -73,10 +73,10 @@
       <div class="mb-4">
         <h2 class="text-lg font-semibold mb-2">カスタムカラーテスト</h2>
         <div class="grid grid-cols-2 gap-2">
-          <div class="bg-werewolf-say p-2 rounded">人狼発言色</div>
-          <div class="bg-normal-say p-2 rounded border">通常発言色</div>
-          <div class="bg-spectate-say p-2 rounded">見学発言色</div>
-          <div class="bg-grave-say p-2 rounded">墓場発言色</div>
+          <div class="bg-say-werewolf p-2 rounded">人狼発言色</div>
+          <div class="bg-say-normal p-2 rounded border">通常発言色</div>
+          <div class="bg-say-spectate p-2 rounded">見学発言色</div>
+          <div class="bg-say-grave p-2 rounded">墓場発言色</div>
         </div>
       </div>
     </div>

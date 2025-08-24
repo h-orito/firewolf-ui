@@ -1,6 +1,25 @@
 @import 'tailwindcss';
 @import '@nuxt/ui';
 
+@theme {
+  /* 人狼ゲーム固有の発言色 */
+  --color-say-normal: #ffffff;
+  --color-say-werewolf: #f2cece;
+  --color-say-werewolf-dark: #f2aeae;
+  --color-say-sympathize: #cef2ce;
+  --color-say-sympathize-dark: #aef2ae;
+  --color-say-monologue: #ddd;
+  --color-say-monologue-dark: #aaa;
+  --color-say-grave: #ceedf2;
+  --color-say-grave-dark: #a9edf7;
+  --color-say-spectate: #f2f2ce;
+  --color-say-spectate-dark: #f2f2ae;
+  --color-say-action: #dfdfc9;
+  --color-say-action-dark: #232355;
+  --color-say-secret: #cecef2;
+  --color-say-secret-dark: #aa99aa;
+}
+
 .page-enter-active,
 .page-leave-active {
   transition: opacity 0.1s;
