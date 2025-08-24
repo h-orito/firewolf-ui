@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "type-check": "nuxt typecheck",
-    "generate:api-types": "curl -o types/api/openapi.json http://localhost:8087/firewolf/v3/api-docs && openapi-typescript types/api/openapi.json -o types/api/schema.ts",
+    "generate:api-types": "curl -o app/lib/api/openapi.json http://localhost:8087/firewolf/v3/api-docs && openapi-typescript app/lib/api/openapi.json -o app/lib/api/schema.ts",
     "prebuild": "pnpm generate:api-types"
   },
   "dependencies": {
