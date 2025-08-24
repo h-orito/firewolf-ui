@@ -18,6 +18,42 @@
   --color-say-action-dark: #232355;
   --color-say-secret: #cecef2;
   --color-say-secret-dark: #aa99aa;
+
+  /* 恋人関連の色 */
+  --color-lovers-text: #cc2222;
+  --color-lovers-bg: #f2dede;
+  --color-lovers-bg-dark: #edcece;
+
+  /* システムメッセージ色 */
+  --color-system-private-border: #ccc;
+  --color-system-private-bg: #eee;
+  --color-system-private-bg-dark: #404040;
+  --color-system-seer-border: #0f0;
+  --color-system-seer-bg: #efe;
+  --color-system-seer-bg-dark: #334033;
+  --color-system-psychic-border: #00f;
+  --color-system-psychic-bg: #eef;
+  --color-system-psychic-bg-dark: #333340;
+  --color-system-werewolf-border: #f00;
+  --color-system-werewolf-bg: #fee;
+  --color-system-werewolf-bg-dark: #403333;
+  --color-system-mason-border: #fa0;
+  --color-system-mason-bg: #fec;
+  --color-system-mason-bg-dark: #404033;
+  --color-system-lovers-border: #f0a;
+  --color-system-lovers-bg: #fef;
+  --color-system-lovers-bg-dark: #404033;
+  --color-system-fox-border: #fa0;
+  --color-system-fox-border-dark: #ff0;
+  --color-system-fox-bg: #ffc;
+  --color-system-fox-bg-dark: #404033;
+  --color-system-creator-border: #c0f;
+  --color-system-creator-bg: #fef;
+  --color-system-creator-bg-dark: #403340;
+
+  /* Village layout specific heights */
+  --spacing-village-header: 2rem;
+  --spacing-village-footer: 2rem;
 }
 
 .page-enter-active,

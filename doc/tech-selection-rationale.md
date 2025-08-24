@@ -52,6 +52,31 @@
    - Tailwind CSSの柔軟性により細かなカスタマイズに対応
    - 人狼ゲーム固有のUI要件を満たせる
 
+#### CSS/SCSS移行における重要事項
+
+**Tailwind CSS v4移行のポイント:**
+
+- **設定方法変更**: `tailwind.config.js` → `@theme` ディレクティブによるCSS変数定義
+- **カスタムカラー**: 従来のネスト構造 (`say.werewolf`) → フラット構造 (`--color-say-werewolf`)
+- **使用方法**: クラス名は `bg-say-werewolf` の形式で変更なし
+
+**Bulma/SCSS → Tailwind CSS代用表:**
+
+| 従来（SCSS） | 新（Tailwind CSS）       | 説明                            |
+| ------------ | ------------------------ | ------------------------------- |
+| `.m-t-10`    | `mt-2.5`                 | マージントップ10px              |
+| `.m-l-15`    | `ml-3.5`                 | マージンレフト15px              |
+| `.p-r-20`    | `pr-5`                   | パディングライト20px            |
+| `$primary`   | `--ui-primary`変数       | @nuxt/uiのカラーシステム        |
+| Bulmaカラー  | @nuxt/uiカラーエイリアス | `primary`, `error`, `success`等 |
+
+**移行完了事項:**
+
+- ✅ firewolf.scss削除（Bulma/Buefy依存解消）
+- ✅ カスタムカラー変数をCSS変数に移行
+- ✅ システムメッセージ色・恋人関連色の移行
+- ✅ Village layout変数の移行
+
 4. **技術負債の解消**
    - Vue 2 → Vue 3への移行
    - レガシーなビルドツールからViteへの移行
