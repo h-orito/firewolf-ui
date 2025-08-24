@@ -122,4 +122,7 @@ Desktop.ini
 # Claude
 .claude/settings.local.json
 
+# Serena cache files
+.serena/cache/
+
 .playwright-mcp

@@ -164,7 +164,7 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
 - [x] Modal コンポーネント実装
   - [x] 現行b-modalの使用パターン分析
   - [x] @nuxt/uiのUModalで再実装
-- [ ] Toast/Notification コンポーネント実装
+- [x] Toast/Notification コンポーネント実装
 - [ ] Button コンポーネント群実装
   - [ ] 現行b-buttonのvariant・size分析
   - [ ] カスタムスタイルの移植
