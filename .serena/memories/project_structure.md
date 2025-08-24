@@ -3,10 +3,11 @@
 ## ディレクトリ構成
 
 ### /components
+
 - 再利用可能なVueコンポーネント
 - サブディレクトリ:
   - `common/`: 共通コンポーネント
-  - `village/`: 村関連のコンポーネント  
+  - `village/`: 村関連のコンポーネント
   - `create-village/`: 村作成関連
   - `player-record/`: プレイヤー記録関連
   - `rule/`: ルール表示関連
@@ -16,6 +17,7 @@
   - `const/`: 定数定義
 
 ### /pages
+
 - Nuxt.jsの自動ルーティング用ページコンポーネント
 - 主要ページ:
   - `index.vue`: トップページ
@@ -28,24 +30,29 @@
   - その他ドキュメント系ページ
 
 ### /store
+
 - Vuexストア
 - `modules/`: ストアモジュール
 - `action-types.ts`: アクションタイプ定義
 - `index.ts`: ストアのエントリーポイント
 
 ### /middleware
+
 - Nuxt.jsミドルウェア
 - 認証、バージョン管理、広告表示など
 
 ### /plugins
+
 - Nuxt.jsプラグイン
 - axios、バリデーション、日付処理など
 
 ### /assets
+
 - SASS/SCSSスタイルシート
 - CSSファイル
 - 画像やフォントなどの静的リソース
 
 ### /static
+
 - 直接配信される静的ファイル
 - 画像、HTML、アイコンなど

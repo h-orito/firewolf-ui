@@ -7,12 +7,14 @@
 ## 前提条件
 
 ### 必要なソフトウェア
+
 - Node.js 22 LTS以上
 - pnpm 9.0以上 (推奨) または npm 10以上
 - Git 2.40以上
 - VSCode (推奨エディタ)
 
 ### 推奨システム要件
+
 - OS: macOS 13以上 / Windows 11 / Ubuntu 22.04以上
 - RAM: 16GB以上
 - ストレージ: 空き容量 10GB以上
@@ -22,6 +24,7 @@
 ### 1.1 Node.js 22インストール
 
 #### macOS (Homebrew使用)
+
 ```bash
 # Homebrewがない場合は先にインストール
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -36,6 +39,7 @@ npm --version   # 10.x.x 以上が表示されることを確認
 ```
 
 #### Windows (nvm-windows使用)
+
 ```powershell
 # nvm-windowsをGitHubから入手してインストール
 # https://github.com/coreybutler/nvm-windows/releases
@@ -50,6 +54,7 @@ npm --version
 ```
 
 #### Ubuntu
+
 ```bash
 # NodeSourceリポジトリ追加
 curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
@@ -63,6 +68,7 @@ npm --version
 ```
 
 ### 1.2 pnpm インストール (推奨)
+
 ```bash
 # pnpm インストール
 npm install -g pnpm@latest
@@ -74,6 +80,7 @@ pnpm --version  # 9.0以上が表示されることを確認
 ## 2. プロジェクト初期化
 
 ### 2.1 Nuxt 4プロジェクト作成
+
 ```bash
 # Nuxtプロジェクト作成
 npx nuxi@latest init firewolf-ui-v4
@@ -89,6 +96,7 @@ pnpm dev
 ```
 
 ### 2.2 TypeScript設定
+
 ```bash
 # TypeScript追加
 pnpm add -D typescript @nuxt/typescript-build
@@ -97,6 +105,7 @@ pnpm add -D typescript @nuxt/typescript-build
 ```
 
 ### 2.3 Gitリポジトリ初期化
+
 ```bash
 # Git初期化
 git init
@@ -111,6 +120,7 @@ git commit -m "feat: initial Nuxt 4 project setup"
 ## 3. @nuxt/ui導入
 
 ### 3.1 @nuxt/uiインストール
+
 ```bash
 # @nuxt/ui とその依存関係をインストール
 pnpm add @nuxt/ui
@@ -119,29 +129,28 @@ pnpm add @nuxt/ui
 ```
 
 ### 3.2 Nuxt設定
+
 ```typescript
 // nuxt.config.ts
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: [
-    '@nuxt/ui'
-  ],
-  
+  modules: ['@nuxt/ui'],
+
   // TypeScript設定
   typescript: {
     strict: true,
     typeCheck: true
   },
-  
+
   // CSS設定
   css: [],
-  
+
   // 環境変数
   runtimeConfig: {
     public: {
       firebaseApiKey: process.env.FIREBASE_API_KEY,
       firebaseAuthDomain: process.env.FIREBASE_AUTH_DOMAIN,
-      firebaseProjectId: process.env.FIREBASE_PROJECT_ID,
+      firebaseProjectId: process.env.FIREBASE_PROJECT_ID
       // 他のFirebase設定...
     }
   }
@@ -149,6 +158,7 @@ export default defineNuxtConfig({
 ```
 
 ### 3.3 動作確認
+
 ```vue
 <!-- app.vue -->
 <template>
@@ -161,6 +171,7 @@ export default defineNuxtConfig({
 ## 4. 開発ツール設定
 
 ### 4.1 ESLint設定
+
 ```bash
 # ESLint関連パッケージインストール
 pnpm add -D @nuxt/eslint-config eslint prettier
@@ -172,12 +183,13 @@ import { createConfigForNuxt } from '@nuxt/eslint-config/flat'
 
 export default createConfigForNuxt({
   features: {
-    stylistic: true,
-  },
+    stylistic: true
+  }
 })
 ```
 
 ### 4.2 Prettier設定
+
 ```json
 // .prettierrc
 {
@@ -191,6 +203,7 @@ export default createConfigForNuxt({
 ```
 
 ### 4.3 package.json スクリプト
+
 ```json
 {
   "scripts": {
@@ -208,6 +221,7 @@ export default createConfigForNuxt({
 ## 5. VSCode設定
 
 ### 5.1 必須拡張機能
+
 以下の拡張機能をインストール：
 
 ```json
@@ -225,6 +239,7 @@ export default createConfigForNuxt({
 ```
 
 ### 5.2 VSCode設定
+
 ```json
 // .vscode/settings.json
 {
@@ -248,6 +263,7 @@ export default createConfigForNuxt({
 ## 6. Tailwind CSS カスタマイズ
 
 ### 6.1 現行色の移植
+
 ```javascript
 // tailwind.config.js
 export default {
@@ -255,9 +271,9 @@ export default {
     extend: {
       colors: {
         // FIREWOLF固有色
-        'primary': '#3991f4',
+        primary: '#3991f4',
         'primary-dark': 'rgb(20, 180, 255)',
-        
+
         // 人狼ゲーム発言色
         'werewolf-say': '#f2cece',
         'werewolf-say-dark': '#f2aeae',
@@ -270,7 +286,7 @@ export default {
         'spectate-say': '#f2f2ce',
         'action-say': '#dfdfc9',
         'secret-say': '#cecef2',
-        
+
         // システムメッセージ色
         'private-system': '#eee',
         'seer-system': '#efe',
@@ -280,7 +296,7 @@ export default {
         'lovers-system': '#fef',
         'fox-system': '#ffc',
         'creator-say': '#fef',
-        
+
         // ダークモード色
         'primary-dark-bg': '#404040',
         'werewolf-dark-bg': '#403333',
@@ -298,11 +314,13 @@ export default {
 ## 7. Firebase設定
 
 ### 7.1 Firebase SDK インストール
+
 ```bash
 pnpm add firebase @vuefire/nuxt
 ```
 
 ### 7.2 環境変数設定
+
 ```bash
 # .env ファイル作成
 cp .env.example .env
@@ -317,14 +335,12 @@ FIREBASE_APP_ID=your-app-id
 ```
 
 ### 7.3 Firebase設定
+
 ```typescript
 // nuxt.config.ts に追加
 export default defineNuxtConfig({
-  modules: [
-    '@nuxt/ui',
-    '@vuefire/nuxt'
-  ],
-  
+  modules: ['@nuxt/ui', '@vuefire/nuxt'],
+
   vuefire: {
     config: {
       apiKey: process.env.FIREBASE_API_KEY,
@@ -341,36 +357,37 @@ export default defineNuxtConfig({
 ## 8. 状態管理設定
 
 ### 8.1 Pinia インストール
+
 ```bash
 pnpm add @pinia/nuxt pinia
 ```
 
 ### 8.2 Pinia設定
+
 ```typescript
 // nuxt.config.ts に追加
 export default defineNuxtConfig({
-  modules: [
-    '@nuxt/ui',
-    '@vuefire/nuxt',
-    '@pinia/nuxt'
-  ]
+  modules: ['@nuxt/ui', '@vuefire/nuxt', '@pinia/nuxt']
 })
 ```
 
 ## 9. テスト環境設定
 
 ### 9.1 Vitest インストール
+
 ```bash
 pnpm add -D vitest @vue/test-utils jsdom @vitejs/plugin-vue
 ```
 
 ### 9.2 Playwright インストール
+
 ```bash
 pnpm add -D @playwright/test
 npx playwright install
 ```
 
 ### 9.3 テスト設定
+
 ```javascript
 // vitest.config.ts
 import { defineConfig } from 'vitest/config'
@@ -391,6 +408,7 @@ export default defineConfig({
 ## 10. 開発フロー確認
 
 ### 10.1 基本動作確認
+
 ```bash
 # 開発サーバー起動
 pnpm dev
@@ -406,6 +424,7 @@ pnpm format
 ```
 
 ### 10.2 動作確認項目
+
 - [ ] 開発サーバーが http://localhost:3000 で起動する
 - [ ] @nuxt/uiコンポーネントが表示される
 - [ ] Tailwind CSSが適用される
@@ -418,6 +437,7 @@ pnpm format
 ### よくある問題と解決策
 
 #### Node.js バージョン問題
+
 ```bash
 # .nvmrcファイル作成
 echo "22" > .nvmrc
@@ -427,6 +447,7 @@ nvm use
 ```
 
 #### pnpm vs npm 混在問題
+
 ```bash
 # node_modules削除
 rm -rf node_modules
@@ -439,11 +460,13 @@ pnpm install
 ```
 
 #### VSCode TypeScript認識問題
+
 1. VSCode再起動
 2. TypeScript拡張機能の無効化・有効化
 3. `cmd + shift + p` → "TypeScript: Restart TS Server"
 
 #### Tailwind CSS適用されない
+
 1. `tailwind.config.js`の設定確認
 2. CSS importの確認
 3. ブラウザキャッシュクリア

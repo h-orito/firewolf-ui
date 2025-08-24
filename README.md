@@ -11,7 +11,6 @@
 ## Requirement for local development
 
 - npm
-
   - 最新版をインストールしてください
 
 - [firewolf-api](https://github.com/h-orito/firewolf-api) のセットアップもしておいてください
@@ -19,7 +18,6 @@
 ## Setup for local development
 
 - clone
-
   - 好きな場所にこのプロジェクトを clone してください
 
 - 起動

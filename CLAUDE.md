@@ -7,6 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 **このプロジェクトは現在Nuxt 2からNuxt 4への移行作業中です。**
 
 ### 📋 移行関連ドキュメント
+
 - **[移行計画書](./doc/nuxt3-migration-plan.md)**: プロジェクト全体の移行戦略・スケジュール
 - **[技術選定根拠書](./doc/tech-selection-rationale.md)**: UIフレームワーク等の選定理由
 - **[実装計画](./doc/migration-phases.md)**: フェーズ別の詳細タスク
@@ -15,6 +16,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **[タスクリスト](./.claude/tasks.md)**: 実装タスクの詳細チェックリスト
 
 ### 🎯 移行方針
+
 - **技術スタック更新**: Nuxt 2 → Nuxt 4, Buefy → @nuxt/ui + Tailwind CSS
 - **機能完全維持**: 現行システムと100%同一の機能・UI/UXを維持
 - **採用技術**: @nuxt/ui (Tailwind CSS + Headless UI) + Pinia + Firebase
@@ -32,10 +34,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
    3. `{project_root}/.claude/features.md` から内容を削除
 3. **TASK.md のタスクを確認**:
    1. `{project_root}/.claude/tasks.md` を参照してタスクを確認
-   2. タスクに記載されている作業を実施
-   3. 実装したページを playwright で確認し、エラーが発生しないことを確認
+   2. **🚨重要**: 一度に実装するのは**taskの1セクション（###で区切られた範囲）まで**
+   3. タスクに記載されている作業を実施
+   4. 実装したページを playwright で確認し、エラーが発生しないことを確認
       1. エラーが発生する場合、ユーザーに確認
-   4. タスクが完了したら、`{project_root}/.claude/tasks.md` のチェックボックスに記録
+   5. タスクが完了したら、`{project_root}/.claude/tasks.md` のチェックボックスに記録
 4. **ドキュメンテーション**:
    1. 必要に応じて doc/ディレクトリに記録
 5. **commit 前作業**:
@@ -55,6 +58,7 @@ FIREWOLFは人狼ゲームが無料で遊べるWebサービスです。現在は
 ## Tech Stack
 
 ### 🔄 Current (Legacy)
+
 - **Framework**: Nuxt.js 2.x (SPA mode)
 - **Language**: TypeScript
 - **UI**: Buefy (Bulma based)
@@ -64,6 +68,7 @@ FIREWOLFは人狼ゲームが無料で遊べるWebサービスです。現在は
 - **Package Manager**: npm
 
 ### 🎯 Target (Migration)
+
 - **Framework**: Nuxt 4 + Node.js 22 LTS
 - **Language**: TypeScript 5.7+
 - **UI**: @nuxt/ui (Tailwind CSS + Headless UI)
@@ -75,12 +80,14 @@ FIREWOLFは人狼ゲームが無料で遊べるWebサービスです。現在は
 ## Commands
 
 ### Development
+
 ```bash
 npm ci          # 初回セットアップ
 npm run dev     # 開発サーバー起動 (http://localhost:3000)
 ```
 
 ### Build & Production
+
 ```bash
 npm run build   # プロダクションビルド
 npm run start   # プロダクションサーバー起動
@@ -88,6 +95,7 @@ npm run generate # 静的サイト生成
 ```
 
 ### Code Quality
+
 ```bash
 npm run lint    # ESLintでコード検証（必須）
 ```
@@ -134,6 +142,7 @@ npm run lint    # ESLintでコード検証（必須）
 ## Task Completion
 
 ### 🔄 Legacy System (移行完了まで)
+
 新しいコードを追加・修正した際は以下を実行:
 
 1. `npm run lint` - エラーがないことを確認
@@ -141,10 +150,11 @@ npm run lint    # ESLintでコード検証（必須）
 3. ブラウザコンソールにエラーがないことを確認
 
 ### 🎯 New System (移行後)
+
 新しいコードを追加・修正した際は以下を実行:
 
 1. `pnpm lint` - ESLint・TypeScriptエラーなし確認
-2. `pnpm dev` - Nuxt 4開発サーバーで動作確認  
+2. `pnpm dev` - Nuxt 4開発サーバーで動作確認
 3. `pnpm type-check` - TypeScript型エラーなし確認
 4. ブラウザコンソールにエラーがないことを確認
 
