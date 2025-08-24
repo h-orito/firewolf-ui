@@ -30,7 +30,8 @@
       "Bash(pnpm format:*)",
       "Bash(pnpm type-check:*)",
       "Bash(pnpm dev:*)",
-      "Bash(pnpm add:*)"
+      "Bash(pnpm add:*)",
+      "mcp__context7"
     ],
     "deny": []
   }
