@@ -159,29 +159,29 @@
         <!-- 認証操作ボタン -->
         <div class="flex space-x-4 flex-wrap gap-2">
           <UButton
-            @click="handleGoogleSignIn"
             :loading="isSigningIn"
             color="blue"
             :disabled="isAuthenticated"
             icon="i-simple-icons-google"
+            @click="handleGoogleSignIn"
           >
             Googleでログイン
           </UButton>
           <UButton
-            @click="handleTwitterSignIn"
             :loading="isSigningIn"
             color="gray"
             :disabled="isAuthenticated"
             icon="i-simple-icons-x"
+            @click="handleTwitterSignIn"
           >
             X(Twitter)でログイン
           </UButton>
           <UButton
-            @click="handleLogout"
             :loading="isSigningOut"
             color="red"
             variant="outline"
             :disabled="!isAuthenticated"
+            @click="handleLogout"
           >
             ログアウト
           </UButton>
@@ -215,17 +215,17 @@
       <div class="space-y-4">
         <div class="flex space-x-4">
           <UButton
-            @click="testPublicAPI"
             :loading="isTestingPublic"
             color="primary"
+            @click="testPublicAPI"
           >
             パブリックAPI テスト (/health)
           </UButton>
           <UButton
-            @click="testAuthenticatedAPI"
             :loading="isTestingAuth"
             color="green"
             :disabled="!isAuthenticated"
+            @click="testAuthenticatedAPI"
           >
             認証付きAPI テスト (/player)
           </UButton>

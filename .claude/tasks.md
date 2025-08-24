@@ -156,14 +156,14 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
 
 ### Week 4: 共通コンポーネント
 
-- [ ] Loading コンポーネント実装
-  - [ ] 現行Buefyコンポーネントの詳細分析（コードベース）
-  - [ ] ⚠️ デザイン確認必要時はユーザーに本番スクリーンショット依頼
-  - [ ] @nuxt/ui + Tailwindで再実装
-  - [ ] アニメーション・状態管理
-- [ ] Modal コンポーネント実装
-  - [ ] 現行b-modalの使用パターン分析
-  - [ ] @nuxt/uiのUModalで再実装
+- [x] Loading コンポーネント実装
+  - [x] 現行Buefyコンポーネントの詳細分析（コードベース）
+  - [x] ⚠️ デザイン確認必要時はユーザーに本番スクリーンショット依頼
+  - [x] @nuxt/ui + Tailwindで再実装
+  - [x] アニメーション・状態管理
+- [x] Modal コンポーネント実装
+  - [x] 現行b-modalの使用パターン分析
+  - [x] @nuxt/uiのUModalで再実装
 - [ ] Toast/Notification コンポーネント実装
 - [ ] Button コンポーネント群実装
   - [ ] 現行b-buttonのvariant・size分析
