@@ -1,9 +1,4 @@
-/node_modules/**
-dist
-*.svg
-*.ico
-*.json
-.gitignore
-*.md
-*.log
-*.lock
+.old-nuxt2/**/*
+.nuxt/**/*
+dist/**/*
+node_modules/**/*
