@@ -1,0 +1,39 @@
+// API型定義のラッパー - 自動生成されたschema.tsを使用
+import type { components } from './schema'
+
+// キャラクター関連型
+export type CharaFace = components['schemas']['CharaFace']
+export type CharaSize = components['schemas']['CharaSize']
+export type CharaNameView = components['schemas']['CharaNameView']
+export type CharaDefaultMessage = components['schemas']['CharaDefaultMessage']
+export type CharaView = components['schemas']['CharaView']
+
+// メッセージ関連型
+export type MessageType = components['schemas']['MessageType']
+export type MessageTimeView = components['schemas']['MessageTimeView']
+export type MessageContent = components['schemas']['MessageContent']
+export type MessageView = components['schemas']['MessageView']
+
+// 参加者関連型
+export type VillageParticipantView = components['schemas']['VillageParticipantView']
+export type VillageParticipantName = components['schemas']['VillageParticipantName']
+export type VillageParticipantStatus = components['schemas']['VillageParticipantStatus']
+
+// スキル関連型
+export type Skill = components['schemas']['Skill']
+export type ComingOut = components['schemas']['ComingOut']
+export type ComingOuts = components['schemas']['ComingOuts']
+export type DeadView = components['schemas']['DeadView']
+
+// 村関連型（必要な分のみ）
+export type VillageView = components['schemas']['VillageView']
+export type VillageParticipantsView = components['schemas']['VillageParticipantsView']
+
+// その他
+export type Camp = components['schemas']['Camp']
+
+// 後方互換のためのエイリアス（古いコンポーネントが動作するまでの暫定）
+export type Chara = CharaView
+export type Message = MessageView
+export type VillageParticipant = VillageParticipantView
+export type Dead = DeadView
