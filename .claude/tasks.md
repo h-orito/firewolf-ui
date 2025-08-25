@@ -189,12 +189,12 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
 
 ### Week 5: レイアウトコンポーネント
 
-- [ ] DefaultLayout実装
-- [ ] VillageLayout（村専用レイアウト）実装
-- [ ] Navigation コンポーネント実装
-- [ ] Header コンポーネント実装
-- [ ] Footer コンポーネント実装
-- [ ] Sidebar コンポーネント実装
+- [x] DefaultLayout実装
+- [x] VillageLayout（村専用レイアウト）実装
+- [x] Navigation コンポーネント実装
+- [x] Header コンポーネント実装（NavBarが実質的なHeaderの役割を果たす）
+- [x] Footer コンポーネント実装（SiteFooterコンポーネント作成、モーダルは今後実装）
+- [x] Sidebar コンポーネント実装（NavBarSliderが実質的なSidebarとして機能）
 
 ### Week 6: 人狼ゲーム固有コンポーネント
 
