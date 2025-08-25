@@ -203,7 +203,7 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
   - [x] 役職別発言色の実装
   - [x] ダークモード対応
   - [x] SystemMessage, SayMessage, ActionMessage コンポーネント実装
-  - [ ] ParticipantsMessage（参加者一覧メッセージ）コンポーネント実装
+  - [x] ParticipantsMessage（参加者一覧メッセージ）コンポーネント実装
 - [x] SayForm（発言フォーム）実装（ActionFormから名称変更）
 - [x] ~~VillageStatus（村の状態表示）実装~~（不要のため削除）
 - [x] ParticipantList（参加者一覧）実装（PlayerListから名称変更）

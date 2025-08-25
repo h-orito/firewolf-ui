@@ -17,9 +17,7 @@
         </h3>
         <MessageCard
           :message="message"
-          :is-progress="true"
-          :index="index"
-          :is-dark-theme="isDark"
+          :participants="sampleParticipants as any"
         />
       </div>
     </div>
@@ -30,6 +28,158 @@
 import MessageCard from '~/components/pages/village/MessageCard.vue'
 
 const isDark = ref(true)
+
+// サンプル参加者データ
+const sampleParticipants = [
+  {
+    id: 1,
+    name: 'アルフレッド',
+    chara_name: {
+      name: 'アルフレッド',
+      short_name: 'ア',
+      full_name: 'アルフレッド'
+    },
+    chara: {
+      id: 1,
+      chara_name: {
+        name: 'アルフレッド',
+        short_name: 'ア',
+        full_name: 'アルフレッド'
+      },
+      charachip_id: 1,
+      face_list: [
+        {
+          type: 'NORMAL',
+          name: '通常',
+          image_url: 'https://wolfort.net/wmansion/6/000_A.png'
+        }
+      ],
+      display: { width: 50, height: 77 },
+      default_message: {
+        join_message: '参加しました',
+        first_day_message: 'よろしくお願いします'
+      }
+    },
+    player: { id: 1, nickname: 'プレイヤー1', twitter_user_name: 'player1' },
+    spectator: false,
+    status: { lover_id_list: [] },
+    skill: { code: 'VILLAGER', name: '村人' },
+    skill_request: {
+      first: { code: 'SEER', name: '占い師' },
+      second: { code: 'HUNTER', name: '狩人' }
+    },
+    win: true,
+    comming_outs: { list: [] }
+  },
+  {
+    id: 2,
+    name: 'ベアトリス',
+    chara_name: {
+      name: 'ベアトリス',
+      short_name: 'ベ',
+      full_name: 'ベアトリス'
+    },
+    chara: {
+      id: 2,
+      chara_name: {
+        name: 'ベアトリス',
+        short_name: 'ベ',
+        full_name: 'ベアトリス'
+      },
+      charachip_id: 1,
+      face_list: [
+        {
+          type: 'NORMAL',
+          name: '通常',
+          image_url: 'https://wolfort.net/wmansion/6/001_A.png'
+        }
+      ],
+      display: { width: 50, height: 77 },
+      default_message: {
+        join_message: '参加しました',
+        first_day_message: 'よろしくお願いします'
+      }
+    },
+    player: { id: 2, nickname: 'プレイヤー2', twitter_user_name: 'player2' },
+    spectator: false,
+    status: { lover_id_list: [3] },
+    skill: { code: 'WEREWOLF', name: '人狼' },
+    skill_request: {
+      first: { code: 'WEREWOLF', name: '人狼' },
+      second: { code: 'VILLAGER', name: '村人' }
+    },
+    win: false,
+    dead: {
+      village_day: { id: 3, day: 3, noonnight: 'NOON' },
+      code: 'EXECUTE',
+      reason: '処刑'
+    },
+    comming_outs: { list: [] }
+  },
+  {
+    id: 3,
+    name: 'カルロス',
+    chara_name: { name: 'カルロス', short_name: 'カ', full_name: 'カルロス' },
+    chara: {
+      id: 3,
+      chara_name: { name: 'カルロス', short_name: 'カ', full_name: 'カルロス' },
+      charachip_id: 1,
+      face_list: [
+        {
+          type: 'NORMAL',
+          name: '通常',
+          image_url: 'https://wolfort.net/wmansion/6/002_A.png'
+        }
+      ],
+      display: { width: 50, height: 77 },
+      default_message: {
+        join_message: '参加しました',
+        first_day_message: 'よろしくお願いします'
+      }
+    },
+    player: { id: 3, nickname: 'プレイヤー3' },
+    spectator: false,
+    status: { lover_id_list: [2] },
+    skill: { code: 'VILLAGER', name: '村人' },
+    skill_request: {
+      first: { code: 'SEER', name: '占い師' },
+      second: { code: 'PSYCHIC', name: '霊能者' }
+    },
+    win: false,
+    dead: {
+      village_day: { id: 3, day: 3, noonnight: 'NIGHT' },
+      code: 'SUICIDE',
+      reason: '後追'
+    },
+    comming_outs: { list: [] }
+  },
+  {
+    id: 4,
+    name: 'ディアナ',
+    chara_name: { name: 'ディアナ', short_name: 'デ', full_name: 'ディアナ' },
+    chara: {
+      id: 4,
+      chara_name: { name: 'ディアナ', short_name: 'デ', full_name: 'ディアナ' },
+      charachip_id: 1,
+      face_list: [
+        {
+          type: 'NORMAL',
+          name: '通常',
+          image_url: 'https://wolfort.net/wmansion/6/003_A.png'
+        }
+      ],
+      display: { width: 50, height: 77 },
+      default_message: {
+        join_message: '参加しました',
+        first_day_message: 'よろしくお願いします'
+      }
+    },
+    player: { id: 4, nickname: 'プレイヤー4', twitter_user_name: 'player4' },
+    spectator: true,
+    status: { lover_id_list: [] },
+    comming_outs: { list: [] }
+  }
+]
 
 const toggleDarkMode = () => {
   isDark.value = !isDark.value
