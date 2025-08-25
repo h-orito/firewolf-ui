@@ -184,10 +184,14 @@ export const getMessageNumber = (message: MessageView): string => {
 
 // カミングアウト文字列の生成
 export const getComingOutString = (message: MessageView): string | null => {
-  if (!message.from?.comming_outs?.list || message.from.comming_outs.list.length === 0) {
+  if (
+    !message.from?.comming_outs?.list ||
+    message.from.comming_outs.list.length === 0
+  ) {
     return null
   }
-  return message.from.comming_outs.list
-    .map((co) => co.skill.short_name)
-    .join(',') + 'CO'
+  return (
+    message.from.comming_outs.list.map((co) => co.skill.short_name).join(',') +
+    'CO'
+  )
 }

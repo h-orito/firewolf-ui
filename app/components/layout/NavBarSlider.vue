@@ -1,10 +1,7 @@
 <template>
   <div>
     <!-- Side menu -->
-    <div 
-      class="navbar-side-menu"
-      :class="{ 'is-active': isMenuExpanded }"
-    >
+    <div class="navbar-side-menu" :class="{ 'is-active': isMenuExpanded }">
       <!-- Menu items -->
       <div class="mt-10 space-y-1">
         <NuxtLink

@@ -1,8 +1,6 @@
 <template>
   <div :id="`mc-${message.time.unix_time_milli}`">
-    <UCard
-      class="border-0 shadow-none p-2 bg-transparent"
-    >
+    <UCard class="border-0 shadow-none p-2 bg-transparent">
       <!-- 発言系メッセージ -->
       <SayMessage
         v-if="isSayType"

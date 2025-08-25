@@ -11,16 +11,16 @@
             class="text-blue-600 dark:text-[#14b4ff] hover:underline cursor-pointer"
             @click="handleCopyAnchor"
           >
-            {{ anchorString }}
-          </a>.
+            {{ anchorString }} </a
+          >.
         </span>
       </div>
-      
+
       <!-- 右側: 発言回数と時間 -->
-      <div class="flex items-center gap-2 text-gray-500 dark:text-[#ddd] text-xs">
-        <span v-if="isAnchorMessage">
-          {{ message.time.day }}d
-        </span>
+      <div
+        class="flex items-center gap-2 text-gray-500 dark:text-[#ddd] text-xs"
+      >
+        <span v-if="isAnchorMessage"> {{ message.time.day }}d </span>
         <span v-if="message.content.count && maxCount">
           ({{ message.content.count }}/{{ maxCount }})
         </span>
@@ -95,7 +95,7 @@ const anchorCopyString = computed(() => {
 const displayTime = computed(() => {
   const datetime = props.message.time.datetime
   if (!datetime) return ''
-  
+
   // datetimeが既に適切なフォーマット（YYYY/MM/DD HH:mm:ss）の場合
   if (datetime.includes('/')) {
     if (props.isDispDate) {
@@ -105,7 +105,7 @@ const displayTime = computed(() => {
     const timePart = datetime.split(' ')[1]
     return timePart || ''
   }
-  
+
   // ISO形式の場合の処理（後方互換）
   if (props.isDispDate) {
     return datetime

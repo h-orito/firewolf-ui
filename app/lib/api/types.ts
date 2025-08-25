@@ -15,9 +15,12 @@ export type MessageContent = components['schemas']['MessageContent']
 export type MessageView = components['schemas']['MessageView']
 
 // 参加者関連型
-export type VillageParticipantView = components['schemas']['VillageParticipantView']
-export type VillageParticipantName = components['schemas']['VillageParticipantName']
-export type VillageParticipantStatus = components['schemas']['VillageParticipantStatus']
+export type VillageParticipantView =
+  components['schemas']['VillageParticipantView']
+export type VillageParticipantName =
+  components['schemas']['VillageParticipantName']
+export type VillageParticipantStatus =
+  components['schemas']['VillageParticipantStatus']
 
 // スキル関連型
 export type Skill = components['schemas']['Skill']
@@ -27,7 +30,8 @@ export type DeadView = components['schemas']['DeadView']
 
 // 村関連型（必要な分のみ）
 export type VillageView = components['schemas']['VillageView']
-export type VillageParticipantsView = components['schemas']['VillageParticipantsView']
+export type VillageParticipantsView =
+  components['schemas']['VillageParticipantsView']
 
 // その他
 export type Camp = components['schemas']['Camp']

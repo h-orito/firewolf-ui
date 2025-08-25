@@ -28,10 +28,7 @@
     </div>
 
     <!-- Side menu slider -->
-    <NavBarSlider 
-      :is-menu-expanded="isMenuExpanded" 
-      @hide-menu="hideMenu" 
-    />
+    <NavBarSlider :is-menu-expanded="isMenuExpanded" @hide-menu="hideMenu" />
   </nav>
 </template>
 
@@ -59,7 +56,12 @@ const NavBarSlider = defineAsyncComponent(() => import('./NavBarSlider.vue'))
 
 <style scoped>
 .navbar-container {
-  background: rgba(54, 54, 54, 0.9); /* Dark semi-transparent like is-dark-opacity */
+  background: rgba(
+    54,
+    54,
+    54,
+    0.9
+  ); /* Dark semi-transparent like is-dark-opacity */
   height: 3.25rem;
   display: flex;
   align-items: center;

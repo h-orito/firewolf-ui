@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto p-4 max-w-4xl">
     <h1 class="text-2xl font-bold mb-6">MessageCard コンポーネントテスト</h1>
-    
+
     <!-- ダークモード切り替え -->
     <div class="mb-6">
       <UButton variant="outline" @click="toggleDarkMode">
@@ -15,7 +15,7 @@
         <h3 class="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-2">
           {{ message.content.type.name }}
         </h3>
-        <MessageCard 
+        <MessageCard
           :message="message"
           :is-progress="true"
           :index="index"
@@ -47,7 +47,7 @@ const sampleMessages = [
     from: {
       id: 1,
       name: 'アルフレッド',
-      chara_name: { 
+      chara_name: {
         name: 'アルフレッド',
         short_name: 'ア',
         full_name: 'アルフレッド'
@@ -115,7 +115,7 @@ const sampleMessages = [
     from: {
       id: 2,
       name: 'ベアトリス',
-      chara_name: { 
+      chara_name: {
         name: 'ベアトリス',
         short_name: 'ベ',
         full_name: 'ベアトリス'
@@ -183,7 +183,7 @@ const sampleMessages = [
     from: {
       id: 3,
       name: 'カルロス',
-      chara_name: { 
+      chara_name: {
         name: 'カルロス',
         short_name: 'カ',
         full_name: 'カルロス'
@@ -262,7 +262,7 @@ const sampleMessages = [
     from: {
       id: 4,
       name: 'ディアナ',
-      chara_name: { 
+      chara_name: {
         name: 'ディアナ',
         short_name: 'デ',
         full_name: 'ディアナ'
@@ -330,7 +330,7 @@ const sampleMessages = [
     from: {
       id: 5,
       name: 'エマニュエル',
-      chara_name: { 
+      chara_name: {
         name: 'エマニュエル',
         short_name: 'エ',
         full_name: 'エマニュエル'
@@ -398,7 +398,7 @@ const sampleMessages = [
     from: {
       id: 6,
       name: 'フランシス',
-      chara_name: { 
+      chara_name: {
         name: 'フランシス',
         short_name: 'フ',
         full_name: 'フランシス'
@@ -466,7 +466,7 @@ const sampleMessages = [
     from: {
       id: 7,
       name: 'ジゼル',
-      chara_name: { 
+      chara_name: {
         name: 'ジゼル',
         short_name: 'ジ',
         full_name: 'ジゼル'
@@ -534,7 +534,7 @@ const sampleMessages = [
     from: {
       id: 8,
       name: 'ヘンリー',
-      chara_name: { 
+      chara_name: {
         name: 'ヘンリー',
         short_name: 'ヘ',
         full_name: 'ヘンリー'
@@ -607,7 +607,7 @@ const sampleMessages = [
     from: {
       id: 9,
       name: 'イザベラ',
-      chara_name: { 
+      chara_name: {
         name: 'イザベラ',
         short_name: 'イ',
         full_name: 'イザベラ'

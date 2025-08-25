@@ -26,7 +26,10 @@ export const MESSAGE_TYPE = {
   ACTION: 'ACTION'
 } as const
 
-export const MESSAGE_TYPE_MAP = new Map<string, 'say' | 'action' | 'system' | 'participants'>([
+export const MESSAGE_TYPE_MAP = new Map<
+  string,
+  'say' | 'action' | 'system' | 'participants'
+>([
   [MESSAGE_TYPE.NORMAL_SAY, 'say'],
   [MESSAGE_TYPE.WEREWOLF_SAY, 'say'],
   [MESSAGE_TYPE.GRAVE_SAY, 'say'],

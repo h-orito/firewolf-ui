@@ -1,21 +1,24 @@
 <template>
   <img
     :src="charaImageUrl"
-    :alt="chara.chara_name.name"
+    :alt="`${chara.chara_name.name}の表情: ${faceType}`"
     :width="imageWidth"
     :height="imageHeight"
     class="rounded-md align-bottom"
+    loading="lazy"
   />
 </template>
 
 <script setup lang="ts">
-import type { Chara } from '~/lib/api/types'
+import type { CharaView } from '~/lib/api/types'
 
 interface Props {
-  chara: Chara
+  chara: CharaView
   faceType?: string
   isSmall?: boolean
   isLarge?: boolean
+  width?: number
+  height?: number
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -25,11 +28,16 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const charaImageUrl = computed(() => {
-  const face = props.chara.face_list.find(face => face.type === props.faceType)
+  const face = props.chara.face_list.find(
+    (face) => face.type === props.faceType
+  )
   return face?.image_url || ''
 })
 
 const imageWidth = computed(() => {
+  // propsで直接指定されていればそれを使用
+  if (props.width) return props.width
+
   const baseWidth = props.chara.display.width
   const multiplier = props.isLarge ? 1.5 : 1
   const divider = props.isSmall ? 2 : 1
@@ -37,6 +45,9 @@ const imageWidth = computed(() => {
 })
 
 const imageHeight = computed(() => {
+  // propsで直接指定されていればそれを使用
+  if (props.height) return props.height
+
   const baseHeight = props.chara.display.height
   const multiplier = props.isLarge ? 1.5 : 1
   const divider = props.isSmall ? 2 : 1

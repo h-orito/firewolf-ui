@@ -1,6 +1,9 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-08-24',
   devtools: { enabled: true },
+  devServer: {
+    port: 3011
+  },
   modules: ['@nuxt/ui', '@pinia/nuxt', '@nuxt/eslint', 'nuxt-vuefire'],
   css: ['~/assets/css/main.css'],
   typescript: {

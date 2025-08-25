@@ -16,9 +16,7 @@
 
       <template #footer>
         <div class="flex justify-end">
-          <UButton @click="isOpen = false">
-            閉じる
-          </UButton>
+          <UButton @click="isOpen = false"> 閉じる </UButton>
         </div>
       </template>
     </UCard>

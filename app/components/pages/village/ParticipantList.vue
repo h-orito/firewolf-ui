@@ -1,8 +1,10 @@
 <template>
-  <div class="player-list">
+  <div class="participant-list">
     <!-- 生存者リスト -->
     <div v-if="isProgress && aliveParticipants.length > 0" class="mb-6">
-      <h3 class="font-semibold text-sm text-gray-600 dark:text-gray-400 mb-3 px-2">
+      <h3
+        class="font-semibold text-sm text-gray-600 dark:text-gray-400 mb-3 px-2"
+      >
         生存（{{ aliveParticipants.length }}人）
       </h3>
       <div class="space-y-2">
@@ -14,12 +16,9 @@
           <div class="flex items-start gap-3">
             <!-- キャラクター画像 -->
             <div class="flex-shrink-0">
-              <CharaImage
-                :chara="participant.chara"
-                :is-small="true"
-              />
+              <CharaImage :chara="participant.chara" :is-small="true" />
             </div>
-            
+
             <!-- 参加者情報 -->
             <div class="flex-1 min-w-0">
               <div class="flex items-start justify-between">
@@ -28,32 +27,28 @@
                   <h4 class="font-medium text-sm truncate">
                     {{ truncatedName(participant) }}
                   </h4>
-                  
+
                   <!-- CO情報 -->
                   <div v-if="getComingOut(participant)" class="mt-1">
-                    <UBadge
-                      color="info"
-                      variant="soft"
-                      size="xs"
-                    >
+                    <UBadge color="info" variant="soft" size="xs">
                       {{ getComingOut(participant) }}
                     </UBadge>
                   </div>
                 </div>
-                
+
                 <!-- アクション -->
                 <div class="flex items-center gap-2">
                   <UButton
-                    @click="handleFilter(participant.id)"
                     variant="ghost"
                     color="neutral"
                     size="xs"
+                    @click="handleFilter(participant.id)"
                   >
                     抽出
                   </UButton>
                 </div>
               </div>
-              
+
               <!-- 発言回数 -->
               <div class="mt-2 text-xs text-gray-500 dark:text-gray-400">
                 {{ getSayCount(participant.id) }}回発言
@@ -66,7 +61,9 @@
 
     <!-- 死亡者リスト -->
     <div v-if="isProgress && deadParticipants.length > 0" class="mb-6">
-      <h3 class="font-semibold text-sm text-gray-600 dark:text-gray-400 mb-3 px-2">
+      <h3
+        class="font-semibold text-sm text-gray-600 dark:text-gray-400 mb-3 px-2"
+      >
         死亡（{{ deadParticipants.length }}人）
       </h3>
       <div class="space-y-2">
@@ -78,12 +75,9 @@
           <div class="flex items-start gap-3">
             <!-- キャラクター画像 -->
             <div class="flex-shrink-0">
-              <CharaImage
-                :chara="participant.chara"
-                :is-small="true"
-              />
+              <CharaImage :chara="participant.chara" :is-small="true" />
             </div>
-            
+
             <!-- 参加者情報 -->
             <div class="flex-1 min-w-0">
               <div class="flex items-start justify-between">
@@ -92,37 +86,31 @@
                   <h4 class="font-medium text-sm truncate">
                     {{ truncatedName(participant) }}
                   </h4>
-                  
+
                   <!-- CO情報 -->
                   <div v-if="getComingOut(participant)" class="mt-1">
-                    <UBadge
-                      color="info"
-                      variant="soft"
-                      size="xs"
-                    >
+                    <UBadge color="info" variant="soft" size="xs">
                       {{ getComingOut(participant) }}
                     </UBadge>
                   </div>
                 </div>
-                
+
                 <!-- アクション -->
                 <div class="flex items-center gap-2">
                   <UButton
-                    @click="handleFilter(participant.id)"
                     variant="ghost"
                     color="neutral"
                     size="xs"
+                    @click="handleFilter(participant.id)"
                   >
                     抽出
                   </UButton>
                 </div>
               </div>
-              
+
               <!-- 死亡情報・発言回数 -->
               <div class="mt-2 flex justify-between text-xs">
-                <span 
-                  :class="getDeadStatusClass(participant.dead!.reason)"
-                >
+                <span :class="getDeadStatusClass(participant.dead!.reason)">
                   {{ getDeadStatus(participant) }}
                 </span>
                 <span class="text-gray-500 dark:text-gray-400">
@@ -137,7 +125,9 @@
 
     <!-- 見学者リスト -->
     <div v-if="spectators.length > 0" class="mb-6">
-      <h3 class="font-semibold text-sm text-gray-600 dark:text-gray-400 mb-3 px-2">
+      <h3
+        class="font-semibold text-sm text-gray-600 dark:text-gray-400 mb-3 px-2"
+      >
         見学（{{ spectators.length }}人）
       </h3>
       <div class="space-y-2">
@@ -149,12 +139,9 @@
           <div class="flex items-start gap-3">
             <!-- キャラクター画像 -->
             <div class="flex-shrink-0">
-              <CharaImage
-                :chara="participant.chara"
-                :is-small="true"
-              />
+              <CharaImage :chara="participant.chara" :is-small="true" />
             </div>
-            
+
             <!-- 参加者情報 -->
             <div class="flex-1 min-w-0">
               <div class="flex items-start justify-between">
@@ -164,14 +151,14 @@
                     {{ truncatedName(participant) }}
                   </h4>
                 </div>
-                
+
                 <!-- アクション -->
                 <div class="flex items-center gap-2">
                   <UButton
-                    @click="handleFilter(participant.id)"
                     variant="ghost"
                     color="neutral"
                     size="xs"
+                    @click="handleFilter(participant.id)"
                   >
                     抽出
                   </UButton>
@@ -185,7 +172,9 @@
 
     <!-- プロローグ時の全参加者リスト -->
     <div v-if="!isProgress && allParticipants.length > 0">
-      <h3 class="font-semibold text-sm text-gray-600 dark:text-gray-400 mb-3 px-2">
+      <h3
+        class="font-semibold text-sm text-gray-600 dark:text-gray-400 mb-3 px-2"
+      >
         参加者（{{ allParticipants.length }}人）
       </h3>
       <div class="space-y-2">
@@ -197,12 +186,9 @@
           <div class="flex items-start gap-3">
             <!-- キャラクター画像 -->
             <div class="flex-shrink-0">
-              <CharaImage
-                :chara="participant.chara"
-                :is-small="true"
-              />
+              <CharaImage :chara="participant.chara" :is-small="true" />
             </div>
-            
+
             <!-- 参加者情報 -->
             <div class="flex-1 min-w-0">
               <h4 class="font-medium text-sm truncate">
@@ -238,24 +224,24 @@ const emit = defineEmits<{
 }>()
 
 // 計算プロパティ
-const allParticipants = computed(() => 
-  props.participants.filter(p => !p.spectator)
+const allParticipants = computed(() =>
+  props.participants.filter((p) => !p.spectator)
 )
 
-const aliveParticipants = computed(() => 
-  allParticipants.value.filter(p => !p.dead)
+const aliveParticipants = computed(() =>
+  allParticipants.value.filter((p) => !p.dead)
 )
 
-const deadParticipants = computed(() => 
+const deadParticipants = computed(() =>
   allParticipants.value
-    .filter(p => p.dead)
+    .filter((p) => p.dead)
     .sort((a, b) => {
       if (!a.dead || !b.dead) return 0
-      
+
       // 死亡日でソート
       const dayDiff = a.dead.village_day.day - b.dead.village_day.day
       if (dayDiff !== 0) return dayDiff
-      
+
       // 同日の場合は死因でソート（突然→処刑→その他）
       const aPriority = getDeadReasonPriority(a.dead.reason)
       const bPriority = getDeadReasonPriority(b.dead.reason)
@@ -263,9 +249,7 @@ const deadParticipants = computed(() =>
     })
 )
 
-const spectators = computed(() => 
-  props.spectators.filter(p => p.spectator)
-)
+const spectators = computed(() => props.spectators.filter((p) => p.spectator))
 
 // メソッド
 const truncatedName = (participant: VillageParticipant): string => {
@@ -276,7 +260,7 @@ const truncatedName = (participant: VillageParticipant): string => {
 const getComingOut = (participant: VillageParticipant): string | null => {
   const coList = participant.comming_outs?.list || []
   if (coList.length === 0) return null
-  return coList.map(co => co.skill.short_name).join(',') + 'CO'
+  return coList.map((co) => co.skill.short_name).join(',') + 'CO'
 }
 
 const getSayCount = (participantId: number): number => {

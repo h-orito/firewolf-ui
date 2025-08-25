@@ -3,13 +3,15 @@
 ## 禁止事項
 
 ### ディレクトリ・ファイル名
+
 - **「common」という名前は禁止** - 具体的で意味のある名前を使用すること
-  - ❌ `components/common/` 
+  - ❌ `components/common/`
   - ✅ `components/layout/` - レイアウト関連コンポーネント
 
 ## 推奨事項
 
 ### コンポーネントディレクトリ構造
+
 - **レイアウト関連は全てlayout配下に統合**
   - ✅ `components/layout/` - 全レイアウト関連コンポーネント
     - GoogleAds.vue - 広告コンポーネント
@@ -23,10 +25,11 @@
     - 例: `components/pages/create-village/` - 村作成ページ専用
     - 例: `components/pages/player-record/` - 戦績ページ専用
 - **機能別コンポーネント分類**
-  - ✅ `components/ui/` - 汎用UIコンポーネント  
+  - ✅ `components/ui/` - 汎用UIコンポーネント
   - ✅ `components/form/` - フォーム関連コンポーネント
 
 ### 命名の基本原則
+
 - 機能・目的が明確にわかる名前を付ける
 - 曖昧で汎用的な名前（common, util, misc等）は避ける
 - 具体的で検索しやすい名前にする
@@ -37,6 +40,7 @@
   - 複数ページで使用される場合は適切な機能別ディレクトリに移動
 
 ### 実装済み構成例
+
 ```
 app/components/
 ├── layout/                    # 全レイアウト関連コンポーネント

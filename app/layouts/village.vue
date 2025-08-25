@@ -2,7 +2,7 @@
   <div class="site min-h-screen">
     <!-- Google Ads -->
     <GoogleAds />
-    
+
     <!-- Site Content (no navbar in village layout) -->
     <div class="siteContent text-center">
       <slot />
@@ -12,5 +12,7 @@
 
 <script setup lang="ts">
 // Dynamic imports for components
-const GoogleAds = defineAsyncComponent(() => import('../components/layout/GoogleAds.vue'))
+const GoogleAds = defineAsyncComponent(
+  () => import('../components/layout/GoogleAds.vue')
+)
 </script>

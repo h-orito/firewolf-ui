@@ -2,11 +2,13 @@
   <div class="site-footer">
     <div class="menu-area">
       <div class="mb-12">
-        <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200 text-center shadow-text">
+        <h2
+          class="text-xl font-semibold text-gray-800 dark:text-gray-200 text-center shadow-text"
+        >
           その他情報
         </h2>
       </div>
-      
+
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
         <!-- Twitter -->
         <UButton
