@@ -72,6 +72,7 @@
             size="xs"
             variant="outline"
             icon="i-heroicons-chart-bar"
+            :aria-label="`${participant.player.nickname}の戦績を見る`"
           />
         </div>
       </div>

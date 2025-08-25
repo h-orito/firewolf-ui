@@ -42,6 +42,7 @@
                     variant="ghost"
                     color="neutral"
                     size="xs"
+                    :aria-label="`${truncatedName(participant)}の発言を抽出`"
                     @click="handleFilter(participant.id)"
                   >
                     抽出
@@ -108,6 +109,7 @@
                     variant="ghost"
                     color="neutral"
                     size="xs"
+                    :aria-label="`${truncatedName(participant)}の発言を抽出`"
                     @click="handleFilter(participant.id)"
                   >
                     抽出
@@ -165,6 +167,7 @@
                     variant="ghost"
                     color="neutral"
                     size="xs"
+                    :aria-label="`${truncatedName(participant)}の発言を抽出`"
                     @click="handleFilter(participant.id)"
                   >
                     抽出
@@ -300,7 +303,19 @@ const handleFilter = (participantId: number) => {
 </script>
 
 <style scoped>
+.participant-card:hover {
+  background-color: rgba(249, 250, 251, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  .participant-card:hover {
+    background-color: rgba(31, 41, 55, 0.5);
+  }
+}
+
 .participant-card {
-  @apply hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors;
+  transition-property: background-color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
 }
 </style>
