@@ -1,14 +1,14 @@
 <template>
   <div
-    class="participants-message border border-gray-300 dark:border-gray-600 rounded p-2"
+    class="participants-message border border-gray-300 dark:border-gray-600 rounded p-2 sm:p-3"
   >
-    <div class="text-sm font-bold mb-3">参加者一覧</div>
+    <div class="text-xs sm:text-sm font-bold mb-2 sm:mb-3">参加者一覧</div>
     <!-- 参加者一覧の表示 -->
-    <div class="space-y-2">
+    <div class="space-y-1 sm:space-y-2">
       <div
         v-for="participant in sortedParticipants"
         :key="participant.id"
-        class="flex items-start gap-3 border-t border-gray-200 dark:border-gray-700 pt-2 first:border-t-0 first:pt-0"
+        class="flex items-start gap-2 sm:gap-3 border-t border-gray-200 dark:border-gray-700 pt-1 sm:pt-2 first:border-t-0 first:pt-0"
       >
         <!-- キャラクター画像 -->
         <div class="flex-shrink-0">

@@ -1,13 +1,13 @@
 <template>
   <div class="participant-list">
     <!-- 生存者リスト -->
-    <div v-if="isProgress && aliveParticipants.length > 0" class="mb-6">
+    <div v-if="isProgress && aliveParticipants.length > 0" class="mb-4 sm:mb-6">
       <h3
-        class="font-semibold text-sm text-gray-600 dark:text-gray-400 mb-3 px-2"
+        class="font-semibold text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-2 sm:mb-3 px-2"
       >
         生存（{{ aliveParticipants.length }}人）
       </h3>
-      <div class="space-y-2">
+      <div class="space-y-1 sm:space-y-2">
         <UCard
           v-for="participant in aliveParticipants"
           :key="participant.id"
@@ -24,7 +24,7 @@
               <div class="flex items-start justify-between">
                 <div>
                   <!-- キャラクター名 -->
-                  <h4 class="font-medium text-sm truncate">
+                  <h4 class="font-medium text-xs sm:text-sm truncate">
                     {{ truncatedName(participant) }}
                   </h4>
 
@@ -50,8 +50,15 @@
               </div>
 
               <!-- 発言回数 -->
-              <div class="mt-2 text-xs text-gray-500 dark:text-gray-400">
-                {{ getSayCount(participant.id) }}回発言
+              <div
+                class="mt-1 sm:mt-2 text-xs text-gray-500 dark:text-gray-400"
+              >
+                <span class="hidden sm:inline"
+                  >{{ getSayCount(participant.id) }}回発言</span
+                >
+                <span class="sm:hidden"
+                  >{{ getSayCount(participant.id) }}回</span
+                >
               </div>
             </div>
           </div>
@@ -60,13 +67,13 @@
     </div>
 
     <!-- 死亡者リスト -->
-    <div v-if="isProgress && deadParticipants.length > 0" class="mb-6">
+    <div v-if="isProgress && deadParticipants.length > 0" class="mb-4 sm:mb-6">
       <h3
-        class="font-semibold text-sm text-gray-600 dark:text-gray-400 mb-3 px-2"
+        class="font-semibold text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-2 sm:mb-3 px-2"
       >
         死亡（{{ deadParticipants.length }}人）
       </h3>
-      <div class="space-y-2">
+      <div class="space-y-1 sm:space-y-2">
         <UCard
           v-for="participant in deadParticipants"
           :key="participant.id"
@@ -83,7 +90,7 @@
               <div class="flex items-start justify-between">
                 <div>
                   <!-- キャラクター名 -->
-                  <h4 class="font-medium text-sm truncate">
+                  <h4 class="font-medium text-xs sm:text-sm truncate">
                     {{ truncatedName(participant) }}
                   </h4>
 
@@ -147,7 +154,7 @@
               <div class="flex items-start justify-between">
                 <div>
                   <!-- キャラクター名 -->
-                  <h4 class="font-medium text-sm truncate">
+                  <h4 class="font-medium text-xs sm:text-sm truncate">
                     {{ truncatedName(participant) }}
                   </h4>
                 </div>
