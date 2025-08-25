@@ -95,6 +95,7 @@
             v-bind="selectPatterns.standard"
             :items="sampleOptions"
             placeholder="選択してください"
+            class="w-64"
           />
         </div>
 
@@ -106,6 +107,7 @@
             v-bind="selectPatterns.multiple"
             :items="sampleOptions"
             placeholder="複数選択可能"
+            class="w-64"
           />
         </div>
 
@@ -116,7 +118,10 @@
             v-model="selectValues.object"
             v-bind="selectPatterns.standard"
             :items="objectOptions"
+            value-key="value"
+            label-key="label"
             placeholder="オプションを選択"
+            class="w-64"
           />
         </div>
 
@@ -128,6 +133,7 @@
             v-bind="selectPatterns.disabled"
             :items="sampleOptions"
             placeholder="無効化されています"
+            class="w-64"
           />
         </div>
       </div>
@@ -351,6 +357,7 @@
             v-bind="selectPatterns.standard"
             :items="commonFormOptions.yesNo()"
             placeholder="はい/いいえを選択"
+            class="w-64"
           />
         </div>
 
@@ -362,6 +369,7 @@
             v-bind="selectPatterns.standard"
             :items="commonFormOptions.priority()"
             placeholder="優先度を選択"
+            class="w-64"
           />
         </div>
 
@@ -373,6 +381,7 @@
             v-bind="selectPatterns.standard"
             :items="commonFormOptions.status()"
             placeholder="ステータスを選択"
+            class="w-64"
           />
         </div>
       </div>
@@ -397,6 +406,7 @@
             v-bind="selectPatterns.standard"
             :items="commonFormOptions.gender()"
             placeholder="性別"
+            class="w-full"
           />
           <UInput v-bind="inputPatterns.text" placeholder="電話番号" />
         </div>
@@ -429,12 +439,16 @@
           <USelect
             v-bind="selectPatterns.standard"
             :items="inquiryTypes"
+            value-key="value"
+            label-key="label"
             placeholder="お問い合わせ種類"
+            class="w-full"
           />
           <USelect
             v-bind="selectPatterns.standard"
             :items="commonFormOptions.priority()"
             placeholder="優先度"
+            class="w-full"
           />
         </div>
         <UInput v-bind="inputPatterns.text" placeholder="件名" />
@@ -620,10 +634,10 @@ const inquiryTypes: FormOption[] = [
 
 // フォーム値の管理
 const selectValues = ref({
-  standard: '',
-  multiple: [],
-  object: '',
-  disabled: ''
+  standard: undefined as string | undefined,
+  multiple: [] as string[],
+  object: undefined as string | undefined,
+  disabled: undefined as string | undefined
 })
 
 const checkboxValues = ref({
@@ -666,9 +680,9 @@ const radioValues = ref({
 })
 
 const optionValues = ref({
-  yesNo: '',
-  priority: '',
-  status: ''
+  yesNo: undefined as string | undefined,
+  priority: undefined as string | undefined,
+  status: undefined as string | undefined
 })
 
 // すべてのフォーム値をまとめた computed

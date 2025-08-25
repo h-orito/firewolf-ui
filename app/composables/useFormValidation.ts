@@ -11,17 +11,14 @@ import type { FieldState } from '~/utils/validation-rules'
 /**
  * @nuxt/ui用のカラータイプ
  */
-type UIColor = 'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'error' | 'neutral'
-
-
-/**
- * APIエラーレスポンス
- */
-interface ApiErrorResponse {
-  data?: {
-    errors?: Record<string, string | string[]>
-  }
-}
+type UIColor =
+  | 'primary'
+  | 'secondary'
+  | 'success'
+  | 'info'
+  | 'warning'
+  | 'error'
+  | 'neutral'
 
 /**
  * フォーム全体のバリデーション管理
@@ -29,7 +26,7 @@ interface ApiErrorResponse {
  */
 export function useFormValidation(
   schema: ObjectSchema<Record<string, unknown>>,
-  initialValues: Record<string, unknown> = {}
+  initialValues: Record<string, unknown>
 ) {
   const validationSchema = toTypedSchema(schema)
 
@@ -43,53 +40,44 @@ export function useFormValidation(
     setFieldValue,
     setErrors,
     validate,
+    submitCount
   } = useForm({
     validationSchema,
-    initialValues,
+    initialValues
   })
 
   // @nuxt/ui用のフォーム状態
   const formState = computed(() => ({
     errors: errors.value,
     isValid: meta.value.valid,
-    touched: meta.value.touched,
+    touched: meta.value.touched
   }))
 
-  // フォーム送信ハンドラー
-  const onSubmit = handleSubmit(async (values) => {
-    try {
-      return values
-    } catch (error) {
-      // API エラーの場合はフォームエラーとして設定
-      if (error && typeof error === 'object' && 'data' in error) {
-        const apiError = error as ApiErrorResponse
-        if (apiError.data?.errors) {
-          // エラーハンドリング - 型アサーションを使用
-          setErrors(apiError.data.errors as Record<string, string>)
-        }
-      }
-      throw error
-    }
-  })
+  // 便利なcomputed値
+  const isValid = computed(() => meta.value.valid)
+  const isDirty = computed(() => meta.value.dirty)
 
   return {
-    // フォーム値
-    values: readonly(values),
-    
+    // フォーム値（書き込み可能）
+    values,
+
     // バリデーション状態
-    errors: readonly(errors),
-    meta: readonly(meta),
-    formState: readonly(formState),
-    
+    errors,
+    meta,
+    formState,
+
     // フォーム状態
-    isSubmitting: readonly(isSubmitting),
-    
+    isSubmitting,
+    isValid,
+    isDirty,
+    submitCount,
+
     // フォーム操作
-    handleSubmit: onSubmit,
+    handleSubmit,
     resetForm,
     setFieldValue,
     setErrors,
-    validate,
+    validate
   }
 }
 
@@ -107,66 +95,59 @@ export function useFieldValidation<T = unknown>(
 ) {
   const field = useField<T>(name, undefined, {
     initialValue,
-    validateOnValueUpdate: options?.validateOnInput ?? true,
+    validateOnValueUpdate: options?.validateOnInput ?? true
   })
 
-  const {
-    value,
-    errorMessage,
-    meta,
-    setValue,
-    setTouched,
-    resetField,
-  } = field
+  const { value, errorMessage, meta, setValue, setTouched, resetField } = field
 
   // @nuxt/ui 用のフィールド状態
   const fieldState = computed<FieldState<T>>(() => ({
     value: value.value,
     error: errorMessage.value,
     touched: meta.touched,
-    valid: meta.valid,
+    valid: meta.valid
   }))
-  
+
   const inputProps = computed(() => ({
     modelValue: value.value,
     error: !!errorMessage.value,
     help: errorMessage.value,
-    color: (errorMessage.value ? 'error' : 'primary') as UIColor,
+    color: (errorMessage.value ? 'error' : 'primary') as UIColor
   }))
 
   const selectProps = computed(() => ({
     modelValue: value.value,
     error: !!errorMessage.value,
     help: errorMessage.value,
-    color: (errorMessage.value ? 'error' : 'primary') as UIColor,
+    color: (errorMessage.value ? 'error' : 'primary') as UIColor
   }))
 
   const checkboxProps = computed(() => ({
     modelValue: value.value,
     error: !!errorMessage.value,
     help: errorMessage.value,
-    color: (errorMessage.value ? 'error' : 'primary') as UIColor,
+    color: (errorMessage.value ? 'error' : 'primary') as UIColor
   }))
 
   const textareaProps = computed(() => ({
     modelValue: value.value,
     error: !!errorMessage.value,
     help: errorMessage.value,
-    color: (errorMessage.value ? 'error' : 'primary') as UIColor,
+    color: (errorMessage.value ? 'error' : 'primary') as UIColor
   }))
 
   const switchProps = computed(() => ({
     modelValue: value.value,
     error: !!errorMessage.value,
     help: errorMessage.value,
-    color: (errorMessage.value ? 'error' : 'primary') as UIColor,
+    color: (errorMessage.value ? 'error' : 'primary') as UIColor
   }))
 
   const radioGroupProps = computed(() => ({
     modelValue: value.value,
     error: !!errorMessage.value,
     help: errorMessage.value,
-    color: (errorMessage.value ? 'error' : 'primary') as UIColor,
+    color: (errorMessage.value ? 'error' : 'primary') as UIColor
   }))
 
   // イベントハンドラー
@@ -181,12 +162,12 @@ export function useFieldValidation<T = unknown>(
   return {
     // フィールド値
     value: readonly(value),
-    
+
     // バリデーション状態
     errorMessage: readonly(errorMessage),
     meta: readonly(meta),
     fieldState: readonly(fieldState),
-    
+
     // コンポーネント用プロパティ
     inputProps: readonly(inputProps),
     selectProps: readonly(selectProps),
@@ -194,23 +175,30 @@ export function useFieldValidation<T = unknown>(
     textareaProps: readonly(textareaProps),
     switchProps: readonly(switchProps),
     radioGroupProps: readonly(radioGroupProps),
-    
+
     // フィールド操作
     setValue,
     setTouched,
     resetField,
     handleInput,
-    handleBlur,
+    handleBlur
   }
 }
 
 /**
  * 配列フィールドのバリデーション管理
  */
-export function useArrayFieldValidation<T>(name: string, initialValue: T[] = []) {
-  const { value, errorMessage, meta, setValue } = useField<T[]>(name, undefined, {
-    initialValue,
-  })
+export function useArrayFieldValidation<T>(
+  name: string,
+  initialValue: T[] = []
+) {
+  const { value, errorMessage, meta, setValue } = useField<T[]>(
+    name,
+    undefined,
+    {
+      initialValue
+    }
+  )
 
   const addItem = (item: T) => {
     const currentValue = Array.isArray(value.value) ? value.value : []
@@ -236,7 +224,7 @@ export function useArrayFieldValidation<T>(name: string, initialValue: T[] = [])
     meta: readonly(meta),
     addItem,
     removeItem,
-    updateItem,
+    updateItem
   }
 }
 
@@ -255,11 +243,11 @@ export function useAsyncValidation() {
 
     try {
       const result = await validator(value)
-      
+
       if (typeof result === 'string') {
         return result // エラーメッセージ
       }
-      
+
       return result ? undefined : '検証に失敗しました'
     } catch (error) {
       console.error(`非同期バリデーションエラー (${fieldName}):`, error)
@@ -279,14 +267,16 @@ export function useAsyncValidation() {
   return {
     validateAsync,
     isValidating,
-    pendingValidations: readonly(pendingValidations),
+    pendingValidations: readonly(pendingValidations)
   }
 }
 
 /**
  * フォームの状態保存・復元
  */
-export function useFormPersistence<T extends Record<string, unknown>>(formKey: string) {
+export function useFormPersistence<T extends Record<string, unknown>>(
+  formKey: string
+) {
   const saveForm = (values: T) => {
     if (import.meta.client) {
       localStorage.setItem(`form_${formKey}`, JSON.stringify(values))
@@ -296,7 +286,7 @@ export function useFormPersistence<T extends Record<string, unknown>>(formKey: s
   const loadForm = (): T | null => {
     if (import.meta.client) {
       const saved = localStorage.getItem(`form_${formKey}`)
-      return saved ? JSON.parse(saved) as T : null
+      return saved ? (JSON.parse(saved) as T) : null
     }
     return null
   }
@@ -310,6 +300,6 @@ export function useFormPersistence<T extends Record<string, unknown>>(formKey: s
   return {
     saveForm,
     loadForm,
-    clearForm,
+    clearForm
   }
 }

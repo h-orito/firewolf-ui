@@ -165,12 +165,24 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
   - [x] 現行b-modalの使用パターン分析
   - [x] @nuxt/uiのUModalで再実装
 - [x] Toast/Notification コンポーネント実装
-- [ ] Button コンポーネント群実装
-  - [ ] 現行b-buttonのvariant・size分析
-  - [ ] カスタムスタイルの移植
-- [ ] Form要素実装（Input, Select, Checkbox等）
-  - [ ] 現行b-field、b-input等の分析
-  - [ ] vee-validate v4との統合
+- [x] Button コンポーネント群実装
+  - [x] 現行b-buttonのvariant・size分析
+  - [x] カスタムスタイルの移植
+- [x] Form要素実装（Input, Select, Checkbox等）
+  - [x] 現行b-field、b-input等の分析
+  - [x] フォームパターンユーティリティ実装（form-patterns.ts）
+  - [x] RadioGroupボタンスタイル（b-radio-button風）実装
+  - [x] Bulma色のTailwind CSS移植完了
+  - [x] vee-validate v4統合コンポーザブル実装
+  - [ ] **🚨緊急修正**: USelectコンポーネントの表示不具合修正
+    - [ ] test-form画面でUSelectが正しく表示されない問題を調査
+    - [ ] オプション表示とスタイリングの修正
+    - [ ] test-form画面での動作確認
+  - [ ] **test-validation画面の実装**
+    - [ ] vee-validateとuseFormValidationの統合テスト画面作成
+    - [ ] 各種フォームコンポーネントでのバリデーション動作確認
+    - [ ] エラー表示とリアルタイムバリデーションの検証
+    - [ ] 非同期バリデーションのテスト実装
 
 ### Week 5: レイアウトコンポーネント
 

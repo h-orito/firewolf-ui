@@ -257,3 +257,48 @@ ruby {
 .radio-button-small-style button {
   display: none !important;
 }
+
+/* USelect height fix - 他のInput要素と高さを統一 */
+/* USelectの高さをInputと同じ28pxに合わせる */
+button[role='combobox'],
+[role='combobox'],
+div button[aria-haspopup='listbox'],
+div button[data-headlessui-state],
+.ui-select button,
+div[class*='ui-select'] button {
+  min-height: 28px !important;
+  height: 28px !important;
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+  padding-left: 10px !important;
+  padding-right: 32px !important;
+  font-size: 12px !important;
+  line-height: 16px !important;
+  border-width: 0px !important;
+  border-radius: 6px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* USelectのsize=sm対応（Inputのtext-xsクラスに合わせる） */
+div[class*='size-sm'] button[role='combobox'],
+.ui-select-sm button[role='combobox'],
+button[role='combobox'][class*='text-xs'] {
+  min-height: 28px !important;
+  height: 28px !important;
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+  font-size: 12px !important;
+  line-height: 16px !important;
+}
+
+/* USelectのドロップダウンアイコン調整 */
+button[role='combobox'] svg,
+[role='combobox'] svg {
+  position: absolute !important;
+  right: 8px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 16px !important;
+  height: 16px !important;
+}
