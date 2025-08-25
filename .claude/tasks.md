@@ -174,15 +174,18 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
   - [x] RadioGroupボタンスタイル（b-radio-button風）実装
   - [x] Bulma色のTailwind CSS移植完了
   - [x] vee-validate v4統合コンポーザブル実装
-  - [ ] **🚨緊急修正**: USelectコンポーネントの表示不具合修正
-    - [ ] test-form画面でUSelectが正しく表示されない問題を調査
-    - [ ] オプション表示とスタイリングの修正
-    - [ ] test-form画面での動作確認
-  - [ ] **test-validation画面の実装**
-    - [ ] vee-validateとuseFormValidationの統合テスト画面作成
-    - [ ] 各種フォームコンポーネントでのバリデーション動作確認
-    - [ ] エラー表示とリアルタイムバリデーションの検証
-    - [ ] 非同期バリデーションのテスト実装
+  - [x] **🚨緊急修正**: USelectコンポーネントの表示不具合修正
+    - [x] test-form画面でUSelectが正しく表示されない問題を調査
+    - [x] オプション表示とスタイリングの修正（高さ統一、パディング調整）
+    - [x] value-key・label-key属性の適切な設定
+    - [x] test-form画面での動作確認
+  - [x] **test-validation画面の実装**
+    - [x] vee-validateとuseFormValidationの統合テスト画面作成
+    - [x] 各種フォームコンポーネントでのバリデーション動作確認
+    - [x] エラー表示とリアルタイムバリデーションの検証
+    - [x] vee-validate readonly values問題の修正（useField個別管理方式）
+    - [x] test-validation-simple.vue作成（プルーフオブコンセプト）
+    - [x] TypeScript型安全性の向上（適切な型アサーション）
 
 ### Week 5: レイアウトコンポーネント
 
