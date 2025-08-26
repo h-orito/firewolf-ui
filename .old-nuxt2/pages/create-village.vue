@@ -1,6 +1,6 @@
 <template>
   <section class="section">
-    <div class="container has-text-left">
+    <div class="has-text-left container">
       <h1 class="title is-5 m-t-40">村を作成</h1>
       <setting
         ref="setting"

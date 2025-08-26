@@ -1,7 +1,7 @@
 <template>
   <div>
     <section class="section has-background-light">
-      <div class="container has-text-left">
+      <div class="has-text-left container">
         <h1 class="title is-5">
           キャラチップ: {{ charachip ? charachip.name : '' }}
         </h1>

@@ -1,6 +1,6 @@
 <template>
   <section class="section">
-    <div class="container has-text-left is-size-7">
+    <div class="has-text-left is-size-7 container">
       <h1 class="title is-5">共通ルール</h1>
       <div class="content">
         <ul>

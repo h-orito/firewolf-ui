@@ -1,6 +1,6 @@
 <template>
   <section class="section">
-    <div class="container has-text-left">
+    <div class="has-text-left container">
       <b-button
         :to="{ path: '/village', query: { id: villageId } }"
         tag="nuxt-link"

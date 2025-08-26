@@ -1,6 +1,6 @@
 <template>
   <section class="section">
-    <div class="container has-text-left is-size-7">
+    <div class="has-text-left is-size-7 container">
       <h1 class="title is-5">公開API仕様</h1>
       <hr />
       <h2 class="is-size-6">村戦績</h2>

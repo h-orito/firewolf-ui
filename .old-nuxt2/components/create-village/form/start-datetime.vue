@@ -1,6 +1,6 @@
 <template>
   <validation-provider v-slot="{ errors }" rules="required" name="開始日時">
-    <div class="container p-b-20">
+    <div class="p-b-20 container">
       <b-field
         for="start_datetime"
         label="開始日時"
