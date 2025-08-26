@@ -1,11 +1,11 @@
 <template>
   <div class="p-8">
-    <h1 class="text-2xl font-bold mb-6">Modal Component Test</h1>
+    <h1 class="mb-6 text-2xl font-bold">Modal Component Test</h1>
 
     <div class="space-y-6">
       <!-- 基本的なModal -->
-      <div class="border p-4 rounded-lg">
-        <h2 class="text-lg font-semibold mb-4">Basic Modal</h2>
+      <div class="rounded-lg border p-4">
+        <h2 class="mb-4 text-lg font-semibold">Basic Modal</h2>
         <UButton @click="showBasicModal = true">基本的なモーダルを開く</UButton>
 
         <Modal v-model="showBasicModal" title="基本的なモーダル">
@@ -23,8 +23,8 @@
       </div>
 
       <!-- ログインモーダル（現行再現） -->
-      <div class="border p-4 rounded-lg">
-        <h2 class="text-lg font-semibold mb-4">Login Modal (現行再現)</h2>
+      <div class="rounded-lg border p-4">
+        <h2 class="mb-4 text-lg font-semibold">Login Modal (現行再現)</h2>
         <UButton @click="showLoginModal = true">ログインモーダルを開く</UButton>
 
         <Modal
@@ -34,7 +34,7 @@
         >
           <div class="space-y-4">
             <p>いずれかのアカウントと連携してログインしてください。</p>
-            <div class="text-red-600 text-sm mb-2">
+            <div class="mb-2 text-sm text-red-600">
               <p>
                 既存のアカウントに別のログイン方法を紐付けたい場合は、まず既存のアカウントでログインしてください。
               </p>
@@ -87,14 +87,14 @@
       </div>
 
       <!-- 確認モーダル -->
-      <div class="border p-4 rounded-lg">
-        <h2 class="text-lg font-semibold mb-4">Confirmation Modal</h2>
+      <div class="rounded-lg border p-4">
+        <h2 class="mb-4 text-lg font-semibold">Confirmation Modal</h2>
         <UButton @click="showConfirmModal = true">確認モーダルを開く</UButton>
 
         <Modal v-model="showConfirmModal" title="確認">
           <div class="space-y-4">
             <p>この操作を実行してもよろしいですか？</p>
-            <div class="bg-yellow-50 border border-yellow-200 rounded p-3">
+            <div class="rounded border border-yellow-200 bg-yellow-50 p-3">
               <p class="text-sm text-yellow-800">
                 この操作は元に戻すことができません。
               </p>
@@ -110,8 +110,8 @@
       </div>
 
       <!-- カスタムタイトルスロット -->
-      <div class="border p-4 rounded-lg">
-        <h2 class="text-lg font-semibold mb-4">Custom Title Slot</h2>
+      <div class="rounded-lg border p-4">
+        <h2 class="mb-4 text-lg font-semibold">Custom Title Slot</h2>
         <UButton @click="showCustomTitleModal = true"
           >カスタムタイトルモーダルを開く</UButton
         >
@@ -127,7 +127,7 @@
 
           <div class="space-y-4">
             <p>タイトル部分をカスタマイズしたモーダルです。</p>
-            <div class="bg-blue-50 border border-blue-200 rounded p-3">
+            <div class="rounded border border-blue-200 bg-blue-50 p-3">
               <p class="text-sm text-blue-800">
                 スロットを使用してタイトル部分をカスタマイズできます。
               </p>

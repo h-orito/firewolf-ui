@@ -1,12 +1,12 @@
 <template>
   <div class="p-8">
-    <h1 class="text-2xl font-bold mb-6">Loading Component Test</h1>
+    <h1 class="mb-6 text-2xl font-bold">Loading Component Test</h1>
 
     <div class="space-y-6">
       <!-- 通常のLoading -->
-      <div class="border p-4 rounded-lg">
-        <h2 class="text-lg font-semibold mb-4">Normal Loading</h2>
-        <div class="relative h-40 border-2 border-gray-200 rounded">
+      <div class="rounded-lg border p-4">
+        <h2 class="mb-4 text-lg font-semibold">Normal Loading</h2>
+        <div class="relative h-40 rounded border-2 border-gray-200">
           <Loading v-if="showNormalLoading" />
           <div v-else class="p-4">
             <p>コンテンツが表示されます</p>
@@ -18,8 +18,8 @@
       </div>
 
       <!-- Fixed Loading -->
-      <div class="border p-4 rounded-lg">
-        <h2 class="text-lg font-semibold mb-4">Fixed Loading</h2>
+      <div class="rounded-lg border p-4">
+        <h2 class="mb-4 text-lg font-semibold">Fixed Loading</h2>
         <UButton @click="showFixedLoading = !showFixedLoading">
           {{ showFixedLoading ? '完了' : '全画面読み込み開始' }}
         </UButton>
@@ -31,9 +31,9 @@
       </div>
 
       <!-- Custom Message Loading -->
-      <div class="border p-4 rounded-lg">
-        <h2 class="text-lg font-semibold mb-4">Custom Message Loading</h2>
-        <div class="relative h-40 border-2 border-gray-200 rounded">
+      <div class="rounded-lg border p-4">
+        <h2 class="mb-4 text-lg font-semibold">Custom Message Loading</h2>
+        <div class="relative h-40 rounded border-2 border-gray-200">
           <Loading v-if="showCustomLoading" message="発言を読み込み中..." />
           <div v-else class="p-4">
             <p>発言リストが表示されます</p>

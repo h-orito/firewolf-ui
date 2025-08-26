@@ -1,5 +1,5 @@
 <template>
-  <div class="p-8 space-y-8">
+  <div class="space-y-8 p-8">
     <h1 class="text-2xl font-bold">USelect 基本動作テスト</h1>
 
     <!-- 最もシンプルなUSelect -->
@@ -92,8 +92,8 @@
     <!-- デバッグ情報 -->
     <div class="space-y-4">
       <h2 class="text-lg font-semibold">デバッグ情報</h2>
-      <div class="p-4 bg-gray-50 rounded-lg">
-        <h3 class="font-medium mb-2">現在の値:</h3>
+      <div class="rounded-lg bg-gray-50 p-4">
+        <h3 class="mb-2 font-medium">現在の値:</h3>
         <pre class="text-sm">{{
           JSON.stringify(
             {
@@ -110,9 +110,9 @@
         }}</pre>
       </div>
 
-      <div class="p-4 bg-blue-50 rounded-lg">
-        <h3 class="font-medium mb-2">使用中のオプション:</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="rounded-lg bg-blue-50 p-4">
+        <h3 class="mb-2 font-medium">使用中のオプション:</h3>
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div>
             <h4 class="font-medium">simpleItems:</h4>
             <pre class="text-sm">{{

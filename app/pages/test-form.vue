@@ -1,11 +1,11 @@
 <template>
-  <div class="p-8 space-y-8">
+  <div class="space-y-8 p-8">
     <h1 class="text-2xl font-bold">Form 要素コンポーネント群テスト</h1>
 
     <!-- 基本的なInput要素 -->
     <div class="space-y-4">
       <h2 class="text-lg font-semibold">Input 要素</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
         <!-- テキストInput -->
         <div class="space-y-2">
           <h3 class="font-medium">テキストInput</h3>
@@ -86,7 +86,7 @@
     <!-- Select要素 -->
     <div class="space-y-4">
       <h2 class="text-lg font-semibold">Select 要素</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
         <!-- 標準Select -->
         <div class="space-y-2">
           <h3 class="font-medium">標準Select</h3>
@@ -142,7 +142,7 @@
     <!-- Checkbox要素 -->
     <div class="space-y-4">
       <h2 class="text-lg font-semibold">Checkbox 要素</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
         <!-- 標準Checkbox -->
         <div class="space-y-2">
           <h3 class="font-medium">標準Checkbox</h3>
@@ -223,7 +223,7 @@
     <!-- Textarea要素 -->
     <div class="space-y-4">
       <h2 class="text-lg font-semibold">Textarea 要素</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
         <!-- 標準Textarea -->
         <div class="space-y-2">
           <h3 class="font-medium">標準Textarea</h3>
@@ -269,7 +269,7 @@
     <!-- Switch要素 -->
     <div class="space-y-4">
       <h2 class="text-lg font-semibold">Switch 要素</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
         <!-- 標準Switch -->
         <div class="space-y-2">
           <h3 class="font-medium">標準Switch</h3>
@@ -348,7 +348,7 @@
     <!-- 共通オプションセットの例 -->
     <div class="space-y-4">
       <h2 class="text-lg font-semibold">共通オプションセット</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
         <!-- Yes/No選択 -->
         <div class="space-y-2">
           <h3 class="font-medium">Yes/No選択</h3>
@@ -392,9 +392,9 @@
       <h2 class="text-lg font-semibold">実用的なフォーム例</h2>
 
       <!-- ユーザー登録フォーム風 -->
-      <div class="p-4 border rounded-lg space-y-4">
+      <div class="space-y-4 rounded-lg border p-4">
         <h3 class="font-medium">ユーザー登録フォーム</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
           <UInput v-bind="inputPatterns.text" placeholder="ユーザー名" />
           <UInput v-bind="inputPatterns.email" placeholder="メールアドレス" />
           <UInput v-bind="inputPatterns.password" placeholder="パスワード" />
@@ -431,9 +431,9 @@
       </div>
 
       <!-- お問い合わせフォーム風 -->
-      <div class="p-4 border rounded-lg space-y-4">
+      <div class="space-y-4 rounded-lg border p-4">
         <h3 class="font-medium">お問い合わせフォーム</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
           <UInput v-bind="inputPatterns.text" placeholder="お名前" />
           <UInput v-bind="inputPatterns.email" placeholder="メールアドレス" />
           <USelect
@@ -464,14 +464,14 @@
     </div>
 
     <!-- RadioGroup パターンテスト -->
-    <div class="border p-4 rounded-lg">
-      <h2 class="text-lg font-semibold mb-4">
+    <div class="rounded-lg border p-4">
+      <h2 class="mb-4 text-lg font-semibold">
         RadioGroup Patterns (b-radio-button 風)
       </h2>
 
       <!-- ボタン風RadioGroup（標準） -->
       <div class="mb-4">
-        <h3 class="text-md font-medium mb-2">Button Style RadioGroup</h3>
+        <h3 class="text-md mb-2 font-medium">Button Style RadioGroup</h3>
         <UFormField label="発言タイプ" class="font-medium">
           <URadioGroup
             v-model="radioValues.messageType"
@@ -488,7 +488,7 @@
 
       <!-- 小さいボタンスタイル -->
       <div class="mb-4">
-        <h3 class="text-md font-medium mb-2">Small Button Style</h3>
+        <h3 class="text-md mb-2 font-medium">Small Button Style</h3>
         <UFormField label="優先度" class="font-medium">
           <URadioGroup
             v-model="radioValues.priority"
@@ -504,7 +504,7 @@
 
       <!-- 縦並び（小さいサイズ） -->
       <div class="mb-4">
-        <h3 class="text-md font-medium mb-2">Vertical Small</h3>
+        <h3 class="text-md mb-2 font-medium">Vertical Small</h3>
         <UFormField label="性別" class="font-medium">
           <URadioGroup
             v-model="radioValues.gender"
@@ -521,7 +521,7 @@
 
       <!-- カードスタイル（横並び） -->
       <div class="mb-4">
-        <h3 class="text-md font-medium mb-2">Card Horizontal</h3>
+        <h3 class="text-md mb-2 font-medium">Card Horizontal</h3>
         <UFormField label="テーマ選択" class="font-medium">
           <URadioGroup
             v-model="radioValues.theme"
@@ -537,7 +537,7 @@
 
       <!-- リストスタイル（縦並び） -->
       <div class="mb-4">
-        <h3 class="text-md font-medium mb-2">List Vertical</h3>
+        <h3 class="text-md mb-2 font-medium">List Vertical</h3>
         <UFormField label="通知設定" class="font-medium">
           <URadioGroup
             v-model="radioValues.notification"
@@ -553,7 +553,7 @@
 
       <!-- 無効化RadioGroup -->
       <div class="mb-4">
-        <h3 class="text-md font-medium mb-2">Disabled RadioGroup</h3>
+        <h3 class="text-md mb-2 font-medium">Disabled RadioGroup</h3>
         <UFormField label="利用不可オプション" class="font-medium">
           <URadioGroup
             v-model="radioValues.disabled"
@@ -568,8 +568,8 @@
       </div>
 
       <!-- 現在の値表示 -->
-      <div class="mt-6 p-3 bg-gray-50 rounded">
-        <h4 class="font-medium mb-2">Current Values:</h4>
+      <div class="mt-6 rounded bg-gray-50 p-3">
+        <h4 class="mb-2 font-medium">Current Values:</h4>
         <pre class="text-sm">{{ JSON.stringify(radioValues, null, 2) }}</pre>
       </div>
     </div>
@@ -577,7 +577,7 @@
     <!-- フォーム値の確認 -->
     <div class="space-y-4">
       <h2 class="text-lg font-semibold">入力値の確認</h2>
-      <div class="p-4 bg-gray-50 rounded-lg">
+      <div class="rounded-lg bg-gray-50 p-4">
         <details>
           <summary class="cursor-pointer font-medium">
             入力されたフォーム値を表示

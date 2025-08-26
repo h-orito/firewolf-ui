@@ -1,8 +1,8 @@
 <template>
   <div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold text-center mb-8">Village Layout テスト</h1>
+    <h1 class="mb-8 text-center text-3xl font-bold">Village Layout テスト</h1>
 
-    <div class="max-w-2xl mx-auto">
+    <div class="mx-auto max-w-2xl">
       <UCard>
         <template #header>
           <h2 class="text-xl font-semibold">VillageLayout テスト</h2>
@@ -24,7 +24,7 @@
           <div class="mt-6">
             <NuxtLink
               to="/layout-test"
-              class="inline-flex items-center px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
+              class="bg-primary-500 hover:bg-primary-600 inline-flex items-center rounded-lg px-4 py-2 text-white transition-colors"
             >
               ← Default Layout テストに戻る
             </NuxtLink>

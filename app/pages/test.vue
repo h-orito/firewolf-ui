@@ -1,24 +1,24 @@
 <template>
   <div class="container mx-auto px-4 py-8">
-    <h1 class="text-4xl font-bold mb-8">@nuxt/ui コンポーネントテスト</h1>
+    <h1 class="mb-8 text-4xl font-bold">@nuxt/ui コンポーネントテスト</h1>
 
     <!-- Primary color test -->
     <div class="mb-8">
-      <h2 class="text-2xl font-bold mb-4">カスタムプライマリカラー</h2>
-      <div class="bg-primary text-white p-4 rounded mb-2">
+      <h2 class="mb-4 text-2xl font-bold">カスタムプライマリカラー</h2>
+      <div class="bg-primary mb-2 rounded p-4 text-white">
         プライマリカラー (#3991f4)
       </div>
-      <div class="bg-primary-dark text-white p-4 rounded">
+      <div class="bg-primary-dark rounded p-4 text-white">
         プライマリダークカラー (rgb(20, 180, 255))
       </div>
     </div>
 
     <!-- @nuxt/ui components -->
     <div class="mb-8">
-      <h2 class="text-2xl font-bold mb-4">@nuxt/ui コンポーネント</h2>
+      <h2 class="mb-4 text-2xl font-bold">@nuxt/ui コンポーネント</h2>
 
       <!-- Alerts -->
-      <div class="space-y-4 mb-6">
+      <div class="mb-6 space-y-4">
         <UAlert
           icon="i-heroicons-information-circle"
           title="Information"
@@ -40,7 +40,7 @@
       </div>
 
       <!-- Buttons -->
-      <div class="space-x-2 mb-6">
+      <div class="mb-6 space-x-2">
         <UButton color="primary" variant="solid">Primary</UButton>
         <UButton color="neutral" variant="outline">Secondary</UButton>
         <UButton color="error" variant="soft">Danger</UButton>
@@ -78,44 +78,44 @@
 
     <!-- 人狼ゲーム固有の色テスト -->
     <div class="mb-8">
-      <h2 class="text-2xl font-bold mb-4">人狼ゲーム固有カラー</h2>
+      <h2 class="mb-4 text-2xl font-bold">人狼ゲーム固有カラー</h2>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
         <!-- Say colors -->
         <div>
-          <h3 class="font-bold mb-2">発言色</h3>
+          <h3 class="mb-2 font-bold">発言色</h3>
           <div class="space-y-2">
-            <div class="bg-say-normal border p-3 rounded">通常発言</div>
-            <div class="bg-say-werewolf p-3 rounded">人狼発言</div>
-            <div class="bg-say-sympathize p-3 rounded">共鳴発言</div>
-            <div class="bg-say-grave p-3 rounded">墓場発言</div>
-            <div class="bg-say-spectate p-3 rounded">見学発言</div>
-            <div class="bg-say-action p-3 rounded">アクション発言</div>
-            <div class="bg-say-monologue p-3 rounded">独り言</div>
+            <div class="bg-say-normal rounded border p-3">通常発言</div>
+            <div class="bg-say-werewolf rounded p-3">人狼発言</div>
+            <div class="bg-say-sympathize rounded p-3">共鳴発言</div>
+            <div class="bg-say-grave rounded p-3">墓場発言</div>
+            <div class="bg-say-spectate rounded p-3">見学発言</div>
+            <div class="bg-say-action rounded p-3">アクション発言</div>
+            <div class="bg-say-monologue rounded p-3">独り言</div>
           </div>
         </div>
 
         <!-- System colors -->
         <div>
-          <h3 class="font-bold mb-2">システムメッセージ色</h3>
+          <h3 class="mb-2 font-bold">システムメッセージ色</h3>
           <div class="space-y-2">
             <div
-              class="bg-system-private-bg border-system-private-border border-l-4 p-3 rounded"
+              class="bg-system-private-bg border-system-private-border rounded border-l-4 p-3"
             >
               プライベートシステム
             </div>
             <div
-              class="bg-system-seer-bg border-system-seer-border border-l-4 p-3 rounded"
+              class="bg-system-seer-bg border-system-seer-border rounded border-l-4 p-3"
             >
               占い師システム
             </div>
             <div
-              class="bg-system-werewolf-bg border-system-werewolf-border border-l-4 p-3 rounded"
+              class="bg-system-werewolf-bg border-system-werewolf-border rounded border-l-4 p-3"
             >
               人狼システム
             </div>
             <div
-              class="bg-system-mason-bg border-system-mason-border border-l-4 p-3 rounded"
+              class="bg-system-mason-bg border-system-mason-border rounded border-l-4 p-3"
             >
               共鳴者システム
             </div>
@@ -126,12 +126,12 @@
 
     <!-- Firebase認証テスト -->
     <div class="mb-8">
-      <h2 class="text-2xl font-bold mb-4">Firebase認証テスト</h2>
+      <h2 class="mb-4 text-2xl font-bold">Firebase認証テスト</h2>
 
       <div class="space-y-4">
         <!-- 認証状態表示 -->
-        <div class="p-4 border rounded-lg">
-          <h3 class="font-bold mb-2">認証状態</h3>
+        <div class="rounded-lg border p-4">
+          <h3 class="mb-2 font-bold">認証状態</h3>
           <div class="space-y-2">
             <p>
               <span class="font-semibold">ログイン状態:</span>
@@ -157,7 +157,7 @@
         </div>
 
         <!-- 認証操作ボタン -->
-        <div class="flex space-x-4 flex-wrap gap-2">
+        <div class="flex flex-wrap gap-2 space-x-4">
           <UButton
             :loading="isSigningIn"
             color="blue"
@@ -189,7 +189,7 @@
 
         <!-- 認証テスト結果 -->
         <div v-if="authTestResults.length > 0" class="mt-4">
-          <h3 class="font-bold mb-2">認証テスト結果</h3>
+          <h3 class="mb-2 font-bold">認証テスト結果</h3>
           <div class="space-y-2">
             <UAlert
               v-for="(result, index) in authTestResults"
@@ -210,7 +210,7 @@
 
     <!-- API通信テスト -->
     <div class="mb-8">
-      <h2 class="text-2xl font-bold mb-4">API通信テスト</h2>
+      <h2 class="mb-4 text-2xl font-bold">API通信テスト</h2>
 
       <div class="space-y-4">
         <div class="flex space-x-4">
@@ -232,7 +232,7 @@
         </div>
 
         <div v-if="apiTestResults.length > 0" class="mt-4">
-          <h3 class="font-bold mb-2">テスト結果</h3>
+          <h3 class="mb-2 font-bold">テスト結果</h3>
           <div class="space-y-2">
             <UAlert
               v-for="(result, index) in apiTestResults"

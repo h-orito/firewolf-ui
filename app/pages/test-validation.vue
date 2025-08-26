@@ -1,12 +1,12 @@
 <template>
-  <div class="p-8 space-y-8">
+  <div class="space-y-8 p-8">
     <h1 class="text-2xl font-bold">バリデーション統合テスト</h1>
 
     <!-- 基本的なフォームバリデーション -->
     <div class="space-y-6">
       <h2 class="text-lg font-semibold">基本フォーム要素 + vee-validate</h2>
 
-      <form class="space-y-4 max-w-lg" @submit="onSubmit">
+      <form class="max-w-lg space-y-4" @submit="onSubmit">
         <!-- 必須テキスト入力 -->
         <div class="space-y-2">
           <UFormField label="名前（必須）" name="name" :error="errors.name">
@@ -131,7 +131,7 @@
     <div class="space-y-6">
       <h2 class="text-lg font-semibold">人狼ゲーム固有フォーム</h2>
 
-      <form class="space-y-4 max-w-lg" @submit="onFirewolfSubmit">
+      <form class="max-w-lg space-y-4" @submit="onFirewolfSubmit">
         <!-- 村名 -->
         <div class="space-y-2">
           <UFormField
@@ -231,29 +231,29 @@
     <div class="space-y-4">
       <h2 class="text-lg font-semibold">デバッグ情報</h2>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
         <!-- 基本フォームの状態 -->
-        <div class="p-4 bg-blue-50 rounded-lg">
-          <h3 class="font-medium mb-2">基本フォーム状態:</h3>
+        <div class="rounded-lg bg-blue-50 p-4">
+          <h3 class="mb-2 font-medium">基本フォーム状態:</h3>
           <div class="space-y-2 text-sm">
             <div><strong>isValid:</strong> {{ isValid }}</div>
             <div><strong>isDirty:</strong> {{ isDirty }}</div>
             <div><strong>isSubmitting:</strong> {{ isSubmitting }}</div>
             <div><strong>submitCount:</strong> {{ submitCount }}</div>
           </div>
-          <h4 class="font-medium mt-4 mb-2">フォーム値:</h4>
-          <pre class="text-xs bg-white p-2 rounded">{{
+          <h4 class="mt-4 mb-2 font-medium">フォーム値:</h4>
+          <pre class="rounded bg-white p-2 text-xs">{{
             JSON.stringify(values, null, 2)
           }}</pre>
-          <h4 class="font-medium mt-4 mb-2">エラー:</h4>
-          <pre class="text-xs bg-white p-2 rounded">{{
+          <h4 class="mt-4 mb-2 font-medium">エラー:</h4>
+          <pre class="rounded bg-white p-2 text-xs">{{
             JSON.stringify(errors, null, 2)
           }}</pre>
         </div>
 
         <!-- 人狼フォームの状態 -->
-        <div class="p-4 bg-green-50 rounded-lg">
-          <h3 class="font-medium mb-2">人狼フォーム状態:</h3>
+        <div class="rounded-lg bg-green-50 p-4">
+          <h3 class="mb-2 font-medium">人狼フォーム状態:</h3>
           <div class="space-y-2 text-sm">
             <div><strong>isFirewolfValid:</strong> {{ isFirewolfValid }}</div>
             <div><strong>isFirewolfDirty:</strong> {{ isFirewolfDirty }}</div>
@@ -264,12 +264,12 @@
               <strong>firewolfSubmitCount:</strong> {{ firewolfSubmitCount }}
             </div>
           </div>
-          <h4 class="font-medium mt-4 mb-2">フォーム値:</h4>
-          <pre class="text-xs bg-white p-2 rounded">{{
+          <h4 class="mt-4 mb-2 font-medium">フォーム値:</h4>
+          <pre class="rounded bg-white p-2 text-xs">{{
             JSON.stringify(firewolfValues, null, 2)
           }}</pre>
-          <h4 class="font-medium mt-4 mb-2">エラー:</h4>
-          <pre class="text-xs bg-white p-2 rounded">{{
+          <h4 class="mt-4 mb-2 font-medium">エラー:</h4>
+          <pre class="rounded bg-white p-2 text-xs">{{
             JSON.stringify(firewolfErrors, null, 2)
           }}</pre>
         </div>

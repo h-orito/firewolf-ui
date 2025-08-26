@@ -69,7 +69,7 @@ export const useAuthStore = defineStore('auth', () => {
     })
   }
 
-  // 認証トークンの取得（既存 plugins/axios.js のロジックを移植）
+  // 認証トークンの取得
   const getAuthToken = async (): Promise<string | null> => {
     const tokenCookie = useCookie<string | null>('id-token', {
       default: () => null,

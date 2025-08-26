@@ -1,5 +1,5 @@
 <template>
-  <div class="p-8 space-y-8">
+  <div class="space-y-8 p-8">
     <h1 class="text-2xl font-bold">Button コンポーネント群テスト</h1>
 
     <!-- 基本的なボタンパターン -->
@@ -62,25 +62,25 @@
     <!-- 旧Buefyパターンとの比較 -->
     <div class="space-y-4">
       <h2 class="text-lg font-semibold">旧Buefy対応表</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="p-4 border rounded">
-          <h3 class="font-medium mb-2">旧 type="is-primary"</h3>
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div class="rounded border p-4">
+          <h3 class="mb-2 font-medium">旧 type="is-primary"</h3>
           <UButton color="primary" variant="solid" size="sm"
             >新プライマリ</UButton
           >
         </div>
-        <div class="p-4 border rounded">
-          <h3 class="font-medium mb-2">旧 type="is-secondary"</h3>
+        <div class="rounded border p-4">
+          <h3 class="mb-2 font-medium">旧 type="is-secondary"</h3>
           <UButton color="neutral" variant="outline" size="sm"
             >新セカンダリ</UButton
           >
         </div>
-        <div class="p-4 border rounded">
-          <h3 class="font-medium mb-2">旧 type="is-danger"</h3>
+        <div class="rounded border p-4">
+          <h3 class="mb-2 font-medium">旧 type="is-danger"</h3>
           <UButton color="error" variant="solid" size="sm">新危険</UButton>
         </div>
-        <div class="p-4 border rounded">
-          <h3 class="font-medium mb-2">旧 size="is-small"</h3>
+        <div class="rounded border p-4">
+          <h3 class="mb-2 font-medium">旧 size="is-small"</h3>
           <UButton size="sm">新小サイズ</UButton>
         </div>
       </div>
@@ -91,8 +91,8 @@
       <h2 class="text-lg font-semibold">実用的なUIパターン</h2>
 
       <!-- モーダルフッター風 -->
-      <div class="p-4 border rounded">
-        <h3 class="font-medium mb-2">モーダルフッター</h3>
+      <div class="rounded border p-4">
+        <h3 class="mb-2 font-medium">モーダルフッター</h3>
         <div class="flex justify-end gap-2">
           <UButton v-bind="modalButtons.cancel" />
           <UButton v-bind="modalButtons.confirm" />
@@ -100,8 +100,8 @@
       </div>
 
       <!-- フォーム送信風 -->
-      <div class="p-4 border rounded">
-        <h3 class="font-medium mb-2">フォーム送信</h3>
+      <div class="rounded border p-4">
+        <h3 class="mb-2 font-medium">フォーム送信</h3>
         <div class="flex gap-2">
           <UButton v-bind="formButtons.cancel" />
           <UButton v-bind="formButtons.save" />
@@ -109,8 +109,8 @@
       </div>
 
       <!-- 削除確認風 -->
-      <div class="p-4 border rounded">
-        <h3 class="font-medium mb-2">削除確認</h3>
+      <div class="rounded border p-4">
+        <h3 class="mb-2 font-medium">削除確認</h3>
         <div class="flex gap-2">
           <UButton v-bind="deleteButtons.cancel" />
           <UButton v-bind="deleteButtons.delete" />

@@ -1,5 +1,5 @@
 <template>
-  <div class="p-8 space-y-8">
+  <div class="space-y-8 p-8">
     <h1 class="text-2xl font-bold">バリデーション修正テスト</h1>
 
     <!-- 基本的なフォームバリデーション -->
@@ -8,7 +8,7 @@
         基本フォーム要素 + vee-validate 修正版
       </h2>
 
-      <form class="space-y-4 max-w-lg" @submit.prevent="onSubmit">
+      <form class="max-w-lg space-y-4" @submit.prevent="onSubmit">
         <!-- 必須テキスト入力 -->
         <div class="space-y-2">
           <UFormField
@@ -54,8 +54,8 @@
     <div class="space-y-4">
       <h2 class="text-lg font-semibold">デバッグ情報</h2>
 
-      <div class="p-4 bg-blue-50 rounded-lg">
-        <h3 class="font-medium mb-2">フォーム状態:</h3>
+      <div class="rounded-lg bg-blue-50 p-4">
+        <h3 class="mb-2 font-medium">フォーム状態:</h3>
         <div class="space-y-2 text-sm">
           <div><strong>name:</strong> "{{ nameField.value.value }}"</div>
           <div><strong>email:</strong> "{{ emailField.value.value }}"</div>

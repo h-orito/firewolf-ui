@@ -1,19 +1,19 @@
 <template>
   <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
     <div class="container mx-auto px-4 py-8">
-      <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-8">
+      <h1 class="mb-8 text-4xl font-bold text-gray-900 dark:text-white">
         FIREWOLF コンポーネントスタイルガイド
       </h1>
 
       <!-- カラーパレット -->
       <section class="mb-12">
-        <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+        <h2 class="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
           カラーパレット
         </h2>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
           <div class="space-y-2">
             <div
-              class="h-20 bg-primary rounded-lg flex items-center justify-center text-white"
+              class="bg-primary flex h-20 items-center justify-center rounded-lg text-white"
             >
               Primary
             </div>
@@ -21,7 +21,7 @@
           </div>
           <div class="space-y-2">
             <div
-              class="h-20 bg-info rounded-lg flex items-center justify-center text-white"
+              class="bg-info flex h-20 items-center justify-center rounded-lg text-white"
             >
               Info
             </div>
@@ -29,7 +29,7 @@
           </div>
           <div class="space-y-2">
             <div
-              class="h-20 bg-success rounded-lg flex items-center justify-center text-white"
+              class="bg-success flex h-20 items-center justify-center rounded-lg text-white"
             >
               Success
             </div>
@@ -37,7 +37,7 @@
           </div>
           <div class="space-y-2">
             <div
-              class="h-20 bg-warning rounded-lg flex items-center justify-center text-gray-900"
+              class="bg-warning flex h-20 items-center justify-center rounded-lg text-gray-900"
             >
               Warning
             </div>
@@ -45,7 +45,7 @@
           </div>
           <div class="space-y-2">
             <div
-              class="h-20 bg-danger rounded-lg flex items-center justify-center text-white"
+              class="bg-danger flex h-20 items-center justify-center rounded-lg text-white"
             >
               Danger
             </div>
@@ -53,7 +53,7 @@
           </div>
           <div class="space-y-2">
             <div
-              class="h-20 bg-light rounded-lg flex items-center justify-center text-gray-900 border"
+              class="bg-light flex h-20 items-center justify-center rounded-lg border text-gray-900"
             >
               Light
             </div>
@@ -61,7 +61,7 @@
           </div>
           <div class="space-y-2">
             <div
-              class="h-20 bg-dark rounded-lg flex items-center justify-center text-white"
+              class="bg-dark flex h-20 items-center justify-center rounded-lg text-white"
             >
               Dark
             </div>
@@ -72,12 +72,12 @@
 
       <!-- ボタン -->
       <section class="mb-12">
-        <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+        <h2 class="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
           ボタン
         </h2>
         <div class="space-y-4">
           <div>
-            <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
+            <h3 class="mb-2 text-lg font-medium text-gray-900 dark:text-white">
               バリアント
             </h3>
             <div class="flex flex-wrap gap-2">
@@ -90,10 +90,10 @@
             </div>
           </div>
           <div>
-            <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
+            <h3 class="mb-2 text-lg font-medium text-gray-900 dark:text-white">
               サイズ
             </h3>
-            <div class="flex flex-wrap gap-2 items-center">
+            <div class="flex flex-wrap items-center gap-2">
               <UButton size="xs">Extra Small</UButton>
               <UButton size="sm">Small</UButton>
               <UButton size="md">Medium</UButton>
@@ -102,7 +102,7 @@
             </div>
           </div>
           <div>
-            <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
+            <h3 class="mb-2 text-lg font-medium text-gray-900 dark:text-white">
               アイコン付き
             </h3>
             <div class="flex flex-wrap gap-2">
@@ -118,10 +118,10 @@
 
       <!-- フォーム要素 -->
       <section class="mb-12">
-        <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+        <h2 class="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
           フォーム要素
         </h2>
-        <div class="space-y-6 max-w-md">
+        <div class="max-w-md space-y-6">
           <UFormGroup label="テキスト入力" help="ヘルプテキスト">
             <UInput placeholder="テキストを入力" />
           </UFormGroup>
@@ -164,10 +164,10 @@
 
       <!-- カード -->
       <section class="mb-12">
-        <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+        <h2 class="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
           カード
         </h2>
-        <div class="grid md:grid-cols-2 gap-4">
+        <div class="grid gap-4 md:grid-cols-2">
           <UCard>
             <template #header>
               <h3 class="text-lg font-semibold">カードヘッダー</h3>
@@ -185,10 +185,10 @@
             <img
               src="https://via.placeholder.com/400x200"
               alt="サンプル画像"
-              class="w-full h-48 object-cover"
+              class="h-48 w-full object-cover"
             />
             <div class="p-4">
-              <h3 class="text-lg font-semibold mb-2">画像付きカード</h3>
+              <h3 class="mb-2 text-lg font-semibold">画像付きカード</h3>
               <p class="text-gray-600 dark:text-gray-400">
                 画像を含むカードの例です。
               </p>
@@ -199,7 +199,7 @@
 
       <!-- モーダル -->
       <section class="mb-12">
-        <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+        <h2 class="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
           モーダル
         </h2>
         <div class="flex gap-2">
@@ -225,19 +225,19 @@
 
       <!-- アラート・通知 -->
       <section class="mb-12">
-        <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+        <h2 class="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
           アラート・通知
         </h2>
         <div class="space-y-4">
           <!-- Alertコンポーネント -->
           <div>
-            <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
+            <h3 class="mb-2 text-lg font-medium text-gray-900 dark:text-white">
               通知コンポーネント
             </h3>
             <div class="space-y-2">
               <!-- デフォルト通知 -->
               <Alert type="default">
-                <ul class="list-disc list-inside space-y-1">
+                <ul class="list-inside list-disc space-y-1">
                   <li>これはデフォルトの通知です</li>
                   <li>リスト形式で表示されます</li>
                 </ul>
@@ -254,7 +254,7 @@
 
               <!-- Warning通知 -->
               <Alert type="warning">
-                <ul class="list-disc list-inside space-y-1">
+                <ul class="list-inside list-disc space-y-1">
                   <li>参加パスワードが毎回空になるのでご注意ください。</li>
                 </ul>
               </Alert>
@@ -281,7 +281,7 @@
 
       <!-- バッジ -->
       <section class="mb-12">
-        <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+        <h2 class="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
           バッジ
         </h2>
         <div class="flex flex-wrap gap-2">
@@ -297,12 +297,12 @@
 
       <!-- ローディング -->
       <section class="mb-12">
-        <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+        <h2 class="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
           ローディング
         </h2>
         <div class="space-y-4">
           <div>
-            <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
+            <h3 class="mb-2 text-lg font-medium text-gray-900 dark:text-white">
               スピナー
             </h3>
             <div class="flex gap-4">
@@ -312,7 +312,7 @@
             </div>
           </div>
           <div>
-            <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
+            <h3 class="mb-2 text-lg font-medium text-gray-900 dark:text-white">
               スケルトン
             </h3>
             <div class="space-y-2">
@@ -326,12 +326,12 @@
 
       <!-- 人狼ゲーム専用コンポーネント -->
       <section class="mb-12">
-        <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+        <h2 class="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
           人狼ゲーム専用コンポーネント
         </h2>
         <div class="space-y-6">
           <div>
-            <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
+            <h3 class="mb-2 text-lg font-medium text-gray-900 dark:text-white">
               キャラクター画像
             </h3>
             <div class="flex gap-4">
@@ -353,7 +353,7 @@
           </div>
 
           <div>
-            <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
+            <h3 class="mb-2 text-lg font-medium text-gray-900 dark:text-white">
               メッセージカード
             </h3>
             <!-- test-message-card.vueから正しい実装をコピー -->

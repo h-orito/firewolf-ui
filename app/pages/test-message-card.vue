@@ -1,6 +1,6 @@
 <template>
-  <div class="container mx-auto p-4 max-w-4xl">
-    <h1 class="text-2xl font-bold mb-6">MessageCard コンポーネントテスト</h1>
+  <div class="container mx-auto max-w-4xl p-4">
+    <h1 class="mb-6 text-2xl font-bold">MessageCard コンポーネントテスト</h1>
 
     <!-- ダークモード切り替え -->
     <div class="mb-6">
@@ -12,7 +12,7 @@
     <!-- メッセージカード表示 -->
     <div class="space-y-4">
       <div v-for="(message, index) in sampleMessages" :key="index">
-        <h3 class="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-2">
+        <h3 class="mb-2 text-sm font-semibold text-gray-600 dark:text-gray-400">
           {{ message.content.type.name }}
         </h3>
         <MessageCard

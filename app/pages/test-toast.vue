@@ -1,5 +1,5 @@
 <template>
-  <div class="p-8 space-y-4">
+  <div class="space-y-4 p-8">
     <h1 class="text-2xl font-bold">Toast/Notification テスト</h1>
 
     <div class="space-y-2">
@@ -27,7 +27,7 @@
     </div>
 
     <div class="space-y-2">
-      <h2 class="text-lg font-semibent">カスタムToast</h2>
+      <h2 class="font-semibent text-lg">カスタムToast</h2>
       <div class="space-x-2">
         <UButton color="neutral" @click="testCustom">カスタムToast</UButton>
         <UButton color="neutral" variant="outline" @click="testWithActions"

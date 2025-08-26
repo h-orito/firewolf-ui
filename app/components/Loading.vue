@@ -8,7 +8,7 @@
         alt="loading..."
         class="opacity-100"
       />
-      <p class="text-gray-800 text-sm mt-2">{{ message }}</p>
+      <p class="mt-2 text-sm text-gray-800">{{ message }}</p>
     </div>
   </div>
 </template>
