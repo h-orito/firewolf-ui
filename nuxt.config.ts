@@ -4,7 +4,13 @@ export default defineNuxtConfig({
   devServer: {
     port: 3011
   },
-  modules: ['@nuxt/ui', '@pinia/nuxt', '@nuxt/eslint', 'nuxt-vuefire'],
+  modules: [
+    '@nuxt/ui',
+    '@nuxt/icon',
+    '@pinia/nuxt',
+    '@nuxt/eslint',
+    'nuxt-vuefire'
+  ],
   css: ['~/assets/css/main.css'],
   typescript: {
     typeCheck: true
