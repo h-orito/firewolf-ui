@@ -4,7 +4,7 @@
     <GoogleAds />
 
     <!-- Navbar background area -->
-    <div class="w-full h-14 bg-black" />
+    <div class="h-14 w-full bg-black" />
 
     <!-- Navigation Bar -->
     <NavBar />
@@ -13,9 +13,6 @@
     <div class="siteContent text-center">
       <slot />
     </div>
-
-    <!-- Site Footer -->
-    <SiteFooter />
   </div>
 </template>
 
@@ -26,8 +23,5 @@ const GoogleAds = defineAsyncComponent(
 )
 const NavBar = defineAsyncComponent(
   () => import('../components/layout/NavBar.vue')
-)
-const SiteFooter = defineAsyncComponent(
-  () => import('../components/layout/SiteFooter.vue')
 )
 </script>

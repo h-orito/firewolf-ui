@@ -2,39 +2,43 @@
   <UModal
     v-model:open="isModalOpen"
     :ui="{
-      wrapper: 'sm:max-w-lg md:max-w-xl lg:max-w-2xl max-h-[calc(100vh-6.5rem)]'
+      wrapper:
+        'sm:max-w-lg md:max-w-xl lg:max-w-2xl max-h-[calc(100vh-6.5rem)]',
+      overlay: 'bg-black/75'
     }"
   >
-    <div class="modal-card">
-      <!-- Header -->
-      <div v-if="title || $slots.title" class="modal-card-head">
-        <div class="flex items-center justify-between">
-          <h3 class="modal-card-title text-left text-lg font-semibold">
-            <slot name="title">{{ title }}</slot>
-          </h3>
-          <UButton
-            color="neutral"
-            variant="ghost"
-            icon="i-heroicons-x-mark-20-solid"
-            class="-my-1"
-            @click="closeModal"
-          />
+    <template #content>
+      <div class="modal-card">
+        <!-- Header -->
+        <div v-if="title || $slots.title" class="modal-card-head">
+          <div class="flex items-center justify-between">
+            <h3 class="modal-card-title text-left text-lg font-semibold">
+              <slot name="title">{{ title }}</slot>
+            </h3>
+            <UButton
+              color="neutral"
+              variant="ghost"
+              icon="i-heroicons-x-mark-20-solid"
+              class="-my-1"
+              @click="closeModal"
+            />
+          </div>
+        </div>
+
+        <!-- Body -->
+        <div class="modal-card-body px-4 py-4 text-left sm:px-6">
+          <slot />
+        </div>
+
+        <!-- Footer -->
+        <div
+          v-if="$slots.footer"
+          class="modal-card-foot flex justify-end gap-2 border-t border-gray-200 px-4 py-4 sm:px-6"
+        >
+          <slot name="footer" />
         </div>
       </div>
-
-      <!-- Body -->
-      <div class="modal-card-body text-left px-4 py-4 sm:px-6">
-        <slot />
-      </div>
-
-      <!-- Footer -->
-      <div
-        v-if="$slots.footer"
-        class="modal-card-foot flex justify-end gap-2 px-4 py-4 sm:px-6 border-t border-gray-200"
-      >
-        <slot name="footer" />
-      </div>
-    </div>
+    </template>
   </UModal>
 </template>
 

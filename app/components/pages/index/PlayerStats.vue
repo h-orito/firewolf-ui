@@ -1,0 +1,155 @@
+<template>
+  <div class="menu-area">
+    <div v-if="isLoading">
+      <p class="spotlight-shadow">認証情報を読み込み中...</p>
+    </div>
+    <div v-else>
+      <!-- 未ログイン時 -->
+      <div v-if="!isLogin">
+        <div class="mb-12">
+          <p class="spotlight-shadow text-xl md:text-xl">
+            アプリ連携すると参加できます
+          </p>
+        </div>
+        <SpotlightButton @click="openSigninModal">
+          <strong>ログイン</strong>
+        </SpotlightButton>
+      </div>
+
+      <!-- ログイン時 -->
+      <div v-else>
+        <div class="spotlight-shadow mb-5">
+          <p class="text-2xl">ようこそ</p>
+          <p class="spotlight-shadow">{{ displayName }} さん</p>
+          <p class="spotlight-shadow text-sm">
+            ニックネームはマイページで変更できます
+          </p>
+        </div>
+        <div class="grid grid-cols-3 gap-4">
+          <SpotlightButton :to="`/player-record?id=${user?.id}`">
+            <Icon name="fa6-solid:chart-bar" class="mt-0.5 mr-2" />
+            <strong>マイページ</strong>
+          </SpotlightButton>
+          <SpotlightButton @click="openLinkModal">
+            <strong>他SNSアカウント連携</strong>
+          </SpotlightButton>
+          <SpotlightButton @click="logout">
+            <Icon name="fa6-solid:right-from-bracket" class="mt-0.5 mr-2" />
+            <strong>ログアウト</strong>
+          </SpotlightButton>
+        </div>
+
+        <!-- 参加中の村 -->
+        <div v-if="participatingVillages.length > 0" class="mt-8">
+          <div class="spotlight-shadow mb-5">
+            <p class="text-xl">参加している村</p>
+          </div>
+          <div class="grid gap-4 md:grid-cols-2">
+            <VillageCard
+              v-for="village in participatingVillages"
+              :key="village.id"
+              :village="village"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- モーダル -->
+    <SigninModal v-model="isSigninModalOpen" @signin="handleSignin" />
+    <LinkModal v-model="isLinkModalOpen" @link="handleLink" />
+  </div>
+</template>
+
+<script setup lang="ts">
+import type { MyselfPlayerView, SimpleVillageView } from '~/lib/api/types'
+import { VILLAGE_STATUS } from '~/lib/api/village-status-constants'
+import VillageCard from '~/components/pages/index/VillageCard.vue'
+import SigninModal from '~/components/pages/index/SigninModal.vue'
+import LinkModal from '~/components/pages/index/LinkModal.vue'
+import SpotlightButton from './SpotlightButton.vue'
+
+interface Props {
+  user: MyselfPlayerView | null
+  isLoading: boolean
+}
+
+const props = defineProps<Props>()
+const emit = defineEmits<{
+  'signin-with-twitter': []
+  'signin-with-google': []
+  'link-with-twitter': []
+  'link-with-google': []
+  logout: []
+}>()
+
+// TODO: 認証機能の実装後にuseAuthを使用
+// const { isAuthenticated } = useAuth()
+
+const isLogin = computed(() => !!props.user)
+
+const displayName = computed(() => {
+  if (!props.user) return null
+  const nickname = props.user.nickname
+  const twitterUserName = props.user.twitter_user_name
+  if (twitterUserName) {
+    return `${nickname}@${twitterUserName}`
+  }
+  return nickname
+})
+
+const participatingVillages = computed<SimpleVillageView[]>(() => {
+  if (!isLogin.value || !props.user) return []
+  const progressVillages = props.user.participate_progress_villages?.list || []
+  const epilogueVillages = (
+    props.user.participate_finished_villages?.list || []
+  ).filter(
+    (village: SimpleVillageView) =>
+      village.status?.code === VILLAGE_STATUS.EPILOGUE
+  )
+  return [...progressVillages, ...epilogueVillages]
+})
+
+// モーダル制御
+const isSigninModalOpen = ref(false)
+const isLinkModalOpen = ref(false)
+
+const openSigninModal = () => {
+  isSigninModalOpen.value = true
+}
+
+const openLinkModal = () => {
+  isLinkModalOpen.value = true
+}
+
+const handleSignin = (provider: 'twitter' | 'google') => {
+  isSigninModalOpen.value = false
+  if (provider === 'twitter') {
+    emit('signin-with-twitter')
+  } else {
+    emit('signin-with-google')
+  }
+}
+
+const handleLink = (provider: 'twitter' | 'google') => {
+  isLinkModalOpen.value = false
+  if (provider === 'twitter') {
+    emit('link-with-twitter')
+  } else {
+    emit('link-with-google')
+  }
+}
+
+const logout = () => {
+  emit('logout')
+}
+</script>
+
+<style scoped>
+.menu-area {
+  background: linear-gradient(#0a0a1a 0%, #112 50%, #0a0a1a 100%);
+  color: white;
+  padding: 30px;
+  margin-bottom: 50px;
+}
+</style>
