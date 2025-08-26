@@ -1038,13 +1038,13 @@ export interface components {
       viewable_skill_message_type_list: components['schemas']['MessageType'][]
       count_camp?: components['schemas']['Camp']
       description: string
-      is_viewable_lovers_message: boolean
-      is_available_sympathize_say: boolean
-      is_viewable_sympathize_say: boolean
-      abilities: components['schemas']['AbilityTypes']
       is_fox_count: boolean
-      is_viewable_werewolf_say: boolean
+      abilities: components['schemas']['AbilityTypes']
       is_available_werewolf_say: boolean
+      is_viewable_werewolf_say: boolean
+      is_available_sympathize_say: boolean
+      is_viewable_lovers_message: boolean
+      is_viewable_sympathize_say: boolean
     }
     SkillRequest: {
       first: components['schemas']['Skill']
@@ -1270,12 +1270,12 @@ export interface components {
     VillageStatus: {
       code: string
       name: string
-      is_canceled: boolean
+      is_solved: boolean
       is_prologue: boolean
       is_progress: boolean
       is_epilogue: boolean
-      is_solved: boolean
       is_finished: boolean
+      is_canceled: boolean
     }
     VillageTags: {
       list: string[]
@@ -1500,17 +1500,8 @@ export interface components {
       ip_addresses: string[]
       notification?: components['schemas']['VillageParticipantNotificationCondition']
       is_alive: boolean
-      is_viewable_sympathize_say: boolean
-      is_viewable_attack_message: boolean
-      is_viewable_autopsy_message: boolean
-      is_viewable_fanatic_message: boolean
-      is_viewable_guru_psychic_message: boolean
-      is_viewable_private_system_message: boolean
-      is_viewable_psychic_message: boolean
-      is_viewable_sympathizer_message: boolean
-      is_available_skill_request: boolean
-      is_dead: boolean
       is_admin: boolean
+      is_dead: boolean
       is_viewable_grave_say: boolean
       is_sayable_grave_say: boolean
       is_viewable_lovers_say: boolean
@@ -1525,9 +1516,18 @@ export interface components {
       is_viewable_werewolf_say: boolean
       is_sayable_werewolf_say: boolean
       is_viewable_fox_message: boolean
-      is_viewable_mason_message: boolean
       is_available_vote: boolean
+      is_viewable_mason_message: boolean
       is_available_coming_out: boolean
+      is_viewable_private_system_message: boolean
+      is_viewable_sympathize_say: boolean
+      is_viewable_attack_message: boolean
+      is_viewable_autopsy_message: boolean
+      is_viewable_fanatic_message: boolean
+      is_viewable_guru_psychic_message: boolean
+      is_available_skill_request: boolean
+      is_viewable_psychic_message: boolean
+      is_viewable_sympathizer_message: boolean
     }
     VillageParticipants: {
       /** Format: int32 */
