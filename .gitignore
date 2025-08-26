@@ -123,6 +123,6 @@ Desktop.ini
 .claude/settings.local.json
 
 # Serena cache files
-.serena/cache/
+.serena
 
 .playwright-mcp
