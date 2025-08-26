@@ -1,26 +1,24 @@
 <template>
   <div :id="`mc-${message.time.unix_time_milli}`">
-    <UCard class="border-0 bg-transparent p-1 shadow-none sm:p-2">
-      <!-- 発言系メッセージ -->
-      <SayMessage
-        v-if="isSayType"
-        :message="message"
-        :is-img-large="isImgLarge"
-      />
+    <!-- 発言系メッセージ -->
+    <SayMessage
+      v-if="isSayType"
+      :message="message"
+      :is-img-large="isImgLarge"
+    />
 
-      <!-- システムメッセージ -->
-      <SystemMessage v-else-if="isSystemType" :message="message" />
+    <!-- システムメッセージ -->
+    <SystemMessage v-else-if="isSystemType" :message="message" />
 
-      <!-- アクションメッセージ -->
-      <ActionMessage v-else-if="isActionType" :message="message" />
+    <!-- アクションメッセージ -->
+    <ActionMessage v-else-if="isActionType" :message="message" />
 
-      <!-- 参加者一覧メッセージ -->
-      <ParticipantsMessage
-        v-else-if="isParticipantsType"
-        :message="message"
-        :participants="participants"
-      />
-    </UCard>
+    <!-- 参加者一覧メッセージ -->
+    <ParticipantsMessage
+      v-else-if="isParticipantsType"
+      :message="message"
+      :participants="participants"
+    />
   </div>
 </template>
 

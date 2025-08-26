@@ -213,12 +213,12 @@
 </template>
 
 <script setup lang="ts">
-import type { VillageParticipant } from '~/lib/api/types'
+import type { VillageParticipantView } from '~/lib/api/types'
 import CharaImage from './CharaImage.vue'
 
 interface Props {
-  participants: VillageParticipant[]
-  spectators?: VillageParticipant[]
+  participants: VillageParticipantView[]
+  spectators?: VillageParticipantView[]
   isProgress?: boolean
   messageCountMap?: Record<number, number>
 }
@@ -262,12 +262,12 @@ const deadParticipants = computed(() =>
 const spectators = computed(() => props.spectators.filter((p) => p.spectator))
 
 // メソッド
-const truncatedName = (participant: VillageParticipant): string => {
+const truncatedName = (participant: VillageParticipantView): string => {
   const name = participant.chara_name.name
   return name.length > 20 ? name.substring(0, 20) + '...' : name
 }
 
-const getComingOut = (participant: VillageParticipant): string | null => {
+const getComingOut = (participant: VillageParticipantView): string | null => {
   const coList = participant.comming_outs?.list || []
   if (coList.length === 0) return null
   return coList.map((co) => co.skill.short_name).join(',') + 'CO'
@@ -277,7 +277,7 @@ const getSayCount = (participantId: number): number => {
   return props.messageCountMap[participantId] || 0
 }
 
-const getDeadStatus = (participant: VillageParticipant): string => {
+const getDeadStatus = (participant: VillageParticipantView): string => {
   if (!participant.dead) return ''
   const day = participant.dead.village_day.day
   const reason = participant.dead.reason

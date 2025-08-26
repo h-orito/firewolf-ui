@@ -109,7 +109,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Chara, VillageParticipant } from '~/lib/api/types'
+import type { CharaView, VillageParticipantView } from '~/lib/api/types'
 import CharaImage from './CharaImage.vue'
 
 interface MessageTypeSituation {
@@ -122,9 +122,9 @@ interface MessageTypeSituation {
 }
 
 interface Props {
-  chara?: Chara
+  chara?: CharaView
   availableMessageTypes?: MessageTypeSituation[]
-  secretTargets?: VillageParticipant[]
+  secretTargets?: VillageParticipantView[]
   currentMessageCount?: number
   maxMessageLength?: number
 }

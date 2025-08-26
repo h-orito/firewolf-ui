@@ -24,7 +24,9 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   faceType: 'NORMAL',
   isSmall: false,
-  isLarge: false
+  isLarge: false,
+  width: undefined,
+  height: undefined
 })
 
 const charaImageUrl = computed(() => {
