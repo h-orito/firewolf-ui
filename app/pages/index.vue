@@ -54,10 +54,32 @@ import Intro from '~/components/pages/index/Intro.vue'
 import PlayerStats from '~/components/pages/index/PlayerStats.vue'
 import Charachip from '~/components/pages/index/Charachip.vue'
 import IndexFooter from '~/components/pages/index/IndexFooter.vue'
+import {
+  createSeoMeta,
+  createStructuredData,
+  DEFAULT_SITE_URL,
+  DEFAULT_SITE_DESCRIPTION
+} from '~/utils/seo'
 
 // メタデータを設定
+// SEO設定
+useSeoMeta(
+  createSeoMeta({
+    description:
+      'FIREWOLFで長期人狼ゲームを無料でプレイ。新しい村の作成、進行中の村への参加、過去の村の閲覧ができます。',
+    keywords: 'FIREWOLF,人狼,長期人狼,オンライン人狼,無料,ゲーム,werewolf'
+  })
+)
+
+// 構造化データ
 useHead({
-  title: ''
+  script: [
+    createStructuredData('WebSite', {
+      name: 'FIREWOLF',
+      url: DEFAULT_SITE_URL,
+      description: DEFAULT_SITE_DESCRIPTION
+    })
+  ]
 })
 
 const { apiCall } = useApi()

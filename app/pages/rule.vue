@@ -516,7 +516,7 @@ import type {
   MessageType
 } from '~/lib/api/types'
 import { MESSAGE_TYPE } from '~/lib/api/message-constants'
-// Nuxt 3/4では自動インポートされるためimport文は不要
+import { createSeoMeta, createStructuredData } from '~/utils/seo'
 
 const config = useRuntimeConfig()
 
@@ -604,31 +604,29 @@ const loverStatusMessage = computed<MessageView>(() => {
   }
 })
 
+// SEO設定
+useSeoMeta(
+  createSeoMeta({
+    title: 'ルール',
+    description:
+      'FIREWOLFの人狼ゲームルールを詳しく説明します。村作成、役職、投票、発言などのゲームシステムについて。',
+    keywords: 'FIREWOLF,人狼,ルール,役職,投票,発言,長期人狼,ゲームルール',
+    ogType: 'article'
+  })
+)
+
+// 構造化データ
 useHead({
-  title: 'ルール | FIREWOLF',
-  meta: [
-    {
-      name: 'description',
-      content:
-        'FIREWOLFの人狼ゲームルールを詳しく説明します。村作成、役職、投票、発言などのゲームシステムについて。'
-    },
-    {
-      name: 'keywords',
-      content: 'FIREWOLF,人狼,ルール,役職,投票,発言,長期人狼'
-    },
-    {
-      property: 'og:title',
-      content: 'ルール | FIREWOLF'
-    },
-    {
-      property: 'og:description',
-      content:
-        'FIREWOLFの人狼ゲームルールを詳しく説明します。村作成、役職、投票、発言などのゲームシステムについて。'
-    },
-    {
-      property: 'og:type',
-      content: 'article'
-    }
+  script: [
+    createStructuredData('Article', {
+      headline: 'FIREWOLFゲームルール',
+      description:
+        'FIREWOLFの人狼ゲームルールを詳しく説明します。村作成、役職、投票、発言などのゲームシステムについて。',
+      author: {
+        '@type': 'Organization',
+        name: 'FIREWOLF'
+      }
+    })
   ]
 })
 </script>

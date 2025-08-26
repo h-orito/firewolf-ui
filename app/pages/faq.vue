@@ -30,31 +30,50 @@
 </template>
 
 <script setup lang="ts">
+import { createSeoMeta, createStructuredData } from '~/utils/seo'
+
+// SEO設定
+useSeoMeta(
+  createSeoMeta({
+    title: 'FAQ',
+    description:
+      'FIREWOLFの人狼ゲームに関するよくある質問と回答をまとめています。基本的な遊び方から発展的な内容まで。',
+    keywords: 'FIREWOLF,人狼,FAQ,よくある質問,Q&A,使い方,ヘルプ',
+    ogType: 'article'
+  })
+)
+
+// 構造化データ (FAQページ用)
 useHead({
-  title: 'FAQ | FIREWOLF',
-  meta: [
-    {
-      name: 'description',
-      content:
-        'FIREWOLFでよくある質問と回答集。入村できない場合の対処法、ゲーム仕様に関する質問など。'
-    },
-    {
-      name: 'keywords',
-      content: 'FIREWOLF,FAQ,よくある質問,人狼,オンラインゲーム'
-    },
-    {
-      property: 'og:title',
-      content: 'FAQ | FIREWOLF'
-    },
-    {
-      property: 'og:description',
-      content:
-        'FIREWOLFでよくある質問と回答集。入村できない場合の対処法、ゲーム仕様に関する質問など。'
-    },
-    {
-      property: 'og:type',
-      content: 'article'
-    }
+  script: [
+    createStructuredData('FAQPage', {
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: '初心者です。それでも参加していいのでしょうか？',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'もちろんです。マナーを守って一生懸命に推理をすればきっと楽しめるはずです。初心者向けの村や初心者歓迎の村に参加されると良いでしょう。'
+          }
+        },
+        {
+          '@type': 'Question',
+          name: '国主、管理人にはどのような方法で連絡すればいいですか？',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: '発言時に@国主もしくは＠国主をつけて発言すると管理人に通知されます。問題が起きていて対応が必要な場合等にご活用ください。Twitterでの連絡のほうが反応は早めです。'
+          }
+        },
+        {
+          '@type': 'Question',
+          name: '村建てとは何ですか？',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: '村を作成したプレイヤーを村建て（むらだて）と呼びます。村の設定を決めたり、プロローグ中に参加者を強制退村させることができます。'
+          }
+        }
+      ]
+    })
   ]
 })
 </script>

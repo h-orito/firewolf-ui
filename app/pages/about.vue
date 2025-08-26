@@ -82,31 +82,31 @@
 </template>
 
 <script setup lang="ts">
+import {
+  createSeoMeta,
+  createStructuredData,
+  DEFAULT_SITE_URL
+} from '~/utils/seo'
+
+// SEO設定
+useSeoMeta(
+  createSeoMeta({
+    title: 'このサイトは',
+    description:
+      'FIREWOLFはオンラインで長期人狼が無料で遊べるWebサービスです。誰でも自分で好きな設定の村を作成することができます。',
+    keywords: 'FIREWOLF,人狼,このサイトは,概要,説明,長期人狼,無料'
+  })
+)
+
+// 構造化データ (AboutPageとして)
 useHead({
-  title: 'このサイトは | FIREWOLF',
-  meta: [
-    {
-      name: 'description',
-      content:
-        'FIREWOLFはオンラインで長期人狼が無料で遊べるWebサービスです。ユーザが自分で好きな設定の村を作成することができます。'
-    },
-    {
-      name: 'keywords',
-      content: 'FIREWOLF,人狼,オンラインゲーム,長期人狼,無料'
-    },
-    {
-      property: 'og:title',
-      content: 'このサイトは | FIREWOLF'
-    },
-    {
-      property: 'og:description',
-      content:
-        'FIREWOLFはオンラインで長期人狼が無料で遊べるWebサービスです。ユーザが自分で好きな設定の村を作成することができます。'
-    },
-    {
-      property: 'og:type',
-      content: 'website'
-    }
+  script: [
+    createStructuredData('AboutPage', {
+      name: 'FIREWOLFについて',
+      description:
+        'FIREWOLFはオンラインで長期人狼が無料で遊べるWebサービスです。',
+      url: `${DEFAULT_SITE_URL}/about`
+    })
   ]
 })
 </script>
