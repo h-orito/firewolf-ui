@@ -32,7 +32,7 @@ export const useApi = () => {
       // レスポンスインターセプター: 成功時の共通処理
       // 現在は特別な処理なし（必要に応じてログ記録、データ変換等を追加可能）
 
-      return response
+      return response as T
     } catch (error: unknown) {
       // レスポンスインターセプター: エラー時の共通処理
       const fetchError = error as FetchError<{ status?: number }>

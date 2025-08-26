@@ -23,15 +23,26 @@
         <Icon name="fa6-solid:spinner" class="animate-spin text-4xl" />
       </div>
       <div v-else-if="villages">
-        <h2 class="spotlight-shadow mb-4 text-2xl font-semibold">村一覧</h2>
-        <div v-if="villages.list?.length > 0" class="grid gap-4 md:grid-cols-2">
+        <h2 class="spotlight-shadow mb-8 text-2xl font-semibold">開催中の村</h2>
+        <div
+          v-if="villages.list?.length > 0"
+          class="mb-8 grid gap-4 md:grid-cols-2"
+        >
           <VillageCard
             v-for="village in villages.list"
             :key="village.id"
             :village="village"
           />
         </div>
-        <p v-else class="text-gray-400">現在開催中の村はありません</p>
+        <p v-else class="mb-8 text-gray-400">現在開催中の村はありません</p>
+
+        <!-- ボタンエリア -->
+        <div class="grid gap-4 md:grid-cols-2">
+          <SpotlightButton v-if="canCreateVillage" to="/create-village">
+            村を作成
+          </SpotlightButton>
+          <SpotlightButton to="/village-list"> 終了した村 </SpotlightButton>
+        </div>
       </div>
     </div>
 
@@ -54,6 +65,7 @@ import Intro from '~/components/pages/index/Intro.vue'
 import PlayerStats from '~/components/pages/index/PlayerStats.vue'
 import Charachip from '~/components/pages/index/Charachip.vue'
 import IndexFooter from '~/components/pages/index/IndexFooter.vue'
+import SpotlightButton from '~/components/pages/index/SpotlightButton.vue'
 import {
   createSeoMeta,
   createStructuredData,
@@ -90,6 +102,11 @@ const error = ref<string | null>(null)
 const villages = ref<VillagesView | null>(null)
 const loadingAuth = ref(true)
 const user = ref<MyselfPlayerView | null>(null)
+
+// 村作成可能かどうか
+const canCreateVillage = computed(() => {
+  return user.value?.available_create_village ?? false
+})
 
 // 村データ取得
 const fetchVillages = async () => {
