@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
 import type { MessageView } from '~/lib/api/types'
-import { convertToMessageText } from '~/lib/message-converter'
+import { convertToMessageText } from './message-converter'
 
 interface Props {
   message: MessageView

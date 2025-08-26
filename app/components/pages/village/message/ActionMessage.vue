@@ -45,7 +45,7 @@ import {
   createAnchorCopyString,
   convertToMessageText,
   isDispAnchor as checkDispAnchor
-} from '~/lib/message-converter'
+} from './message-converter'
 
 interface Props {
   message: MessageView

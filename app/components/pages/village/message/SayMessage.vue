@@ -110,7 +110,7 @@ import {
   convertToMessageText,
   isDispAnchor as checkDispAnchor,
   getComingOutString
-} from '~/lib/message-converter'
+} from './message-converter'
 
 interface Props {
   message: MessageView

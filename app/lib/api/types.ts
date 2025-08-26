@@ -4,6 +4,7 @@ import type { components } from './schema'
 // キャラクター関連型
 export type CharaFace = components['schemas']['CharaFace']
 export type CharaSize = components['schemas']['CharaSize']
+export type CharaName = components['schemas']['CharaName']
 export type CharaNameView = components['schemas']['CharaNameView']
 export type CharaDefaultMessage = components['schemas']['CharaDefaultMessage']
 export type CharaView = components['schemas']['CharaView']
@@ -48,9 +49,3 @@ export type VillageStatus = components['schemas']['VillageStatus']
 
 // その他
 export type Camp = components['schemas']['Camp']
-
-// 後方互換のためのエイリアス（古いコンポーネントが動作するまでの暫定）
-export type Chara = CharaView
-export type Message = MessageView
-export type Dead = DeadView
-export type VillageParticipant = VillageParticipantView
