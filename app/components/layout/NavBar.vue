@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar-container fixed top-0 left-0 right-0 z-50">
+  <nav class="navbar-container fixed top-0 right-0 left-0 z-50">
     <!-- Mobile menu button -->
     <div class="navbar-menu-icon-area">
       <UButton
@@ -21,7 +21,7 @@
     <div class="navbar-brand-center">
       <NuxtLink
         to="/"
-        class="navbar-title text-white text-center font-semibold hover:text-gray-200 transition-colors"
+        class="navbar-title text-center font-semibold text-white transition-colors hover:text-gray-200"
       >
         FIREWOLF{{ isStg ? ' テストサーバ' : '' }}
       </NuxtLink>

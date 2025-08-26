@@ -6,35 +6,35 @@
       <div class="mt-10 space-y-1">
         <NuxtLink
           to="/"
-          class="navbar-item block px-3 py-2 text-white hover:bg-gray-700 rounded transition-colors"
+          class="navbar-item block rounded px-3 py-2 text-white transition-colors hover:bg-gray-700"
           @click="$emit('hide-menu')"
         >
           トップページ
         </NuxtLink>
         <NuxtLink
           to="/about"
-          class="navbar-item block px-3 py-2 text-white hover:bg-gray-700 rounded transition-colors"
+          class="navbar-item block rounded px-3 py-2 text-white transition-colors hover:bg-gray-700"
           @click="$emit('hide-menu')"
         >
           このサイトは
         </NuxtLink>
         <NuxtLink
           to="/rule"
-          class="navbar-item block px-3 py-2 text-white hover:bg-gray-700 rounded transition-colors"
+          class="navbar-item block rounded px-3 py-2 text-white transition-colors hover:bg-gray-700"
           @click="$emit('hide-menu')"
         >
           ルール
         </NuxtLink>
         <NuxtLink
           to="/faq"
-          class="navbar-item block px-3 py-2 text-white hover:bg-gray-700 rounded transition-colors"
+          class="navbar-item block rounded px-3 py-2 text-white transition-colors hover:bg-gray-700"
           @click="$emit('hide-menu')"
         >
           よくある質問
         </NuxtLink>
         <NuxtLink
           to="/release-note"
-          class="navbar-item block px-3 py-2 text-white hover:bg-gray-700 rounded transition-colors"
+          class="navbar-item block rounded px-3 py-2 text-white transition-colors hover:bg-gray-700"
           @click="$emit('hide-menu')"
         >
           更新情報

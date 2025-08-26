@@ -3,7 +3,7 @@
     <!-- 生存者リスト -->
     <div v-if="isProgress && aliveParticipants.length > 0" class="mb-4 sm:mb-6">
       <h3
-        class="font-semibold text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-2 sm:mb-3 px-2"
+        class="mb-2 px-2 text-xs font-semibold text-gray-600 sm:mb-3 sm:text-sm dark:text-gray-400"
       >
         生存（{{ aliveParticipants.length }}人）
       </h3>
@@ -20,11 +20,11 @@
             </div>
 
             <!-- 参加者情報 -->
-            <div class="flex-1 min-w-0">
+            <div class="min-w-0 flex-1">
               <div class="flex items-start justify-between">
                 <div>
                   <!-- キャラクター名 -->
-                  <h4 class="font-medium text-xs sm:text-sm truncate">
+                  <h4 class="truncate text-xs font-medium sm:text-sm">
                     {{ truncatedName(participant) }}
                   </h4>
 
@@ -52,7 +52,7 @@
 
               <!-- 発言回数 -->
               <div
-                class="mt-1 sm:mt-2 text-xs text-gray-500 dark:text-gray-400"
+                class="mt-1 text-xs text-gray-500 sm:mt-2 dark:text-gray-400"
               >
                 <span class="hidden sm:inline"
                   >{{ getSayCount(participant.id) }}回発言</span
@@ -70,7 +70,7 @@
     <!-- 死亡者リスト -->
     <div v-if="isProgress && deadParticipants.length > 0" class="mb-4 sm:mb-6">
       <h3
-        class="font-semibold text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-2 sm:mb-3 px-2"
+        class="mb-2 px-2 text-xs font-semibold text-gray-600 sm:mb-3 sm:text-sm dark:text-gray-400"
       >
         死亡（{{ deadParticipants.length }}人）
       </h3>
@@ -87,11 +87,11 @@
             </div>
 
             <!-- 参加者情報 -->
-            <div class="flex-1 min-w-0">
+            <div class="min-w-0 flex-1">
               <div class="flex items-start justify-between">
                 <div>
                   <!-- キャラクター名 -->
-                  <h4 class="font-medium text-xs sm:text-sm truncate">
+                  <h4 class="truncate text-xs font-medium sm:text-sm">
                     {{ truncatedName(participant) }}
                   </h4>
 
@@ -135,7 +135,7 @@
     <!-- 見学者リスト -->
     <div v-if="spectators.length > 0" class="mb-6">
       <h3
-        class="font-semibold text-sm text-gray-600 dark:text-gray-400 mb-3 px-2"
+        class="mb-3 px-2 text-sm font-semibold text-gray-600 dark:text-gray-400"
       >
         見学（{{ spectators.length }}人）
       </h3>
@@ -152,11 +152,11 @@
             </div>
 
             <!-- 参加者情報 -->
-            <div class="flex-1 min-w-0">
+            <div class="min-w-0 flex-1">
               <div class="flex items-start justify-between">
                 <div>
                   <!-- キャラクター名 -->
-                  <h4 class="font-medium text-xs sm:text-sm truncate">
+                  <h4 class="truncate text-xs font-medium sm:text-sm">
                     {{ truncatedName(participant) }}
                   </h4>
                 </div>
@@ -183,7 +183,7 @@
     <!-- プロローグ時の全参加者リスト -->
     <div v-if="!isProgress && allParticipants.length > 0">
       <h3
-        class="font-semibold text-sm text-gray-600 dark:text-gray-400 mb-3 px-2"
+        class="mb-3 px-2 text-sm font-semibold text-gray-600 dark:text-gray-400"
       >
         参加者（{{ allParticipants.length }}人）
       </h3>
@@ -200,8 +200,8 @@
             </div>
 
             <!-- 参加者情報 -->
-            <div class="flex-1 min-w-0">
-              <h4 class="font-medium text-sm truncate">
+            <div class="min-w-0 flex-1">
+              <h4 class="truncate text-sm font-medium">
                 {{ truncatedName(participant) }}
               </h4>
             </div>

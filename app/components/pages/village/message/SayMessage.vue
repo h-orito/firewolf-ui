@@ -1,14 +1,14 @@
 <template>
   <div class="say-message">
     <!-- 1段目: アンカー、名前、発言時間 -->
-    <div class="flex items-center text-xs mb-1">
+    <div class="mb-1 flex items-center text-xs">
       <!-- 左側: アンカー、名前、CO、プレイヤー名 -->
-      <div class="flex items-center gap-1 flex-1">
+      <div class="flex flex-1 items-center gap-1">
         <!-- アンカー -->
         <span v-if="isDispAnchor && anchorString">
           <a
             href="javascript:void(0);"
-            class="text-blue-600 dark:text-[#14b4ff] hover:underline cursor-pointer"
+            class="cursor-pointer text-blue-600 hover:underline dark:text-[#14b4ff]"
             @click="handleCopyAnchor"
           >
             {{ anchorString }} </a
@@ -24,7 +24,7 @@
         <!-- カミングアウト -->
         <span
           v-if="comingOutString"
-          class="text-xs border border-gray-300 rounded px-1 py-0.5"
+          class="rounded border border-gray-300 px-1 py-0.5 text-xs"
         >
           {{ comingOutString }}
         </span>
@@ -34,7 +34,7 @@
           [<a
             :href="`https://twitter.com/${twitterUserName}`"
             target="_blank"
-            class="text-blue-600 dark:text-[#14b4ff] hover:underline"
+            class="text-blue-600 hover:underline dark:text-[#14b4ff]"
           >
             {{ twitterUserName }} </a
           >]
@@ -44,7 +44,7 @@
 
       <!-- 右側: 発言回数と時間 -->
       <div
-        class="flex items-center gap-2 text-gray-500 dark:text-[#ddd] text-xs"
+        class="flex items-center gap-2 text-xs text-gray-500 dark:text-[#ddd]"
       >
         <span v-if="isAnchorMessage"> {{ message.time.day }}d </span>
         <span v-if="message.content.count && maxCount">
@@ -71,18 +71,18 @@
       <div class="flex-1">
         <!-- 発言内容（装飾・アンカー含む） -->
         <div
-          class="p-2 border rounded text-left"
+          class="rounded border p-2 text-left"
           :class="[messageClass, isLargeText ? 'text-sm' : 'text-xs']"
           :style="{ minHeight: `${imageHeight}px` }"
           v-html="formattedMessageText"
         />
 
         <!-- 3段目: 返信と秘話ボタン -->
-        <div class="flex justify-end gap-3 mt-1">
+        <div class="mt-1 flex justify-end gap-3">
           <a
             v-if="canReply && isDispAnchor"
             href="javascript:void(0);"
-            class="text-blue-600 dark:text-[#14b4ff] text-xs hover:underline cursor-pointer"
+            class="cursor-pointer text-xs text-blue-600 hover:underline dark:text-[#14b4ff]"
             @click="handleReply"
           >
             >>返信
@@ -90,7 +90,7 @@
           <a
             v-if="canSecret"
             href="javascript:void(0);"
-            class="text-blue-600 dark:text-[#14b4ff] text-xs hover:underline cursor-pointer"
+            class="cursor-pointer text-xs text-blue-600 hover:underline dark:text-[#14b4ff]"
             @click="handleSecret"
           >
             >>秘話

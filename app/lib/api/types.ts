@@ -32,6 +32,19 @@ export type DeadView = components['schemas']['DeadView']
 export type VillageView = components['schemas']['VillageView']
 export type VillageParticipantsView =
   components['schemas']['VillageParticipantsView']
+export type VillagesView = components['schemas']['VillagesView']
+export type SimpleVillageView = components['schemas']['SimpleVillageView']
+export type RecruitingVillagesView =
+  components['schemas']['RecruitingVillagesView']
+export type RecruitingVillageView =
+  components['schemas']['RecruitingVillageView']
+export type ReservedVillagesView = components['schemas']['ReservedVillagesView']
+export type ReservedVillageView = components['schemas']['ReservedVillageView']
+export type PlayerRecordsView = components['schemas']['PlayerRecordsView']
+export type PlayerView = components['schemas']['PlayerView']
+export type MyselfPlayerView = components['schemas']['MyselfPlayerView']
+export type VillageSettingsView = components['schemas']['VillageSettingsView']
+export type VillageStatus = components['schemas']['VillageStatus']
 
 // その他
 export type Camp = components['schemas']['Camp']
@@ -39,5 +52,5 @@ export type Camp = components['schemas']['Camp']
 // 後方互換のためのエイリアス（古いコンポーネントが動作するまでの暫定）
 export type Chara = CharaView
 export type Message = MessageView
-export type VillageParticipant = VillageParticipantView
 export type Dead = DeadView
+export type VillageParticipant = VillageParticipantView

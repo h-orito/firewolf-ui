@@ -1,14 +1,14 @@
 <template>
   <div
-    class="participants-message border border-gray-300 dark:border-gray-600 rounded p-2 sm:p-3"
+    class="participants-message rounded border border-gray-300 p-2 sm:p-3 dark:border-gray-600"
   >
-    <div class="text-xs sm:text-sm font-bold mb-2 sm:mb-3">参加者一覧</div>
+    <div class="mb-2 text-xs font-bold sm:mb-3 sm:text-sm">参加者一覧</div>
     <!-- 参加者一覧の表示 -->
     <div class="space-y-1 sm:space-y-2">
       <div
         v-for="participant in sortedParticipants"
         :key="participant.id"
-        class="flex items-start gap-2 sm:gap-3 border-t border-gray-200 dark:border-gray-700 pt-1 sm:pt-2 first:border-t-0 first:pt-0"
+        class="flex items-start gap-2 border-t border-gray-200 pt-1 first:border-t-0 first:pt-0 sm:gap-3 sm:pt-2 dark:border-gray-700"
       >
         <!-- キャラクター画像 -->
         <div class="flex-shrink-0">
@@ -24,7 +24,7 @@
         <!-- 名前・プレイヤー情報エリア -->
         <div class="flex-1 text-xs">
           <!-- キャラクター名とプレイヤー情報 -->
-          <div class="flex flex-wrap items-center gap-1 mb-1">
+          <div class="mb-1 flex flex-wrap items-center gap-1">
             <span class="font-medium">{{ getCharaName(participant) }}</span>
             <span class="text-gray-600 dark:text-gray-400">
               {{ participant.player?.nickname }}
@@ -38,7 +38,7 @@
               @{{ participant.player.twitter_user_name }}
             </a>
             <span
-              class="text-xs ml-auto"
+              class="ml-auto text-xs"
               :class="getCharaStatusClass(participant)"
             >
               {{ getCharaStatus(participant) }}
@@ -53,7 +53,7 @@
             }}</span>
             <span
               v-if="!participant.spectator"
-              class="text-xs ml-auto"
+              class="ml-auto text-xs"
               :class="getWinStatusClass(participant)"
             >
               {{ getWinStatus(participant) }}

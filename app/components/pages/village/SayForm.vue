@@ -21,11 +21,11 @@
     </div>
 
     <!-- キャラクター表情選択 -->
-    <div class="flex flex-col sm:flex-row items-start gap-3 sm:gap-4 mb-4">
+    <div class="mb-4 flex flex-col items-start gap-3 sm:flex-row sm:gap-4">
       <div class="flex-shrink-0">
         <button
           type="button"
-          class="cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary-500 rounded"
+          class="focus:ring-primary-500 cursor-pointer rounded focus:ring-2 focus:outline-none"
           :aria-label="`現在の表情: ${selectedFaceType}。クリックして表情を変更`"
           @click="openFaceModal"
         >
@@ -60,7 +60,7 @@
         </UFormGroup>
 
         <!-- アクションボタン -->
-        <div class="flex flex-col sm:flex-row gap-2 mt-4">
+        <div class="mt-4 flex flex-col gap-2 sm:flex-row">
           <UButton
             :disabled="!canSubmit"
             :loading="isSubmitting"
@@ -77,15 +77,15 @@
     <!-- 表情選択モーダル -->
     <UModal v-model="showFaceModal">
       <div class="p-6">
-        <h3 class="text-lg font-semibold mb-4">表情を選択</h3>
-        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+        <h3 class="mb-4 text-lg font-semibold">表情を選択</h3>
+        <div class="grid grid-cols-2 gap-4 sm:grid-cols-3">
           <button
             v-for="face in chara?.face_list || []"
             :key="face.type"
             type="button"
-            class="cursor-pointer p-2 rounded border hover:bg-gray-100 dark:hover:bg-gray-800"
+            class="cursor-pointer rounded border p-2 hover:bg-gray-100 dark:hover:bg-gray-800"
             :class="{
-              'ring-2 ring-primary-500': selectedFaceType === face.type
+              'ring-primary-500 ring-2': selectedFaceType === face.type
             }"
             @click="selectFace(face.type)"
           >
@@ -95,10 +95,10 @@
               :face-type="face.type"
               :is-small="true"
             />
-            <p class="text-xs text-center mt-1">{{ face.name }}</p>
+            <p class="mt-1 text-center text-xs">{{ face.name }}</p>
           </button>
         </div>
-        <div class="flex justify-end gap-2 mt-4">
+        <div class="mt-4 flex justify-end gap-2">
           <UButton variant="ghost" @click="showFaceModal = false"
             >キャンセル</UButton
           >

@@ -1,14 +1,14 @@
 <template>
   <div class="action-message">
     <!-- アンカーのみ表示（名前やプレイヤー名は表示しない） -->
-    <div class="flex items-center text-xs mb-1">
+    <div class="mb-1 flex items-center text-xs">
       <!-- 左側: アンカーのみ -->
-      <div class="flex items-center gap-1 flex-1">
+      <div class="flex flex-1 items-center gap-1">
         <!-- アンカー -->
         <span v-if="isDispAnchor && anchorString">
           <a
             href="javascript:void(0);"
-            class="text-blue-600 dark:text-[#14b4ff] hover:underline cursor-pointer"
+            class="cursor-pointer text-blue-600 hover:underline dark:text-[#14b4ff]"
             @click="handleCopyAnchor"
           >
             {{ anchorString }} </a
@@ -18,7 +18,7 @@
 
       <!-- 右側: 発言回数と時間 -->
       <div
-        class="flex items-center gap-2 text-gray-500 dark:text-[#ddd] text-xs"
+        class="flex items-center gap-2 text-xs text-gray-500 dark:text-[#ddd]"
       >
         <span v-if="isAnchorMessage"> {{ message.time.day }}d </span>
         <span v-if="message.content.count && maxCount">
@@ -30,7 +30,7 @@
 
     <!-- アクション内容（画像なし、背景色あり） -->
     <div
-      class="border rounded text-left"
+      class="rounded border text-left"
       :class="[messageClass, isLargeText ? 'text-sm' : 'text-xs']"
       style="padding: 10px"
       v-html="formattedMessageText"
