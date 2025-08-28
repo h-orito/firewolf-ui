@@ -43,7 +43,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
    1. 必要に応じて doc/ディレクトリに記録
 5. **commit 前作業**:
    1. **commit 前に必ず lint・format・type-check を実行** - `pnpm lint && pnpm format && pnpm type-check` を実行
-   2. **API型定義が最新であることを確認** - 必要に応じて `pnpm generate:api-types` を実行
 6. **ユーザーに確認を依頼**:
    1. commit 前にユーザーに修正内容の確認を依頼する
 7. **適切な粒度で commit**:
