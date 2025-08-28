@@ -10,10 +10,10 @@
 </template>
 
 <script setup lang="ts">
-import type { CharaView } from '~/lib/api/types'
+import type { CharaView, Chara } from '~/lib/api/types'
 
 interface Props {
-  chara: CharaView
+  chara: CharaView | Chara
   faceType?: string
   isSmall?: boolean
   isLarge?: boolean

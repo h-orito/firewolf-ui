@@ -8,6 +8,12 @@ export type CharaName = components['schemas']['CharaName']
 export type CharaNameView = components['schemas']['CharaNameView']
 export type CharaDefaultMessage = components['schemas']['CharaDefaultMessage']
 export type CharaView = components['schemas']['CharaView']
+export type Chara = components['schemas']['Chara']
+
+// キャラチップ関連型
+export type CharachipView = components['schemas']['CharachipView']
+export type CharachipsView = components['schemas']['CharachipsView']
+export type Designer = components['schemas']['Designer']
 
 // メッセージ関連型
 export type MessageType = components['schemas']['MessageType']
