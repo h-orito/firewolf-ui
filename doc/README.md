@@ -1,123 +1,106 @@
-# FIREWOLF Nuxt4移行 ドキュメント一覧
+# FIREWOLF ドキュメント構成
 
 ## 概要
 
-FIREWOLF（人狼ゲームサービス）をNuxt 2からNuxt 4に移行するプロジェクトの設計書類一覧です。
+FIREWOLF（人狼ゲームサービス）のNuxt 4移行プロジェクトに関するドキュメント群です。
 
-## ドキュメント構成
+## ディレクトリ構成
 
-### 📋 主要設計書
+```
+doc/
+├── README.md                # このファイル（ドキュメント全体の構成説明）
+├── development-setup.md     # 開発環境セットアップ手順
+│
+├── implementation-plans/    # ページ別実装計画
+│   └── create-village-implementation-plan.md  # 村作成機能実装計画
+│
+├── migration-analysis/      # 移行分析・初期計画
+│   ├── api-communication-analysis.md    # API通信パターン分析
+│   ├── buefy-components-analysis.md     # Buefyコンポーネント分析
+│   ├── vuex-store-analysis.md          # Vuex Store構造分析
+│   ├── nuxt3-migration-plan.md         # Nuxt移行計画書
+│   ├── nuxt4-compatibility-verification.md  # Nuxt4互換性検証
+│   └── tech-selection-rationale.md     # 技術選定根拠書
+│
+└── guidelines/              # 開発ガイドライン・実装方針
+    ├── api-usage-guidelines.md          # API使用ガイドライン
+    ├── ui-guidelines.md                 # UI実装ガイドライン
+    ├── implementation-guidelines.md     # 全般的な実装ガイドライン
+    ├── code-style-guidelines.md        # コードスタイルガイドライン
+    ├── api-types-guidelines.md         # API型定義ガイドライン
+    └── component-guidelines.md          # コンポーネント配置ガイドライン
+```
 
-#### 1. [移行設計書](./nuxt3-migration-plan.md)
+## ドキュメントの役割
 
-- **目的**: プロジェクト全体の移行計画・戦略
-- **内容**: 現行分析、技術選定、移行戦略、スケジュール
-- **対象**: プロジェクトマネージャー、開発チーム全体
+### 1. ルートレベル
 
-#### 2. [技術選定根拠書](./tech-selection-rationale.md)
+**開発の即座に必要な情報**
 
-- **目的**: UIフレームワーク等の技術選定の根拠説明
-- **内容**: 候補技術比較、評価基準、決定理由、リスク評価
-- **対象**: 技術責任者、アーキテクト
+- `development-setup.md`: 新規開発者がすぐに環境構築できる手順
 
-### 📅 実装計画書
+### 2. implementation-plans/
 
-#### 3. [フェーズ別実装計画](./migration-phases.md)
+**ページ・機能別の詳細実装計画**
 
-- **目的**: 5フェーズに分けた詳細実装計画
-- **内容**: Phase 1-5の作業項目、成果物、成功基準
-- **対象**: 開発者、プロジェクトマネージャー
+- 各ページの実装仕様
+- コンポーネント設計
+- API連携仕様
+- 実装時の注意事項
 
-### 🛠️ 環境構築書
+### 3. migration-analysis/
 
-#### 5. [開発環境構築手順書](./development-setup.md)
+**移行プロジェクトの分析・計画段階の資料**
 
-- **目的**: 開発環境の構築手順
-- **内容**: Node.js、@nuxt/ui、Tailwind CSS、Firebase等の設定
-- **対象**: 開発者、新規参画者
+- 現行システムの分析結果
+- 移行戦略・計画
+- 技術検証結果
+- 主に参照用として保管
+
+### 4. guidelines/
+
+**日常的な開発で参照するガイドライン**
+
+- コーディング規約
+- 実装パターン
+- ベストプラクティス
+- 開発者が頻繁に参照する実装指針
 
 ## プロジェクト概要
 
-### 現行システム
+### 現行システム（Nuxt 2）
 
-- **フレームワーク**: Nuxt 2.15 + TypeScript
-- **UIライブラリ**: Buefy (Bulmaベース)
-- **状態管理**: Vuex + Vuexfire
-- **認証**: Firebase Authentication
+- **Framework**: Nuxt.js 2.x (SPA mode)
+- **UI**: Buefy (Bulma based)
+- **State**: Vuex + Vuexfire
+- **Auth**: Firebase
 
-### 目標システム
+### 目標システム（Nuxt 4）
 
-- **フレームワーク**: Nuxt 4 + TypeScript + Node.js 22
-- **UIライブラリ**: @nuxt/ui (Tailwind CSS + Headless UI)
-- **状態管理**: Pinia + VueFire
-- **認証**: Firebase Authentication (継続)
+- **Framework**: Nuxt 4 + Node.js 22 LTS
+- **UI**: @nuxt/ui (Tailwind CSS + Headless UI)
+- **State**: Pinia + VueFire
+- **Auth**: Firebase (継続)
 
 ### 移行方針
 
-技術スタックの更新のみで、**機能・UI/UXは現行システムと完全同一を維持**
+- 技術スタックの更新のみ
+- **機能・UI/UXは現行システムと100%同一を維持**
 
-## 技術決定事項
+## 開発者向けクイックリンク
 
-### 確定済み技術選定
+### 🚀 開発を始める
 
-- ✅ **UIフレームワーク**: @nuxt/ui (Tailwind CSS + Headless UI)
-- ✅ **状態管理**: Pinia
-- ✅ **バリデーション**: vee-validate v4
-- ✅ **テスト**: Vitest + Playwright
-- ✅ **パッケージマネージャー**: pnpm
+1. [開発環境セットアップ](./development-setup.md)
+2. [タスクリスト](../.claude/tasks.md)
 
-### 検証待ち項目
+### 📖 実装時に参照
 
-- ⏳ @nuxt/uiのNuxt 4対応状況確認
+- [コンポーネント配置ルール](./guidelines/component-guidelines.md)
+- [API型定義の使い方](./guidelines/api-types-guidelines.md)
+- [UI実装ガイド](./guidelines/ui-guidelines.md)
 
-## プロジェクトスケジュール
+### 🔍 詳細を調べる
 
-| Phase       | 期間       | 主要作業 | 成果物              |
-| ----------- | ---------- | -------- | ------------------- |
-| **Phase 1** | Week 1     | 環境構築 | 開発環境            |
-| **Phase 2** | Week 2-3   | 基盤移行 | 認証・API・状態管理 |
-| **Phase 3** | Week 4-7   | UI移行   | コンポーネント群    |
-| **Phase 4** | Week 8-11  | 機能移行 | 全機能実装          |
-| **Phase 5** | Week 12-13 | 最適化   | 本番リリース        |
-
-**総期間**: 約3ヶ月
-
-## 成功指標
-
-### 機能要件
-
-- ✅ 全機能の完全動作（現行システムと100%同一）
-- ✅ UI/UXの完全維持（デザイン変更なし）
-- ✅ 既存ユーザーへの影響ゼロ
-
-### 品質基準
-
-- 🎯 Lighthouse Score: 90以上
-- 🎯 テストカバレッジ: 80%以上
-- 🎯 TypeScript カバレッジ: 100%
-
-## 次のステップ
-
-1. **@nuxt/uiのNuxt 4対応確認** (最優先)
-2. 現行コンポーネント使用状況調査
-3. 開発環境構築（development-setup.md参照）
-4. Phase 1開始
-
-## ドキュメント管理
-
-### 更新履歴
-
-- 2024-12-XX: 初版作成
-- 技術選定確定: @nuxt/ui採用決定
-
-### 関連資料
-
-- [現行プロジェクト CLAUDE.md](../CLAUDE.md)
-- [現行 package.json](../package.json)
-- [現行 nuxt.config.ts](../nuxt.config.ts)
-
----
-
-**作成者**: Claude Code  
-**最終更新**: 2024年12月  
-**プロジェクト**: FIREWOLF Nuxt4移行
+- [移行計画全体](./migration-analysis/nuxt3-migration-plan.md)
+- [技術選定理由](./migration-analysis/tech-selection-rationale.md)
