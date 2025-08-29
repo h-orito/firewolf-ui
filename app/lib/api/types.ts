@@ -55,3 +55,8 @@ export type VillageStatus = components['schemas']['VillageStatus']
 
 // その他
 export type Camp = components['schemas']['Camp']
+export type CampRecord = components['schemas']['CampRecord']
+export type SkillRecord = components['schemas']['SkillRecord']
+export type Record = components['schemas']['Record']
+export type ParticipateVillageView =
+  components['schemas']['ParticipateVillageView']
