@@ -302,3 +302,12 @@ button[role='combobox'] svg,
   width: 16px !important;
   height: 16px !important;
 }
+
+@layer base {
+  /** USwitchがcursor-pointerを持たない問題の対策 */
+  button,
+  [role='button'] {
+    @apply cursor-pointer;
+    @apply disabled:cursor-not-allowed;
+  }
+}
