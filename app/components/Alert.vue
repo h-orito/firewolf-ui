@@ -33,7 +33,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const alertClasses = computed(() => {
-  const baseClasses = 'p-6 rounded text-left'
+  const baseClasses = 'p-4 rounded text-left'
 
   const typeClasses = {
     default: 'bg-[#eee] dark:bg-gray-800 text-gray-800 dark:text-gray-200',
