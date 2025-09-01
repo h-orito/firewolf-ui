@@ -35,6 +35,7 @@
 再利用可能なUI要素は`ui`配下の機能別サブディレクトリに配置する。
 
 **例**:
+
 - `/components/ui/form/`
   - `TextField.vue` - テキスト入力フィールド
   - `SelectField.vue` - セレクトボックス
@@ -46,7 +47,6 @@
   - `BaseModal.vue` - モーダルの基本実装
   - `ConfirmModal.vue` - 確認ダイアログ
   - `AlertModal.vue` - アラートダイアログ
-  
 - `/components/ui/feedback/`
   - `LoadingSpinner.vue` - ローディング表示
   - `ErrorMessage.vue` - エラー表示
@@ -78,6 +78,7 @@
 ページレイアウトを構成するコンポーネント
 
 **例**:
+
 - `Header.vue` - ヘッダー
 - `Footer.vue` - フッター
 - `Navigation.vue` - ナビゲーション
@@ -88,6 +89,7 @@
 特定のページでのみ使用されるコンポーネント
 
 **例**:
+
 - `/components/pages/create-village/`
   - `BasicSettings.vue` - 基本設定セクション
   - `RoleSettings.vue` - 役職設定セクション
@@ -107,11 +109,13 @@
 ## 命名規則
 
 ### ファイル名
+
 - PascalCase使用: `UserProfile.vue`
 - 複数単語推奨: `BaseButton.vue` > `Button.vue`
 - インデックスファイル: 各ディレクトリに`index.ts`でエクスポート管理
 
 ### コンポーネント名
+
 - ファイル名と一致させる
 - ページ固有の場合はプレフィックス付与も可
   - 例: `CreateVillageBasicSettings.vue`
@@ -119,6 +123,7 @@
 ## インポート方法
 
 ### エイリアス使用
+
 ```typescript
 // 推奨
 import TextField from '~/components/ui/form/TextField.vue'
@@ -130,6 +135,7 @@ import TextField from '../../../components/ui/form/TextField.vue'
 ```
 
 ### Auto Import
+
 Nuxtの自動インポート機能により、components配下のコンポーネントは明示的なインポート不要
 
 ```vue

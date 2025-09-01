@@ -4,226 +4,6 @@
 
 FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理します。
 
-## Phase 0: 準備・整理作業 (Week 0)
-
-### 🗂️ 現行コードの整理・退避
-
-- [x] 現行ファイルの一時退避（作業の邪魔にならないよう）
-  - [x] `mkdir .old-nuxt2` で退避ディレクトリ作成
-  - [x] 主要な旧ファイル群を .old-nuxt2/ に移動
-  - [x] 必要に応じて参照できるよう保管
-
-### 📋 現行システムの詳細分析・記録
-
-- [x] 使用中のBuefyコンポーネント一覧作成
-  - [x] 全.vueファイルでのBuefyコンポーネント使用状況調査（grep検索）
-  - [x] カスタマイズ内容の詳細記録（コード解析ベース）
-  - [x] 依存するpropsやeventsの洗い出し
-- [x] 現行の状態管理構造記録
-  - [x] Vuex store構造の詳細分析
-  - [x] actions, mutations, getters の使用パターン記録
-- [x] API通信パターンの分析
-  - [x] axios使用箇所の特定
-  - [x] エラーハンドリングパターンの記録
-  - [x] インターセプター設定の保存
-
-### 🔧 新環境構築の準備
-
-- [x] 退避完了後の作業スペース確保
-- [x] 必要な設定ファイルの参照準備
-- [x] 既存の重要な設定値の記録・保存
-
-## Phase 1: 環境構築 (Week 1)
-
-### 🔍 事前調査・検証
-
-- [x] @nuxt/uiのNuxt 4対応状況確認
-  - [x] 公式ドキュメントで対応状況確認
-  - [x] GitHub Issues/Discussionsで既知問題確認
-  - [x] Nuxt 4 RC版でサンプル動作検証
-  - [x] 継続可否の最終判断
-
-### 🏗️ Nuxt 4プロジェクト構築
-
-- [x] Node.js 22環境準備
-- [x] 現在のディレクトリでNuxt 4プロジェクト作成
-  - [x] `nuxi init .` でNuxt 4プロジェクト初期化（上書き）
-  - [x] 必要に応じて退避したファイルから設定値を移植
-- [x] 基本ディレクトリ構造作成
-
-### ⚙️ 開発環境設定
-
-- [x] TypeScript 5.7+設定
-- [x] ESLint 9 + Prettier 3設定
-- [x] VSCode設定ファイル作成
-- [x] .gitignore設定
-
-### 🔧 開発コマンド設定・検証
-
-- [x] package.json スクリプトの設定
-  - [x] `"lint": "eslint ."` の設定
-  - [x] `"format": "prettier --write ."` の設定
-  - [x] `"type-check": "nuxt typecheck"` の設定
-- [x] 開発コマンドの動作確認
-  - [x] `pnpm lint` の実行確認
-  - [x] `pnpm format` の実行確認
-  - [x] `pnpm type-check` の実行確認
-  - [x] 全コマンドがエラーなく動作することを確認
-
-### 🎨 @nuxt/ui + Tailwind CSS導入
-
-- [x] @nuxt/ui インストール・基本設定
-- [x] Tailwind CSS設定ファイル作成
-- [x] 現行カスタム色の移植
-  - [x] assets/sass/firewolf.scssから色定義抽出
-  - [x] Tailwind設定にカスタムカラー定義
-  - [x] 人狼ゲーム固有色の設定
-- [x] サンプルコンポーネントで動作確認
-
-### 📋 Week 0完了基準
-
-- [x] 旧ファイルの整理・退避完了
-- [x] Buefyコンポーネント使用状況の完全リスト化（コードベース調査）
-- [x] 重要な設定値・環境変数の記録完了
-- [x] 新環境構築の準備完了
-
-### 📝 備考：現行アプリの動作確認について
-
-- Node14以前の環境のため、現行アプリの動作確認は実施不可
-- デザイン確認が必要な場合は、ユーザーに本番環境でのスクリーンショット撮影を依頼
-- 基本的にはコードベースでの分析・実装を優先
-
-### 📋 Week 1完了基準
-
-- [x] Nuxt 4 + @nuxt/ui環境が正常動作
-- [x] 開発サーバーが起動する（localhost:3000）
-- [x] @nuxt/uiコンポーネントが表示される
-- [x] 現行カスタム色がTailwindで適用される
-- [x] 開発コマンドが全て正常動作
-  - [x] `pnpm lint` - エラーなし
-  - [x] `pnpm format` - 正常実行
-  - [x] `pnpm type-check` - TypeScriptエラーなし
-
----
-
-## Phase 2: 基盤移行 (Week 2-3)
-
-### 🔐 Firebase認証移行
-
-- [x] Firebase v10設定の移行
-- [x] Firebase設定ファイル作成
-- [x] 環境変数設定（.env）
-- [x] VueFire導入・設定
-- [x] 認証状態管理のPinia実装
-- [x] 認証ミドルウェアの実装
-- [x] ログイン・ログアウト機能実装
-- [x] 既存ユーザーデータとの互換性確認
-
-### 📡 OpenAPI型定義自動生成の導入
-
-- [x] openapi-typescript パッケージの導入
-- [x] APIサーバーのOpenAPI定義取得・配置
-- [x] 型定義生成スクリプトの作成
-- [x] package.jsonにbuildスクリプト追加
-
-### 🗄️ Pinia状態管理実装
-
-- [x] Pinia導入・基本設定
-- [x] auth store実装（Vuexから移行）
-- [x] village store実装（Vuexから移行）
-- [x] village-settings store実装（Vuexから移行）
-- [x] 既存Vuex状態との互換性確認
-- [x] リアルタイムデータバインディング実装
-
-### 📡 API通信層実装
-
-- [x] $fetchベースのAPI client実装
-- [x] エラーハンドリング機能実装
-- [x] リクエスト・レスポンスインターセプター実装
-- [x] 既存API エンドポイントとの互換性確認
-- [x] API通信テスト実装
-
-### 📋 Week 2-3完了基準
-
-- [x] ユーザーログイン・ログアウトが動作
-- [x] Firestoreリアルタイム同期が動作
-- [x] 既存APIとの通信が成功
-- [x] 認証状態が正しく管理される
-
----
-
-## Phase 3: UIコンポーネント移行 (Week 4-7)
-
-### Week 4: 共通コンポーネント
-
-- [x] Loading コンポーネント実装
-  - [x] 現行Buefyコンポーネントの詳細分析（コードベース）
-  - [x] ⚠️ デザイン確認必要時はユーザーに本番スクリーンショット依頼
-  - [x] @nuxt/ui + Tailwindで再実装
-  - [x] アニメーション・状態管理
-- [x] Modal コンポーネント実装
-  - [x] 現行b-modalの使用パターン分析
-  - [x] @nuxt/uiのUModalで再実装
-- [x] Toast/Notification コンポーネント実装
-- [x] Button コンポーネント群実装
-  - [x] 現行b-buttonのvariant・size分析
-  - [x] カスタムスタイルの移植
-- [x] Form要素実装（Input, Select, Checkbox等）
-  - [x] 現行b-field、b-input等の分析
-  - [x] フォームパターンユーティリティ実装（form-patterns.ts）
-  - [x] RadioGroupボタンスタイル（b-radio-button風）実装
-  - [x] Bulma色のTailwind CSS移植完了
-  - [x] vee-validate v4統合コンポーザブル実装
-  - [x] **🚨緊急修正**: USelectコンポーネントの表示不具合修正
-    - [x] test-form画面でUSelectが正しく表示されない問題を調査
-    - [x] オプション表示とスタイリングの修正（高さ統一、パディング調整）
-    - [x] value-key・label-key属性の適切な設定
-    - [x] test-form画面での動作確認
-  - [x] **test-validation画面の実装**
-    - [x] vee-validateとuseFormValidationの統合テスト画面作成
-    - [x] 各種フォームコンポーネントでのバリデーション動作確認
-    - [x] エラー表示とリアルタイムバリデーションの検証
-    - [x] vee-validate readonly values問題の修正（useField個別管理方式）
-    - [x] test-validation-simple.vue作成（プルーフオブコンセプト）
-    - [x] TypeScript型安全性の向上（適切な型アサーション）
-
-### Week 5: レイアウトコンポーネント
-
-- [x] DefaultLayout実装
-- [x] VillageLayout（村専用レイアウト）実装
-- [x] Navigation コンポーネント実装
-- [x] Header コンポーネント実装（NavBarが実質的なHeaderの役割を果たす）
-- [x] Footer コンポーネント実装（SiteFooterコンポーネント作成、モーダルは今後実装）
-- [x] Sidebar コンポーネント実装（NavBarSliderが実質的なSidebarとして機能）
-
-### Week 6: 人狼ゲーム固有コンポーネント
-
-- [x] CharaImage（キャラクター画像）コンポーネント実装
-- [x] MessageCard（発言表示）コンポーネント実装
-  - [x] 役職別発言色の実装
-  - [x] ダークモード対応
-  - [x] SystemMessage, SayMessage, ActionMessage コンポーネント実装
-  - [x] ParticipantsMessage（参加者一覧メッセージ）コンポーネント実装
-- [x] SayForm（発言フォーム）実装（ActionFormから名称変更）
-- [x] ~~VillageStatus（村の状態表示）実装~~（不要のため削除）
-- [x] ParticipantList（参加者一覧）実装（PlayerListから名称変更）
-
-### Week 7: デザイン調整・検証
-
-- [x] デザイン再現度の確認
-  - [x] ⚠️ 必要に応じてユーザーに本番環境スクリーンショット依頼
-  - [x] コードベースでの比較検証（CSS、クラス名等）
-- [x] レスポンシブデザイン調整
-- [x] ダークモード対応検証
-- [x] アクセシビリティ確認・改善
-- [x] コンポーネントスタイルガイド作成
-  - [x] styleguide.vue作成
-  - [x] Alert.vueカスタムコンポーネント作成
-  - [x] 既存Bulmaスタイルの色再現（#eee, #ceedf2等）
-  - [x] CharaImageコンポーネントの型安全性修正
-
----
-
 ## Phase 4: 機能移行 (Week 8-11)
 
 ### Week 8: 基本ページ実装
@@ -243,7 +23,7 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
 - [x] ソート機能実装
 - [x] ページネーション実装
 
-### Week 10: キャラチップ・プレイヤー機能
+### Week 10: キャラチップ機能
 
 - [x] キャラチップ一覧ページ（`/charachip-list`）実装
   - [x] キャラチップ一覧表示
@@ -251,15 +31,37 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
 - [x] キャラチップ詳細ページ（`/charachip`）実装
   - [x] キャラチップ詳細情報表示
   - [x] キャラクター一覧表示
-- [x] プレイヤー戦績（`/player-record`）実装
 
 ### Week 11: 村作成機能
 
-- [ ] 村作成ページ（`/create-village`）実装
-- [ ] 村作成フォーム実装
+- [x] 村作成ページ（`/create-village`）実装
+  - [x] 基本構造・レイアウト実装
+  - [x] Pinia storeセットアップ
+  - [x] API型定義追加
+  - [x] 基本情報セクション（村名・時間設定）
+  - [x] キャラチップ設定セクション
+  - [x] ダミーキャラ発言設定
+  - [x] 編成設定セクション
+  - [x] 詳細ルール設定
+  - [x] 発言制限設定
+  - [x] その他設定（年齢制限・パスワード）
+- [x] 村作成フォーム実装
+  - [x] 各種入力コンポーネント作成
+  - [x] フォーム状態管理
 - [ ] vee-validate v4によるバリデーション実装
+  - [ ] 必須項目チェック
+  - [ ] 相互依存バリデーション
 - [ ] 村設定プレビュー機能実装
-- [ ] キャラチップ選択機能実装
+- [x] キャラチップ選択機能実装
+- [ ] ダミーキャラクター選択モーダル実装
+  - [ ] 「画像から選ぶ」ボタン追加
+  - [ ] キャラクター画像一覧モーダル作成
+  - [ ] モーダルからの選択機能実装
+- [ ] ダミーキャラ発言セクションの画像表示機能実装
+  - [ ] 選択されたダミーキャラの画像を表示
+  - [ ] プロローグ発言の左側に画像表示
+  - [ ] 1日目発言の左側に画像表示
+  - [ ] ダミーキャラ変更時の画像自動更新
 - [ ] 村作成API連携
 
 ### Week 12: 村機能・設定ページ（最重要機能）
@@ -274,7 +76,14 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
   - [ ] 通知設定
   - [ ] 表示設定
 
-### 📋 Week 8-12完了基準
+### Week 13: プレイヤー戦績機能
+
+- [ ] プレイヤー戦績（`/player-record`）実装
+  - [x] 基本的な戦績表示機能
+  - [ ] ドーナツチャートによる勝敗表示
+  - [ ] 自己紹介編集機能（モーダル）
+
+### 📋 Week 8-13完了基準
 
 - [ ] 全機能が現行と同等に動作
 - [ ] Class Components → Composition API移行完了
@@ -283,9 +92,9 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
 
 ---
 
-## Phase 5: 最適化・本番準備 (Week 13-14)
+## Phase 5: 最適化・本番準備 (Week 14-15)
 
-### Week 13: パフォーマンス最適化
+### Week 14: パフォーマンス最適化
 
 - [ ] バンドルサイズ分析・最適化
 - [ ] 遅延ローディング実装
@@ -296,7 +105,7 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
 - [ ] Service Worker実装
 - [ ] オフライン対応実装
 
-### Week 14: テスト・デプロイ準備
+### Week 15: テスト・デプロイ準備
 
 - [ ] Vitest単体テスト実装
   - [ ] コンポーネントテスト
@@ -311,7 +120,7 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
 - [ ] エラー監視設定
 - [ ] 本番環境デプロイテスト
 
-### 📋 Week 13-14完了基準
+### 📋 Week 14-15完了基準
 
 - [ ] Lighthouse Score 90以上
 - [ ] テストカバレッジ 80%以上
@@ -349,6 +158,71 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
 - [ ] 最終的な技術選定結果の記録
 - [ ] 移行完了レポートの作成
 - [ ] 運用・メンテナンス手順書の作成
+
+---
+
+## 🐛 バグ修正タスク
+
+### 村作成フォームのリファクタリング ✅ 完了
+
+- [x] stores/create-village.ts の不要なstore管理を削除
+  - [x] フォーム状態管理の削除（既存にない機能）
+  - [x] 必要最小限の状態管理に変更
+  - [x] 最終的にstore自体を削除してページ内で直接API呼び出しに変更
+- [x] components/village-settings 配下のコンポーネントを移動
+  - [x] components/pages/create-village/ ディレクトリを作成
+  - [x] village-settings 配下のコンポーネントをpages/create-village/に移動
+  - [x] import文の修正
+  - [x] 不要になったvillage-settingsディレクトリを削除
+
+---
+
+## 🔧 コンポーネント構造リファクタリング
+
+### コンポーネント配置ガイドラインへの準拠
+
+#### UIコンポーネントのディレクトリ整理
+
+- [ ] components/ui/ ディレクトリ構造の作成
+  - [ ] components/ui/feedback/ ディレクトリを作成
+  - [ ] components/ui/modal/ ディレクトリを作成
+  - [ ] components/ui/form/ ディレクトリを作成
+  - [ ] components/ui/button/ ディレクトリを作成
+  - [ ] components/ui/card/ ディレクトリを作成
+  - [ ] components/ui/navigation/ ディレクトリを作成
+  - [ ] components/ui/table/ ディレクトリを作成
+
+#### 既存コンポーネントの移動
+
+- [ ] Alert.vue の移動とリファクタリング
+  - [ ] app/components/Alert.vue を app/components/ui/feedback/Alert.vue に移動
+  - [ ] 使用箇所のimport文を修正
+  - [ ] コンポーネント名の確認（必要に応じて変更）
+- [ ] Loading.vue の移動とリファクタリング
+  - [ ] app/components/Loading.vue を app/components/ui/feedback/LoadingSpinner.vue にリネームして移動
+  - [ ] 使用箇所のimport文を修正
+  - [ ] コンポーネント名の確認（必要に応じて変更）
+- [ ] Modal.vue の移動とリファクタリング
+  - [ ] app/components/Modal.vue を app/components/ui/modal/BaseModal.vue にリネームして移動
+  - [ ] 使用箇所のimport文を修正
+  - [ ] コンポーネント名の確認（必要に応じて変更）
+
+#### import文の一括更新
+
+- [ ] 全ファイルでコンポーネントのimport文を検索・更新
+  - [ ] Alert.vue の参照を更新
+  - [ ] Loading.vue の参照を更新
+  - [ ] Modal.vue の参照を更新
+  - [ ] Auto Importの設定確認（必要に応じて調整）
+
+#### テスト・動作確認
+
+- [ ] 各ページでコンポーネントが正常に表示されることを確認
+  - [ ] Alert表示の確認
+  - [ ] Loading表示の確認
+  - [ ] Modal表示の確認
+- [ ] playwrightでの動作確認
+- [ ] コンソールエラーがないことを確認
 
 ---
 
@@ -418,7 +292,7 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
 
 **最終更新**: 2025年1月  
 **総タスク数**: 120+項目  
-**推定工数**: 約3.5ヶ月（Phase 0含む14週間）
+**推定工数**: 約3.5ヶ月（Phase 0含む15週間）
 
 ## 📁 作業ディレクトリ構造
 

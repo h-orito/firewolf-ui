@@ -7,6 +7,7 @@
 ## 設定ファイル
 
 ### エディタ設定
+
 - **`.editorconfig`**: エディタ共通の基本設定
   - インデント: スペース2つ
   - 文字コード: UTF-8
@@ -15,6 +16,7 @@
   - 最終行に改行: あり
 
 ### コードフォーマット
+
 - **`.prettierrc`**: Prettierによる自動フォーマット設定
   - セミコロン: なし
   - クォート: シングルクォート
@@ -22,6 +24,7 @@
   - 括弧のスペース: なし
 
 ### リンティング
+
 - **`eslint.config.js`**: ESLintによるコード品質チェック
   - TypeScript strict mode対応
   - Vue 3 Composition API対応
@@ -46,6 +49,7 @@ pnpm type-check
 ## 重要事項
 
 - **コミット前には必ず以下を実行**:
+
   ```bash
   pnpm lint && pnpm format && pnpm type-check
   ```

@@ -42,7 +42,6 @@ interface CustomProps {
 const props = defineProps<CustomProps>()
 ```
 
-
 ## API 通信
 
 詳細は[API使用ガイドライン](./api-usage-guidelines.md)を参照
