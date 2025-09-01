@@ -51,7 +51,8 @@
 </template>
 
 <script setup lang="ts">
-import Modal from '~/components/Modal.vue'
+import Alert from '~/components/ui/feedback/Alert.vue'
+import Modal from '~/components/ui/modal/Modal.vue'
 
 const props = defineProps<{
   modelValue: boolean

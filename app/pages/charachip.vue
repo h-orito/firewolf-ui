@@ -25,7 +25,7 @@
 
         <div class="text-sm">
           <!-- ローディング表示 -->
-          <Loading
+          <LoadingSpinner
             v-if="loadingCharachip"
             :message="'キャラチップを読み込み中...'"
           />
@@ -70,6 +70,7 @@
 </template>
 
 <script setup lang="ts">
+import LoadingSpinner from '~/components/ui/feedback/LoadingSpinner.vue'
 import type { CharachipView } from '~/lib/api/types'
 import VillageCharaImage from '~/components/pages/village/CharaImage.vue'
 

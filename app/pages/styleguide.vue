@@ -306,9 +306,9 @@
               スピナー
             </h3>
             <div class="flex gap-4">
-              <Loading />
-              <Loading size="sm" />
-              <Loading size="lg" />
+              <LoadingSpinner />
+              <LoadingSpinner size="sm" />
+              <LoadingSpinner size="lg" />
             </div>
           </div>
           <div>
@@ -433,6 +433,8 @@
 </template>
 
 <script setup lang="ts">
+import Alert from '~/components/ui/feedback/Alert.vue'
+import LoadingSpinner from '~/components/ui/feedback/LoadingSpinner.vue'
 import type { CharaView } from '~/lib/api/types'
 
 const selectedRadio = ref('1')

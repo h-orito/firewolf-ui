@@ -183,46 +183,46 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
 
 #### UIコンポーネントのディレクトリ整理
 
-- [ ] components/ui/ ディレクトリ構造の作成
-  - [ ] components/ui/feedback/ ディレクトリを作成
-  - [ ] components/ui/modal/ ディレクトリを作成
-  - [ ] components/ui/form/ ディレクトリを作成
-  - [ ] components/ui/button/ ディレクトリを作成
-  - [ ] components/ui/card/ ディレクトリを作成
-  - [ ] components/ui/navigation/ ディレクトリを作成
-  - [ ] components/ui/table/ ディレクトリを作成
+- [x] components/ui/ ディレクトリ構造の作成
+  - [x] components/ui/feedback/ ディレクトリを作成
+  - [x] components/ui/modal/ ディレクトリを作成
+  - [x] components/ui/form/ ディレクトリを作成
+  - [x] components/ui/button/ ディレクトリを作成
+  - [x] components/ui/card/ ディレクトリを作成
+  - [x] components/ui/navigation/ ディレクトリを作成
+  - [x] components/ui/table/ ディレクトリを作成
 
 #### 既存コンポーネントの移動
 
-- [ ] Alert.vue の移動とリファクタリング
-  - [ ] app/components/Alert.vue を app/components/ui/feedback/Alert.vue に移動
-  - [ ] 使用箇所のimport文を修正
-  - [ ] コンポーネント名の確認（必要に応じて変更）
-- [ ] Loading.vue の移動とリファクタリング
-  - [ ] app/components/Loading.vue を app/components/ui/feedback/LoadingSpinner.vue にリネームして移動
-  - [ ] 使用箇所のimport文を修正
-  - [ ] コンポーネント名の確認（必要に応じて変更）
-- [ ] Modal.vue の移動とリファクタリング
-  - [ ] app/components/Modal.vue を app/components/ui/modal/BaseModal.vue にリネームして移動
-  - [ ] 使用箇所のimport文を修正
-  - [ ] コンポーネント名の確認（必要に応じて変更）
+- [x] Alert.vue の移動とリファクタリング
+  - [x] app/components/Alert.vue を app/components/ui/feedback/Alert.vue に移動
+  - [x] 使用箇所のimport文を修正（明示的importを追加）
+  - [x] コンポーネント名の確認（必要に応じて変更）
+- [x] Loading.vue の移動とリファクタリング
+  - [x] app/components/Loading.vue を app/components/ui/feedback/LoadingSpinner.vue にリネームして移動
+  - [x] 使用箇所のimport文を修正（明示的importを追加）
+  - [x] コンポーネント名の確認（必要に応じて変更）
+- [x] Modal.vue の移動とリファクタリング
+  - [x] app/components/Modal.vue を app/components/ui/modal/BaseModal.vue にリネームして移動
+  - [x] 使用箇所のimport文を修正（明示的importを追加）
+  - [x] コンポーネント名の確認（必要に応じて変更）
 
 #### import文の一括更新
 
-- [ ] 全ファイルでコンポーネントのimport文を検索・更新
-  - [ ] Alert.vue の参照を更新
-  - [ ] Loading.vue の参照を更新
-  - [ ] Modal.vue の参照を更新
-  - [ ] Auto Importの設定確認（必要に応じて調整）
+- [x] 全ファイルでコンポーネントのimport文を検索・更新
+  - [x] Alert.vue の参照を更新（明示的importを追加）
+  - [x] LoadingSpinner.vue の参照を更新（明示的importを追加）
+  - [x] BaseModal.vue の参照を更新（明示的importを追加）
+  - [x] Auto Importの設定確認（明示的importを使用）
 
 #### テスト・動作確認
 
-- [ ] 各ページでコンポーネントが正常に表示されることを確認
-  - [ ] Alert表示の確認
-  - [ ] Loading表示の確認
-  - [ ] Modal表示の確認
-- [ ] playwrightでの動作確認
-- [ ] コンソールエラーがないことを確認
+- [x] 各ページでコンポーネントが正常に表示されることを確認
+  - [x] Alert表示の確認
+  - [x] Loading表示の確認
+  - [x] Modal表示の確認
+- [x] playwrightでの動作確認
+- [x] コンソールエラーがないことを確認
 
 ---
 

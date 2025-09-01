@@ -107,6 +107,7 @@
 
 <script setup lang="ts">
 import type { CreateVillageFormData } from './types'
+import Alert from '~/components/ui/feedback/Alert.vue'
 import FormSwitch from '~/components/ui/form/FormSwitch.vue'
 import FormNumberInput from '~/components/ui/form/FormNumberInput.vue'
 

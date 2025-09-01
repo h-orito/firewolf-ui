@@ -7,7 +7,7 @@
       <div class="rounded-lg border p-4">
         <h2 class="mb-4 text-lg font-semibold">Normal Loading</h2>
         <div class="relative h-40 rounded border-2 border-gray-200">
-          <Loading v-if="showNormalLoading" />
+          <LoadingSpinner v-if="showNormalLoading" />
           <div v-else class="p-4">
             <p>コンテンツが表示されます</p>
           </div>
@@ -23,7 +23,7 @@
         <UButton @click="showFixedLoading = !showFixedLoading">
           {{ showFixedLoading ? '完了' : '全画面読み込み開始' }}
         </UButton>
-        <Loading
+        <LoadingSpinner
           v-if="showFixedLoading"
           :fixed="true"
           message="村情報を読み込み中..."
@@ -34,7 +34,10 @@
       <div class="rounded-lg border p-4">
         <h2 class="mb-4 text-lg font-semibold">Custom Message Loading</h2>
         <div class="relative h-40 rounded border-2 border-gray-200">
-          <Loading v-if="showCustomLoading" message="発言を読み込み中..." />
+          <LoadingSpinner
+            v-if="showCustomLoading"
+            message="発言を読み込み中..."
+          />
           <div v-else class="p-4">
             <p>発言リストが表示されます</p>
           </div>
@@ -48,6 +51,8 @@
 </template>
 
 <script setup>
+import LoadingSpinner from '~/components/ui/feedback/LoadingSpinner.vue'
+
 const showNormalLoading = ref(false)
 const showFixedLoading = ref(false)
 const showCustomLoading = ref(false)

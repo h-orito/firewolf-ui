@@ -91,6 +91,7 @@
 </template>
 
 <script setup lang="ts">
+import Alert from '~/components/ui/feedback/Alert.vue'
 import type { CharaView } from '~/lib/api/types'
 import type { CreateVillageFormData } from './types'
 

@@ -81,6 +81,7 @@
 </template>
 
 <script setup lang="ts">
+import Alert from '~/components/ui/feedback/Alert.vue'
 import type {
   CharachipView,
   CharachipsView,

@@ -64,6 +64,7 @@
 
 <script setup lang="ts">
 import type { CreateVillageFormData } from './types'
+import Alert from '~/components/ui/feedback/Alert.vue'
 import FormNumberInput from '~/components/ui/form/FormNumberInput.vue'
 
 const props = defineProps<{

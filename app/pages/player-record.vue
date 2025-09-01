@@ -1,7 +1,7 @@
 <template>
   <section class="py-8">
     <div class="container mx-auto px-4">
-      <Loading
+      <LoadingSpinner
         v-if="loadingRecords"
         :message="'戦績を読み込み中...'"
         :fixed="true"
@@ -174,6 +174,7 @@
 </template>
 
 <script setup lang="ts">
+import LoadingSpinner from '~/components/ui/feedback/LoadingSpinner.vue'
 import type {
   PlayerRecordsView,
   CampRecord,

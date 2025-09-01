@@ -5,7 +5,7 @@
         <h1 class="mb-4 text-xl font-semibold">キャラチップ一覧</h1>
         <div class="text-sm">
           <!-- ローディング表示 -->
-          <Loading
+          <LoadingSpinner
             v-if="loadingCharachips"
             :message="'キャラチップ一覧を読み込み中...'"
           />
@@ -73,6 +73,7 @@
 </template>
 
 <script setup lang="ts">
+import LoadingSpinner from '~/components/ui/feedback/LoadingSpinner.vue'
 import type { CharachipsView, CharachipView } from '~/lib/api/types'
 import VillageCharaImage from '~/components/pages/village/CharaImage.vue'
 

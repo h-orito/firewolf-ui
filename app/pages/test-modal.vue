@@ -144,6 +144,8 @@
 </template>
 
 <script setup>
+import Modal from '~/components/ui/modal/Modal.vue'
+
 const showBasicModal = ref(false)
 const showLoginModal = ref(false)
 const showConfirmModal = ref(false)
