@@ -9,6 +9,7 @@ export type CharaNameView = components['schemas']['CharaNameView']
 export type CharaDefaultMessage = components['schemas']['CharaDefaultMessage']
 export type CharaView = components['schemas']['CharaView']
 export type Chara = components['schemas']['Chara']
+export type Charas = components['schemas']['Charas']
 
 // キャラチップ関連型
 export type CharachipView = components['schemas']['CharachipView']
@@ -52,6 +53,22 @@ export type PlayerView = components['schemas']['PlayerView']
 export type MyselfPlayerView = components['schemas']['MyselfPlayerView']
 export type VillageSettingsView = components['schemas']['VillageSettingsView']
 export type VillageStatus = components['schemas']['VillageStatus']
+
+// 村作成関連型
+export type VillageRegisterBody = components['schemas']['VillageRegisterBody']
+export type VillageSettingRegisterBody =
+  components['schemas']['VillageSettingRegisterBody']
+export type VillageTimeCreateBody =
+  components['schemas']['VillageTimeCreateBody']
+export type VillageOrganizationCreateBody =
+  components['schemas']['VillageOrganizationCreateBody']
+export type VillageCharachipCreateBody =
+  components['schemas']['VillageCharachipCreateBody']
+export type VillageRuleCreateBody =
+  components['schemas']['VillageRuleCreateBody']
+export type VillageTagCreateBody = components['schemas']['VillageTagCreateBody']
+export type VillageMessageRestrictCreateBody =
+  components['schemas']['VillageMessageRestrictCreateBody']
 
 // その他
 export type Camp = components['schemas']['Camp']
