@@ -22,8 +22,15 @@
         value-attribute="id"
         label-key="name"
         class="w-full"
+        :color="errors?.charachipIds ? 'error' : undefined"
+        @change="validateField('charachipIds')"
       />
-      <p class="mt-2 text-xs text-gray-500">複数のキャラチップを選択できます</p>
+      <p v-if="errors?.charachipIds" class="mt-1 text-xs text-red-600">
+        {{ errors.charachipIds }}
+      </p>
+      <p v-else class="mt-2 text-xs text-gray-500">
+        複数のキャラチップを選択できます
+      </p>
     </div>
 
     <!-- ダミーキャラ選択 -->
@@ -37,9 +44,14 @@
         placeholder="ダミーキャラクターを選択"
         :disabled="charas.length === 0"
         class="w-full"
+        :color="errors?.dummyCharaId ? 'error' : undefined"
+        @change="validateField('dummyCharaId')"
       >
       </USelectMenu>
-      <p v-if="charas.length === 0" class="mt-1 text-xs text-red-500">
+      <p v-if="errors?.dummyCharaId" class="mt-1 text-xs text-red-600">
+        {{ errors.dummyCharaId }}
+      </p>
+      <p v-else-if="charas.length === 0" class="mt-1 text-xs text-red-500">
         先にキャラチップを選択してください
       </p>
     </div>
@@ -56,8 +68,15 @@
           size="md"
           :maxlength="40"
           required
+          :color="errors?.dummyCharaName ? 'error' : undefined"
+          @blur="validateField('dummyCharaName')"
         />
-        <p class="mt-1 text-xs text-gray-500">最大40文字まで入力できます</p>
+        <p v-if="errors?.dummyCharaName" class="mt-1 text-xs text-red-600">
+          {{ errors.dummyCharaName }}
+        </p>
+        <p v-else class="mt-1 text-xs text-gray-500">
+          最大40文字まで入力できます
+        </p>
       </div>
 
       <div>
@@ -71,8 +90,13 @@
           :maxlength="1"
           class="w-20"
           required
+          :color="errors?.dummyCharaShortName ? 'error' : undefined"
+          @blur="validateField('dummyCharaShortName')"
         />
-        <p class="mt-1 text-xs text-gray-500">
+        <p v-if="errors?.dummyCharaShortName" class="mt-1 text-xs text-red-600">
+          {{ errors.dummyCharaShortName }}
+        </p>
+        <p v-else class="mt-1 text-xs text-gray-500">
           発言時に表示される1文字の略称です
         </p>
       </div>
@@ -93,10 +117,15 @@ import type { CreateVillageFormData } from './types'
 // Props & Emits
 const props = defineProps<{
   formData: CreateVillageFormData
+  errors?: Partial<Record<string, string | undefined>>
 }>()
 
 const emit = defineEmits<{
-  'update:form-data': [value: CreateVillageFormData]
+  'update:field': [
+    field: keyof CreateVillageFormData,
+    value: CreateVillageFormData[keyof CreateVillageFormData]
+  ]
+  'validate:field': [field: keyof CreateVillageFormData]
 }>()
 
 // キャラチップ一覧
@@ -112,11 +141,7 @@ const selectedCharachipItems: WritableComputedRef<CharachipView[]> = computed({
   },
   set: (selected: CharachipView[]) => {
     const ids = selected.map((c) => c.id)
-
-    emit('update:form-data', {
-      ...props.formData,
-      charachipIds: ids
-    })
+    emit('update:field', 'charachipIds', ids)
     // キャラチップが変更されたらキャラ一覧を更新
     loadCharasByCharachipIds(ids)
   }
@@ -141,14 +166,13 @@ const selectedDummyChara: WritableComputedRef<Option> = computed({
     }
   },
   set: (option: Option) => {
-    const updatedFormData = { ...props.formData, dummyCharaId: option.value }
+    emit('update:field', 'dummyCharaId', option.value)
     // キャラが選択されたら名前を自動設定
     const chara = charas.value.find((c) => c.id === option.value)
     if (chara) {
-      updatedFormData.dummyCharaName = chara.chara_name.name
-      updatedFormData.dummyCharaShortName = chara.chara_name.short_name
+      emit('update:field', 'dummyCharaName', chara.chara_name.name)
+      emit('update:field', 'dummyCharaShortName', chara.chara_name.short_name)
     }
-    emit('update:form-data', updatedFormData)
   }
 })
 
@@ -156,7 +180,7 @@ const selectedDummyChara: WritableComputedRef<Option> = computed({
 const dummyCharaName = computed({
   get: () => props.formData.dummyCharaName,
   set: (value: string) => {
-    emit('update:form-data', { ...props.formData, dummyCharaName: value })
+    emit('update:field', 'dummyCharaName', value)
   }
 })
 
@@ -164,9 +188,14 @@ const dummyCharaName = computed({
 const dummyCharaShortName = computed({
   get: () => props.formData.dummyCharaShortName,
   set: (value: string) => {
-    emit('update:form-data', { ...props.formData, dummyCharaShortName: value })
+    emit('update:field', 'dummyCharaShortName', value)
   }
 })
+
+// フィールドバリデーション
+const validateField = (field: keyof CreateVillageFormData) => {
+  emit('validate:field', field)
+}
 
 const loadCharachips = async () => {
   try {

@@ -41,13 +41,13 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const emit = defineEmits<{
-  'update:modelValue': [value: string | number]
+  'update:modelValue': [value: number]
 }>()
 
 const inputClass = computed(() => props.class)
 
 const model = computed({
   get: () => props.modelValue,
-  set: (value: string | number) => emit('update:modelValue', value)
+  set: (value: number) => emit('update:modelValue', value)
 })
 </script>

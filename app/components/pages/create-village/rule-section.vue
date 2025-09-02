@@ -48,51 +48,50 @@ import FormSwitch from '~/components/ui/form/FormSwitch.vue'
 // Props & Emits
 const props = defineProps<{
   formData: CreateVillageFormData
+  errors?: Partial<Record<string, string | undefined>>
 }>()
 
 const emit = defineEmits<{
-  'update:formData': [value: CreateVillageFormData]
+  'update:field': [
+    field: keyof CreateVillageFormData,
+    value: CreateVillageFormData[keyof CreateVillageFormData]
+  ]
+  'validate:field': [field: keyof CreateVillageFormData]
 }>()
 
 // 各種ルール設定
 const openVote = computed({
   get: () => props.formData.openVote,
   set: (value: boolean) => {
-    emit('update:formData', { ...props.formData, openVote: value })
+    emit('update:field', 'openVote', value)
   }
 })
 
 const availableSkillRequest = computed({
   get: () => props.formData.availableSkillRequest,
   set: (value: boolean) => {
-    emit('update:formData', { ...props.formData, availableSkillRequest: value })
+    emit('update:field', 'availableSkillRequest', value)
   }
 })
 
 const availableSuddenlyDeath = computed({
   get: () => props.formData.availableSuddenlyDeath,
   set: (value: boolean) => {
-    emit('update:formData', {
-      ...props.formData,
-      availableSuddenlyDeath: value
-    })
+    emit('update:field', 'availableSuddenlyDeath', value)
   }
 })
 
 const availableCommit = computed({
   get: () => props.formData.availableCommit,
   set: (value: boolean) => {
-    emit('update:formData', { ...props.formData, availableCommit: value })
+    emit('update:field', 'availableCommit', value)
   }
 })
 
 const availableGuardSameTarget = computed({
   get: () => props.formData.availableGuardSameTarget,
   set: (value: boolean) => {
-    emit('update:formData', {
-      ...props.formData,
-      availableGuardSameTarget: value
-    })
+    emit('update:field', 'availableGuardSameTarget', value)
   }
 })
 </script>

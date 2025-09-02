@@ -43,7 +43,8 @@ FIREWOLFは人狼ゲームが無料で遊べるWebサービスです。Nuxt.js (
    5. タスクが完了したら、`{project_root}/.claude/tasks.md` のチェックボックスに記録
 
 4. **品質チェック**:
-   1. **commit 前に必ず実行**: `pnpm lint && pnpm format && pnpm type-check`
+   1. 開発ガイドラインに沿っているか確認
+   2. **commit 前に必ず実行**: `pnpm lint && pnpm format && pnpm type-check`
 
 5. **コミット**:
    1. ユーザーの承認を得てから、適切な粒度でコミット

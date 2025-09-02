@@ -82,14 +82,20 @@
         編成 <span class="text-red-500">*</span>
       </label>
       <UTextarea
-        v-model="organization"
+        :model-value="formData.organization"
         placeholder="例: 11人：村村村村村占霊狩狼狼狂"
         :rows="6"
         :maxlength="1004"
         class="w-full"
         required
+        :color="errors?.organization ? 'error' : undefined"
+        @update:model-value="updateField('organization', $event)"
+        @blur="validateField('organization')"
       />
-      <p class="mt-2 text-xs text-gray-500">
+      <p v-if="errors?.organization" class="mt-1 text-xs text-red-600">
+        {{ errors.organization }}
+      </p>
+      <p v-else class="mt-2 text-xs text-gray-500">
         「人数：役職構成」の形式で、改行で複数の人数パターンを入力できます
       </p>
     </div>
@@ -97,10 +103,14 @@
     <!-- 役欠け設定 -->
     <div class="mb-6">
       <FormSwitch
-        v-model="availableDummySkill"
+        :model-value="formData.availableDummySkill"
         label="役欠けあり"
         description="ダミー役欠けあり（ダミーキャラが村人以外の役職を持つ可能性があります）"
+        @update:model-value="updateField('availableDummySkill', $event)"
       />
+      <p v-if="errors?.availableDummySkill" class="mt-1 text-xs text-red-600">
+        {{ errors.availableDummySkill }}
+      </p>
     </div>
   </div>
 </template>
@@ -111,36 +121,39 @@ import Alert from '~/components/ui/feedback/Alert.vue'
 import FormSwitch from '~/components/ui/form/FormSwitch.vue'
 import FormNumberInput from '~/components/ui/form/FormNumberInput.vue'
 
-// Props & Emits
-const props = defineProps<{
+interface Props {
   formData: CreateVillageFormData
-}>()
+  errors?: Partial<Record<string, string | undefined>>
+}
+
+const props = defineProps<Props>()
 
 const emit = defineEmits<{
-  'update:formData': [value: CreateVillageFormData]
+  'update:field': [
+    field: keyof CreateVillageFormData,
+    value: CreateVillageFormData[keyof CreateVillageFormData]
+  ]
+  'validate:field': [field: keyof CreateVillageFormData]
 }>()
+
+// フィールド更新
+const updateField = <K extends keyof CreateVillageFormData>(
+  field: K,
+  value: CreateVillageFormData[K]
+) => {
+  emit('update:field', field, value)
+}
+
+// フィールドバリデーション
+const validateField = (field: keyof CreateVillageFormData) => {
+  emit('validate:field', field)
+}
 
 // 最小人数
 const capacityMin = ref('10')
 
 // 定員
 const capacityMax = ref('16')
-
-// 編成
-const organization = computed({
-  get: () => props.formData.organization,
-  set: (value: string) => {
-    emit('update:formData', { ...props.formData, organization: value })
-  }
-})
-
-// 役欠け設定
-const availableDummySkill = computed({
-  get: () => props.formData.availableDummySkill,
-  set: (value: boolean) => {
-    emit('update:formData', { ...props.formData, availableDummySkill: value })
-  }
-})
 
 // 人数ごとの編成を生成
 const generateOrganization = () => {
@@ -168,12 +181,12 @@ const generateOrganization = () => {
     })
     .join('\n')
 
-  organization.value = org
+  updateField('organization', org)
 }
 
 // 初期表示時に編成を生成
 onMounted(() => {
-  if (!organization.value) {
+  if (!props.formData.organization) {
     generateOrganization()
   }
 })

@@ -32,6 +32,7 @@ export type VillageParticipantStatus =
 
 // スキル関連型
 export type Skill = components['schemas']['Skill']
+export type SkillsView = components['schemas']['SkillsView']
 export type ComingOut = components['schemas']['ComingOut']
 export type ComingOuts = components['schemas']['ComingOuts']
 export type DeadView = components['schemas']['DeadView']

@@ -8,14 +8,22 @@
         村名 <span class="text-red-500">*</span>
       </label>
       <UInput
-        v-model="villageName"
+        :model-value="formData.villageName"
         placeholder="村の名前を入力"
         size="md"
-        :maxlength="255"
+        :maxlength="40"
         required
         class="w-full"
+        :color="errors?.villageName ? 'error' : undefined"
+        @update:model-value="updateField('villageName', $event)"
+        @blur="validateField('villageName')"
       />
-      <p class="mt-1 text-xs text-gray-500">最大255文字まで入力できます</p>
+      <p v-if="errors?.villageName" class="mt-1 text-xs text-red-600">
+        {{ errors.villageName }}
+      </p>
+      <p v-else class="mt-1 text-xs text-gray-500">
+        最大40文字まで入力できます
+      </p>
     </div>
 
     <!-- 時間設定 -->
@@ -32,13 +40,19 @@
           class="mb-3"
         />
         <input
-          v-model="startDatetimeLocal"
+          :value="startDatetimeLocal"
           type="datetime-local"
           :min="minDatetimeLocal"
           :max="maxDatetimeLocal"
-          class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+          class="w-full rounded-md border px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+          :class="errors?.startDatetime ? 'border-red-500' : 'border-gray-300'"
           required
+          @input="handleDatetimeChange"
+          @blur="validateField('startDatetime')"
         />
+        <p v-if="errors?.startDatetime" class="mt-1 text-xs text-red-600">
+          {{ errors.startDatetime }}
+        </p>
       </div>
 
       <!-- 沈黙時間 -->
@@ -47,14 +61,19 @@
           沈黙時間（時間）
         </label>
         <FormNumberInput
-          v-model="silentHours"
+          :model-value="formData.silentHours"
           :min="0"
           :max="23"
           size="md"
           class="w-32"
-          @input="validateSilentHours"
+          :color="errors?.silentHours ? 'error' : undefined"
+          @update:model-value="updateField('silentHours', $event)"
+          @blur="validateField('silentHours')"
         />
-        <p class="mt-1 text-xs text-gray-500">
+        <p v-if="errors?.silentHours" class="mt-1 text-xs text-red-600">
+          {{ errors.silentHours }}
+        </p>
+        <p v-else class="mt-1 text-xs text-gray-500">
           0〜23の範囲で設定できます。設定した時間の間は発言できなくなります。
         </p>
       </div>
@@ -67,62 +86,50 @@ import type { CreateVillageFormData } from './types'
 import Alert from '~/components/ui/feedback/Alert.vue'
 import FormNumberInput from '~/components/ui/form/FormNumberInput.vue'
 
-const props = defineProps<{
+interface Props {
   formData: CreateVillageFormData
-}>()
+  errors?: Partial<Record<string, string | undefined>>
+}
+
+const props = defineProps<Props>()
 
 const emit = defineEmits<{
-  'update:formData': [value: CreateVillageFormData]
+  'update:field': [
+    field: keyof CreateVillageFormData,
+    value: CreateVillageFormData[keyof CreateVillageFormData]
+  ]
+  'validate:field': [field: keyof CreateVillageFormData]
 }>()
 
-// 村名のv-model
-const villageName = computed({
-  get: () => props.formData.villageName,
-  set: (value: string) => {
-    emit('update:formData', { ...props.formData, villageName: value })
-  }
+// フィールド更新
+const updateField = <K extends keyof CreateVillageFormData>(
+  field: K,
+  value: CreateVillageFormData[K]
+) => {
+  emit('update:field', field, value)
+}
+
+// フィールドバリデーション
+const validateField = (field: keyof CreateVillageFormData) => {
+  emit('validate:field', field)
+}
+
+// 開始日時のフォーマット変換
+const startDatetimeLocal = computed(() => {
+  const dateValue = props.formData.startDatetime || new Date()
+  const date = new Date(dateValue)
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  const hours = String(date.getHours()).padStart(2, '0')
+  const minutes = String(date.getMinutes()).padStart(2, '0')
+  return `${year}-${month}-${day}T${hours}:${minutes}`
 })
 
-// 開始日時のv-model (datetime-local用フォーマット)
-const startDatetimeLocal = computed({
-  get: () => {
-    const date = new Date(props.formData.startDatetime)
-    const year = date.getFullYear()
-    const month = String(date.getMonth() + 1).padStart(2, '0')
-    const day = String(date.getDate()).padStart(2, '0')
-    const hours = String(date.getHours()).padStart(2, '0')
-    const minutes = String(date.getMinutes()).padStart(2, '0')
-    return `${year}-${month}-${day}T${hours}:${minutes}`
-  },
-  set: (value: string) => {
-    emit('update:formData', {
-      ...props.formData,
-      startDatetime: new Date(value)
-    })
-  }
-})
-
-// 沈黙時間のv-model
-const silentHours = computed({
-  get: () => props.formData.silentHours,
-  set: (value: number) => {
-    // 0〜23の範囲に制限
-    const clampedValue = Math.max(0, Math.min(23, value))
-    emit('update:formData', { ...props.formData, silentHours: clampedValue })
-  }
-})
-
-// 沈黙時間のバリデーション
-const validateSilentHours = (event: Event) => {
+// 日時変更ハンドラー
+const handleDatetimeChange = (event: Event) => {
   const input = event.target as HTMLInputElement
-  const value = parseInt(input.value)
-  if (value > 23) {
-    input.value = '23'
-    silentHours.value = 23
-  } else if (value < 0) {
-    input.value = '0'
-    silentHours.value = 0
-  }
+  updateField('startDatetime', new Date(input.value))
 }
 
 // 日付制限（今日から2週間後まで）
