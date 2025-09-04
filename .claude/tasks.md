@@ -51,15 +51,15 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
 - [x] vee-validate v4によるバリデーション実装
   - [x] 必須項目チェック
   - [x] 相互依存バリデーション
-- [ ] 各セクションコンポーネントのエラー表示改善
+- [x] 各セクションコンポーネントのエラー表示改善
   - [x] BasicInfoSection - エラー表示を各項目の下に表示
   - [x] DummyMessageSection - エラー表示を各項目の下に表示
   - [x] OrganizationSection - エラー表示を各項目の下に表示
-  - [ ] CharachipSection - エラー表示を各項目の下に表示
-  - [ ] RuleSection - エラー表示を各項目の下に表示
-  - [ ] MessageRestrictionSection - エラー表示を各項目の下に表示
-  - [ ] JoinPasswordSection - エラー表示を各項目の下に表示
-  - [ ] RpSection - エラー表示を各項目の下に表示
+  - [x] CharachipSection - エラー表示を各項目の下に表示
+  - [x] RuleSection - エラー表示を各項目の下に表示（Switchのみのためエラー表示不要）
+  - [x] MessageRestrictionSection - エラー表示を各項目の下に表示
+  - [x] JoinPasswordSection - エラー表示を各項目の下に表示
+  - [x] RpSection - エラー表示を各項目の下に表示
 - [x] 編成バリデーションの修正
   - [x] 既存実装（.old-nuxt2/components/create-village/setting.vue）から編成バリデーションロジックを抽出
   - [x] 正しい編成フォーマットの検証（例: "11人：村村村村村占霊狩狼狼狂"）

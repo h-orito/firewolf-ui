@@ -15,7 +15,15 @@
           value-attribute="value"
           placeholder="年齢制限を選択"
           class="mx-auto w-full max-w-xs"
+          :color="props.errors?.ageLimit ? 'error' : undefined"
+          @blur="validateField('ageLimit')"
         />
+        <p
+          v-if="props.errors?.ageLimit"
+          class="mt-1 text-center text-xs text-red-600"
+        >
+          {{ props.errors.ageLimit }}
+        </p>
       </div>
 
       <!-- 見学 -->
@@ -44,7 +52,15 @@
               placeholder="40"
               required
               class="w-full"
+              :color="props.errors?.spectateCount ? 'error' : undefined"
+              @blur="validateField('spectateCount')"
             />
+            <p
+              v-if="props.errors?.spectateCount"
+              class="mt-1 text-xs text-red-600"
+            >
+              {{ props.errors.spectateCount }}
+            </p>
           </div>
           <div>
             <label class="mb-2 block text-sm font-medium text-gray-700">
@@ -58,7 +74,15 @@
               placeholder="200"
               required
               class="w-full"
+              :color="props.errors?.spectateLength ? 'error' : undefined"
+              @blur="validateField('spectateLength')"
             />
+            <p
+              v-if="props.errors?.spectateLength"
+              class="mt-1 text-xs text-red-600"
+            >
+              {{ props.errors.spectateLength }}
+            </p>
           </div>
         </div>
       </div>
@@ -100,7 +124,15 @@
               placeholder="40"
               required
               class="w-full"
+              :color="props.errors?.actionCountLimit ? 'error' : undefined"
+              @blur="validateField('actionCountLimit')"
             />
+            <p
+              v-if="props.errors?.actionCountLimit"
+              class="mt-1 text-xs text-red-600"
+            >
+              {{ props.errors.actionCountLimit }}
+            </p>
           </div>
           <div>
             <label class="mb-2 block text-sm font-medium text-gray-700">
@@ -114,7 +146,15 @@
               placeholder="200"
               required
               class="w-full"
+              :color="props.errors?.actionCharacterLimit ? 'error' : undefined"
+              @blur="validateField('actionCharacterLimit')"
             />
+            <p
+              v-if="props.errors?.actionCharacterLimit"
+              class="mt-1 text-xs text-red-600"
+            >
+              {{ props.errors.actionCharacterLimit }}
+            </p>
           </div>
         </div>
       </div>
@@ -130,11 +170,30 @@ import FormNumberInput from '~/components/ui/form/FormNumberInput.vue'
 // Props & Emits
 const props = defineProps<{
   formData: CreateVillageFormData
+  errors?: Record<string, string | undefined>
 }>()
 
 const emit = defineEmits<{
   'update:formData': [value: CreateVillageFormData]
+  'update:field': [
+    field: keyof CreateVillageFormData,
+    value: CreateVillageFormData[keyof CreateVillageFormData]
+  ]
+  'validate:field': [field: keyof CreateVillageFormData]
 }>()
+
+// フィールド更新処理
+const updateField = <K extends keyof CreateVillageFormData>(
+  field: K,
+  value: CreateVillageFormData[K]
+) => {
+  emit('update:field', field, value)
+}
+
+// フィールドバリデーション
+const validateField = (field: keyof CreateVillageFormData) => {
+  emit('validate:field', field)
+}
 
 // 年齢制限の選択肢
 const ageLimitOptions = [
@@ -147,7 +206,7 @@ const ageLimitOptions = [
 const ageLimit = computed({
   get: () => props.formData.ageLimit,
   set: (value: string) => {
-    emit('update:formData', { ...props.formData, ageLimit: value })
+    updateField('ageLimit', value)
   }
 })
 
@@ -155,29 +214,23 @@ const ageLimit = computed({
 const availableSpectate = computed({
   get: () => props.formData.availableSpectate,
   set: (value: boolean) => {
-    emit('update:formData', { ...props.formData, availableSpectate: value })
+    updateField('availableSpectate', value)
   }
 })
 
 // 見学発言回数
 const spectateCountLimit = computed({
-  get: () => props.formData.spectateCount.toString(),
-  set: (value: string) => {
-    emit('update:formData', {
-      ...props.formData,
-      spectateCount: parseInt(value) || 40
-    })
+  get: () => props.formData.spectateCount,
+  set: (value: number | string) => {
+    updateField('spectateCount', value === '' ? 0 : Number(value))
   }
 })
 
 // 見学発言文字数
 const spectateCharacterLimit = computed({
-  get: () => props.formData.spectateLength.toString(),
-  set: (value: string) => {
-    emit('update:formData', {
-      ...props.formData,
-      spectateLength: parseInt(value) || 200
-    })
+  get: () => props.formData.spectateLength,
+  set: (value: number | string) => {
+    updateField('spectateLength', value === '' ? 0 : Number(value))
   }
 })
 
@@ -185,7 +238,7 @@ const spectateCharacterLimit = computed({
 const visibleGraveMessage = computed({
   get: () => props.formData.visibleGraveMessage,
   set: (value: boolean) => {
-    emit('update:formData', { ...props.formData, visibleGraveMessage: value })
+    updateField('visibleGraveMessage', value)
   }
 })
 
@@ -193,15 +246,15 @@ const visibleGraveMessage = computed({
 const availableSecretSay = computed({
   get: () => props.formData.availableSecretSay,
   set: (value: boolean) => {
-    emit('update:formData', { ...props.formData, availableSecretSay: value })
+    updateField('availableSecretSay', value)
   }
 })
 
 // アクション可能
 const availableAction = computed({
   get: () => props.formData.availableAction,
-  set: (value: boolean) => {
-    emit('update:formData', { ...props.formData, availableAction: value })
+  set: (value: number | string) => {
+    updateField('spectateCount', value === '' ? 0 : Number(value))
   }
 })
 
@@ -209,15 +262,15 @@ const availableAction = computed({
 const actionCountLimit = computed({
   get: () => props.formData.actionCountLimit,
   set: (value: string) => {
-    emit('update:formData', { ...props.formData, actionCountLimit: value })
+    updateField('actionCountLimit', value)
   }
 })
 
 // アクション文字数
 const actionCharacterLimit = computed({
   get: () => props.formData.actionCharacterLimit,
-  set: (value: string) => {
-    emit('update:formData', { ...props.formData, actionCharacterLimit: value })
+  set: (value: number | string) => {
+    updateField('spectateLength', value === '' ? 0 : Number(value))
   }
 })
 </script>
