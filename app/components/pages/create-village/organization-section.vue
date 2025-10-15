@@ -150,17 +150,17 @@ const validateField = (field: keyof CreateVillageFormData) => {
 }
 
 // 最小人数
-const capacityMin = ref('10')
+const capacityMin = ref(10)
 
 // 定員
-const capacityMax = ref('16')
+const capacityMax = ref(16)
 
 // 人数ごとの編成を生成
 const generateOrganization = () => {
-  const min = parseInt(capacityMin.value)
-  const max = parseInt(capacityMax.value)
+  const min = capacityMin.value
+  const max = capacityMax.value
 
-  if (isNaN(min) || isNaN(max) || min > max) {
+  if (min > max) {
     return
   }
 

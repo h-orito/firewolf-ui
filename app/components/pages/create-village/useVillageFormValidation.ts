@@ -263,25 +263,49 @@ export const useVillageFormValidation = () => {
 
     spectateCount: yup
       .number()
-      .required('見学発言回数は必須です')
+      .when('availableSpectate', {
+        is: true,
+        then: (schema) =>
+          schema.required('見学機能が有効な場合、見学発言回数は必須です'),
+        otherwise: (schema) => schema
+      })
       .min(0, '見学発言回数は0以上で設定してください')
       .max(1000, '見学発言回数は1000以下で設定してください'),
 
     spectateLength: yup
       .number()
-      .required('見学発言文字数は必須です')
+      .when('availableSpectate', {
+        is: true,
+        then: (schema) =>
+          schema.required('見学機能が有効な場合、見学発言文字数は必須です'),
+        otherwise: (schema) => schema
+      })
       .min(1, '見学発言文字数は1以上で設定してください')
       .max(1000, '見学発言文字数は1000以下で設定してください'),
 
     actionCount: yup
       .number()
-      .required('アクション回数は必須です')
+      .when('availableAction', {
+        is: true,
+        then: (schema) =>
+          schema.required(
+            'アクション機能が有効な場合、アクション回数は必須です'
+          ),
+        otherwise: (schema) => schema
+      })
       .min(0, 'アクション回数は0以上で設定してください')
       .max(1000, 'アクション回数は1000以下で設定してください'),
 
     actionLength: yup
       .number()
-      .required('アクション文字数は必須です')
+      .when('availableAction', {
+        is: true,
+        then: (schema) =>
+          schema.required(
+            'アクション機能が有効な場合、アクション文字数は必須です'
+          ),
+        otherwise: (schema) => schema
+      })
       .min(1, 'アクション文字数は1以上で設定してください')
       .max(1000, 'アクション文字数は1000以下で設定してください'),
 
@@ -296,42 +320,8 @@ export const useVillageFormValidation = () => {
     actionCharacterLimit: yup.string()
   })
 
-  // 相互依存バリデーション
-  const crossFieldValidation = yup.object().shape({
-    // アクション機能が有効な場合、アクション発言制限が必須
-    actionCount: yup.number().when('availableAction', {
-      is: true,
-      then: (schema) =>
-        schema.required('アクション機能が有効な場合、アクション回数は必須です'),
-      otherwise: (schema) => schema
-    }),
-    actionLength: yup.number().when('availableAction', {
-      is: true,
-      then: (schema) =>
-        schema.required(
-          'アクション機能が有効な場合、アクション文字数は必須です'
-        ),
-      otherwise: (schema) => schema
-    }),
-
-    // 見学機能が有効な場合、見学発言制限が必須
-    spectateCount: yup.number().when('availableSpectate', {
-      is: true,
-      then: (schema) =>
-        schema.required('見学機能が有効な場合、見学発言回数は必須です'),
-      otherwise: (schema) => schema
-    }),
-    spectateLength: yup.number().when('availableSpectate', {
-      is: true,
-      then: (schema) =>
-        schema.required('見学機能が有効な場合、見学発言文字数は必須です'),
-      otherwise: (schema) => schema
-    })
-  })
-
   return {
     validationSchema,
-    crossFieldValidation,
     useForm,
     loadSkills
   }
