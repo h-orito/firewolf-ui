@@ -3,6 +3,11 @@
     <div class="container mx-auto max-w-4xl px-4">
       <h1 class="mb-8 text-2xl font-bold">村を作成</h1>
 
+      <!-- エラー表示 -->
+      <Alert v-if="errors" type="error" class="mb-6" @close="errors = null">
+        {{ errors }}
+      </Alert>
+
       <!-- フォームセクション -->
       <form class="space-y-8" @submit.prevent="handleSubmit">
         <!-- 基本情報セクション -->
@@ -70,24 +75,29 @@
         />
 
         <!-- 送信ボタン -->
-        <div class="flex justify-center gap-4">
+        <div class="flex justify-end gap-4">
           <button
             type="button"
-            class="rounded-md bg-gray-300 px-6 py-2 text-white hover:bg-gray-400 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:outline-none"
-            @click="handleCancel"
-          >
-            キャンセル
-          </button>
-          <button
-            type="submit"
-            :disabled="isLoading || !meta.valid"
+            :disabled="isConfirming || !meta.valid"
             class="rounded-md bg-blue-600 px-6 py-2 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-400"
+            @click="handleConfirm"
           >
-            <span v-if="isLoading">作成中...</span>
-            <span v-else>村を作成する</span>
+            <span v-if="isConfirming">確認中...</span>
+            <span v-else>確認画面へ</span>
           </button>
         </div>
       </form>
+
+      <!-- プレビューモーダル -->
+      <PreviewModal
+        :is-open="isPreviewModalOpen"
+        :form-data="formData"
+        :charachip-name="selectedCharachipName"
+        :dummy-chara="selectedDummyChara"
+        :is-submitting="isLoading"
+        @close="closePreviewModal"
+        @create="handleSubmit"
+      />
     </div>
   </section>
 </template>
@@ -103,7 +113,8 @@ import type {
   VillageCharachipCreateBody,
   VillageRuleCreateBody,
   VillageTagCreateBody,
-  VillageMessageRestrictCreateBody
+  VillageMessageRestrictCreateBody,
+  Chara
 } from '~/lib/api/types'
 import type { CreateVillageFormData } from '~/components/pages/create-village/types'
 import { MESSAGE_TYPE } from '~/lib/api/message-constants'
@@ -116,6 +127,8 @@ import RuleSection from '~/components/pages/create-village/rule-section.vue'
 import MessageRestrictionSection from '~/components/pages/create-village/message-restriction-section.vue'
 import JoinPasswordSection from '~/components/pages/create-village/join-password-section.vue'
 import RpSection from '~/components/pages/create-village/rp-section.vue'
+import PreviewModal from '~/components/pages/create-village/preview-modal.vue'
+import Alert from '~/components/ui/feedback/Alert.vue'
 
 // SEO設定
 useHead({
@@ -128,6 +141,12 @@ const router = useRouter()
 // API呼び出し用のステート
 const isLoading = ref(false)
 const errors = ref<string | null>(null)
+
+// プレビューモーダルの状態
+const isPreviewModalOpen = ref(false)
+const isConfirming = ref(false)
+const selectedCharachipName = ref('')
+const selectedDummyChara = ref<Chara | null>(null)
 
 // vee-validate設定
 const { validationSchema, loadSkills } = useVillageFormValidation()
@@ -325,11 +344,82 @@ const handleSubmit = veeHandleSubmit(async (_values) => {
   }
 })
 
-// キャンセル処理
-const handleCancel = () => {
-  if (confirm('入力内容を破棄してトップページに戻りますか？')) {
-    router.push('/')
+// 確認ボタンの処理
+const handleConfirm = async () => {
+  isConfirming.value = true
+  errors.value = null
+
+  try {
+    // バリデーションチェック
+    const isValid = await meta.value.valid
+    if (!isValid) {
+      errors.value = '入力内容に誤りがあります。各項目を確認してください。'
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      return
+    }
+
+    // キャラチップ名を取得
+    await loadCharachipName()
+
+    // ダミーキャラ情報を取得
+    await loadDummyCharaInfo()
+
+    // プレビューモーダルを開く
+    isPreviewModalOpen.value = true
+  } catch (error) {
+    console.error('Failed to load preview data:', error)
+    errors.value = 'プレビューの読み込みに失敗しました'
+  } finally {
+    isConfirming.value = false
   }
+}
+
+// キャラチップ名を取得
+const loadCharachipName = async () => {
+  try {
+    const { apiCall } = useApi()
+    if (formData.charachipIds && formData.charachipIds.length > 0) {
+      const charachipId = formData.charachipIds[0]
+      const response = await apiCall<{ name: string }>(
+        `/charachips/${charachipId}`,
+        { method: 'GET' }
+      )
+      selectedCharachipName.value = response?.name || ''
+    }
+  } catch (error) {
+    console.error('Failed to load charachip name:', error)
+  }
+}
+
+// ダミーキャラ情報を取得
+const loadDummyCharaInfo = async () => {
+  try {
+    const { apiCall } = useApi()
+    if (formData.dummyCharaId) {
+      const response = await apiCall<Chara>(`/chara/${formData.dummyCharaId}`, {
+        method: 'GET'
+      })
+
+      if (response) {
+        selectedDummyChara.value = response
+
+        // フォームデータにも反映（まだ入力されていない場合）
+        if (!formData.dummyCharaName) {
+          setFieldValue('dummyCharaName', response.chara_name.name)
+        }
+        if (!formData.dummyCharaShortName) {
+          setFieldValue('dummyCharaShortName', response.chara_name.short_name)
+        }
+      }
+    }
+  } catch (error) {
+    console.error('Failed to load dummy chara info:', error)
+  }
+}
+
+// プレビューモーダルを閉じる
+const closePreviewModal = () => {
+  isPreviewModalOpen.value = false
 }
 
 // 初期化時に役職情報を取得
