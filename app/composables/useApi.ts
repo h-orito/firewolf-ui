@@ -38,7 +38,10 @@ export const useApi = () => {
       const fetchError = error as FetchError<{ status?: number }>
       const status = fetchError.status || fetchError.statusCode
 
-      if (status === 404 && fetchError.data?.status === 499) {
+      if (
+        (status === 400 || status === 404) &&
+        fetchError.data?.status === 499
+      ) {
         // Business errorは個別にハンドリングするので再スロー
         throw error
       }

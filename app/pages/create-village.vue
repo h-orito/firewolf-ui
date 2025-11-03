@@ -325,13 +325,10 @@ const handleSubmit = veeHandleSubmit(async (_values) => {
   try {
     const requestBody = createRequestBody()
     const { apiCall } = useApi()
-    const response = await apiCall<{ village_id: number }>(
-      '/village/register',
-      {
-        method: 'POST',
-        body: requestBody
-      }
-    )
+    const response = await apiCall<{ village_id: number }>('/village', {
+      method: 'POST',
+      body: requestBody
+    })
 
     // 成功時は村ページにリダイレクト
     await router.push(`/village?id=${response?.village_id}`)
@@ -358,6 +355,14 @@ const handleConfirm = async () => {
       return
     }
 
+    // サーバー側バリデーションチェック
+    const requestBody = createRequestBody()
+    const { apiCall } = useApi()
+    await apiCall('/village/confirm', {
+      method: 'POST',
+      body: requestBody
+    })
+
     // キャラチップ名を取得
     await loadCharachipName()
 
@@ -367,8 +372,18 @@ const handleConfirm = async () => {
     // プレビューモーダルを開く
     isPreviewModalOpen.value = true
   } catch (error) {
-    console.error('Failed to load preview data:', error)
-    errors.value = 'プレビューの読み込みに失敗しました'
+    console.error('Failed to confirm village settings:', error)
+    // FetchErrorからビジネスエラーメッセージを取得
+    const fetchError = error as { data?: { status?: number; message?: string } }
+    if (fetchError.data?.status === 499 && fetchError.data?.message) {
+      errors.value = fetchError.data.message
+    } else {
+      errors.value =
+        error instanceof Error
+          ? error.message
+          : '入力内容の確認に失敗しました。入力内容を確認してください。'
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   } finally {
     isConfirming.value = false
   }
