@@ -77,6 +77,36 @@ export const useVillageFormValidation = () => {
       .max(1000, '1日目発言は1000文字以内で入力してください'),
 
     // 編成
+    capacityMin: yup
+      .number()
+      .required('最小人数は必須です')
+      .min(5, '最小人数は5人以上で設定してください')
+      .max(999, '最小人数は999人以下で設定してください')
+      .test(
+        'capacity-min-max',
+        '最小人数は最大人数以下である必要があります',
+        function (value) {
+          const { capacityMax } = this.parent
+          if (!value || !capacityMax) return true
+          return value <= capacityMax
+        }
+      ),
+
+    capacityMax: yup
+      .number()
+      .required('最大人数は必須です')
+      .min(5, '最大人数は5人以上で設定してください')
+      .max(999, '最大人数は999人以下で設定してください')
+      .test(
+        'capacity-max-min',
+        '最大人数は最小人数以上である必要があります',
+        function (value) {
+          const { capacityMin } = this.parent
+          if (!value || !capacityMin) return true
+          return value >= capacityMin
+        }
+      ),
+
     organization: yup
       .string()
       .required('編成は必須です')
@@ -315,9 +345,7 @@ export const useVillageFormValidation = () => {
       .max(20, 'パスワードは20文字以内で入力してください'),
 
     // RP設定
-    ageLimit: yup.string().oneOf(['ALL', 'R15', 'R18']),
-    actionCountLimit: yup.string(),
-    actionCharacterLimit: yup.string()
+    ageLimit: yup.string().oneOf(['ALL', 'R15', 'R18'])
   })
 
   return {

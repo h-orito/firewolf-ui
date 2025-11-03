@@ -18,6 +18,8 @@ export interface CreateVillageFormData {
   day1Message: string
 
   // 編成
+  capacityMin: number
+  capacityMax: number
   organization: string
   availableDummySkill: boolean
 
@@ -56,6 +58,4 @@ export interface CreateVillageFormData {
 
   // RP設定
   ageLimit: string
-  actionCountLimit: string
-  actionCharacterLimit: string
 }

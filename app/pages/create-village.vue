@@ -184,6 +184,8 @@ const {
     day1Message: '',
 
     // 編成
+    capacityMin: 10,
+    capacityMax: 16,
     organization: '',
     availableDummySkill: false,
 
@@ -221,9 +223,7 @@ const {
     joinPassword: '',
 
     // RP設定
-    ageLimit: 'ALL' as const,
-    actionCountLimit: '40',
-    actionCharacterLimit: '200'
+    ageLimit: 'ALL' as const
   }
 })
 

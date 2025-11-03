@@ -124,14 +124,14 @@
               placeholder="40"
               required
               class="w-full"
-              :color="props.errors?.actionCountLimit ? 'error' : undefined"
-              @blur="validateField('actionCountLimit')"
+              :color="props.errors?.actionCount ? 'error' : undefined"
+              @blur="validateField('actionCount')"
             />
             <p
-              v-if="props.errors?.actionCountLimit"
+              v-if="props.errors?.actionCount"
               class="mt-1 text-xs text-red-600"
             >
-              {{ props.errors.actionCountLimit }}
+              {{ props.errors.actionCount }}
             </p>
           </div>
           <div>
@@ -146,14 +146,14 @@
               placeholder="200"
               required
               class="w-full"
-              :color="props.errors?.actionCharacterLimit ? 'error' : undefined"
-              @blur="validateField('actionCharacterLimit')"
+              :color="props.errors?.actionLength ? 'error' : undefined"
+              @blur="validateField('actionLength')"
             />
             <p
-              v-if="props.errors?.actionCharacterLimit"
+              v-if="props.errors?.actionLength"
               class="mt-1 text-xs text-red-600"
             >
-              {{ props.errors.actionCharacterLimit }}
+              {{ props.errors.actionLength }}
             </p>
           </div>
         </div>
@@ -253,24 +253,24 @@ const availableSecretSay = computed({
 // アクション可能
 const availableAction = computed({
   get: () => props.formData.availableAction,
-  set: (value: number | string) => {
-    updateField('spectateCount', value === '' ? 0 : Number(value))
+  set: (value: boolean) => {
+    updateField('availableAction', value)
   }
 })
 
 // アクション回数制限
 const actionCountLimit = computed({
-  get: () => props.formData.actionCountLimit,
-  set: (value: string) => {
-    updateField('actionCountLimit', value)
+  get: () => props.formData.actionCount,
+  set: (value: number | string) => {
+    updateField('actionCount', value === '' ? 0 : Number(value))
   }
 })
 
 // アクション文字数
 const actionCharacterLimit = computed({
-  get: () => props.formData.actionCharacterLimit,
+  get: () => props.formData.actionLength,
   set: (value: number | string) => {
-    updateField('spectateLength', value === '' ? 0 : Number(value))
+    updateField('actionLength', value === '' ? 0 : Number(value))
   }
 })
 </script>

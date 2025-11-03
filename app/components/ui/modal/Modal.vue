@@ -2,8 +2,8 @@
   <UModal
     v-model:open="isModalOpen"
     :ui="{
-      wrapper:
-        'sm:max-w-lg md:max-w-xl lg:max-w-2xl max-h-[calc(100vh-6.5rem)]',
+      wrapper: 'max-h-[calc(100vh-6.5rem)]',
+      content: 'sm:max-w-lg md:max-w-[80vw] overflow-y-auto',
       overlay: 'bg-black/75'
     }"
   >

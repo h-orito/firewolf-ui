@@ -38,8 +38,16 @@
           placeholder="最小人数"
           required
           class="w-32"
+          :color="errors?.capacityMin ? 'error' : undefined"
+          @blur="validateField('capacityMin')"
         />
-        <p class="mt-1 text-xs text-gray-500">
+        <p
+          v-if="errors?.capacityMin"
+          class="mt-1 text-xs text-red-600"
+        >
+          {{ errors.capacityMin }}
+        </p>
+        <p v-else class="mt-1 text-xs text-gray-500">
           開始時点でこの人数が集まると進行中に遷移します
         </p>
       </div>
@@ -57,8 +65,16 @@
           placeholder="定員"
           required
           class="w-32"
+          :color="errors?.capacityMax ? 'error' : undefined"
+          @blur="validateField('capacityMax')"
         />
-        <p class="mt-1 text-xs text-gray-500">
+        <p
+          v-if="errors?.capacityMax"
+          class="mt-1 text-xs text-red-600"
+        >
+          {{ errors.capacityMax }}
+        </p>
+        <p v-else class="mt-1 text-xs text-gray-500">
           この人数まで参加することができます
         </p>
       </div>
@@ -150,10 +166,16 @@ const validateField = (field: keyof CreateVillageFormData) => {
 }
 
 // 最小人数
-const capacityMin = ref(10)
+const capacityMin = computed({
+  get: () => props.formData.capacityMin,
+  set: (value: number) => updateField('capacityMin', value)
+})
 
 // 定員
-const capacityMax = ref(16)
+const capacityMax = computed({
+  get: () => props.formData.capacityMax,
+  set: (value: number) => updateField('capacityMax', value)
+})
 
 // 人数ごとの編成を生成
 const generateOrganization = () => {

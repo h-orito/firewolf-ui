@@ -173,26 +173,16 @@ const settings = computed<Setting[]>(() => {
 
 // 定員設定の追加
 const addCapacitySetting = (settings: Setting[]) => {
-  const org = props.formData.organization
-  if (!org) return
-
-  const lines = org.split('\n').filter((line) => line.trim())
-  if (lines.length === 0) return
-
-  const counts = lines.map((line) => line.length)
-  const min = Math.min(...counts)
-  const max = Math.max(...counts)
-
   settings.push({
     name: '最低人数',
-    value: `${min}人`,
+    value: `${props.formData.capacityMin}人`,
     description:
       '開始予定日時時点でこの人数が集まると進行中に遷移します（集まらなければ廃村となります）。\nダミーを含む人数です。'
   })
 
   settings.push({
     name: '最大人数',
-    value: `${max}人`,
+    value: `${props.formData.capacityMax}人`,
     description: 'この人数まで参加することができます。\nダミーを含む人数です。'
   })
 }
