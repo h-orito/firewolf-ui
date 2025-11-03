@@ -1,6 +1,7 @@
 <template>
   <UModal
     v-model:open="isModalOpen"
+    :title="title"
     :ui="{
       wrapper: 'max-h-[calc(100vh-6.5rem)]',
       content: 'sm:max-w-lg md:max-w-[80vw] overflow-y-auto',
