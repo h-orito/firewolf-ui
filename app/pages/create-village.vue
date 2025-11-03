@@ -276,6 +276,14 @@ const createRequestBody = (): VillageRegisterBody => {
     }
   ]
 
+  // 編成データから人数部分を除去（例: "10人：狼狼占霊狩狂村村村村" → "狼狼占霊狩狂村村村村"）
+  const formatOrganization = (org: string): string => {
+    return org
+      .split('\n')
+      .map((line) => line.replace(/^\d+人[：:]\s*/, ''))
+      .join('\n')
+  }
+
   return {
     village_name: formData.villageName,
     setting: {
@@ -284,8 +292,7 @@ const createRequestBody = (): VillageRegisterBody => {
         silent_hours: formData.silentHours
       } as VillageTimeCreateBody,
       organization: {
-        organization: formData.organization
-        // TODO: 編成の詳細設定を追加
+        organization: formatOrganization(formData.organization)
       } as VillageOrganizationCreateBody,
       charachip: {
         charachip_ids: formData.charachipIds,
