@@ -44,7 +44,7 @@
   - `CheckboxField.vue` - チェックボックス
 
 - `/components/ui/modal/`
-  - `BaseModal.vue` - モーダルの基本実装
+  - `Modal.vue` - モーダルの基本実装
   - `ConfirmModal.vue` - 確認ダイアログ
   - `AlertModal.vue` - アラートダイアログ
 - `/components/ui/feedback/`

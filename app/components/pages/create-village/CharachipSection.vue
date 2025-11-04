@@ -48,6 +48,16 @@
         @change="validateField('dummyCharaId')"
       >
       </USelectMenu>
+      <div class="mt-2 flex justify-end">
+        <UiButton
+          size="sm"
+          color="primary"
+          :disabled="charas.length === 0"
+          @click="openCharaSelectModal"
+        >
+          画像から選ぶ
+        </UiButton>
+      </div>
       <p v-if="errors?.dummyCharaId" class="mt-1 text-xs text-red-600">
         {{ errors.dummyCharaId }}
       </p>
@@ -101,11 +111,21 @@
         </p>
       </div>
     </div>
+
+    <!-- キャラ選択モーダル -->
+    <CharaSelectModal
+      :is-open="isCharaSelectModalOpen"
+      :charas="charas"
+      @select="handleCharaSelect"
+      @close="isCharaSelectModalOpen = false"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import Alert from '~/components/ui/feedback/Alert.vue'
+import UiButton from '~/components/ui/button/index.vue'
+import CharaSelectModal from './CharaSelectModal.vue'
 import type {
   CharachipView,
   CharachipsView,
@@ -195,6 +215,21 @@ const dummyCharaShortName = computed({
 // フィールドバリデーション
 const validateField = (field: keyof CreateVillageFormData) => {
   emit('validate:field', field)
+}
+
+// キャラ選択モーダル
+const isCharaSelectModalOpen = ref(false)
+
+const openCharaSelectModal = () => {
+  isCharaSelectModalOpen.value = true
+}
+
+const handleCharaSelect = (chara: Chara) => {
+  selectedDummyChara.value = {
+    value: chara.id,
+    label: chara.chara_name.name
+  }
+  isCharaSelectModalOpen.value = false
 }
 
 const loadCharachips = async () => {
