@@ -29,6 +29,7 @@
         <!-- ダミーキャラ発言設定 -->
         <DummyMessageSection
           :form-data="formData"
+          :selected-chara="selectedDummyChara"
           :errors="fieldErrors"
           @update:field="setFieldValue"
           @validate:field="validateField"
@@ -443,6 +444,18 @@ const loadDummyCharaInfo = async () => {
 const closePreviewModal = () => {
   isPreviewModalOpen.value = false
 }
+
+// ダミーキャラIDが変更されたら情報を取得
+watch(
+  () => formData.dummyCharaId,
+  async (newId) => {
+    if (newId) {
+      await loadDummyCharaInfo()
+    } else {
+      selectedDummyChara.value = null
+    }
+  }
+)
 
 // 初期化時に役職情報を取得
 onMounted(() => {

@@ -15,36 +15,35 @@
         プロローグでの発言内容 <span class="text-red-500">*</span>
       </label>
 
-      <!-- キャラクタープレビュー -->
-      <div
-        v-if="selectedChara"
-        class="mb-3 flex items-start rounded-lg bg-gray-50 p-3"
-      >
-        <img
-          v-if="selectedChara.face_list?.[0]?.image_url"
-          :src="selectedChara.face_list[0].image_url"
-          :alt="selectedChara.chara_name.name"
-          class="mr-3 h-16 w-16 object-contain"
-        />
-        <div class="flex-1">
-          <p class="text-sm font-medium">
-            {{ formData.dummyCharaName || selectedChara.chara_name.name }}
-          </p>
-          <p class="text-xs text-gray-500">プロローグでの発言プレビュー</p>
+      <!-- キャラクター名と入力エリア -->
+      <div v-if="selectedChara" class="mb-3">
+        <!-- キャラクター名 -->
+        <div class="mb-1 text-left text-xs font-bold">
+          [{{
+            formData.dummyCharaShortName || selectedChara.chara_name.short_name
+          }}]
+          {{ formData.dummyCharaName || selectedChara.chara_name.name }}
+        </div>
+        <!-- 画像とテキストエリア -->
+        <div class="flex gap-2">
+          <div class="flex-shrink-0">
+            <CharaImage :chara="selectedChara" face-type="NORMAL" />
+          </div>
+          <div class="flex-1">
+            <UTextarea
+              :model-value="formData.day0Message"
+              placeholder="プロローグでダミーキャラが発言する内容を入力してください"
+              :rows="4"
+              :maxlength="1000"
+              required
+              class="w-full"
+              :color="errors?.day0Message ? 'error' : undefined"
+              @update:model-value="updateField('day0Message', $event)"
+              @blur="validateField('day0Message')"
+            />
+          </div>
         </div>
       </div>
-
-      <UTextarea
-        :model-value="formData.day0Message"
-        placeholder="プロローグでダミーキャラが発言する内容を入力してください"
-        :rows="4"
-        :maxlength="1000"
-        required
-        class="w-full"
-        :color="errors?.day0Message ? 'error' : undefined"
-        @update:model-value="updateField('day0Message', $event)"
-        @blur="validateField('day0Message')"
-      />
       <p v-if="errors?.day0Message" class="mt-1 text-xs text-red-600">
         {{ errors.day0Message }}
       </p>
@@ -61,35 +60,34 @@
         1日目の発言内容
       </label>
 
-      <!-- キャラクタープレビュー -->
-      <div
-        v-if="selectedChara"
-        class="mb-3 flex items-start rounded-lg bg-gray-50 p-3"
-      >
-        <img
-          v-if="selectedChara.face_list?.[0]?.image_url"
-          :src="selectedChara.face_list[0].image_url"
-          :alt="selectedChara.chara_name.name"
-          class="mr-3 h-16 w-16 object-contain"
-        />
-        <div class="flex-1">
-          <p class="text-sm font-medium">
-            {{ formData.dummyCharaName || selectedChara.chara_name.name }}
-          </p>
-          <p class="text-xs text-gray-500">1日目の発言プレビュー</p>
+      <!-- キャラクター名と入力エリア -->
+      <div v-if="selectedChara" class="mb-3">
+        <!-- キャラクター名 -->
+        <div class="mb-1 text-left text-xs font-bold">
+          [{{
+            formData.dummyCharaShortName || selectedChara.chara_name.short_name
+          }}]
+          {{ formData.dummyCharaName || selectedChara.chara_name.name }}
+        </div>
+        <!-- 画像とテキストエリア -->
+        <div class="flex gap-2">
+          <div class="flex-shrink-0">
+            <CharaImage :chara="selectedChara" face-type="NORMAL" />
+          </div>
+          <div class="flex-1">
+            <UTextarea
+              :model-value="formData.day1Message"
+              placeholder="1日目にダミーキャラが発言する内容を入力してください（任意）"
+              :rows="4"
+              :maxlength="1000"
+              class="w-full"
+              :color="errors?.day1Message ? 'error' : undefined"
+              @update:model-value="updateField('day1Message', $event)"
+              @blur="validateField('day1Message')"
+            />
+          </div>
         </div>
       </div>
-
-      <UTextarea
-        :model-value="formData.day1Message"
-        placeholder="1日目にダミーキャラが発言する内容を入力してください（任意）"
-        :rows="4"
-        :maxlength="1000"
-        class="w-full"
-        :color="errors?.day1Message ? 'error' : undefined"
-        @update:model-value="updateField('day1Message', $event)"
-        @blur="validateField('day1Message')"
-      />
       <p v-if="errors?.day1Message" class="mt-1 text-xs text-red-600">
         {{ errors.day1Message }}
       </p>
@@ -110,11 +108,13 @@
 
 <script setup lang="ts">
 import Alert from '~/components/ui/feedback/Alert.vue'
-import type { CharaView } from '~/lib/api/types'
+import CharaImage from '~/components/pages/village/CharaImage.vue'
+import type { Chara } from '~/lib/api/types'
 import type { CreateVillageFormData } from './types'
 
 interface Props {
   formData: CreateVillageFormData
+  selectedChara?: Chara | null
   errors?: Partial<Record<string, string | undefined>>
 }
 
@@ -141,18 +141,6 @@ const validateField = (field: keyof CreateVillageFormData) => {
   emit('validate:field', field)
 }
 
-// 選択されたダミーキャラ情報（実際にはpropsまたはAPIから取得）
-const selectedChara = ref<CharaView | null>(null)
-
-// ダミーキャラIDが変更されたら情報を取得
-watch(
-  () => props.formData.dummyCharaId,
-  async (newId) => {
-    if (newId) {
-      // 実際にはAPIから取得するか、親コンポーネントから受け取る
-      // ここではモックデータを設定
-      selectedChara.value = null
-    }
-  }
-)
+// 選択されたダミーキャラ（propsから取得）
+const selectedChara = computed(() => props.selectedChara)
 </script>
