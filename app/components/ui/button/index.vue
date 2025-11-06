@@ -44,7 +44,10 @@ const props = withDefaults(defineProps<Props>(), {
   disabled: false,
   loading: false,
   block: false,
-  type: 'button'
+  icon: undefined,
+  trailingIcon: undefined,
+  type: 'button',
+  class: undefined
 })
 
 defineEmits<{
