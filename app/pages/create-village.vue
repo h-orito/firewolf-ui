@@ -232,10 +232,22 @@ const {
   }
 })
 
+// 日時をローカル形式(YYYY-MM-DDTHH:mm:ss)にフォーマット
+// サーバー側がLocalDateTimeで受け取っているため、タイムゾーン情報なしで送信
+const formatLocalDateTime = (date: Date): string => {
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  const hours = String(date.getHours()).padStart(2, '0')
+  const minutes = String(date.getMinutes()).padStart(2, '0')
+  const seconds = String(date.getSeconds()).padStart(2, '0')
+  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`
+}
+
 // API送信用のデータ形式に変換
 const createRequestBody = (): VillageRegisterBody => {
-  // startDatetimeをISO形式に変換
-  const formattedStartDatetime = formData.startDatetime.toISOString()
+  // startDatetimeをJSTのローカル日時形式に変換（タイムゾーン情報なし）
+  const formattedStartDatetime = formatLocalDateTime(formData.startDatetime)
 
   // 発言制限配列を作成
   const restrictList: VillageMessageRestrictCreateBody[] = [
