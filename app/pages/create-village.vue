@@ -13,66 +13,66 @@
         <!-- 基本情報セクション -->
         <BasicInfoSection
           :form-data="formData"
-          :errors="fieldErrors"
+          :errors="visibleErrors"
           @update:field="setFieldValue"
-          @validate:field="validateField"
+          @validate:field="markFieldAsTouched"
         />
 
         <!-- キャラチップセクション -->
         <CharachipSection
           :form-data="formData"
-          :errors="fieldErrors"
+          :errors="visibleErrors"
           @update:field="setFieldValue"
-          @validate:field="validateField"
+          @validate:field="markFieldAsTouched"
         />
 
         <!-- ダミーキャラ発言設定 -->
         <DummyMessageSection
           :form-data="formData"
           :selected-chara="selectedDummyChara"
-          :errors="fieldErrors"
+          :errors="visibleErrors"
           @update:field="setFieldValue"
-          @validate:field="validateField"
+          @validate:field="markFieldAsTouched"
         />
 
         <!-- 編成設定セクション -->
         <OrganizationSection
           :form-data="formData"
-          :errors="fieldErrors"
+          :errors="visibleErrors"
           @update:field="setFieldValue"
-          @validate:field="validateField"
+          @validate:field="markFieldAsTouched"
         />
 
         <!-- 詳細ルール設定 -->
         <RuleSection
           :form-data="formData"
-          :errors="fieldErrors"
+          :errors="visibleErrors"
           @update:field="setFieldValue"
-          @validate:field="validateField"
+          @validate:field="markFieldAsTouched"
         />
 
         <!-- 発言制限設定 -->
         <MessageRestrictionSection
           :form-data="formData"
-          :errors="fieldErrors"
+          :errors="visibleErrors"
           @update:field="setFieldValue"
-          @validate:field="validateField"
+          @validate:field="markFieldAsTouched"
         />
 
         <!-- 参加パスワード設定 -->
         <JoinPasswordSection
           :form-data="formData"
-          :errors="fieldErrors"
+          :errors="visibleErrors"
           @update:field="setFieldValue"
-          @validate:field="validateField"
+          @validate:field="markFieldAsTouched"
         />
 
         <!-- RP設定 -->
         <RpSection
           :form-data="formData"
-          :errors="fieldErrors"
+          :errors="visibleErrors"
           @update:field="setFieldValue"
-          @validate:field="validateField"
+          @validate:field="markFieldAsTouched"
         />
 
         <!-- 送信ボタン -->
@@ -152,6 +152,10 @@ const selectedDummyChara = ref<Chara | null>(null)
 // vee-validate設定
 const { validationSchema, loadSkills } = useVillageFormValidation()
 
+// touched状態の管理
+const touchedFields = ref<Set<string>>(new Set())
+const isSubmitted = ref(false)
+
 // vee-validateフォーム初期化
 const {
   values: formData,
@@ -159,7 +163,7 @@ const {
   meta,
   handleSubmit: veeHandleSubmit,
   setFieldValue,
-  validateField
+  setFieldTouched
 } = useForm<CreateVillageFormData>({
   validationSchema: toTypedSchema(validationSchema),
   initialValues: {
@@ -349,10 +353,48 @@ const handleSubmit = veeHandleSubmit(async (_values) => {
   }
 })
 
+// フィールドをtouchedにする
+const markFieldAsTouched = (fieldName: string) => {
+  touchedFields.value.add(fieldName)
+  // vee-validateのsetFieldTouchedは文字列を受け付けるため、型アサーションが必要
+  setFieldTouched(fieldName as keyof CreateVillageFormData, true)
+}
+
+// 全フィールドをtouchedにする
+const markAllFieldsAsTouched = () => {
+  const allFieldNames = Object.keys(formData) as Array<
+    keyof CreateVillageFormData
+  >
+  allFieldNames.forEach((fieldName) => {
+    setFieldTouched(fieldName, true)
+  })
+  isSubmitted.value = true
+}
+
+// エラーを表示すべきかどうかを判断
+const shouldShowError = (fieldName: string): boolean => {
+  return isSubmitted.value || touchedFields.value.has(fieldName)
+}
+
+// 表示用のエラーオブジェクトを計算
+const visibleErrors = computed(() => {
+  const result: Record<string, string> = {}
+  const errorEntries = Object.entries(fieldErrors.value)
+  errorEntries.forEach(([key, value]) => {
+    if (shouldShowError(key) && value) {
+      result[key] = value as string
+    }
+  })
+  return result
+})
+
 // 確認ボタンの処理
 const handleConfirm = async () => {
   isConfirming.value = true
   errors.value = null
+
+  // 全フィールドをtouchedにする
+  markAllFieldsAsTouched()
 
   try {
     // バリデーションチェック
