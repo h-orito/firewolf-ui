@@ -104,7 +104,7 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
 
 ###### 1.2 Composablesの実装
 
-- [ ] `composables/village/useVillage.ts` の作成
+- [x] `composables/village/useVillage.ts` の作成
   - 村情報の取得・管理
   - `GET /api/village/{villageId}` の呼び出し
   - ローディング・エラー状態管理
