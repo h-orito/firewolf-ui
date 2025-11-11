@@ -71,6 +71,21 @@ export type VillageTagCreateBody = components['schemas']['VillageTagCreateBody']
 export type VillageMessageRestrictCreateBody =
   components['schemas']['VillageMessageRestrictCreateBody']
 
+// 村の日付関連型
+export type VillageDayView = components['schemas']['VillageDayView']
+export type VillageDaysView = components['schemas']['VillageDaysView']
+
+// 参加状況関連型
+export type SituationAsParticipantView =
+  components['schemas']['SituationAsParticipantView']
+
+// メッセージ関連型
+export type MessagesView = components['schemas']['MessagesView']
+
+// 最新情報関連型
+export type VillageLatestView = components['schemas']['VillageLatestView']
+export type VillageLatestForm = components['schemas']['VillageLatestForm']
+
 // その他
 export type Camp = components['schemas']['Camp']
 export type CampRecord = components['schemas']['CampRecord']

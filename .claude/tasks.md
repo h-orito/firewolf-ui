@@ -97,7 +97,7 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
 
 ###### 1.1 型定義の確認
 
-- [ ] API型定義の確認
+- [x] API型定義の確認
   - `lib/api/types.ts` の確認（自動生成される型定義）
   - Village型、Messages型、SituationAsParticipant型等が利用可能か確認
   - 型定義は自動生成されるため手動での追加は不要
