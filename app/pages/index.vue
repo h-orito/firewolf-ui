@@ -8,7 +8,7 @@
 
     <!-- プレイヤー統計 -->
     <PlayerStats
-      :user="user"
+      :user="auth.myselfPlayer.value"
       :is-loading="loadingAuth"
       @signin-with-twitter="signinWithTwitter"
       @signin-with-google="signinWithGoogle"
@@ -55,10 +55,8 @@
 </template>
 
 <script setup lang="ts">
-import type { VillagesView, MyselfPlayerView } from '~/lib/api/types'
-import type { UserCredential } from 'firebase/auth'
+import type { VillagesView } from '~/lib/api/types'
 import { VILLAGE_STATUS } from '~/lib/api/village-status-constants'
-import { useAuthStore } from '~/stores/auth'
 import VillageCard from '~/components/pages/index/VillageCard.vue'
 import Spotlight from '~/components/pages/index/Spotlight.vue'
 import Intro from '~/components/pages/index/Intro.vue'
@@ -101,12 +99,6 @@ const isLoadingVillages = ref(false)
 const error = ref<string | null>(null)
 const villages = ref<VillagesView | null>(null)
 const loadingAuth = ref(true)
-const user = ref<MyselfPlayerView | null>(null)
-
-// 村作成可能かどうか
-const canCreateVillage = computed(() => {
-  return user.value?.available_create_village ?? false
-})
 
 // 村データ取得
 const fetchVillages = async () => {
@@ -137,14 +129,19 @@ const fetchVillages = async () => {
 }
 
 // 認証処理
-const authStore = useAuthStore()
+const auth = useAuth()
+
+// 村作成可能かどうか
+const canCreateVillage = computed(() => {
+  return auth.myselfPlayer.value?.available_create_village ?? false
+})
 
 const signinWithTwitter = async () => {
   try {
-    const result = await authStore.signInWithTwitter()
+    const result = await auth.signInWithTwitter()
     if (result?.user) {
-      await registerUserIfNeeded(result)
-      await refreshAuth()
+      await auth.registerUserIfNeeded(result)
+      await auth.refreshAuth()
       window.location.reload()
     }
   } catch (err) {
@@ -154,10 +151,10 @@ const signinWithTwitter = async () => {
 
 const signinWithGoogle = async () => {
   try {
-    const result = await authStore.signInWithGoogle()
+    const result = await auth.signInWithGoogle()
     if (result?.user) {
-      await registerUserIfNeeded(result)
-      await refreshAuth()
+      await auth.registerUserIfNeeded(result)
+      await auth.refreshAuth()
       window.location.reload()
     }
   } catch (err) {
@@ -167,9 +164,9 @@ const signinWithGoogle = async () => {
 
 const linkWithTwitter = async () => {
   try {
-    const result = await authStore.linkWithTwitter()
+    const result = await auth.linkWithTwitter()
     if (result) {
-      await refreshAuth()
+      await auth.refreshAuth()
       window.location.reload()
     }
   } catch (err) {
@@ -179,9 +176,9 @@ const linkWithTwitter = async () => {
 
 const linkWithGoogle = async () => {
   try {
-    const result = await authStore.linkWithGoogle()
+    const result = await auth.linkWithGoogle()
     if (result) {
-      await refreshAuth()
+      await auth.refreshAuth()
       window.location.reload()
     }
   } catch (err) {
@@ -191,87 +188,22 @@ const linkWithGoogle = async () => {
 
 const logout = async () => {
   try {
-    await authStore.logout()
+    await auth.logout()
     window.location.reload()
   } catch (err) {
     console.error('Logout failed:', err)
   }
 }
 
-// ユーザー登録処理
-const registerUserIfNeeded = async (result: UserCredential) => {
-  if (!result?.user) return
-
-  const firebaseUser = result.user
-  let twitterUsername: string | null = null
-
-  // Twitter usernameを取得
-  type FirebaseUserWithReloadInfo = typeof firebaseUser & {
-    reloadUserInfo?: {
-      providerUserInfo?: Array<{
-        providerId: string
-        screenName?: string
-      }>
-    }
-  }
-  const firebaseUserWithInfo = firebaseUser as FirebaseUserWithReloadInfo
-  twitterUsername =
-    firebaseUserWithInfo.reloadUserInfo?.providerUserInfo?.find(
-      (providerUserInfo) => providerUserInfo.providerId === 'twitter.com'
-    )?.screenName ?? null
-
-  // APIでユーザー登録
-  if (twitterUsername || firebaseUser.uid) {
-    try {
-      await apiCall('/player', {
-        method: 'POST',
-        body: {
-          uid: firebaseUser.uid,
-          twitter_user_name: twitterUsername
-        }
-      })
-    } catch (error) {
-      console.error('Failed to register user:', error)
-    }
-  }
-
-  // トークンをCookieに保存
-  const idToken = await firebaseUser.getIdToken(false)
-  const idTokenCookie = useCookie('id-token', {
-    maxAge: 60 * 60 * 24 * 30,
-    sameSite: 'strict'
-  })
-  idTokenCookie.value = idToken
-
-  // 1時間で有効期限が切れるので50分後に再取得させる
-  const checkDateCookie = useCookie('id-token-check-date', {
-    maxAge: 60 * 60 * 24 * 30,
-    sameSite: 'strict'
-  })
-  const now = new Date()
-  now.setMinutes(now.getMinutes() + 50)
-  checkDateCookie.value = now.toISOString()
-}
-
-// 認証情報の更新
-const refreshAuth = async () => {
-  try {
-    const myPlayer = await apiCall<MyselfPlayerView>('/my-player')
-    user.value = myPlayer
-  } catch (error) {
-    console.error('Failed to fetch player:', error)
-  }
-}
-
 // 初期データ取得
 onMounted(async () => {
   // 認証を初期化して待機
-  authStore.initializeAuth()
-  const firebaseUser = await authStore.waitForAuth()
+  auth.initializeAuth()
+  const firebaseUser = await auth.waitForAuth()
 
   // 認証済みの場合、プレイヤー情報を取得
   if (firebaseUser) {
-    await refreshAuth()
+    await auth.refreshAuth()
   }
 
   loadingAuth.value = false

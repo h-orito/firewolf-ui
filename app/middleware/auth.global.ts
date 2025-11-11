@@ -1,9 +1,9 @@
 export default defineNuxtRouteMiddleware((to) => {
-  const authStore = useAuthStore()
+  const auth = useAuth()
 
   // 初期化されていない場合は初期化
-  if (!authStore.isLoading) {
-    authStore.initializeAuth()
+  if (!auth.isLoading) {
+    auth.initializeAuth()
   }
 
   // 認証が必要なルートのパスを定義
@@ -14,7 +14,7 @@ export default defineNuxtRouteMiddleware((to) => {
     to.path.startsWith(path)
   )
 
-  if (requiresAuth && !authStore.isAuthenticated && !authStore.isLoading) {
+  if (requiresAuth && !auth.isAuthenticated && !auth.isLoading) {
     // 認証が必要だが未認証の場合はトップページへリダイレクト
     return navigateTo('/')
   }
