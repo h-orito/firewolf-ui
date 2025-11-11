@@ -14,7 +14,7 @@ export default defineNuxtRouteMiddleware((to) => {
     to.path.startsWith(path)
   )
 
-  if (requiresAuth && !auth.isAuthenticated && !auth.isLoading) {
+  if (requiresAuth && !auth.isAuthenticated.value) {
     // 認証が必要だが未認証の場合はトップページへリダイレクト
     return navigateTo('/')
   }
