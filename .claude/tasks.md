@@ -180,12 +180,7 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
   - ユーザー設定状態管理
   - Actions定義（updateSettings）
 
-###### 1.4 レイアウトとコンポーネントの基本実装
-
-- [ ] `layouts/VillageLayout.vue` の作成
-  - サイドバー・ヘッダー・メイン・フッターの配置
-  - レスポンシブ対応（PC: サイドバー左固定、Mobile: オーバーレイ）
-  - サイドバーの表示切り替え制御
+###### 1.4 村ページレイアウトコンポーネントの作成
 
 - [ ] `components/village/VillageHeader.vue` の作成
   - 日付切り替えボタン（前日・翌日）
@@ -212,7 +207,11 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
   - URLクエリパラメータ `id` の取得
   - Firebase認証状態の確認（onMounted）
   - 各Composablesの統合
-  - VillageLayout の使用
+  - 既存の `layouts/village.vue` の使用
+  - ページ内でのレイアウト構造実装
+    - サイドバー・ヘッダー・メイン・フッターの配置
+    - レスポンシブ対応（PC: サイドバー左固定、Mobile: オーバーレイ）
+    - サイドバーの表示切り替え制御
 
 ###### 1.6 初期表示フローの実装
 

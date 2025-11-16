@@ -6,12 +6,11 @@
 
 ```
 pages/
-  village.vue                # 村ページメイン
+  village.vue                # 村ページメイン（レイアウト構造も含む）
 
 components/
   village/
     # レイアウト関連
-    VillageLayout.vue        # 村ページレイアウト
     VillageHeader.vue        # ヘッダー（前日/翌日/最上部へ）
     VillageFooter.vue        # フッター（更新/最下部へ/抽出/残り時間）
     VillageSidebar.vue       # サイドバー（メニュー/参加者/設定）
@@ -93,7 +92,7 @@ composables/
 - 認証状態の確認
 - 村情報・発言・参加状況の初期読み込み
 - 定期更新タイマーの管理
-- レイアウトの構成
+- レイアウト構造の実装（サイドバー・ヘッダー・メイン・フッターの配置）
 
 **Props**: なし
 
@@ -137,6 +136,14 @@ onMounted(async () => {
 const canSay = computed(() => situation.value?.say.available_say ?? false)
 ```
 
+**レイアウト構造**:
+
+- 既存の `layouts/village.vue` を使用
+- ページ内でレイアウト構造を実装:
+  - PC: サイドバー左全面固定（幅280px）、右側にヘッダー/メイン/フッター縦並び
+  - モバイル: 縦積み（サイドバーはオーバーレイ）
+  - サイドバーの表示切り替え制御
+
 **ライフサイクル**:
 
 - `onMounted`:
@@ -149,31 +156,7 @@ const canSay = computed(() => situation.value?.say.available_say ?? false)
   1. タイマー停止
   2. イベントリスナー解除
 
-#### 2.2 VillageLayout.vue
-
-**責務**:
-
-- 村ページ全体のレイアウト
-- ヘッダー・サイドバー・メイン・フッターの配置
-- レスポンシブ対応
-
-**Props**:
-
-- なし
-
-**Slots**:
-
-- `header`: ヘッダーコンテンツ
-- `sidebar`: サイドバーコンテンツ
-- `default`: メインコンテンツ
-- `footer`: フッターコンテンツ
-
-**スタイル**:
-
-- PC: サイドバー左全面固定（幅280px）、右側にヘッダー/メイン/フッター縦並び
-- モバイル: 縦積み（サイドバーはオーバーレイ）
-
-#### 2.3 VillageHeader.vue
+#### 2.2 VillageHeader.vue
 
 **責務**:
 
@@ -189,7 +172,7 @@ const canSay = computed(() => situation.value?.say.available_say ?? false)
 - `current-day-change`: 日付変更イベント
 - `to-head`: 最上部へスクロールイベント
 
-#### 2.4 VillageFooter.vue
+#### 2.3 VillageFooter.vue
 
 **責務**:
 
@@ -211,7 +194,7 @@ const canSay = computed(() => situation.value?.say.available_say ?? false)
 - `toggle-slider`: サイドバー表示切替イベント
 - `filter`: 発言抽出イベント
 
-#### 2.5 VillageSidebar.vue
+#### 2.4 VillageSidebar.vue
 
 **責務**:
 
@@ -230,7 +213,7 @@ const canSay = computed(() => situation.value?.say.available_say ?? false)
 - `refresh`: リフレッシュイベント
 - `chara-filter`: キャラ抽出イベント
 
-#### 2.6 MessageList.vue
+#### 2.5 MessageList.vue
 
 **責務**:
 
@@ -252,7 +235,7 @@ const canSay = computed(() => situation.value?.say.available_say ?? false)
 - `reply`: 返信イベント
 - `secret`: 秘話イベント
 
-#### 2.7 MessageCard.vue
+#### 2.6 MessageCard.vue
 
 **責務**:
 
@@ -277,7 +260,7 @@ const canSay = computed(() => situation.value?.say.available_say ?? false)
 - `reply`: 返信イベント
 - `secret`: 秘話イベント
 
-#### 2.8 ActionContainer.vue
+#### 2.7 ActionContainer.vue
 
 **責務**:
 
