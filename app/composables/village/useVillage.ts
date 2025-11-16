@@ -1,4 +1,4 @@
-import type { VillageView } from '~/lib/api/types'
+import type { VillageView, VillageDayView } from '~/lib/api/types'
 
 /**
  * 村情報の取得・管理
@@ -54,10 +54,105 @@ export const useVillage = () => {
     }
   }
 
+  /**
+   * 現在表示中の日付を変更
+   */
+  const changeCurrentVillageDay = (day: VillageDayView | null) => {
+    villageStore.saveCurrentVillageDay(day)
+  }
+
+  /**
+   * 日付IDで現在表示中の日付を変更
+   */
+  const changeCurrentVillageDayById = (villageDayId: number) => {
+    if (!villageStore.village) return
+
+    const day = villageStore.village.day.day_list.find(
+      (d) => d.id === villageDayId
+    )
+    if (day) {
+      villageStore.saveCurrentVillageDay(day)
+    }
+  }
+
+  // Computed
+  /**
+   * 現在の日付のインデックス
+   */
+  const currentVillageDayIndex = computed(() => {
+    if (!villageStore.village || !villageStore.currentVillageDay) return -1
+    return villageStore.village.day.day_list.findIndex(
+      (day) => day.id === villageStore.currentVillageDay?.id
+    )
+  })
+
+  /**
+   * 前日が存在するか
+   */
+  const existPrevDay = computed(() => {
+    if (!villageStore.village || !villageStore.currentVillageDay) return false
+    return currentVillageDayIndex.value !== 0
+  })
+
+  /**
+   * 翌日が存在するか
+   */
+  const existNextDay = computed(() => {
+    if (!villageStore.village || !villageStore.currentVillageDay) return false
+    return (
+      currentVillageDayIndex.value !==
+      villageStore.village.day.day_list.length - 1
+    )
+  })
+
+  /**
+   * 前日のID
+   */
+  const prevDayId = computed(() => {
+    if (!existPrevDay.value || !villageStore.village) return null
+    return (
+      villageStore.village.day.day_list[currentVillageDayIndex.value - 1]?.id ??
+      null
+    )
+  })
+
+  /**
+   * 翌日のID
+   */
+  const nextDayId = computed(() => {
+    if (!existNextDay.value || !villageStore.village) return null
+    return (
+      villageStore.village.day.day_list[currentVillageDayIndex.value + 1]?.id ??
+      null
+    )
+  })
+
+  /**
+   * 前日に移動
+   */
+  const toPrevDay = () => {
+    if (prevDayId.value === null) return
+    changeCurrentVillageDayById(prevDayId.value)
+  }
+
+  /**
+   * 翌日に移動
+   */
+  const toNextDay = () => {
+    if (nextDayId.value === null) return
+    changeCurrentVillageDayById(nextDayId.value)
+  }
+
   return {
     // State (from store)
     village: computed(() => villageStore.village),
     villageId: computed(() => villageStore.villageId),
+    currentVillageDay: computed(() => villageStore.currentVillageDay),
+    latestDay: computed(() => villageStore.latestDay),
+
+    // Computed
+    existPrevDay,
+    existNextDay,
 
     // State (UI state)
     loading: readonly(loading),
@@ -65,6 +160,10 @@ export const useVillage = () => {
 
     // Methods
     initVillage,
-    loadVillage
+    loadVillage,
+    changeCurrentVillageDay,
+    changeCurrentVillageDayById,
+    toPrevDay,
+    toNextDay
   }
 }

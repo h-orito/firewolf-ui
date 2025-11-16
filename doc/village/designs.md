@@ -9,65 +9,66 @@ pages/
   village.vue                # 村ページメイン（レイアウト構造も含む）
 
 components/
-  village/
-    # レイアウト関連
-    VillageHeader.vue        # ヘッダー（前日/翌日/最上部へ）
-    VillageFooter.vue        # フッター（更新/最下部へ/抽出/残り時間）
-    VillageSidebar.vue       # サイドバー（メニュー/参加者/設定）
-    VillageDayList.vue       # 日付選択リスト
+  pages/
+    village/
+      # レイアウト関連
+      VillageHeader.vue        # ヘッダー（前日/翌日/最上部へ）
+      VillageFooter.vue        # フッター（更新/最下部へ/抽出/残り時間）
+      VillageSidebar.vue       # サイドバー（メニュー/参加者/設定）
+      VillageDayList.vue       # 日付選択リスト
 
-    # 発言表示関連
-    message/
-      MessageList.vue        # 発言リスト（ページング含む）
-      MessageCard.vue        # 発言カード
-      MessageSay.vue         # 通常発言
-      MessageSystem.vue      # システムメッセージ
-      message-converter.ts   # 発言テキストの変換処理
-      ParticipantsMessage.vue  # 発言内の参加者リスト
-      VillageSituationMessage.vue  # 状況メッセージ
+      # 発言表示関連
+      message/
+        MessageList.vue        # 発言リスト（ページング含む）
+        MessageCard.vue        # 発言カード
+        MessageSay.vue         # 通常発言
+        MessageSystem.vue      # システムメッセージ
+        message-converter.ts   # 発言テキストの変換処理
+        ParticipantsMessage.vue  # 発言内の参加者リスト
+        VillageSituationMessage.vue  # 状況メッセージ
 
-    # アクション関連
-    action/
-      ActionContainer.vue    # アクションコンテナ
-      Say.vue                # 発言入力
-      SayConfirm.vue         # 発言確認モーダル
-      Participate.vue        # 参加
-      Spectate.vue           # 見学参加
-      Leave.vue              # 退村
-      SkillRequest.vue       # 役職希望
-      Vote.vue               # 投票
-      Ability.vue            # 能力行使
-      Commit.vue             # コミット
-      Comingout.vue          # CO
-      ActionSay.vue          # アクション発言
-      ChangeName.vue         # 名前変更
-      creator/
-        CreatorSay.vue       # 村建て発言
-        KickOut.vue          # キックアウト
-        ExtendEpilogue.vue   # エピローグ延長
-        Cancel.vue           # 廃村
-        SettingsLink.vue     # 村設定変更リンク
-      admin/
-        Admin.vue            # 管理者専用機能
-      debug/
-        Debug.vue            # デバッグ機能
+      # アクション関連
+      action/
+        ActionContainer.vue    # アクションコンテナ
+        Say.vue                # 発言入力
+        SayConfirm.vue         # 発言確認モーダル
+        Participate.vue        # 参加
+        Spectate.vue           # 見学参加
+        Leave.vue              # 退村
+        SkillRequest.vue       # 役職希望
+        Vote.vue               # 投票
+        Ability.vue            # 能力行使
+        Commit.vue             # コミット
+        Comingout.vue          # CO
+        ActionSay.vue          # アクション発言
+        ChangeName.vue         # 名前変更
+        creator/
+          CreatorSay.vue       # 村建て発言
+          KickOut.vue          # キックアウト
+          ExtendEpilogue.vue   # エピローグ延長
+          Cancel.vue           # 廃村
+          SettingsLink.vue     # 村設定変更リンク
+        admin/
+          Admin.vue            # 管理者専用機能
+        debug/
+          Debug.vue            # デバッグ機能
 
-    # フッター関連
-    footer/
-      ModalFilter.vue        # 発言抽出モーダル
+      # フッター関連
+      footer/
+        ModalFilter.vue        # 発言抽出モーダル
 
-    # サイドバー関連
-    sidebar/
-      ModalVillageInfo.vue   # 村情報モーダル
-      ParticipantList.vue    # 参加者リスト
-      ModalUserSettings.vue  # ユーザ設定モーダル
-      memo/
-        ModalMemo.vue        # メモモーダル
-        TextMemo.vue         # テキストメモ（3つまで保存可能）
+      # サイドバー関連
+      sidebar/
+        ModalVillageInfo.vue   # 村情報モーダル
+        ParticipantList.vue    # 参加者リスト
+        ModalUserSettings.vue  # ユーザ設定モーダル
+        memo/
+          ModalMemo.vue        # メモモーダル
+          TextMemo.vue         # テキストメモ（3つまで保存可能）
 
-    # 共通
-    CharaImage.vue           # キャラクター画像
-    ModalAgeLimit.vue        # 年齢制限確認モーダル
+      # 共通
+      CharaImage.vue           # キャラクター画像
+      ModalAgeLimit.vue        # 年齢制限確認モーダル
 
 composables/
   village/
@@ -163,14 +164,14 @@ const canSay = computed(() => situation.value?.say.available_say ?? false)
 - 前日/翌日ボタン
 - 最上部へスクロールボタン
 
-**Props**:
+**Props**: なし
 
-- `currentVillageDay`: VillageDay | null - 現在表示中の日付
+**Emits**: なし
 
-**Emits**:
+**使用するComposables**:
 
-- `current-day-change`: 日付変更イベント
-- `to-head`: 最上部へスクロールイベント
+- `useVillage()` - 村情報と日付ナビゲーション
+- `useVillageNavigation()` - スクロール機能
 
 #### 2.3 VillageFooter.vue
 

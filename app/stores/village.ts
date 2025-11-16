@@ -2,7 +2,8 @@ import { defineStore } from 'pinia'
 import type {
   VillageView,
   SituationAsParticipantView,
-  VillageLatestView
+  VillageLatestView,
+  VillageDayView
 } from '~/lib/api/types'
 
 /**
@@ -14,6 +15,7 @@ export const useVillageStore = defineStore('village', () => {
   const village = ref<VillageView | null>(null)
   const situation = ref<SituationAsParticipantView | null>(null)
   const villageLatest = ref<VillageLatestView | null>(null)
+  const currentVillageDay = ref<VillageDayView | null>(null)
 
   // Computed
   const latestDay = computed(() => {
@@ -49,6 +51,7 @@ export const useVillageStore = defineStore('village', () => {
     village.value = null
     situation.value = null
     villageLatest.value = null
+    currentVillageDay.value = null
   }
 
   /**
@@ -73,6 +76,13 @@ export const useVillageStore = defineStore('village', () => {
   }
 
   /**
+   * 現在表示中の日付を保存
+   */
+  const saveCurrentVillageDay = (day: VillageDayView | null) => {
+    currentVillageDay.value = day
+  }
+
+  /**
    * ストアをリセット
    */
   const reset = () => {
@@ -80,6 +90,7 @@ export const useVillageStore = defineStore('village', () => {
     village.value = null
     situation.value = null
     villageLatest.value = null
+    currentVillageDay.value = null
   }
 
   return {
@@ -88,6 +99,7 @@ export const useVillageStore = defineStore('village', () => {
     village: readonly(village),
     situation: readonly(situation),
     villageLatest: readonly(villageLatest),
+    currentVillageDay: readonly(currentVillageDay),
 
     // Computed
     latestDay,
@@ -98,6 +110,7 @@ export const useVillageStore = defineStore('village', () => {
     saveVillage,
     saveSituation,
     saveVillageLatest,
+    saveCurrentVillageDay,
     reset
   }
 })

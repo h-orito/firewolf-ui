@@ -182,19 +182,19 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
 
 ###### 1.4 村ページレイアウトコンポーネントの作成
 
-- [ ] `components/village/VillageHeader.vue` の作成
+- [x] `components/pages/village/VillageHeader.vue` の作成
   - 日付切り替えボタン（前日・翌日）
   - 最上部スクロールボタン
   - タイトル表示
 
-- [ ] `components/village/VillageFooter.vue` の作成
+- [ ] `components/pages/village/VillageFooter.vue` の作成
   - 更新ボタン
   - 最下部スクロールボタン
   - 抽出ボタン
   - 残り時間表示
   - サイドバー切り替えボタン（Mobile）
 
-- [ ] `components/village/VillageSidebar.vue` の作成
+- [ ] `components/pages/village/VillageSidebar.vue` の作成
   - 村の設定モーダル起動
   - 参加者リスト表示切り替え
   - メモモーダル起動
