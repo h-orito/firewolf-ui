@@ -59,3 +59,7 @@ const props = defineProps<CustomProps>()
 - **ポート**: 3011
 - **起動コマンド**: `pnpm dev`
 - **URL**: http://localhost:3011
+
+## storeを直接使用しない
+
+参照であっても必ずcomposables経由で使用する
