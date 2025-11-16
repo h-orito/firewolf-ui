@@ -4,9 +4,10 @@ import type { VillageView } from '~/lib/api/types'
  * 村情報の取得・管理
  */
 export const useVillage = () => {
-  // State
-  const village = ref<VillageView | null>(null)
-  const villageId = ref<number | null>(null)
+  // Store
+  const villageStore = useVillageStore()
+
+  // State (UI状態のみ)
   const loading = ref(false)
   const error = ref<Error | null>(null)
 
@@ -17,14 +18,14 @@ export const useVillage = () => {
    * 村IDを初期化
    */
   const initVillage = (id: number) => {
-    villageId.value = id
+    villageStore.init(id)
   }
 
   /**
    * 村情報を取得
    */
   const loadVillage = async () => {
-    if (!villageId.value) {
+    if (!villageStore.villageId) {
       error.value = new Error('村IDが設定されていません')
       return
     }
@@ -33,15 +34,19 @@ export const useVillage = () => {
     error.value = null
 
     try {
-      const data = await apiCall<VillageView>(`/village/${villageId.value}`)
-      village.value = data
+      const data = await apiCall<VillageView>(
+        `/village/${villageStore.villageId}`
+      )
+      villageStore.saveVillage(data)
     } catch (err) {
       error.value =
         err instanceof Error
           ? err
-          : new Error(`村情報の取得に失敗しました (村ID: ${villageId.value})`)
+          : new Error(
+              `村情報の取得に失敗しました (村ID: ${villageStore.villageId})`
+            )
       console.error(
-        `村情報の取得に失敗しました (村ID: ${villageId.value}):`,
+        `村情報の取得に失敗しました (村ID: ${villageStore.villageId}):`,
         err
       )
     } finally {
@@ -50,9 +55,11 @@ export const useVillage = () => {
   }
 
   return {
-    // State
-    village: readonly(village),
-    villageId: readonly(villageId),
+    // State (from store)
+    village: computed(() => villageStore.village),
+    villageId: computed(() => villageStore.villageId),
+
+    // State (UI state)
     loading: readonly(loading),
     error: readonly(error),
 

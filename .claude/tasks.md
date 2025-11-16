@@ -108,54 +108,77 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
   - 村情報の取得・管理
   - `GET /api/village/{villageId}` の呼び出し
   - ローディング・エラー状態管理
+  - VillageStoreとの統合
 
-- [ ] `composables/village/useMessage.ts` の作成
+- [x] `composables/village/useMessage.ts` の作成
   - 発言の取得・管理
   - `GET /api/village/{villageId}/message` の呼び出し
   - ページング制御
   - 日付変更処理
+  - フィルタ条件の適用
 
-- [ ] `composables/village/useSituation.ts` の作成
+- [x] `composables/village/useSituation.ts` の作成
   - 参加状況の取得・管理
   - `GET /api/village/{villageId}/situation` の呼び出し
   - situationベースの権限判定
+  - VillageStoreとの統合
 
-- [ ] `composables/village/useVillageTimer.ts` の作成
+- [x] `composables/village/useVillageTimer.ts` の作成
   - 残り時間の計算
   - 1秒間隔のタイマー処理
   - 状態に応じた表示文字列生成
+  - onUnmountedでのクリーンアップ
+  - 村ステータス定数の使用
 
-- [ ] `composables/village/useVillageNavigation.ts` の作成
+- [x] `composables/village/useVillageNavigation.ts` の作成
   - スクロール処理（最上部・最下部）
   - 特定要素へのスクロール
+  - コンテナ指定スクロール対応
 
-- [ ] `composables/village/useVillagePolling.ts` の作成
+- [x] `composables/village/useVillagePolling.ts` の作成
   - 30秒間隔のポーリング
   - `GET /api/village/{villageId}/latest` の呼び出し
   - 新着発言の検知
   - 日付変更の検知
+  - VillageStoreとの統合
+  - onUnmountedでのクリーンアップ
 
-- [ ] `composables/village/useVillageFilter.ts` の作成
+- [x] `composables/village/useVillageMessageFilter.ts` の作成（旧useVillageFilter）
   - 抽出条件の管理
   - 抽出の実行・リセット
   - キャラ抽出
+  - VillageMessageFilterStoreとの統合
+  - 発言種別反転機能の実装
 
-- [ ] `composables/village/useUserSettings.ts` の作成
+- [x] `composables/village/useUserSettings.ts` の作成
   - Cookie保存・読み込み
   - 設定の更新
   - ページング設定、発言表示設定、ダークテーマ等
+  - VillageUserSettingsStoreとの統合
 
-- [ ] `composables/village/useVillageMemo.ts` の作成
+- [x] `composables/village/useVillageMemo.ts` の作成
   - LocalStorage保存・読み込み
   - テキストメモの保存（最大3つ）
   - メモの削除
+  - @vueuse/coreのuseLocalStorageを使用
 
 ###### 1.3 Storeの実装
 
-- [ ] `stores/village.ts` の作成
-  - State定義（village, messages, situation, isFiltering等）
-  - Getters定義
-  - Actions定義（村情報・発言・参加状況の保存）
+- [x] `stores/village.ts` の作成
+  - State定義（villageId, village, situation, villageLatest）
+  - Computed定義（latestDay, restrictCountMap）
+  - Actions定義（init, saveVillage, saveSituation, saveVillageLatest, reset）
+  - readonlyによる状態保護
+
+- [x] `stores/village-message-filter.ts` の作成
+  - フィルタ状態管理（messageTypeGroups, participantIdFilter等）
+  - MESSAGE_TYPE_GROUP_MAPによる発言種別マッピング
+  - Computed定義（messageTypeFilter, isFiltering）
+  - Actions定義（setMessageFilter, resetMessageFilter）
+
+- [x] `stores/village-user-settings.ts` の作成
+  - ユーザー設定状態管理
+  - Actions定義（updateSettings）
 
 ###### 1.4 レイアウトとコンポーネントの基本実装
 
