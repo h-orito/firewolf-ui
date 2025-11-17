@@ -187,7 +187,7 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
   - 最上部スクロールボタン
   - タイトル表示
 
-- [ ] `components/pages/village/VillageFooter.vue` の作成
+- [x] `components/pages/village/VillageFooter.vue` の作成
   - 更新ボタン
   - 最下部スクロールボタン
   - 抽出ボタン

@@ -1,12 +1,18 @@
-import type { MessagesView, VillageDayView } from '~/lib/api/types'
+import type { MessagesView } from '~/lib/api/types'
 import type { MessageTypeGroup } from '~/lib/api/message-constants'
+import { useVillage } from './useVillage'
+import { useUserSettings } from './useUserSettings'
+import { useVillageMessageFilter } from './useVillageMessageFilter'
 
 /**
  * 発言の取得・管理
  */
 export const useMessage = () => {
-  // Store
-  const filterStore = useVillageMessageFilterStore()
+  // Composables
+  const { villageId, currentVillageDay } = useVillage()
+  const { getPaging } = useUserSettings()
+  const { getMessageTypeList, participantIds, toParticipantIds, keyword } =
+    useVillageMessageFilter()
 
   // State
   const messages = ref<MessagesView | null>(null)
@@ -21,19 +27,18 @@ export const useMessage = () => {
   const { apiCall } = useApi()
 
   /**
-   * 発言を取得
+   * 発言を取得（引数なしで内部の状態を使用）
    */
-  const loadMessages = async (
-    villageId: number,
-    day: VillageDayView,
-    isDispLatestPage: boolean = false,
-    pageSize: number | null = null,
-    isPaging: boolean = false
-  ) => {
+  const loadMessages = async () => {
+    if (!villageId.value || !currentVillageDay.value) return
+
     loading.value = true
     error.value = null
 
     try {
+      // ページング設定を取得
+      const pagingSettings = getPaging()
+
       // クエリパラメータの構築
       const params: Record<
         string,
@@ -41,34 +46,29 @@ export const useMessage = () => {
       > = {}
 
       // フィルタ条件
-      if (filterStore.messageTypeFilter.length > 0) {
-        params.message_type_list = [...filterStore.messageTypeFilter]
+      if (getMessageTypeList.value && getMessageTypeList.value.length > 0) {
+        params.message_type_list = [...getMessageTypeList.value]
       }
-      if (
-        filterStore.participantIdFilter &&
-        filterStore.participantIdFilter.length > 0
-      ) {
-        params.participant_id_list = [...filterStore.participantIdFilter]
+      if (participantIds.value && participantIds.value.length > 0) {
+        params.participant_id_list = [...participantIds.value]
       }
-      if (
-        filterStore.toParticipantIdFilter &&
-        filterStore.toParticipantIdFilter.length > 0
-      ) {
-        params.to_participant_id_list = [...filterStore.toParticipantIdFilter]
+      if (toParticipantIds.value && toParticipantIds.value.length > 0) {
+        params.to_participant_id_list = [...toParticipantIds.value]
       }
-      if (filterStore.keywordFilter) {
-        params.keyword = filterStore.keywordFilter
+      if (keyword.value) {
+        params.keyword = keyword.value
       }
 
       // ページング設定
-      if (isPaging && pageSize) {
-        params.page_size = pageSize
-        params.page_num = isDispLatestPage ? 10000 : currentPageNum.value
+      if (pagingSettings.isPaging && pagingSettings.messagePerPage) {
+        params.page_size = pagingSettings.messagePerPage
+        params.page_num = isDispLatest.value ? 10000 : currentPageNum.value
         params.is_disp_latest = isDispLatest.value
       }
 
       // URLの構築(配列パラメータはrepeat形式で送信)
-      const url = `/village/${villageId}/day/${day.day}/time/${day.noonnight}/message-list`
+      const day = currentVillageDay.value
+      const url = `/village/${villageId.value}/day/${day.day}/time/${day.noonnight}/message-list`
       const query = new URLSearchParams()
       Object.entries(params).forEach(([key, value]) => {
         if (Array.isArray(value)) {
@@ -91,12 +91,31 @@ export const useMessage = () => {
       error.value =
         err instanceof Error
           ? err
-          : new Error(`発言の取得に失敗しました (村ID: ${villageId})`)
-      console.error(`発言の取得に失敗しました (村ID: ${villageId}):`, err)
+          : new Error(`発言の取得に失敗しました (村ID: ${villageId.value})`)
+      console.error(`発言の取得に失敗しました (村ID: ${villageId.value}):`, err)
     } finally {
       loading.value = false
     }
   }
+
+  // 監視: 依存する値が変更されたら自動的にloadMessagesを呼び出す
+  watch(
+    [
+      villageId,
+      currentVillageDay,
+      isDispLatest,
+      () => getPaging().isPaging,
+      () => getPaging().messagePerPage,
+      getMessageTypeList,
+      participantIds,
+      toParticipantIds,
+      keyword,
+      currentPageNum
+    ],
+    () => {
+      loadMessages()
+    }
+  )
 
   /**
    * フィルタ条件を設定
@@ -107,14 +126,21 @@ export const useMessage = () => {
     toParticipantIdList?: number[] | null
     keyword?: string | null
   }) => {
-    filterStore.setMessageFilter(filter)
+    const { applyFilter } = useVillageMessageFilter()
+    applyFilter(
+      filter.messageTypeGroups ?? null,
+      filter.participantIdList ?? null,
+      filter.toParticipantIdList ?? null,
+      filter.keyword ?? null
+    )
   }
 
   /**
    * フィルタ条件をリセット
    */
   const resetFilter = () => {
-    filterStore.resetMessageFilter()
+    const { resetFilter: filterReset } = useVillageMessageFilter()
+    filterReset()
   }
 
   /**

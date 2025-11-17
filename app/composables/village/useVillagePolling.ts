@@ -23,7 +23,6 @@ export const useVillagePolling = () => {
    * ポーリングを開始
    */
   const startPolling = (
-    villageId: number,
     onNewMessage?: () => void,
     onDayChange?: () => void
   ) => {
@@ -32,7 +31,7 @@ export const useVillagePolling = () => {
 
     // 30秒ごとにチェック
     pollingInterval.value = setInterval(async () => {
-      await checkLatest(villageId, onNewMessage, onDayChange)
+      await checkLatest(onNewMessage, onDayChange)
     }, 30 * 1000)
   }
 
@@ -50,15 +49,12 @@ export const useVillagePolling = () => {
    * 最新情報をチェック
    */
   const checkLatest = async (
-    villageId: number,
     onNewMessage?: () => void,
     onDayChange?: () => void
   ) => {
     try {
       const currentLatest = villageStore.villageLatest
-      const currentUnixTimeMilli = currentLatest?.unix_time_milli ?? 0
-      const url = `/village/${villageId}/latest?from=${currentUnixTimeMilli}`
-      const latest = await apiCall<VillageLatestView>(url)
+      const latest = await loadVillageLatest()
 
       // 初回(storeがnull)の場合は保存のみ
       if (!currentLatest) {
@@ -92,12 +88,16 @@ export const useVillagePolling = () => {
   /**
    * 最新情報を更新
    */
-  const updateVillageLatest = (latest: VillageLatestView) => {
-    const currentUnixTimeMilli =
-      villageStore.villageLatest?.unix_time_milli ?? 0
-    if (currentUnixTimeMilli < latest.unix_time_milli) {
-      villageStore.saveVillageLatest(latest)
-    }
+  const updateVillageLatest = async () => {
+    const latest = await loadVillageLatest()
+    villageStore.saveVillageLatest(latest)
+  }
+
+  const loadVillageLatest = async (): Promise<VillageLatestView> => {
+    const currentLatest = villageStore.villageLatest
+    const currentUnixTimeMilli = currentLatest?.unix_time_milli ?? 0
+    const url = `/village/${villageStore.villageId}/latest?from=${currentUnixTimeMilli}`
+    return await apiCall<VillageLatestView>(url)
   }
 
   /**

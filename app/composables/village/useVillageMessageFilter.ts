@@ -2,14 +2,16 @@ import {
   ALL_MESSAGE_TYPE_GROUPS,
   type MessageTypeGroup
 } from '~/lib/api/message-constants'
+import { useVillage } from './useVillage'
 
 /**
  * 発言抽出条件の管理
  */
 export const useVillageMessageFilter = () => {
+  // Composables
+  const { village, allParticipantIds } = useVillage()
   // Store
   const filterStore = useVillageMessageFilterStore()
-  const villageStore = useVillageStore()
 
   /**
    * フィルタ条件を設定して適用
@@ -31,11 +33,11 @@ export const useVillageMessageFilter = () => {
   /**
    * フィルタをリセット
    */
-  const resetFilter = (allParticipantIds: number[]) => {
+  const resetFilter = () => {
     filterStore.resetMessageFilter()
     filterStore.setMessageFilter({
-      participantIdList: [...allParticipantIds],
-      toParticipantIdList: [...allParticipantIds]
+      participantIdList: [...allParticipantIds.value],
+      toParticipantIdList: [...allParticipantIds.value]
     })
   }
 
@@ -63,11 +65,9 @@ export const useVillageMessageFilter = () => {
    * フィルタリング中かどうか
    */
   const isFiltering = () => {
-    const village = villageStore.village
-    if (!village) return false
+    if (!village.value) return false
 
-    const totalParticipantCount =
-      village.participant.count + village.spectator.count
+    const totalParticipantCount = allParticipantIds.value.length
 
     const messageTypeGroups = filterStore.messageTypeGroups
     const participantIdFilter = filterStore.participantIdFilter
@@ -120,9 +120,9 @@ export const useVillageMessageFilter = () => {
   /**
    * 全参加者を選択
    */
-  const selectAllParticipants = (allParticipantIds: number[]) => {
+  const selectAllParticipants = () => {
     filterStore.setMessageFilter({
-      participantIdList: [...allParticipantIds]
+      participantIdList: [...allParticipantIds.value]
     })
   }
 
@@ -138,9 +138,9 @@ export const useVillageMessageFilter = () => {
   /**
    * 参加者の選択を反転
    */
-  const reverseParticipantSelection = (allParticipantIds: number[]) => {
+  const reverseParticipantSelection = () => {
     const currentIds = filterStore.participantIdFilter ?? []
-    const reversedIds = allParticipantIds.filter(
+    const reversedIds = allParticipantIds.value.filter(
       (id) => !currentIds.includes(id)
     )
     filterStore.setMessageFilter({
@@ -151,9 +151,9 @@ export const useVillageMessageFilter = () => {
   /**
    * 全宛先を選択
    */
-  const selectAllToParticipants = (allParticipantIds: number[]) => {
+  const selectAllToParticipants = () => {
     filterStore.setMessageFilter({
-      toParticipantIdList: [...allParticipantIds]
+      toParticipantIdList: [...allParticipantIds.value]
     })
   }
 
@@ -169,9 +169,9 @@ export const useVillageMessageFilter = () => {
   /**
    * 宛先の選択を反転
    */
-  const reverseToParticipantSelection = (allParticipantIds: number[]) => {
+  const reverseToParticipantSelection = () => {
     const currentIds = filterStore.toParticipantIdFilter ?? []
-    const reversedIds = allParticipantIds.filter(
+    const reversedIds = allParticipantIds.value.filter(
       (id) => !currentIds.includes(id)
     )
     filterStore.setMessageFilter({

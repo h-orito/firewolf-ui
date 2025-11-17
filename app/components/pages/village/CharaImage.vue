@@ -10,10 +10,23 @@
 </template>
 
 <script setup lang="ts">
-import type { CharaView, Chara } from '~/lib/api/types'
+import type { Chara, CharaFace, CharaSize, CharaName } from '~/lib/api/types'
+
+// APIから返却される deep readonly な Chara 型も受け入れる
+type ReadonlyDeepChara = {
+  readonly id: number
+  readonly chara_name: Readonly<CharaName>
+  readonly charachip_id: number
+  readonly default_message: {
+    readonly join_message?: string
+    readonly first_day_message?: string
+  }
+  readonly display: Readonly<CharaSize>
+  readonly face_list: readonly Readonly<CharaFace>[]
+}
 
 interface Props {
-  chara: CharaView | Chara
+  chara: Chara | ReadonlyDeepChara
   faceType?: string
   isSmall?: boolean
   isLarge?: boolean
@@ -30,8 +43,8 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const charaImageUrl = computed(() => {
-  const face = props.chara.face_list.find(
-    (face) => face.type === props.faceType
+  const face = (props.chara.face_list as readonly CharaFace[]).find(
+    (face: CharaFace) => face.type === props.faceType
   )
   return face?.image_url || ''
 })

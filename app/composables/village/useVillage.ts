@@ -77,6 +77,17 @@ export const useVillage = () => {
 
   // Computed
   /**
+   * 全参加者ID（参加者 + 見物人）
+   */
+  const allParticipantIds = computed(() => {
+    if (!villageStore.village) return []
+    return [
+      ...villageStore.village.participant.member_list.map((p) => p.id),
+      ...villageStore.village.spectator.member_list.map((p) => p.id)
+    ]
+  })
+
+  /**
    * 現在の日付のインデックス
    */
   const currentVillageDayIndex = computed(() => {
@@ -151,6 +162,7 @@ export const useVillage = () => {
     latestDay: computed(() => villageStore.latestDay),
 
     // Computed
+    allParticipantIds,
     existPrevDay,
     existNextDay,
 

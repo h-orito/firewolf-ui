@@ -17,9 +17,10 @@ export const useSituation = () => {
   /**
    * 参加状況を取得
    */
-  const loadSituation = async (villageId: number) => {
+  const loadSituation = async () => {
     loading.value = true
     error.value = null
+    const villageId = villageStore.villageId
 
     try {
       const data = await apiCall<SituationAsParticipantView>(
