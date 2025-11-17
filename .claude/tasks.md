@@ -194,7 +194,7 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
   - 残り時間表示
   - サイドバー切り替えボタン（Mobile）
 
-- [ ] `components/pages/village/VillageSidebar.vue` の作成
+- [x] `components/pages/village/VillageSidebar.vue` の作成
   - 村の設定モーダル起動
   - 参加者リスト表示切り替え
   - メモモーダル起動
