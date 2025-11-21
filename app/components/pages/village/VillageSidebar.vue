@@ -1,7 +1,10 @@
 <template>
   <div>
     <!-- サイドバー本体 -->
-    <div class="village-sidebar" :class="{ 'is-active': isOpen }">
+    <div
+      class="fixed top-0 left-0 z-20 h-[calc(100vh-2rem)] overflow-x-hidden overflow-y-auto bg-[#363636] text-white transition-all duration-200 md:static md:h-full md:max-h-screen md:w-[280px] md:p-2.5"
+      :class="{ 'w-[280px] p-2.5': isOpen, 'w-0': !isOpen }"
+    >
       <!-- 村名 -->
       <h1 class="mb-4 text-left text-base font-bold text-white">
         {{ village?.name ?? '' }}
@@ -11,7 +14,7 @@
       <div class="text-left">
         <!-- 村の設定 -->
         <button
-          class="sidebar-item"
+          class="flex cursor-pointer items-center py-2.5 text-sm text-white no-underline hover:text-blue-400"
           @click="openVillageInfoModal"
           @keydown.enter="openVillageInfoModal"
         >
@@ -25,7 +28,8 @@
             {
               label: `参加者（${personCount}人）`,
               slot: 'participants',
-              defaultOpen: false
+              defaultOpen: false,
+              icon: 'i-heroicons-users'
             }
           ]"
         >
@@ -36,7 +40,7 @@
 
         <!-- メモ -->
         <button
-          class="sidebar-item"
+          class="flex cursor-pointer items-center py-2.5 text-sm text-white no-underline hover:text-blue-400"
           @click="openMemoModal"
           @keydown.enter="openMemoModal"
         >
@@ -46,7 +50,7 @@
 
         <!-- ユーザ設定 -->
         <button
-          class="sidebar-item"
+          class="flex cursor-pointer items-center py-2.5 text-sm text-white no-underline hover:text-blue-400"
           @click="openUserSettingsModal"
           @keydown.enter="openUserSettingsModal"
         >
@@ -55,14 +59,17 @@
         </button>
 
         <!-- トップページ -->
-        <NuxtLink :to="{ path: '/' }" class="sidebar-item">
+        <NuxtLink
+          :to="{ path: '/' }"
+          class="flex cursor-pointer items-center py-2.5 text-sm text-white no-underline hover:text-blue-400"
+        >
           <UIcon name="i-heroicons-home" class="h-4 w-4" />
           <span class="ml-2">トップページ</span>
         </NuxtLink>
       </div>
 
       <!-- モバイル用閉じるボタン -->
-      <div v-if="isMobile" class="close-icon">
+      <div v-if="isMobile" class="absolute top-1 right-1">
         <UButton
           color="neutral"
           variant="solid"
@@ -74,15 +81,14 @@
 
     <!-- サイドバー外側の背景（モバイルのみ） -->
     <div
-      class="village-sidebar-outside"
-      :class="{ 'is-active': isOpen }"
+      class="fixed top-0 right-0 z-20 h-screen w-[calc(100%-280px)] bg-gray-900/40"
+      :class="{ block: isOpen, hidden: !isOpen }"
       @click="close"
     ></div>
 
     <!-- モーダル（仮実装） -->
     <ModalVillageInfo
       :is-open="isOpenVillageInfoModal"
-      :charachips="charachips"
       @close="closeVillageInfoModal"
     />
     <ModalUserSettings
@@ -94,7 +100,6 @@
 </template>
 
 <script setup lang="ts">
-import type { CharachipView } from '~/lib/api/types'
 import { useVillage } from '~/composables/village/useVillage'
 import { useVillageSlider } from '~/composables/village/useVillageSlider'
 import { useWindowResize } from '~/composables/useWindowResize'
@@ -102,13 +107,6 @@ import ParticipantList from '~/components/pages/village/sidebar/ParticipantList.
 import ModalVillageInfo from '~/components/pages/village/sidebar/ModalVillageInfo.vue'
 import ModalUserSettings from '~/components/pages/village/sidebar/ModalUserSettings.vue'
 import ModalMemo from '~/components/pages/village/sidebar/ModalMemo.vue'
-
-// Props
-interface Props {
-  charachips: CharachipView[]
-}
-
-defineProps<Props>()
 
 // Composables
 const { village } = useVillage()
@@ -122,9 +120,9 @@ const isOpenMemoModal = ref(false)
 
 // Computed
 const personCount = computed(() => {
-  if (!village.value) return '0'
-  const participantCount = village.value.participant.count
-  const spectatorCount = village.value.spectator.count
+  if (!village) return '0'
+  const participantCount = village.participant.count
+  const spectatorCount = village.spectator.count
   if (spectatorCount > 0) {
     return `${participantCount}+${spectatorCount}`
   }
@@ -156,46 +154,3 @@ const closeMemoModal = () => {
   isOpenMemoModal.value = false
 }
 </script>
-
-<style scoped>
-.village-sidebar {
-  @apply overflow-x-hidden overflow-y-auto bg-gray-900 text-white;
-}
-
-.sidebar-item {
-  @apply flex cursor-pointer items-center py-2.5 text-sm text-white no-underline hover:text-blue-400;
-}
-
-/* モバイル */
-@media screen and (max-width: 767px) {
-  .village-sidebar {
-    @apply fixed top-0 left-0 z-20 w-0 transition-all duration-200;
-    height: calc(100vh - 40px - 40px); /* ヘッダー・フッター分を引く */
-    top: 40px; /* ヘッダー高さ */
-  }
-
-  .village-sidebar.is-active {
-    @apply w-[280px] p-2.5;
-  }
-
-  .close-icon {
-    @apply absolute top-1 right-1;
-  }
-
-  .village-sidebar-outside {
-    @apply fixed top-0 right-0 hidden h-screen bg-gray-900/40;
-    width: calc(100% - 280px);
-  }
-
-  .village-sidebar-outside.is-active {
-    @apply z-20 block;
-  }
-}
-
-/* PC */
-@media screen and (min-width: 768px) {
-  .village-sidebar {
-    @apply h-full max-h-screen w-[280px] p-2.5;
-  }
-}
-</style>

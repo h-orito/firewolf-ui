@@ -29,7 +29,12 @@ export const useVillageUserSettingsStore = defineStore(
         ageLimit: userSettings.ageLimit
           ? {
               ...userSettings.ageLimit,
-              confirmVillageIds: [...userSettings.ageLimit.confirmVillageIds]
+              // confirmVillageIds が存在しない場合は空配列で初期化
+              confirmVillageIds: Array.isArray(
+                userSettings.ageLimit.confirmVillageIds
+              )
+                ? [...userSettings.ageLimit.confirmVillageIds]
+                : []
             }
           : undefined
       }

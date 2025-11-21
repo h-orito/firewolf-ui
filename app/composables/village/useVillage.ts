@@ -1,4 +1,9 @@
-import type { VillageView, VillageDayView } from '~/lib/api/types'
+import type {
+  VillageView,
+  VillageDayView,
+  CharachipView,
+  CharachipsView
+} from '~/lib/api/types'
 
 /**
  * 村情報の取得・管理
@@ -15,10 +20,50 @@ export const useVillage = () => {
   const { apiCall } = useApi()
 
   /**
-   * 村IDを初期化
+   * 村を初期化（村IDの設定、村情報の読み込み、最新日の設定、キャラチップ情報の取得）
    */
-  const initVillage = (id: number) => {
+  const initVillage = async (id: number) => {
+    // 村IDを設定
     villageStore.init(id)
+
+    // 村情報を読み込み
+    await loadVillage()
+
+    // 最新日を表示日として設定
+    if (villageStore.latestDay) {
+      villageStore.saveCurrentVillageDay(villageStore.latestDay)
+    }
+
+    // キャラチップ情報を取得
+    if (villageStore.village) {
+      const charachips = await fetchCharachips()
+      villageStore.saveCharachips(charachips)
+    }
+  }
+
+  /**
+   * キャラチップ情報を取得
+   */
+  const fetchCharachips = async (): Promise<CharachipView[]> => {
+    try {
+      if (!villageStore.village) return []
+
+      const charachipIds = [
+        ...new Set(
+          villageStore.village.participant.member_list.map(
+            (p) => p.chara.charachip_id
+          )
+        )
+      ]
+
+      const response = await apiCall<CharachipsView>(`/charachips`, {
+        params: { charachip_ids: charachipIds }
+      })
+      return response.list
+    } catch (err) {
+      console.error('キャラチップ情報の取得に失敗しました:', err)
+      return []
+    }
   }
 
   /**
@@ -154,17 +199,24 @@ export const useVillage = () => {
     changeCurrentVillageDayById(nextDayId.value)
   }
 
+  const isCurrentVillageDayLatest = computed(() => {
+    if (!villageStore.latestDay || !villageStore.currentVillageDay) return false
+    return villageStore.currentVillageDay.id === villageStore.latestDay.id
+  })
+
   return {
     // State (from store)
-    village: computed(() => villageStore.village),
-    villageId: computed(() => villageStore.villageId),
-    currentVillageDay: computed(() => villageStore.currentVillageDay),
-    latestDay: computed(() => villageStore.latestDay),
+    village: villageStore.village,
+    villageId: villageStore.villageId,
+    currentVillageDay: villageStore.currentVillageDay,
+    latestDay: villageStore.latestDay,
+    charachips: villageStore.charachips,
 
     // Computed
     allParticipantIds,
     existPrevDay,
     existNextDay,
+    isCurrentVillageDayLatest,
 
     // State (UI state)
     loading: readonly(loading),

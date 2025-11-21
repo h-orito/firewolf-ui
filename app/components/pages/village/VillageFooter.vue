@@ -1,12 +1,15 @@
 <template>
-  <div class="village-footer">
+  <div
+    class="z-10 flex h-8 w-full"
+    :style="{ height: 'calc(2rem + env(safe-area-inset-bottom))' }"
+  >
     <!-- メニューボタン (モバイルのみ) -->
     <UButton
       v-if="isMobile"
       color="neutral"
       variant="solid"
       icon="i-heroicons-bars-3-20-solid"
-      class="village-footer-item border-r"
+      class="flex h-full min-w-[60px] cursor-pointer items-center justify-center rounded-none border-0 border-r border-gray-700 bg-[#363636]"
       aria-label="サイドバーを開く"
       @click="toggleSlider"
     />
@@ -15,13 +18,14 @@
     <UButton
       color="neutral"
       variant="solid"
-      class="village-footer-item border-r"
-      :class="{ 'wide-item': !isMobile }"
+      class="flex h-full min-w-[60px] cursor-pointer items-center justify-center rounded-none border-0 border-r border-gray-700 bg-[#363636]"
+      :class="{ 'w-[120px]': !isMobile }"
       aria-label="発言を更新"
       @click="handleRefresh"
     >
       <UIcon
         name="i-heroicons-arrow-path-20-solid"
+        class="text-lg"
         :class="{
           'animate-spin text-blue-400': existsNewMessages,
           'text-white': !existsNewMessages
@@ -33,13 +37,13 @@
     <UButton
       color="neutral"
       variant="solid"
-      class="village-footer-item flex-1"
+      class="flex h-full flex-1 cursor-pointer items-center justify-center rounded-none border-0 bg-[#363636]"
       aria-label="最下部にスクロール"
       @click="toBottom"
     >
       <UIcon
         name="i-heroicons-arrow-down-20-solid"
-        class="mb-0.5 h-5 w-5 border-b border-white text-white"
+        class="h-5 w-5 border-b border-white text-white"
       />
     </UButton>
 
@@ -48,9 +52,9 @@
       color="neutral"
       variant="solid"
       icon="i-heroicons-magnifying-glass-20-solid"
-      class="village-footer-item border-l"
+      class="flex h-full min-w-[60px] cursor-pointer items-center justify-center rounded-none border-0 border-l border-gray-700 bg-[#363636]"
       :class="{
-        'wide-item': !isMobile,
+        'w-[120px]': !isMobile,
         'text-blue-400': isFiltering,
         'text-white': !isFiltering
       }"
@@ -61,8 +65,10 @@
     </UButton>
 
     <!-- 残り時間表示 -->
-    <div class="village-footer-item footer-timer border-l text-white">
-      <p>{{ props.timer }}</p>
+    <div
+      class="flex h-full w-20 cursor-default items-center justify-center border-l border-gray-700 bg-[#363636] text-white"
+    >
+      <p class="text-xs leading-10">{{ timerText }}</p>
     </div>
 
     <!-- 抽出モーダル -->
@@ -76,15 +82,9 @@ import { useVillageMessageFilter } from '~/composables/village/useVillageMessage
 import { useVillagePolling } from '~/composables/village/useVillagePolling'
 import { useVillageSlider } from '~/composables/village/useVillageSlider'
 import { useVillageRefresh } from '~/composables/village/useVillageRefresh'
+import { useVillageTimer } from '~/composables/village/useVillageTimer'
 import { useWindowResize } from '~/composables/useWindowResize'
 import ModalFilter from '~/components/pages/village/footer/ModalFilter.vue'
-
-// Props
-interface Props {
-  timer: string
-}
-
-const props = defineProps<Props>()
 
 // Composables
 const { scrollToBottom } = useVillageNavigation()
@@ -92,6 +92,7 @@ const { isFiltering, resetFilter } = useVillageMessageFilter()
 const { existsNewMessages } = useVillagePolling()
 const { toggle: toggleSlider } = useVillageSlider()
 const { refresh } = useVillageRefresh()
+const { timerText, startTimer } = useVillageTimer()
 const { isMobile } = useWindowResize()
 
 // State
@@ -119,51 +120,9 @@ const openFilterModalOrReset = () => {
 const closeFilterModal = () => {
   isOpenFilterModal.value = false
 }
+
+// Lifecycle
+onMounted(() => {
+  startTimer()
+})
 </script>
-
-<style scoped>
-.village-footer {
-  @apply z-10 flex h-full w-full;
-}
-
-.village-footer-item {
-  @apply flex h-full cursor-pointer items-center justify-center rounded-none border-0 bg-gray-900;
-  min-width: 60px;
-}
-
-.wide-item {
-  width: 120px;
-}
-
-.footer-timer {
-  @apply cursor-default;
-  width: 80px;
-}
-
-.footer-timer p {
-  line-height: 40px;
-}
-
-/* 区切り線のスタイル */
-.border-r {
-  @apply border-r border-gray-700;
-}
-
-.border-l {
-  @apply border-l border-gray-700;
-}
-
-/* アニメーション */
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.animate-spin {
-  animation: spin 2s linear infinite;
-}
-</style>

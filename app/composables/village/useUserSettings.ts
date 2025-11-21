@@ -112,17 +112,15 @@ export const useUserSettings = () => {
     }
   }
 
-  // 監視: storeの変更をCookieに自動保存
-  watch(
-    () => settingsStore.settings,
-    (newSettings) => {
-      if (newSettings) {
-        // オブジェクトをディープコピーしてCookieに保存
-        settingsCookie.value = JSON.parse(JSON.stringify(newSettings))
-      }
-    },
-    { deep: true }
-  )
+  /**
+   * storeの設定をCookieに保存
+   */
+  const saveToCookie = () => {
+    if (settingsStore.settings) {
+      // オブジェクトをディープコピーしてCookieに保存
+      settingsCookie.value = JSON.parse(JSON.stringify(settingsStore.settings))
+    }
+  }
 
   /**
    * ページング設定を取得
@@ -138,6 +136,7 @@ export const useUserSettings = () => {
   const setPaging = (pagingSettings: PagingSettings) => {
     initializeIfNeeded()
     settingsStore.updatePaging(pagingSettings)
+    saveToCookie()
   }
 
   /**
@@ -158,6 +157,7 @@ export const useUserSettings = () => {
   const setActionWindow = (actionWindowSettings: ActionWindowSettings) => {
     initializeIfNeeded()
     settingsStore.updateActionWindow(actionWindowSettings)
+    saveToCookie()
   }
 
   /**
@@ -180,6 +180,7 @@ export const useUserSettings = () => {
   ) => {
     initializeIfNeeded()
     settingsStore.updateMessageDisplay(messageDisplaySettings)
+    saveToCookie()
   }
 
   /**
@@ -200,6 +201,7 @@ export const useUserSettings = () => {
   const setTheme = (themeSettings: ThemeSettings) => {
     initializeIfNeeded()
     settingsStore.updateTheme(themeSettings)
+    saveToCookie()
   }
 
   /**
@@ -220,6 +222,7 @@ export const useUserSettings = () => {
   const setOperation = (operationSettings: OperationSettings) => {
     initializeIfNeeded()
     settingsStore.updateOperation(operationSettings)
+    saveToCookie()
   }
 
   /**
@@ -252,6 +255,7 @@ export const useUserSettings = () => {
     settingsStore.updateAgeLimit({
       confirmVillageIds: [...ageLimitSettings.confirmVillageIds]
     })
+    saveToCookie()
   }
 
   return {

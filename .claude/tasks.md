@@ -203,9 +203,9 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
 
 ###### 1.5 ページの実装
 
-- [ ] `pages/village.vue` の作成
+- [x] `pages/village.vue` の作成
   - URLクエリパラメータ `id` の取得
-  - Firebase認証状態の確認（onMounted）
+  - `useAuth` composableを使用した認証状態の取得
   - 各Composablesの統合
   - 既存の `layouts/village.vue` の使用
   - ページ内でのレイアウト構造実装
@@ -216,7 +216,6 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
 ###### 1.6 初期表示フローの実装
 
 - [ ] 初期表示フローの実装
-  - Firebase認証状態の確認
   - 村情報の取得
   - 最新日・最新ページの発言取得
   - 参加状況の取得

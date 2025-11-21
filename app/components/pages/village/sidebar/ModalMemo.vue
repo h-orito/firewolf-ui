@@ -1,26 +1,14 @@
 <template>
-  <UModal v-model="isModalOpen">
-    <UCard class="max-w-4xl">
-      <template #header>
-        <div class="flex items-center justify-between">
-          <h3 class="text-lg font-semibold">メモ</h3>
-          <UButton
-            color="neutral"
-            variant="ghost"
-            icon="i-heroicons-x-mark-20-solid"
-            @click="close"
-          />
-        </div>
-      </template>
-
-      <div class="p-4">
-        <p class="text-gray-500">メモ機能を表示（後続タスクで実装予定）</p>
-      </div>
-    </UCard>
-  </UModal>
+  <Modal v-model="isModalOpen" title="メモ">
+    <div class="p-4">
+      <p class="text-gray-500">メモ機能を表示（後続タスクで実装予定）</p>
+    </div>
+  </Modal>
 </template>
 
 <script setup lang="ts">
+import Modal from '~/components/ui/modal/Modal.vue'
+
 // Props
 interface Props {
   isOpen: boolean
@@ -42,9 +30,4 @@ const isModalOpen = computed({
     }
   }
 })
-
-// Methods
-const close = () => {
-  emit('close')
-}
 </script>

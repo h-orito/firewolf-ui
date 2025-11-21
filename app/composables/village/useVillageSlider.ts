@@ -6,7 +6,7 @@ export const useVillageSlider = () => {
 
   return {
     // State
-    isOpen: computed(() => sliderStore.isOpen),
+    isOpen: sliderStore.isOpen,
 
     // Actions
     toggle: sliderStore.toggle,

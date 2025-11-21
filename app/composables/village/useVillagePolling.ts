@@ -1,4 +1,5 @@
 import type { VillageLatestView } from '~/lib/api/types'
+import { useVillageRefresh } from './useVillageRefresh'
 
 /**
  * 村の最新情報を定期的にポーリング
@@ -6,10 +7,10 @@ import type { VillageLatestView } from '~/lib/api/types'
 export const useVillagePolling = () => {
   // Store
   const villageStore = useVillageStore()
+  const { handleDayChange, handleNewMessage } = useVillageRefresh()
 
   // State
   const pollingInterval = ref<NodeJS.Timeout | null>(null)
-  const existsNewMessages = ref<boolean>(false)
 
   // API
   const { apiCall } = useApi()
@@ -22,16 +23,13 @@ export const useVillagePolling = () => {
   /**
    * ポーリングを開始
    */
-  const startPolling = (
-    onNewMessage?: () => void,
-    onDayChange?: () => void
-  ) => {
+  const startPolling = () => {
     // 既存のポーリングがあれば停止
     stopPolling()
 
     // 30秒ごとにチェック
     pollingInterval.value = setInterval(async () => {
-      await checkLatest(onNewMessage, onDayChange)
+      await checkLatest()
     }, 30 * 1000)
   }
 
@@ -48,10 +46,7 @@ export const useVillagePolling = () => {
   /**
    * 最新情報をチェック
    */
-  const checkLatest = async (
-    onNewMessage?: () => void,
-    onDayChange?: () => void
-  ) => {
+  const checkLatest = async () => {
     try {
       const currentLatest = villageStore.villageLatest
       const latest = await loadVillageLatest()
@@ -64,33 +59,21 @@ export const useVillagePolling = () => {
 
       // 日付変更をチェック
       if (latest.village_day_id !== currentLatest.village_day_id) {
-        existsNewMessages.value = true
-        if (onDayChange) {
-          onDayChange()
-        }
+        villageStore.saveExistsNewMessages(true)
+        handleDayChange()
         villageStore.saveVillageLatest(latest)
         return
       }
 
       // 新着発言をチェック
       if (latest.unix_time_milli > currentLatest.unix_time_milli) {
-        existsNewMessages.value = true
-        if (onNewMessage) {
-          onNewMessage()
-        }
+        villageStore.saveExistsNewMessages(true)
+        handleNewMessage()
         villageStore.saveVillageLatest(latest)
       }
     } catch (error) {
       console.error('最新情報の取得に失敗しました:', error)
     }
-  }
-
-  /**
-   * 最新情報を更新
-   */
-  const updateVillageLatest = async () => {
-    const latest = await loadVillageLatest()
-    villageStore.saveVillageLatest(latest)
   }
 
   const loadVillageLatest = async (): Promise<VillageLatestView> => {
@@ -100,23 +83,14 @@ export const useVillagePolling = () => {
     return await apiCall<VillageLatestView>(url)
   }
 
-  /**
-   * 新着メッセージフラグをリセット
-   */
-  const resetNewMessagesFlag = () => {
-    existsNewMessages.value = false
-  }
-
   return {
     // State (from store)
-    villageLatest: computed(() => villageStore.villageLatest),
-    existsNewMessages: readonly(existsNewMessages),
+    villageLatest: villageStore.villageLatest,
+    existsNewMessages: villageStore.existsNewMessages,
 
     // Methods
     startPolling,
     stopPolling,
-    checkLatest,
-    updateVillageLatest,
-    resetNewMessagesFlag
+    checkLatest
   }
 }

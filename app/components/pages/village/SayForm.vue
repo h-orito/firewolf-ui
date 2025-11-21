@@ -75,41 +75,41 @@
     </div>
 
     <!-- 表情選択モーダル -->
-    <UModal v-model="showFaceModal">
-      <div class="p-6">
-        <h3 class="mb-4 text-lg font-semibold">表情を選択</h3>
-        <div class="grid grid-cols-2 gap-4 sm:grid-cols-3">
-          <button
-            v-for="face in chara?.face_list || []"
-            :key="face.type"
-            type="button"
-            class="cursor-pointer rounded border p-2 hover:bg-gray-100 dark:hover:bg-gray-800"
-            :class="{
-              'ring-primary-500 ring-2': selectedFaceType === face.type
-            }"
-            @click="selectFace(face.type)"
-          >
-            <CharaImage
-              v-if="chara"
-              :chara="chara"
-              :face-type="face.type"
-              :is-small="true"
-            />
-            <p class="mt-1 text-center text-xs">{{ face.name }}</p>
-          </button>
-        </div>
-        <div class="mt-4 flex justify-end gap-2">
+    <Modal v-model="showFaceModal" title="表情を選択">
+      <div class="grid grid-cols-2 gap-4 sm:grid-cols-3">
+        <button
+          v-for="face in chara?.face_list || []"
+          :key="face.type"
+          type="button"
+          class="cursor-pointer rounded border p-2 hover:bg-gray-100 dark:hover:bg-gray-800"
+          :class="{
+            'ring-primary-500 ring-2': selectedFaceType === face.type
+          }"
+          @click="selectFace(face.type)"
+        >
+          <CharaImage
+            v-if="chara"
+            :chara="chara"
+            :face-type="face.type"
+            :is-small="true"
+          />
+          <p class="mt-1 text-center text-xs">{{ face.name }}</p>
+        </button>
+      </div>
+      <template #footer>
+        <div class="flex justify-end gap-2">
           <UButton variant="ghost" @click="showFaceModal = false"
             >キャンセル</UButton
           >
         </div>
-      </div>
-    </UModal>
+      </template>
+    </Modal>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { CharaView, VillageParticipantView } from '~/lib/api/types'
+import Modal from '~/components/ui/modal/Modal.vue'
 import CharaImage from './CharaImage.vue'
 
 interface MessageTypeSituation {

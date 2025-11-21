@@ -1,36 +1,23 @@
 <template>
-  <UModal v-model="isModalOpen">
-    <UCard class="max-w-4xl">
-      <template #header>
-        <div class="flex items-center justify-between">
-          <h3 class="text-lg font-semibold">村の設定</h3>
-          <UButton
-            color="neutral"
-            variant="ghost"
-            icon="i-heroicons-x-mark-20-solid"
-            @click="close"
-          />
-        </div>
-      </template>
-
-      <div class="p-4">
-        <p class="text-gray-500">村の設定情報を表示（後続タスクで実装予定）</p>
-      </div>
-    </UCard>
-  </UModal>
+  <Modal v-model="isModalOpen" title="村の設定">
+    <div class="p-4">
+      <p class="text-gray-500">村の設定情報を表示（後続タスクで実装予定）</p>
+    </div>
+  </Modal>
 </template>
 
 <script setup lang="ts">
-import type { CharachipView } from '~/lib/api/types'
+import Modal from '~/components/ui/modal/Modal.vue'
 
 // Props
 interface Props {
   isOpen: boolean
-  // TODO: 後続タスクで村の設定情報表示時に使用予定
-  charachips: CharachipView[]
 }
 
 const props = defineProps<Props>()
+
+// 後続タスクで村の設定情報表示時に使用予定
+// const { charachips } = useVillage()
 
 // Emits
 const emit = defineEmits<{
@@ -46,9 +33,4 @@ const isModalOpen = computed({
     }
   }
 })
-
-// Methods
-const close = () => {
-  emit('close')
-}
 </script>

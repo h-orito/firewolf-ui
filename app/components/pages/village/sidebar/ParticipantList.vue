@@ -1,68 +1,82 @@
 <template>
   <div class="mb-4">
     <!-- 生存参加者 -->
-    <div v-if="isProgress" class="participant-header">
+    <div v-if="isProgress" class="border-t border-gray-600 pt-1 pb-1">
       生存（{{ aliveParticipantList.length }}人）
     </div>
     <div
       v-for="participant in aliveParticipantList"
       :key="participant.id"
-      class="participant-area"
+      class="flex border-t border-gray-600 pt-1 pb-1"
     >
-      <div class="face-area mr-2">
+      <div class="mr-2 shrink-0">
         <CharaImage :chara="participant.chara" :is-small="true" />
       </div>
-      <div class="name-area text-xs">
-        <div class="chara-name">
+      <div class="flex flex-1 flex-col text-xs">
+        <div class="mb-1 flex">
           <p>{{ charaName(participant) }}</p>
-          <p v-if="comingout(participant)" class="coming-out">
+          <p
+            v-if="comingout(participant)"
+            class="ml-1 rounded border border-gray-400 px-1 py-0.5 text-xs"
+          >
             {{ comingout(participant) }}
           </p>
-          <p class="chara-filter">
-            <button type="button" @click="handleFilterClick(participant.id)">
+          <p class="flex-1 text-right">
+            <button
+              type="button"
+              class="text-white hover:font-bold hover:text-blue-400"
+              @click="handleFilterClick(participant.id)"
+            >
               抽出
             </button>
           </p>
         </div>
-        <div class="chara-situation">
+        <div class="mb-0 flex text-gray-400">
           <p :class="charaStatusClass(participant)">
             {{ charaStatus(participant) }}
           </p>
-          <p class="left-count">{{ remainingCount(participant) }}</p>
+          <p class="flex-1 text-right">{{ remainingCount(participant) }}</p>
         </div>
       </div>
     </div>
 
     <!-- 死亡参加者 -->
     <div v-if="isProgress && deadParticipantList.length > 0">
-      <div class="participant-header">
+      <div class="border-t border-gray-600 pt-1 pb-1">
         死亡（{{ deadParticipantList.length }}人）
       </div>
       <div
         v-for="participant in deadParticipantList"
         :key="participant.id"
-        class="participant-area"
+        class="flex border-t border-gray-600 pt-1 pb-1"
       >
-        <div class="face-area mr-2">
+        <div class="mr-2 shrink-0">
           <CharaImage :chara="participant.chara" :is-small="true" />
         </div>
-        <div class="name-area text-xs">
-          <div class="chara-name">
+        <div class="flex flex-1 flex-col text-xs">
+          <div class="mb-1 flex">
             <p>{{ charaName(participant) }}</p>
-            <p v-if="comingout(participant)" class="coming-out">
+            <p
+              v-if="comingout(participant)"
+              class="ml-1 rounded border border-gray-400 px-1 py-0.5 text-xs"
+            >
               {{ comingout(participant) }}
             </p>
-            <p class="chara-filter">
-              <button type="button" @click="handleFilterClick(participant.id)">
+            <p class="flex-1 text-right">
+              <button
+                type="button"
+                class="text-white hover:font-bold hover:text-blue-400"
+                @click="handleFilterClick(participant.id)"
+              >
                 抽出
               </button>
             </p>
           </div>
-          <div class="chara-situation">
+          <div class="mb-0 flex text-gray-400">
             <p :class="charaStatusClass(participant)">
               {{ charaStatus(participant) }}
             </p>
-            <p class="left-count">{{ remainingCount(participant) }}</p>
+            <p class="flex-1 text-right">{{ remainingCount(participant) }}</p>
           </div>
         </div>
       </div>
@@ -70,25 +84,31 @@
 
     <!-- 見学者 -->
     <div v-if="spectatorList.length > 0">
-      <div class="participant-header">見学（{{ spectatorList.length }}人）</div>
+      <div class="border-t border-gray-600 pt-1 pb-1">
+        見学（{{ spectatorList.length }}人）
+      </div>
       <div
         v-for="participant in spectatorList"
         :key="participant.id"
-        class="participant-area"
+        class="flex border-t border-gray-600 pt-1 pb-1"
       >
-        <div class="face-area mr-2">
+        <div class="mr-2 shrink-0">
           <CharaImage :chara="participant.chara" :is-small="true" />
         </div>
-        <div class="name-area text-xs">
-          <div class="chara-name">
+        <div class="flex flex-1 flex-col text-xs">
+          <div class="mb-1 flex">
             <p>{{ charaName(participant) }}</p>
-            <p class="chara-filter">
-              <button type="button" @click="handleFilterClick(participant.id)">
+            <p class="flex-1 text-right">
+              <button
+                type="button"
+                class="text-white hover:font-bold hover:text-blue-400"
+                @click="handleFilterClick(participant.id)"
+              >
                 抽出
               </button>
             </p>
           </div>
-          <div class="chara-situation">
+          <div class="mb-0 flex text-gray-400">
             <p :class="charaStatusClass(participant)">
               {{ charaStatus(participant) }}
             </p>
@@ -124,7 +144,7 @@ const { messages } = useMessage()
 
 // Computed
 const isProgress = computed(() => {
-  const statusCode = village.value?.status.code
+  const statusCode = village?.status.code
   return (
     statusCode !== VILLAGE_STATUS.PROLOGUE &&
     statusCode !== VILLAGE_STATUS.CANCEL
@@ -132,8 +152,7 @@ const isProgress = computed(() => {
 })
 
 const participantList = computed(
-  () =>
-    (village.value?.participant.member_list ?? []) as VillageParticipantView[]
+  () => (village?.participant.member_list ?? []) as VillageParticipantView[]
 )
 
 const aliveParticipantList = computed(() => {
@@ -148,7 +167,7 @@ const deadParticipantList = computed(() => {
 })
 
 const spectatorList = computed(
-  () => (village.value?.spectator.member_list ?? []) as VillageParticipantView[]
+  () => (village?.spectator.member_list ?? []) as VillageParticipantView[]
 )
 
 // Methods
@@ -223,7 +242,7 @@ const handleFilterClick = (participantId: number): void => {
     const route = router.resolve({
       path: '/village',
       query: {
-        id: villageId.value?.toString(),
+        id: villageId?.toString(),
         filterId: participantId.toString()
       }
     })
@@ -233,45 +252,3 @@ const handleFilterClick = (participantId: number): void => {
   }
 }
 </script>
-
-<style scoped>
-.participant-header {
-  @apply border-t border-gray-600 pt-1 pb-1;
-}
-
-.participant-area {
-  @apply flex border-t border-gray-600 pt-1 pb-1;
-}
-
-.face-area {
-  @apply flex-shrink-0;
-}
-
-.name-area {
-  @apply flex flex-1 flex-col;
-}
-
-.chara-name {
-  @apply mb-1 flex;
-}
-
-.coming-out {
-  @apply ml-1 rounded border border-gray-400 px-1 py-0.5 text-xs;
-}
-
-.chara-filter {
-  @apply flex-1 text-right;
-}
-
-.chara-filter button {
-  @apply text-white hover:font-bold hover:text-blue-400;
-}
-
-.chara-situation {
-  @apply mb-0 flex text-gray-400;
-}
-
-.left-count {
-  @apply flex-1 text-right;
-}
-</style>

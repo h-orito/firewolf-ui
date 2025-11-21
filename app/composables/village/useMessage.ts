@@ -11,7 +11,7 @@ export const useMessage = () => {
   // Composables
   const { villageId, currentVillageDay } = useVillage()
   const { getPaging } = useUserSettings()
-  const { getMessageTypeList, participantIds, toParticipantIds, keyword } =
+  const { messageTypes, participantIds, toParticipantIds, keyword } =
     useVillageMessageFilter()
 
   // State
@@ -30,7 +30,7 @@ export const useMessage = () => {
    * 発言を取得（引数なしで内部の状態を使用）
    */
   const loadMessages = async () => {
-    if (!villageId.value || !currentVillageDay.value) return
+    if (!villageId || !currentVillageDay) return
 
     loading.value = true
     error.value = null
@@ -46,17 +46,17 @@ export const useMessage = () => {
       > = {}
 
       // フィルタ条件
-      if (getMessageTypeList.value && getMessageTypeList.value.length > 0) {
-        params.message_type_list = [...getMessageTypeList.value]
+      if (messageTypes && messageTypes.length > 0) {
+        params.message_type_list = [...messageTypes]
       }
-      if (participantIds.value && participantIds.value.length > 0) {
-        params.participant_id_list = [...participantIds.value]
+      if (participantIds && participantIds.length > 0) {
+        params.participant_id_list = [...participantIds]
       }
-      if (toParticipantIds.value && toParticipantIds.value.length > 0) {
-        params.to_participant_id_list = [...toParticipantIds.value]
+      if (toParticipantIds && toParticipantIds.length > 0) {
+        params.to_participant_id_list = [...toParticipantIds]
       }
-      if (keyword.value) {
-        params.keyword = keyword.value
+      if (keyword) {
+        params.keyword = keyword
       }
 
       // ページング設定
@@ -67,8 +67,8 @@ export const useMessage = () => {
       }
 
       // URLの構築(配列パラメータはrepeat形式で送信)
-      const day = currentVillageDay.value
-      const url = `/village/${villageId.value}/day/${day.day}/time/${day.noonnight}/message-list`
+      const day = currentVillageDay
+      const url = `/village/${villageId}/day/${day.day}/time/${day.noonnight}/message-list`
       const query = new URLSearchParams()
       Object.entries(params).forEach(([key, value]) => {
         if (Array.isArray(value)) {
@@ -91,31 +91,31 @@ export const useMessage = () => {
       error.value =
         err instanceof Error
           ? err
-          : new Error(`発言の取得に失敗しました (村ID: ${villageId.value})`)
-      console.error(`発言の取得に失敗しました (村ID: ${villageId.value}):`, err)
+          : new Error(`発言の取得に失敗しました (村ID: ${villageId})`)
+      console.error(`発言の取得に失敗しました (村ID: ${villageId}):`, err)
     } finally {
       loading.value = false
     }
   }
 
   // 監視: 依存する値が変更されたら自動的にloadMessagesを呼び出す
-  watch(
-    [
-      villageId,
-      currentVillageDay,
-      isDispLatest,
-      () => getPaging().isPaging,
-      () => getPaging().messagePerPage,
-      getMessageTypeList,
-      participantIds,
-      toParticipantIds,
-      keyword,
-      currentPageNum
-    ],
-    () => {
-      loadMessages()
-    }
-  )
+  // watch(
+  //   [
+  //     villageId,
+  //     currentVillageDay,
+  //     isDispLatest,
+  //     () => getPaging().isPaging,
+  //     () => getPaging().messagePerPage,
+  //     getMessageTypeList,
+  //     participantIds,
+  //     toParticipantIds,
+  //     keyword,
+  //     currentPageNum
+  //   ],
+  //   () => {
+  //     loadMessages()
+  //   }
+  // )
 
   /**
    * フィルタ条件を設定
@@ -158,6 +158,13 @@ export const useMessage = () => {
     isDispLatest.value = disp
   }
 
+  const isViewingLatestMessages = computed(() => {
+    return (
+      isDispLatest.value ||
+      messages.value?.current_page_num === messages.value?.all_page_count
+    )
+  })
+
   return {
     // State
     messages: readonly(messages),
@@ -165,6 +172,9 @@ export const useMessage = () => {
     error: readonly(error),
     currentPageNum: readonly(currentPageNum),
     isDispLatest: readonly(isDispLatest),
+
+    // Computed
+    isViewingLatestMessages,
 
     // Methods
     loadMessages,

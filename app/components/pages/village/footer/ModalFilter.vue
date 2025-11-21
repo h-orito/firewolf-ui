@@ -1,303 +1,287 @@
 <template>
-  <UModal v-model="isModalOpen">
-    <UCard>
-      <!-- ヘッダー -->
-      <template #header>
-        <h3 class="text-left text-lg font-bold">発言抽出</h3>
-      </template>
-
-      <!-- コンテンツ -->
-      <div v-if="village" class="space-y-6 text-left">
-        <!-- 発言種別 -->
-        <section>
-          <p class="mb-2 font-bold">発言種別</p>
-          <div class="mb-2 flex gap-2 text-sm">
-            <UButton
-              size="xs"
-              variant="link"
-              class="p-0"
-              @click="handleAllMessageTypeOn"
-            >
-              全てON
-            </UButton>
-            <span>/</span>
-            <UButton
-              size="xs"
-              variant="link"
-              class="p-0"
-              @click="handleAllMessageTypeOff"
-            >
-              全てOFF
-            </UButton>
-            <span>/</span>
-            <UButton
-              size="xs"
-              variant="link"
-              class="p-0"
-              @click="handleReverseMessageType"
-            >
-              反転
-            </UButton>
-          </div>
-
-          <!-- 発言種別チェックボックス -->
-          <div class="space-y-2">
-            <div class="flex flex-wrap gap-2">
-              <UCheckbox
-                :model-value="
-                  isMessageTypeSelected(MESSAGE_TYPE_GROUP.NORMAL_SAY)
-                "
-                label="通常"
-                @update:model-value="
-                  toggleMessageType(MESSAGE_TYPE_GROUP.NORMAL_SAY, $event)
-                "
-              />
-              <UCheckbox
-                :model-value="
-                  isMessageTypeSelected(MESSAGE_TYPE_GROUP.MONOLOGUE_SAY)
-                "
-                label="独り言"
-                @update:model-value="
-                  toggleMessageType(MESSAGE_TYPE_GROUP.MONOLOGUE_SAY, $event)
-                "
-              />
-              <UCheckbox
-                :model-value="
-                  isMessageTypeSelected(MESSAGE_TYPE_GROUP.SECRET_SAY)
-                "
-                label="秘話"
-                @update:model-value="
-                  toggleMessageType(MESSAGE_TYPE_GROUP.SECRET_SAY, $event)
-                "
-              />
-              <UCheckbox
-                :model-value="
-                  isMessageTypeSelected(MESSAGE_TYPE_GROUP.CREATOR_SAY)
-                "
-                label="村建て"
-                @update:model-value="
-                  toggleMessageType(MESSAGE_TYPE_GROUP.CREATOR_SAY, $event)
-                "
-              />
-            </div>
-            <div class="flex flex-wrap gap-2">
-              <UCheckbox
-                :model-value="
-                  isMessageTypeSelected(MESSAGE_TYPE_GROUP.WEREWOLF_SAY)
-                "
-                label="囁き"
-                @update:model-value="
-                  toggleMessageType(MESSAGE_TYPE_GROUP.WEREWOLF_SAY, $event)
-                "
-              />
-              <UCheckbox
-                :model-value="
-                  isMessageTypeSelected(MESSAGE_TYPE_GROUP.SYMPATHIZE_SAY)
-                "
-                label="共鳴"
-                @update:model-value="
-                  toggleMessageType(MESSAGE_TYPE_GROUP.SYMPATHIZE_SAY, $event)
-                "
-              />
-              <UCheckbox
-                :model-value="
-                  isMessageTypeSelected(MESSAGE_TYPE_GROUP.LOVERS_SAY)
-                "
-                label="恋人"
-                @update:model-value="
-                  toggleMessageType(MESSAGE_TYPE_GROUP.LOVERS_SAY, $event)
-                "
-              />
-              <UCheckbox
-                :model-value="
-                  isMessageTypeSelected(MESSAGE_TYPE_GROUP.GRAVE_SAY)
-                "
-                label="墓下見学"
-                @update:model-value="
-                  toggleMessageType(MESSAGE_TYPE_GROUP.GRAVE_SAY, $event)
-                "
-              />
-            </div>
-            <div class="flex flex-wrap gap-2">
-              <UCheckbox
-                :model-value="isMessageTypeSelected(MESSAGE_TYPE_GROUP.ACTION)"
-                label="アクション"
-                @update:model-value="
-                  toggleMessageType(MESSAGE_TYPE_GROUP.ACTION, $event)
-                "
-              />
-              <UCheckbox
-                :model-value="isMessageTypeSelected(MESSAGE_TYPE_GROUP.SYSTEM)"
-                label="公開システム"
-                @update:model-value="
-                  toggleMessageType(MESSAGE_TYPE_GROUP.SYSTEM, $event)
-                "
-              />
-              <UCheckbox
-                :model-value="
-                  isMessageTypeSelected(MESSAGE_TYPE_GROUP.PRIVATE_SYSTEM)
-                "
-                label="非公開システム"
-                @update:model-value="
-                  toggleMessageType(MESSAGE_TYPE_GROUP.PRIVATE_SYSTEM, $event)
-                "
-              />
-            </div>
-          </div>
-        </section>
-
-        <!-- 発言者 -->
-        <section>
-          <p class="mb-2 font-bold">発言者</p>
-          <div class="mb-2 flex gap-2 text-sm">
-            <UButton
-              size="xs"
-              variant="link"
-              class="p-0"
-              @click="handleAllParticipantOn"
-            >
-              全てON
-            </UButton>
-            <span>/</span>
-            <UButton
-              size="xs"
-              variant="link"
-              class="p-0"
-              @click="handleAllParticipantOff"
-            >
-              全てOFF
-            </UButton>
-            <span>/</span>
-            <UButton
-              size="xs"
-              variant="link"
-              class="p-0"
-              @click="handleReverseParticipant"
-            >
-              反転
-            </UButton>
-          </div>
-
-          <!-- 参加者リスト -->
-          <div class="grid grid-cols-2 gap-0">
-            <div
-              v-for="participant in participantList"
-              :key="participant.id"
-              class="border-t border-gray-300 py-1"
-            >
-              <UCheckbox
-                :model-value="isParticipantSelected(participant.id)"
-                @update:model-value="toggleParticipant(participant.id, $event)"
-              >
-                <div class="flex items-center gap-2">
-                  <CharaImage :chara="participant.chara" :is-small="true" />
-                  <span class="text-xs">{{ participant.name }}</span>
-                </div>
-              </UCheckbox>
-            </div>
-          </div>
-        </section>
-
-        <!-- キーワード -->
-        <section>
-          <p class="mb-2 font-bold">キーワード</p>
-          <UInput
-            v-model="keyword"
-            size="sm"
-            placeholder="スペース区切り"
-            class="w-full"
-          />
-        </section>
-
-        <!-- 宛先 -->
-        <section>
-          <p class="mb-2 font-bold">宛先</p>
-          <div class="mb-2 flex gap-2 text-sm">
-            <UButton
-              size="xs"
-              variant="link"
-              class="p-0"
-              @click="handleAllToParticipantOn"
-            >
-              全てON
-            </UButton>
-            <span>/</span>
-            <UButton
-              size="xs"
-              variant="link"
-              class="p-0"
-              @click="handleAllToParticipantOff"
-            >
-              全てOFF
-            </UButton>
-            <span>/</span>
-            <UButton
-              size="xs"
-              variant="link"
-              class="p-0"
-              @click="handleReverseToParticipant"
-            >
-              反転
-            </UButton>
-            <template v-if="myself">
-              <span>/</span>
-              <UButton
-                size="xs"
-                variant="link"
-                class="p-0"
-                @click="handleToMyParticipant"
-              >
-                自分宛
-              </UButton>
-            </template>
-          </div>
-
-          <!-- 宛先参加者リスト -->
-          <div class="grid grid-cols-2 gap-0">
-            <div
-              v-for="participant in participantList"
-              :key="participant.id"
-              class="border-t border-gray-300 py-1"
-            >
-              <UCheckbox
-                :model-value="isToParticipantSelected(participant.id)"
-                @update:model-value="
-                  toggleToParticipant(participant.id, $event)
-                "
-              >
-                <div class="flex items-center gap-2">
-                  <CharaImage :chara="participant.chara" :is-small="true" />
-                  <span class="text-xs">{{ participant.name }}</span>
-                </div>
-              </UCheckbox>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      <!-- フッター -->
-      <template #footer>
-        <div class="flex justify-end gap-2">
+  <Modal v-model="isModalOpen" title="発言抽出">
+    <!-- コンテンツ -->
+    <div v-if="village" class="space-y-6 text-left">
+      <!-- 発言種別 -->
+      <section>
+        <p class="mb-2 font-bold">発言種別</p>
+        <div class="mb-2 flex gap-2 text-sm">
           <UButton
-            color="neutral"
-            variant="ghost"
-            size="sm"
-            @click="handleClose"
+            size="xs"
+            variant="link"
+            class="p-0"
+            @click="handleAllMessageTypeOn"
           >
-            キャンセル
+            全てON
           </UButton>
+          <span>/</span>
           <UButton
-            color="primary"
-            size="sm"
-            :disabled="!canFilter"
-            @click="handleFilter"
+            size="xs"
+            variant="link"
+            class="p-0"
+            @click="handleAllMessageTypeOff"
           >
-            抽出する
+            全てOFF
+          </UButton>
+          <span>/</span>
+          <UButton
+            size="xs"
+            variant="link"
+            class="p-0"
+            @click="handleReverseMessageType"
+          >
+            反転
           </UButton>
         </div>
-      </template>
-    </UCard>
-  </UModal>
+
+        <!-- 発言種別チェックボックス -->
+        <div class="space-y-2">
+          <div class="flex flex-wrap gap-2">
+            <UCheckbox
+              :model-value="
+                isMessageTypeSelected(MESSAGE_TYPE_GROUP.NORMAL_SAY)
+              "
+              label="通常"
+              @update:model-value="
+                toggleMessageType(MESSAGE_TYPE_GROUP.NORMAL_SAY, $event)
+              "
+            />
+            <UCheckbox
+              :model-value="
+                isMessageTypeSelected(MESSAGE_TYPE_GROUP.MONOLOGUE_SAY)
+              "
+              label="独り言"
+              @update:model-value="
+                toggleMessageType(MESSAGE_TYPE_GROUP.MONOLOGUE_SAY, $event)
+              "
+            />
+            <UCheckbox
+              :model-value="
+                isMessageTypeSelected(MESSAGE_TYPE_GROUP.SECRET_SAY)
+              "
+              label="秘話"
+              @update:model-value="
+                toggleMessageType(MESSAGE_TYPE_GROUP.SECRET_SAY, $event)
+              "
+            />
+            <UCheckbox
+              :model-value="
+                isMessageTypeSelected(MESSAGE_TYPE_GROUP.CREATOR_SAY)
+              "
+              label="村建て"
+              @update:model-value="
+                toggleMessageType(MESSAGE_TYPE_GROUP.CREATOR_SAY, $event)
+              "
+            />
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <UCheckbox
+              :model-value="
+                isMessageTypeSelected(MESSAGE_TYPE_GROUP.WEREWOLF_SAY)
+              "
+              label="囁き"
+              @update:model-value="
+                toggleMessageType(MESSAGE_TYPE_GROUP.WEREWOLF_SAY, $event)
+              "
+            />
+            <UCheckbox
+              :model-value="
+                isMessageTypeSelected(MESSAGE_TYPE_GROUP.SYMPATHIZE_SAY)
+              "
+              label="共鳴"
+              @update:model-value="
+                toggleMessageType(MESSAGE_TYPE_GROUP.SYMPATHIZE_SAY, $event)
+              "
+            />
+            <UCheckbox
+              :model-value="
+                isMessageTypeSelected(MESSAGE_TYPE_GROUP.LOVERS_SAY)
+              "
+              label="恋人"
+              @update:model-value="
+                toggleMessageType(MESSAGE_TYPE_GROUP.LOVERS_SAY, $event)
+              "
+            />
+            <UCheckbox
+              :model-value="isMessageTypeSelected(MESSAGE_TYPE_GROUP.GRAVE_SAY)"
+              label="墓下見学"
+              @update:model-value="
+                toggleMessageType(MESSAGE_TYPE_GROUP.GRAVE_SAY, $event)
+              "
+            />
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <UCheckbox
+              :model-value="isMessageTypeSelected(MESSAGE_TYPE_GROUP.ACTION)"
+              label="アクション"
+              @update:model-value="
+                toggleMessageType(MESSAGE_TYPE_GROUP.ACTION, $event)
+              "
+            />
+            <UCheckbox
+              :model-value="isMessageTypeSelected(MESSAGE_TYPE_GROUP.SYSTEM)"
+              label="公開システム"
+              @update:model-value="
+                toggleMessageType(MESSAGE_TYPE_GROUP.SYSTEM, $event)
+              "
+            />
+            <UCheckbox
+              :model-value="
+                isMessageTypeSelected(MESSAGE_TYPE_GROUP.PRIVATE_SYSTEM)
+              "
+              label="非公開システム"
+              @update:model-value="
+                toggleMessageType(MESSAGE_TYPE_GROUP.PRIVATE_SYSTEM, $event)
+              "
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- 発言者 -->
+      <section>
+        <p class="mb-2 font-bold">発言者</p>
+        <div class="mb-2 flex gap-2 text-sm">
+          <UButton
+            size="xs"
+            variant="link"
+            class="p-0"
+            @click="handleAllParticipantOn"
+          >
+            全てON
+          </UButton>
+          <span>/</span>
+          <UButton
+            size="xs"
+            variant="link"
+            class="p-0"
+            @click="handleAllParticipantOff"
+          >
+            全てOFF
+          </UButton>
+          <span>/</span>
+          <UButton
+            size="xs"
+            variant="link"
+            class="p-0"
+            @click="handleReverseParticipant"
+          >
+            反転
+          </UButton>
+        </div>
+
+        <!-- 参加者リスト -->
+        <div class="grid grid-cols-2 gap-0">
+          <div
+            v-for="participant in participantList"
+            :key="participant.id"
+            class="border-t border-gray-300 py-1"
+          >
+            <UCheckbox
+              :model-value="isParticipantSelected(participant.id)"
+              @update:model-value="toggleParticipant(participant.id, $event)"
+            >
+              <div class="flex items-center gap-2">
+                <CharaImage :chara="participant.chara" :is-small="true" />
+                <span class="text-xs">{{ participant.name }}</span>
+              </div>
+            </UCheckbox>
+          </div>
+        </div>
+      </section>
+
+      <!-- キーワード -->
+      <section>
+        <p class="mb-2 font-bold">キーワード</p>
+        <UInput
+          v-model="keyword"
+          size="sm"
+          placeholder="スペース区切り"
+          class="w-full"
+        />
+      </section>
+
+      <!-- 宛先 -->
+      <section>
+        <p class="mb-2 font-bold">宛先</p>
+        <div class="mb-2 flex gap-2 text-sm">
+          <UButton
+            size="xs"
+            variant="link"
+            class="p-0"
+            @click="handleAllToParticipantOn"
+          >
+            全てON
+          </UButton>
+          <span>/</span>
+          <UButton
+            size="xs"
+            variant="link"
+            class="p-0"
+            @click="handleAllToParticipantOff"
+          >
+            全てOFF
+          </UButton>
+          <span>/</span>
+          <UButton
+            size="xs"
+            variant="link"
+            class="p-0"
+            @click="handleReverseToParticipant"
+          >
+            反転
+          </UButton>
+          <template v-if="myself">
+            <span>/</span>
+            <UButton
+              size="xs"
+              variant="link"
+              class="p-0"
+              @click="handleToMyParticipant"
+            >
+              自分宛
+            </UButton>
+          </template>
+        </div>
+
+        <!-- 宛先参加者リスト -->
+        <div class="grid grid-cols-2 gap-0">
+          <div
+            v-for="participant in participantList"
+            :key="participant.id"
+            class="border-t border-gray-300 py-1"
+          >
+            <UCheckbox
+              :model-value="isToParticipantSelected(participant.id)"
+              @update:model-value="toggleToParticipant(participant.id, $event)"
+            >
+              <div class="flex items-center gap-2">
+                <CharaImage :chara="participant.chara" :is-small="true" />
+                <span class="text-xs">{{ participant.name }}</span>
+              </div>
+            </UCheckbox>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- フッター -->
+    <template #footer>
+      <div class="flex justify-end gap-2">
+        <UButton color="neutral" variant="ghost" size="sm" @click="handleClose">
+          キャンセル
+        </UButton>
+        <UButton
+          color="primary"
+          size="sm"
+          :disabled="!canFilter"
+          @click="handleFilter"
+        >
+          抽出する
+        </UButton>
+      </div>
+    </template>
+  </Modal>
 </template>
 
 <script setup lang="ts">
@@ -309,6 +293,7 @@ import {
 import { useVillageMessageFilter } from '~/composables/village/useVillageMessageFilter'
 import { useVillage } from '~/composables/village/useVillage'
 import { useSituation } from '~/composables/village/useSituation'
+import Modal from '~/components/ui/modal/Modal.vue'
 import CharaImage from '../CharaImage.vue'
 
 // Props
@@ -355,13 +340,13 @@ const selectedToParticipantIds = ref<number[]>([])
 const keyword = ref<string | null>(null)
 
 // Computed
-const myself = computed(() => situation.value?.participate.myself ?? null)
+const myself = computed(() => situation?.participate.myself ?? null)
 
 const participantList = computed(() => {
-  if (!village.value) return []
+  if (!village) return []
   const participants = [
-    ...village.value.participant.member_list,
-    ...village.value.spectator.member_list
+    ...village.participant.member_list,
+    ...village.spectator.member_list
   ]
   return participants.sort((a, b) => a.id - b.id)
 })
@@ -386,19 +371,19 @@ watch(
 // Methods
 const initializeFilter = () => {
   // 現在のフィルタ状態をロード
-  selectedMessageTypeGroups.value = storeMessageTypeGroups.value
-    ? [...storeMessageTypeGroups.value]
+  selectedMessageTypeGroups.value = storeMessageTypeGroups
+    ? [...storeMessageTypeGroups]
     : [...ALL_MESSAGE_TYPE_GROUPS]
 
-  selectedParticipantIds.value = storeParticipantIds.value
-    ? [...storeParticipantIds.value]
+  selectedParticipantIds.value = storeParticipantIds
+    ? [...storeParticipantIds]
     : [...allParticipantIds.value]
 
-  selectedToParticipantIds.value = storeToParticipantIds.value
-    ? [...storeToParticipantIds.value]
+  selectedToParticipantIds.value = storeToParticipantIds
+    ? [...storeToParticipantIds]
     : [...allParticipantIds.value]
 
-  keyword.value = storeKeyword.value ?? null
+  keyword.value = storeKeyword ?? null
 }
 
 const handleFilter = () => {

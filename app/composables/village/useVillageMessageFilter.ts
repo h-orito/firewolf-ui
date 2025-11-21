@@ -64,8 +64,8 @@ export const useVillageMessageFilter = () => {
   /**
    * フィルタリング中かどうか
    */
-  const isFiltering = () => {
-    if (!village.value) return false
+  const isFiltering = computed(() => {
+    if (!village) return false
 
     const totalParticipantCount = allParticipantIds.value.length
 
@@ -85,7 +85,7 @@ export const useVillageMessageFilter = () => {
         toParticipantIdFilter.length !== totalParticipantCount) ||
       !!keywordFilter
     )
-  }
+  })
 
   /**
    * 全発言種別を選択
@@ -190,14 +190,14 @@ export const useVillageMessageFilter = () => {
 
   return {
     // State (from store)
-    messageTypeGroups: computed(() => filterStore.messageTypeGroups),
-    participantIds: computed(() => filterStore.participantIdFilter),
-    toParticipantIds: computed(() => filterStore.toParticipantIdFilter),
-    keyword: computed(() => filterStore.keywordFilter),
+    messageTypeGroups: filterStore.messageTypeGroups,
+    participantIds: filterStore.participantIdFilter,
+    toParticipantIds: filterStore.toParticipantIdFilter,
+    keyword: filterStore.keywordFilter,
 
     // Computed (from store)
-    getMessageTypeList: computed(() => filterStore.messageTypeFilter),
-    isFiltering: computed(() => isFiltering()),
+    messageTypes: filterStore.messageTypeFilter,
+    isFiltering: isFiltering,
 
     // Methods
     applyFilter,

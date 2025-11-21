@@ -1,5 +1,5 @@
-import type { VillageView } from '~/lib/api/types'
 import { VILLAGE_STATUS } from '~/lib/api/village-status-constants'
+import { useVillage } from './useVillage'
 
 /**
  * 村タイマーの管理(残り時間の計算・表示)
@@ -9,6 +9,9 @@ export const useVillageTimer = () => {
   const timerText = ref<string>('')
   const timerInterval = ref<NodeJS.Timeout | null>(null)
 
+  // 村情報を取得
+  const { village } = useVillage()
+
   // クリーンアップ: アンマウント時にタイマーを停止
   onUnmounted(() => {
     stopTimer()
@@ -17,15 +20,15 @@ export const useVillageTimer = () => {
   /**
    * タイマーを開始
    */
-  const startTimer = (village: Ref<VillageView | null>) => {
+  const startTimer = () => {
     // 既存のタイマーがあれば停止
     stopTimer()
 
     // 初回実行
-    updateTimer(village.value)
+    updateTimer()
 
     // 終了状態の場合はタイマーを開始しない
-    const statusCode = village.value?.status.code
+    const statusCode = village?.status.code
     if (
       statusCode === VILLAGE_STATUS.COMPLETED ||
       statusCode === VILLAGE_STATUS.CANCEL
@@ -35,7 +38,7 @@ export const useVillageTimer = () => {
 
     // 1秒ごとに更新
     timerInterval.value = setInterval(() => {
-      updateTimer(village.value)
+      updateTimer()
     }, 1000)
   }
 
@@ -57,7 +60,7 @@ export const useVillageTimer = () => {
   /**
    * タイマー表示を更新
    */
-  const updateTimer = (village: VillageView | null) => {
+  const updateTimer = () => {
     if (!village) {
       timerText.value = ''
       return
@@ -77,7 +80,7 @@ export const useVillageTimer = () => {
     }
 
     // 次の日付更新時刻を取得
-    const nextDaychangeDatetime = getNextDaychangeDatetime(village)
+    const nextDaychangeDatetime = getNextDaychangeDatetime()
     if (!nextDaychangeDatetime) {
       timerText.value = ''
       return
@@ -101,7 +104,9 @@ export const useVillageTimer = () => {
   /**
    * 次の日付更新時刻を取得
    */
-  const getNextDaychangeDatetime = (village: VillageView): Date | null => {
+  const getNextDaychangeDatetime = (): Date | null => {
+    if (!village) return null
+
     const dayList = village.day.day_list
     if (!dayList || dayList.length === 0) {
       return null

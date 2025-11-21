@@ -1,12 +1,12 @@
 <template>
-  <div class="village-header">
+  <div class="z-10 flex h-8 w-full">
     <!-- 前日ボタン -->
     <UButton
       color="neutral"
       variant="solid"
       icon="i-heroicons-chevron-left-20-solid"
       :disabled="!existPrevDay"
-      class="village-header-item text-sm"
+      class="flex h-full cursor-pointer items-center justify-center rounded-none border-0 bg-[#363636] text-xs"
       aria-label="前日へ移動"
       @click="toPrevDay"
     >
@@ -18,15 +18,10 @@
       color="neutral"
       variant="solid"
       icon="i-heroicons-arrow-up-20-solid"
-      class="village-header-item flex-1"
+      class="flex h-full flex-1 cursor-pointer items-center justify-center rounded-none border-0 bg-[#363636]"
       aria-label="最上部にスクロール"
       @click="toTop"
-    >
-      <UIcon
-        name="i-heroicons-arrow-up-20-solid"
-        class="mt-0.5 h-5 w-5 border-t border-white text-white"
-      />
-    </UButton>
+    />
 
     <!-- 翌日ボタン -->
     <UButton
@@ -35,7 +30,7 @@
       icon="i-heroicons-chevron-right-20-solid"
       trailing
       :disabled="!existNextDay"
-      class="village-header-item text-sm"
+      class="flex h-full cursor-pointer items-center justify-center rounded-none border-0 bg-[#363636] text-xs"
       aria-label="翌日へ移動"
       @click="toNextDay"
     >
@@ -57,13 +52,3 @@ const toTop = () => {
   scrollToTop()
 }
 </script>
-
-<style scoped>
-.village-header {
-  @apply z-10 flex h-full w-full;
-}
-
-.village-header-item {
-  @apply flex h-full cursor-pointer items-center justify-center rounded-none border-0 bg-gray-900;
-}
-</style>

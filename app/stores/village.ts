@@ -3,7 +3,8 @@ import type {
   VillageView,
   SituationAsParticipantView,
   VillageLatestView,
-  VillageDayView
+  VillageDayView,
+  CharachipView
 } from '~/lib/api/types'
 
 /**
@@ -16,6 +17,8 @@ export const useVillageStore = defineStore('village', () => {
   const situation = ref<SituationAsParticipantView | null>(null)
   const villageLatest = ref<VillageLatestView | null>(null)
   const currentVillageDay = ref<VillageDayView | null>(null)
+  const charachips = ref<CharachipView[]>([])
+  const existsNewMessages = ref<boolean>(false)
 
   // Computed
   const latestDay = computed(() => {
@@ -52,6 +55,8 @@ export const useVillageStore = defineStore('village', () => {
     situation.value = null
     villageLatest.value = null
     currentVillageDay.value = null
+    charachips.value = []
+    existsNewMessages.value = false
   }
 
   /**
@@ -83,14 +88,14 @@ export const useVillageStore = defineStore('village', () => {
   }
 
   /**
-   * ストアをリセット
+   * キャラチップ情報を保存
    */
-  const reset = () => {
-    villageId.value = null
-    village.value = null
-    situation.value = null
-    villageLatest.value = null
-    currentVillageDay.value = null
+  const saveCharachips = (chips: CharachipView[]) => {
+    charachips.value = chips
+  }
+
+  const saveExistsNewMessages = (exists: boolean) => {
+    existsNewMessages.value = exists
   }
 
   return {
@@ -100,6 +105,8 @@ export const useVillageStore = defineStore('village', () => {
     situation: readonly(situation),
     villageLatest: readonly(villageLatest),
     currentVillageDay: readonly(currentVillageDay),
+    charachips: readonly(charachips),
+    existsNewMessages: readonly(existsNewMessages),
 
     // Computed
     latestDay,
@@ -111,6 +118,7 @@ export const useVillageStore = defineStore('village', () => {
     saveSituation,
     saveVillageLatest,
     saveCurrentVillageDay,
-    reset
+    saveCharachips,
+    saveExistsNewMessages
   }
 })
