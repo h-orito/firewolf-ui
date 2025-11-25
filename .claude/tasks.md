@@ -213,6 +213,134 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
     - レスポンシブ対応（PC: サイドバー左固定、Mobile: オーバーレイ）
     - サイドバーの表示切り替え制御
 
+###### ex1: @nuxt/ui・@nuxt/icon 依存削除
+
+**目的**: @nuxt/uiと@nuxt/iconへの依存をなくし、Tailwind CSS + 独自実装でUIコンポーネントを提供する
+
+**実装方針**:
+
+- アイコン: `@heroicons/vue` を使用（heroicons以外は個別SVG対応）
+- セレクト: ネイティブselectをラッパーで包む（将来のカスタム化に対応可能）
+- その他: Tailwind CSSで独自実装
+
+####### ex1.1 アイコンコンポーネントの実装
+
+- [ ] `@heroicons/vue` パッケージのインストール
+- [ ] `components/ui/icon/Icon.vue` の作成
+  - @heroicons/vueをラップ
+  - Props: name, size, class
+  - heroicons以外のアイコン（twitter, google等）は個別SVGで対応
+- [ ] UIcon使用箇所をIconコンポーネントに置き換え
+  - VillageHeader.vue
+  - VillageFooter.vue
+  - VillageSidebar.vue
+  - NavBarSlider.vue
+  - Modal.vue
+  - PreviewModal.vue
+  - SigninModal.vue
+  - Alert.vue
+
+####### ex1.2 ボタンコンポーネントの独自実装
+
+- [ ] `components/ui/button/index.vue` を独自実装に変更
+  - UButtonへの依存を削除
+  - Tailwind CSSでスタイリング
+  - Props: color, variant, size, disabled, loading, block, icon, trailingIcon, type
+- [ ] UButton直接使用箇所をUiButtonに統一
+  - NavBar.vue
+  - NavBarSlider.vue
+  - VillageHeader.vue
+  - VillageFooter.vue
+  - VillageSidebar.vue
+  - OrganizationSection.vue
+  - ModalFilter.vue
+  - その他
+
+####### ex1.3 入力コンポーネントの独自実装
+
+- [ ] `components/ui/form/FormInput.vue` の作成（テキスト入力）
+  - Tailwind CSSでスタイリング
+  - Props: modelValue, type, placeholder, required, disabled, size
+- [ ] `components/ui/form/FormNumberInput.vue` を独自実装に変更
+  - UInputへの依存を削除
+- [ ] `components/ui/form/FormTextarea.vue` の作成
+  - UTextareaの代替
+- [ ] UInput/UTextarea使用箇所を置き換え
+  - BasicInfoSection.vue
+  - JoinPasswordSection.vue
+  - OrganizationSection.vue
+  - DummyMessageSection.vue
+  - ModalFilter.vue
+
+####### ex1.4 スイッチ・チェックボックスコンポーネントの独自実装
+
+- [ ] `components/ui/form/FormSwitch.vue` を独自実装に変更
+  - USwitchへの依存を削除
+  - Tailwind CSSでトグルスイッチを実装
+- [ ] `components/ui/form/FormCheckbox.vue` の作成
+  - UCheckboxの代替
+  - Tailwind CSSでスタイリング
+- [ ] 使用箇所を置き換え
+  - RuleSection.vue
+  - RpSection.vue
+  - OrganizationSection.vue
+  - ModalFilter.vue
+
+####### ex1.5 セレクトコンポーネントの独自実装
+
+- [ ] `components/ui/form/FormSelect.vue` の作成
+  - USelect/USelectMenuの代替
+  - ネイティブselectをラッパーで包む（将来のカスタム化に対応可能）
+  - Props: modelValue, options, placeholder, disabled, size
+  - Tailwind CSSでスタイリング
+- [ ] 使用箇所を置き換え
+  - RpSection.vue
+  - CharachipSection.vue
+
+####### ex1.6 モーダルコンポーネントの独自実装
+
+- [ ] `components/ui/modal/Modal.vue` を独自実装に変更
+  - UModalへの依存を削除
+  - Teleport + Tailwind CSSで実装
+  - アクセシビリティ対応（フォーカストラップ、ESCキー）
+- [ ] 使用箇所の確認と動作検証
+  - PolicyModal.vue
+  - TermModal.vue
+  - KampaModal.vue
+  - SigninModal.vue
+  - LinkModal.vue
+  - PreviewModal.vue
+
+####### ex1.7 アコーディオンコンポーネントの独自実装
+
+- [ ] `components/ui/accordion/Accordion.vue` の作成
+  - UAccordionの代替
+  - Tailwind CSSでスタイリング
+  - 開閉アニメーション
+- [ ] 使用箇所を置き換え
+  - VillageSidebar.vue
+
+####### ex1.8 バッジコンポーネントの独自実装
+
+- [ ] `components/ui/badge/index.vue` を独自実装に変更
+  - UBadgeへの依存を削除
+  - Tailwind CSSでスタイリング
+  - Props: color, variant, size
+
+####### ex1.9 設定ファイルの更新
+
+- [ ] `nuxt.config.ts` の更新
+  - @nuxt/uiモジュールを削除
+  - @nuxt/iconモジュールを削除
+- [ ] `app.config.ts` の更新
+  - ui設定を削除または独自設定に変更
+- [ ] `package.json` の更新
+  - @nuxt/ui依存を削除
+  - @nuxt/icon依存を削除
+- [ ] `app/assets/css/main.css` の更新
+  - @nuxt/ui用のCSS変数を整理
+  - 独自コンポーネント用のスタイルを追加
+
 ###### 1.6 初期表示フローの実装
 
 - [ ] 初期表示フローの実装
