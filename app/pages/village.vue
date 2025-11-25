@@ -9,7 +9,7 @@
       class="flex h-screen w-full items-center justify-center bg-gray-100"
     >
       <div class="flex flex-col items-center justify-center text-center">
-        <UIcon
+        <Icon
           name="i-heroicons-exclamation-circle"
           class="h-12 w-12 text-red-500"
         />

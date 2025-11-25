@@ -18,7 +18,7 @@
           @click="openVillageInfoModal"
           @keydown.enter="openVillageInfoModal"
         >
-          <UIcon name="i-heroicons-information-circle" class="h-4 w-4" />
+          <Icon name="i-heroicons-information-circle" class="h-4 w-4" />
           <span class="ml-2">村の設定</span>
         </button>
 
@@ -44,7 +44,7 @@
           @click="openMemoModal"
           @keydown.enter="openMemoModal"
         >
-          <UIcon name="i-heroicons-document-text" class="h-4 w-4" />
+          <Icon name="i-heroicons-document-text" class="h-4 w-4" />
           <span class="ml-2">メモ</span>
         </button>
 
@@ -54,7 +54,7 @@
           @click="openUserSettingsModal"
           @keydown.enter="openUserSettingsModal"
         >
-          <UIcon name="i-heroicons-cog-6-tooth" class="h-4 w-4" />
+          <Icon name="i-heroicons-cog-6-tooth" class="h-4 w-4" />
           <span class="ml-2">ユーザ設定</span>
         </button>
 
@@ -63,7 +63,7 @@
           :to="{ path: '/' }"
           class="flex cursor-pointer items-center py-2.5 text-sm text-white no-underline hover:text-blue-400"
         >
-          <UIcon name="i-heroicons-home" class="h-4 w-4" />
+          <Icon name="i-heroicons-home" class="h-4 w-4" />
           <span class="ml-2">トップページ</span>
         </NuxtLink>
       </div>

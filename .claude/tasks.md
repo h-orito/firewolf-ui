@@ -230,7 +230,7 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
   - @heroicons/vueをラップ
   - Props: name, size, class
   - heroicons以外のアイコン（twitter, google等）は個別SVGで対応
-- [ ] UIcon使用箇所をIconコンポーネントに置き換え
+- [x] UIcon使用箇所をIconコンポーネントに置き換え
   - VillageHeader.vue
   - VillageFooter.vue
   - VillageSidebar.vue

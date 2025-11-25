@@ -16,7 +16,7 @@
                     class="ml-1 text-blue-600 hover:text-blue-800"
                     @click="toggleDescription(index)"
                   >
-                    <UIcon name="i-heroicons-question-mark-circle" />
+                    <Icon name="i-heroicons-question-mark-circle" />
                   </button>
                 </td>
                 <td

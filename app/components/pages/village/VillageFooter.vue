@@ -23,9 +23,9 @@
       aria-label="発言を更新"
       @click="handleRefresh"
     >
-      <UIcon
+      <Icon
         name="i-heroicons-arrow-path-20-solid"
-        class="text-lg"
+        class="h-5 w-5"
         :class="{
           'animate-spin text-blue-400': existsNewMessages,
           'text-white': !existsNewMessages
@@ -41,7 +41,7 @@
       aria-label="最下部にスクロール"
       @click="toBottom"
     >
-      <UIcon
+      <Icon
         name="i-heroicons-arrow-down-20-solid"
         class="h-5 w-5 border-b border-white text-white"
       />
