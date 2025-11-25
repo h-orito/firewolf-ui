@@ -226,7 +226,7 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
 ####### ex1.1 アイコンコンポーネントの実装
 
 - [x] `@heroicons/vue` パッケージのインストール
-- [ ] `components/ui/icon/Icon.vue` の作成
+- [x] `components/ui/icon/Icon.vue` の作成
   - @heroicons/vueをラップ
   - Props: name, size, class
   - heroicons以外のアイコン（twitter, google等）は個別SVGで対応
