@@ -258,9 +258,11 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
 
 ####### ex1.3 入力コンポーネントの独自実装
 
-- [ ] `components/ui/form/FormInput.vue` の作成（テキスト入力）
+- [x] `components/ui/form/FormInput.vue` の作成（テキスト入力）
   - Tailwind CSSでスタイリング
-  - Props: modelValue, type, placeholder, required, disabled, size
+  - Props: modelValue, type, placeholder, required, disabled, readonly, size, maxlength, error, id, name
+  - Events: update:modelValue, blur
+  - $attrs透過対応（class等を親から受け取り可能）
 - [ ] `components/ui/form/FormNumberInput.vue` を独自実装に変更
   - UInputへの依存を削除
 - [ ] `components/ui/form/FormTextarea.vue` の作成
