@@ -242,10 +242,10 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
 
 ####### ex1.2 ボタンコンポーネントの独自実装
 
-- [ ] `components/ui/button/index.vue` を独自実装に変更
+- [x] `components/ui/button/index.vue` を独自実装に変更
   - UButtonへの依存を削除
   - Tailwind CSSでスタイリング
-  - Props: color, variant, size, disabled, loading, block, icon, trailingIcon, type
+  - Props: color, variant, size, disabled, loading, block, icon, type, class
 - [ ] UButton直接使用箇所をUiButtonに統一
   - NavBar.vue
   - NavBarSlider.vue
