@@ -4,9 +4,9 @@
     :style="{ height: 'calc(2rem + env(safe-area-inset-bottom))' }"
   >
     <!-- メニューボタン (モバイルのみ) -->
-    <UButton
+    <UiButton
       v-if="isMobile"
-      color="neutral"
+      color="secondary"
       variant="solid"
       icon="i-heroicons-bars-3-20-solid"
       class="flex h-full min-w-[60px] cursor-pointer items-center justify-center rounded-none border-0 border-r border-gray-700 bg-[#363636]"
@@ -15,8 +15,8 @@
     />
 
     <!-- 更新ボタン -->
-    <UButton
-      color="neutral"
+    <UiButton
+      color="secondary"
       variant="solid"
       class="flex h-full min-w-[60px] cursor-pointer items-center justify-center rounded-none border-0 border-r border-gray-700 bg-[#363636]"
       :class="{ 'w-[120px]': !isMobile }"
@@ -31,11 +31,11 @@
           'text-white': !existsNewMessages
         }"
       />
-    </UButton>
+    </UiButton>
 
     <!-- 最下部スクロールボタン -->
-    <UButton
-      color="neutral"
+    <UiButton
+      color="secondary"
       variant="solid"
       class="flex h-full flex-1 cursor-pointer items-center justify-center rounded-none border-0 bg-[#363636]"
       aria-label="最下部にスクロール"
@@ -45,11 +45,11 @@
         name="i-heroicons-arrow-down-20-solid"
         class="h-5 w-5 border-b border-white text-white"
       />
-    </UButton>
+    </UiButton>
 
     <!-- 抽出ボタン / 抽出解除ボタン -->
-    <UButton
-      color="neutral"
+    <UiButton
+      color="secondary"
       variant="solid"
       icon="i-heroicons-magnifying-glass-20-solid"
       class="flex h-full min-w-[60px] cursor-pointer items-center justify-center rounded-none border-0 border-l border-gray-700 bg-[#363636]"
@@ -62,7 +62,7 @@
       @click="openFilterModalOrReset"
     >
       <span v-if="isFiltering" class="text-sm text-blue-400">解除</span>
-    </UButton>
+    </UiButton>
 
     <!-- 残り時間表示 -->
     <div
@@ -77,6 +77,7 @@
 </template>
 
 <script setup lang="ts">
+import UiButton from '~/components/ui/button/index.vue'
 import { useVillageNavigation } from '~/composables/village/useVillageNavigation'
 import { useVillageMessageFilter } from '~/composables/village/useVillageMessageFilter'
 import { useVillagePolling } from '~/composables/village/useVillagePolling'

@@ -5,7 +5,7 @@
         FIREWOLFは<br />長期人狼が無料で遊べるサービスです
       </p>
     </div>
-    <div class="grid grid-cols-2 gap-6">
+    <div class="grid gap-4 md:grid-cols-2">
       <SpotlightButton to="/about">
         <Icon name="fa6-solid:book" class="mt-0.5 mr-2" />
         <strong>このサイトは</strong>

@@ -15,14 +15,14 @@
 
       <div class="mt-6 mb-6">
         <hr class="mb-3" />
-        <UButton
+        <UiButton
           color="primary"
           :disabled="isAlreadyTwitterLinked"
           @click="link('twitter')"
         >
           <Icon name="fa6-brands:twitter" class="mt-0.5 mr-2" />
           Twitterログイン
-        </UButton>
+        </UiButton>
         <Alert v-if="!isAlreadyTwitterLinked" class="my-4 text-sm">
           <ul class="list-disc">
             <li>エピローグでニックネームおよびTwitterのIDが公開されます。</li>
@@ -34,14 +34,14 @@
 
       <div class="my-6">
         <hr class="mb-3" />
-        <UButton
+        <UiButton
           color="primary"
           :disabled="isAlreadyGoogleLinked"
           @click="link('google')"
         >
           <Icon name="fa6-brands:google" class="mt-0.5 mr-2" />
           Googleログイン
-        </UButton>
+        </UiButton>
         <Alert v-if="!isAlreadyGoogleLinked" class="my-4 text-sm">
           <ul class="list-disc">
             <li>エピローグでニックネームが公開されます。</li>
@@ -54,9 +54,9 @@
     </div>
 
     <template #footer>
-      <UButton color="neutral" variant="outline" size="sm" @click="close">
+      <UiButton color="secondary" variant="outline" size="sm" @click="close">
         閉じる
-      </UButton>
+      </UiButton>
     </template>
   </Modal>
 </template>
@@ -64,6 +64,7 @@
 <script setup lang="ts">
 import Alert from '~/components/ui/feedback/Alert.vue'
 import Modal from '~/components/ui/modal/Modal.vue'
+import UiButton from '~/components/ui/button/index.vue'
 import { useAuthStore } from '~/stores/auth'
 
 const props = defineProps<{

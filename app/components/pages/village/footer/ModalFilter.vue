@@ -6,32 +6,32 @@
       <section>
         <p class="mb-2 font-bold">発言種別</p>
         <div class="mb-2 flex gap-2 text-sm">
-          <UButton
+          <UiButton
             size="xs"
             variant="link"
             class="p-0"
             @click="handleAllMessageTypeOn"
           >
             全てON
-          </UButton>
+          </UiButton>
           <span>/</span>
-          <UButton
+          <UiButton
             size="xs"
             variant="link"
             class="p-0"
             @click="handleAllMessageTypeOff"
           >
             全てOFF
-          </UButton>
+          </UiButton>
           <span>/</span>
-          <UButton
+          <UiButton
             size="xs"
             variant="link"
             class="p-0"
             @click="handleReverseMessageType"
           >
             反転
-          </UButton>
+          </UiButton>
         </div>
 
         <!-- 発言種別チェックボックス -->
@@ -142,32 +142,32 @@
       <section>
         <p class="mb-2 font-bold">発言者</p>
         <div class="mb-2 flex gap-2 text-sm">
-          <UButton
+          <UiButton
             size="xs"
             variant="link"
             class="p-0"
             @click="handleAllParticipantOn"
           >
             全てON
-          </UButton>
+          </UiButton>
           <span>/</span>
-          <UButton
+          <UiButton
             size="xs"
             variant="link"
             class="p-0"
             @click="handleAllParticipantOff"
           >
             全てOFF
-          </UButton>
+          </UiButton>
           <span>/</span>
-          <UButton
+          <UiButton
             size="xs"
             variant="link"
             class="p-0"
             @click="handleReverseParticipant"
           >
             反転
-          </UButton>
+          </UiButton>
         </div>
 
         <!-- 参加者リスト -->
@@ -205,42 +205,42 @@
       <section>
         <p class="mb-2 font-bold">宛先</p>
         <div class="mb-2 flex gap-2 text-sm">
-          <UButton
+          <UiButton
             size="xs"
             variant="link"
             class="p-0"
             @click="handleAllToParticipantOn"
           >
             全てON
-          </UButton>
+          </UiButton>
           <span>/</span>
-          <UButton
+          <UiButton
             size="xs"
             variant="link"
             class="p-0"
             @click="handleAllToParticipantOff"
           >
             全てOFF
-          </UButton>
+          </UiButton>
           <span>/</span>
-          <UButton
+          <UiButton
             size="xs"
             variant="link"
             class="p-0"
             @click="handleReverseToParticipant"
           >
             反転
-          </UButton>
+          </UiButton>
           <template v-if="myself">
             <span>/</span>
-            <UButton
+            <UiButton
               size="xs"
               variant="link"
               class="p-0"
               @click="handleToMyParticipant"
             >
               自分宛
-            </UButton>
+            </UiButton>
           </template>
         </div>
 
@@ -268,17 +268,22 @@
     <!-- フッター -->
     <template #footer>
       <div class="flex justify-end gap-2">
-        <UButton color="neutral" variant="ghost" size="sm" @click="handleClose">
+        <UiButton
+          color="secondary"
+          variant="outline"
+          size="sm"
+          @click="handleClose"
+        >
           キャンセル
-        </UButton>
-        <UButton
+        </UiButton>
+        <UiButton
           color="primary"
           size="sm"
           :disabled="!canFilter"
           @click="handleFilter"
         >
           抽出する
-        </UButton>
+        </UiButton>
       </div>
     </template>
   </Modal>
@@ -294,6 +299,7 @@ import { useVillageMessageFilter } from '~/composables/village/useVillageMessage
 import { useVillage } from '~/composables/village/useVillage'
 import { useSituation } from '~/composables/village/useSituation'
 import Modal from '~/components/ui/modal/Modal.vue'
+import UiButton from '~/components/ui/button/index.vue'
 import CharaImage from '../CharaImage.vue'
 
 // Props

@@ -15,10 +15,10 @@
 
       <div class="mt-6 mb-6">
         <hr class="mb-3" />
-        <UButton color="primary" @click="signin('twitter')">
+        <UiButton color="primary" @click="signin('twitter')">
           <Icon name="fa6-brands:twitter" class="mt-0.5 mr-2" />
           Twitterログイン
-        </UButton>
+        </UiButton>
         <Alert class="my-4 text-sm">
           <ul class="list-disc">
             <li>エピローグでニックネームおよびTwitterのIDが公開されます。</li>
@@ -29,10 +29,10 @@
 
       <div class="my-6">
         <hr class="mb-3" />
-        <UButton color="primary" @click="signin('google')">
+        <UiButton color="primary" @click="signin('google')">
           <Icon name="fa6-brands:google" class="mt-0.5 mr-2" />
           Googleログイン
-        </UButton>
+        </UiButton>
         <Alert class="my-4 text-sm">
           <ul class="list-disc">
             <li>エピローグでニックネームが公開されます。</li>
@@ -43,9 +43,9 @@
     </div>
 
     <template #footer>
-      <UButton color="neutral" variant="outline" size="sm" @click="close">
+      <UiButton color="secondary" variant="outline" size="sm" @click="close">
         閉じる
-      </UButton>
+      </UiButton>
     </template>
   </Modal>
 </template>
@@ -53,6 +53,7 @@
 <script setup lang="ts">
 import Alert from '~/components/ui/feedback/Alert.vue'
 import Modal from '~/components/ui/modal/Modal.vue'
+import UiButton from '~/components/ui/button/index.vue'
 
 const props = defineProps<{
   modelValue: boolean

@@ -61,7 +61,7 @@
 
         <!-- アクションボタン -->
         <div class="mt-4 flex flex-col gap-2 sm:flex-row">
-          <UButton
+          <UiButton
             :disabled="!canSubmit"
             :loading="isSubmitting"
             color="primary"
@@ -69,7 +69,7 @@
             @click="submitAction"
           >
             {{ submitButtonText }}
-          </UButton>
+          </UiButton>
         </div>
       </div>
     </div>
@@ -98,8 +98,8 @@
       </div>
       <template #footer>
         <div class="flex justify-end gap-2">
-          <UButton variant="ghost" @click="showFaceModal = false"
-            >キャンセル</UButton
+          <UiButton variant="outline" @click="showFaceModal = false"
+            >キャンセル</UiButton
           >
         </div>
       </template>
@@ -110,6 +110,7 @@
 <script setup lang="ts">
 import type { CharaView, VillageParticipantView } from '~/lib/api/types'
 import Modal from '~/components/ui/modal/Modal.vue'
+import UiButton from '~/components/ui/button/index.vue'
 import CharaImage from './CharaImage.vue'
 
 interface MessageTypeSituation {

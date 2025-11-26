@@ -4,9 +4,9 @@
 
     <!-- ダークモード切り替え -->
     <div class="mb-6">
-      <UButton variant="outline" @click="toggleDarkMode">
+      <UiButton variant="outline" @click="toggleDarkMode">
         {{ isDark ? 'ライトモード' : 'ダークモード' }}に切り替え
-      </UButton>
+      </UiButton>
     </div>
 
     <!-- メッセージカード表示 -->
@@ -26,6 +26,7 @@
 
 <script setup lang="ts">
 import MessageCard from '~/components/pages/village/MessageCard.vue'
+import UiButton from '~/components/ui/button/index.vue'
 
 const isDark = ref(true)
 

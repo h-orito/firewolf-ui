@@ -2,9 +2,9 @@
   <nav class="navbar-container fixed top-0 right-0 left-0 z-50">
     <!-- Mobile menu button -->
     <div class="navbar-menu-icon-area">
-      <UButton
-        variant="ghost"
-        color="neutral"
+      <UiButton
+        variant="outline"
+        color="secondary"
         class="navbar-menu-icon"
         :class="{ 'is-active': isMenuExpanded }"
         @click="toggleMenu"
@@ -14,7 +14,7 @@
           <span class="burger-line" :class="{ active: isMenuExpanded }" />
           <span class="burger-line" :class="{ active: isMenuExpanded }" />
         </div>
-      </UButton>
+      </UiButton>
     </div>
 
     <!-- Brand/Title center -->
@@ -33,6 +33,8 @@
 </template>
 
 <script setup lang="ts">
+import UiButton from '~/components/ui/button/index.vue'
+
 // State
 const isMenuExpanded = ref(false)
 

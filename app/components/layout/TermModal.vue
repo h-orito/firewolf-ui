@@ -161,15 +161,16 @@
     </div>
 
     <template #footer>
-      <UButton color="neutral" variant="outline" size="sm" @click="close">
+      <UiButton color="secondary" variant="outline" size="sm" @click="close">
         閉じる
-      </UButton>
+      </UiButton>
     </template>
   </Modal>
 </template>
 
 <script setup lang="ts">
 import Modal from '~/components/ui/modal/Modal.vue'
+import UiButton from '~/components/ui/button/index.vue'
 
 interface Props {
   open: boolean

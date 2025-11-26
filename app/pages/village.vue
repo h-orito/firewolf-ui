@@ -14,7 +14,7 @@
           class="h-12 w-12 text-red-500"
         />
         <p class="mt-2">村情報の読み込みに失敗しました</p>
-        <UButton class="mt-4" @click="handleRetry">再読み込み</UButton>
+        <UiButton class="mt-4" @click="handleRetry">再読み込み</UiButton>
       </div>
     </div>
 
@@ -91,6 +91,7 @@
 </template>
 
 <script setup lang="ts">
+import UiButton from '~/components/ui/button/index.vue'
 import { useAuth } from '~/composables/useAuth'
 import { useVillage } from '~/composables/village/useVillage'
 import { useMessage } from '~/composables/village/useMessage'

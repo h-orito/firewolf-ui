@@ -63,7 +63,7 @@
 
         <!-- 戦績ボタン -->
         <div v-if="participant.player" class="flex-shrink-0">
-          <UButton
+          <UiButton
             :to="{
               path: '/player-record',
               query: { id: participant.player.id }
@@ -82,6 +82,7 @@
 
 <script setup lang="ts">
 import type { MessageView, VillageParticipantView } from '~/lib/api/types'
+import UiButton from '~/components/ui/button/index.vue'
 import CharaImage from '../CharaImage.vue'
 
 interface Props {

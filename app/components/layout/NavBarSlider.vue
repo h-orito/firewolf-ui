@@ -43,8 +43,8 @@
 
       <!-- Close button -->
       <div class="close-icon">
-        <UButton
-          color="neutral"
+        <UiButton
+          color="secondary"
           variant="solid"
           icon="i-lucide-x"
           size="sm"
@@ -63,6 +63,8 @@
 </template>
 
 <script setup lang="ts">
+import UiButton from '~/components/ui/button/index.vue'
+
 interface Props {
   isMenuExpanded: boolean
 }

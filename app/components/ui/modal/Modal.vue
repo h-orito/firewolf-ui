@@ -16,9 +16,9 @@
             <h3 class="modal-card-title text-left text-lg font-semibold">
               <slot name="title">{{ title }}</slot>
             </h3>
-            <UButton
-              color="neutral"
-              variant="ghost"
+            <UiButton
+              color="secondary"
+              variant="outline"
               icon="i-heroicons-x-mark-20-solid"
               class="-my-1"
               @click="closeModal"
@@ -44,6 +44,8 @@
 </template>
 
 <script setup lang="ts">
+import UiButton from '~/components/ui/button/index.vue'
+
 interface Props {
   modelValue: boolean
   title?: string

@@ -1,7 +1,16 @@
 <template>
-  <button
-    :type="type"
-    :disabled="isDisabled"
+  <component
+    :is="componentType"
+    :type="resolvedAs === 'button' ? type : undefined"
+    :disabled="resolvedAs === 'button' ? isDisabled : undefined"
+    :href="resolvedAs === 'a' ? href : undefined"
+    :to="resolvedAs === 'NuxtLink' ? to : undefined"
+    :target="resolvedAs !== 'button' ? target : undefined"
+    :rel="
+      resolvedAs !== 'button' && target === '_blank'
+        ? 'noopener noreferrer'
+        : undefined
+    "
     :class="buttonClasses"
     @click="handleClick"
   >
@@ -9,14 +18,18 @@
     <span v-if="loading" class="animate-spin">
       <Icon name="i-heroicons-arrow-path" :size="iconSize" />
     </span>
-    <Icon v-else-if="icon" :name="icon" :size="iconSize" />
+    <Icon v-else-if="icon && !trailing" :name="icon" :size="iconSize" />
 
     <!-- Button content -->
     <slot />
-  </button>
+
+    <!-- Trailing icon -->
+    <Icon v-if="icon && trailing" :name="icon" :size="iconSize" />
+  </component>
 </template>
 
 <script setup lang="ts">
+import type { RouteLocationRaw } from 'vue-router'
 import Icon from '~/components/ui/icon/Icon.vue'
 
 type ButtonColor =
@@ -26,7 +39,7 @@ type ButtonColor =
   | 'info'
   | 'warning'
   | 'error'
-type ButtonVariant = 'solid' | 'outline'
+type ButtonVariant = 'solid' | 'outline' | 'link'
 type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 
@@ -39,7 +52,11 @@ interface Props {
   block?: boolean
   icon?: string
   type?: 'button' | 'submit' | 'reset'
-  class?: string
+  trailing?: boolean
+  as?: 'button' | 'a' | 'NuxtLink'
+  href?: string
+  to?: RouteLocationRaw
+  target?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -51,12 +68,34 @@ const props = withDefaults(defineProps<Props>(), {
   block: false,
   icon: undefined,
   type: 'button',
-  class: undefined
+  trailing: false,
+  as: 'button',
+  href: undefined,
+  to: undefined,
+  target: undefined
 })
 
 const emit = defineEmits<{
   click: [event: MouseEvent]
 }>()
+
+// 実際に使用するコンポーネントタイプを自動推論
+const resolvedAs = computed(() => {
+  // 明示的な as 指定を優先
+  if (props.as !== 'button') return props.as
+  // to が指定されていれば NuxtLink
+  if (props.to) return 'NuxtLink'
+  // href が指定されていれば a
+  if (props.href) return 'a'
+  return 'button'
+})
+
+// レンダリングするコンポーネントを決定
+const componentType = computed(() => {
+  if (resolvedAs.value === 'a') return 'a'
+  if (resolvedAs.value === 'NuxtLink') return resolveComponent('NuxtLink')
+  return 'button'
+})
 
 // Determine if button should be disabled
 const isDisabled = computed(() => props.disabled || props.loading)
@@ -96,37 +135,43 @@ const colorVariantClasses = computed(() => {
       solid:
         'bg-[var(--ui-primary)] text-white hover:bg-[#2c7ae0] active:bg-[#1f63cc] focus-visible:ring-[var(--ui-primary)]',
       outline:
-        'border border-[var(--ui-primary)] text-[var(--ui-primary)] bg-transparent hover:bg-[var(--ui-primary)]/10 active:bg-[var(--ui-primary)]/20 focus-visible:ring-[var(--ui-primary)]'
+        'border border-[var(--ui-primary)] text-[var(--ui-primary)] bg-transparent hover:bg-[var(--ui-primary)]/10 active:bg-[var(--ui-primary)]/20 focus-visible:ring-[var(--ui-primary)]',
+      link: 'text-[var(--ui-primary)] bg-transparent hover:underline focus-visible:ring-[var(--ui-primary)]'
     },
     secondary: {
       solid:
         'bg-gray-600 text-white hover:bg-gray-700 active:bg-gray-800 focus-visible:ring-gray-600',
       outline:
-        'border border-gray-600 text-gray-600 bg-transparent hover:bg-gray-600/10 active:bg-gray-600/20 focus-visible:ring-gray-600'
+        'border border-gray-600 text-gray-600 bg-transparent hover:bg-gray-600/10 active:bg-gray-600/20 focus-visible:ring-gray-600',
+      link: 'text-gray-600 bg-transparent hover:underline focus-visible:ring-gray-600'
     },
     success: {
       solid:
         'bg-[var(--ui-success)] text-white hover:bg-[#1db954] active:bg-[#18a348] focus-visible:ring-[var(--ui-success)]',
       outline:
-        'border border-[var(--ui-success)] text-[var(--ui-success)] bg-transparent hover:bg-[var(--ui-success)]/10 active:bg-[var(--ui-success)]/20 focus-visible:ring-[var(--ui-success)]'
+        'border border-[var(--ui-success)] text-[var(--ui-success)] bg-transparent hover:bg-[var(--ui-success)]/10 active:bg-[var(--ui-success)]/20 focus-visible:ring-[var(--ui-success)]',
+      link: 'text-[var(--ui-success)] bg-transparent hover:underline focus-visible:ring-[var(--ui-success)]'
     },
     info: {
       solid:
         'bg-[var(--ui-info)] text-white hover:bg-[#1c8cd6] active:bg-[#187cbe] focus-visible:ring-[var(--ui-info)]',
       outline:
-        'border border-[var(--ui-info)] text-[var(--ui-info)] bg-transparent hover:bg-[var(--ui-info)]/10 active:bg-[var(--ui-info)]/20 focus-visible:ring-[var(--ui-info)]'
+        'border border-[var(--ui-info)] text-[var(--ui-info)] bg-transparent hover:bg-[var(--ui-info)]/10 active:bg-[var(--ui-info)]/20 focus-visible:ring-[var(--ui-info)]',
+      link: 'text-[var(--ui-info)] bg-transparent hover:underline focus-visible:ring-[var(--ui-info)]'
     },
     warning: {
       solid:
         'bg-[var(--ui-warning)] text-gray-900 hover:bg-[#ffd633] active:bg-[#ffd11a] focus-visible:ring-[var(--ui-warning)]',
       outline:
-        'border border-[var(--ui-warning)] text-[var(--ui-warning)] bg-transparent hover:bg-[var(--ui-warning)]/10 active:bg-[var(--ui-warning)]/20 focus-visible:ring-[var(--ui-warning)]'
+        'border border-[var(--ui-warning)] text-[var(--ui-warning)] bg-transparent hover:bg-[var(--ui-warning)]/10 active:bg-[var(--ui-warning)]/20 focus-visible:ring-[var(--ui-warning)]',
+      link: 'text-[var(--ui-warning)] bg-transparent hover:underline focus-visible:ring-[var(--ui-warning)]'
     },
     error: {
       solid:
         'bg-[var(--ui-error)] text-white hover:bg-[#e6324f] active:bg-[#cc2c46] focus-visible:ring-[var(--ui-error)]',
       outline:
-        'border border-[var(--ui-error)] text-[var(--ui-error)] bg-transparent hover:bg-[var(--ui-error)]/10 active:bg-[var(--ui-error)]/20 focus-visible:ring-[var(--ui-error)]'
+        'border border-[var(--ui-error)] text-[var(--ui-error)] bg-transparent hover:bg-[var(--ui-error)]/10 active:bg-[var(--ui-error)]/20 focus-visible:ring-[var(--ui-error)]',
+      link: 'text-[var(--ui-error)] bg-transparent hover:underline focus-visible:ring-[var(--ui-error)]'
     }
   }
   return colorMap[props.color][props.variant]
@@ -150,11 +195,8 @@ const buttonClasses = computed(() => {
     sizeClasses.value,
     colorVariantClasses.value,
     disabledClasses.value,
-    blockClass.value,
-    props.class
-  ]
-    .filter(Boolean)
-    .join(' ')
+    blockClass.value
+  ].filter(Boolean)
 })
 
 // Click handler

@@ -76,14 +76,14 @@
 
     <!-- 編成生成ボタン -->
     <div class="mb-4">
-      <UButton
+      <UiButton
         size="sm"
         color="primary"
         :disabled="!capacityMin || !capacityMax"
         @click="generateOrganization"
       >
         人数ごとの編成を生成
-      </UButton>
+      </UiButton>
     </div>
 
     <!-- 編成テキスト入力 -->
@@ -130,6 +130,7 @@ import type { CreateVillageFormData } from './types'
 import Alert from '~/components/ui/feedback/Alert.vue'
 import FormSwitch from '~/components/ui/form/FormSwitch.vue'
 import FormNumberInput from '~/components/ui/form/FormNumberInput.vue'
+import UiButton from '~/components/ui/button/index.vue'
 
 interface Props {
   formData: CreateVillageFormData

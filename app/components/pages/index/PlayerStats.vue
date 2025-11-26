@@ -25,7 +25,7 @@
             ニックネームはマイページで変更できます
           </p>
         </div>
-        <div class="grid grid-cols-3 gap-4">
+        <div class="grid gap-4 md:grid-cols-3">
           <SpotlightButton :to="`/player-record?id=${user?.id}`">
             <Icon name="fa6-solid:chart-bar" class="mt-0.5 mr-2" />
             <strong>マイページ</strong>

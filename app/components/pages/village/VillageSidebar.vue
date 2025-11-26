@@ -70,8 +70,8 @@
 
       <!-- モバイル用閉じるボタン -->
       <div v-if="isMobile" class="absolute top-1 right-1">
-        <UButton
-          color="neutral"
+        <UiButton
+          color="secondary"
           variant="solid"
           icon="i-heroicons-x-mark-20-solid"
           @click="close"
@@ -100,6 +100,7 @@
 </template>
 
 <script setup lang="ts">
+import UiButton from '~/components/ui/button/index.vue'
 import { useVillage } from '~/composables/village/useVillage'
 import { useVillageSlider } from '~/composables/village/useVillageSlider'
 import { useWindowResize } from '~/composables/useWindowResize'

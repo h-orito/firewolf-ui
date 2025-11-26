@@ -1,8 +1,8 @@
 <template>
   <div class="z-10 flex h-8 w-full">
     <!-- 前日ボタン -->
-    <UButton
-      color="neutral"
+    <UiButton
+      color="secondary"
       variant="solid"
       icon="i-heroicons-chevron-left-20-solid"
       :disabled="!existPrevDay"
@@ -11,11 +11,11 @@
       @click="toPrevDay"
     >
       前日
-    </UButton>
+    </UiButton>
 
     <!-- 最上部スクロールボタン -->
-    <UButton
-      color="neutral"
+    <UiButton
+      color="secondary"
       variant="solid"
       icon="i-heroicons-arrow-up-20-solid"
       class="flex h-full flex-1 cursor-pointer items-center justify-center rounded-none border-0 bg-[#363636]"
@@ -24,8 +24,8 @@
     />
 
     <!-- 翌日ボタン -->
-    <UButton
-      color="neutral"
+    <UiButton
+      color="secondary"
       variant="solid"
       icon="i-heroicons-chevron-right-20-solid"
       trailing
@@ -35,13 +35,14 @@
       @click="toNextDay"
     >
       翌日
-    </UButton>
+    </UiButton>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useVillage } from '~/composables/village/useVillage'
 import { useVillageNavigation } from '~/composables/village/useVillageNavigation'
+import UiButton from '~/components/ui/button/index.vue'
 
 // Composables
 const { existPrevDay, existNextDay, toPrevDay, toNextDay } = useVillage()

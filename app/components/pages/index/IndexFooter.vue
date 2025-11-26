@@ -3,7 +3,7 @@
     <div class="mb-12">
       <p class="spotlight-shadow text-2xl">その他情報</p>
     </div>
-    <div class="grid grid-cols-2 gap-4">
+    <div class="grid gap-4 md:grid-cols-2">
       <SpotlightButton href="https://twitter.com/ort_dev" target="_blank">
         <Icon name="fa6-brands:twitter" class="mt-0.5 mr-2" />
         <strong>要望、改善提案、不具合報告</strong>
