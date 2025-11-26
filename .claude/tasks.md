@@ -246,7 +246,7 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
   - UButtonへの依存を削除
   - Tailwind CSSでスタイリング
   - Props: color, variant, size, disabled, loading, block, icon, type, class
-- [ ] UButton直接使用箇所をUiButtonに統一
+- [x] UButton直接使用箇所をUiButtonに統一
   - NavBar.vue
   - NavBarSlider.vue
   - VillageHeader.vue
