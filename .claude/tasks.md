@@ -295,12 +295,16 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
 
 ####### ex1.5 セレクトコンポーネントの独自実装
 
-- [ ] `components/ui/form/FormSelect.vue` の作成
+- [x] `components/ui/form/FormSelect.vue` の作成
   - USelect/USelectMenuの代替
   - ネイティブselectをラッパーで包む（将来のカスタム化に対応可能）
   - Props: modelValue, options, placeholder, disabled, size
   - Tailwind CSSでスタイリング
-- [ ] 使用箇所を置き換え
+- [x] `components/ui/form/FormMultiSelect.vue` の作成
+  - 複数選択用セレクトコンポーネント
+  - ネイティブselect(multiple)をラッパーで包む
+  - 選択済みアイテムの青色スタイリング
+- [x] 使用箇所を置き換え
   - RpSection.vue
   - CharachipSection.vue
 

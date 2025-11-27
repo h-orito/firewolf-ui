@@ -12,7 +12,7 @@
     :size="size"
     :error="error"
     :name="name"
-    class="text-right"
+    input-class="text-right"
     @update:model-value="handleUpdate"
     @blur="handleBlur"
   />

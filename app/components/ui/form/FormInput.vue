@@ -1,22 +1,23 @@
 <template>
-  <input
-    v-bind="$attrs"
-    :id="id"
-    :name="name"
-    :type="type"
-    :value="modelValue"
-    :placeholder="placeholder"
-    :required="required"
-    :disabled="disabled"
-    :readonly="readonly"
-    :maxlength="maxlength"
-    :min="min"
-    :max="max"
-    :step="step"
-    :class="inputClasses"
-    @input="handleInput"
-    @blur="handleBlur"
-  />
+  <div v-bind="$attrs">
+    <input
+      :id="id"
+      :name="name"
+      :type="type"
+      :value="modelValue"
+      :placeholder="placeholder"
+      :required="required"
+      :disabled="disabled"
+      :readonly="readonly"
+      :maxlength="maxlength"
+      :min="min"
+      :max="max"
+      :step="step"
+      :class="inputClasses"
+      @input="handleInput"
+      @blur="handleBlur"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -38,6 +39,8 @@ interface Props {
   min?: number
   max?: number
   step?: number
+  /** input要素に直接適用するクラス */
+  inputClass?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -53,7 +56,8 @@ const props = withDefaults(defineProps<Props>(), {
   name: undefined,
   min: undefined,
   max: undefined,
-  step: undefined
+  step: undefined,
+  inputClass: undefined
 })
 
 const emit = defineEmits<{
@@ -79,7 +83,7 @@ const sizeClasses = computed(() => {
 
 // 基本クラス（border以外）
 const baseClasses =
-  'block rounded-md bg-white text-gray-900 placeholder-gray-400 focus:outline-none transition-colors duration-150 dark:bg-gray-800 dark:text-white dark:placeholder-gray-500'
+  'block w-full rounded-md bg-white text-gray-900 placeholder-gray-400 focus:outline-none transition-colors duration-150 dark:bg-gray-800 dark:text-white dark:placeholder-gray-500'
 
 // ボーダーとフォーカス時のクラス（error propに応じて変更）
 const borderClasses = computed(() => {
@@ -106,7 +110,8 @@ const inputClasses = computed(() => {
     baseClasses,
     borderClasses.value,
     sizeClasses.value,
-    disabledClasses.value
+    disabledClasses.value,
+    props.inputClass
   ]
     .filter(Boolean)
     .join(' ')

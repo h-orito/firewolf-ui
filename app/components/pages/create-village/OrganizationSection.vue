@@ -27,7 +27,7 @@
     <div class="mb-4 flex gap-6">
       <!-- 最小人数 -->
       <div class="flex-1">
-        <label class="mb-2 block text-sm font-medium text-gray-700">
+        <label class="mb-2 block text-center text-sm font-medium text-gray-700">
           最小人数 <span class="text-red-500">*</span>
         </label>
         <FormNumberInput
@@ -37,21 +37,21 @@
           :step="1"
           placeholder="最小人数"
           required
-          class="w-32"
-          :color="errors?.capacityMin ? 'error' : undefined"
+          class="mx-auto w-32"
+          :error="!!errors?.capacityMin"
           @blur="validateField('capacityMin')"
         />
-        <p v-if="errors?.capacityMin" class="mt-1 text-xs text-red-600">
+        <p v-if="errors?.capacityMin" class="mt-1 text-center text-xs text-red-600">
           {{ errors.capacityMin }}
         </p>
-        <p v-else class="mt-1 text-xs text-gray-500">
+        <p v-else class="mt-1 text-center text-xs text-gray-500">
           開始時点でこの人数が集まると進行中に遷移します
         </p>
       </div>
 
       <!-- 定員 -->
       <div class="flex-1">
-        <label class="mb-2 block text-sm font-medium text-gray-700">
+        <label class="mb-2 block text-center text-sm font-medium text-gray-700">
           定員 <span class="text-red-500">*</span>
         </label>
         <FormNumberInput
@@ -61,14 +61,14 @@
           :step="1"
           placeholder="定員"
           required
-          class="w-32"
-          :color="errors?.capacityMax ? 'error' : undefined"
+          class="mx-auto w-32"
+          :error="!!errors?.capacityMax"
           @blur="validateField('capacityMax')"
         />
-        <p v-if="errors?.capacityMax" class="mt-1 text-xs text-red-600">
+        <p v-if="errors?.capacityMax" class="mt-1 text-center text-xs text-red-600">
           {{ errors.capacityMax }}
         </p>
-        <p v-else class="mt-1 text-xs text-gray-500">
+        <p v-else class="mt-1 text-center text-xs text-gray-500">
           この人数まで参加することができます
         </p>
       </div>

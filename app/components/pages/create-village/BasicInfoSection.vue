@@ -57,7 +57,7 @@
 
       <!-- 沈黙時間 -->
       <div>
-        <label class="mb-2 block text-sm font-medium text-gray-700">
+        <label class="mb-2 block text-center text-sm font-medium text-gray-700">
           沈黙時間（時間）
         </label>
         <FormNumberInput
@@ -65,15 +65,15 @@
           :min="0"
           :max="23"
           size="md"
-          class="w-32"
-          :color="errors?.silentHours ? 'error' : undefined"
+          class="mx-auto w-32"
+          :error="!!errors?.silentHours"
           @update:model-value="updateField('silentHours', $event)"
           @blur="validateField('silentHours')"
         />
-        <p v-if="errors?.silentHours" class="mt-1 text-xs text-red-600">
+        <p v-if="errors?.silentHours" class="mt-1 text-center text-xs text-red-600">
           {{ errors.silentHours }}
         </p>
-        <p v-else class="mt-1 text-xs text-gray-500">
+        <p v-else class="mt-1 text-center text-xs text-gray-500">
           0〜23の範囲で設定できます。設定した時間の間は発言できなくなります。
         </p>
       </div>

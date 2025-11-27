@@ -14,16 +14,14 @@
       <label class="mb-2 block text-sm font-medium text-gray-700">
         使用するキャラチップ <span class="text-red-500">*</span>
       </label>
-      <USelectMenu
-        v-model="selectedCharachipItems"
-        :items="charachips"
-        placeholder="キャラチップを選択"
-        multiple
+      <FormMultiSelect
+        v-model="selectedCharachipIds"
+        :options="charachips"
         value-attribute="id"
-        label-key="name"
+        label-attribute="name"
         class="w-full"
-        :color="errors?.charachipIds ? 'error' : undefined"
-        @change="validateField('charachipIds')"
+        :error="!!errors?.charachipIds"
+        @change="onCharachipChange"
       />
       <p v-if="errors?.charachipIds" class="mt-1 text-xs text-red-600">
         {{ errors.charachipIds }}
@@ -38,16 +36,15 @@
       <label class="mb-2 block text-sm font-medium text-gray-700">
         ダミーキャラクター <span class="text-red-500">*</span>
       </label>
-      <USelectMenu
-        v-model="selectedDummyChara"
-        :items="charasSelectable"
+      <FormSelect
+        v-model="selectedDummyCharaId"
+        :options="charasSelectable"
         placeholder="ダミーキャラクターを選択"
         :disabled="charas.length === 0"
         class="w-full"
-        :color="errors?.dummyCharaId ? 'error' : undefined"
-        @change="validateField('dummyCharaId')"
-      >
-      </USelectMenu>
+        :error="!!errors?.dummyCharaId"
+        @change="onDummyCharaChange"
+      />
       <div class="mt-2 flex justify-end">
         <UiButton
           size="sm"
@@ -67,18 +64,18 @@
     </div>
 
     <!-- ダミーキャラ名前設定 -->
-    <div v-if="selectedDummyChara" class="space-y-4">
+    <div v-if="selectedDummyCharaId" class="space-y-4">
       <div>
         <label class="mb-2 block text-sm font-medium text-gray-700">
           ダミーキャラ名 <span class="text-red-500">*</span>
         </label>
-        <UInput
+        <FormInput
           v-model="dummyCharaName"
           placeholder="ダミーキャラクターの名前"
           size="md"
           :maxlength="40"
           required
-          :color="errors?.dummyCharaName ? 'error' : undefined"
+          :error="!!errors?.dummyCharaName"
           @blur="validateField('dummyCharaName')"
         />
         <p v-if="errors?.dummyCharaName" class="mt-1 text-xs text-red-600">
@@ -93,14 +90,14 @@
         <label class="mb-2 block text-sm font-medium text-gray-700">
           1文字略称 <span class="text-red-500">*</span>
         </label>
-        <UInput
+        <FormInput
           v-model="dummyCharaShortName"
           placeholder="略"
           size="md"
           :maxlength="1"
           class="w-20"
           required
-          :color="errors?.dummyCharaShortName ? 'error' : undefined"
+          :error="!!errors?.dummyCharaShortName"
           @blur="validateField('dummyCharaShortName')"
         />
         <p v-if="errors?.dummyCharaShortName" class="mt-1 text-xs text-red-600">
@@ -126,6 +123,9 @@
 import Alert from '~/components/ui/feedback/Alert.vue'
 import UiButton from '~/components/ui/button/index.vue'
 import CharaSelectModal from './CharaSelectModal.vue'
+import FormMultiSelect from '~/components/ui/form/FormMultiSelect.vue'
+import FormSelect from '~/components/ui/form/FormSelect.vue'
+import FormInput from '~/components/ui/form/FormInput.vue'
 import type {
   CharachipView,
   CharachipsView,
@@ -152,49 +152,48 @@ const emit = defineEmits<{
 const charachips = ref<CharachipView[]>([])
 const charas = ref<Chara[]>([])
 
-// 選択されたキャラチップアイテム
-const selectedCharachipItems: WritableComputedRef<CharachipView[]> = computed({
-  get: (): CharachipView[] => {
-    return props.formData.charachipIds.map(
-      (id) => charachips.value.find((c) => c.id === id)!
-    )
-  },
-  set: (selected: CharachipView[]) => {
-    const ids = selected.map((c) => c.id)
-    emit('update:field', 'charachipIds', ids)
-    // キャラチップが変更されたらキャラ一覧を更新
-    loadCharasByCharachipIds(ids)
+// 選択されたキャラチップID
+const selectedCharachipIds = computed({
+  get: () => props.formData.charachipIds,
+  set: (ids: (string | number)[]) => {
+    const numericIds = ids.map((id) => Number(id))
+    emit('update:field', 'charachipIds', numericIds)
   }
 })
 
+// キャラチップ変更時の処理
+const onCharachipChange = () => {
+  validateField('charachipIds')
+  loadCharasByCharachipIds(props.formData.charachipIds)
+}
+
 // ダミーキャラ候補
-type Option = { value: number; label: string }
 const charasSelectable = computed(() =>
   charas.value.map((c) => ({
     value: c.id,
     label: c.chara_name.name
   }))
 )
-// ダミーキャラ選択値
-const selectedDummyChara: WritableComputedRef<Option> = computed({
-  get: () => {
-    const id = props.formData.dummyCharaId
-    const chara = charas.value.find((chara) => chara.id === id)
-    return {
-      value: chara?.id ?? 0,
-      label: chara?.chara_name.name || '未選択'
-    }
-  },
-  set: (option: Option) => {
-    emit('update:field', 'dummyCharaId', option.value)
+
+// ダミーキャラ選択値（IDのみ）
+const selectedDummyCharaId = computed({
+  get: () => props.formData.dummyCharaId,
+  set: (id: string | number | null | undefined) => {
+    const numId = Number(id)
+    emit('update:field', 'dummyCharaId', numId)
     // キャラが選択されたら名前を自動設定
-    const chara = charas.value.find((c) => c.id === option.value)
+    const chara = charas.value.find((c) => c.id === numId)
     if (chara) {
       emit('update:field', 'dummyCharaName', chara.chara_name.name)
       emit('update:field', 'dummyCharaShortName', chara.chara_name.short_name)
     }
   }
 })
+
+// ダミーキャラ変更時のバリデーション
+const onDummyCharaChange = () => {
+  validateField('dummyCharaId')
+}
 
 // ダミーキャラ名
 const dummyCharaName = computed({
@@ -225,10 +224,7 @@ const openCharaSelectModal = () => {
 }
 
 const handleCharaSelect = (chara: Chara) => {
-  selectedDummyChara.value = {
-    value: chara.id,
-    label: chara.chara_name.name
-  }
+  selectedDummyCharaId.value = chara.id
   isCharaSelectModalOpen.value = false
 }
 
@@ -263,12 +259,9 @@ const loadCharasByCharachipIds = async (charachipIds: number[]) => {
       charas.value = response.list || []
 
       // 現在選択中のダミーキャラが存在しない場合は最初のキャラを選択
-      const dummyCharaId = selectedDummyChara.value.value
+      const dummyCharaId = selectedDummyCharaId.value
       if (!charas.value.some((c) => c.id === dummyCharaId)) {
-        selectedDummyChara.value = {
-          value: charas.value[0]?.id || 0,
-          label: charas.value[0]?.chara_name.name || '未選択'
-        }
+        selectedDummyCharaId.value = charas.value[0]?.id || 0
       }
     }
   } catch (error) {

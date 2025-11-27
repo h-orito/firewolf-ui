@@ -8,14 +8,14 @@
         <label class="mb-2 block text-center text-sm font-medium text-gray-700">
           年齢制限
         </label>
-        <USelect
+        <FormSelect
           v-model="ageLimit"
-          :items="ageLimitOptions"
-          option-attribute="label"
+          :options="ageLimitOptions"
+          label-attribute="label"
           value-attribute="value"
           placeholder="年齢制限を選択"
           class="mx-auto w-full max-w-xs"
-          :color="props.errors?.ageLimit ? 'error' : undefined"
+          :error="!!props.errors?.ageLimit"
           @blur="validateField('ageLimit')"
         />
         <p
@@ -52,7 +52,7 @@
               placeholder="40"
               required
               class="w-full"
-              :color="props.errors?.spectateCount ? 'error' : undefined"
+              :error="!!props.errors?.spectateCount"
               @blur="validateField('spectateCount')"
             />
             <p
@@ -74,7 +74,7 @@
               placeholder="200"
               required
               class="w-full"
-              :color="props.errors?.spectateLength ? 'error' : undefined"
+              :error="!!props.errors?.spectateLength"
               @blur="validateField('spectateLength')"
             />
             <p
@@ -124,7 +124,7 @@
               placeholder="40"
               required
               class="w-full"
-              :color="props.errors?.actionCount ? 'error' : undefined"
+              :error="!!props.errors?.actionCount"
               @blur="validateField('actionCount')"
             />
             <p
@@ -146,7 +146,7 @@
               placeholder="200"
               required
               class="w-full"
-              :color="props.errors?.actionLength ? 'error' : undefined"
+              :error="!!props.errors?.actionLength"
               @blur="validateField('actionLength')"
             />
             <p
@@ -166,6 +166,7 @@
 import type { CreateVillageFormData } from './types'
 import FormSwitch from '~/components/ui/form/FormSwitch.vue'
 import FormNumberInput from '~/components/ui/form/FormNumberInput.vue'
+import FormSelect from '~/components/ui/form/FormSelect.vue'
 
 // Props & Emits
 const props = defineProps<{
@@ -174,7 +175,6 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  'update:formData': [value: CreateVillageFormData]
   'update:field': [
     field: keyof CreateVillageFormData,
     value: CreateVillageFormData[keyof CreateVillageFormData]

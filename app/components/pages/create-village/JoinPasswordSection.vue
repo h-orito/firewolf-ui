@@ -3,7 +3,7 @@
     <h2 class="mb-4 text-lg font-semibold">参加パスワード設定</h2>
 
     <div>
-      <label class="mb-2 block text-sm font-medium text-gray-700">
+      <label class="mb-2 block text-center text-sm font-medium text-gray-700">
         参加パスワード
       </label>
       <FormInput
@@ -12,14 +12,14 @@
         placeholder="パスワードを入力（任意）"
         :maxlength="12"
         size="md"
-        class="w-full max-w-xs"
+        class="mx-auto w-full max-w-xs"
         :error="!!props.errors?.joinPassword"
         @blur="validateField('joinPassword')"
       />
-      <p v-if="props.errors?.joinPassword" class="mt-1 text-xs text-red-600">
+      <p v-if="props.errors?.joinPassword" class="mt-1 text-center text-xs text-red-600">
         {{ props.errors.joinPassword }}
       </p>
-      <p v-else class="mt-1 text-xs text-gray-500">
+      <p v-else class="mt-1 text-center text-xs text-gray-500">
         設定すると、パスワードを知っている人のみ参加できます（最大12文字）
       </p>
     </div>
@@ -37,7 +37,6 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  'update:formData': [value: CreateVillageFormData]
   'update:field': [
     field: keyof CreateVillageFormData,
     value: CreateVillageFormData[keyof CreateVillageFormData]
