@@ -1,10 +1,10 @@
-export default defineNuxtRouteMiddleware((to) => {
-  const auth = useAuth()
-
-  // 初期化されていない場合は初期化
-  if (!auth.isLoading) {
-    auth.initializeAuth()
+export default defineNuxtRouteMiddleware(async (to) => {
+  // サーバーサイドでは認証チェックをスキップ（Firebaseはクライアントのみ）
+  if (import.meta.server) {
+    return
   }
+
+  const auth = useAuth()
 
   // 認証が必要なルートのパスを定義
   const authRequiredPaths = ['/create-village', '/setting']
@@ -14,8 +14,14 @@ export default defineNuxtRouteMiddleware((to) => {
     to.path.startsWith(path)
   )
 
-  if (requiresAuth && !auth.isAuthenticated.value) {
-    // 認証が必要だが未認証の場合はトップページへリダイレクト
-    return navigateTo('/')
+  // 認証が必要なページの場合のみ、認証状態の確定を待つ
+  if (requiresAuth) {
+    // Firebase認証の初期化完了を待つ
+    await auth.waitForAuth()
+
+    // 認証されていない場合はトップページへリダイレクト
+    if (!auth.isAuthenticated.value) {
+      return navigateTo('/')
+    }
   }
 })
