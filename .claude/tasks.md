@@ -281,7 +281,7 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
 
 ####### ex1.4 スイッチ・チェックボックスコンポーネントの独自実装
 
-- [ ] `components/ui/form/FormSwitch.vue` を独自実装に変更
+- [x] `components/ui/form/FormSwitch.vue` を独自実装に変更
   - USwitchへの依存を削除
   - Tailwind CSSでトグルスイッチを実装
 - [ ] `components/ui/form/FormCheckbox.vue` の作成
