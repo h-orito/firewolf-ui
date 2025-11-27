@@ -284,7 +284,7 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
 - [x] `components/ui/form/FormSwitch.vue` を独自実装に変更
   - USwitchへの依存を削除
   - Tailwind CSSでトグルスイッチを実装
-- [ ] `components/ui/form/FormCheckbox.vue` の作成
+- [x] `components/ui/form/FormCheckbox.vue` の作成
   - UCheckboxの代替
   - Tailwind CSSでスタイリング
 - [ ] 使用箇所を置き換え
