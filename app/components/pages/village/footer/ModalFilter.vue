@@ -37,7 +37,7 @@
         <!-- 発言種別チェックボックス -->
         <div class="space-y-2">
           <div class="flex flex-wrap gap-2">
-            <UCheckbox
+            <FormCheckbox
               :model-value="
                 isMessageTypeSelected(MESSAGE_TYPE_GROUP.NORMAL_SAY)
               "
@@ -46,7 +46,7 @@
                 toggleMessageType(MESSAGE_TYPE_GROUP.NORMAL_SAY, $event)
               "
             />
-            <UCheckbox
+            <FormCheckbox
               :model-value="
                 isMessageTypeSelected(MESSAGE_TYPE_GROUP.MONOLOGUE_SAY)
               "
@@ -55,7 +55,7 @@
                 toggleMessageType(MESSAGE_TYPE_GROUP.MONOLOGUE_SAY, $event)
               "
             />
-            <UCheckbox
+            <FormCheckbox
               :model-value="
                 isMessageTypeSelected(MESSAGE_TYPE_GROUP.SECRET_SAY)
               "
@@ -64,7 +64,7 @@
                 toggleMessageType(MESSAGE_TYPE_GROUP.SECRET_SAY, $event)
               "
             />
-            <UCheckbox
+            <FormCheckbox
               :model-value="
                 isMessageTypeSelected(MESSAGE_TYPE_GROUP.CREATOR_SAY)
               "
@@ -75,7 +75,7 @@
             />
           </div>
           <div class="flex flex-wrap gap-2">
-            <UCheckbox
+            <FormCheckbox
               :model-value="
                 isMessageTypeSelected(MESSAGE_TYPE_GROUP.WEREWOLF_SAY)
               "
@@ -84,7 +84,7 @@
                 toggleMessageType(MESSAGE_TYPE_GROUP.WEREWOLF_SAY, $event)
               "
             />
-            <UCheckbox
+            <FormCheckbox
               :model-value="
                 isMessageTypeSelected(MESSAGE_TYPE_GROUP.SYMPATHIZE_SAY)
               "
@@ -93,7 +93,7 @@
                 toggleMessageType(MESSAGE_TYPE_GROUP.SYMPATHIZE_SAY, $event)
               "
             />
-            <UCheckbox
+            <FormCheckbox
               :model-value="
                 isMessageTypeSelected(MESSAGE_TYPE_GROUP.LOVERS_SAY)
               "
@@ -102,7 +102,7 @@
                 toggleMessageType(MESSAGE_TYPE_GROUP.LOVERS_SAY, $event)
               "
             />
-            <UCheckbox
+            <FormCheckbox
               :model-value="isMessageTypeSelected(MESSAGE_TYPE_GROUP.GRAVE_SAY)"
               label="墓下見学"
               @update:model-value="
@@ -111,21 +111,21 @@
             />
           </div>
           <div class="flex flex-wrap gap-2">
-            <UCheckbox
+            <FormCheckbox
               :model-value="isMessageTypeSelected(MESSAGE_TYPE_GROUP.ACTION)"
               label="アクション"
               @update:model-value="
                 toggleMessageType(MESSAGE_TYPE_GROUP.ACTION, $event)
               "
             />
-            <UCheckbox
+            <FormCheckbox
               :model-value="isMessageTypeSelected(MESSAGE_TYPE_GROUP.SYSTEM)"
               label="公開システム"
               @update:model-value="
                 toggleMessageType(MESSAGE_TYPE_GROUP.SYSTEM, $event)
               "
             />
-            <UCheckbox
+            <FormCheckbox
               :model-value="
                 isMessageTypeSelected(MESSAGE_TYPE_GROUP.PRIVATE_SYSTEM)
               "
@@ -177,7 +177,7 @@
             :key="participant.id"
             class="border-t border-gray-300 py-1"
           >
-            <UCheckbox
+            <FormCheckbox
               :model-value="isParticipantSelected(participant.id)"
               @update:model-value="toggleParticipant(participant.id, $event)"
             >
@@ -185,7 +185,7 @@
                 <CharaImage :chara="participant.chara" :is-small="true" />
                 <span class="text-xs">{{ participant.name }}</span>
               </div>
-            </UCheckbox>
+            </FormCheckbox>
           </div>
         </div>
       </section>
@@ -252,7 +252,7 @@
             :key="participant.id"
             class="border-t border-gray-300 py-1"
           >
-            <UCheckbox
+            <FormCheckbox
               :model-value="isToParticipantSelected(participant.id)"
               @update:model-value="toggleToParticipant(participant.id, $event)"
             >
@@ -260,7 +260,7 @@
                 <CharaImage :chara="participant.chara" :is-small="true" />
                 <span class="text-xs">{{ participant.name }}</span>
               </div>
-            </UCheckbox>
+            </FormCheckbox>
           </div>
         </div>
       </section>
@@ -302,6 +302,7 @@ import { useSituation } from '~/composables/village/useSituation'
 import Modal from '~/components/ui/modal/Modal.vue'
 import UiButton from '~/components/ui/button/index.vue'
 import FormInput from '~/components/ui/form/FormInput.vue'
+import FormCheckbox from '~/components/ui/form/FormCheckbox.vue'
 import CharaImage from '../CharaImage.vue'
 
 // Props

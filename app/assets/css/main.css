@@ -304,7 +304,7 @@ button[role='combobox'] svg,
 }
 
 @layer base {
-  /** USwitchがcursor-pointerを持たない問題の対策 */
+  /** ボタン要素のカーソルスタイル */
   button,
   [role='button'] {
     @apply cursor-pointer;

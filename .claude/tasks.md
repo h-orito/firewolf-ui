@@ -287,7 +287,7 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
 - [x] `components/ui/form/FormCheckbox.vue` の作成
   - UCheckboxの代替
   - Tailwind CSSでスタイリング
-- [ ] 使用箇所を置き換え
+- [x] 使用箇所を置き換え
   - RuleSection.vue
   - RpSection.vue
   - OrganizationSection.vue
