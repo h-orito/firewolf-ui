@@ -19,6 +19,8 @@
 </template>
 
 <script setup lang="ts">
+import FormInput from '~/components/ui/form/FormInput.vue'
+
 interface Props {
   modelValue: string | number
   min?: number
