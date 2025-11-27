@@ -10,6 +10,9 @@
     :disabled="disabled"
     :readonly="readonly"
     :maxlength="maxlength"
+    :min="min"
+    :max="max"
+    :step="step"
     :class="inputClasses"
     @input="handleInput"
     @blur="handleBlur"
@@ -31,6 +34,10 @@ interface Props {
   error?: boolean
   id?: string
   name?: string
+  // number type用
+  min?: number
+  max?: number
+  step?: number
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -43,7 +50,10 @@ const props = withDefaults(defineProps<Props>(), {
   maxlength: undefined,
   error: false,
   id: undefined,
-  name: undefined
+  name: undefined,
+  min: undefined,
+  max: undefined,
+  step: undefined
 })
 
 const emit = defineEmits<{

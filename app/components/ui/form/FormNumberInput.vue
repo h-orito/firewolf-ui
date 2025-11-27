@@ -1,6 +1,7 @@
 <template>
-  <UInput
-    v-model="model"
+  <FormInput
+    :id="id"
+    :model-value="String(modelValue)"
     type="number"
     :min="min"
     :max="max"
@@ -8,11 +9,12 @@
     :placeholder="placeholder"
     :required="required"
     :disabled="disabled"
-    :class="inputClass"
     :size="size"
-    :ui="{
-      base: 'text-right'
-    }"
+    :error="error"
+    :name="name"
+    class="text-right"
+    @update:model-value="handleUpdate"
+    @blur="handleBlur"
   />
 </template>
 
@@ -26,10 +28,12 @@ interface Props {
   required?: boolean
   disabled?: boolean
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-  class?: string
+  error?: boolean
+  id?: string
+  name?: string
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   min: undefined,
   max: undefined,
   step: 1,
@@ -37,17 +41,22 @@ const props = withDefaults(defineProps<Props>(), {
   required: false,
   disabled: false,
   size: 'md',
-  class: ''
+  error: false,
+  id: undefined,
+  name: undefined
 })
 
 const emit = defineEmits<{
   'update:modelValue': [value: number]
+  blur: [event: FocusEvent]
 }>()
 
-const inputClass = computed(() => props.class)
+const handleUpdate = (value: string) => {
+  const numValue = Number(value)
+  emit('update:modelValue', Number.isNaN(numValue) ? 0 : numValue)
+}
 
-const model = computed({
-  get: () => props.modelValue,
-  set: (value: number) => emit('update:modelValue', value)
-})
+const handleBlur = (event: FocusEvent) => {
+  emit('blur', event)
+}
 </script>
