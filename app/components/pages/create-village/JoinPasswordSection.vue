@@ -6,14 +6,14 @@
       <label class="mb-2 block text-sm font-medium text-gray-700">
         参加パスワード
       </label>
-      <UInput
+      <FormInput
         v-model="joinPassword"
         type="text"
         placeholder="パスワードを入力（任意）"
         :maxlength="12"
         size="md"
         class="w-full max-w-xs"
-        :color="props.errors?.joinPassword ? 'error' : undefined"
+        :error="!!props.errors?.joinPassword"
         @blur="validateField('joinPassword')"
       />
       <p v-if="props.errors?.joinPassword" class="mt-1 text-xs text-red-600">
@@ -28,6 +28,7 @@
 
 <script setup lang="ts">
 import type { CreateVillageFormData } from './types'
+import FormInput from '~/components/ui/form/FormInput.vue'
 
 // Props & Emits
 const props = defineProps<{

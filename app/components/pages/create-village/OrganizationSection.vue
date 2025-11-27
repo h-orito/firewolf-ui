@@ -91,14 +91,14 @@
       <label class="mb-2 block text-sm font-medium text-gray-700">
         編成 <span class="text-red-500">*</span>
       </label>
-      <UTextarea
+      <FormTextarea
         :model-value="formData.organization"
         placeholder="例: 11人：村村村村村占霊狩狼狼狂"
         :rows="6"
         :maxlength="1004"
         class="w-full"
         required
-        :color="errors?.organization ? 'error' : undefined"
+        :error="!!errors?.organization"
         @update:model-value="updateField('organization', $event)"
         @blur="validateField('organization')"
       />
@@ -130,6 +130,7 @@ import type { CreateVillageFormData } from './types'
 import Alert from '~/components/ui/feedback/Alert.vue'
 import FormSwitch from '~/components/ui/form/FormSwitch.vue'
 import FormNumberInput from '~/components/ui/form/FormNumberInput.vue'
+import FormTextarea from '~/components/ui/form/FormTextarea.vue'
 import UiButton from '~/components/ui/button/index.vue'
 
 interface Props {

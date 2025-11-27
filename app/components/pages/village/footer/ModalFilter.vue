@@ -193,11 +193,12 @@
       <!-- キーワード -->
       <section>
         <p class="mb-2 font-bold">キーワード</p>
-        <UInput
-          v-model="keyword"
+        <FormInput
+          :model-value="keyword ?? ''"
           size="sm"
           placeholder="スペース区切り"
           class="w-full"
+          @update:model-value="keyword = $event || null"
         />
       </section>
 
@@ -300,6 +301,7 @@ import { useVillage } from '~/composables/village/useVillage'
 import { useSituation } from '~/composables/village/useSituation'
 import Modal from '~/components/ui/modal/Modal.vue'
 import UiButton from '~/components/ui/button/index.vue'
+import FormInput from '~/components/ui/form/FormInput.vue'
 import CharaImage from '../CharaImage.vue'
 
 // Props

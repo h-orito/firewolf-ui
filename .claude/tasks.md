@@ -272,7 +272,7 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
   - Props: modelValue, placeholder, rows, maxlength, required, disabled, readonly, size, error, id, name
   - Events: update:modelValue, blur
   - $attrs透過対応（class等を親から受け取り可能）
-- [ ] UInput/UTextarea使用箇所を置き換え
+- [x] UInput/UTextarea使用箇所を置き換え
   - BasicInfoSection.vue
   - JoinPasswordSection.vue
   - OrganizationSection.vue

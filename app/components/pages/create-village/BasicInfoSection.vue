@@ -7,14 +7,14 @@
       <label class="mb-2 block text-sm font-medium text-gray-700">
         村名 <span class="text-red-500">*</span>
       </label>
-      <UInput
+      <FormInput
         :model-value="formData.villageName"
         placeholder="村の名前を入力"
         size="md"
         :maxlength="40"
         required
         class="w-full"
-        :color="errors?.villageName ? 'error' : undefined"
+        :error="!!errors?.villageName"
         @update:model-value="updateField('villageName', $event)"
         @blur="validateField('villageName')"
       />
@@ -84,6 +84,7 @@
 <script setup lang="ts">
 import type { CreateVillageFormData } from './types'
 import Alert from '~/components/ui/feedback/Alert.vue'
+import FormInput from '~/components/ui/form/FormInput.vue'
 import FormNumberInput from '~/components/ui/form/FormNumberInput.vue'
 
 interface Props {

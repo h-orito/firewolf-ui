@@ -30,14 +30,14 @@
             <CharaImage :chara="selectedChara" face-type="NORMAL" />
           </div>
           <div class="flex-1">
-            <UTextarea
+            <FormTextarea
               :model-value="formData.day0Message"
               placeholder="プロローグでダミーキャラが発言する内容を入力してください"
               :rows="4"
               :maxlength="1000"
               required
               class="w-full"
-              :color="errors?.day0Message ? 'error' : undefined"
+              :error="!!errors?.day0Message"
               @update:model-value="updateField('day0Message', $event)"
               @blur="validateField('day0Message')"
             />
@@ -75,13 +75,13 @@
             <CharaImage :chara="selectedChara" face-type="NORMAL" />
           </div>
           <div class="flex-1">
-            <UTextarea
+            <FormTextarea
               :model-value="formData.day1Message"
               placeholder="1日目にダミーキャラが発言する内容を入力してください（任意）"
               :rows="4"
               :maxlength="1000"
               class="w-full"
-              :color="errors?.day1Message ? 'error' : undefined"
+              :error="!!errors?.day1Message"
               @update:model-value="updateField('day1Message', $event)"
               @blur="validateField('day1Message')"
             />
@@ -109,6 +109,7 @@
 <script setup lang="ts">
 import Alert from '~/components/ui/feedback/Alert.vue'
 import CharaImage from '~/components/pages/village/CharaImage.vue'
+import FormTextarea from '~/components/ui/form/FormTextarea.vue'
 import type { Chara } from '~/lib/api/types'
 import type { CreateVillageFormData } from './types'
 
