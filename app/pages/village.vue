@@ -48,10 +48,10 @@
 
             <!-- プレースホルダー: Phase 2以降で実装 -->
             <div class="mx-auto max-w-4xl py-8">
-              <UCard>
-                <template #header>
-                  <h2 class="text-lg font-semibold">村ページ (Phase 1)</h2>
-                </template>
+              <div
+                class="rounded-lg border border-gray-200 bg-white p-4 shadow"
+              >
+                <h2 class="mb-4 text-lg font-semibold">村ページ (Phase 1)</h2>
                 <div class="space-y-4">
                   <p>基本的なレイアウトと初期化処理が実装されています。</p>
                   <div class="text-sm">
@@ -65,14 +65,16 @@
                       {{ currentVillageDay.noonnight }}
                     </p>
                   </div>
-                  <UAlert
-                    color="info"
-                    variant="subtle"
-                    title="Phase 2以降で実装予定"
-                    description="発言表示、アクション機能、モーダル等は次のフェーズで実装されます。"
-                  />
+                  <div
+                    class="rounded-md border border-blue-200 bg-blue-50 p-3 text-sm text-blue-800"
+                  >
+                    <p class="font-medium">Phase 2以降で実装予定</p>
+                    <p class="mt-1">
+                      発言表示、アクション機能、モーダル等は次のフェーズで実装されます。
+                    </p>
+                  </div>
                 </div>
-              </UCard>
+              </div>
             </div>
 
             <!-- スクロール用アンカー -->

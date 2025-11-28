@@ -338,19 +338,99 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
   - Tailwind CSSでスタイリング
   - Props: color, variant, size
 
-####### ex1.9 設定ファイルの更新
+####### ex1.9 アイコンコンポーネントの拡張（Font Awesome・MDI対応）
+
+**方針**: 独自SVG実装（依存追加なし）、ファイル分離構成
+
+**ファイル構成**:
+
+```
+app/components/ui/icon/
+├── Icon.vue          # メインコンポーネント（約150行）
+├── heroicons.ts      # @heroicons/vue のマッピング（既存を分離）
+└── svg-icons.ts      # FA/MDI用SVGパス定義（新規）
+```
+
+- [ ] `components/ui/icon/heroicons.ts` の作成
+  - 既存Icon.vueの@heroicons/vueマッピングを分離
+- [ ] `components/ui/icon/svg-icons.ts` の作成
+  - FA/MDIアイコンのSVGパス定義
+  - 対象アイコン:
+    - `fa6-solid:spinner` (ローディング)
+    - `fa6-solid:image` (画像)
+    - `fa6-solid:book` (本)
+    - `fa6-solid:circle-question` (FAQ)
+    - `fa6-solid:wrench` (設定)
+    - `fa6-solid:gift` (ギフト)
+    - `fa6-solid:book-open` (ドキュメント)
+    - `fa6-solid:chart-bar` (統計)
+    - `fa6-solid:right-from-bracket` (ログアウト)
+    - `fa6-brands:twitter` (Twitter/X)
+    - `fa6-brands:google` (Google)
+    - `mdi:alert-circle` (警告)
+    - `mdi:account` (アカウント)
+- [ ] `components/ui/icon/Icon.vue` の更新
+  - heroicons.ts, svg-icons.ts をインポート
+  - SVGアイコンとheroiconsコンポーネントの両方を描画可能に
+- [ ] 使用箇所の動作確認
+  - index.vue
+  - Intro.vue
+  - Charachip.vue
+  - IndexFooter.vue
+  - PlayerStats.vue
+  - LinkModal.vue
+  - SigninModal.vue
+  - DummyMessageSection.vue
+  - CharaSelectModal.vue
+
+####### ex1.10 ラジオグループコンポーネントの独自実装
+
+- [ ] `components/ui/form/FormRadioGroup.vue` の作成
+  - URadioGroupの代替
+  - Tailwind CSSでスタイリング
+  - Props: modelValue, options, orientation
+  - v-model対応
+- [ ] SayForm.vue の URadioGroup を置き換え
+
+####### ex1.11 フォームグループコンポーネントの独自実装
+
+- [ ] `components/ui/form/FormGroup.vue` の作成
+  - UFormGroupの代替
+  - ラベル + コンテンツのラッパー
+  - Props: label
+  - slot でコンテンツを受け取る
+- [ ] SayForm.vue の UFormGroup を置き換え
+- [ ] SayForm.vue の USelect を FormSelect.vue に置き換え
+- [ ] SayForm.vue の UTextarea を FormTextarea.vue に置き換え
+
+####### ex1.12 app.vue の UApp 削除
+
+- [ ] `app/app.vue` の更新
+  - UApp をシンプルな構造に置き換え
+  - NuxtLayout + NuxtPageのみに
+
+####### ex1.13 設定ファイルの更新
 
 - [ ] `nuxt.config.ts` の更新
   - @nuxt/uiモジュールを削除
   - @nuxt/iconモジュールを削除
 - [ ] `app.config.ts` の更新
-  - ui設定を削除または独自設定に変更
+  - ui設定を削除
 - [ ] `package.json` の更新
   - @nuxt/ui依存を削除
   - @nuxt/icon依存を削除
 - [ ] `app/assets/css/main.css` の更新
-  - @nuxt/ui用のCSS変数を整理
-  - 独自コンポーネント用のスタイルを追加
+  - @nuxt/ui用のCSS importを削除
+  - 独自スタイルを整理
+
+####### ex1.14 動作確認
+
+- [ ] `pnpm lint && pnpm format && pnpm type-check` パス
+- [ ] `pnpm dev` で起動確認
+- [ ] 主要ページの動作確認
+  - トップページ（アイコン表示）
+  - 村作成ページ（フォーム）
+  - 村ページ（SayForm）
 
 ###### 1.6 初期表示フローの実装
 

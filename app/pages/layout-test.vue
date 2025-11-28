@@ -3,16 +3,14 @@
     <h1 class="mb-8 text-center text-3xl font-bold">レイアウトテスト</h1>
 
     <div class="mx-auto max-w-2xl">
-      <UCard>
-        <template #header>
-          <h2 class="text-xl font-semibold">DefaultLayout テスト</h2>
-        </template>
+      <div class="rounded-lg border border-gray-200 bg-white p-4 shadow">
+        <h2 class="mb-4 text-xl font-semibold">DefaultLayout テスト</h2>
 
         <div class="space-y-4">
           <p>このページはDefaultLayoutを使用しています。</p>
 
           <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <UCard>
+            <div class="rounded-lg border border-gray-200 bg-white p-4 shadow">
               <h3 class="mb-2 font-medium">ナビゲーション確認</h3>
               <ul class="list-inside list-disc space-y-1 text-sm">
                 <li>左上のハンバーガーメニューをクリック</li>
@@ -20,16 +18,16 @@
                 <li>メニュー項目のリンクが動作する</li>
                 <li>背景をクリックでメニューが閉じる</li>
               </ul>
-            </UCard>
+            </div>
 
-            <UCard>
+            <div class="rounded-lg border border-gray-200 bg-white p-4 shadow">
               <h3 class="mb-2 font-medium">レスポンシブ確認</h3>
               <ul class="list-inside list-disc space-y-1 text-sm">
                 <li>モバイルサイズでの表示</li>
                 <li>タブレットサイズでの表示</li>
                 <li>デスクトップサイズでの表示</li>
               </ul>
-            </UCard>
+            </div>
           </div>
 
           <div class="mt-6">
@@ -41,7 +39,7 @@
             </NuxtLink>
           </div>
         </div>
-      </UCard>
+      </div>
     </div>
   </div>
 </template>

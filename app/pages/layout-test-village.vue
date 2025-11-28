@@ -3,23 +3,23 @@
     <h1 class="mb-8 text-center text-3xl font-bold">Village Layout テスト</h1>
 
     <div class="mx-auto max-w-2xl">
-      <UCard>
-        <template #header>
-          <h2 class="text-xl font-semibold">VillageLayout テスト</h2>
-        </template>
+      <div class="rounded-lg border border-gray-200 bg-white p-4 shadow">
+        <h2 class="mb-4 text-xl font-semibold">VillageLayout テスト</h2>
 
         <div class="space-y-4">
           <p>
             このページはVillageLayoutを使用しています（ナビゲーションバーなし）。
           </p>
 
-          <UAlert
-            icon="i-lucide-info"
-            color="info"
-            variant="subtle"
-            title="Village Layout特徴"
-            description="人狼ゲーム中はナビゲーションを隠し、ゲームに集中できるレイアウトです。Google Adsのみが表示されます。"
-          />
+          <div
+            class="rounded-md border border-blue-200 bg-blue-50 p-3 text-sm text-blue-800"
+          >
+            <p class="font-medium">Village Layout特徴</p>
+            <p class="mt-1">
+              人狼ゲーム中はナビゲーションを隠し、ゲームに集中できるレイアウトです。Google
+              Adsのみが表示されます。
+            </p>
+          </div>
 
           <div class="mt-6">
             <NuxtLink
@@ -30,7 +30,7 @@
             </NuxtLink>
           </div>
         </div>
-      </UCard>
+      </div>
     </div>
   </div>
 </template>
