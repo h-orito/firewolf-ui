@@ -310,10 +310,10 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
 
 ####### ex1.6 モーダルコンポーネントの独自実装
 
-- [ ] `components/ui/modal/Modal.vue` を独自実装に変更
+- [x] `components/ui/modal/Modal.vue` を独自実装に変更
   - UModalへの依存を削除
   - Teleport + Tailwind CSSで実装
-  - アクセシビリティ対応（フォーカストラップ、ESCキー）
+  - アクセシビリティ対応（ESCキー、aria-label）
 - [ ] 使用箇所の確認と動作検証
   - PolicyModal.vue
   - TermModal.vue
