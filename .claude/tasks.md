@@ -333,7 +333,7 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
 
 ####### ex1.8 バッジコンポーネントの独自実装
 
-- [ ] `components/ui/badge/index.vue` を独自実装に変更
+- [x] `components/ui/badge/index.vue` を独自実装に変更
   - UBadgeへの依存を削除
   - Tailwind CSSでスタイリング
   - Props: color, variant, size
