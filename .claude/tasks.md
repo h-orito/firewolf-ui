@@ -324,11 +324,11 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
 
 ####### ex1.7 アコーディオンコンポーネントの独自実装
 
-- [ ] `components/ui/accordion/Accordion.vue` の作成
+- [x] `components/ui/accordion/Accordion.vue` の作成
   - UAccordionの代替
   - Tailwind CSSでスタイリング
   - 開閉アニメーション
-- [ ] 使用箇所を置き換え
+- [x] 使用箇所を置き換え
   - VillageSidebar.vue
 
 ####### ex1.8 バッジコンポーネントの独自実装

@@ -23,7 +23,7 @@
         </button>
 
         <!-- 参加者リスト -->
-        <UAccordion
+        <Accordion
           :items="[
             {
               label: `参加者（${personCount}人）`,
@@ -36,7 +36,7 @@
           <template #participants>
             <ParticipantList />
           </template>
-        </UAccordion>
+        </Accordion>
 
         <!-- メモ -->
         <button
@@ -101,6 +101,7 @@
 
 <script setup lang="ts">
 import UiButton from '~/components/ui/button/index.vue'
+import Accordion from '~/components/ui/accordion/Accordion.vue'
 import { useVillage } from '~/composables/village/useVillage'
 import { useVillageSlider } from '~/composables/village/useVillageSlider'
 import { useWindowResize } from '~/composables/useWindowResize'
