@@ -314,7 +314,7 @@ FIREWOLF Nuxt4移行プロジェクトの全タスクをフェーズ別に管理
   - UModalへの依存を削除
   - Teleport + Tailwind CSSで実装
   - アクセシビリティ対応（ESCキー、aria-label）
-- [ ] 使用箇所の確認と動作検証
+- [x] 使用箇所の確認と動作検証
   - PolicyModal.vue
   - TermModal.vue
   - KampaModal.vue
