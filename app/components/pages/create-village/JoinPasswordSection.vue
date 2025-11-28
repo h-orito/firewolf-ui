@@ -16,7 +16,10 @@
         :error="!!props.errors?.joinPassword"
         @blur="validateField('joinPassword')"
       />
-      <p v-if="props.errors?.joinPassword" class="mt-1 text-center text-xs text-red-600">
+      <p
+        v-if="props.errors?.joinPassword"
+        class="mt-1 text-center text-xs text-red-600"
+      >
         {{ props.errors.joinPassword }}
       </p>
       <p v-else class="mt-1 text-center text-xs text-gray-500">

@@ -41,7 +41,10 @@
           :error="!!errors?.capacityMin"
           @blur="validateField('capacityMin')"
         />
-        <p v-if="errors?.capacityMin" class="mt-1 text-center text-xs text-red-600">
+        <p
+          v-if="errors?.capacityMin"
+          class="mt-1 text-center text-xs text-red-600"
+        >
           {{ errors.capacityMin }}
         </p>
         <p v-else class="mt-1 text-center text-xs text-gray-500">
@@ -65,7 +68,10 @@
           :error="!!errors?.capacityMax"
           @blur="validateField('capacityMax')"
         />
-        <p v-if="errors?.capacityMax" class="mt-1 text-center text-xs text-red-600">
+        <p
+          v-if="errors?.capacityMax"
+          class="mt-1 text-center text-xs text-red-600"
+        >
           {{ errors.capacityMax }}
         </p>
         <p v-else class="mt-1 text-center text-xs text-gray-500">

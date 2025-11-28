@@ -70,7 +70,10 @@
           @update:model-value="updateField('silentHours', $event)"
           @blur="validateField('silentHours')"
         />
-        <p v-if="errors?.silentHours" class="mt-1 text-center text-xs text-red-600">
+        <p
+          v-if="errors?.silentHours"
+          class="mt-1 text-center text-xs text-red-600"
+        >
           {{ errors.silentHours }}
         </p>
         <p v-else class="mt-1 text-center text-xs text-gray-500">
