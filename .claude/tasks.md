@@ -351,7 +351,7 @@ app/components/ui/icon/
 └── svg-icons.ts      # FA/MDI用SVGパス定義（新規）
 ```
 
-- [ ] `components/ui/icon/heroicons.ts` の作成
+- [x] `components/ui/icon/heroicons.ts` の作成
   - 既存Icon.vueの@heroicons/vueマッピングを分離
 - [ ] `components/ui/icon/svg-icons.ts` の作成
   - FA/MDIアイコンのSVGパス定義
