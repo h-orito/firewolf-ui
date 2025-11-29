@@ -399,11 +399,11 @@ app/components/ui/icon/
 
 ####### ex1.11 フォームグループコンポーネントの独自実装
 
-- [ ] `components/ui/form/FormGroup.vue` の作成
+- [x] `components/ui/form/FormGroup.vue` の作成
   - UFormGroupの代替
   - ラベル + コンテンツのラッパー
-  - Props: label
-  - slot でコンテンツを受け取る
+  - Props: label, required
+  - slot でコンテンツを受け取る（default, help, error）
 - [ ] SayForm.vue の UFormGroup を置き換え
 - [ ] SayForm.vue の USelect を FormSelect.vue に置き換え
 - [ ] SayForm.vue の UTextarea を FormTextarea.vue に置き換え
