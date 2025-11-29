@@ -20,7 +20,7 @@
     <!-- 村一覧 -->
     <div class="menu-area">
       <div v-if="isLoadingVillages" class="flex justify-center py-8">
-        <Icon name="fa6-solid:spinner" class="animate-spin text-4xl" />
+        <Icon name="spinner" class="animate-spin text-4xl" />
       </div>
       <div v-else-if="villages">
         <h2 class="spotlight-shadow mb-8 text-2xl font-semibold">開催中の村</h2>

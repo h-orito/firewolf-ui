@@ -35,7 +35,7 @@
         </label>
         <Alert
           type="default"
-          icon="mdi:information"
+          icon="information"
           description="1日の長さは24時間固定です。"
           class="mb-3"
         />

@@ -4,7 +4,7 @@
 
     <Alert
       type="warning"
-      icon="mdi:alert"
+      icon="alert"
       description="村作成後は変更できません。"
       class="mb-4"
     />

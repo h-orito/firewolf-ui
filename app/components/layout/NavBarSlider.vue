@@ -46,7 +46,7 @@
         <UiButton
           color="secondary"
           variant="solid"
-          icon="i-lucide-x"
+          icon="i-heroicons-x-mark-20-solid"
           size="sm"
           @click="$emit('hide-menu')"
         />

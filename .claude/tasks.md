@@ -369,10 +369,11 @@ app/components/ui/icon/
     - `fa6-brands:google` (Google)
     - `mdi:alert-circle` (警告)
     - `mdi:account` (アカウント)
-- [ ] `components/ui/icon/Icon.vue` の更新
+- [x] `components/ui/icon/Icon.vue` の更新
   - heroicons.ts, svg-icons.ts をインポート
   - SVGアイコンとheroiconsコンポーネントの両方を描画可能に
-- [ ] 使用箇所の動作確認
+  - アイコン名を短縮形式（`spinner`, `twitter`等）で指定可能に
+- [x] 使用箇所の動作確認・短縮形式への更新
   - index.vue
   - Intro.vue
   - Charachip.vue
@@ -382,6 +383,10 @@ app/components/ui/icon/
   - SigninModal.vue
   - DummyMessageSection.vue
   - CharaSelectModal.vue
+  - OrganizationSection.vue
+  - CharachipSection.vue
+  - MessageRestrictionSection.vue
+  - BasicInfoSection.vue
 
 ####### ex1.10 ラジオグループコンポーネントの独自実装
 

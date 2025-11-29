@@ -16,7 +16,7 @@
       <div class="mt-6 mb-6">
         <hr class="mb-3" />
         <UiButton color="primary" @click="signin('twitter')">
-          <Icon name="fa6-brands:twitter" class="mt-0.5 mr-2" />
+          <Icon name="twitter" class="mt-0.5 mr-2" />
           Twitterログイン
         </UiButton>
         <Alert class="my-4 text-sm">
@@ -30,7 +30,7 @@
       <div class="my-6">
         <hr class="mb-3" />
         <UiButton color="primary" @click="signin('google')">
-          <Icon name="fa6-brands:google" class="mt-0.5 mr-2" />
+          <Icon name="google" class="mt-0.5 mr-2" />
           Googleログイン
         </UiButton>
         <Alert class="my-4 text-sm">

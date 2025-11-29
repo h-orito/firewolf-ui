@@ -7,19 +7,19 @@
     </div>
     <div class="grid gap-4 md:grid-cols-2">
       <SpotlightButton to="/about">
-        <Icon name="fa6-solid:book" class="mt-0.5 mr-2" />
+        <Icon name="book" class="mt-0.5 mr-2" />
         <strong>このサイトは</strong>
       </SpotlightButton>
       <SpotlightButton to="/rule">
-        <Icon name="fa6-solid:book" class="mt-0.5 mr-2" />
+        <Icon name="book" class="mt-0.5 mr-2" />
         <strong>ルール</strong>
       </SpotlightButton>
       <SpotlightButton to="/faq">
-        <Icon name="fa6-solid:circle-question" class="mt-0.5 mr-2" />
+        <Icon name="circle-question" class="mt-0.5 mr-2" />
         <strong>よくある質問</strong>
       </SpotlightButton>
       <SpotlightButton to="/release-note">
-        <Icon name="fa6-solid:wrench" class="mt-0.5 mr-2" />
+        <Icon name="wrench" class="mt-0.5 mr-2" />
         <strong>更新情報</strong>
       </SpotlightButton>
     </div>

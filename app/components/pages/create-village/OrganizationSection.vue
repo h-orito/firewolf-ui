@@ -3,7 +3,7 @@
     <h2 class="mb-4 text-lg font-semibold">編成</h2>
 
     <!-- 編成設定の注意事項 -->
-    <Alert type="default" icon="mdi:information" class="mb-4">
+    <Alert type="default" icon="information" class="mb-4">
       <ul class="ml-4 list-disc space-y-1 text-sm">
         <li>
           役職1文字略称は<NuxtLink

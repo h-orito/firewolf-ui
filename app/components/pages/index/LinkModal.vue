@@ -20,7 +20,7 @@
           :disabled="isAlreadyTwitterLinked"
           @click="link('twitter')"
         >
-          <Icon name="fa6-brands:twitter" class="mt-0.5 mr-2" />
+          <Icon name="twitter" class="mt-0.5 mr-2" />
           Twitterログイン
         </UiButton>
         <Alert v-if="!isAlreadyTwitterLinked" class="my-4 text-sm">
@@ -39,7 +39,7 @@
           :disabled="isAlreadyGoogleLinked"
           @click="link('google')"
         >
-          <Icon name="fa6-brands:google" class="mt-0.5 mr-2" />
+          <Icon name="google" class="mt-0.5 mr-2" />
           Googleログイン
         </UiButton>
         <Alert v-if="!isAlreadyGoogleLinked" class="my-4 text-sm">

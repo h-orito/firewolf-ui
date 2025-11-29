@@ -27,14 +27,14 @@
         </div>
         <div class="grid gap-4 md:grid-cols-3">
           <SpotlightButton :to="`/player-record?id=${user?.id}`">
-            <Icon name="fa6-solid:chart-bar" class="mt-0.5 mr-2" />
+            <Icon name="chart-bar" class="mt-0.5 mr-2" />
             <strong>マイページ</strong>
           </SpotlightButton>
           <SpotlightButton @click="openLinkModal">
             <strong>他SNSアカウント連携</strong>
           </SpotlightButton>
           <SpotlightButton @click="logout">
-            <Icon name="fa6-solid:right-from-bracket" class="mt-0.5 mr-2" />
+            <Icon name="right-from-bracket" class="mt-0.5 mr-2" />
             <strong>ログアウト</strong>
           </SpotlightButton>
         </div>

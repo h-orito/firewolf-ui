@@ -5,7 +5,7 @@
     </div>
     <div class="grid grid-cols-1">
       <SpotlightButton to="/charachip-list">
-        <Icon name="fa6-solid:image" class="mt-0.5 mr-2" />
+        <Icon name="image" class="mt-0.5 mr-2" />
         <strong>キャラチップ一覧</strong>
       </SpotlightButton>
     </div>

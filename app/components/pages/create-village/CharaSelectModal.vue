@@ -22,7 +22,7 @@
           v-else
           class="mb-2 flex h-20 w-20 items-center justify-center bg-gray-100"
         >
-          <Icon name="mdi:account" class="text-3xl text-gray-400" />
+          <Icon name="account" class="text-3xl text-gray-400" />
         </div>
         <p class="text-center text-xs">{{ chara.chara_name.name }}</p>
       </button>

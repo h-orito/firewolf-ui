@@ -4,7 +4,7 @@
 
     <Alert
       type="default"
-      icon="mdi:information"
+      icon="information"
       description="1日目発言のみ、村作成後にも変更できます。"
       class="mb-4"
     />
@@ -98,7 +98,7 @@
           }}/1000）
         </p>
         <p class="mt-1 text-xs text-yellow-600">
-          <Icon name="mdi:alert-circle" class="mr-1" />
+          <Icon name="alert-circle" class="mr-1" />
           この内容は村作成後も変更可能です
         </p>
       </div>

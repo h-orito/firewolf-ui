@@ -4,7 +4,7 @@
 
     <Alert
       type="default"
-      icon="mdi:information"
+      icon="information"
       description="回数は0〜1000（通常発言は1〜1000）、文字数は1〜1000で設定できます。"
       class="mb-4"
     />

@@ -1,35 +1,28 @@
 <template>
-  <component :is="iconComponent" v-if="iconComponent" :class="iconClass" />
+  <!-- heroicons コンポーネント -->
+  <component
+    :is="heroIconComponent"
+    v-if="heroIconComponent"
+    :class="iconClass"
+  />
+  <!-- SVG アイコン -->
+  <svg
+    v-else-if="svgIcon"
+    :viewBox="svgIcon.viewBox"
+    :class="[iconClass, { 'animate-spin': isSpinner }]"
+    fill="currentColor"
+    aria-hidden="true"
+  >
+    <path v-for="(path, index) in svgIcon.paths" :key="index" :d="path" />
+  </svg>
+  <!-- フォールバック -->
   <span v-else :class="iconClass" />
 </template>
 
 <script setup lang="ts">
 import { computed, type Component } from 'vue'
-
-// 24px outline icons
-import {
-  ArrowPathIcon as ArrowPathIconOutline,
-  ExclamationCircleIcon as ExclamationCircleIconOutline,
-  QuestionMarkCircleIcon as QuestionMarkCircleIconOutline,
-  InformationCircleIcon as InformationCircleIconOutline,
-  DocumentTextIcon as DocumentTextIconOutline,
-  Cog6ToothIcon as Cog6ToothIconOutline,
-  HomeIcon as HomeIconOutline,
-  UsersIcon as UsersIconOutline,
-  ChartBarIcon as ChartBarIconOutline
-} from '@heroicons/vue/24/outline'
-
-// 20px solid icons
-import {
-  ChevronLeftIcon as ChevronLeftIcon20Solid,
-  ChevronRightIcon as ChevronRightIcon20Solid,
-  ArrowUpIcon as ArrowUpIcon20Solid,
-  ArrowDownIcon as ArrowDownIcon20Solid,
-  ArrowPathIcon as ArrowPathIcon20Solid,
-  Bars3Icon as Bars3Icon20Solid,
-  MagnifyingGlassIcon as MagnifyingGlassIcon20Solid,
-  XMarkIcon as XMarkIcon20Solid
-} from '@heroicons/vue/20/solid'
+import { heroiconsMap } from './heroicons'
+import { svgIconsMap, type SvgIconDefinition } from './svg-icons'
 
 type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 
@@ -44,31 +37,6 @@ const props = withDefaults(defineProps<Props>(), {
   class: undefined
 })
 
-// アイコン名からコンポーネントへのマッピング (i-heroicons-xxx形式)
-// heroicons以外のアイコン（twitter, google等）が必要な場合はここに追加
-const iconMap: Record<string, Component> = {
-  // 24px outline (default)
-  'i-heroicons-arrow-path': ArrowPathIconOutline,
-  'i-heroicons-exclamation-circle': ExclamationCircleIconOutline,
-  'i-heroicons-question-mark-circle': QuestionMarkCircleIconOutline,
-  'i-heroicons-information-circle': InformationCircleIconOutline,
-  'i-heroicons-document-text': DocumentTextIconOutline,
-  'i-heroicons-cog-6-tooth': Cog6ToothIconOutline,
-  'i-heroicons-home': HomeIconOutline,
-  'i-heroicons-users': UsersIconOutline,
-  'i-heroicons-chart-bar': ChartBarIconOutline,
-
-  // 20px solid
-  'i-heroicons-chevron-left-20-solid': ChevronLeftIcon20Solid,
-  'i-heroicons-chevron-right-20-solid': ChevronRightIcon20Solid,
-  'i-heroicons-arrow-up-20-solid': ArrowUpIcon20Solid,
-  'i-heroicons-arrow-down-20-solid': ArrowDownIcon20Solid,
-  'i-heroicons-arrow-path-20-solid': ArrowPathIcon20Solid,
-  'i-heroicons-bars-3-20-solid': Bars3Icon20Solid,
-  'i-heroicons-magnifying-glass-20-solid': MagnifyingGlassIcon20Solid,
-  'i-heroicons-x-mark-20-solid': XMarkIcon20Solid
-}
-
 const sizeClasses: Record<IconSize, string> = {
   xs: 'h-3 w-3',
   sm: 'h-4 w-4',
@@ -77,13 +45,45 @@ const sizeClasses: Record<IconSize, string> = {
   xl: 'h-8 w-8'
 }
 
-const iconComponent = computed(() => {
-  const icon = iconMap[props.name]
-  if (!icon) {
-    console.warn(`[Icon] Unknown icon name: ${props.name}`)
+// アイコン名を正規化して実際のキーを取得
+// "fa6-solid:spinner" -> "spinner"
+// "fa6-brands:twitter" -> "twitter"
+// "mdi:alert-circle" -> "alert-circle"
+// "i-heroicons-arrow-path" -> そのまま
+const normalizedIconName = computed((): string => {
+  const name = props.name
+  // fa6-solid:xxx, fa6-brands:xxx, mdi:xxx 形式の場合
+  if (name.includes(':')) {
+    return name.split(':')[1] ?? name
   }
-  return icon
+  return name
 })
+
+// heroiconsコンポーネントを取得
+const heroIconComponent = computed((): Component | undefined => {
+  // i-heroicons-xxx 形式のみ heroicons として扱う
+  if (props.name.startsWith('i-heroicons-')) {
+    return heroiconsMap[props.name]
+  }
+  return undefined
+})
+
+// SVGアイコン定義を取得
+const svgIcon = computed((): SvgIconDefinition | undefined => {
+  // i-heroicons 形式でない場合はSVGアイコンを探す
+  if (!props.name.startsWith('i-heroicons-')) {
+    const iconName = normalizedIconName.value
+    const icon = svgIconsMap[iconName]
+    if (!icon) {
+      console.warn(`[Icon] Unknown icon name: ${props.name}`)
+    }
+    return icon
+  }
+  return undefined
+})
+
+// spinnerアイコンかどうか
+const isSpinner = computed(() => normalizedIconName.value === 'spinner')
 
 const iconClass = computed(() => {
   const classes: string[] = []
