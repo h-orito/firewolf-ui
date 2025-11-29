@@ -404,9 +404,9 @@ app/components/ui/icon/
   - ラベル + コンテンツのラッパー
   - Props: label, required
   - slot でコンテンツを受け取る（default, help, error）
-- [ ] SayForm.vue の UFormGroup を置き換え
-- [ ] SayForm.vue の USelect を FormSelect.vue に置き換え
-- [ ] SayForm.vue の UTextarea を FormTextarea.vue に置き換え
+- [x] SayForm.vue の UFormGroup を置き換え
+- [x] SayForm.vue の USelect を FormSelect.vue に置き換え
+- [x] SayForm.vue の UTextarea を FormTextarea.vue に置き換え
 
 ####### ex1.12 app.vue の UApp 削除
 

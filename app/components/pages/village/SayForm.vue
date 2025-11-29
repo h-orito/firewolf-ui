@@ -10,13 +10,13 @@
 
     <!-- 秘話対象選択 -->
     <div v-if="isSecretSay" class="mb-4">
-      <UFormGroup label="秘話相手">
-        <USelect
+      <FormGroup label="秘話相手">
+        <FormSelect
           v-model="targetParticipantId"
           :options="secretTargetOptions"
           placeholder="秘話相手を選択してください"
         />
-      </UFormGroup>
+      </FormGroup>
     </div>
 
     <!-- キャラクター表情選択 -->
@@ -40,13 +40,12 @@
 
       <!-- メッセージ入力エリア -->
       <div class="flex-1">
-        <UFormGroup :label="messageTypeLabel">
-          <UTextarea
+        <FormGroup :label="messageTypeLabel">
+          <FormTextarea
             v-model="messageText"
             :placeholder="messagePlaceholder"
             :maxlength="maxMessageLength"
             :rows="4"
-            resize
           />
           <template #help>
             <div class="flex justify-between text-sm">
@@ -56,7 +55,7 @@
               >
             </div>
           </template>
-        </UFormGroup>
+        </FormGroup>
 
         <!-- アクションボタン -->
         <div class="mt-4 flex flex-col gap-2 sm:flex-row">
@@ -108,6 +107,9 @@
 
 <script setup lang="ts">
 import type { CharaView, VillageParticipantView } from '~/lib/api/types'
+import FormGroup from '~/components/ui/form/FormGroup.vue'
+import FormSelect from '~/components/ui/form/FormSelect.vue'
+import FormTextarea from '~/components/ui/form/FormTextarea.vue'
 import Modal from '~/components/ui/modal/Modal.vue'
 import UiButton from '~/components/ui/button/index.vue'
 import CharaImage from './CharaImage.vue'
