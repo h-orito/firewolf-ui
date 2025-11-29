@@ -353,7 +353,7 @@ app/components/ui/icon/
 
 - [x] `components/ui/icon/heroicons.ts` の作成
   - 既存Icon.vueの@heroicons/vueマッピングを分離
-- [ ] `components/ui/icon/svg-icons.ts` の作成
+- [x] `components/ui/icon/svg-icons.ts` の作成
   - FA/MDIアイコンのSVGパス定義
   - 対象アイコン:
     - `fa6-solid:spinner` (ローディング)
