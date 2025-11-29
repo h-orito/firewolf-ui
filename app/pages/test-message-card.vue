@@ -9,6 +9,33 @@
       </UiButton>
     </div>
 
+    <!-- FormRadioGroup テスト -->
+    <div
+      class="mb-8 rounded-lg border border-gray-200 p-4 dark:border-gray-700"
+    >
+      <h2 class="mb-4 text-xl font-bold">FormRadioGroup テスト</h2>
+
+      <!-- 通常 -->
+      <div class="mb-4">
+        <p class="mb-2 text-sm text-gray-600 dark:text-gray-400">
+          通常 - 選択値: {{ radioValue1 }}
+        </p>
+        <FormRadioGroup v-model="radioValue1" :options="radioOptions" />
+      </div>
+
+      <!-- 無効状態 -->
+      <div class="mb-4">
+        <p class="mb-2 text-sm text-gray-600 dark:text-gray-400">
+          無効状態 - 選択値: {{ radioValue2 }}
+        </p>
+        <FormRadioGroup
+          v-model="radioValue2"
+          :options="radioOptions"
+          disabled
+        />
+      </div>
+    </div>
+
     <!-- メッセージカード表示 -->
     <div class="space-y-4">
       <div v-for="(message, index) in sampleMessages" :key="index">
@@ -27,8 +54,19 @@
 <script setup lang="ts">
 import MessageCard from '~/components/pages/village/MessageCard.vue'
 import UiButton from '~/components/ui/button/index.vue'
+import FormRadioGroup from '~/components/ui/form/FormRadioGroup.vue'
 
 const isDark = ref(true)
+
+// FormRadioGroup テスト用データ
+const radioValue1 = ref('NORMAL_SAY')
+const radioValue2 = ref('NORMAL_SAY')
+const radioOptions = [
+  { value: 'NORMAL_SAY', label: '通常発言' },
+  { value: 'WEREWOLF_SAY', label: '人狼の囁き' },
+  { value: 'SPECTATE_SAY', label: '見学者発言' },
+  { value: 'SECRET_SAY', label: '秘話' }
+]
 
 // サンプル参加者データ
 const sampleParticipants = [

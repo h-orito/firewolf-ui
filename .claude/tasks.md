@@ -390,12 +390,12 @@ app/components/ui/icon/
 
 ####### ex1.10 ラジオグループコンポーネントの独自実装
 
-- [ ] `components/ui/form/FormRadioGroup.vue` の作成
+- [x] `components/ui/form/FormRadioGroup.vue` の作成
   - URadioGroupの代替
   - Tailwind CSSでスタイリング
   - Props: modelValue, options, orientation
   - v-model対応
-- [ ] SayForm.vue の URadioGroup を置き換え
+- [x] SayForm.vue の URadioGroup を置き換え
 
 ####### ex1.11 フォームグループコンポーネントの独自実装
 

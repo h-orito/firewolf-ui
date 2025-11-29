@@ -2,10 +2,9 @@
   <div class="action-form-container">
     <!-- メッセージ種別選択 -->
     <div v-if="availableMessageTypes.length > 1" class="mb-4">
-      <URadioGroup
+      <FormRadioGroup
         v-model="selectedMessageType"
         :options="messageTypeOptions"
-        class="flex flex-wrap gap-2"
       />
     </div>
 
