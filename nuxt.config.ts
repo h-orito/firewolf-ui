@@ -1,17 +1,16 @@
+import tailwindcss from '@tailwindcss/vite'
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-08-24',
   devtools: { enabled: true },
   devServer: {
     port: 3011
   },
-  modules: [
-    '@nuxt/ui',
-    '@nuxt/icon',
-    '@pinia/nuxt',
-    '@nuxt/eslint',
-    'nuxt-vuefire'
-  ],
+  modules: ['@pinia/nuxt', '@nuxt/eslint', 'nuxt-vuefire'],
   css: ['~/assets/css/main.css'],
+  vite: {
+    plugins: [tailwindcss()]
+  },
   typescript: {
     typeCheck: true
   },

@@ -410,29 +410,29 @@ app/components/ui/icon/
 
 ####### ex1.12 app.vue の UApp 削除
 
-- [ ] `app/app.vue` の更新
+- [x] `app/app.vue` の更新
   - UApp をシンプルな構造に置き換え
   - NuxtLayout + NuxtPageのみに
 
 ####### ex1.13 設定ファイルの更新
 
-- [ ] `nuxt.config.ts` の更新
+- [x] `nuxt.config.ts` の更新
   - @nuxt/uiモジュールを削除
   - @nuxt/iconモジュールを削除
-- [ ] `app.config.ts` の更新
+- [x] `app.config.ts` の更新
   - ui設定を削除
-- [ ] `package.json` の更新
+- [x] `package.json` の更新
   - @nuxt/ui依存を削除
   - @nuxt/icon依存を削除
-- [ ] `app/assets/css/main.css` の更新
+- [x] `app/assets/css/main.css` の更新
   - @nuxt/ui用のCSS importを削除
   - 独自スタイルを整理
 
 ####### ex1.14 動作確認
 
-- [ ] `pnpm lint && pnpm format && pnpm type-check` パス
-- [ ] `pnpm dev` で起動確認
-- [ ] 主要ページの動作確認
+- [x] `pnpm lint && pnpm format && pnpm type-check` パス
+- [x] `pnpm dev` で起動確認
+- [x] 主要ページの動作確認
   - トップページ（アイコン表示）
   - 村作成ページ（フォーム）
   - 村ページ（SayForm）
