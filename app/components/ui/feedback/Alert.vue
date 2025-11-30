@@ -18,6 +18,8 @@
 </template>
 
 <script setup lang="ts">
+import Icon from '~/components/ui/icon/Icon.vue'
+
 interface Props {
   type?: 'default' | 'info' | 'success' | 'warning' | 'error'
   title?: string

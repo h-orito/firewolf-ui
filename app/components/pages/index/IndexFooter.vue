@@ -5,19 +5,19 @@
     </div>
     <div class="grid gap-4 md:grid-cols-2">
       <SpotlightButton href="https://twitter.com/ort_dev" target="_blank">
-        <Icon name="twitter" class="mt-0.5 mr-2" />
+        <Icon name="twitter" class="mr-2" />
         <strong>要望、改善提案、不具合報告</strong>
       </SpotlightButton>
       <SpotlightButton @click="openKampaModal">
-        <Icon name="gift" class="mt-0.5 mr-2" />
+        <Icon name="gift" class="mr-2" />
         <strong>投げ銭</strong>
       </SpotlightButton>
       <SpotlightButton @click="openTermModal">
-        <Icon name="book-open" class="mt-0.5 mr-2" />
+        <Icon name="book-open" class="mr-2" />
         <strong>利用規約</strong>
       </SpotlightButton>
       <SpotlightButton @click="openPolicyModal">
-        <Icon name="book-open" class="mt-0.5 mr-2" />
+        <Icon name="book-open" class="mr-2" />
         <strong>プライバシーポリシー</strong>
       </SpotlightButton>
     </div>
@@ -39,6 +39,7 @@
 </template>
 
 <script setup lang="ts">
+import Icon from '~/components/ui/icon/Icon.vue'
 import KampaModal from '~/components/layout/KampaModal.vue'
 import TermModal from '~/components/layout/TermModal.vue'
 import PolicyModal from '~/components/layout/PolicyModal.vue'

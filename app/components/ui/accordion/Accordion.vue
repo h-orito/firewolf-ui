@@ -19,8 +19,7 @@
         </div>
         <Icon
           name="i-heroicons-chevron-right"
-          class="h-4 w-4 shrink-0 transition-transform duration-200"
-          :class="{ 'rotate-90': openStates[index] }"
+          :class="`h-4 w-4 shrink-0 transition-transform duration-200 ${openStates[index] ? 'rotate-90' : ''}`"
         />
       </button>
 
@@ -41,6 +40,8 @@
 </template>
 
 <script setup lang="ts">
+import Icon from '~/components/ui/icon/Icon.vue'
+
 interface AccordionItem {
   label: string
   slot: string

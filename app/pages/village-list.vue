@@ -108,6 +108,7 @@
 import type { VillagesView, SimpleVillageView } from '~/lib/api/types'
 import { VILLAGE_STATUS } from '~/lib/api/village-status-constants'
 import { createSeoMeta } from '~/utils/seo'
+import Icon from '~/components/ui/icon/Icon.vue'
 
 // メタデータ
 useSeoMeta(

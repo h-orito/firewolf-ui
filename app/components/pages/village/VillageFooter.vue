@@ -25,11 +25,7 @@
     >
       <Icon
         name="i-heroicons-arrow-path-20-solid"
-        class="h-5 w-5"
-        :class="{
-          'animate-spin text-blue-400': existsNewMessages,
-          'text-white': !existsNewMessages
-        }"
+        :class="`h-5 w-5 ${existsNewMessages ? 'animate-spin text-blue-400' : 'text-white'}`"
       />
     </UiButton>
 
@@ -77,6 +73,7 @@
 </template>
 
 <script setup lang="ts">
+import Icon from '~/components/ui/icon/Icon.vue'
 import UiButton from '~/components/ui/button/index.vue'
 import { useVillageNavigation } from '~/composables/village/useVillageNavigation'
 import { useVillageMessageFilter } from '~/composables/village/useVillageMessageFilter'

@@ -57,6 +57,7 @@
 <script setup lang="ts">
 import type { VillagesView } from '~/lib/api/types'
 import { VILLAGE_STATUS } from '~/lib/api/village-status-constants'
+import Icon from '~/components/ui/icon/Icon.vue'
 import VillageCard from '~/components/pages/index/VillageCard.vue'
 import Spotlight from '~/components/pages/index/Spotlight.vue'
 import Intro from '~/components/pages/index/Intro.vue'

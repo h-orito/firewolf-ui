@@ -16,7 +16,7 @@
       <div class="mt-6 mb-6">
         <hr class="mb-3" />
         <UiButton color="primary" @click="signin('twitter')">
-          <Icon name="twitter" class="mt-0.5 mr-2" />
+          <Icon name="twitter" class="mr-2" />
           Twitterログイン
         </UiButton>
         <Alert class="my-4 text-sm">
@@ -30,7 +30,7 @@
       <div class="my-6">
         <hr class="mb-3" />
         <UiButton color="primary" @click="signin('google')">
-          <Icon name="google" class="mt-0.5 mr-2" />
+          <Icon name="google" class="mr-2" />
           Googleログイン
         </UiButton>
         <Alert class="my-4 text-sm">
@@ -51,6 +51,7 @@
 </template>
 
 <script setup lang="ts">
+import Icon from '~/components/ui/icon/Icon.vue'
 import Alert from '~/components/ui/feedback/Alert.vue'
 import Modal from '~/components/ui/modal/Modal.vue'
 import UiButton from '~/components/ui/button/index.vue'

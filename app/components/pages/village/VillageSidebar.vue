@@ -100,6 +100,7 @@
 </template>
 
 <script setup lang="ts">
+import Icon from '~/components/ui/icon/Icon.vue'
 import UiButton from '~/components/ui/button/index.vue'
 import Accordion from '~/components/ui/accordion/Accordion.vue'
 import { useVillage } from '~/composables/village/useVillage'

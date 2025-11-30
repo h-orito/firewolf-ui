@@ -27,14 +27,14 @@
         </div>
         <div class="grid gap-4 md:grid-cols-3">
           <SpotlightButton :to="`/player-record?id=${user?.id}`">
-            <Icon name="chart-bar" class="mt-0.5 mr-2" />
+            <Icon name="chart-bar" class="mr-2" />
             <strong>マイページ</strong>
           </SpotlightButton>
           <SpotlightButton @click="openLinkModal">
             <strong>他SNSアカウント連携</strong>
           </SpotlightButton>
           <SpotlightButton @click="logout">
-            <Icon name="right-from-bracket" class="mt-0.5 mr-2" />
+            <Icon name="right-from-bracket" class="mr-2" />
             <strong>ログアウト</strong>
           </SpotlightButton>
         </div>
@@ -64,6 +64,7 @@
 <script setup lang="ts">
 import type { MyselfPlayerView, SimpleVillageView } from '~/lib/api/types'
 import { VILLAGE_STATUS } from '~/lib/api/village-status-constants'
+import Icon from '~/components/ui/icon/Icon.vue'
 import VillageCard from '~/components/pages/index/VillageCard.vue'
 import SigninModal from '~/components/pages/index/SigninModal.vue'
 import LinkModal from '~/components/pages/index/LinkModal.vue'

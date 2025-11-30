@@ -92,6 +92,7 @@
 import type { CreateVillageFormData } from './types'
 import type { MessageView, Chara } from '~/lib/api/types'
 import { MESSAGE_TYPE } from '~/lib/api/message-constants'
+import Icon from '~/components/ui/icon/Icon.vue'
 import Modal from '~/components/ui/modal/Modal.vue'
 import SayMessage from '~/components/pages/village/message/SayMessage.vue'
 

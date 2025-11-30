@@ -31,6 +31,7 @@
 </template>
 
 <script setup lang="ts">
+import Icon from '~/components/ui/icon/Icon.vue'
 import BaseModal from '~/components/ui/modal/Modal.vue'
 import type { Chara } from '~/lib/api/types'
 

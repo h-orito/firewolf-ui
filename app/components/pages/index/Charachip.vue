@@ -5,7 +5,7 @@
     </div>
     <div class="grid grid-cols-1">
       <SpotlightButton to="/charachip-list">
-        <Icon name="image" class="mt-0.5 mr-2" />
+        <Icon name="image" class="mr-2" />
         <strong>キャラチップ一覧</strong>
       </SpotlightButton>
     </div>
@@ -13,6 +13,7 @@
 </template>
 
 <script setup lang="ts">
+import Icon from '~/components/ui/icon/Icon.vue'
 import SpotlightButton from './SpotlightButton.vue'
 </script>
 

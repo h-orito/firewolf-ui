@@ -107,6 +107,7 @@
 </template>
 
 <script setup lang="ts">
+import Icon from '~/components/ui/icon/Icon.vue'
 import Alert from '~/components/ui/feedback/Alert.vue'
 import CharaImage from '~/components/pages/village/CharaImage.vue'
 import FormTextarea from '~/components/ui/form/FormTextarea.vue'

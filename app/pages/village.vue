@@ -93,6 +93,7 @@
 </template>
 
 <script setup lang="ts">
+import Icon from '~/components/ui/icon/Icon.vue'
 import UiButton from '~/components/ui/button/index.vue'
 import { useAuth } from '~/composables/useAuth'
 import { useVillage } from '~/composables/village/useVillage'
