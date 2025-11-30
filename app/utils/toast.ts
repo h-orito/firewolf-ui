@@ -1,7 +1,9 @@
 /**
  * Toast通知のユーティリティ
  *
- * 旧村Toast機能をNuxt UIのtoast機能で再実装
+ * TODO: 独自のtoast実装を追加する
+ * 現在は console.log でデバッグ出力のみ
+ *
  * 使用例:
  * - showInfoToast('情報メッセージ')
  * - showSuccessToast('成功メッセージ')
@@ -9,33 +11,18 @@
  */
 
 export const showInfoToast = (message: string) => {
-  const toast = useToast()
-  toast.add({
-    title: '情報',
-    description: message,
-    color: 'primary',
-    icon: 'i-lucide-info'
-  })
+  // TODO: 独自のtoast UIを実装
+  console.info('[Toast Info]', message)
 }
 
 export const showSuccessToast = (message: string) => {
-  const toast = useToast()
-  toast.add({
-    title: '成功',
-    description: message,
-    color: 'success',
-    icon: 'i-lucide-check-circle'
-  })
+  // TODO: 独自のtoast UIを実装
+  console.info('[Toast Success]', message)
 }
 
 export const showErrorToast = (message: string) => {
-  const toast = useToast()
-  toast.add({
-    title: 'エラー',
-    description: message,
-    color: 'error',
-    icon: 'i-lucide-alert-circle'
-  })
+  // TODO: 独自のtoast UIを実装
+  console.error('[Toast Error]', message)
 }
 
 /**
