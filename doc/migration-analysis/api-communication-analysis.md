@@ -275,7 +275,7 @@ const queryString = qs.stringify(params, { arrayFormat: 'repeat' })
 
 ### 2. エラーハンドリング
 
-- Buefy Toast → @nuxt/ui Toast 対応
+- Buefy Toast → 独自実装Toast
 - ビジネスエラー判定ロジックの継続
 
 ### 3. 型安全性

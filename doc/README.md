@@ -78,7 +78,7 @@ doc/
 ### 目標システム（Nuxt 4）
 
 - **Framework**: Nuxt 4 + Node.js 22 LTS
-- **UI**: @nuxt/ui (Tailwind CSS + Headless UI)
+- **UI**: Tailwind CSS
 - **State**: Pinia + VueFire
 - **Auth**: Firebase (継続)
 

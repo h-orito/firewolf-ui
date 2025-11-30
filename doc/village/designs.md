@@ -791,12 +791,16 @@ interface MessageQuery {
 - `@Prop` → `defineProps`
 - `@Emit` → `defineEmits`
 
-**Buefy → @nuxt/ui**:
+**Buefy → 独自コンポーネント**:
 
-- `b-button` → `UButton`
-- `b-modal` → `UModal`
-- `b-table` → `UTable`
-- `b-pagination` → `UPagination`
+- `b-button` → `Button` (`components/ui/button/index.vue`)
+- `b-modal` → `Modal` (`components/ui/modal/Modal.vue`)
+- `b-table` → Tailwind CSSでテーブルスタイリング
+- `b-pagination` → 独自実装またはTailwindでスタイリング
+- `b-input` → `FormInput` (`components/ui/form/FormInput.vue`)
+- `b-select` → `FormSelect` (`components/ui/form/FormSelect.vue`)
+- `b-checkbox` → `FormCheckbox` (`components/ui/form/FormCheckbox.vue`)
+- `b-switch` → `FormSwitch` (`components/ui/form/FormSwitch.vue`)
 
 #### 13.2 既存実装の参考
 

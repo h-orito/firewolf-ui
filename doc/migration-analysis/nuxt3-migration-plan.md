@@ -5,7 +5,7 @@
 - **現行システム**: Nuxt 2.15 + TypeScript + Vue 2 (Class Components)
 - **目標システム**: Nuxt 4 + TypeScript + Vue 3 (Composition API) + Node 22
 - **移行方針**: 技術スタックの更新のみで、機能・UI/UXは現行システムと完全同一を維持
-- **採用UI技術**: @nuxt/ui (Tailwind CSS + Headless UI) - 決定済み
+- **採用UI技術**: 独自実装 + Tailwind CSS
 
 ## 2. 現行技術スタック
 
@@ -75,24 +75,24 @@
 
 ### UIフレームワーク
 
-#### 【決定】@nuxt/ui (Tailwind CSS + Headless UI)
+#### 【決定】独自実装 + Tailwind CSS
 
 - **選定理由**
-  - Tailwind CSSベースで開発効率が高い
-  - Nuxt公式UIライブラリで長期サポート期待
+  - プロジェクト固有の要件に最適化
+  - 不要な依存関係を排除し、軽量な実装を実現
+  - コンポーネントの挙動を完全に制御可能
   - TypeScript完全対応
-  - 豊富なコンポーネント
   - 開発者のTailwind CSS習熟度を活用
 
 - **実装方針**
-  - 現行のカスタム色をTailwind設定に移植
-  - @nuxt/uiコンポーネントをベースに現行デザインを再現
+  - 現行のカスタム色をTailwind設定（CSS変数）に移植
+  - `app/components/ui/` 配下に独自コンポーネントを実装
   - 人狼ゲーム固有の色分けを完全維持
 
 - **期待効果**
   - 開発効率の向上
   - モダンな開発体験
-  - バンドルサイズの最適化
+  - バンドルサイズの最適化（必要最小限のコンポーネントのみ）
   - 長期的なメンテナンス性向上
 
 ### 状態管理
@@ -112,18 +112,18 @@
 
 ### 主要パッケージの移行マッピング
 
-| 現行パッケージ          | 移行先                         | 備考                          |
-| ----------------------- | ------------------------------ | ----------------------------- |
-| @nuxtjs/axios           | $fetch / ofetch                | Nuxt 4組み込み                |
-| nuxt-property-decorator | Composition API + script setup | 完全書き換え必要              |
-| Vuex                    | Pinia                          | ストア構造は維持、APIのみ変更 |
-| Vuexfire                | VueFire                        | Firebase統合の最新版          |
-| Buefy                   | @nuxt/ui (決定済み)            | Tailwindで見た目再現          |
-| vee-validate v3         | vee-validate v4                | API変更あり                   |
-| @nuxtjs/pwa             | @vite-pwa/nuxt                 | Vite版PWA                     |
-| vue-scrollto            | @vueuse/core                   | より軽量な代替                |
-| dayjs                   | dayjs (継続)                   | そのまま利用可能              |
-| Firebase v10            | Firebase v10 (継続)            | 変更不要                      |
+| 現行パッケージ          | 移行先                         | 備考                           |
+| ----------------------- | ------------------------------ | ------------------------------ |
+| @nuxtjs/axios           | $fetch / ofetch                | Nuxt 4組み込み                 |
+| nuxt-property-decorator | Composition API + script setup | 完全書き換え必要               |
+| Vuex                    | Pinia                          | ストア構造は維持、APIのみ変更  |
+| Vuexfire                | VueFire                        | Firebase統合の最新版           |
+| Buefy                   | 独自実装 + Tailwind CSS        | 独自コンポーネントで見た目再現 |
+| vee-validate v3         | vee-validate v4                | API変更あり                    |
+| @nuxtjs/pwa             | @vite-pwa/nuxt                 | Vite版PWA                      |
+| vue-scrollto            | @vueuse/core                   | より軽量な代替                 |
+| dayjs                   | dayjs (継続)                   | そのまま利用可能               |
+| Firebase v10            | Firebase v10 (継続)            | 変更不要                       |
 
 ## 5. ディレクトリ構造の変更
 
@@ -186,16 +186,15 @@
 
 ### Phase 3: UIコンポーネント移行 (3-4週間)
 
-1. **@nuxt/ui + Tailwind CSS導入**
-   - @nuxt/uiとTailwind CSSのセットアップ
+1. **Tailwind CSS導入と独自コンポーネント実装**
+   - Tailwind CSSのセットアップ
    - 現行カスタム色の移植（人狼ゲーム固有色を含む）
-   - @nuxt/uiコンポーネントのカスタマイズ設定
+   - `app/components/ui/` 配下に独自コンポーネントを実装
 
-2. **共通コンポーネント（@nuxt/uiベース）**
-   - Loading（現行と同一）
-   - Modal（現行と同一）
-   - Toast/Notification（現行と同一）
-   - Form要素（現行と同一）
+2. **共通コンポーネント（独自実装）**
+   - Button, Modal, Alert, LoadingSpinner
+   - FormInput, FormTextarea, FormSelect, FormCheckbox, FormSwitch, FormRadioGroup
+   - Icon, Accordion, Badge
 
 3. **レイアウト（現行構成維持）**
    - デフォルトレイアウト（現行と同一）
@@ -260,12 +259,12 @@
   - TypeScript型定義の強化
   - 既存ロジックの完全維持
 
-### Buefy → @nuxt/ui + Tailwind CSS
+### Buefy → 独自実装 + Tailwind CSS
 
-- **課題**: 現行デザインの@nuxt/uiでの再現
+- **課題**: 現行デザインの独自コンポーネントでの再現
 - **対策**:
-  - 現行カスタム色をTailwind設定に移植
-  - @nuxt/uiコンポーネントを現行デザインに合わせてカスタマイズ
+  - 現行カスタム色をTailwind設定（CSS変数）に移植
+  - `app/components/ui/` 配下に独自コンポーネントを実装
   - 人狼ゲーム固有の発言色・システム色を完全移植
 
 ### Vuex → Pinia
@@ -346,13 +345,13 @@
 
 ## 12. UIフレームワーク選定結果
 
-**採用決定**: @nuxt/ui (Tailwind CSS + Headless UI)
+**採用決定**: 独自実装 + Tailwind CSS
 
 **決定要因**:
 
+- プロジェクト固有の要件に最適化
+- 不要な依存関係を排除し、軽量な実装を実現
 - Tailwind CSS習熟済みによる開発効率の向上
-- Nuxt公式サポートによる長期安定性
-- 豊富なコンポーネントと高いカスタマイズ性
 - TypeScript完全対応
 - 現行カスタム色の移植が容易
 
@@ -425,21 +424,19 @@ module.exports = {
 - 既にカスタマイズが完成しているため、デザインシステムの再構築が不要
 - 現行の色定義をそのまま移植可能
 
-## 14. 次のステップ
+## 14. 独自UIコンポーネント一覧
 
-1. **@nuxt/uiのNuxt 4対応状況の確認**
-   - 公式ロードマップの確認
-   - Nuxt 4 RCでの動作検証
-2. **現行コンポーネントの調査**
-   - Buefyコンポーネントの使用状況調査
-   - 必要な@nuxt/uiコンポーネントのリスト作成
-3. **Tailwind設定の準備**
-   - 現行カスタム色の完全移植
-   - 人狼ゲーム固有色の定義
-4. **プロトタイプ作成**
-   - @nuxt/ui + 現行色での検証
-   - デザイン再現度の確認
-5. **移行開始**
+`app/components/ui/` 配下に以下のコンポーネントを実装:
+
+| カテゴリ  | コンポーネント                                                                                                             | 説明               |
+| --------- | -------------------------------------------------------------------------------------------------------------------------- | ------------------ |
+| button    | Button                                                                                                                     | ボタン             |
+| form      | FormInput, FormTextarea, FormSelect, FormCheckbox, FormSwitch, FormRadioGroup, FormNumberInput, FormMultiSelect, FormGroup | フォーム要素       |
+| modal     | Modal                                                                                                                      | モーダルダイアログ |
+| icon      | Icon                                                                                                                       | アイコン表示       |
+| accordion | Accordion                                                                                                                  | 折りたたみ表示     |
+| badge     | Badge                                                                                                                      | バッジ             |
+| feedback  | Alert, LoadingSpinner                                                                                                      | 通知・ローディング |
 
 ## 15. 参考資料
 
@@ -448,6 +445,4 @@ module.exports = {
 - [Vue 3 Migration Guide](https://v3-migration.vuejs.org/)
 - [Pinia Documentation](https://pinia.vuejs.org/)
 - [VueFire Documentation](https://vuefire.vuejs.org/)
-- [@nuxt/ui Documentation](https://ui.nuxt.com/)
-- [Oruga UI Documentation](https://oruga.io/)
-- [PrimeVue Documentation](https://primevue.org/)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)

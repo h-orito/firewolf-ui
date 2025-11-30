@@ -3,7 +3,7 @@
 ## 概要
 
 現行システム（Nuxt 2 + Buefy）で使用されているBuefyコンポーネントの詳細な分析結果です。
-@nuxt/ui への移行時に参照するコンポーネント一覧とその使用パターンを記録します。
+移行時に参照するコンポーネント一覧とその使用パターンを記録します。
 
 ## Buefy設定
 
@@ -178,29 +178,53 @@ $primary-dark: rgb(20, 180, 255); // ダークテーマ用
 現行システムではダークテーマに対応済み。各カラーに `-dark` サフィックス付きの色が定義されており、
 ユーザー設定で切り替え可能。
 
-## 移行時の注意点
+## 移行先コンポーネント一覧
 
-### 高使用頻度コンポーネント（優先対応）
+Buefyコンポーネントは、`app/components/ui/` 配下の独自コンポーネントおよびTailwind CSSに移行します。
 
-1. **b-button** (58箇所) - @nuxt/ui の UButton
-2. **b-field** (63箇所) - @nuxt/ui の FormGroup または独自実装
-3. **b-input** (22箇所) - @nuxt/ui の UInput
-4. **b-select** (20箇所) - @nuxt/ui の USelect
-5. **b-modal** (21箇所) - @nuxt/ui の UModal
+### 高使用頻度コンポーネント（移行完了）
 
-### 特殊対応が必要なコンポーネント
+| Buefyコンポーネント | 移行先       | 配置場所                                |
+| ------------------- | ------------ | --------------------------------------- |
+| b-button            | Button       | `components/ui/button/index.vue`        |
+| b-field             | FormGroup    | `components/ui/form/FormGroup.vue`      |
+| b-input             | FormInput    | `components/ui/form/FormInput.vue`      |
+| b-select            | FormSelect   | `components/ui/form/FormSelect.vue`     |
+| b-modal             | Modal        | `components/ui/modal/Modal.vue`         |
+| b-checkbox          | FormCheckbox | `components/ui/form/FormCheckbox.vue`   |
+| b-switch            | FormSwitch   | `components/ui/form/FormSwitch.vue`     |
+| b-icon              | Icon         | `components/ui/icon/Icon.vue`           |
+| b-notification      | Alert        | `components/ui/feedback/Alert.vue`      |
+| b-collapse          | Accordion    | `components/ui/accordion/Accordion.vue` |
 
-1. **b-checkbox-button** - @nuxt/ui には直接対応なし、UButton + UCheckbox で実装
-2. **b-radio-button** - @nuxt/ui には直接対応なし、UButton + URadio で実装
-3. **b-datetimepicker** - @nuxt/ui には標準なし、サードパーティまたは独自実装
-4. **b-slider** - @nuxt/ui には標準なし、サードパーティまたは独自実装
+### 追加実装コンポーネント
+
+| Buefyコンポーネント     | 移行先          | 配置場所                                    |
+| ----------------------- | --------------- | ------------------------------------------- |
+| b-input type="textarea" | FormTextarea    | `components/ui/form/FormTextarea.vue`       |
+| b-radio-button          | FormRadioGroup  | `components/ui/form/FormRadioGroup.vue`     |
+| b-input type="number"   | FormNumberInput | `components/ui/form/FormNumberInput.vue`    |
+| 複数選択                | FormMultiSelect | `components/ui/form/FormMultiSelect.vue`    |
+| ローディング            | LoadingSpinner  | `components/ui/feedback/LoadingSpinner.vue` |
+| バッジ                  | Badge           | `components/ui/badge/index.vue`             |
+
+### 特殊対応コンポーネント
+
+| Buefyコンポーネント      | 移行方針                                     |
+| ------------------------ | -------------------------------------------- |
+| b-table / b-table-column | Tailwind CSSでテーブルスタイリング           |
+| b-tabs / b-tab-item      | Tailwind CSSでタブスタイリング               |
+| b-pagination             | 独自実装またはTailwindでスタイリング         |
+| b-datetimepicker         | ブラウザネイティブのdatetime-local入力を使用 |
+| b-slider                 | ブラウザネイティブのrange入力を使用          |
 
 ### カスタムスタイル継続
 
-人狼ゲーム固有の色定義は Tailwind CSS のカスタムカラーとして移行必須。
+人狼ゲーム固有の色定義は Tailwind CSS のカスタムカラー（CSS変数）として移行済み。
 
 ---
 
-**作成日**: 2025-01-24  
-**更新者**: Claude Code  
+**作成日**: 2025-01-24
+**更新日**: 2025-11-30
+**更新者**: Claude Code
 **調査基準**: .old-nuxt2 ディレクトリの全 .vue ファイル

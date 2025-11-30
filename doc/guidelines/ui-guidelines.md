@@ -81,13 +81,16 @@ FIREWOLFのテーブルは以下の統一されたスタイルを使用します
 
 ### インプットフィールド
 
-- **UInput**: Nuxt UIのデフォルトスタイルを使用
-- **USelect**: Nuxt UIのデフォルトスタイルを使用
-- **UCheckbox**: Nuxt UIのデフォルトスタイルを使用
+- **FormInput**: `components/ui/form/FormInput.vue` を使用
+- **FormSelect**: `components/ui/form/FormSelect.vue` を使用
+- **FormCheckbox**: `components/ui/form/FormCheckbox.vue` を使用
+- **FormSwitch**: `components/ui/form/FormSwitch.vue` を使用
+- **FormTextarea**: `components/ui/form/FormTextarea.vue` を使用
+- **FormRadioGroup**: `components/ui/form/FormRadioGroup.vue` を使用
 
 ### ボタン
 
-- **UButton**: Nuxt UIのデフォルトバリアントを使用
+- **Button**: `components/ui/button/index.vue` を使用
   - プライマリ: `variant="solid" color="primary"`
   - セカンダリ: `variant="outline"`
   - 削除・危険: `variant="solid" color="red"`
