@@ -18,9 +18,9 @@ FIREWOLFは人狼ゲームが無料で遊べるWebサービスです。Nuxt.js (
 
 ### 🎯 移行方針
 
-- **技術スタック**: Nuxt 2 → Nuxt 4, Buefy → @nuxt/ui + Tailwind CSS
+- **技術スタック**: Nuxt 2 → Nuxt 4, Buefy → Tailwind CSS + 独自実装
 - **機能完全維持**: 現行システムと100%同一の機能・UI/UXを維持
-- **採用技術**: @nuxt/ui (Tailwind CSS + Headless UI) + Pinia + Firebase
+- **採用技術**: Tailwind CSS + Pinia + Firebase
 
 ## 開発フロー
 

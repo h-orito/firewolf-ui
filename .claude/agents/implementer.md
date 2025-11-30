@@ -34,7 +34,7 @@ color: red
 **主要な技術要件**:
 
 - Nuxt 4パターンを使用: `<script setup>`、Composition API、auto-imports
-- Buefyを@nuxt/uiコンポーネントとTailwind CSSに置き換える
+- BuefyをTailwind CSS+独自実装に置き換える
 - 状態管理にはPiniaを使用(Vuexではない)
 - Firebase認証の統合を維持する
 - 元のNuxt 2実装との100%の機能パリティを確保する
