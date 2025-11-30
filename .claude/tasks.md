@@ -439,13 +439,13 @@ app/components/ui/icon/
 
 ###### 1.6 初期表示フローの実装
 
-- [ ] 初期表示フローの実装
-  - 村情報の取得
-  - 最新日・最新ページの発言取得
-  - 参加状況の取得
-  - キャラチップ情報の取得
-  - 残り時間表示タイマーの開始
-  - 年齢制限モーダルの表示判定
+- [x] 初期表示フローの実装
+  - [x] 村情報の取得（`initVillage()`）
+  - [x] 参加状況の取得（`loadSituation()`）
+  - [x] キャラチップ情報の取得（`initVillage()` 内）
+  - [x] 残り時間表示タイマーの開始（`VillageFooter.vue`）
+  - 最新日・最新ページの発言取得 → 2.1で実装
+  - 年齢制限モーダルの表示判定 → 5.5で実装
 
 ##### Phase 2: 発言機能の実装
 
@@ -459,6 +459,7 @@ app/components/ui/icon/
   - 発言リストの表示
   - ページネーション
   - 最新ボタン
+  - `useMessage`のwatch有効化による初期表示時の発言取得
 
 - [ ] `components/village/message/MessageCard.vue` の作成
   - 個別発言の表示
@@ -664,6 +665,7 @@ app/components/ui/icon/
 - [ ] `components/village/ModalAgeLimit.vue` の作成
   - R指定村の確認モーダル
   - Cookie保存での確認済み記録
+  - 村ページ（`village.vue`）への統合と表示判定ロジック
 
 ##### Phase 6: 最適化・テスト
 
