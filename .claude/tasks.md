@@ -451,33 +451,33 @@ app/components/ui/icon/
 
 ###### 2.1 発言表示の基本実装
 
-- [ ] `components/village/VillageDayList.vue` の作成
+- [ ] `components/pages/village/VillageDayList.vue` の作成
   - 日付選択リスト
   - 発言の先頭と末尾に配置
 
-- [ ] `components/village/message/MessageList.vue` の作成
+- [ ] `components/pages/village/message/MessageList.vue` の作成
   - 発言リストの表示
   - ページネーション
   - 最新ボタン
   - `useMessage`のwatch有効化による初期表示時の発言取得
 
-- [ ] `components/village/message/MessageCard.vue` の作成
+- [ ] `components/pages/village/message/MessageCard.vue` の作成
   - 個別発言の表示
   - アンカーの処理
   - 発言アクションの表示
 
 ###### 2.2 発言種別対応
 
-- [ ] `components/village/message/MessageSay.vue` の作成
+- [ ] `components/pages/village/message/MessageSay.vue` の作成
   - 通常発言の表示
   - 発言種別に応じたスタイリング
   - キャラクター情報の表示
 
-- [ ] `components/village/message/MessageSystem.vue` の作成
+- [ ] `components/pages/village/message/MessageSystem.vue` の作成
   - システムメッセージの表示
   - 公開/非公開システムの判定
 
-- [ ] `components/village/message/message-converter.ts` の作成
+- [ ] `components/pages/village/message/message-converter.ts` の作成
   - 発言テキストのHTML/CSS変換処理
   - 文字装飾（太字、斜体等）の変換
   - アンカー（`>>{発言番号}`）の変換
@@ -485,10 +485,10 @@ app/components/ui/icon/
 
 ###### 2.3 発言関連のUI実装
 
-- [ ] `components/village/message/ParticipantsMessage.vue` の作成
+- [ ] `components/pages/village/message/ParticipantsMessage.vue` の作成
   - 発言内の参加者リスト表示
 
-- [ ] `components/village/message/VillageSituationMessage.vue` の作成
+- [ ] `components/pages/village/message/VillageSituationMessage.vue` の作成
   - 状況メッセージの表示
 
 ###### 2.4 ページング・日付切り替え
@@ -506,7 +506,7 @@ app/components/ui/icon/
 
 ###### 3.1 抽出モーダル
 
-- [ ] `components/village/footer/ModalFilter.vue` の作成
+- [ ] `components/pages/village/footer/ModalFilter.vue` の作成
   - 発言種別の選択
   - 発言者の選択（全てON/OFF/反転）
   - 宛先の選択（全てON/OFF/反転/自分宛）
@@ -526,95 +526,95 @@ app/components/ui/icon/
 
 ###### 4.1 アクションコンテナ
 
-- [ ] `components/village/action/ActionContainer.vue` の作成
+- [ ] `components/pages/village/action/ActionContainer.vue` の作成
   - situationベースの表示制御
   - 各アクションコンポーネントの管理
 
 ###### 4.2 参加・見学・退村
 
-- [ ] `components/village/action/Participate.vue` の作成
+- [ ] `components/pages/village/action/Participate.vue` の作成
   - キャラクター選択
   - 役職希望選択
   - 入村パスワード入力
 
-- [ ] `components/village/action/Spectate.vue` の作成
+- [ ] `components/pages/village/action/Spectate.vue` の作成
   - 見学参加処理
 
-- [ ] `components/village/action/Leave.vue` の作成
+- [ ] `components/pages/village/action/Leave.vue` の作成
   - 退村処理
 
 ###### 4.3 発言入力
 
-- [ ] `components/village/action/Say.vue` の作成
+- [ ] `components/pages/village/action/Say.vue` の作成
   - 発言種別選択
   - 発言内容入力
   - 文字装飾ボタン
   - アンカー挿入
   - 表情種別選択
 
-- [ ] `components/village/action/SayConfirm.vue` の作成
+- [ ] `components/pages/village/action/SayConfirm.vue` の作成
   - 発言確認モーダル
 
-- [ ] `components/village/action/ActionSay.vue` の作成
+- [ ] `components/pages/village/action/ActionSay.vue` の作成
   - アクション発言入力
   - 短い行動メッセージの入力
 
 ###### 4.4 投票・能力行使
 
-- [ ] `components/village/action/Vote.vue` の作成
+- [ ] `components/pages/village/action/Vote.vue` の作成
   - 投票対象選択
   - 投票処理
 
-- [ ] `components/village/action/Ability.vue` の作成
+- [ ] `components/pages/village/action/Ability.vue` の作成
   - 能力種別に応じた対象選択
   - 能力行使処理
 
 ###### 4.5 コミット・CO
 
-- [ ] `components/village/action/Commit.vue` の作成
+- [ ] `components/pages/village/action/Commit.vue` の作成
   - コミット処理
 
-- [ ] `components/village/action/Comingout.vue` の作成
+- [ ] `components/pages/village/action/Comingout.vue` の作成
   - 役職選択
   - CO処理
 
 ###### 4.6 役職希望・名前変更
 
-- [ ] `components/village/action/SkillRequest.vue` の作成
+- [ ] `components/pages/village/action/SkillRequest.vue` の作成
   - 第一希望・第二希望選択
   - 役職希望変更処理
 
-- [ ] `components/village/action/ChangeName.vue` の作成
+- [ ] `components/pages/village/action/ChangeName.vue` の作成
   - キャラ名変更
   - 1文字略称変更
 
 ###### 4.7 村建て機能
 
-- [ ] `components/village/action/creator/CreatorSay.vue` の作成
+- [ ] `components/pages/village/action/creator/CreatorSay.vue` の作成
   - 村建て発言入力
 
-- [ ] `components/village/action/creator/KickOut.vue` の作成
+- [ ] `components/pages/village/action/creator/KickOut.vue` の作成
   - 参加者選択
   - キックアウト処理
 
-- [ ] `components/village/action/creator/ExtendEpilogue.vue` の作成
+- [ ] `components/pages/village/action/creator/ExtendEpilogue.vue` の作成
   - エピローグ延長処理
 
-- [ ] `components/village/action/creator/Cancel.vue` の作成
+- [ ] `components/pages/village/action/creator/Cancel.vue` の作成
   - 廃村処理
 
-- [ ] `components/village/action/creator/SettingsLink.vue` の作成
+- [ ] `components/pages/village/action/creator/SettingsLink.vue` の作成
   - 村設定変更画面へのリンク
   - プロローグ中のみ表示
 
 ###### 4.8 管理者機能
 
-- [ ] `components/village/action/admin/Admin.vue` の作成
+- [ ] `components/pages/village/action/admin/Admin.vue` の作成
   - デバッグ用村情報表示
 
 ###### 4.9 デバッグ機能（ローカル環境のみ）
 
-- [ ] `components/village/action/debug/Debug.vue` の作成
+- [ ] `components/pages/village/action/debug/Debug.vue` の作成
   - N人参加
   - ダミーログイン
   - 突然死なし設定
@@ -625,31 +625,31 @@ app/components/ui/icon/
 
 ###### 5.1 サイドバー機能
 
-- [ ] `components/village/sidebar/ParticipantList.vue` の作成
+- [ ] `components/pages/village/sidebar/ParticipantList.vue` の作成
   - 生存者・死亡者・見学者のリスト表示
   - CO情報の表示
   - 発言回数の表示
   - 個別抽出リンク
 
-- [ ] `components/village/sidebar/ModalVillageInfo.vue` の作成
+- [ ] `components/pages/village/sidebar/ModalVillageInfo.vue` の作成
   - 村の設定情報表示
   - 参加人数表示（状態による切り替え）
   - 役職編成表示（状態による切り替え）
 
 ###### 5.2 ユーザ設定
 
-- [ ] `components/village/sidebar/ModalUserSettings.vue` の作成
+- [ ] `components/pages/village/sidebar/ModalUserSettings.vue` の作成
   - ページング設定
   - 発言表示設定
   - ダークテーマ切り替え
 
 ###### 5.3 メモ機能
 
-- [ ] `components/village/sidebar/memo/ModalMemo.vue` の作成
+- [ ] `components/pages/village/sidebar/memo/ModalMemo.vue` の作成
   - メモ一覧表示
   - メモ編集UI
 
-- [ ] `components/village/sidebar/memo/TextMemo.vue` の作成
+- [ ] `components/pages/village/sidebar/memo/TextMemo.vue` の作成
   - テキストメモ入力
   - 文字数カウント
 
@@ -662,7 +662,7 @@ app/components/ui/icon/
 
 ###### 5.5 年齢制限確認
 
-- [ ] `components/village/ModalAgeLimit.vue` の作成
+- [ ] `components/pages/village/ModalAgeLimit.vue` の作成
   - R指定村の確認モーダル
   - Cookie保存での確認済み記録
   - 村ページ（`village.vue`）への統合と表示判定ロジック
