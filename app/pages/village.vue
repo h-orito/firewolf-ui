@@ -42,9 +42,12 @@
         >
           <!-- 村名 -->
           <div class="flex-1 overflow-y-scroll p-2.5">
-            <h1 class="mx-1.5 my-2.5 text-left text-lg font-bold">
+            <h1 class="mx-1.5 my-2.5 text-left text-xs">
               {{ villageName }}
             </h1>
+
+            <!-- 日付リスト（上部） -->
+            <VillageDayList v-if="village && currentVillageDay" />
 
             <!-- プレースホルダー: Phase 2以降で実装 -->
             <div class="mx-auto max-w-4xl py-8">
@@ -77,6 +80,9 @@
               </div>
             </div>
 
+            <!-- 日付リスト（下部） -->
+            <VillageDayList v-if="village && currentVillageDay" />
+
             <!-- スクロール用アンカー -->
             <div id="message-bottom" />
           </div>
@@ -106,7 +112,9 @@ import { useWindowResize } from '~/composables/useWindowResize'
 import VillageHeader from '~/components/pages/village/VillageHeader.vue'
 import VillageFooter from '~/components/pages/village/VillageFooter.vue'
 import VillageSidebar from '~/components/pages/village/VillageSidebar.vue'
+import VillageDayList from '~/components/pages/village/VillageDayList.vue'
 import LoadingSpinner from '~/components/ui/feedback/LoadingSpinner.vue'
+import { VILLAGE_STATUS } from '~/lib/api/village-status-constants'
 
 // Layout設定
 definePageMeta({
@@ -152,7 +160,7 @@ const hasError = computed(() => {
 const villageName = computed(() => {
   if (!village) return ''
   const status = village.status
-  if (!currentVillageDay) {
+  if (!currentVillageDay || status.code !== VILLAGE_STATUS.IN_PROGRESS) {
     return `${village.name} - ${status.name}`
   }
   const day = currentVillageDay.day

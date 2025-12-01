@@ -451,7 +451,7 @@ app/components/ui/icon/
 
 ###### 2.1 発言表示の基本実装
 
-- [ ] `components/pages/village/VillageDayList.vue` の作成
+- [x] `components/pages/village/VillageDayList.vue` の作成
   - 日付選択リスト
   - 発言の先頭と末尾に配置
 
