@@ -123,9 +123,9 @@ const isOpenMemoModal = ref(false)
 
 // Computed
 const personCount = computed(() => {
-  if (!village) return '0'
-  const participantCount = village.participant.count
-  const spectatorCount = village.spectator.count
+  if (!village.value) return '0'
+  const participantCount = village.value.participant.count
+  const spectatorCount = village.value.spectator.count
   if (spectatorCount > 0) {
     return `${participantCount}+${spectatorCount}`
   }

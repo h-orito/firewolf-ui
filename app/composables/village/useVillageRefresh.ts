@@ -31,21 +31,21 @@ export const useVillageRefresh = () => {
    */
   const refresh = async () => {
     if (!villageId) return
-    const currentVillageday = latestDay
+    const currentVillageday = latestDay.value
     const currentIsDispLatest = isDispLatest.value
 
     // 1. 村情報を取得
     await loadVillage()
 
     // 2. currentVillageDayを最新の日付に更新
-    if (latestDay) {
-      changeCurrentVillageDay(latestDay)
+    if (latestDay.value) {
+      changeCurrentVillageDay(latestDay.value)
     }
 
     // 3. isDispLatestをtrueに設定
     setDispLatest(true)
 
-    if (currentIsDispLatest && currentVillageday === latestDay) {
+    if (currentIsDispLatest && currentVillageday === latestDay.value) {
       // 日付や最新発言表示などの条件が変わらない場合、自動で発言が再読み込みされないため、手動で取得する
       loadMessages()
     }

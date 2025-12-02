@@ -28,7 +28,7 @@ export const useVillageTimer = () => {
     updateTimer()
 
     // 終了状態の場合はタイマーを開始しない
-    const statusCode = village?.status.code
+    const statusCode = village.value?.status.code
     if (
       statusCode === VILLAGE_STATUS.COMPLETED ||
       statusCode === VILLAGE_STATUS.CANCEL
@@ -61,12 +61,12 @@ export const useVillageTimer = () => {
    * タイマー表示を更新
    */
   const updateTimer = () => {
-    if (!village) {
+    if (!village.value) {
       timerText.value = ''
       return
     }
 
-    const statusCode = village.status.code
+    const statusCode = village.value.status.code
 
     // 終了状態のチェック
     if (statusCode === VILLAGE_STATUS.COMPLETED) {
@@ -105,9 +105,9 @@ export const useVillageTimer = () => {
    * 次の日付更新時刻を取得
    */
   const getNextDaychangeDatetime = (): Date | null => {
-    if (!village) return null
+    if (!village.value) return null
 
-    const dayList = village.day.day_list
+    const dayList = village.value.day.day_list
     if (!dayList || dayList.length === 0) {
       return null
     }

@@ -5,7 +5,7 @@
     <div
       class="rounded border text-left text-xs"
       :class="messageClass"
-      style="padding: 10px"
+      :style="{ padding: '10px', wordBreak: 'break-word' }"
       v-html="formattedMessageText"
     />
   </div>
@@ -30,39 +30,40 @@ const formattedMessageText = computed(() =>
 // メッセージクラス（背景色とボーダー色用）
 const messageClass = computed(() => {
   const typeCode = props.message.content.type.code
+  const base = 'text-[#0a0a0a] dark:text-white whitespace-pre-wrap '
   switch (typeCode) {
     case 'PUBLIC_SYSTEM':
-      return 'border-gray-300 dark:border-white text-black dark:text-white'
+      return base + 'border-gray-300 dark:border-white'
     case 'PRIVATE_SYSTEM':
-      return 'bg-[#eee] dark:bg-[#404040] border-[#ccc] dark:border-[#ccc] text-black dark:text-white'
+      return 'bg-[#eee] dark:bg-[#404040] border-[#ccc] dark:border-[#ccc]'
     case 'PRIVATE_ABILITY':
-      return 'bg-[#eee] dark:bg-[#404040] border-[#ccc] dark:border-[#ccc] text-black dark:text-white'
+      return 'bg-[#eee] dark:bg-[#404040] border-[#ccc] dark:border-[#ccc]'
     case 'PRIVATE_SEER':
-      return 'bg-[#efe] dark:bg-[#334033] border-[#0f0] dark:border-[#0f0] text-black dark:text-white'
+      return 'bg-[#efe] dark:bg-[#334033] border-[#0f0] dark:border-[#0f0]'
     case 'PRIVATE_WISE':
-      return 'bg-[#efe] dark:bg-[#334033] border-[#0f0] dark:border-[#0f0] text-black dark:text-white'
+      return 'bg-[#efe] dark:bg-[#334033] border-[#0f0] dark:border-[#0f0]'
     case 'PRIVATE_PSYCHIC':
-      return 'bg-[#eef] dark:bg-[#333340] border-[#00f] dark:border-[#00f] text-black dark:text-white'
+      return 'bg-[#eef] dark:bg-[#333340] border-[#00f] dark:border-[#00f]'
     case 'PRIVATE_GURU':
-      return 'bg-[#eef] dark:bg-[#333340] border-[#00f] dark:border-[#00f] text-black dark:text-white'
+      return 'bg-[#eef] dark:bg-[#333340] border-[#00f] dark:border-[#00f]'
     case 'PRIVATE_CORONER':
-      return 'bg-[#eef] dark:bg-[#333340] border-[#00f] dark:border-[#00f] text-black dark:text-white'
+      return 'bg-[#eef] dark:bg-[#333340] border-[#00f] dark:border-[#00f]'
     case 'PRIVATE_WEREWOLF':
-      return 'bg-[#fee] dark:bg-[#403333] border-[#f00] dark:border-[#f00] text-black dark:text-white'
+      return 'bg-[#fee] dark:bg-[#403333] border-[#f00] dark:border-[#f00]'
     case 'PRIVATE_FANATIC':
-      return 'bg-[#fee] dark:bg-[#403333] border-[#f00] dark:border-[#f00] text-black dark:text-white'
+      return 'bg-[#fee] dark:bg-[#403333] border-[#f00] dark:border-[#f00]'
     case 'PRIVATE_MASON':
-      return 'bg-[#fec] dark:bg-[#404033] border-[#fa0] dark:border-[#fa0] text-black dark:text-white'
+      return 'bg-[#fec] dark:bg-[#404033] border-[#fa0] dark:border-[#fa0]'
     case 'PRIVATE_LOVERS':
-      return 'bg-[#fef] dark:bg-[#404033] border-[#f0a] dark:border-[#f0a] text-black dark:text-white'
+      return 'bg-[#fef] dark:bg-[#404033] border-[#f0a] dark:border-[#f0a]'
     case 'PRIVATE_FOX':
-      return 'bg-[#ffc] dark:bg-[#404033] border-[#fa0] dark:border-[#ff0] text-black dark:text-white'
+      return 'bg-[#ffc] dark:bg-[#404033] border-[#fa0] dark:border-[#ff0]'
     case 'PRIVATE_SYMPATHIZER':
-      return 'bg-[#fec] dark:bg-[#404033] border-[#fa0] dark:border-[#fa0] text-black dark:text-white'
+      return 'bg-[#fec] dark:bg-[#404033] border-[#fa0] dark:border-[#fa0]'
     case 'CREATOR_SAY':
-      return 'bg-[#fef] dark:bg-[#403340] border-[#c0f] dark:border-[#c0f] text-black dark:text-white'
+      return 'bg-[#fef] dark:bg-[#403340] border-[#c0f] dark:border-[#c0f]'
     default:
-      return 'border-gray-300 dark:border-white text-black dark:text-white'
+      return 'border-gray-300 dark:border-white'
   }
 })
 </script>

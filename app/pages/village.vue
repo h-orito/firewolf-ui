@@ -110,7 +110,7 @@ const {
   loading: villageLoading,
   error: villageError
 } = useVillage()
-const { error: messageError } = useMessage()
+const { loadMessages, error: messageError } = useMessage()
 const { loadSituation, error: situationError } = useSituation()
 const { startPolling } = useVillagePolling()
 const { updateVillageLatest } = useVillageRefresh()
@@ -131,13 +131,13 @@ const hasError = computed(() => {
 })
 
 const villageName = computed(() => {
-  if (!village) return ''
-  const status = village.status
-  if (!currentVillageDay || status.code !== VILLAGE_STATUS.IN_PROGRESS) {
-    return `${village.name} - ${status.name}`
+  if (!village.value) return ''
+  const status = village.value.status
+  if (!currentVillageDay.value || status.code !== VILLAGE_STATUS.IN_PROGRESS) {
+    return `${village.value.name} - ${status.name}`
   }
-  const day = currentVillageDay.day
-  return `${village.name} - ${status.name} - ${day}日目`
+  const day = currentVillageDay.value.day
+  return `${village.value.name} - ${status.name} - ${day}日目`
 })
 
 const mainWrapperStyle = computed(() => {
@@ -170,8 +170,8 @@ const initialize = async () => {
     // 3. 村を初期化（村IDの設定、村情報の読み込み、最新日の設定）
     await initVillage(villageId.value)
 
-    // 4. 参加状況を読み込み
-    await loadSituation()
+    // 4. 発言と参加状況を並列で読み込み
+    await Promise.all([loadMessages(), loadSituation()])
 
     // 5. 最新情報を保存
     await updateVillageLatest()
@@ -194,7 +194,7 @@ onMounted(async () => {
 
 // Head設定
 useHead({
-  title: computed(() => (village ? village.name : ''))
+  title: computed(() => (village.value ? village.value.name : ''))
 })
 </script>
 

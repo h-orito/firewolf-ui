@@ -327,7 +327,7 @@ const {
   toParticipantIds: storeToParticipantIds,
   keyword: storeKeyword
 } = useVillageMessageFilter()
-const { village, allParticipantIds } = useVillage()
+const { village, allParticipants, allParticipantIds } = useVillage()
 const { situation } = useSituation()
 
 // State - モーダルの開閉状態
@@ -352,12 +352,8 @@ const keyword = ref<string | null>(null)
 const myself = computed(() => situation?.participate.myself ?? null)
 
 const participantList = computed(() => {
-  if (!village) return []
-  const participants = [
-    ...village.participant.member_list,
-    ...village.spectator.member_list
-  ]
-  return participants.sort((a, b) => a.id - b.id)
+  if (!village.value) return []
+  return allParticipants.value.toSorted((a, b) => a.id - b.id)
 })
 
 const canFilter = computed(() => {

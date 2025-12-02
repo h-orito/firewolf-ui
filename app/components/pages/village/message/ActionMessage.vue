@@ -132,7 +132,7 @@ const formattedMessageText = computed(() => {
 
 // メッセージクラス（背景色用）
 const messageClass = computed(() => {
-  return 'bg-[#dfdfc9] dark:bg-[#232355] text-black dark:text-white border-gray-300 dark:border-white'
+  return 'bg-[#dfdfc9] dark:bg-[#232355] text-[#0a0a0a] dark:text-white border-gray-300 dark:border-white'
 })
 
 // アンカー文字列をコピー

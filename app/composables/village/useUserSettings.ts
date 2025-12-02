@@ -98,9 +98,10 @@ export const useUserSettings = () => {
    */
   const loadFromCookie = () => {
     if (!settingsCookie.value) {
-      settingsCookie.value = { ...DEFAULT_SETTINGS }
+      settingsCookie.value = JSON.parse(JSON.stringify(DEFAULT_SETTINGS))
     }
-    settingsStore.saveSettings(settingsCookie.value)
+    // プロキシオブジェクトを解除するためにディープコピーして渡す
+    settingsStore.saveSettings(JSON.parse(JSON.stringify(settingsCookie.value)))
   }
 
   /**

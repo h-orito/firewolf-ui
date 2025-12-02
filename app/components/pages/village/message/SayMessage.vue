@@ -44,7 +44,7 @@
 
       <!-- 右側: 発言回数と時間 -->
       <div
-        class="flex items-center gap-2 text-xs text-gray-500 dark:text-[#ddd]"
+        class="flex items-center gap-2 text-xs text-gray-400 dark:text-[#ddd]"
       >
         <span v-if="isAnchorMessage"> {{ message.time.day }}d </span>
         <span v-if="message.content.count && maxCount">
@@ -71,9 +71,9 @@
       <div class="flex-1">
         <!-- 発言内容（装飾・アンカー含む） -->
         <div
-          class="rounded border p-2 text-left"
+          class="rounded border p-2 text-left whitespace-pre-wrap"
           :class="[messageClass, isLargeText ? 'text-sm' : 'text-xs']"
-          :style="{ minHeight: `${imageHeight}px` }"
+          :style="{ minHeight: `${imageHeight}px`, wordBreak: 'break-word' }"
           v-html="formattedMessageText"
         />
 
@@ -245,23 +245,23 @@ const messageClass = computed(() => {
   const typeCode = props.message.content.type.code
   switch (typeCode) {
     case 'NORMAL_SAY':
-      return 'bg-white dark:bg-white text-black dark:text-black border-gray-300 dark:border-gray-300'
+      return 'bg-white dark:bg-white text-[#0a0a0a] dark:text-[#0a0a0a] border-gray-300 dark:border-gray-300'
     case 'WEREWOLF_SAY':
-      return 'bg-[#f2cece] dark:bg-[#f2aeae] text-black dark:text-black border-gray-300 dark:border-[#f2aeae]'
+      return 'bg-[#f2cece] dark:bg-[#f2aeae] text-[#0a0a0a] dark:text-[#0a0a0a] border-gray-300 dark:border-[#f2aeae]'
     case 'SYMPATHIZE_SAY':
-      return 'bg-[#cef2ce] dark:bg-[#aef2ae] text-black dark:text-black border-gray-300 dark:border-[#aef2ae]'
+      return 'bg-[#cef2ce] dark:bg-[#aef2ae] text-[#0a0a0a] dark:text-[#0a0a0a] border-gray-300 dark:border-[#aef2ae]'
     case 'LOVERS_SAY':
       return 'bg-[#f2dede] dark:bg-[#edcece] text-[#cc2222] dark:text-[#cc2222] border-gray-300 dark:border-[#edcece]'
     case 'MONOLOGUE_SAY':
-      return 'bg-[#dddddd] dark:bg-[#aaa] text-black dark:text-black border-gray-300 dark:border-[#aaa]'
+      return 'bg-[#dddddd] dark:bg-[#aaa] text-[#0a0a0a] dark:text-[#0a0a0a] border-gray-300 dark:border-[#aaa]'
     case 'GRAVE_SAY':
-      return 'bg-[#ceedf2] dark:bg-[#a9edf7] text-black dark:text-black border-gray-300 dark:border-[#a9edf7]'
+      return 'bg-[#ceedf2] dark:bg-[#a9edf7] text-[#0a0a0a] dark:text-[#0a0a0a] border-gray-300 dark:border-[#a9edf7]'
     case 'SPECTATE_SAY':
-      return 'bg-[#f2f2ce] dark:bg-[#f2f2ae] text-black dark:text-black border-gray-300 dark:border-[#f2f2ae]'
+      return 'bg-[#f2f2ce] dark:bg-[#f2f2ae] text-[#0a0a0a] dark:text-[#0a0a0a] border-gray-300 dark:border-[#f2f2ae]'
     case 'SECRET_SAY':
-      return 'bg-[#cecef2] dark:bg-[#a9a] text-black dark:text-black border-gray-300 dark:border-[#a9a]'
+      return 'bg-[#cecef2] dark:bg-[#a9a] text-[#0a0a0a] dark:text-[#0a0a0a] border-gray-300 dark:border-[#a9a]'
     default:
-      return 'bg-white dark:bg-white text-black dark:text-black border-gray-300 dark:border-gray-300'
+      return 'bg-white dark:bg-white text-[#0a0a0a] dark:text-[#0a0a0a] border-gray-300 dark:border-gray-300'
   }
 })
 

@@ -1,5 +1,5 @@
 <template>
-  <div :id="`mc-${message.time.unix_time_milli}`">
+  <div :id="`mc-${message.time.unix_time_milli}`" class="font-normal">
     <!-- 発言系メッセージ -->
     <SayMessage
       v-if="isSayType"

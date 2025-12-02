@@ -103,7 +103,7 @@ export const useVillageUserSettingsStore = defineStore(
 
     return {
       // State
-      settings: readonly(settings),
+      settings,
 
       // Actions
       saveSettings,

@@ -144,7 +144,7 @@ const { messages } = useMessage()
 
 // Computed
 const isProgress = computed(() => {
-  const statusCode = village?.status.code
+  const statusCode = village.value?.status.code
   return (
     statusCode !== VILLAGE_STATUS.PROLOGUE &&
     statusCode !== VILLAGE_STATUS.CANCEL
@@ -152,7 +152,8 @@ const isProgress = computed(() => {
 })
 
 const participantList = computed(
-  () => (village?.participant.member_list ?? []) as VillageParticipantView[]
+  () =>
+    (village.value?.participant.member_list ?? []) as VillageParticipantView[]
 )
 
 const aliveParticipantList = computed(() => {
@@ -167,7 +168,7 @@ const deadParticipantList = computed(() => {
 })
 
 const spectatorList = computed(
-  () => (village?.spectator.member_list ?? []) as VillageParticipantView[]
+  () => (village.value?.spectator.member_list ?? []) as VillageParticipantView[]
 )
 
 // Methods

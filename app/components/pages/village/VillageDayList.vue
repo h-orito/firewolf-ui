@@ -19,17 +19,18 @@
 import type { VillageDayView } from '~/lib/api/types'
 import { VILLAGE_STATUS } from '~/lib/api/village-status-constants'
 import { useVillage } from '~/composables/village/useVillage'
+import { useMessage } from '~/composables/village/useMessage'
 
-const { village, currentVillageDay, changeCurrentVillageDay } = useVillage()
+const { village, latestDay, currentVillageDay, changeCurrentVillageDay } =
+  useVillage()
+const { loadMessages, resetPaging } = useMessage()
 
-const dayList = computed(() => village?.day.day_list ?? [])
+const dayList = computed(() => village.value?.day.day_list ?? [])
 
-const currentDayId = computed(() => currentVillageDay?.id ?? null)
-
-const latestDay = computed(() => dayList.value.slice(-1)[0])
+const currentDayId = computed(() => currentVillageDay.value?.id ?? null)
 
 const dayName = (day: VillageDayView): string => {
-  const status = village?.status.code
+  const status = village.value?.status.code
 
   // 終了済み: 最終日は「終了」、その前は「エピローグ」
   if (status === VILLAGE_STATUS.COMPLETED) {
@@ -48,5 +49,8 @@ const dayName = (day: VillageDayView): string => {
 
 const handleChangeDay = (villageDay: VillageDayView) => {
   changeCurrentVillageDay(villageDay)
+  // 日付変更時はページ状態をリセットして発言を取得
+  resetPaging()
+  loadMessages()
 }
 </script>

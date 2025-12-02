@@ -11,6 +11,9 @@ import { useVillageMessageFilter } from './useVillageMessageFilter'
  * 発言の取得・管理
  */
 export const useMessage = () => {
+  // Store
+  const messageStore = useVillageMessageStore()
+
   // Composables
   const { villageId, currentVillageDay, village } = useVillage()
   const { getPaging } = useUserSettings()
@@ -22,15 +25,6 @@ export const useMessage = () => {
     keyword
   } = useVillageMessageFilter()
 
-  // State
-  const messages = ref<MessagesView | null>(null)
-  const loading = ref(false)
-  const error = ref<Error | null>(null)
-
-  // Paging state
-  const currentPageNum = ref<number>(1)
-  const isDispLatest = ref<boolean>(true)
-
   // API
   const { apiCall } = useApi()
 
@@ -38,10 +32,10 @@ export const useMessage = () => {
    * 発言を取得（引数なしで内部の状態を使用）
    */
   const loadMessages = async () => {
-    if (!villageId || !currentVillageDay) return
+    if (!villageId.value || !currentVillageDay.value) return
 
-    loading.value = true
-    error.value = null
+    messageStore.setLoading(true)
+    messageStore.setError(null)
 
     try {
       // ページング設定を取得
@@ -62,9 +56,9 @@ export const useMessage = () => {
         params.message_type_list = [...messageTypes]
       }
       // 参加者フィルタ（全員選択されている場合はパラメータ不要）
-      const allParticipantCount = village
-        ? village.participant.member_list.length +
-          village.spectator.member_list.length
+      const allParticipantCount = village.value
+        ? village.value.participant.member_list.length +
+          village.value.spectator.member_list.length
         : 0
       if (
         participantIds &&
@@ -87,13 +81,15 @@ export const useMessage = () => {
       // ページング設定
       if (pagingSettings.isPaging && pagingSettings.messagePerPage) {
         params.page_size = pagingSettings.messagePerPage
-        params.page_num = isDispLatest.value ? 10000 : currentPageNum.value
-        params.is_disp_latest = isDispLatest.value
+        params.page_num = messageStore.isDispLatest
+          ? 10000
+          : messageStore.currentPageNum
+        params.is_disp_latest = messageStore.isDispLatest
       }
 
       // URLの構築(配列パラメータはrepeat形式で送信)
-      const day = currentVillageDay
-      const url = `/village/${villageId}/day/${day.day}/time/${day.noonnight}/message-list`
+      const day = currentVillageDay.value
+      const url = `/village/${villageId.value}/day/${day.day}/time/${day.noonnight}/message-list`
       const query = new URLSearchParams()
       Object.entries(params).forEach(([key, value]) => {
         if (Array.isArray(value)) {
@@ -106,37 +102,23 @@ export const useMessage = () => {
       const fullUrl = query.toString() ? `${url}?${query.toString()}` : url
 
       const data = await apiCall<MessagesView>(fullUrl)
-      messages.value = data
+      messageStore.saveMessages(data)
 
       // ページ番号を更新
       if (data.current_page_num != null) {
-        currentPageNum.value = data.current_page_num
+        messageStore.setCurrentPageNum(data.current_page_num)
       }
     } catch (err) {
-      error.value =
+      messageStore.setError(
         err instanceof Error
           ? err
-          : new Error(`発言の取得に失敗しました (村ID: ${villageId})`)
-      console.error(`発言の取得に失敗しました (村ID: ${villageId}):`, err)
+          : new Error(`発言の取得に失敗しました (村ID: ${villageId.value})`)
+      )
+      console.error(`発言の取得に失敗しました (村ID: ${villageId.value}):`, err)
     } finally {
-      loading.value = false
+      messageStore.setLoading(false)
     }
   }
-
-  // 監視: 表示日が変更されたら発言を取得
-  // immediate: true により初期表示時にも発言を取得する
-  watch(
-    () => currentVillageDay,
-    (newDay) => {
-      if (newDay) {
-        // 日付が変更されたらページ番号をリセットして最新を表示
-        currentPageNum.value = 1
-        isDispLatest.value = true
-        loadMessages()
-      }
-    },
-    { immediate: true }
-  )
 
   /**
    * フィルタ条件を設定
@@ -168,8 +150,8 @@ export const useMessage = () => {
    * ページ番号を設定
    */
   const setPageNum = (pageNum: number) => {
-    currentPageNum.value = pageNum
-    isDispLatest.value = false
+    messageStore.setCurrentPageNum(pageNum)
+    messageStore.setIsDispLatest(false)
     loadMessages()
   }
 
@@ -177,24 +159,33 @@ export const useMessage = () => {
    * 最新ページを表示する設定に変更
    */
   const setDispLatest = (disp: boolean) => {
-    isDispLatest.value = disp
+    messageStore.setIsDispLatest(disp)
     loadMessages()
+  }
+
+  /**
+   * ページ状態をリセット（日付変更時に使用）
+   */
+  const resetPaging = () => {
+    messageStore.setCurrentPageNum(1)
+    messageStore.setIsDispLatest(true)
   }
 
   const isViewingLatestMessages = computed(() => {
     return (
-      isDispLatest.value ||
-      messages.value?.current_page_num === messages.value?.all_page_count
+      messageStore.isDispLatest ||
+      messageStore.messages?.current_page_num ===
+        messageStore.messages?.all_page_count
     )
   })
 
   return {
-    // State
-    messages: readonly(messages),
-    loading: readonly(loading),
-    error: readonly(error),
-    currentPageNum: readonly(currentPageNum),
-    isDispLatest: readonly(isDispLatest),
+    // State (from store)
+    messages: computed(() => messageStore.messages),
+    loading: computed(() => messageStore.loading),
+    error: computed(() => messageStore.error),
+    currentPageNum: computed(() => messageStore.currentPageNum),
+    isDispLatest: computed(() => messageStore.isDispLatest),
 
     // Computed
     isViewingLatestMessages,
@@ -204,6 +195,7 @@ export const useMessage = () => {
     setFilter,
     resetFilter,
     setPageNum,
-    setDispLatest
+    setDispLatest,
+    resetPaging
   }
 }

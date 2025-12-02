@@ -125,10 +125,17 @@ export const useVillage = () => {
    * 全参加者ID（参加者 + 見物人）
    */
   const allParticipantIds = computed(() => {
+    return allParticipants.value.map((p) => p.id)
+  })
+
+  /**
+   * 全参加者（参加者 + 見物人）
+   */
+  const allParticipants = computed(() => {
     if (!villageStore.village) return []
     return [
-      ...villageStore.village.participant.member_list.map((p) => p.id),
-      ...villageStore.village.spectator.member_list.map((p) => p.id)
+      ...villageStore.village.participant.member_list,
+      ...villageStore.village.spectator.member_list
     ]
   })
 
@@ -206,14 +213,15 @@ export const useVillage = () => {
 
   return {
     // State (from store)
-    village: villageStore.village,
-    villageId: villageStore.villageId,
-    currentVillageDay: villageStore.currentVillageDay,
-    latestDay: villageStore.latestDay,
-    charachips: villageStore.charachips,
+    village: computed(() => villageStore.village),
+    villageId: computed(() => villageStore.villageId),
+    currentVillageDay: computed(() => villageStore.currentVillageDay),
+    latestDay: computed(() => villageStore.latestDay),
+    charachips: computed(() => villageStore.charachips),
 
     // Computed
     allParticipantIds,
+    allParticipants,
     existPrevDay,
     existNextDay,
     isCurrentVillageDayLatest,

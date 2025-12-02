@@ -93,16 +93,11 @@ interface Props {
 
 defineProps<Props>()
 
-// 村情報から参加者リストを取得
-const { village } = useVillage()
-const participants = computed(() => {
-  if (!village) return []
-  return [...village.participant.member_list, ...village.spectator.member_list]
-})
+const { allParticipants } = useVillage()
 
 // 参加者の並び順（旧コンポーネントの論理を踏襲）
 const sortedParticipants = computed(() => {
-  const participantList = [...participants.value]
+  const participantList = [...allParticipants.value]
   const members = participantList.filter((p) => !p.spectator)
   const spectators = participantList.filter((p) => p.spectator)
 
