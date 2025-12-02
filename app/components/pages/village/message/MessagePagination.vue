@@ -8,12 +8,12 @@
       <!-- 前へボタン -->
       <button
         type="button"
-        :disabled="!messages.exist_pre_page"
+        :disabled="!canGoPrev"
         :class="prevButtonClass"
         aria-label="前のページ"
         @click="handlePrev"
       >
-        <Icon name="chevron-left" class="h-3.5 w-3.5" />
+        <Icon name="i-heroicons-chevron-left-20-solid" class="h-3.5 w-3.5" />
       </button>
 
       <!-- ページ番号ボタン -->
@@ -53,7 +53,7 @@
         aria-label="次のページ"
         @click="handleNext"
       >
-        <Icon name="chevron-right" class="h-3.5 w-3.5" />
+        <Icon name="i-heroicons-chevron-right-20-solid" class="h-3.5 w-3.5" />
       </button>
     </nav>
 
@@ -99,10 +99,14 @@ type PageItem = number | 'ellipsis-start' | 'ellipsis-end'
 const baseButtonClass =
   'flex h-6 min-w-6 items-center justify-center rounded border px-2 text-xs transition-colors'
 
+// 前へボタンが有効かどうか（最新状態のときも有効）
+const canGoPrev = computed(() => {
+  return props.isLatestActive || props.messages?.exist_pre_page
+})
+
 // 前へボタンのクラス
 const prevButtonClass = computed(() => {
-  const isDisabled = !props.messages?.exist_pre_page
-  if (isDisabled) {
+  if (!canGoPrev.value) {
     return isDarkTheme.value
       ? `${baseButtonClass} cursor-not-allowed border-gray-700 bg-gray-800 text-gray-600`
       : `${baseButtonClass} cursor-not-allowed border-gray-200 bg-gray-100 text-gray-400`
@@ -193,6 +197,11 @@ const handleChangePage = (pageNum: number) => {
 }
 
 const handlePrev = () => {
+  // 最新状態のときは最終ページを開く
+  if (props.isLatestActive && props.messages?.all_page_count) {
+    emit('change-page', props.messages.all_page_count)
+    return
+  }
   if (props.messages?.current_page_num && props.messages.current_page_num > 1) {
     emit('change-page', props.messages.current_page_num - 1)
   }
