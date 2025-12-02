@@ -22,7 +22,7 @@ export const useVillageNavigation = () => {
    * ページ最上部にスクロール
    */
   const scrollToTop = (
-    containerSelector: string = '.village-article-wrapper'
+    containerSelector: string = '#village-article-wrapper'
   ) => {
     const container = document.querySelector(containerSelector)
     if (!container) return
@@ -37,7 +37,7 @@ export const useVillageNavigation = () => {
    * ページ最下部にスクロール
    */
   const scrollToBottom = (
-    containerSelector: string = '.village-article-wrapper'
+    containerSelector: string = '#village-article-wrapper'
   ) => {
     const container = document.querySelector(containerSelector)
     if (!container) return

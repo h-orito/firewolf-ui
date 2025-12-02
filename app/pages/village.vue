@@ -36,28 +36,27 @@
 
         <!-- メインエリア -->
         <div
-          class="flex flex-1 shrink-0 flex-col justify-between overflow-y-auto bg-white"
+          id="village-article-wrapper"
+          class="flex-1 shrink-0 overflow-y-scroll bg-white p-2.5"
           :class="{ 'dark-theme': isDarkTheme }"
           :style="mainWrapperStyle"
         >
           <!-- 村名 -->
-          <div class="flex-1 overflow-y-scroll p-2.5">
-            <h1 class="mx-1.5 my-2.5 text-left text-xs">
-              {{ villageName }}
-            </h1>
+          <h1 class="mx-1.5 my-2.5 text-left text-xs">
+            {{ villageName }}
+          </h1>
 
-            <!-- 日付リスト（上部） -->
-            <VillageDayList v-if="village && currentVillageDay" />
+          <!-- 日付リスト（上部） -->
+          <VillageDayList v-if="village && currentVillageDay" />
 
-            <!-- 発言リスト -->
-            <MessageList v-if="isInitialized" />
+          <!-- 発言リスト -->
+          <MessageList v-if="isInitialized" />
 
-            <!-- 日付リスト（下部） -->
-            <VillageDayList v-if="village && currentVillageDay" />
+          <!-- 日付リスト（下部） -->
+          <VillageDayList v-if="village && currentVillageDay" />
 
-            <!-- スクロール用アンカー -->
-            <div id="message-bottom" />
-          </div>
+          <!-- スクロール用アンカー -->
+          <div id="message-bottom" />
         </div>
 
         <!-- フッター -->
