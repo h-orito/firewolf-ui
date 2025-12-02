@@ -1,12 +1,15 @@
+import { storeToRefs } from 'pinia'
+
 /**
  * 村ページのスライダー（サイドバー）の開閉を管理
  */
 export const useVillageSlider = () => {
   const sliderStore = useVillageSliderStore()
+  const { isOpen } = storeToRefs(sliderStore)
 
   return {
     // State
-    isOpen: sliderStore.isOpen,
+    isOpen,
 
     // Actions
     toggle: sliderStore.toggle,

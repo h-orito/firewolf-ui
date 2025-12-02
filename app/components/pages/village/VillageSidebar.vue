@@ -81,6 +81,7 @@
 
     <!-- サイドバー外側の背景（モバイルのみ） -->
     <div
+      v-if="isMobile"
       class="fixed top-0 right-0 z-20 h-screen w-[calc(100%-280px)] bg-gray-900/40"
       :class="{ block: isOpen, hidden: !isOpen }"
       @click="close"
