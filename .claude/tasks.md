@@ -488,7 +488,7 @@ app/components/ui/icon/
 - [x] `components/pages/village/message/ParticipantsMessage.vue` の作成
   - 発言内の参加者リスト表示
 
-- [ ] `components/pages/village/message/VillageSituationMessage.vue` の作成
+- [x] `components/pages/village/message/VillageSituationMessage.vue` の作成
   - 状況メッセージの表示
 
 ###### 2.4 ページング・日付切り替え

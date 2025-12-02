@@ -35,14 +35,8 @@
         />
       </div>
 
-      <!-- 発言がない場合 -->
-      <div
-        v-else
-        class="mx-2 my-4 rounded border border-gray-200 bg-gray-50 p-4 text-center text-sm text-gray-500"
-        :class="{ 'border-gray-700 bg-gray-800 text-gray-400': isDarkTheme }"
-      >
-        発言がありません
-      </div>
+      <!-- 状況メッセージ -->
+      <VillageSituationMessage />
 
       <!-- 下部ページネーション -->
       <MessagePagination
@@ -63,6 +57,7 @@ import { useUserSettings } from '~/composables/village/useUserSettings'
 import Icon from '~/components/ui/icon/Icon.vue'
 import MessageCard from './MessageCard.vue'
 import MessagePagination from './MessagePagination.vue'
+import VillageSituationMessage from './VillageSituationMessage.vue'
 
 // Composables
 const { messages, loading, error, isDispLatest, setPageNum, setDispLatest } =
