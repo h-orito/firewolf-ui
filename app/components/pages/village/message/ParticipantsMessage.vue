@@ -11,7 +11,7 @@
         class="flex items-start gap-2 border-t border-gray-200 pt-1 first:border-t-0 first:pt-0 sm:gap-3 sm:pt-2 dark:border-gray-700"
       >
         <!-- キャラクター画像 -->
-        <div class="flex-shrink-0">
+        <div class="shrink-0">
           <CharaImage
             v-if="participant.chara"
             :chara="participant.chara"
@@ -62,7 +62,7 @@
         </div>
 
         <!-- 戦績ボタン -->
-        <div v-if="participant.player" class="flex-shrink-0">
+        <div v-if="participant.player" class="shrink-0">
           <UiButton
             :to="{
               path: '/player-record',
@@ -81,22 +81,28 @@
 </template>
 
 <script setup lang="ts">
+import type { DeepReadonly } from 'vue'
 import type { MessageView, VillageParticipantView } from '~/lib/api/types'
 import UiButton from '~/components/ui/button/index.vue'
 import CharaImage from '../CharaImage.vue'
+import { useVillage } from '~/composables/village/useVillage'
 
 interface Props {
-  message: MessageView
-  participants?: VillageParticipantView[]
+  message: DeepReadonly<MessageView> | MessageView
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  participants: () => []
+defineProps<Props>()
+
+// 村情報から参加者リストを取得
+const { village } = useVillage()
+const participants = computed(() => {
+  if (!village) return []
+  return [...village.participant.member_list, ...village.spectator.member_list]
 })
 
 // 参加者の並び順（旧コンポーネントの論理を踏襲）
 const sortedParticipants = computed(() => {
-  const participantList = [...props.participants]
+  const participantList = [...participants.value]
   const members = participantList.filter((p) => !p.spectator)
   const spectators = participantList.filter((p) => p.spectator)
 
@@ -109,8 +115,8 @@ const sortedParticipants = computed(() => {
 
 // 参加者の比較関数
 const compareParticipant = (
-  vp1: VillageParticipantView,
-  vp2: VillageParticipantView
+  vp1: DeepReadonly<VillageParticipantView> | VillageParticipantView,
+  vp2: DeepReadonly<VillageParticipantView> | VillageParticipantView
 ): number => {
   // 死亡している人が先
   const vp1isDead = !!vp1.dead
@@ -137,15 +143,20 @@ const deadReasonPriority = (reason: string): number => {
   return 0
 }
 
+// 参加者型（読み取り専用も許容）
+type ParticipantType =
+  | DeepReadonly<VillageParticipantView>
+  | VillageParticipantView
+
 // キャラクター名（長い場合は省略）
-const getCharaName = (participant: VillageParticipantView): string => {
+const getCharaName = (participant: ParticipantType): string => {
   const fullName = participant.name
   if (fullName.length < 20) return fullName
   return fullName.substring(0, 20) + '...'
 }
 
 // キャラクターの状態（生存/死亡情報）
-const getCharaStatus = (participant: VillageParticipantView): string => {
+const getCharaStatus = (participant: ParticipantType): string => {
   if (participant.spectator) return ''
   if (!participant.dead) return '生存'
   const day = participant.dead.village_day.day
@@ -154,7 +165,7 @@ const getCharaStatus = (participant: VillageParticipantView): string => {
 }
 
 // キャラクター状態のスタイルクラス
-const getCharaStatusClass = (participant: VillageParticipantView): string => {
+const getCharaStatusClass = (participant: ParticipantType): string => {
   if (participant.spectator || !participant.dead) return ''
   const reason = participant.dead.reason
   if (reason === '突然' || reason === '処刑')
@@ -163,13 +174,13 @@ const getCharaStatusClass = (participant: VillageParticipantView): string => {
 }
 
 // 勝敗状態
-const getWinStatus = (participant: VillageParticipantView): string => {
+const getWinStatus = (participant: ParticipantType): string => {
   if (participant.spectator) return ''
   return participant.win ? '勝利' : '敗北'
 }
 
 // 勝敗状態のスタイルクラス
-const getWinStatusClass = (participant: VillageParticipantView): string => {
+const getWinStatusClass = (participant: ParticipantType): string => {
   if (participant.spectator) return ''
   return participant.win
     ? 'text-green-600 dark:text-green-400'
@@ -177,7 +188,7 @@ const getWinStatusClass = (participant: VillageParticipantView): string => {
 }
 
 // 役職名（恋絆考慮）
-const getSkillName = (participant: VillageParticipantView): string => {
+const getSkillName = (participant: ParticipantType): string => {
   if (participant.spectator) return '見物人'
   const skillName = participant.skill?.name || '不明'
   if (
@@ -189,7 +200,7 @@ const getSkillName = (participant: VillageParticipantView): string => {
 }
 
 // 希望役職
-const getSkillRequest = (participant: VillageParticipantView): string => {
+const getSkillRequest = (participant: ParticipantType): string => {
   if (participant.spectator) return ''
   if (!participant.skill_request) return ''
   const req1 = participant.skill_request.first?.name || '？'

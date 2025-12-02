@@ -1,7 +1,7 @@
 <template>
   <div :class="alertClasses">
     <div v-if="icon || title" class="flex items-start">
-      <Icon v-if="icon" :name="icon" class="mr-3 h-5 w-5 flex-shrink-0" />
+      <Icon v-if="icon" :name="icon" class="mr-3 h-5 w-5 shrink-0" />
       <div class="flex-1">
         <h3 v-if="title" class="mb-1 text-sm font-medium">{{ title }}</h3>
         <div v-if="description" class="text-sm">{{ description }}</div>

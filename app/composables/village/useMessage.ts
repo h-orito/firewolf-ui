@@ -1,5 +1,8 @@
 import type { MessagesView } from '~/lib/api/types'
-import type { MessageTypeGroup } from '~/lib/api/message-constants'
+import {
+  ALL_MESSAGE_TYPE_GROUPS,
+  type MessageTypeGroup
+} from '~/lib/api/message-constants'
 import { useVillage } from './useVillage'
 import { useUserSettings } from './useUserSettings'
 import { useVillageMessageFilter } from './useVillageMessageFilter'
@@ -9,10 +12,15 @@ import { useVillageMessageFilter } from './useVillageMessageFilter'
  */
 export const useMessage = () => {
   // Composables
-  const { villageId, currentVillageDay } = useVillage()
+  const { villageId, currentVillageDay, village } = useVillage()
   const { getPaging } = useUserSettings()
-  const { messageTypes, participantIds, toParticipantIds, keyword } =
-    useVillageMessageFilter()
+  const {
+    messageTypeGroups,
+    messageTypes,
+    participantIds,
+    toParticipantIds,
+    keyword
+  } = useVillageMessageFilter()
 
   // State
   const messages = ref<MessagesView | null>(null)
@@ -45,14 +53,31 @@ export const useMessage = () => {
         string | number | string[] | number[] | boolean
       > = {}
 
-      // フィルタ条件
-      if (messageTypes && messageTypes.length > 0) {
+      // フィルタ条件（全て選択されている場合はパラメータ不要）
+      if (
+        messageTypes &&
+        messageTypes.length > 0 &&
+        messageTypeGroups.length < ALL_MESSAGE_TYPE_GROUPS.length
+      ) {
         params.message_type_list = [...messageTypes]
       }
-      if (participantIds && participantIds.length > 0) {
+      // 参加者フィルタ（全員選択されている場合はパラメータ不要）
+      const allParticipantCount = village
+        ? village.participant.member_list.length +
+          village.spectator.member_list.length
+        : 0
+      if (
+        participantIds &&
+        participantIds.length > 0 &&
+        participantIds.length < allParticipantCount
+      ) {
         params.participant_id_list = [...participantIds]
       }
-      if (toParticipantIds && toParticipantIds.length > 0) {
+      if (
+        toParticipantIds &&
+        toParticipantIds.length > 0 &&
+        toParticipantIds.length < allParticipantCount
+      ) {
         params.to_participant_id_list = [...toParticipantIds]
       }
       if (keyword) {
@@ -98,24 +123,20 @@ export const useMessage = () => {
     }
   }
 
-  // 監視: 依存する値が変更されたら自動的にloadMessagesを呼び出す
-  // watch(
-  //   [
-  //     villageId,
-  //     currentVillageDay,
-  //     isDispLatest,
-  //     () => getPaging().isPaging,
-  //     () => getPaging().messagePerPage,
-  //     getMessageTypeList,
-  //     participantIds,
-  //     toParticipantIds,
-  //     keyword,
-  //     currentPageNum
-  //   ],
-  //   () => {
-  //     loadMessages()
-  //   }
-  // )
+  // 監視: 表示日が変更されたら発言を取得
+  // immediate: true により初期表示時にも発言を取得する
+  watch(
+    () => currentVillageDay,
+    (newDay) => {
+      if (newDay) {
+        // 日付が変更されたらページ番号をリセットして最新を表示
+        currentPageNum.value = 1
+        isDispLatest.value = true
+        loadMessages()
+      }
+    },
+    { immediate: true }
+  )
 
   /**
    * フィルタ条件を設定
@@ -149,6 +170,7 @@ export const useMessage = () => {
   const setPageNum = (pageNum: number) => {
     currentPageNum.value = pageNum
     isDispLatest.value = false
+    loadMessages()
   }
 
   /**
@@ -156,6 +178,7 @@ export const useMessage = () => {
    */
   const setDispLatest = (disp: boolean) => {
     isDispLatest.value = disp
+    loadMessages()
   }
 
   const isViewingLatestMessages = computed(() => {

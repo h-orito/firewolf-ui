@@ -68,7 +68,7 @@ const toggle = () => {
 // スイッチ本体のクラス
 const switchClasses = computed(() => {
   const baseClasses =
-    'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[var(--ui-primary)] focus:ring-offset-2 dark:focus:ring-offset-gray-800'
+    'relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[var(--ui-primary)] focus:ring-offset-2 dark:focus:ring-offset-gray-800'
 
   const stateClasses = props.modelValue
     ? 'bg-[var(--ui-primary)]'

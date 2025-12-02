@@ -39,6 +39,7 @@
 </template>
 
 <script setup lang="ts">
+import type { DeepReadonly } from 'vue'
 import type { MessageView } from '~/lib/api/types'
 import {
   createAnchorString,
@@ -48,7 +49,7 @@ import {
 } from './message-converter'
 
 interface Props {
-  message: MessageView
+  message: DeepReadonly<MessageView> | MessageView
   isLargeText?: boolean
   maxCount?: number
   isProgress?: boolean

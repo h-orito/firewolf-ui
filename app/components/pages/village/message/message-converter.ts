@@ -1,3 +1,4 @@
+import type { DeepReadonly } from 'vue'
 import type { MessageView } from '~/lib/api/types'
 import { MESSAGE_TYPE } from '~/lib/api/message-constants'
 
@@ -145,7 +146,9 @@ export const isDispAnchor = (isProgress: boolean, sayType: string): boolean => {
 }
 
 // メッセージ番号の計算（日付.番号形式）
-export const getMessageNumber = (message: MessageView): string => {
+export const getMessageNumber = (
+  message: DeepReadonly<MessageView> | MessageView
+): string => {
   // message.content.numが存在する場合はそれを使用
   if (message.content.num) {
     return `${message.time.day}.${message.content.num}`
@@ -155,7 +158,9 @@ export const getMessageNumber = (message: MessageView): string => {
 }
 
 // カミングアウト文字列の生成
-export const getComingOutString = (message: MessageView): string | null => {
+export const getComingOutString = (
+  message: DeepReadonly<MessageView> | MessageView
+): string | null => {
   if (
     !message.from?.comming_outs?.list ||
     message.from.comming_outs.list.length === 0

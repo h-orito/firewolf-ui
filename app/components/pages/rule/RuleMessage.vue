@@ -33,54 +33,12 @@
       </li>
     </ul>
     <div class="mt-4 space-y-2 border border-gray-200 p-4">
-      <MessageCard
-        :message="normalSay"
-        :is-progress="false"
-        :index="null"
-        :is-dark-theme="false"
-        :is-disp-date="false"
-        :is-img-large="false"
-      />
-      <MessageCard
-        :message="werewolfSay"
-        :is-progress="false"
-        :index="null"
-        :is-dark-theme="false"
-        :is-disp-date="false"
-        :is-img-large="false"
-      />
-      <MessageCard
-        :message="sympathizeSay"
-        :is-progress="false"
-        :index="null"
-        :is-dark-theme="false"
-        :is-disp-date="false"
-        :is-img-large="false"
-      />
-      <MessageCard
-        :message="loversSay"
-        :is-progress="false"
-        :index="null"
-        :is-dark-theme="false"
-        :is-disp-date="false"
-        :is-img-large="false"
-      />
-      <MessageCard
-        :message="monologueSay"
-        :is-progress="false"
-        :index="null"
-        :is-dark-theme="false"
-        :is-disp-date="false"
-        :is-img-large="false"
-      />
-      <MessageCard
-        :message="graveSay"
-        :is-progress="false"
-        :index="null"
-        :is-dark-theme="false"
-        :is-disp-date="false"
-        :is-img-large="false"
-      />
+      <MessageCard :message="normalSay" />
+      <MessageCard :message="werewolfSay" />
+      <MessageCard :message="sympathizeSay" />
+      <MessageCard :message="loversSay" />
+      <MessageCard :message="monologueSay" />
+      <MessageCard :message="graveSay" />
     </div>
   </div>
 </template>
@@ -97,7 +55,7 @@ import type {
   CharaNameView
 } from '~/lib/api/types'
 import { MESSAGE_TYPE } from '~/lib/api/message-constants'
-import MessageCard from '~/components/pages/village/MessageCard.vue'
+import MessageCard from '~/components/pages/village/message/MessageCard.vue'
 
 const createMessage = (type: string, text: string): MessageView => {
   const charaName: CharaNameView = {

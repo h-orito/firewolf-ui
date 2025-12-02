@@ -49,36 +49,8 @@
             <!-- 日付リスト（上部） -->
             <VillageDayList v-if="village && currentVillageDay" />
 
-            <!-- プレースホルダー: Phase 2以降で実装 -->
-            <div class="mx-auto max-w-4xl py-8">
-              <div
-                class="rounded-lg border border-gray-200 bg-white p-4 shadow"
-              >
-                <h2 class="mb-4 text-lg font-semibold">村ページ (Phase 1)</h2>
-                <div class="space-y-4">
-                  <p>基本的なレイアウトと初期化処理が実装されています。</p>
-                  <div class="text-sm">
-                    <p><strong>村ID:</strong> {{ villageId }}</p>
-                    <p v-if="village">
-                      <strong>村名:</strong> {{ village.name }}
-                    </p>
-                    <p v-if="currentVillageDay">
-                      <strong>表示中の日:</strong>
-                      {{ currentVillageDay.day }}日目
-                      {{ currentVillageDay.noonnight }}
-                    </p>
-                  </div>
-                  <div
-                    class="rounded-md border border-blue-200 bg-blue-50 p-3 text-sm text-blue-800"
-                  >
-                    <p class="font-medium">Phase 2以降で実装予定</p>
-                    <p class="mt-1">
-                      発言表示、アクション機能、モーダル等は次のフェーズで実装されます。
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <!-- 発言リスト -->
+            <MessageList v-if="isInitialized" />
 
             <!-- 日付リスト（下部） -->
             <VillageDayList v-if="village && currentVillageDay" />
@@ -113,6 +85,7 @@ import VillageHeader from '~/components/pages/village/VillageHeader.vue'
 import VillageFooter from '~/components/pages/village/VillageFooter.vue'
 import VillageSidebar from '~/components/pages/village/VillageSidebar.vue'
 import VillageDayList from '~/components/pages/village/VillageDayList.vue'
+import MessageList from '~/components/pages/village/message/MessageList.vue'
 import LoadingSpinner from '~/components/ui/feedback/LoadingSpinner.vue'
 import { VILLAGE_STATUS } from '~/lib/api/village-status-constants'
 

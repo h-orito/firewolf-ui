@@ -57,7 +57,7 @@
     <!-- 2段目: キャラクター画像と発言内容 -->
     <div class="flex gap-2">
       <!-- 左側: キャラクター画像 -->
-      <div class="flex-shrink-0">
+      <div class="shrink-0">
         <CharaImage
           v-if="message.from?.chara"
           :chara="message.from.chara"
@@ -102,6 +102,7 @@
 </template>
 
 <script setup lang="ts">
+import type { DeepReadonly } from 'vue'
 import type { MessageView } from '~/lib/api/types'
 import CharaImage from '../CharaImage.vue'
 import {
@@ -113,7 +114,7 @@ import {
 } from './message-converter'
 
 interface Props {
-  message: MessageView
+  message: DeepReadonly<MessageView> | MessageView
   isImgLarge?: boolean
   isLargeText?: boolean
   maxCount?: number

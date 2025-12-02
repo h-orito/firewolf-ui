@@ -26,7 +26,7 @@
         </div>
         <!-- 画像とテキストエリア -->
         <div class="flex gap-2">
-          <div class="flex-shrink-0">
+          <div class="shrink-0">
             <CharaImage :chara="selectedChara" face-type="NORMAL" />
           </div>
           <div class="flex-1">
@@ -71,7 +71,7 @@
         </div>
         <!-- 画像とテキストエリア -->
         <div class="flex gap-2">
-          <div class="flex-shrink-0">
+          <div class="shrink-0">
             <CharaImage :chara="selectedChara" face-type="NORMAL" />
           </div>
           <div class="flex-1">

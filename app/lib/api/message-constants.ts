@@ -87,3 +87,22 @@ export const MESSAGE_TYPE_MAP = new Map<
   [MESSAGE_TYPE.PARTICIPANTS, 'participants'],
   [MESSAGE_TYPE.ACTION, 'action']
 ])
+
+/**
+ * メッセージタイプ判定関数
+ */
+export const isSayType = (typeCode: string): boolean => {
+  return MESSAGE_TYPE_MAP.get(typeCode) === 'say'
+}
+
+export const isSystemType = (typeCode: string): boolean => {
+  return MESSAGE_TYPE_MAP.get(typeCode) === 'system'
+}
+
+export const isActionType = (typeCode: string): boolean => {
+  return MESSAGE_TYPE_MAP.get(typeCode) === 'action'
+}
+
+export const isParticipantsType = (typeCode: string): boolean => {
+  return MESSAGE_TYPE_MAP.get(typeCode) === 'participants'
+}

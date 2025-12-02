@@ -94,7 +94,7 @@ const toggle = () => {
 // チェックボックスのクラス
 const checkboxClasses = computed(() => {
   const baseClasses =
-    'flex h-5 w-5 flex-shrink-0 items-center justify-center rounded border transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[var(--ui-primary)] focus:ring-offset-2 dark:focus:ring-offset-gray-800'
+    'flex h-5 w-5 shrink-0 items-center justify-center rounded border transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[var(--ui-primary)] focus:ring-offset-2 dark:focus:ring-offset-gray-800'
 
   const stateClasses = props.modelValue
     ? 'bg-[var(--ui-primary)] border-[var(--ui-primary)]'

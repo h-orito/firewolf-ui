@@ -455,29 +455,29 @@ app/components/ui/icon/
   - 日付選択リスト
   - 発言の先頭と末尾に配置
 
-- [ ] `components/pages/village/message/MessageList.vue` の作成
+- [x] `components/pages/village/message/MessageList.vue` の作成
   - 発言リストの表示
   - ページネーション
   - 最新ボタン
   - `useMessage`のwatch有効化による初期表示時の発言取得
 
-- [ ] `components/pages/village/message/MessageCard.vue` の作成
+- [x] `components/pages/village/message/MessageCard.vue` の作成
   - 個別発言の表示
   - アンカーの処理
   - 発言アクションの表示
 
 ###### 2.2 発言種別対応
 
-- [ ] `components/pages/village/message/MessageSay.vue` の作成
+- [x] `components/pages/village/message/SayMessage.vue` の作成（MessageSay.vueから名称変更）
   - 通常発言の表示
   - 発言種別に応じたスタイリング
   - キャラクター情報の表示
 
-- [ ] `components/pages/village/message/MessageSystem.vue` の作成
+- [x] `components/pages/village/message/SystemMessage.vue` の作成（MessageSystem.vueから名称変更）
   - システムメッセージの表示
   - 公開/非公開システムの判定
 
-- [ ] `components/pages/village/message/message-converter.ts` の作成
+- [x] `components/pages/village/message/message-converter.ts` の作成
   - 発言テキストのHTML/CSS変換処理
   - 文字装飾（太字、斜体等）の変換
   - アンカー（`>>{発言番号}`）の変換
@@ -485,7 +485,7 @@ app/components/ui/icon/
 
 ###### 2.3 発言関連のUI実装
 
-- [ ] `components/pages/village/message/ParticipantsMessage.vue` の作成
+- [x] `components/pages/village/message/ParticipantsMessage.vue` の作成
   - 発言内の参加者リスト表示
 
 - [ ] `components/pages/village/message/VillageSituationMessage.vue` の作成

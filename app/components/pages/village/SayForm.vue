@@ -21,7 +21,7 @@
 
     <!-- キャラクター表情選択 -->
     <div class="mb-4 flex flex-col items-start gap-3 sm:flex-row sm:gap-4">
-      <div class="flex-shrink-0">
+      <div class="shrink-0">
         <button
           type="button"
           class="focus:ring-primary-500 cursor-pointer rounded focus:ring-2 focus:outline-none"
