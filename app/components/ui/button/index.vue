@@ -32,6 +32,8 @@
 import type { RouteLocationRaw } from 'vue-router'
 import Icon from '~/components/ui/icon/Icon.vue'
 
+const attrs = useAttrs()
+
 type ButtonColor =
   | 'primary'
   | 'secondary'
@@ -188,12 +190,36 @@ const disabledClasses = computed(() => {
 // Block class
 const blockClass = computed(() => (props.block ? 'w-full' : ''))
 
+// Check if parent has specified background color class
+const hasParentBgClass = computed(() => {
+  const parentClass = attrs.class as string | undefined
+  if (!parentClass) return false
+  // bg- で始まるクラスが含まれているかチェック
+  return parentClass.split(/\s+/).some((cls) => cls.startsWith('bg-'))
+})
+
+// Color variant classes without background (for when parent specifies bg)
+const colorVariantClassesWithoutBg = computed(() => {
+  // 背景色関連のクラスを除外
+  return colorVariantClasses.value
+    .split(' ')
+    .filter(
+      (cls) =>
+        !cls.startsWith('bg-') &&
+        !cls.startsWith('hover:bg-') &&
+        !cls.startsWith('active:bg-')
+    )
+    .join(' ')
+})
+
 // Combined button classes
 const buttonClasses = computed(() => {
   return [
     baseClasses,
     sizeClasses.value,
-    colorVariantClasses.value,
+    hasParentBgClass.value
+      ? colorVariantClassesWithoutBg.value
+      : colorVariantClasses.value,
     disabledClasses.value,
     blockClass.value
   ].filter(Boolean)

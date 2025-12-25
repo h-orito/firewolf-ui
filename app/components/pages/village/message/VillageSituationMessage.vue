@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isCurrentVillageDayLatest">
+  <div v-if="isCurrentVillageDayLatest" class="leading-4.5">
     <!-- 村の状況メッセージ -->
     <UiFeedbackAlert :class="charSizeClass" class="mb-1.5" type="default">
       <span v-html="villageSituationMessageHtml" />

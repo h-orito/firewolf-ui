@@ -3,7 +3,7 @@
     <!-- システムメッセージのラベルと時刻は表示しない -->
     <!-- 発言内容をborderで囲む、左揃え -->
     <div
-      class="rounded border text-left text-xs whitespace-pre-wrap"
+      class="rounded border text-left text-xs leading-4.5 whitespace-pre-wrap"
       :class="messageClass"
       :style="{ padding: '10px', wordBreak: 'break-word' }"
       v-html="formattedMessageText"

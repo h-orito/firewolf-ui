@@ -71,7 +71,7 @@
       <div class="flex-1">
         <!-- 発言内容（装飾・アンカー含む） -->
         <div
-          class="rounded border p-2 text-left whitespace-pre-wrap"
+          class="rounded border p-2 text-left leading-4.5 whitespace-pre-wrap"
           :class="[messageClass, isLargeText ? 'text-sm' : 'text-xs']"
           :style="{ minHeight: `${imageHeight}px`, wordBreak: 'break-word' }"
           v-html="formattedMessageText"
