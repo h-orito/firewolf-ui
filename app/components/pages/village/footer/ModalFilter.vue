@@ -215,6 +215,7 @@ import {
 import { useVillageMessageFilter } from '~/composables/village/useVillageMessageFilter'
 import { useVillage } from '~/composables/village/useVillage'
 import { useSituation } from '~/composables/village/useSituation'
+import { useMessage } from '~/composables/village/useMessage'
 import Modal from '~/components/ui/modal/Modal.vue'
 import UiButton from '~/components/ui/button/index.vue'
 import FormInput from '~/components/ui/form/FormInput.vue'
@@ -246,6 +247,7 @@ const {
 } = useVillageMessageFilter()
 const { village, allParticipants, allParticipantIds } = useVillage()
 const { situation } = useSituation()
+const { loadMessages } = useMessage()
 
 // State - モーダルの開閉状態
 const isModalOpen = computed({
@@ -352,6 +354,9 @@ const handleFilter = () => {
     toParticipantIdList,
     keyword.value
   )
+
+  // メッセージを再読み込み
+  loadMessages()
 
   emit('close')
 }

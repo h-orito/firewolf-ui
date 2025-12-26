@@ -81,6 +81,7 @@ import { useVillageSlider } from '~/composables/village/useVillageSlider'
 import { useVillageRefresh } from '~/composables/village/useVillageRefresh'
 import { useVillageTimer } from '~/composables/village/useVillageTimer'
 import { useWindowResize } from '~/composables/useWindowResize'
+import { useMessage } from '~/composables/village/useMessage'
 import ModalFilter from '~/components/pages/village/footer/ModalFilter.vue'
 
 // Composables
@@ -91,6 +92,7 @@ const { toggle: toggleSlider } = useVillageSlider()
 const { refresh } = useVillageRefresh()
 const { timerText, startTimer } = useVillageTimer()
 const { isMobile } = useWindowResize()
+const { loadMessages } = useMessage()
 
 // State
 const isOpenFilterModal = ref(false)
@@ -108,6 +110,8 @@ const openFilterModalOrReset = () => {
   if (isFiltering.value) {
     // 抽出中の場合はフィルタをリセット
     resetFilter()
+    // メッセージを再読み込み
+    loadMessages()
   } else {
     // 抽出していない場合はモーダルを開く
     isOpenFilterModal.value = true
