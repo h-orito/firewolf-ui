@@ -62,7 +62,8 @@ import VillageSituationMessage from './VillageSituationMessage.vue'
 // Composables
 const { messages, loading, error, isDispLatest, setPageNum, setDispLatest } =
   useMessage()
-const { isCurrentVillageDayLatest } = useVillage()
+const { isCurrentVillageDayLatest, latestDay, changeCurrentVillageDay } =
+  useVillage()
 const { getTheme, getMessageDisplay } = useUserSettings()
 
 // ユーザー設定
@@ -90,6 +91,11 @@ const handleChangePage = (pageNum: number) => {
 
 // 最新表示ハンドラ
 const handleDispLatest = () => {
+  // 最新の日に移動
+  if (!isCurrentVillageDayLatest.value && latestDay.value) {
+    changeCurrentVillageDay(latestDay.value)
+  }
+  // 最新表示を有効化（内部でloadMessagesが呼ばれる）
   setDispLatest(true)
 }
 </script>
