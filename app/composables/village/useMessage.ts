@@ -49,11 +49,11 @@ export const useMessage = () => {
 
       // フィルタ条件（全て選択されている場合はパラメータ不要）
       if (
-        messageTypes &&
-        messageTypes.length > 0 &&
-        messageTypeGroups.length < ALL_MESSAGE_TYPE_GROUPS.length
+        messageTypes.value &&
+        messageTypes.value.length > 0 &&
+        messageTypeGroups.value.length < ALL_MESSAGE_TYPE_GROUPS.length
       ) {
-        params.message_type_list = [...messageTypes]
+        params.message_type_list = [...messageTypes.value]
       }
       // 参加者フィルタ（全員選択されている場合はパラメータ不要）
       const allParticipantCount = village.value
@@ -61,21 +61,21 @@ export const useMessage = () => {
           village.value.spectator.member_list.length
         : 0
       if (
-        participantIds &&
-        participantIds.length > 0 &&
-        participantIds.length < allParticipantCount
+        participantIds.value &&
+        participantIds.value.length > 0 &&
+        participantIds.value.length < allParticipantCount
       ) {
-        params.participant_id_list = [...participantIds]
+        params.participant_id_list = [...participantIds.value]
       }
       if (
-        toParticipantIds &&
-        toParticipantIds.length > 0 &&
-        toParticipantIds.length < allParticipantCount
+        toParticipantIds.value &&
+        toParticipantIds.value.length > 0 &&
+        toParticipantIds.value.length < allParticipantCount
       ) {
-        params.to_participant_id_list = [...toParticipantIds]
+        params.to_participant_id_list = [...toParticipantIds.value]
       }
-      if (keyword) {
-        params.keyword = keyword
+      if (keyword.value) {
+        params.keyword = keyword.value
       }
 
       // ページング設定

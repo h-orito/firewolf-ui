@@ -316,19 +316,19 @@ watch(
 // Methods
 const initializeFilter = () => {
   // 現在のフィルタ状態をロード
-  selectedMessageTypeGroups.value = storeMessageTypeGroups
-    ? [...storeMessageTypeGroups]
+  selectedMessageTypeGroups.value = storeMessageTypeGroups.value
+    ? [...storeMessageTypeGroups.value]
     : [...ALL_MESSAGE_TYPE_GROUPS]
 
-  selectedParticipantIds.value = storeParticipantIds
-    ? [...storeParticipantIds]
+  selectedParticipantIds.value = storeParticipantIds.value
+    ? [...storeParticipantIds.value]
     : [...allParticipantIds.value]
 
-  selectedToParticipantIds.value = storeToParticipantIds
-    ? [...storeToParticipantIds]
+  selectedToParticipantIds.value = storeToParticipantIds.value
+    ? [...storeToParticipantIds.value]
     : [...allParticipantIds.value]
 
-  keyword.value = storeKeyword ?? null
+  keyword.value = storeKeyword.value ?? null
 }
 
 const handleFilter = () => {

@@ -24,49 +24,49 @@
           <div
             v-if="isModalOpen"
             ref="modalRef"
-            class="relative w-full max-w-full overflow-y-auto rounded-lg bg-white shadow-xl sm:max-w-lg md:max-w-[80vw]"
+            class="relative flex w-full max-w-full flex-col rounded-lg bg-white shadow-xl sm:max-w-lg md:max-w-[80vw]"
             :style="{ maxHeight: 'calc(100vh - 6.5rem)' }"
             role="dialog"
             aria-modal="true"
             :aria-labelledby="title ? 'modal-title' : undefined"
             tabindex="-1"
           >
-            <div class="font-sans text-gray-700">
-              <!-- Header -->
-              <div
-                v-if="title || $slots.title"
-                class="rounded-t-lg border-b border-gray-200 bg-gray-50 px-6 py-4"
-              >
-                <div class="flex items-center justify-between">
-                  <h3
-                    id="modal-title"
-                    class="m-0 text-left text-lg leading-tight font-semibold"
-                  >
-                    <slot name="title">{{ title }}</slot>
-                  </h3>
-                  <UiButton
-                    color="secondary"
-                    variant="outline"
-                    icon="i-heroicons-x-mark-20-solid"
-                    class="-my-1"
-                    aria-label="閉じる"
-                    @click="closeModal"
-                  />
-                </div>
+            <!-- Header -->
+            <div
+              v-if="title || $slots.title"
+              class="shrink-0 rounded-t-lg border-b border-gray-200 bg-gray-50 px-6 py-4"
+            >
+              <div class="flex items-center justify-between">
+                <h3
+                  id="modal-title"
+                  class="m-0 text-left text-lg leading-tight font-semibold"
+                >
+                  <slot name="title">{{ title }}</slot>
+                </h3>
+                <UiButton
+                  color="secondary"
+                  variant="outline"
+                  icon="i-heroicons-x-mark-20-solid"
+                  class="-my-1"
+                  aria-label="閉じる"
+                  @click="closeModal"
+                />
               </div>
+            </div>
 
-              <!-- Body -->
-              <div class="overflow-y-auto bg-white px-4 py-4 text-left sm:px-6">
-                <slot />
-              </div>
+            <!-- Body -->
+            <div
+              class="flex-1 overflow-y-auto bg-white px-4 py-4 text-left font-sans text-gray-700 sm:px-6"
+            >
+              <slot />
+            </div>
 
-              <!-- Footer -->
-              <div
-                v-if="$slots.footer"
-                class="flex justify-end gap-2 rounded-b-lg border-t border-gray-200 bg-gray-50 px-4 py-4 sm:px-6"
-              >
-                <slot name="footer" />
-              </div>
+            <!-- Footer -->
+            <div
+              v-if="$slots.footer"
+              class="flex shrink-0 justify-end gap-2 rounded-b-lg border-t border-gray-200 bg-gray-50 px-4 py-4 sm:px-6"
+            >
+              <slot name="footer" />
             </div>
           </div>
         </Transition>

@@ -52,16 +52,6 @@ export const useVillageMessageFilter = () => {
   }
 
   /**
-   * 特定の宛先のみ抽出
-   */
-  const filterByToParticipant = (participantId: number) => {
-    filterStore.resetMessageFilter()
-    filterStore.setMessageFilter({
-      toParticipantIdList: [participantId]
-    })
-  }
-
-  /**
    * フィルタリング中かどうか
    */
   const isFiltering = computed(() => {
@@ -87,132 +77,20 @@ export const useVillageMessageFilter = () => {
     )
   })
 
-  /**
-   * 全発言種別を選択
-   */
-  const selectAllMessageTypes = () => {
-    // storeのresetが全タイプを選択する
-    filterStore.resetMessageFilter()
-  }
-
-  /**
-   * 全発言種別の選択を解除
-   */
-  const deselectAllMessageTypes = () => {
-    filterStore.setMessageFilter({
-      messageTypeGroups: []
-    })
-  }
-
-  /**
-   * 発言種別の選択を反転
-   */
-  const reverseMessageTypeSelection = () => {
-    const currentGroups = filterStore.messageTypeGroups ?? []
-    const reversedGroups = ALL_MESSAGE_TYPE_GROUPS.filter(
-      (group) => !currentGroups.includes(group)
-    )
-    filterStore.setMessageFilter({
-      messageTypeGroups: reversedGroups
-    })
-  }
-
-  /**
-   * 全参加者を選択
-   */
-  const selectAllParticipants = () => {
-    filterStore.setMessageFilter({
-      participantIdList: [...allParticipantIds.value]
-    })
-  }
-
-  /**
-   * 全参加者の選択を解除
-   */
-  const deselectAllParticipants = () => {
-    filterStore.setMessageFilter({
-      participantIdList: []
-    })
-  }
-
-  /**
-   * 参加者の選択を反転
-   */
-  const reverseParticipantSelection = () => {
-    const currentIds = filterStore.participantIdFilter ?? []
-    const reversedIds = allParticipantIds.value.filter(
-      (id) => !currentIds.includes(id)
-    )
-    filterStore.setMessageFilter({
-      participantIdList: reversedIds
-    })
-  }
-
-  /**
-   * 全宛先を選択
-   */
-  const selectAllToParticipants = () => {
-    filterStore.setMessageFilter({
-      toParticipantIdList: [...allParticipantIds.value]
-    })
-  }
-
-  /**
-   * 全宛先の選択を解除
-   */
-  const deselectAllToParticipants = () => {
-    filterStore.setMessageFilter({
-      toParticipantIdList: []
-    })
-  }
-
-  /**
-   * 宛先の選択を反転
-   */
-  const reverseToParticipantSelection = () => {
-    const currentIds = filterStore.toParticipantIdFilter ?? []
-    const reversedIds = allParticipantIds.value.filter(
-      (id) => !currentIds.includes(id)
-    )
-    filterStore.setMessageFilter({
-      toParticipantIdList: reversedIds
-    })
-  }
-
-  /**
-   * 自分宛のみ選択
-   */
-  const selectToMyself = (myselfId: number) => {
-    filterStore.setMessageFilter({
-      toParticipantIdList: [myselfId]
-    })
-  }
-
   return {
-    // State (from store)
-    messageTypeGroups: filterStore.messageTypeGroups,
-    participantIds: filterStore.participantIdFilter,
-    toParticipantIds: filterStore.toParticipantIdFilter,
-    keyword: filterStore.keywordFilter,
+    // State (from store) - computed化してリアクティブに
+    messageTypeGroups: computed(() => filterStore.messageTypeGroups),
+    participantIds: computed(() => filterStore.participantIdFilter),
+    toParticipantIds: computed(() => filterStore.toParticipantIdFilter),
+    keyword: computed(() => filterStore.keywordFilter),
 
     // Computed (from store)
-    messageTypes: filterStore.messageTypeFilter,
+    messageTypes: computed(() => filterStore.messageTypeFilter),
     isFiltering: isFiltering,
 
     // Methods
     applyFilter,
     resetFilter,
-    filterByParticipant,
-    filterByToParticipant,
-    selectAllMessageTypes,
-    deselectAllMessageTypes,
-    reverseMessageTypeSelection,
-    selectAllParticipants,
-    deselectAllParticipants,
-    reverseParticipantSelection,
-    selectAllToParticipants,
-    deselectAllToParticipants,
-    reverseToParticipantSelection,
-    selectToMyself
+    filterByParticipant
   }
 }
