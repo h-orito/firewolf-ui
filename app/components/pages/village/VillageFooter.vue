@@ -47,17 +47,16 @@
     <UiButton
       color="secondary"
       variant="solid"
-      icon="i-heroicons-magnifying-glass-20-solid"
       class="flex h-full min-w-[60px] cursor-pointer items-center justify-center rounded-none border-0 border-l border-gray-700 bg-[#363636]"
-      :class="{
-        'w-[120px]': !isMobile,
-        'text-blue-400': isFiltering,
-        'text-white': !isFiltering
-      }"
+      :class="{ 'w-[120px]': !isMobile }"
       aria-label="発言を抽出"
       @click="openFilterModalOrReset"
     >
-      <span v-if="isFiltering" class="text-sm text-blue-400">解除</span>
+      <Icon
+        name="i-heroicons-funnel"
+        :class="`h-5 w-5 ${isFiltering ? 'text-blue-400' : 'text-white'}`"
+      />
+      <span v-if="isFiltering" class="ml-1 text-sm text-blue-400">解除</span>
     </UiButton>
 
     <!-- 残り時間表示 -->

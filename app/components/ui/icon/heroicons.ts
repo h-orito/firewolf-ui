@@ -10,7 +10,8 @@ import {
   Cog6ToothIcon as Cog6ToothIconOutline,
   HomeIcon as HomeIconOutline,
   UsersIcon as UsersIconOutline,
-  ChartBarIcon as ChartBarIconOutline
+  ChartBarIcon as ChartBarIconOutline,
+  FunnelIcon as FunnelIconOutline
 } from '@heroicons/vue/24/outline'
 
 // 20px solid icons
@@ -22,7 +23,8 @@ import {
   ArrowPathIcon as ArrowPathIcon20Solid,
   Bars3Icon as Bars3Icon20Solid,
   MagnifyingGlassIcon as MagnifyingGlassIcon20Solid,
-  XMarkIcon as XMarkIcon20Solid
+  XMarkIcon as XMarkIcon20Solid,
+  FunnelIcon as FunnelIcon20Solid
 } from '@heroicons/vue/20/solid'
 
 // アイコン名からコンポーネントへのマッピング (i-heroicons-xxx形式)
@@ -37,6 +39,7 @@ export const heroiconsMap: Record<string, Component> = {
   'i-heroicons-home': HomeIconOutline,
   'i-heroicons-users': UsersIconOutline,
   'i-heroicons-chart-bar': ChartBarIconOutline,
+  'i-heroicons-funnel': FunnelIconOutline,
 
   // 20px solid
   'i-heroicons-chevron-left-20-solid': ChevronLeftIcon20Solid,
@@ -46,5 +49,6 @@ export const heroiconsMap: Record<string, Component> = {
   'i-heroicons-arrow-path-20-solid': ArrowPathIcon20Solid,
   'i-heroicons-bars-3-20-solid': Bars3Icon20Solid,
   'i-heroicons-magnifying-glass-20-solid': MagnifyingGlassIcon20Solid,
-  'i-heroicons-x-mark-20-solid': XMarkIcon20Solid
+  'i-heroicons-x-mark-20-solid': XMarkIcon20Solid,
+  'i-heroicons-funnel-20-solid': FunnelIcon20Solid
 }
