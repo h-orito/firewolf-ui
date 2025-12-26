@@ -36,105 +36,21 @@
 
         <!-- 発言種別チェックボックス -->
         <div class="space-y-2">
-          <div class="flex flex-wrap gap-2">
-            <FormCheckbox
-              :model-value="
-                isMessageTypeSelected(MESSAGE_TYPE_GROUP.NORMAL_SAY)
-              "
-              label="通常"
-              @update:model-value="
-                toggleMessageType(MESSAGE_TYPE_GROUP.NORMAL_SAY, $event)
-              "
-            />
-            <FormCheckbox
-              :model-value="
-                isMessageTypeSelected(MESSAGE_TYPE_GROUP.MONOLOGUE_SAY)
-              "
-              label="独り言"
-              @update:model-value="
-                toggleMessageType(MESSAGE_TYPE_GROUP.MONOLOGUE_SAY, $event)
-              "
-            />
-            <FormCheckbox
-              :model-value="
-                isMessageTypeSelected(MESSAGE_TYPE_GROUP.SECRET_SAY)
-              "
-              label="秘話"
-              @update:model-value="
-                toggleMessageType(MESSAGE_TYPE_GROUP.SECRET_SAY, $event)
-              "
-            />
-            <FormCheckbox
-              :model-value="
-                isMessageTypeSelected(MESSAGE_TYPE_GROUP.CREATOR_SAY)
-              "
-              label="村建て"
-              @update:model-value="
-                toggleMessageType(MESSAGE_TYPE_GROUP.CREATOR_SAY, $event)
-              "
-            />
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <FormCheckbox
-              :model-value="
-                isMessageTypeSelected(MESSAGE_TYPE_GROUP.WEREWOLF_SAY)
-              "
-              label="囁き"
-              @update:model-value="
-                toggleMessageType(MESSAGE_TYPE_GROUP.WEREWOLF_SAY, $event)
-              "
-            />
-            <FormCheckbox
-              :model-value="
-                isMessageTypeSelected(MESSAGE_TYPE_GROUP.SYMPATHIZE_SAY)
-              "
-              label="共鳴"
-              @update:model-value="
-                toggleMessageType(MESSAGE_TYPE_GROUP.SYMPATHIZE_SAY, $event)
-              "
-            />
-            <FormCheckbox
-              :model-value="
-                isMessageTypeSelected(MESSAGE_TYPE_GROUP.LOVERS_SAY)
-              "
-              label="恋人"
-              @update:model-value="
-                toggleMessageType(MESSAGE_TYPE_GROUP.LOVERS_SAY, $event)
-              "
-            />
-            <FormCheckbox
-              :model-value="isMessageTypeSelected(MESSAGE_TYPE_GROUP.GRAVE_SAY)"
-              label="墓下見学"
-              @update:model-value="
-                toggleMessageType(MESSAGE_TYPE_GROUP.GRAVE_SAY, $event)
-              "
-            />
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <FormCheckbox
-              :model-value="isMessageTypeSelected(MESSAGE_TYPE_GROUP.ACTION)"
-              label="アクション"
-              @update:model-value="
-                toggleMessageType(MESSAGE_TYPE_GROUP.ACTION, $event)
-              "
-            />
-            <FormCheckbox
-              :model-value="isMessageTypeSelected(MESSAGE_TYPE_GROUP.SYSTEM)"
-              label="公開システム"
-              @update:model-value="
-                toggleMessageType(MESSAGE_TYPE_GROUP.SYSTEM, $event)
-              "
-            />
-            <FormCheckbox
-              :model-value="
-                isMessageTypeSelected(MESSAGE_TYPE_GROUP.PRIVATE_SYSTEM)
-              "
-              label="非公開システム"
-              @update:model-value="
-                toggleMessageType(MESSAGE_TYPE_GROUP.PRIVATE_SYSTEM, $event)
-              "
-            />
-          </div>
+          <FormCheckGroup
+            :model-value="selectedMessageTypeGroups"
+            :options="messageTypeOptionsRow1"
+            @update:model-value="selectedMessageTypeGroups = $event"
+          />
+          <FormCheckGroup
+            :model-value="selectedMessageTypeGroups"
+            :options="messageTypeOptionsRow2"
+            @update:model-value="selectedMessageTypeGroups = $event"
+          />
+          <FormCheckGroup
+            :model-value="selectedMessageTypeGroups"
+            :options="messageTypeOptionsRow3"
+            @update:model-value="selectedMessageTypeGroups = $event"
+          />
         </div>
       </section>
 
@@ -303,6 +219,7 @@ import Modal from '~/components/ui/modal/Modal.vue'
 import UiButton from '~/components/ui/button/index.vue'
 import FormInput from '~/components/ui/form/FormInput.vue'
 import FormCheckbox from '~/components/ui/form/FormCheckbox.vue'
+import FormCheckGroup from '~/components/ui/form/FormCheckGroup.vue'
 import CharaImage from '../CharaImage.vue'
 
 // Props
@@ -355,6 +272,27 @@ const participantList = computed(() => {
   if (!village.value) return []
   return allParticipants.value.toSorted((a, b) => a.id - b.id)
 })
+
+// メッセージタイプのオプション (3行に分割)
+const messageTypeOptionsRow1 = [
+  { value: MESSAGE_TYPE_GROUP.NORMAL_SAY, label: '通常' },
+  { value: MESSAGE_TYPE_GROUP.MONOLOGUE_SAY, label: '独り言' },
+  { value: MESSAGE_TYPE_GROUP.SECRET_SAY, label: '秘話' },
+  { value: MESSAGE_TYPE_GROUP.CREATOR_SAY, label: '村建て' }
+]
+
+const messageTypeOptionsRow2 = [
+  { value: MESSAGE_TYPE_GROUP.WEREWOLF_SAY, label: '囁き' },
+  { value: MESSAGE_TYPE_GROUP.SYMPATHIZE_SAY, label: '共鳴' },
+  { value: MESSAGE_TYPE_GROUP.LOVERS_SAY, label: '恋人' },
+  { value: MESSAGE_TYPE_GROUP.GRAVE_SAY, label: '墓下見学' }
+]
+
+const messageTypeOptionsRow3 = [
+  { value: MESSAGE_TYPE_GROUP.ACTION, label: 'アクション' },
+  { value: MESSAGE_TYPE_GROUP.SYSTEM, label: '公開システム' },
+  { value: MESSAGE_TYPE_GROUP.PRIVATE_SYSTEM, label: '非公開システム' }
+]
 
 const canFilter = computed(() => {
   return (
@@ -422,30 +360,7 @@ const handleClose = () => {
   emit('close')
 }
 
-// 発言種別の選択状態確認と操作
-const isMessageTypeSelected = (type: MessageTypeGroup): boolean => {
-  return selectedMessageTypeGroups.value.includes(type)
-}
-
-const toggleMessageType = (
-  type: MessageTypeGroup,
-  checked: boolean | string
-) => {
-  const isChecked = typeof checked === 'boolean' ? checked : checked === 'true'
-  if (isChecked) {
-    if (!selectedMessageTypeGroups.value.includes(type)) {
-      selectedMessageTypeGroups.value = [
-        ...selectedMessageTypeGroups.value,
-        type
-      ]
-    }
-  } else {
-    selectedMessageTypeGroups.value = selectedMessageTypeGroups.value.filter(
-      (t) => t !== type
-    )
-  }
-}
-
+// 発言種別の操作
 const handleAllMessageTypeOn = () => {
   selectedMessageTypeGroups.value = [...ALL_MESSAGE_TYPE_GROUPS]
 }
