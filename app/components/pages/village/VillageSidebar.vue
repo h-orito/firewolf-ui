@@ -34,7 +34,7 @@
           ]"
         >
           <template #participants>
-            <ParticipantList />
+            <ParticipantList @chara-filter="handleCharaFilter" />
           </template>
         </Accordion>
 
@@ -156,5 +156,12 @@ const openMemoModal = () => {
 
 const closeMemoModal = () => {
   isOpenMemoModal.value = false
+}
+
+const handleCharaFilter = () => {
+  // モバイルの場合はサイドバーを閉じる
+  if (isMobile.value) {
+    close()
+  }
 }
 </script>

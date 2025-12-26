@@ -24,7 +24,7 @@
           <p class="flex-1 text-right">
             <button
               type="button"
-              class="text-white hover:font-bold hover:text-blue-400"
+              class="text-blue-400 hover:font-bold hover:text-blue-300"
               @click="handleFilterClick(participant.id)"
             >
               抽出
@@ -65,7 +65,7 @@
             <p class="flex-1 text-right">
               <button
                 type="button"
-                class="text-white hover:font-bold hover:text-blue-400"
+                class="text-blue-400 hover:font-bold hover:text-blue-300"
                 @click="handleFilterClick(participant.id)"
               >
                 抽出
@@ -101,7 +101,7 @@
             <p class="flex-1 text-right">
               <button
                 type="button"
-                class="text-white hover:font-bold hover:text-blue-400"
+                class="text-blue-400 hover:font-bold hover:text-blue-300"
                 @click="handleFilterClick(participant.id)"
               >
                 抽出
@@ -123,6 +123,7 @@
 import { useVillage } from '~/composables/village/useVillage'
 import { useMessage } from '~/composables/village/useMessage'
 import { useUserSettings } from '~/composables/village/useUserSettings'
+import { useVillageMessageFilter } from '~/composables/village/useVillageMessageFilter'
 import { VILLAGE_STATUS } from '~/lib/api/village-status-constants'
 import CharaImage from '~/components/pages/village/CharaImage.vue'
 import type { VillageParticipantView, ComingOut } from '~/lib/api/types'
@@ -239,7 +240,9 @@ const handleFilterClick = (participantId: number): void => {
   const { getOperation } = useUserSettings()
   const operation = getOperation()
   const isNewTab = operation.isOpenFilterNewtab
+
   if (isNewTab) {
+    // 新規タブで開く
     const route = router.resolve({
       path: '/village',
       query: {
@@ -249,7 +252,14 @@ const handleFilterClick = (participantId: number): void => {
     })
     window.open(route.href, '_blank')
   } else {
-    emit('chara-filter', participantId)
+    // 同じタブで抽出
+    const { filterByParticipant } = useVillageMessageFilter()
+    const { loadMessages } = useMessage()
+    filterByParticipant(participantId)
+    loadMessages()
   }
+
+  // どちらの場合もサイドバーを閉じるためにイベントをemit
+  emit('chara-filter', participantId)
 }
 </script>

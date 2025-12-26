@@ -507,7 +507,7 @@ app/components/ui/icon/
 
 ###### 3.1 抽出モーダル
 
-- [ ] `components/pages/village/footer/ModalFilter.vue` の作成
+- [x] `components/pages/village/footer/ModalFilter.vue` の作成
   - 発言種別の選択
   - 発言者の選択（全てON/OFF/反転）
   - 宛先の選択（全てON/OFF/反転/自分宛）
@@ -515,11 +515,11 @@ app/components/ui/icon/
 
 ###### 3.2 個別抽出・URLパラメータ対応
 
-- [ ] 個別抽出機能の実装
+- [x] 個別抽出機能の実装
   - サイドバー参加者リストからの抽出
   - 新規タブ設定の考慮
 
-- [ ] URLパラメータでの抽出対応
+- [x] URLパラメータでの抽出対応
   - `?filterId=参加者ID` での直接抽出
   - 初期表示時の抽出適用
 

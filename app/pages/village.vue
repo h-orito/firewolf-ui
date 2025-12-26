@@ -79,6 +79,7 @@ import { useSituation } from '~/composables/village/useSituation'
 import { useVillagePolling } from '~/composables/village/useVillagePolling'
 import { useVillageRefresh } from '~/composables/village/useVillageRefresh'
 import { useUserSettings } from '~/composables/village/useUserSettings'
+import { useVillageMessageFilter } from '~/composables/village/useVillageMessageFilter'
 import { useWindowResize } from '~/composables/useWindowResize'
 import VillageHeader from '~/components/pages/village/VillageHeader.vue'
 import VillageFooter from '~/components/pages/village/VillageFooter.vue'
@@ -100,6 +101,12 @@ const villageId = computed(() => {
   return id ? Number(id) : 0
 })
 
+// URL クエリパラメータからfilterIdを取得
+const filterId = computed(() => {
+  const id = route.query.filterId
+  return id ? Number(id) : null
+})
+
 // Composables
 const { waitForAuth } = useAuth()
 const {
@@ -114,6 +121,7 @@ const { loadSituation, error: situationError } = useSituation()
 const { startPolling } = useVillagePolling()
 const { updateVillageLatest } = useVillageRefresh()
 const { initializeIfNeeded: initUserSettings, getTheme } = useUserSettings()
+const { filterByParticipant } = useVillageMessageFilter()
 const { isMobile } = useWindowResize()
 
 // State
@@ -169,13 +177,18 @@ const initialize = async () => {
     // 3. 村を初期化（村IDの設定、村情報の読み込み、最新日の設定）
     await initVillage(villageId.value)
 
-    // 4. 発言と参加状況を並列で読み込み
+    // 4. URLパラメータでfilterIdが指定されている場合は抽出を適用
+    if (filterId.value) {
+      filterByParticipant(filterId.value)
+    }
+
+    // 5. 発言と参加状況を並列で読み込み
     await Promise.all([loadMessages(), loadSituation()])
 
-    // 5. 最新情報を保存
+    // 6. 最新情報を保存
     await updateVillageLatest()
 
-    // 6. ポーリングを開始
+    // 7. ポーリングを開始
     if (village) {
       startPolling()
     }
