@@ -97,17 +97,12 @@
             (formData.day1Message || '').length
           }}/1000）
         </p>
-        <p class="mt-1 text-xs text-yellow-600">
-          <Icon name="alert-circle" class="mr-1" />
-          この内容は村作成後も変更可能です
-        </p>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import Icon from '~/components/ui/icon/Icon.vue'
 import Alert from '~/components/ui/feedback/Alert.vue'
 import CharaImage from '~/components/pages/village/CharaImage.vue'
 import FormTextarea from '~/components/ui/form/FormTextarea.vue'
