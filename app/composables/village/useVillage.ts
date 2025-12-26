@@ -224,6 +224,8 @@ export const useVillage = () => {
     allParticipants,
     existPrevDay,
     existNextDay,
+    prevDayId,
+    nextDayId,
     isCurrentVillageDayLatest,
 
     // State (UI state)

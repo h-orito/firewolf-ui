@@ -165,10 +165,12 @@ export const useMessage = () => {
 
   /**
    * ページ状態をリセット（日付変更時に使用）
+   * @param isLatestDay - 最新日に遷移する場合は true、それ以外は false
    */
-  const resetPaging = () => {
+  const resetPaging = (isLatestDay: boolean = false) => {
     messageStore.setCurrentPageNum(1)
-    messageStore.setIsDispLatest(true)
+    messageStore.setIsDispLatest(isLatestDay)
+    loadMessages()
   }
 
   const isViewingLatestMessages = computed(() => {

@@ -21,9 +21,14 @@ import { VILLAGE_STATUS } from '~/lib/api/village-status-constants'
 import { useVillage } from '~/composables/village/useVillage'
 import { useMessage } from '~/composables/village/useMessage'
 
-const { village, latestDay, currentVillageDay, changeCurrentVillageDay } =
-  useVillage()
-const { loadMessages, resetPaging } = useMessage()
+const {
+  village,
+  latestDay,
+  currentVillageDay,
+  changeCurrentVillageDay,
+  isCurrentVillageDayLatest
+} = useVillage()
+const { resetPaging } = useMessage()
 
 const dayList = computed(() => village.value?.day.day_list ?? [])
 
@@ -50,7 +55,6 @@ const dayName = (day: VillageDayView): string => {
 const handleChangeDay = (villageDay: VillageDayView) => {
   changeCurrentVillageDay(villageDay)
   // 日付変更時はページ状態をリセットして発言を取得
-  resetPaging()
-  loadMessages()
+  resetPaging(isCurrentVillageDayLatest.value)
 }
 </script>
