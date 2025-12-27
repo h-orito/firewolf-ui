@@ -122,10 +122,11 @@
 <script setup lang="ts">
 import Alert from '~/components/ui/feedback/Alert.vue'
 import UiButton from '~/components/ui/button/index.vue'
-import CharaSelectModal from './CharaSelectModal.vue'
+import CharaSelectModal from '~/components/ui/chara-select/CharaSelectModal.vue'
 import FormMultiSelect from '~/components/ui/form/FormMultiSelect.vue'
 import FormSelect from '~/components/ui/form/FormSelect.vue'
 import FormInput from '~/components/ui/form/FormInput.vue'
+import type { DeepReadonly } from 'vue'
 import type {
   CharachipView,
   CharachipsView,
@@ -223,7 +224,7 @@ const openCharaSelectModal = () => {
   isCharaSelectModalOpen.value = true
 }
 
-const handleCharaSelect = (chara: Chara) => {
+const handleCharaSelect = (chara: DeepReadonly<Chara> | Chara) => {
   selectedDummyCharaId.value = chara.id
   isCharaSelectModalOpen.value = false
 }
