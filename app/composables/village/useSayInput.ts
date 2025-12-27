@@ -1,4 +1,5 @@
 import type { InjectionKey } from 'vue'
+import type { MessageView } from '~/lib/api/types'
 
 /**
  * 発言入力欄へのアンカー挿入・秘話切替機能
@@ -14,6 +15,8 @@ export interface SayInputContext {
   insertAnchor: (anchorString: string) => void
   /** 秘話モードに切り替え、対象を設定 */
   switchToSecret: (targetParticipantId: number) => void
+  /** 返信・秘話対象のメッセージを設定 */
+  setReplyTarget: (message: MessageView | null) => void
 }
 
 export interface SayInputRegisterContext {
@@ -21,6 +24,7 @@ export interface SayInputRegisterContext {
   registerHandlers: (handlers: {
     insertAnchor: (anchor: string) => void
     switchToSecret: (targetId: number) => void
+    setReplyTarget: (message: MessageView | null) => void
   }) => void
   /** ハンドラの登録を解除 */
   unregisterHandlers: () => void
@@ -38,6 +42,7 @@ export const useSayInputProvider = () => {
   const callbacks = ref<{
     insertAnchor?: (anchor: string) => void
     switchToSecret?: (targetId: number) => void
+    setReplyTarget?: (message: MessageView | null) => void
   }>({})
 
   /**
@@ -46,6 +51,7 @@ export const useSayInputProvider = () => {
   const registerHandlers = (handlers: {
     insertAnchor: (anchor: string) => void
     switchToSecret: (targetId: number) => void
+    setReplyTarget: (message: MessageView | null) => void
   }) => {
     callbacks.value = handlers
   }
@@ -71,8 +77,15 @@ export const useSayInputProvider = () => {
     callbacks.value.switchToSecret?.(targetParticipantId)
   }
 
+  /**
+   * 返信・秘話対象のメッセージを設定
+   */
+  const setReplyTarget = (message: MessageView | null) => {
+    callbacks.value.setReplyTarget?.(message)
+  }
+
   // 子コンポーネントで inject できるように provide
-  provide(SAY_INPUT_KEY, { insertAnchor, switchToSecret })
+  provide(SAY_INPUT_KEY, { insertAnchor, switchToSecret, setReplyTarget })
   provide(SAY_INPUT_REGISTER_KEY, { registerHandlers, unregisterHandlers })
 }
 

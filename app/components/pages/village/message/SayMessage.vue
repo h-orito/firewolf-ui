@@ -285,12 +285,14 @@ const handleCopyAnchor = () => {
 // 返信ボタンのハンドラー
 const handleReply = () => {
   sayInput?.insertAnchor(anchorCopyString.value)
+  sayInput?.setReplyTarget(props.message as MessageView)
 }
 
 // 秘話ボタンのハンドラー
 const handleSecret = () => {
   if (props.message.from?.id) {
     sayInput?.switchToSecret(props.message.from.id)
+    sayInput?.setReplyTarget(props.message as MessageView)
   }
 }
 </script>

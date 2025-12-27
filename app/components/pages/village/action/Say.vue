@@ -97,6 +97,31 @@
       </UiButton>
     </div>
 
+    <!-- 返信対象メッセージ表示 -->
+    <div v-if="replyTargetMessage" class="mt-4">
+      <div class="rounded-lg border-2 border-blue-500 p-3">
+        <div class="mb-2 flex items-center justify-between">
+          <span class="text-xs font-bold text-blue-600 dark:text-blue-400"
+            >返信対象</span
+          >
+          <button
+            type="button"
+            class="cursor-pointer text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+            @click="clearReplyTarget"
+          >
+            <XMarkIcon class="h-4 w-4" />
+          </button>
+        </div>
+        <SayMessage
+          :message="replyTargetMessage"
+          :is-img-large="false"
+          :is-large-text="false"
+          :can-reply="false"
+          :can-secret="false"
+        />
+      </div>
+    </div>
+
     <!-- 発言確認モーダル -->
     <SayConfirmModal
       v-model="showConfirmModal"
@@ -139,8 +164,10 @@
 </template>
 
 <script setup lang="ts">
+import { XMarkIcon } from '@heroicons/vue/24/outline'
 import ActionPanel from './ActionPanel.vue'
 import SayConfirmModal from './say/SayConfirmModal.vue'
+import SayMessage from '../message/SayMessage.vue'
 import FormGroup from '~/components/ui/form/FormGroup.vue'
 import FormSelect from '~/components/ui/form/FormSelect.vue'
 import FormTextarea from '~/components/ui/form/FormTextarea.vue'
@@ -175,6 +202,9 @@ const targetParticipantId = ref('')
 const showFaceModal = ref(false)
 const showConfirmModal = ref(false)
 const previewMessage = ref<import('~/lib/api/types').MessageView | null>(null)
+const replyTargetMessage = ref<import('~/lib/api/types').MessageView | null>(
+  null
+)
 
 // FormTextareaへの参照
 const formTextareaRef = ref<InstanceType<typeof FormTextarea> | null>(null)
@@ -309,9 +339,7 @@ const createSayBody = () => ({
   message_type: selectedMessageType.value,
   message: messageText.value,
   face_type: selectedFaceType.value,
-  target_id: isSecretSay.value
-    ? parseInt(targetParticipantId.value)
-    : undefined
+  target_id: isSecretSay.value ? parseInt(targetParticipantId.value) : undefined
 })
 
 /**
@@ -342,8 +370,16 @@ const handleSay = async () => {
     messageText.value = ''
     showConfirmModal.value = false
     previewMessage.value = null
+    replyTargetMessage.value = null
     emit('complete')
   }
+}
+
+/**
+ * 返信対象をクリア
+ */
+const clearReplyTarget = () => {
+  replyTargetMessage.value = null
 }
 
 /**
@@ -453,7 +489,10 @@ onMounted(() => {
   if (sayInputRegister) {
     sayInputRegister.registerHandlers({
       insertAnchor,
-      switchToSecret
+      switchToSecret,
+      setReplyTarget: (message) => {
+        replyTargetMessage.value = message
+      }
     })
   }
 })
