@@ -112,6 +112,8 @@ import {
   isDispAnchor as checkDispAnchor,
   getComingOutString
 } from './message-converter'
+import { useSayInput } from '~/composables/village/useSayInput'
+import { useUserSettings } from '~/composables/village/useUserSettings'
 
 interface Props {
   message: DeepReadonly<MessageView> | MessageView
@@ -135,6 +137,10 @@ const props = withDefaults(defineProps<Props>(), {
   canReply: true,
   canSecret: true
 })
+
+// Composables
+const sayInput = useSayInput()
+const { operation } = useUserSettings()
 
 // 画像サイズの計算
 const imageWidth = computed(() => {
@@ -270,19 +276,22 @@ const handleCopyAnchor = () => {
   if (navigator.clipboard) {
     navigator.clipboard.writeText(anchorCopyString.value)
   }
-  // TODO: コピー成功通知
+  // isPasteAnchor設定が有効なら発言欄にも挿入
+  if (operation.value.isPasteAnchor) {
+    sayInput?.insertAnchor(anchorCopyString.value)
+  }
 }
 
 // 返信ボタンのハンドラー
 const handleReply = () => {
-  // TODO: 返信機能の実装（発言入力欄にアンカー文字列を挿入）
-  console.log('Reply with anchor:', anchorString.value)
+  sayInput?.insertAnchor(anchorCopyString.value)
 }
 
 // 秘話ボタンのハンドラー
 const handleSecret = () => {
-  // TODO: 秘話機能の実装（秘話モードに切り替え、宛先設定）
-  console.log('Secret to:', props.message.from?.id)
+  if (props.message.from?.id) {
+    sayInput?.switchToSecret(props.message.from.id)
+  }
 }
 </script>
 

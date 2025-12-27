@@ -84,6 +84,7 @@ import { useVillageRefresh } from '~/composables/village/useVillageRefresh'
 import { useUserSettings } from '~/composables/village/useUserSettings'
 import { useVillageMessageFilter } from '~/composables/village/useVillageMessageFilter'
 import { useWindowResize } from '~/composables/useWindowResize'
+import { useSayInputProvider } from '~/composables/village/useSayInput'
 import VillageHeader from '~/components/pages/village/VillageHeader.vue'
 import VillageFooter from '~/components/pages/village/VillageFooter.vue'
 import VillageSidebar from '~/components/pages/village/VillageSidebar.vue'
@@ -128,6 +129,9 @@ const { theme, hasFixedPanel, isFixedPanelOpen, loadFromCookie } =
   useUserSettings()
 const { filterByParticipant } = useVillageMessageFilter()
 const { isMobile } = useWindowResize()
+
+// SayInputのprovider設定（子コンポーネントでアンカー挿入機能を使用可能にする）
+useSayInputProvider()
 
 // State
 const isInitialized = ref(false)

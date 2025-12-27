@@ -78,7 +78,7 @@ const sizeClasses = computed(() => {
 
 // 基本クラス（border以外）
 const baseClasses =
-  'block rounded-md bg-white text-gray-900 placeholder-gray-400 focus:outline-none transition-colors duration-150 dark:bg-gray-800 dark:text-white dark:placeholder-gray-500 resize-vertical'
+  'block w-full rounded-md bg-white text-gray-900 placeholder-gray-400 focus:outline-none transition-colors duration-150 dark:bg-gray-800 dark:text-white dark:placeholder-gray-500 resize-vertical'
 
 // ボーダーとフォーカス時のクラス（error propに応じて変更）
 const borderClasses = computed(() => {

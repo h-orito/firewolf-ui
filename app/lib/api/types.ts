@@ -59,6 +59,9 @@ export type VillageStatus = components['schemas']['VillageStatus']
 export type VillageParticipateBody =
   components['schemas']['VillageParticipateBody']
 
+// 発言関連型
+export type VillageSayBody = components['schemas']['VillageSayBody']
+
 // 村作成関連型
 export type VillageRegisterBody = components['schemas']['VillageRegisterBody']
 export type VillageSettingRegisterBody =

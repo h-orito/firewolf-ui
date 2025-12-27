@@ -1,7 +1,7 @@
 <template>
-  <div v-if="existsAction" class="action-container space-y-2 py-4">
+  <div v-if="existsAction" class="action-container space-y-4 py-4">
     <!-- 発言 -->
-    <ActionPlaceholder v-if="isDispSay" title="発言" />
+    <Say v-if="isDispSay" @complete="handleActionComplete" />
 
     <!-- 入村 -->
     <Participate v-if="isDispParticipate" @complete="handleActionComplete" />
@@ -47,6 +47,7 @@
 
 <script setup lang="ts">
 import ActionPlaceholder from './ActionPlaceholder.vue'
+import Say from './Say.vue'
 import Participate from './Participate.vue'
 import Spectate from './Spectate.vue'
 import Leave from './Leave.vue'
