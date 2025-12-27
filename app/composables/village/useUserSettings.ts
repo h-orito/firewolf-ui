@@ -15,6 +15,7 @@ export interface PagingSettings {
 
 export interface ActionWindowSettings {
   isFixed?: boolean
+  fixedPanelKey?: string | null
   openMap?: Record<string, boolean>
 }
 
@@ -259,6 +260,56 @@ export const useUserSettings = () => {
     saveToCookie()
   }
 
+  /**
+   * 特定のアクションパネルの開閉状態を取得
+   * @param panelKey パネルの識別キー（例: 'participate', 'say', 'ability'）
+   * @param defaultOpen デフォルトの開閉状態（指定がない場合はtrue）
+   */
+  const getActionPanelOpen = (
+    panelKey: string,
+    defaultOpen: boolean = true
+  ): boolean => {
+    const actionWindow = getActionWindow()
+    if (actionWindow.openMap && panelKey in actionWindow.openMap) {
+      return actionWindow.openMap[panelKey] ?? defaultOpen
+    }
+    return defaultOpen
+  }
+
+  /**
+   * 特定のアクションパネルの開閉状態を保存
+   * @param panelKey パネルの識別キー
+   * @param isOpen 開閉状態
+   */
+  const setActionPanelOpen = (panelKey: string, isOpen: boolean) => {
+    const actionWindow = getActionWindow()
+    const newOpenMap = { ...actionWindow.openMap, [panelKey]: isOpen }
+    setActionWindow({
+      ...actionWindow,
+      openMap: newOpenMap
+    })
+  }
+
+  /**
+   * 固定中のパネルキーを取得
+   */
+  const getFixedPanelKey = (): string | null => {
+    const actionWindow = getActionWindow()
+    return actionWindow.fixedPanelKey ?? null
+  }
+
+  /**
+   * パネルを固定（他のパネルの固定は自動解除）
+   * @param panelKey 固定するパネルのキー（null で固定解除）
+   */
+  const setFixedPanelKey = (panelKey: string | null) => {
+    const actionWindow = getActionWindow()
+    setActionWindow({
+      ...actionWindow,
+      fixedPanelKey: panelKey
+    })
+  }
+
   return {
     // Settings (from store)
     settings: settingsStore.settings,
@@ -277,6 +328,10 @@ export const useUserSettings = () => {
     getOperation,
     setOperation,
     getAgeLimit,
-    setAgeLimit
+    setAgeLimit,
+    getActionPanelOpen,
+    setActionPanelOpen,
+    getFixedPanelKey,
+    setFixedPanelKey
   }
 }

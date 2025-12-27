@@ -4,7 +4,7 @@
     <ActionPlaceholder v-if="isDispSay" title="発言" />
 
     <!-- 入村 -->
-    <ActionPlaceholder v-if="isDispParticipate" title="入村" />
+    <Participate v-if="isDispParticipate" @complete="handleActionComplete" />
 
     <!-- 見学 -->
     <ActionPlaceholder v-if="isDispSpectate" title="見学" />
@@ -47,6 +47,7 @@
 
 <script setup lang="ts">
 import ActionPlaceholder from './ActionPlaceholder.vue'
+import Participate from './Participate.vue'
 import { useSituation } from '~/composables/village/useSituation'
 import { useVillageRefresh } from '~/composables/village/useVillageRefresh'
 import { MESSAGE_TYPE } from '~/lib/api/message-constants'

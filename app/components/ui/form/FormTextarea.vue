@@ -1,7 +1,8 @@
 <template>
   <textarea
-    v-bind="$attrs"
     :id="id"
+    ref="textareaElement"
+    v-bind="$attrs"
     :name="name"
     :value="modelValue"
     :placeholder="placeholder"
@@ -53,6 +54,14 @@ const emit = defineEmits<{
 
 defineOptions({
   inheritAttrs: false
+})
+
+// textarea要素への参照
+const textareaElement = ref<HTMLTextAreaElement | null>(null)
+
+// 外部からアクセス可能にする
+defineExpose({
+  textareaElement
 })
 
 // サイズに応じたクラス

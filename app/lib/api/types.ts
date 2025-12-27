@@ -55,6 +55,10 @@ export type MyselfPlayerView = components['schemas']['MyselfPlayerView']
 export type VillageSettingsView = components['schemas']['VillageSettingsView']
 export type VillageStatus = components['schemas']['VillageStatus']
 
+// 村参加関連型
+export type VillageParticipateBody =
+  components['schemas']['VillageParticipateBody']
+
 // 村作成関連型
 export type VillageRegisterBody = components['schemas']['VillageRegisterBody']
 export type VillageSettingRegisterBody =

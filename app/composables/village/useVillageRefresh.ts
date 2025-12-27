@@ -3,7 +3,7 @@ import { useVillage } from './useVillage'
 import { useMessage } from './useMessage'
 import { useSituation } from './useSituation'
 import { useVillageMessageFilter } from './useVillageMessageFilter'
-import { useActionReset } from './useActionReset'
+import { useActionReset } from './action/useActionReset'
 
 /**
  * 村ページの更新処理を統合管理

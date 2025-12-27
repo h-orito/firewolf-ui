@@ -124,7 +124,11 @@ const { loadMessages, error: messageError } = useMessage()
 const { loadSituation, error: situationError } = useSituation()
 const { startPolling } = useVillagePolling()
 const { updateVillageLatest } = useVillageRefresh()
-const { initializeIfNeeded: initUserSettings, getTheme } = useUserSettings()
+const {
+  settings: userSettings,
+  initializeIfNeeded: initUserSettings,
+  getTheme
+} = useUserSettings()
 const { filterByParticipant } = useVillageMessageFilter()
 const { isMobile } = useWindowResize()
 
@@ -152,9 +156,19 @@ const villageName = computed(() => {
 })
 
 const mainWrapperStyle = computed(() => {
-  return isMobile.value
-    ? 'max-width: 100vw;'
-    : 'max-width: calc(100vw - 280px);'
+  const maxWidth = isMobile.value ? '100vw' : 'calc(100vw - 280px)'
+
+  // 固定パネルがある場合はパディングを追加（リアクティブにするためuserSettingsを直接参照）
+  const fixedKey = userSettings?.actionWindow?.fixedPanelKey ?? null
+  if (!fixedKey) {
+    return `max-width: ${maxWidth};`
+  }
+
+  // 固定パネルが開いているかどうかでパディングを変える
+  const openMap = userSettings?.actionWindow?.openMap ?? {}
+  const isOpen = fixedKey in openMap ? openMap[fixedKey] : true
+  const paddingBottom = isOpen ? '30vh' : '48px'
+  return `max-width: ${maxWidth}; padding-bottom: ${paddingBottom};`
 })
 
 // Methods
