@@ -127,6 +127,8 @@
       v-model="showConfirmModal"
       :preview-message="previewMessage"
       :submitting="submitting"
+      :selected-message-type="selectedMessageType"
+      :message-type-options="messageTypeOptions"
       @confirm="handleSay"
     />
 

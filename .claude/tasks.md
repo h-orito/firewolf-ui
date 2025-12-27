@@ -547,14 +547,14 @@ app/components/ui/icon/
 
 ###### 4.3 発言入力
 
-- [ ] `components/pages/village/action/Say.vue` の作成
+- [x] `components/pages/village/action/Say.vue` の作成
   - 発言種別選択
   - 発言内容入力
   - 文字装飾ボタン
   - アンカー挿入
   - 表情種別選択
 
-- [ ] `components/pages/village/action/SayConfirm.vue` の作成
+- [x] `components/pages/village/action/SayConfirm.vue` の作成
   - 発言確認モーダル
 
 - [ ] `components/pages/village/action/ActionSay.vue` の作成

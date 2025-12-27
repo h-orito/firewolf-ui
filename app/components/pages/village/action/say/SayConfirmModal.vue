@@ -5,11 +5,24 @@
     @update:model-value="$emit('update:modelValue', $event)"
   >
     <div v-if="previewMessage" class="space-y-4">
-      <!-- プレビュー表示（後続タスクで実装） -->
-      <div class="rounded border p-4">
-        <p class="text-sm text-gray-500">
-          発言プレビュー（後続タスクで実装予定）
-        </p>
+      <!-- 発言プレビュー -->
+      <p class="mb-2 text-xs">この内容で発言しますか？</p>
+      <SayMessage
+        :message="previewMessage"
+        :is-img-large="false"
+        :is-large-text="false"
+        :can-reply="false"
+        :can-secret="false"
+      />
+
+      <!-- 誤爆防止: 発言種別の確認選択 -->
+      <div>
+        <p class="mb-1 text-xs font-bold">誤爆防止</p>
+        <p class="mb-2 text-xs">発言しようとしている種別を選択してください</p>
+        <FormRadioGroup
+          v-model="confirmMessageType"
+          :options="messageTypeOptions"
+        />
       </div>
     </div>
     <template #footer>
@@ -24,6 +37,7 @@
         <UiButton
           color="primary"
           :loading="submitting"
+          :disabled="!canConfirm"
           @click="$emit('confirm')"
         >
           発言する
@@ -37,17 +51,39 @@
 import type { MessageView } from '~/lib/api/types'
 import Modal from '~/components/ui/modal/Modal.vue'
 import UiButton from '~/components/ui/button/index.vue'
+import FormRadioGroup from '~/components/ui/form/FormRadioGroup.vue'
+import SayMessage from '../../message/SayMessage.vue'
 
 interface Props {
   modelValue: boolean
   previewMessage: MessageView | null
   submitting: boolean
+  selectedMessageType: string
+  messageTypeOptions: { value: string; label: string }[]
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
 
 defineEmits<{
   'update:modelValue': [value: boolean]
   confirm: []
 }>()
+
+// 確認用の発言種別選択
+const confirmMessageType = ref('')
+
+// 選択した種別と確認用種別が一致しているかチェック
+const canConfirm = computed(() => {
+  return confirmMessageType.value === props.selectedMessageType
+})
+
+// モーダルが開いた時に確認用選択をリセット
+watch(
+  () => props.modelValue,
+  (newVal) => {
+    if (newVal) {
+      confirmMessageType.value = '' // リセットして再選択を強制
+    }
+  }
+)
 </script>
