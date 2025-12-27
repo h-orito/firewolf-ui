@@ -18,7 +18,7 @@
           <span class="ml-2">{{ item.label }}</span>
         </div>
         <Icon
-          name="i-heroicons-chevron-right"
+          name="i-heroicons-chevron-right-20-solid"
           :class="`h-4 w-4 shrink-0 transition-transform duration-200 ${openStates[index] ? 'rotate-90' : ''}`"
         />
       </button>
