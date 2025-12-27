@@ -40,11 +40,9 @@ export const useSituation = () => {
 
   return {
     // State (from store)
-    situation: villageStore.situation,
+    situation: computed(() => villageStore.situation),
     loading: readonly(loading),
     error: readonly(error),
-
-    // Computed
 
     // Methods
     loadSituation

@@ -3,6 +3,7 @@ import { useVillage } from './useVillage'
 import { useMessage } from './useMessage'
 import { useSituation } from './useSituation'
 import { useVillageMessageFilter } from './useVillageMessageFilter'
+import { useActionReset } from './useActionReset'
 
 /**
  * 村ページの更新処理を統合管理
@@ -22,6 +23,7 @@ export const useVillageRefresh = () => {
     useMessage()
   const { loadSituation } = useSituation()
   const { isFiltering } = useVillageMessageFilter()
+  const { triggerReset } = useActionReset()
 
   // API
   const { apiCall } = useApi()
@@ -58,6 +60,9 @@ export const useVillageRefresh = () => {
 
     // 6. 新着メッセージフラグをリセット
     villageStore.saveExistsNewMessages(false)
+
+    // 7. アクションコンポーネントの状態をリセット
+    triggerReset()
   }
 
   const handleNewMessage = async () => {

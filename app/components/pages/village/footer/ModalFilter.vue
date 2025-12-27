@@ -268,7 +268,7 @@ const selectedToParticipantIds = ref<number[]>([])
 const keyword = ref<string | null>(null)
 
 // Computed
-const myself = computed(() => situation?.participate.myself ?? null)
+const myself = computed(() => situation.value?.participate.myself ?? null)
 
 const participantList = computed(() => {
   if (!village.value) return []

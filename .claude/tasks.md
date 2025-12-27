@@ -527,9 +527,10 @@ app/components/ui/icon/
 
 ###### 4.1 アクションコンテナ
 
-- [ ] `components/pages/village/action/ActionContainer.vue` の作成
+- [x] `components/pages/village/action/ActionContainer.vue` の作成
   - situationベースの表示制御
   - 各アクションコンポーネントの管理
+  - useActionReset composableによるリセット処理
 
 ###### 4.2 参加・見学・退村
 

@@ -57,6 +57,9 @@
 
           <!-- スクロール用アンカー -->
           <div id="message-bottom" />
+
+          <!-- アクションコンテナ -->
+          <ActionContainer v-if="isInitialized" />
         </div>
 
         <!-- フッター -->
@@ -86,6 +89,7 @@ import VillageFooter from '~/components/pages/village/VillageFooter.vue'
 import VillageSidebar from '~/components/pages/village/VillageSidebar.vue'
 import VillageDayList from '~/components/pages/village/VillageDayList.vue'
 import MessageList from '~/components/pages/village/message/MessageList.vue'
+import ActionContainer from '~/components/pages/village/action/ActionContainer.vue'
 import LoadingSpinner from '~/components/ui/feedback/LoadingSpinner.vue'
 import { VILLAGE_STATUS } from '~/lib/api/village-status-constants'
 
