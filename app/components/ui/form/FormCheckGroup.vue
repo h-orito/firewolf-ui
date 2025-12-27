@@ -126,7 +126,7 @@ const buttonClasses = (value: T, index: number) => {
 
   // ベースクラス
   const baseClasses =
-    'flex-1 px-3 py-1.5 text-sm font-medium border transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[var(--ui-primary)] focus:z-10'
+    'flex-1 px-3 py-1.5 text-xs font-medium border transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[var(--ui-primary)] focus:z-10'
 
   // 角丸（最初と最後のみ）
   const roundedClasses = isFirst ? 'rounded-l' : isLast ? 'rounded-r' : ''

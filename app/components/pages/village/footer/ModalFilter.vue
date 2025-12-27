@@ -87,7 +87,7 @@
         </div>
 
         <!-- 参加者リスト -->
-        <div class="grid grid-cols-2 gap-0">
+        <div class="grid grid-cols-1 gap-0 sm:grid-cols-2">
           <div
             v-for="participant in participantList"
             :key="participant.id"
@@ -162,7 +162,7 @@
         </div>
 
         <!-- 宛先参加者リスト -->
-        <div class="grid grid-cols-2 gap-0">
+        <div class="grid grid-cols-1 gap-0 sm:grid-cols-2">
           <div
             v-for="participant in participantList"
             :key="participant.id"
@@ -185,20 +185,10 @@
     <!-- フッター -->
     <template #footer>
       <div class="flex justify-end gap-2">
-        <UiButton
-          color="secondary"
-          variant="outline"
-          size="sm"
-          @click="handleClose"
-        >
+        <UiButton color="secondary" variant="outline" @click="handleClose">
           キャンセル
         </UiButton>
-        <UiButton
-          color="primary"
-          size="sm"
-          :disabled="!canFilter"
-          @click="handleFilter"
-        >
+        <UiButton color="primary" :disabled="!canFilter" @click="handleFilter">
           抽出する
         </UiButton>
       </div>

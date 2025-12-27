@@ -4,14 +4,13 @@
     <p class="text-sm text-gray-700 dark:text-gray-300">本当に退村しますか？</p>
 
     <template #footer>
-      <UiButton color="secondary" variant="outline" size="sm" @click="close">
+      <UiButton color="secondary" variant="outline" @click="close">
         キャンセル
       </UiButton>
       <UiButton
         color="error"
         :disabled="submitting"
         :loading="submitting"
-        size="sm"
         @click="handleLeave"
       >
         退村する

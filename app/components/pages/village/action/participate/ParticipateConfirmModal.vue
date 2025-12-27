@@ -38,13 +38,12 @@
     </div>
 
     <template #footer>
-      <UiButton color="secondary" variant="outline" size="sm" @click="close">
+      <UiButton color="secondary" variant="outline" @click="close">
         キャンセル
       </UiButton>
       <UiButton
         :disabled="!canParticipate || submitting"
         :loading="submitting"
-        size="sm"
         @click="handleParticipate"
       >
         入村する

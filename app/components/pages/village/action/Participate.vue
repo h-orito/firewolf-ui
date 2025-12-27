@@ -212,7 +212,7 @@ const selectedChara = computed(() => {
 })
 
 // 入村発言の最大文字数・行数
-const maxMessageLength = 200
+const maxMessageLength = 400
 const maxLineCount = 20
 
 // 改行を除いた文字数
