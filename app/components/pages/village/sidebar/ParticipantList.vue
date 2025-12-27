@@ -142,6 +142,7 @@ const emit = defineEmits<{
 // Composables
 const { village, villageId } = useVillage()
 const { messages } = useMessage()
+const { operation } = useUserSettings()
 
 // Computed
 const isProgress = computed(() => {
@@ -237,9 +238,7 @@ const getSayCount = (participantId: number): number => {
 }
 
 const handleFilterClick = (participantId: number): void => {
-  const { getOperation } = useUserSettings()
-  const operation = getOperation()
-  const isNewTab = operation.isOpenFilterNewtab
+  const isNewTab = operation.value.isOpenFilterNewtab
 
   if (isNewTab) {
     // 新規タブで開く

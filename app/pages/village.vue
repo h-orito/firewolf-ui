@@ -125,16 +125,17 @@ const { loadSituation, error: situationError } = useSituation()
 const { startPolling } = useVillagePolling()
 const { updateVillageLatest } = useVillageRefresh()
 const {
-  settings: userSettings,
-  initializeIfNeeded: initUserSettings,
-  getTheme
+  theme,
+  hasFixedPanel,
+  isFixedPanelOpen,
+  loadFromCookie
 } = useUserSettings()
 const { filterByParticipant } = useVillageMessageFilter()
 const { isMobile } = useWindowResize()
 
 // State
 const isInitialized = ref(false)
-const isDarkTheme = getTheme().isDark
+const isDarkTheme = theme.value.isDark
 
 // Computed
 const isLoading = computed(() => {
@@ -158,16 +159,13 @@ const villageName = computed(() => {
 const mainWrapperStyle = computed(() => {
   const maxWidth = isMobile.value ? '100vw' : 'calc(100vw - 280px)'
 
-  // 固定パネルがある場合はパディングを追加（リアクティブにするためuserSettingsを直接参照）
-  const fixedKey = userSettings?.actionWindow?.fixedPanelKey ?? null
-  if (!fixedKey) {
+  // 固定パネルがない場合
+  if (!hasFixedPanel.value) {
     return `max-width: ${maxWidth};`
   }
 
   // 固定パネルが開いているかどうかでパディングを変える
-  const openMap = userSettings?.actionWindow?.openMap ?? {}
-  const isOpen = fixedKey in openMap ? openMap[fixedKey] : true
-  const paddingBottom = isOpen ? '30vh' : '48px'
+  const paddingBottom = isFixedPanelOpen.value ? '30vh' : '48px'
   return `max-width: ${maxWidth}; padding-bottom: ${paddingBottom};`
 })
 
@@ -189,8 +187,8 @@ const initialize = async () => {
     // 1. 認証状態を待機
     await waitForAuth()
 
-    // 2. ユーザ設定を初期化
-    initUserSettings()
+    // 2. ユーザ設定をCookieから読み込み
+    loadFromCookie()
 
     // 3. 村を初期化（村IDの設定、村情報の読み込み、最新日の設定）
     await initVillage(villageId.value)

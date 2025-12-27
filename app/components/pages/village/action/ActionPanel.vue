@@ -65,9 +65,9 @@ const props = withDefaults(defineProps<Props>(), {
 
 // ユーザー設定
 const {
+  fixedPanelKey,
   getActionPanelOpen,
   setActionPanelOpen,
-  getFixedPanelKey,
   setFixedPanelKey
 } = useUserSettings()
 
@@ -75,7 +75,7 @@ const {
 const isOpen = ref(getActionPanelOpen(props.panelKey, props.defaultOpen))
 
 // 固定状態
-const isFixed = computed(() => getFixedPanelKey() === props.panelKey)
+const isFixed = computed(() => fixedPanelKey.value === props.panelKey)
 
 // 開閉状態が変わったら保存
 watch(isOpen, (newValue) => {

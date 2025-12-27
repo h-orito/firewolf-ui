@@ -64,11 +64,10 @@ const { messages, loading, error, isDispLatest, setPageNum, setDispLatest } =
   useMessage()
 const { isCurrentVillageDayLatest, latestDay, changeCurrentVillageDay } =
   useVillage()
-const { getTheme, getMessageDisplay } = useUserSettings()
+const { theme, messageDisplay } = useUserSettings()
 
 // ユーザー設定
-const isDarkTheme = computed(() => getTheme().isDark)
-const messageDisplay = computed(() => getMessageDisplay())
+const isDarkTheme = computed(() => theme.value.isDark)
 
 // ページネーション表示判定
 const showPagination = computed(() => {

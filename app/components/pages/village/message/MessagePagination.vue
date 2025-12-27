@@ -97,8 +97,8 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 // ユーザー設定
-const { getTheme } = useUserSettings()
-const isDarkTheme = computed(() => getTheme().isDark)
+const { theme } = useUserSettings()
+const isDarkTheme = computed(() => theme.value.isDark)
 
 const emit = defineEmits<{
   'change-page': [pageNum: number]

@@ -36,7 +36,7 @@ import { useUserSettings } from '~/composables/village/useUserSettings'
 // Composables
 const { village, latestDay, isCurrentVillageDayLatest } = useVillage()
 const { messages } = useMessage()
-const { getMessageDisplay } = useUserSettings()
+const { messageDisplay } = useUserSettings()
 
 // 村の状況メッセージ
 const villageSituationMessage = computed(() => {
@@ -215,7 +215,6 @@ const charSizeClass = computed(() => {
 
 // 文字サイズ大設定
 const isCharSizeLarge = computed(() => {
-  const messageDisplay = getMessageDisplay()
-  return messageDisplay.isCharLarge
+  return messageDisplay.value.isCharLarge
 })
 </script>

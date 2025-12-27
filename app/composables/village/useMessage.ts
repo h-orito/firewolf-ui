@@ -16,7 +16,7 @@ export const useMessage = () => {
 
   // Composables
   const { villageId, currentVillageDay, village } = useVillage()
-  const { getPaging } = useUserSettings()
+  const { paging } = useUserSettings()
   const {
     messageTypeGroups,
     messageTypes,
@@ -39,7 +39,7 @@ export const useMessage = () => {
 
     try {
       // ページング設定を取得
-      const pagingSettings = getPaging()
+      const pagingSettings = paging.value
 
       // クエリパラメータの構築
       const params: Record<
