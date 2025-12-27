@@ -557,7 +557,7 @@ app/components/ui/icon/
 - [x] `components/pages/village/action/SayConfirm.vue` の作成
   - 発言確認モーダル
 
-- [ ] `components/pages/village/action/ActionSay.vue` の作成
+- [x] `components/pages/village/action/ActionTypeSay.vue` の作成
   - アクション発言入力
   - 短い行動メッセージの入力
 

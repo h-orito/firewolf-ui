@@ -32,7 +32,7 @@
     <ActionPlaceholder v-if="isDispCommit" title="時短" />
 
     <!-- アクション発言 -->
-    <ActionPlaceholder v-if="isDispActionSay" title="アクション" />
+    <ActionTypeSay v-if="isDispActionSay" @complete="handleActionComplete" />
 
     <!-- 名前変更 -->
     <ActionPlaceholder v-if="isDispChangeName" title="名前変更" />
@@ -51,6 +51,7 @@ import Say from './Say.vue'
 import Participate from './Participate.vue'
 import Spectate from './Spectate.vue'
 import Leave from './Leave.vue'
+import ActionTypeSay from './ActionTypeSay.vue'
 import { useSituation } from '~/composables/village/useSituation'
 import { useVillageRefresh } from '~/composables/village/useVillageRefresh'
 import { MESSAGE_TYPE } from '~/lib/api/message-constants'

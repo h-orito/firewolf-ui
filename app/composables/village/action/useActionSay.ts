@@ -1,10 +1,10 @@
-import type { VillageSayBody, MessageView } from '~/lib/api/types'
+import type { VillageActionBody, MessageView } from '~/lib/api/types'
 import { useVillage } from '~/composables/village/useVillage'
 
 /**
- * 発言処理のAPI呼び出しロジック
+ * アクション発言処理のAPI呼び出しロジック
  */
-export const useSay = () => {
+export const useActionSay = () => {
   const { apiCall } = useApi()
   const { villageId } = useVillage()
 
@@ -13,17 +13,17 @@ export const useSay = () => {
   const error = ref<string | null>(null)
 
   /**
-   * 発言実行API
-   * POST /village/{villageId}/say
-   * @param body 発言リクエストボディ
+   * アクション発言実行API
+   * POST /village/{villageId}/action
+   * @param body アクション発言リクエストボディ
    * @returns 成功時true、失敗時false
    */
-  const say = async (body: VillageSayBody): Promise<boolean> => {
+  const actionSay = async (body: VillageActionBody): Promise<boolean> => {
     submitting.value = true
     error.value = null
 
     try {
-      await apiCall(`/village/${villageId.value}/say`, {
+      await apiCall(`/village/${villageId.value}/action`, {
         method: 'POST',
         body
       })
@@ -37,20 +37,20 @@ export const useSay = () => {
   }
 
   /**
-   * 発言確認API（プレビュー用）
-   * POST /village/{villageId}/say-confirm
-   * @param body 発言リクエストボディ
+   * アクション発言確認API（プレビュー用）
+   * POST /village/{villageId}/action-confirm
+   * @param body アクション発言リクエストボディ
    * @returns 成功時MessageView、失敗時null
    */
-  const sayConfirm = async (
-    body: VillageSayBody
+  const actionSayConfirm = async (
+    body: VillageActionBody
   ): Promise<MessageView | null> => {
     submitting.value = true
     error.value = null
 
     try {
       const response = await apiCall<MessageView>(
-        `/village/${villageId.value}/say-confirm`,
+        `/village/${villageId.value}/action-confirm`,
         {
           method: 'POST',
           body
@@ -85,7 +85,7 @@ export const useSay = () => {
     } else {
       error.value = 'エラーが発生しました'
     }
-    console.error('Say API error:', err)
+    console.error('ActionSay API error:', err)
   }
 
   /**
@@ -101,8 +101,8 @@ export const useSay = () => {
     error: readonly(error),
 
     // Methods
-    say,
-    sayConfirm,
+    actionSay,
+    actionSayConfirm,
     clearError
   }
 }

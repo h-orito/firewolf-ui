@@ -30,9 +30,8 @@
 
     <!-- アクション内容（画像なし、背景色あり） -->
     <div
-      class="rounded border text-left"
+      class="rounded border p-2.5 text-left"
       :class="[messageClass, isLargeText ? 'text-sm' : 'text-xs']"
-      style="padding: 10px"
       v-html="formattedMessageText"
     />
   </div>
@@ -114,20 +113,10 @@ const displayTime = computed(() => {
   return datetime.substring(11, 19)
 })
 
-// キャラクター名（アクション用）
-const characterName = computed(() => {
-  return (
-    props.message.from_character_name?.name ||
-    props.message.from?.chara_name?.name ||
-    props.message.from?.name ||
-    ''
-  )
-})
-
-// フォーマット済みメッセージテキスト（名前を含む）
+// フォーマット済みメッセージテキスト
+// アクション発言のcontent.textには既に「{キャラ名}は、{対象}に向けて、{メッセージ}」の形式でテキストが含まれている
 const formattedMessageText = computed(() => {
-  const text = `${characterName.value}${props.message.content.text}`
-  return convertToMessageText(text)
+  return convertToMessageText(props.message.content.text)
 })
 
 // メッセージクラス（背景色用）
