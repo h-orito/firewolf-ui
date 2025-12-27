@@ -1,5 +1,5 @@
 <template>
-  <ActionPanel title="入村" panel-key="participate">
+  <ActionPanel title="見学" panel-key="spectate">
     <!-- キャラ選択 -->
     <FormGroup label="キャラ" required>
       <div class="flex gap-2">
@@ -36,24 +36,6 @@
         size="sm"
       />
     </FormGroup>
-
-    <!-- 役職希望（available_skill_request時のみ） -->
-    <template v-if="availableSkillRequest">
-      <FormGroup label="役職第1希望" required>
-        <FormSelect
-          v-model="form.firstRequestSkill"
-          :options="skillOptions"
-          size="sm"
-        />
-      </FormGroup>
-      <FormGroup label="役職第2希望" required>
-        <FormSelect
-          v-model="form.secondRequestSkill"
-          :options="skillOptions"
-          size="sm"
-        />
-      </FormGroup>
-    </template>
 
     <!-- 入村発言 -->
     <FormGroup label="入村発言" required>
@@ -104,20 +86,20 @@
 
     <!-- エラーメッセージ -->
     <div
-      v-if="participateError"
+      v-if="spectateError"
       class="rounded-md bg-red-50 p-3 text-sm text-red-700 dark:bg-red-900/20 dark:text-red-400"
     >
-      {{ participateError }}
+      {{ spectateError }}
     </div>
 
-    <!-- 入村確認ボタン -->
+    <!-- 見学確認ボタン -->
     <div class="flex justify-end">
       <UiButton
         :disabled="!canSubmit || confirming"
         :loading="confirming"
         @click="handleConfirm"
       >
-        入村確認
+        見学確認
       </UiButton>
     </div>
 
@@ -129,12 +111,12 @@
       @close="isCharaSelectModalOpen = false"
     />
 
-    <!-- 入村確認モーダル -->
-    <ParticipateConfirmModal
+    <!-- 見学確認モーダル -->
+    <SpectateConfirmModal
       v-model="isConfirmModalOpen"
       :confirm-message="confirmMessage"
       :submitting="submitting"
-      @participate="handleParticipate"
+      @spectate="handleSpectate"
     />
   </ActionPanel>
 </template>
@@ -151,7 +133,7 @@ import UiButton from '~/components/ui/button/index.vue'
 import CharaSelectModal from '~/components/ui/chara-select/CharaSelectModal.vue'
 import CharaImage from '~/components/pages/village/CharaImage.vue'
 import MessageDecorators from './decorator/MessageDecorators.vue'
-import ParticipateConfirmModal from './participate/ParticipateConfirmModal.vue'
+import SpectateConfirmModal from './spectate/SpectateConfirmModal.vue'
 import {
   useParticipate,
   type ParticipateForm
@@ -171,7 +153,7 @@ const { onReset } = useActionReset()
 const {
   confirming,
   submitting,
-  error: participateError,
+  error: spectateError,
   confirmParticipate,
   participate,
   clearError
@@ -189,8 +171,6 @@ const form = reactive({
   charaId: null as number | null,
   charaName: '',
   charaShortName: '',
-  firstRequestSkill: 'LEFTOVER',
-  secondRequestSkill: 'LEFTOVER',
   joinMessage: '',
   joinPassword: ''
 })
@@ -234,24 +214,6 @@ const charaOptions = computed(() =>
   }))
 )
 
-// 選択可能な役職リスト
-const selectableSkillList = computed(
-  () => situation.value?.skill_request.selectable_skill_list ?? []
-)
-
-// 役職選択用オプション
-const skillOptions = computed(() =>
-  selectableSkillList.value.map((skill) => ({
-    label: skill.name,
-    value: skill.code
-  }))
-)
-
-// 役職希望が可能か
-const availableSkillRequest = computed(
-  () => situation.value?.skill_request.available_skill_request ?? false
-)
-
 // 入村パスワードが必要か
 const requiredJoinPassword = computed(
   () => village.value?.setting.password.join_password_required ?? false
@@ -266,13 +228,11 @@ const canChangeName = computed(() => {
   return charachip?.is_available_change_name ?? false
 })
 
-// 参加ボタンを押下できるか
+// 見学ボタンを押下できるか
 const canSubmit = computed(() => {
   if (form.charaId === null) return false
   if (form.charaName.length < 1 || form.charaName.length > 40) return false
   if (form.charaShortName.length !== 1) return false
-  if (!form.firstRequestSkill) return false
-  if (!form.secondRequestSkill) return false
   if (!form.joinMessage || form.joinMessage.length < 1) return false
   if (requiredJoinPassword.value && !form.joinPassword) return false
   return true
@@ -305,15 +265,13 @@ const resetForm = () => {
   form.charaId = null
   form.charaName = ''
   form.charaShortName = ''
-  form.firstRequestSkill = 'LEFTOVER'
-  form.secondRequestSkill = 'LEFTOVER'
   form.joinMessage = ''
   form.joinPassword = ''
   confirmMessage.value = null
   clearError()
 }
 
-// 入村確認
+// 見学確認
 const handleConfirm = async () => {
   if (!canSubmit.value || form.charaId === null) return
 
@@ -321,11 +279,11 @@ const handleConfirm = async () => {
     charaId: form.charaId,
     charaName: form.charaName,
     charaShortName: form.charaShortName,
-    firstRequestSkill: form.firstRequestSkill,
-    secondRequestSkill: form.secondRequestSkill,
+    firstRequestSkill: 'LEFTOVER',
+    secondRequestSkill: 'LEFTOVER',
     joinMessage: form.joinMessage,
     joinPassword: form.joinPassword,
-    spectator: false
+    spectator: true
   }
 
   const message = await confirmParticipate(formData)
@@ -335,19 +293,19 @@ const handleConfirm = async () => {
   }
 }
 
-// 入村実行
-const handleParticipate = async () => {
+// 見学実行
+const handleSpectate = async () => {
   if (form.charaId === null) return
 
   const formData: ParticipateForm = {
     charaId: form.charaId,
     charaName: form.charaName,
     charaShortName: form.charaShortName,
-    firstRequestSkill: form.firstRequestSkill,
-    secondRequestSkill: form.secondRequestSkill,
+    firstRequestSkill: 'LEFTOVER',
+    secondRequestSkill: 'LEFTOVER',
     joinMessage: form.joinMessage,
     joinPassword: form.joinPassword,
-    spectator: false
+    spectator: true
   }
 
   const success = await participate(formData)

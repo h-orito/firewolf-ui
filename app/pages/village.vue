@@ -124,12 +124,8 @@ const { loadMessages, error: messageError } = useMessage()
 const { loadSituation, error: situationError } = useSituation()
 const { startPolling } = useVillagePolling()
 const { updateVillageLatest } = useVillageRefresh()
-const {
-  theme,
-  hasFixedPanel,
-  isFixedPanelOpen,
-  loadFromCookie
-} = useUserSettings()
+const { theme, hasFixedPanel, isFixedPanelOpen, loadFromCookie } =
+  useUserSettings()
 const { filterByParticipant } = useVillageMessageFilter()
 const { isMobile } = useWindowResize()
 

@@ -7,7 +7,7 @@
     <Participate v-if="isDispParticipate" @complete="handleActionComplete" />
 
     <!-- 見学 -->
-    <ActionPlaceholder v-if="isDispSpectate" title="見学" />
+    <Spectate v-if="isDispSpectate" @complete="handleActionComplete" />
 
     <!-- 役職希望 -->
     <ActionPlaceholder v-if="isDispSkillRequest" title="役職希望" />
@@ -48,6 +48,7 @@
 <script setup lang="ts">
 import ActionPlaceholder from './ActionPlaceholder.vue'
 import Participate from './Participate.vue'
+import Spectate from './Spectate.vue'
 import { useSituation } from '~/composables/village/useSituation'
 import { useVillageRefresh } from '~/composables/village/useVillageRefresh'
 import { MESSAGE_TYPE } from '~/lib/api/message-constants'

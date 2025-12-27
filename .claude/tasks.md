@@ -534,12 +534,12 @@ app/components/ui/icon/
 
 ###### 4.2 参加・見学・退村
 
-- [ ] `components/pages/village/action/Participate.vue` の作成
+- [x] `components/pages/village/action/Participate.vue` の作成
   - キャラクター選択
   - 役職希望選択
   - 入村パスワード入力
 
-- [ ] `components/pages/village/action/Spectate.vue` の作成
+- [x] `components/pages/village/action/Spectate.vue` の作成
   - 見学参加処理
 
 - [ ] `components/pages/village/action/Leave.vue` の作成
