@@ -542,7 +542,7 @@ app/components/ui/icon/
 - [x] `components/pages/village/action/Spectate.vue` の作成
   - 見学参加処理
 
-- [ ] `components/pages/village/action/Leave.vue` の作成
+- [x] `components/pages/village/action/Leave.vue` の作成
   - 退村処理
 
 ###### 4.3 発言入力

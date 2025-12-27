@@ -13,7 +13,7 @@
     <ActionPlaceholder v-if="isDispSkillRequest" title="役職希望" />
 
     <!-- 退村 -->
-    <ActionPlaceholder v-if="isDispLeave" title="退村" />
+    <Leave v-if="isDispLeave" @complete="handleActionComplete" />
 
     <!-- 能力行使 -->
     <ActionPlaceholder
@@ -49,6 +49,7 @@
 import ActionPlaceholder from './ActionPlaceholder.vue'
 import Participate from './Participate.vue'
 import Spectate from './Spectate.vue'
+import Leave from './Leave.vue'
 import { useSituation } from '~/composables/village/useSituation'
 import { useVillageRefresh } from '~/composables/village/useVillageRefresh'
 import { MESSAGE_TYPE } from '~/lib/api/message-constants'
