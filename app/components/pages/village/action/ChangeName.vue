@@ -20,7 +20,9 @@
         size="sm"
       />
       <template #help>
-        <span class="text-xs text-gray-500">{{ form.name.length }}/40</span>
+        <div class="text-right">
+          <span class="text-xs text-gray-500">{{ form.name.length }}/40</span>
+        </div>
       </template>
     </FormGroup>
 
@@ -92,7 +94,7 @@ watchEffect(() => {
 const currentName = computed(() => {
   const myself = situation.value?.participate?.myself
   if (!myself) return '-'
-  return `${myself.chara_name.name} / ${myself.chara_name.short_name}`
+  return `[${myself.chara_name.short_name}] ${myself.chara_name.name}`
 })
 
 // 変更ボタンを押下できるか
