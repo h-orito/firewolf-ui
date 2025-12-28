@@ -5,7 +5,7 @@
       <span class="font-bold"
         >[{{ myself.chara_name.short_name }}] {{ myself.chara_name.name }}</span
       >
-      <span v-if="myself.skill" class="ml-2 text-gray-600 dark:text-gray-400">
+      <span v-if="myself.skill" class="text-gray-600 dark:text-gray-400">
         （{{ myself.skill.name }}）
       </span>
     </div>
@@ -65,18 +65,22 @@
           <FormTextarea
             ref="formTextareaRef"
             v-model="messageText"
-            :maxlength="maxMessageLength"
             :rows="10"
             :class="textareaStyleClass"
           />
           <template #help>
             <div class="text-right text-sm">
-              <span v-if="maxMessageCount != null"
+              <span
+                v-if="maxMessageCount != null"
+                :class="{ 'text-red-600 dark:text-red-400': isCountExceeded }"
                 >残り回数: {{ remainingMessageCount }}/{{ maxMessageCount }},
               </span>
+              <span :class="{ 'text-red-600 dark:text-red-400': isLineExceeded }"
+                >行数: {{ currentLineCount }}/{{ maxLineCount }}</span
+              >,
               <span
-                >行数: {{ currentLineCount }}/{{ maxLineCount }}, 文字数:
-                {{ currentCharCount }}/{{ maxMessageLength }}</span
+                :class="{ 'text-red-600 dark:text-red-400': isCharExceeded }"
+                >文字数: {{ currentCharCount }}/{{ maxMessageLength }}</span
               >
             </div>
           </template>
@@ -261,6 +265,17 @@ const currentLineCount = computed(() => {
 // 現在の文字数
 const currentCharCount = computed(() => messageText.value.length)
 
+// 制限超過判定
+const isCountExceeded = computed(
+  () => remainingMessageCount.value != null && remainingMessageCount.value <= 0
+)
+const isLineExceeded = computed(
+  () => currentLineCount.value > maxLineCount.value
+)
+const isCharExceeded = computed(
+  () => currentCharCount.value > maxMessageLength.value
+)
+
 // Situationから取得する自分の参加者情報
 const myself = computed(() => situation.value?.participate.myself)
 
@@ -312,6 +327,9 @@ const canSubmit = computed(() => {
   if (!messageText.value.trim()) return false
   if (isSecretSay.value && !targetParticipantId.value) return false
   if (submitting.value) return false
+  if (isCountExceeded.value) return false
+  if (isLineExceeded.value) return false
+  if (isCharExceeded.value) return false
   return true
 })
 

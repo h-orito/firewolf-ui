@@ -26,13 +26,17 @@
 
     <!-- メッセージ入力 -->
     <FormGroup class="mb-4">
-      <FormInput v-model="message" :maxlength="maxLength" />
+      <FormInput v-model="message" />
       <template #help>
         <div class="text-right text-sm">
-          <span v-if="maxCount != null"
+          <span
+            v-if="maxCount != null"
+            :class="{ 'text-red-600 dark:text-red-400': isCountExceeded }"
             >残り回数: {{ remainingCount }}/{{ maxCount }},
           </span>
-          <span>文字数: {{ charCount }}/{{ maxLength }}</span>
+          <span :class="{ 'text-red-600 dark:text-red-400': isCharExceeded }"
+            >文字数: {{ charCount }}/{{ maxLength }}</span
+          >
         </div>
       </template>
     </FormGroup>
@@ -153,17 +157,18 @@ const maxLength = computed(() => currentRestrict.value?.max_length ?? 200)
 // 現在の文字数
 const charCount = computed(() => message.value.length)
 
+// 制限超過判定
+const isCountExceeded = computed(
+  () => remainingCount.value != null && remainingCount.value <= 0
+)
+const isCharExceeded = computed(() => charCount.value > maxLength.value)
+
 // 送信可否
 const canSubmit = computed(() => {
   if (!message.value.trim()) return false
   if (submitting.value) return false
-  if (charCount.value > maxLength.value) return false
-  if (
-    maxCount.value != null &&
-    remainingCount.value != null &&
-    remainingCount.value <= 0
-  )
-    return false
+  if (isCharExceeded.value) return false
+  if (isCountExceeded.value) return false
   return true
 })
 
