@@ -23,7 +23,7 @@
     />
 
     <!-- 投票 -->
-    <ActionPlaceholder v-if="isDispVote" title="投票" />
+    <Vote v-if="isDispVote" @complete="handleActionComplete" />
 
     <!-- CO -->
     <ActionPlaceholder v-if="isDispComingout" title="CO" />
@@ -59,6 +59,7 @@ import Participate from './Participate.vue'
 import Say from './Say.vue'
 import SkillRequest from './SkillRequest.vue'
 import Spectate from './Spectate.vue'
+import Vote from './Vote.vue'
 import { useSituation } from '~/composables/village/useSituation'
 import { useVillageRefresh } from '~/composables/village/useVillageRefresh'
 import { MESSAGE_TYPE } from '~/lib/api/message-constants'

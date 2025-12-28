@@ -1,9 +1,9 @@
 import { useVillage } from '~/composables/village/useVillage'
 
 /**
- * 役職希望変更処理のAPI呼び出しロジック
+ * 投票処理のAPI呼び出しロジック
  */
-export const useSkillRequest = () => {
+export const useVote = () => {
   const { apiCall } = useApi()
   const { villageId } = useVillage()
 
@@ -12,25 +12,20 @@ export const useSkillRequest = () => {
   const error = ref<string | null>(null)
 
   /**
-   * 役職希望変更API
-   * POST /village/{villageId}/change-skill
-   * @param firstRequestSkillCode 第1希望役職コード
-   * @param secondRequestSkillCode 第2希望役職コード
+   * 投票実行API
+   * POST /village/{villageId}/vote
+   * @param targetId 投票対象の参加者ID
    * @returns 成功時true、失敗時false
    */
-  const requestSkill = async (
-    firstRequestSkillCode: string,
-    secondRequestSkillCode: string
-  ): Promise<boolean> => {
+  const vote = async (targetId: number): Promise<boolean> => {
     submitting.value = true
     error.value = null
 
     try {
-      await apiCall(`/village/${villageId.value}/change-skill`, {
+      await apiCall(`/village/${villageId.value}/vote`, {
         method: 'POST',
         body: {
-          first_request_skill: firstRequestSkillCode,
-          second_request_skill: secondRequestSkillCode
+          target_id: targetId
         }
       })
       return true
@@ -62,7 +57,7 @@ export const useSkillRequest = () => {
     } else {
       error.value = 'エラーが発生しました'
     }
-    console.error('Skill request API error:', err)
+    console.error('Vote API error:', err)
   }
 
   /**
@@ -78,7 +73,7 @@ export const useSkillRequest = () => {
     error: readonly(error),
 
     // Methods
-    requestSkill,
+    vote,
     clearError
   }
 }

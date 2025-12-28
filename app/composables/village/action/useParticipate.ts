@@ -1,4 +1,5 @@
 import type { MessageView, VillageParticipateBody } from '~/lib/api/types'
+import { useVillage } from '~/composables/village/useVillage'
 
 export interface ParticipateForm {
   charaId: number
@@ -16,7 +17,7 @@ export interface ParticipateForm {
  */
 export const useParticipate = () => {
   const { apiCall } = useApi()
-  const villageStore = useVillageStore()
+  const { villageId } = useVillage()
 
   // State
   const confirming = ref(false)
@@ -52,7 +53,7 @@ export const useParticipate = () => {
 
     try {
       const response = await apiCall<MessageView>(
-        `/village/${villageStore.villageId}/participate-confirm`,
+        `/village/${villageId.value}/participate-confirm`,
         {
           method: 'POST',
           body: toRequestBody(form)
@@ -77,7 +78,7 @@ export const useParticipate = () => {
     error.value = null
 
     try {
-      await apiCall(`/village/${villageStore.villageId}/participate`, {
+      await apiCall(`/village/${villageId.value}/participate`, {
         method: 'POST',
         body: toRequestBody(form)
       })

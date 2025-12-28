@@ -1,11 +1,12 @@
 import type { DebugVillageView } from '~/lib/api/types'
+import { useVillage } from '~/composables/village/useVillage'
 
 /**
  * デバッグ操作のAPI呼び出しロジック
  */
 export const useDebug = () => {
   const { apiCall } = useApi()
-  const villageStore = useVillageStore()
+  const { villageId } = useVillage()
 
   // State
   const submitting = ref(false)
@@ -19,7 +20,7 @@ export const useDebug = () => {
   const fetchDebugVillage = async (): Promise<DebugVillageView | null> => {
     try {
       return await apiCall<DebugVillageView>(
-        `/admin/village/${villageStore.villageId}`
+        `/admin/village/${villageId.value}`
       )
     } catch (err) {
       handleApiError(err)
@@ -38,7 +39,7 @@ export const useDebug = () => {
     error.value = null
 
     try {
-      await apiCall(`/admin/village/${villageStore.villageId}/participate`, {
+      await apiCall(`/admin/village/${villageId.value}/participate`, {
         method: 'POST',
         body: { participate_count: participateCount }
       })
@@ -60,7 +61,7 @@ export const useDebug = () => {
     error.value = null
 
     try {
-      await apiCall(`/admin/village/${villageStore.villageId}/dummy-login`, {
+      await apiCall(`/admin/village/${villageId.value}/dummy-login`, {
         method: 'POST',
         body: { target_id: targetId }
       })
@@ -82,12 +83,9 @@ export const useDebug = () => {
     error.value = null
 
     try {
-      await apiCall(
-        `/admin/village/${villageStore.villageId}/no-suddenly-death`,
-        {
-          method: 'POST'
-        }
-      )
+      await apiCall(`/admin/village/${villageId.value}/no-suddenly-death`, {
+        method: 'POST'
+      })
       return true
     } catch (err) {
       handleApiError(err)
@@ -106,7 +104,7 @@ export const useDebug = () => {
     error.value = null
 
     try {
-      await apiCall(`/admin/village/${villageStore.villageId}/change-day`, {
+      await apiCall(`/admin/village/${villageId.value}/change-day`, {
         method: 'POST'
       })
       return true
@@ -127,7 +125,7 @@ export const useDebug = () => {
     error.value = null
 
     try {
-      await apiCall(`/admin/village/${villageStore.villageId}/multiple-say`, {
+      await apiCall(`/admin/village/${villageId.value}/multiple-say`, {
         method: 'POST'
       })
       return true

@@ -1,9 +1,11 @@
+import { useVillage } from '~/composables/village/useVillage'
+
 /**
  * 退村処理のAPI呼び出しロジック
  */
 export const useLeave = () => {
   const { apiCall } = useApi()
-  const villageStore = useVillageStore()
+  const { villageId } = useVillage()
 
   // State
   const submitting = ref(false)
@@ -19,7 +21,7 @@ export const useLeave = () => {
     error.value = null
 
     try {
-      await apiCall(`/village/${villageStore.villageId}/leave`, {
+      await apiCall(`/village/${villageId.value}/leave`, {
         method: 'POST'
       })
       return true

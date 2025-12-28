@@ -587,7 +587,7 @@ app/components/ui/icon/
 
 ###### 4.7 投票・能力行使
 
-- [ ] `components/pages/village/action/Vote.vue` の作成
+- [x] `components/pages/village/action/Vote.vue` の作成
   - 投票対象選択
   - 投票処理
 

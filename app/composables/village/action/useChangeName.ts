@@ -1,9 +1,11 @@
+import { useVillage } from '~/composables/village/useVillage'
+
 /**
  * 名前変更処理のAPI呼び出しロジック
  */
 export const useChangeName = () => {
   const { apiCall } = useApi()
-  const villageStore = useVillageStore()
+  const { villageId } = useVillage()
 
   // State
   const submitting = ref(false)
@@ -24,7 +26,7 @@ export const useChangeName = () => {
     error.value = null
 
     try {
-      await apiCall(`/village/${villageStore.villageId}/change-name`, {
+      await apiCall(`/village/${villageId.value}/change-name`, {
         method: 'POST',
         body: {
           name,

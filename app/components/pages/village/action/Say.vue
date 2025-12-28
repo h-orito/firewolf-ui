@@ -75,7 +75,8 @@
                 :class="{ 'text-red-600 dark:text-red-400': isCountExceeded }"
                 >残り回数: {{ remainingMessageCount }}/{{ maxMessageCount }},
               </span>
-              <span :class="{ 'text-red-600 dark:text-red-400': isLineExceeded }"
+              <span
+                :class="{ 'text-red-600 dark:text-red-400': isLineExceeded }"
                 >行数: {{ currentLineCount }}/{{ maxLineCount }}</span
               >,
               <span
