@@ -35,7 +35,7 @@
     <ActionTypeSay v-if="isDispActionSay" @complete="handleActionComplete" />
 
     <!-- 名前変更 -->
-    <ActionPlaceholder v-if="isDispChangeName" title="名前変更" />
+    <ChangeName v-if="isDispChangeName" @complete="handleActionComplete" />
 
     <!-- 村建てメニュー -->
     <ActionPlaceholder v-if="isDispCreatorMenu" title="村建てメニュー" />
@@ -47,12 +47,13 @@
 
 <script setup lang="ts">
 import ActionPlaceholder from './ActionPlaceholder.vue'
-import Say from './Say.vue'
-import Participate from './Participate.vue'
-import Spectate from './Spectate.vue'
-import SkillRequest from './SkillRequest.vue'
-import Leave from './Leave.vue'
 import ActionTypeSay from './ActionTypeSay.vue'
+import ChangeName from './ChangeName.vue'
+import Leave from './Leave.vue'
+import Participate from './Participate.vue'
+import Say from './Say.vue'
+import SkillRequest from './SkillRequest.vue'
+import Spectate from './Spectate.vue'
 import { useSituation } from '~/composables/village/useSituation'
 import { useVillageRefresh } from '~/composables/village/useVillageRefresh'
 import { MESSAGE_TYPE } from '~/lib/api/message-constants'

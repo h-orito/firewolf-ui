@@ -567,7 +567,7 @@ app/components/ui/icon/
   - 第一希望・第二希望選択
   - 役職希望変更処理
 
-- [ ] `components/pages/village/action/ChangeName.vue` の作成
+- [x] `components/pages/village/action/ChangeName.vue` の作成
   - キャラ名変更
   - 1文字略称変更
 
