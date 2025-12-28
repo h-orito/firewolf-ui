@@ -561,7 +561,31 @@ app/components/ui/icon/
   - アクション発言入力
   - 短い行動メッセージの入力
 
-###### 4.4 投票・能力行使
+###### 4.4 役職希望・名前変更
+
+- [x] `components/pages/village/action/SkillRequest.vue` の作成
+  - 第一希望・第二希望選択
+  - 役職希望変更処理
+
+- [ ] `components/pages/village/action/ChangeName.vue` の作成
+  - キャラ名変更
+  - 1文字略称変更
+
+###### 4.5 管理者機能
+
+- [ ] `components/pages/village/action/admin/Admin.vue` の作成
+  - デバッグ用村情報表示
+
+###### 4.6 デバッグ機能（ローカル環境のみ）
+
+- [ ] `components/pages/village/action/debug/Debug.vue` の作成
+  - N人参加
+  - ダミーログイン
+  - 突然死なし設定
+  - 日付進行
+  - 100回発言
+
+###### 4.7 投票・能力行使
 
 - [ ] `components/pages/village/action/Vote.vue` の作成
   - 投票対象選択
@@ -571,7 +595,7 @@ app/components/ui/icon/
   - 能力種別に応じた対象選択
   - 能力行使処理
 
-###### 4.5 コミット・CO
+###### 4.8 コミット・CO
 
 - [ ] `components/pages/village/action/Commit.vue` の作成
   - コミット処理
@@ -580,17 +604,7 @@ app/components/ui/icon/
   - 役職選択
   - CO処理
 
-###### 4.6 役職希望・名前変更
-
-- [ ] `components/pages/village/action/SkillRequest.vue` の作成
-  - 第一希望・第二希望選択
-  - 役職希望変更処理
-
-- [ ] `components/pages/village/action/ChangeName.vue` の作成
-  - キャラ名変更
-  - 1文字略称変更
-
-###### 4.7 村建て機能
+###### 4.9 村建て機能
 
 - [ ] `components/pages/village/action/creator/CreatorSay.vue` の作成
   - 村建て発言入力
@@ -608,20 +622,6 @@ app/components/ui/icon/
 - [ ] `components/pages/village/action/creator/SettingsLink.vue` の作成
   - 村設定変更画面へのリンク
   - プロローグ中のみ表示
-
-###### 4.8 管理者機能
-
-- [ ] `components/pages/village/action/admin/Admin.vue` の作成
-  - デバッグ用村情報表示
-
-###### 4.9 デバッグ機能（ローカル環境のみ）
-
-- [ ] `components/pages/village/action/debug/Debug.vue` の作成
-  - N人参加
-  - ダミーログイン
-  - 突然死なし設定
-  - 日付進行
-  - 100回発言
 
 ##### Phase 5: 補助機能の実装
 
@@ -661,6 +661,7 @@ app/components/ui/icon/
   - 日付変更通知
   - 最新発言取得通知
   - エラー通知
+  - アクションパネルでの処理成功通知
 
 ###### 5.5 年齢制限確認
 

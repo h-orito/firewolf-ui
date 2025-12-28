@@ -10,7 +10,7 @@
     <Spectate v-if="isDispSpectate" @complete="handleActionComplete" />
 
     <!-- 役職希望 -->
-    <ActionPlaceholder v-if="isDispSkillRequest" title="役職希望" />
+    <SkillRequest v-if="isDispSkillRequest" @complete="handleActionComplete" />
 
     <!-- 退村 -->
     <Leave v-if="isDispLeave" @complete="handleActionComplete" />
@@ -50,6 +50,7 @@ import ActionPlaceholder from './ActionPlaceholder.vue'
 import Say from './Say.vue'
 import Participate from './Participate.vue'
 import Spectate from './Spectate.vue'
+import SkillRequest from './SkillRequest.vue'
 import Leave from './Leave.vue'
 import ActionTypeSay from './ActionTypeSay.vue'
 import { useSituation } from '~/composables/village/useSituation'
