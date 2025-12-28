@@ -578,7 +578,7 @@ app/components/ui/icon/
 
 ###### 4.6 デバッグ機能（ローカル環境のみ）
 
-- [ ] `components/pages/village/action/debug/Debug.vue` の作成
+- [x] `components/pages/village/action/admin/Debug.vue` の作成
   - N人参加
   - ダミーログイン
   - 突然死なし設定

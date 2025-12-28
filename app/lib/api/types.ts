@@ -103,3 +103,6 @@ export type SkillRecord = components['schemas']['SkillRecord']
 export type Record = components['schemas']['Record']
 export type ParticipateVillageView =
   components['schemas']['ParticipateVillageView']
+
+// デバッグ用村情報
+export type DebugVillageView = components['schemas']['DebugVillageView']

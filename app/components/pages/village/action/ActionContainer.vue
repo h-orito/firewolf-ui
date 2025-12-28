@@ -42,6 +42,9 @@
 
     <!-- 管理者メニュー -->
     <Admin v-if="isDispAdminMenu" />
+
+    <!-- デバッグメニュー（ローカル環境のみ） -->
+    <Debug v-if="isDispDebugMenu" @complete="handleActionComplete" />
   </div>
 </template>
 
@@ -49,6 +52,7 @@
 import ActionPlaceholder from './ActionPlaceholder.vue'
 import ActionTypeSay from './ActionTypeSay.vue'
 import Admin from './admin/Admin.vue'
+import Debug from './admin/Debug.vue'
 import ChangeName from './ChangeName.vue'
 import Leave from './Leave.vue'
 import Participate from './Participate.vue'
@@ -111,6 +115,11 @@ const isDispCreatorMenu = computed(
 
 const isDispAdminMenu = computed(() => situation.value?.admin.admin ?? false)
 
+// デバッグメニュー表示判定（ローカル環境のみ）
+const isDispDebugMenu = computed(() => {
+  return process.env.NODE_ENV !== 'production'
+})
+
 // 使用可能な能力一覧
 const usableAbilities = computed(
   () => situation.value?.ability.list.filter((ab) => ab.usable) ?? []
@@ -131,6 +140,7 @@ const existsAction = computed(() => {
     isDispChangeName.value ||
     isDispCreatorMenu.value ||
     isDispAdminMenu.value ||
+    isDispDebugMenu.value ||
     usableAbilities.value.length > 0
   )
 })
