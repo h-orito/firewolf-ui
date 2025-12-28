@@ -317,7 +317,8 @@ const createRequestBody = (): VillageRegisterBody => {
         dummy_chara_name: formData.dummyCharaName,
         dummy_chara_short_name: formData.dummyCharaShortName,
         dummy_chara_day0_message: formData.day0Message,
-        dummy_chara_day1_message: formData.day1Message
+        dummy_chara_day1_message:
+          formData.day1Message.length > 0 ? formData.day1Message : undefined
       } as VillageCharachipCreateBody,
       rule: {
         open_vote: formData.openVote,
