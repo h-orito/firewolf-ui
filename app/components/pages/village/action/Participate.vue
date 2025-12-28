@@ -158,7 +158,6 @@ import {
 } from '~/composables/village/action/useParticipate'
 import { useSituation } from '~/composables/village/useSituation'
 import { useVillage } from '~/composables/village/useVillage'
-import { useActionReset } from '~/composables/village/action/useActionReset'
 
 const emit = defineEmits<{
   complete: []
@@ -167,14 +166,12 @@ const emit = defineEmits<{
 // Composables
 const { situation } = useSituation()
 const { village, charachips } = useVillage()
-const { onReset } = useActionReset()
 const {
   confirming,
   submitting,
   error: participateError,
   confirmParticipate,
-  participate,
-  clearError
+  participate
 } = useParticipate()
 
 // FormTextareaへのref
@@ -300,19 +297,6 @@ const onCharaChange = () => {
   }
 }
 
-// フォームをリセット
-const resetForm = () => {
-  form.charaId = null
-  form.charaName = ''
-  form.charaShortName = ''
-  form.firstRequestSkill = 'LEFTOVER'
-  form.secondRequestSkill = 'LEFTOVER'
-  form.joinMessage = ''
-  form.joinPassword = ''
-  confirmMessage.value = null
-  clearError()
-}
-
 // 入村確認
 const handleConfirm = async () => {
   if (!canSubmit.value || form.charaId === null) return
@@ -357,9 +341,4 @@ const handleParticipate = async () => {
     emit('complete')
   }
 }
-
-// リセット処理を登録
-onReset(() => {
-  resetForm()
-})
 </script>

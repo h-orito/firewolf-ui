@@ -68,7 +68,6 @@ import FormSelect from '~/components/ui/form/FormSelect.vue'
 import FormInput from '~/components/ui/form/FormInput.vue'
 import UiButton from '~/components/ui/button/index.vue'
 import { useActionSay } from '~/composables/village/action/useActionSay'
-import { useActionReset } from '~/composables/village/action/useActionReset'
 import { useSituation } from '~/composables/village/useSituation'
 import { useVillage } from '~/composables/village/useVillage'
 import { MESSAGE_TYPE } from '~/lib/api/message-constants'
@@ -78,7 +77,6 @@ const emit = defineEmits<{
 }>()
 
 // Composables
-const { onReset } = useActionReset()
 const { submitting, error, actionSay, actionSayConfirm, clearError } =
   useActionSay()
 const { situation } = useSituation()
@@ -216,9 +214,4 @@ const resetForm = () => {
   message.value = ''
   clearError()
 }
-
-// リセット処理を登録
-onReset(() => {
-  resetForm()
-})
 </script>

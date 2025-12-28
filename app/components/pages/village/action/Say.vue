@@ -179,7 +179,6 @@ import UiButton from '~/components/ui/button/index.vue'
 import CharaImage from '../CharaImage.vue'
 import MessageDecorators from './decorator/MessageDecorators.vue'
 import { useSay } from '~/composables/village/action/useSay'
-import { useActionReset } from '~/composables/village/action/useActionReset'
 import { useSituation } from '~/composables/village/useSituation'
 import { useSayInputRegister } from '~/composables/village/useSayInput'
 import { MESSAGE_TYPE } from '~/lib/api/message-constants'
@@ -189,8 +188,7 @@ const emit = defineEmits<{
 }>()
 
 // Composables
-const { onReset } = useActionReset()
-const { submitting, error: sayError, say, sayConfirm, clearError } = useSay()
+const { submitting, error: sayError, say, sayConfirm } = useSay()
 const { situation } = useSituation()
 
 // 親からinjectしたSayInputのregisterHandlersを取得
@@ -432,13 +430,6 @@ const switchToSecret = (targetId: number) => {
   targetParticipantId.value = targetId.toString()
 }
 
-// フォームリセット
-const resetForm = () => {
-  messageText.value = ''
-  targetParticipantId.value = ''
-  clearError()
-}
-
 // 初期化
 const initializeForm = () => {
   // 最初のメッセージタイプを選択
@@ -456,11 +447,6 @@ const initializeForm = () => {
     }
   }
 }
-
-// リセット処理を登録
-onReset(() => {
-  resetForm()
-})
 
 // マウント時に初期化
 onMounted(() => {

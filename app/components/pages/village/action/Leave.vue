@@ -10,9 +10,7 @@
 
     <!-- 退村ボタン -->
     <div class="flex justify-end">
-      <UiButton color="error" size="sm" @click="openConfirmModal">
-        退村する
-      </UiButton>
+      <UiButton color="error" @click="openConfirmModal"> 退村する </UiButton>
     </div>
 
     <!-- 確認モーダル -->
@@ -29,15 +27,13 @@ import ActionPanel from './ActionPanel.vue'
 import UiButton from '~/components/ui/button/index.vue'
 import LeaveConfirmModal from './leave/LeaveConfirmModal.vue'
 import { useLeave } from '~/composables/village/action/useLeave'
-import { useActionReset } from '~/composables/village/action/useActionReset'
 
 const emit = defineEmits<{
   complete: []
 }>()
 
 // Composables
-const { onReset } = useActionReset()
-const { submitting, error: leaveError, leave, clearError } = useLeave()
+const { submitting, error: leaveError, leave } = useLeave()
 
 // UI状態
 const isConfirmModalOpen = ref(false)
@@ -55,9 +51,4 @@ const handleLeave = async () => {
     emit('complete')
   }
 }
-
-// リセット処理を登録
-onReset(() => {
-  clearError()
-})
 </script>
