@@ -41,13 +41,14 @@
     <ActionPlaceholder v-if="isDispCreatorMenu" title="村建てメニュー" />
 
     <!-- 管理者メニュー -->
-    <ActionPlaceholder v-if="isDispAdminMenu" title="管理者メニュー" />
+    <Admin v-if="isDispAdminMenu" />
   </div>
 </template>
 
 <script setup lang="ts">
 import ActionPlaceholder from './ActionPlaceholder.vue'
 import ActionTypeSay from './ActionTypeSay.vue'
+import Admin from './admin/Admin.vue'
 import ChangeName from './ChangeName.vue'
 import Leave from './Leave.vue'
 import Participate from './Participate.vue'

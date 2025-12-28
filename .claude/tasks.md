@@ -573,7 +573,7 @@ app/components/ui/icon/
 
 ###### 4.5 管理者機能
 
-- [ ] `components/pages/village/action/admin/Admin.vue` の作成
+- [x] `components/pages/village/action/admin/Admin.vue` の作成
   - デバッグ用村情報表示
 
 ###### 4.6 デバッグ機能（ローカル環境のみ）
