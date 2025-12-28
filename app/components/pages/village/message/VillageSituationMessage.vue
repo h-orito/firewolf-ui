@@ -1,8 +1,8 @@
 <template>
-  <div v-if="isCurrentVillageDayLatest" class="leading-4.5">
+  <div v-if="isCurrentVillageDayLatest" class="text-xs leading-4.5">
     <!-- 村の状況メッセージ -->
     <UiFeedbackAlert :class="charSizeClass" class="mb-1.5" type="default">
-      <span v-html="villageSituationMessageHtml" />
+      <span class="text-xs" v-html="villageSituationMessageHtml" />
     </UiFeedbackAlert>
 
     <!-- 突然死警告メッセージ -->
@@ -12,7 +12,7 @@
       class="mb-1.5"
       type="warning"
     >
-      <span v-html="suddenlyDeathMessageHtml" />
+      <span class="text-xs" v-html="suddenlyDeathMessageHtml" />
     </UiFeedbackAlert>
 
     <!-- 沈黙時間メッセージ -->
@@ -22,7 +22,7 @@
       class="mb-1.5"
       type="warning"
     >
-      <span v-html="silentTimeMessageHtml" />
+      <span class="text-xs" v-html="silentTimeMessageHtml" />
     </UiFeedbackAlert>
   </div>
 </template>
