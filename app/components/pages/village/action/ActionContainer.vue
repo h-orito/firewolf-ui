@@ -27,7 +27,7 @@
     <Vote v-if="isDispVote" @complete="handleActionComplete" />
 
     <!-- CO -->
-    <ActionPlaceholder v-if="isDispComingout" title="CO" />
+    <Comingout v-if="isDispComingout" @complete="handleActionComplete" />
 
     <!-- 時短 -->
     <Commit v-if="isDispCommit" @complete="handleActionComplete" />
@@ -54,6 +54,7 @@ import Ability from './Ability.vue'
 import ActionPlaceholder from './ActionPlaceholder.vue'
 import ActionTypeSay from './ActionTypeSay.vue'
 import Admin from './admin/Admin.vue'
+import Comingout from './Comingout.vue'
 import Commit from './Commit.vue'
 import Debug from './admin/Debug.vue'
 import ChangeName from './ChangeName.vue'

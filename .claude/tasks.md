@@ -600,7 +600,7 @@ app/components/ui/icon/
 - [x] `components/pages/village/action/Commit.vue` の作成
   - コミット処理
 
-- [ ] `components/pages/village/action/Comingout.vue` の作成
+- [x] `components/pages/village/action/Comingout.vue` の作成
   - 役職選択
   - CO処理
 
