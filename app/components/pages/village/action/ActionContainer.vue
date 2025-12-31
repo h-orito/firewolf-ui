@@ -30,7 +30,7 @@
     <ActionPlaceholder v-if="isDispComingout" title="CO" />
 
     <!-- 時短 -->
-    <ActionPlaceholder v-if="isDispCommit" title="時短" />
+    <Commit v-if="isDispCommit" @complete="handleActionComplete" />
 
     <!-- アクション発言 -->
     <ActionTypeSay v-if="isDispActionSay" @complete="handleActionComplete" />
@@ -54,6 +54,7 @@ import Ability from './Ability.vue'
 import ActionPlaceholder from './ActionPlaceholder.vue'
 import ActionTypeSay from './ActionTypeSay.vue'
 import Admin from './admin/Admin.vue'
+import Commit from './Commit.vue'
 import Debug from './admin/Debug.vue'
 import ChangeName from './ChangeName.vue'
 import Leave from './Leave.vue'

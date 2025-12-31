@@ -597,7 +597,7 @@ app/components/ui/icon/
 
 ###### 4.8 コミット・CO
 
-- [ ] `components/pages/village/action/Commit.vue` の作成
+- [x] `components/pages/village/action/Commit.vue` の作成
   - コミット処理
 
 - [ ] `components/pages/village/action/Comingout.vue` の作成
