@@ -828,6 +828,12 @@ app/components/ui/icon/
 
 ## 🐛 バグ修正タスク
 
+### Comingout.vue の TypeScript 型エラー修正 ✅ 完了
+
+- [x] `app/components/pages/village/action/Comingout.vue` の型エラー修正
+  - [x] selectableSkillOptions2 computed に明示的な undefined チェックを追加
+  - [x] TypeScript 型チェックエラーを解消
+
 ### 村作成フォームのリファクタリング ✅ 完了
 
 - [x] stores/create-village.ts の不要なstore管理を削除

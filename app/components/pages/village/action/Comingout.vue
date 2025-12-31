@@ -133,14 +133,16 @@ const selectableSkillOptions1 = computed(() =>
 )
 
 // セレクトボックス用オプション（2つ目：1つ目と同じものを除外）
-const selectableSkillOptions2 = computed(() =>
-  selectableSkills.value
+const selectableSkillOptions2 = computed(() => {
+  const skills = selectableSkills.value
+  if (!skills) return []
+  return skills
     .filter((skill) => skill.code !== co1.value)
     .map((skill) => ({
       label: skill.name,
       value: skill.code
     }))
-)
+})
 
 // 選択状態（初期値は現在のCO）
 const co1 = ref<string | null>(null)
