@@ -42,7 +42,7 @@
     <CreatorSay v-if="isDispCreatorSay" @complete="handleActionComplete" />
 
     <!-- 村建てメニュー -->
-    <ActionPlaceholder v-if="isDispCreatorMenu" title="村建てメニュー" />
+    <CreatorMenu v-if="isDispCreatorMenu" @complete="handleActionComplete" />
 
     <!-- 管理者メニュー -->
     <Admin v-if="isDispAdminMenu" />
@@ -54,7 +54,6 @@
 
 <script setup lang="ts">
 import Ability from './Ability.vue'
-import ActionPlaceholder from './ActionPlaceholder.vue'
 import ActionTypeSay from './ActionTypeSay.vue'
 import Admin from './admin/Admin.vue'
 import Comingout from './Comingout.vue'
@@ -62,6 +61,7 @@ import Commit from './Commit.vue'
 import Debug from './admin/Debug.vue'
 import ChangeName from './ChangeName.vue'
 import CreatorSay from './creator/CreatorSay.vue'
+import CreatorMenu from './creator/CreatorMenu.vue'
 import Leave from './Leave.vue'
 import Participate from './Participate.vue'
 import Say from './Say.vue'
@@ -122,9 +122,15 @@ const isDispCreatorSay = computed(
   () => situation.value?.creator.available_creator_say ?? false
 )
 
-const isDispCreatorMenu = computed(
-  () => situation.value?.creator.available_creator_setting ?? false
-)
+const isDispCreatorMenu = computed(() => {
+  return (
+    (situation.value?.creator.available_kick ||
+      situation.value?.creator.available_extend_epilogue ||
+      situation.value?.creator.available_cancel_village ||
+      situation.value?.creator.available_modify_setting) ??
+    false
+  )
+})
 
 const isDispAdminMenu = computed(() => situation.value?.admin.admin ?? false)
 

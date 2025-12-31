@@ -609,7 +609,7 @@ app/components/ui/icon/
 - [x] `components/pages/village/action/creator/CreatorSay.vue` の作成
   - 村建て発言入力
 
-- [ ] `components/pages/village/action/creator/KickOut.vue` の作成
+- [x] `components/pages/village/action/creator/KickOut.vue` の作成
   - 参加者選択
   - キックアウト処理
 
