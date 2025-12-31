@@ -591,7 +591,7 @@ app/components/ui/icon/
   - 投票対象選択
   - 投票処理
 
-- [ ] `components/pages/village/action/Ability.vue` の作成
+- [x] `components/pages/village/action/Ability.vue` の作成
   - 能力種別に応じた対象選択
   - 能力行使処理
 

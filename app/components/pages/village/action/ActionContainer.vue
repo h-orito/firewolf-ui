@@ -16,10 +16,11 @@
     <Leave v-if="isDispLeave" @complete="handleActionComplete" />
 
     <!-- 能力行使 -->
-    <ActionPlaceholder
+    <Ability
       v-for="ability in usableAbilities"
       :key="ability.type.code"
-      :title="ability.type.name"
+      :ability="ability"
+      @complete="handleActionComplete"
     />
 
     <!-- 投票 -->
@@ -49,6 +50,7 @@
 </template>
 
 <script setup lang="ts">
+import Ability from './Ability.vue'
 import ActionPlaceholder from './ActionPlaceholder.vue'
 import ActionTypeSay from './ActionTypeSay.vue'
 import Admin from './admin/Admin.vue'
