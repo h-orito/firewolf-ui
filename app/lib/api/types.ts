@@ -62,6 +62,9 @@ export type VillageParticipateBody =
 // 発言関連型
 export type VillageSayBody = components['schemas']['VillageSayBody']
 
+// 村建て発言関連型
+export type CreatorSayBody = components['schemas']['CreatorSayBody']
+
 // アクション発言関連型
 export type VillageActionBody = components['schemas']['VillageActionBody']
 

@@ -266,6 +266,8 @@ const messageClass = computed(() => {
       return 'bg-[#f2f2ce] dark:bg-[#f2f2ae] text-[#0a0a0a] dark:text-[#0a0a0a] border-gray-300 dark:border-[#f2f2ae]'
     case 'SECRET_SAY':
       return 'bg-[#cecef2] dark:bg-[#a9a] text-[#0a0a0a] dark:text-[#0a0a0a] border-gray-300 dark:border-[#a9a]'
+    case 'CREATOR_SAY':
+      return 'bg-[#fef] dark:bg-[#403340] text-[#0a0a0a] dark:text-[#0a0a0a] border-gray-300 dark:border-[#403340]'
     default:
       return 'bg-white dark:bg-white text-[#0a0a0a] dark:text-[#0a0a0a] border-gray-300 dark:border-gray-300'
   }

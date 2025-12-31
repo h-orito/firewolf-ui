@@ -38,6 +38,9 @@
     <!-- 名前変更 -->
     <ChangeName v-if="isDispChangeName" @complete="handleActionComplete" />
 
+    <!-- 村建て発言 -->
+    <CreatorSay v-if="isDispCreatorSay" @complete="handleActionComplete" />
+
     <!-- 村建てメニュー -->
     <ActionPlaceholder v-if="isDispCreatorMenu" title="村建てメニュー" />
 
@@ -58,6 +61,7 @@ import Comingout from './Comingout.vue'
 import Commit from './Commit.vue'
 import Debug from './admin/Debug.vue'
 import ChangeName from './ChangeName.vue'
+import CreatorSay from './creator/CreatorSay.vue'
 import Leave from './Leave.vue'
 import Participate from './Participate.vue'
 import Say from './Say.vue'
@@ -114,6 +118,10 @@ const isDispChangeName = computed(
     (situation.value?.rp.is_available_change_name ?? false)
 )
 
+const isDispCreatorSay = computed(
+  () => situation.value?.creator.available_creator_say ?? false
+)
+
 const isDispCreatorMenu = computed(
   () => situation.value?.creator.available_creator_setting ?? false
 )
@@ -143,6 +151,7 @@ const existsAction = computed(() => {
     isDispCommit.value ||
     isDispActionSay.value ||
     isDispChangeName.value ||
+    isDispCreatorSay.value ||
     isDispCreatorMenu.value ||
     isDispAdminMenu.value ||
     isDispDebugMenu.value ||
