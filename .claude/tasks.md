@@ -627,13 +627,13 @@ app/components/ui/icon/
 
 ###### 5.1 サイドバー機能
 
-- [ ] `components/pages/village/sidebar/ParticipantList.vue` の作成
+- [x] `components/pages/village/sidebar/ParticipantList.vue` の作成
   - 生存者・死亡者・見学者のリスト表示
   - CO情報の表示
   - 発言回数の表示
   - 個別抽出リンク
 
-- [ ] `components/pages/village/sidebar/ModalVillageInfo.vue` の作成
+- [x] `components/pages/village/sidebar/ModalVillageInfo.vue` の作成
   - 村の設定情報表示
   - 参加人数表示（状態による切り替え）
   - 役職編成表示（状態による切り替え）
