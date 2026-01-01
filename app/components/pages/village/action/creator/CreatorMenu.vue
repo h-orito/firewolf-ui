@@ -4,10 +4,10 @@
     <KickOut v-if="isDispKick" @complete="handleComplete" />
 
     <!-- エピローグ延長 -->
-    <ActionPlaceholder
+    <ExtendEpilogue
       v-if="isDispExtendEpilogue"
-      title="エピローグ延長"
       class="mt-6"
+      @complete="handleComplete"
     />
 
     <!-- 廃村 -->
@@ -35,6 +35,7 @@
 import ActionPanel from '../ActionPanel.vue'
 import ActionPlaceholder from '../ActionPlaceholder.vue'
 import KickOut from './KickOut.vue'
+import ExtendEpilogue from './ExtendEpilogue.vue'
 import UiButton from '~/components/ui/button/index.vue'
 import { useSituation } from '~/composables/village/useSituation'
 import { useVillage } from '~/composables/village/useVillage'

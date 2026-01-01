@@ -613,7 +613,7 @@ app/components/ui/icon/
   - 参加者選択
   - キックアウト処理
 
-- [ ] `components/pages/village/action/creator/ExtendEpilogue.vue` の作成
+- [x] `components/pages/village/action/creator/ExtendEpilogue.vue` の作成
   - エピローグ延長処理
 
 - [ ] `components/pages/village/action/creator/Cancel.vue` の作成
