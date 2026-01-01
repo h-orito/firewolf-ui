@@ -11,7 +11,7 @@
     />
 
     <!-- 廃村 -->
-    <ActionPlaceholder v-if="isDispCancel" title="廃村" class="mt-6" />
+    <Cancel v-if="isDispCancel" class="mt-6" @complete="handleComplete" />
 
     <!-- 設定変更 -->
     <div v-if="isDispModifySetting" class="mt-6">
@@ -33,9 +33,9 @@
 
 <script setup lang="ts">
 import ActionPanel from '../ActionPanel.vue'
-import ActionPlaceholder from '../ActionPlaceholder.vue'
 import KickOut from './KickOut.vue'
 import ExtendEpilogue from './ExtendEpilogue.vue'
+import Cancel from './Cancel.vue'
 import UiButton from '~/components/ui/button/index.vue'
 import { useSituation } from '~/composables/village/useSituation'
 import { useVillage } from '~/composables/village/useVillage'

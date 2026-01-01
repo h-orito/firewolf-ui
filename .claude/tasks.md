@@ -616,7 +616,7 @@ app/components/ui/icon/
 - [x] `components/pages/village/action/creator/ExtendEpilogue.vue` の作成
   - エピローグ延長処理
 
-- [ ] `components/pages/village/action/creator/Cancel.vue` の作成
+- [x] `components/pages/village/action/creator/Cancel.vue` の作成
   - 廃村処理
 
 - [ ] `components/pages/village/action/creator/SettingsLink.vue` の作成
