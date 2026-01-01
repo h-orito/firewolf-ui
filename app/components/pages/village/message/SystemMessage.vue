@@ -3,8 +3,11 @@
     <!-- システムメッセージのラベルと時刻は表示しない -->
     <!-- 発言内容をborderで囲む、左揃え -->
     <div
-      class="rounded border text-left text-xs leading-4.5 whitespace-pre-wrap"
-      :class="messageClass"
+      class="rounded border text-left whitespace-pre-wrap"
+      :class="[
+        messageClass,
+        isLargeText ? 'text-sm leading-5.5' : 'text-xs leading-4.5'
+      ]"
       :style="{ padding: '10px', wordBreak: 'break-word' }"
       v-html="formattedMessageText"
     />
@@ -18,9 +21,12 @@ import { convertToMessageText } from './message-converter'
 
 interface Props {
   message: DeepReadonly<MessageView> | MessageView
+  isLargeText?: boolean
 }
 
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+  isLargeText: false
+})
 
 // フォーマット済みメッセージテキスト
 const formattedMessageText = computed(() =>

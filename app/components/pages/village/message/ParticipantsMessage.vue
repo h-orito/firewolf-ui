@@ -2,7 +2,7 @@
   <div
     class="participants-message rounded border border-gray-300 p-2 sm:p-3 dark:border-gray-600"
   >
-    <div class="mb-2 text-xs font-bold sm:mb-3 sm:text-sm">参加者一覧</div>
+    <div class="mb-2 font-bold sm:mb-3" :class="textSizeClass">参加者一覧</div>
     <!-- 参加者一覧の表示 -->
     <div class="space-y-1 sm:space-y-2">
       <div
@@ -22,7 +22,7 @@
         </div>
 
         <!-- 名前・プレイヤー情報エリア -->
-        <div class="flex-1 text-xs">
+        <div class="flex-1" :class="textSizeClass">
           <!-- キャラクター名とプレイヤー情報 -->
           <div class="mb-1 flex flex-wrap items-center gap-1">
             <span class="font-medium">{{ getCharaName(participant) }}</span>
@@ -33,7 +33,7 @@
               v-if="participant.player?.twitter_user_name"
               :href="`https://twitter.com/${participant.player.twitter_user_name}`"
               target="_blank"
-              class="text-blue-500 hover:text-blue-700 dark:text-blue-400"
+              class="text-blue-600 hover:underline dark:text-[#14b4ff]"
             >
               @{{ participant.player.twitter_user_name }}
             </a>
@@ -89,9 +89,17 @@ import { useVillage } from '~/composables/village/useVillage'
 
 interface Props {
   message: DeepReadonly<MessageView> | MessageView
+  isLargeText?: boolean
 }
 
-defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+  isLargeText: false
+})
+
+// 文字サイズクラス
+const textSizeClass = computed(() =>
+  props.isLargeText ? 'text-sm leading-5.5' : 'text-xs leading-4.5'
+)
 
 const { allParticipants } = useVillage()
 
@@ -164,7 +172,7 @@ const getCharaStatusClass = (participant: ParticipantType): string => {
   if (participant.spectator || !participant.dead) return ''
   const reason = participant.dead.reason
   if (reason === '突然' || reason === '処刑')
-    return 'text-blue-500 dark:text-blue-400'
+    return 'text-blue-600 dark:text-[#14b4ff]'
   return 'text-red-500 dark:text-red-400'
 }
 

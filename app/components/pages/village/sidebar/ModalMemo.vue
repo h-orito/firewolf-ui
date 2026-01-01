@@ -1,7 +1,9 @@
 <template>
   <Modal v-model="isModalOpen" title="メモ">
     <div class="p-4">
-      <p class="text-gray-500">メモ機能を表示（後続タスクで実装予定）</p>
+      <p class="text-gray-500 dark:text-gray-400">
+        メモ機能を表示（後続タスクで実装予定）
+      </p>
     </div>
   </Modal>
 </template>

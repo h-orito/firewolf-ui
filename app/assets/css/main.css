@@ -1,5 +1,8 @@
 @import 'tailwindcss';
 
+/* Tailwindのダークモードを.darkクラスベースに設定 */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* CSS変数 */
 :root {
   /* 独自UIコンポーネント用のプライマリ色 */

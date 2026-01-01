@@ -38,7 +38,7 @@
         <div
           id="village-article-wrapper"
           class="flex-1 shrink-0 overflow-y-scroll bg-white p-2.5"
-          :class="{ 'dark-theme': isDarkTheme }"
+          :class="isDarkTheme ? 'dark dark-theme' : ''"
           :style="mainWrapperStyle"
         >
           <!-- 村名 -->
@@ -135,7 +135,9 @@ useSayInputProvider()
 
 // State
 const isInitialized = ref(false)
-const isDarkTheme = theme.value.isDark
+
+// ダークテーマ判定（リアクティブ）
+const isDarkTheme = computed(() => theme.value.isDark)
 
 // Computed
 const isLoading = computed(() => {

@@ -245,7 +245,7 @@ const handleFilterClick = (participantId: number): void => {
     const route = router.resolve({
       path: '/village',
       query: {
-        id: villageId?.toString(),
+        id: villageId.value?.toString(),
         filterId: participantId.toString()
       }
     })

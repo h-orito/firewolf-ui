@@ -71,8 +71,11 @@
       <div class="flex-1">
         <!-- 発言内容（装飾・アンカー含む） -->
         <div
-          class="rounded border p-2 text-left leading-4.5 whitespace-pre-wrap"
-          :class="[messageClass, isLargeText ? 'text-sm' : 'text-xs']"
+          class="rounded border p-2 text-left whitespace-pre-wrap"
+          :class="[
+            messageClass,
+            isLargeText ? 'text-sm leading-5.5' : 'text-xs leading-4.5'
+          ]"
           :style="{ minHeight: `${imageHeight}px`, wordBreak: 'break-word' }"
           v-html="formattedMessageText"
         />
@@ -267,7 +270,7 @@ const messageClass = computed(() => {
     case 'SECRET_SAY':
       return 'bg-[#cecef2] dark:bg-[#a9a] text-[#0a0a0a] dark:text-[#0a0a0a] border-gray-300 dark:border-[#a9a]'
     case 'CREATOR_SAY':
-      return 'bg-[#fef] dark:bg-[#403340] text-[#0a0a0a] dark:text-[#0a0a0a] border-gray-300 dark:border-[#403340]'
+      return 'bg-[#fef] dark:bg-[#403340] text-[#0a0a0a] dark:text-[#eee] border-gray-300 dark:border-[#c0f]'
     default:
       return 'bg-white dark:bg-white text-[#0a0a0a] dark:text-[#0a0a0a] border-gray-300 dark:border-gray-300'
   }

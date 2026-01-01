@@ -5,7 +5,7 @@
       <a
         v-if="day.id !== currentDayId"
         href="javascript:void(0);"
-        class="text-blue-600 hover:underline dark:text-blue-400"
+        class="text-blue-600 hover:underline dark:text-[#14b4ff]"
         @click="handleChangeDay(day)"
       >
         {{ dayName(day) }}

@@ -91,7 +91,7 @@
           <div
             v-for="participant in participantList"
             :key="participant.id"
-            class="border-t border-gray-300 py-1"
+            class="border-t border-gray-300 py-1 dark:border-gray-600"
           >
             <FormCheckbox
               :model-value="isParticipantSelected(participant.id)"
@@ -166,7 +166,7 @@
           <div
             v-for="participant in participantList"
             :key="participant.id"
-            class="border-t border-gray-300 py-1"
+            class="border-t border-gray-300 py-1 dark:border-gray-600"
           >
             <FormCheckbox
               :model-value="isToParticipantSelected(participant.id)"

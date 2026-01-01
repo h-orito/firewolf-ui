@@ -2,17 +2,27 @@
   <Modal v-model="isModalOpen" title="村の情報">
     <div v-if="village" class="space-y-4 text-left">
       <!-- 設定テーブル -->
-      <div class="overflow-hidden rounded-lg border border-gray-200">
-        <table class="min-w-full divide-y divide-gray-200 text-sm">
-          <thead class="bg-gray-50">
+      <div
+        class="overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700"
+      >
+        <table
+          class="min-w-full divide-y divide-gray-200 text-sm dark:divide-gray-700"
+        >
+          <thead class="bg-gray-50 dark:bg-gray-900">
             <tr>
-              <th class="px-3 py-2 text-left font-semibold text-gray-700">
+              <th
+                class="px-3 py-2 text-left font-semibold text-gray-700 dark:text-gray-300"
+              >
                 設定
               </th>
-              <th class="px-3 py-2 text-left font-semibold text-gray-700"></th>
+              <th
+                class="px-3 py-2 text-left font-semibold text-gray-700 dark:text-gray-300"
+              ></th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-gray-200 bg-white">
+          <tbody
+            class="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800"
+          >
             <template v-for="(setting, index) in settings" :key="index">
               <!-- 設定行 -->
               <tr
@@ -20,13 +30,15 @@
                 :class="setting.description ? 'cursor-pointer' : ''"
                 @click="setting.description && toggleDescription(index)"
               >
-                <td class="px-3 py-2 font-medium text-gray-900">
+                <td
+                  class="px-3 py-2 font-medium text-gray-900 dark:text-gray-100"
+                >
                   <div class="flex items-center gap-1">
                     {{ setting.name }}
                     <button
                       v-if="setting.description"
                       type="button"
-                      class="text-gray-400 hover:text-gray-600"
+                      class="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300"
                       :aria-label="`${setting.name}の説明を${expandedRows[index] ? '閉じる' : '開く'}`"
                     >
                       <Icon
@@ -37,7 +49,7 @@
                   </div>
                 </td>
                 <td
-                  class="whitespace-pre-wrap px-3 py-2 text-gray-700"
+                  class="px-3 py-2 whitespace-pre-wrap text-gray-700 dark:text-gray-300"
                   v-html="formatValue(setting.value)"
                 />
               </tr>
@@ -45,7 +57,7 @@
               <tr v-if="setting.description && expandedRows[index]">
                 <td
                   colspan="2"
-                  class="bg-gray-50 px-3 py-2 text-gray-600"
+                  class="bg-gray-50 px-3 py-2 text-gray-600 dark:bg-gray-900 dark:text-gray-400"
                   v-html="formatValue(setting.description)"
                 />
               </tr>
@@ -143,7 +155,8 @@ const settings = computed<SettingItem[]>(() => {
     items.push({
       name: '最大人数',
       value: `${capacity.max}人`,
-      description: 'この人数まで参加することができます。\nダミーを含む人数です。'
+      description:
+        'この人数まで参加することができます。\nダミーを含む人数です。'
     })
   } else {
     items.push({

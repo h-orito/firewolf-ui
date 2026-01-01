@@ -11,6 +11,7 @@
       <div
         v-if="isModalOpen"
         class="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4"
+        :class="{ dark: isDarkTheme }"
         @click.self="handleOverlayClick"
       >
         <Transition
@@ -24,7 +25,7 @@
           <div
             v-if="isModalOpen"
             ref="modalRef"
-            class="relative flex w-full max-w-full flex-col rounded-lg bg-white shadow-xl sm:max-w-lg md:max-w-[80vw]"
+            class="relative flex w-full max-w-full flex-col rounded-lg bg-white shadow-xl sm:max-w-lg md:max-w-[80vw] dark:bg-gray-800"
             :style="{ maxHeight: 'calc(100vh - 6.5rem)' }"
             role="dialog"
             aria-modal="true"
@@ -34,12 +35,12 @@
             <!-- Header -->
             <div
               v-if="title || $slots.title"
-              class="shrink-0 rounded-t-lg border-b border-gray-200 bg-gray-50 px-6 py-4"
+              class="shrink-0 rounded-t-lg border-b border-gray-200 bg-gray-50 px-6 py-4 dark:border-gray-700 dark:bg-gray-900"
             >
               <div class="flex items-center justify-between">
                 <h3
                   id="modal-title"
-                  class="m-0 text-left text-lg leading-tight font-semibold"
+                  class="m-0 text-left text-lg leading-tight font-semibold dark:text-gray-200"
                 >
                   <slot name="title">{{ title }}</slot>
                 </h3>
@@ -56,7 +57,7 @@
 
             <!-- Body -->
             <div
-              class="flex-1 overflow-y-auto bg-white px-4 py-4 text-left font-sans text-gray-700 sm:px-6"
+              class="flex-1 overflow-y-auto bg-white px-4 py-4 text-left font-sans text-gray-700 sm:px-6 dark:bg-gray-800 dark:text-gray-200"
             >
               <slot />
             </div>
@@ -64,7 +65,7 @@
             <!-- Footer -->
             <div
               v-if="$slots.footer"
-              class="flex shrink-0 justify-end gap-2 rounded-b-lg border-t border-gray-200 bg-gray-50 px-4 py-4 sm:px-6"
+              class="flex shrink-0 justify-end gap-2 rounded-b-lg border-t border-gray-200 bg-gray-50 px-4 py-4 sm:px-6 dark:border-gray-700 dark:bg-gray-900"
             >
               <slot name="footer" />
             </div>
@@ -77,6 +78,7 @@
 
 <script setup lang="ts">
 import UiButton from '~/components/ui/button/index.vue'
+import { useUserSettings } from '~/composables/village/useUserSettings'
 
 interface Props {
   modelValue: boolean
@@ -97,6 +99,10 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<Emits>()
 
 const modalRef = ref<HTMLElement | null>(null)
+
+// ダークテーマ判定
+const { theme } = useUserSettings()
+const isDarkTheme = computed(() => theme.value.isDark)
 
 const isModalOpen = computed({
   get: () => props.modelValue,

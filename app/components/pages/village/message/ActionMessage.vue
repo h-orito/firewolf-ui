@@ -30,8 +30,11 @@
 
     <!-- アクション内容（画像なし、背景色あり） -->
     <div
-      class="rounded border p-2.5 text-left leading-4.5 whitespace-pre-wrap"
-      :class="[messageClass, isLargeText ? 'text-sm' : 'text-xs']"
+      class="rounded border p-2.5 text-left whitespace-pre-wrap"
+      :class="[
+        messageClass,
+        isLargeText ? 'text-sm leading-5.5' : 'text-xs leading-4.5'
+      ]"
       :style="{ wordBreak: 'break-word' }"
       v-html="formattedMessageText"
     />

@@ -31,6 +31,8 @@
           :key="message.time.unix_time_milli"
           :message="message"
           :is-img-large="messageDisplay.isImgLarge"
+          :is-disp-date="messageDisplay.isDispDate"
+          :is-large-text="messageDisplay.isCharLarge"
           class="my-3"
         />
       </div>

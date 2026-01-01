@@ -5,16 +5,31 @@
       v-if="isSayType"
       :message="message"
       :is-img-large="isImgLarge"
+      :is-disp-date="isDispDate"
+      :is-large-text="isLargeText"
     />
 
     <!-- システムメッセージ -->
-    <SystemMessage v-else-if="isSystemType" :message="message" />
+    <SystemMessage
+      v-else-if="isSystemType"
+      :message="message"
+      :is-large-text="isLargeText"
+    />
 
     <!-- アクションメッセージ -->
-    <ActionMessage v-else-if="isActionType" :message="message" />
+    <ActionMessage
+      v-else-if="isActionType"
+      :message="message"
+      :is-disp-date="isDispDate"
+      :is-large-text="isLargeText"
+    />
 
     <!-- 参加者一覧メッセージ -->
-    <ParticipantsMessage v-else-if="isParticipantsType" :message="message" />
+    <ParticipantsMessage
+      v-else-if="isParticipantsType"
+      :message="message"
+      :is-large-text="isLargeText"
+    />
   </div>
 </template>
 
@@ -35,10 +50,14 @@ import ParticipantsMessage from './ParticipantsMessage.vue'
 interface Props {
   message: DeepReadonly<MessageView> | MessageView
   isImgLarge?: boolean
+  isDispDate?: boolean
+  isLargeText?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  isImgLarge: false
+  isImgLarge: false,
+  isDispDate: false,
+  isLargeText: false
 })
 
 // メッセージタイプの判定

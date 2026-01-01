@@ -2,7 +2,7 @@
   <div v-if="isCurrentVillageDayLatest" class="text-xs leading-4.5">
     <!-- 村の状況メッセージ -->
     <UiFeedbackAlert :class="charSizeClass" class="mb-1.5" type="default">
-      <span class="text-xs" v-html="villageSituationMessageHtml" />
+      <span :class="charSizeClass" v-html="villageSituationMessageHtml" />
     </UiFeedbackAlert>
 
     <!-- 突然死警告メッセージ -->
@@ -12,7 +12,7 @@
       class="mb-1.5"
       type="warning"
     >
-      <span class="text-xs" v-html="suddenlyDeathMessageHtml" />
+      <span :class="charSizeClass" v-html="suddenlyDeathMessageHtml" />
     </UiFeedbackAlert>
 
     <!-- 沈黙時間メッセージ -->
@@ -22,7 +22,7 @@
       class="mb-1.5"
       type="warning"
     >
-      <span class="text-xs" v-html="silentTimeMessageHtml" />
+      <span :class="charSizeClass" v-html="silentTimeMessageHtml" />
     </UiFeedbackAlert>
   </div>
 </template>
@@ -210,7 +210,7 @@ const sayableTime = computed(() => {
 
 // 文字サイズクラス
 const charSizeClass = computed(() => {
-  return isCharSizeLarge.value ? 'text-sm' : 'text-xs'
+  return isCharSizeLarge.value ? 'text-sm leading-5.5' : 'text-xs leading-4.5'
 })
 
 // 文字サイズ大設定
