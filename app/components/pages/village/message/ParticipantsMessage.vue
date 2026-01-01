@@ -33,7 +33,7 @@
               v-if="participant.player?.twitter_user_name"
               :href="`https://twitter.com/${participant.player.twitter_user_name}`"
               target="_blank"
-              class="text-blue-600 hover:underline dark:text-[#14b4ff]"
+              class="text-blue-600 hover:underline dark:text-(--ui-primary)"
             >
               @{{ participant.player.twitter_user_name }}
             </a>
@@ -172,7 +172,7 @@ const getCharaStatusClass = (participant: ParticipantType): string => {
   if (participant.spectator || !participant.dead) return ''
   const reason = participant.dead.reason
   if (reason === '突然' || reason === '処刑')
-    return 'text-blue-600 dark:text-[#14b4ff]'
+    return 'text-blue-600 dark:text-(--ui-primary)'
   return 'text-red-500 dark:text-red-400'
 }
 

@@ -106,7 +106,7 @@
     <div v-if="replyTargetMessage" class="mt-4">
       <div class="rounded-lg border-2 border-blue-500 p-3">
         <div class="mb-2 flex items-center justify-between">
-          <span class="text-xs font-bold text-blue-600 dark:text-[#14b4ff]"
+          <span class="text-xs font-bold text-blue-600 dark:text-(--ui-primary)"
             >返信対象</span
           >
           <button

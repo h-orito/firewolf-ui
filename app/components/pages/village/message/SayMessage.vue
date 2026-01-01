@@ -8,7 +8,7 @@
         <span v-if="isDispAnchor && anchorString">
           <a
             href="javascript:void(0);"
-            class="cursor-pointer text-blue-600 hover:underline dark:text-[#14b4ff]"
+            class="cursor-pointer text-blue-600 hover:underline dark:text-(--ui-primary)"
             @click="handleCopyAnchor"
           >
             {{ anchorString }} </a
@@ -34,7 +34,7 @@
           [<a
             :href="`https://twitter.com/${twitterUserName}`"
             target="_blank"
-            class="text-blue-600 hover:underline dark:text-[#14b4ff]"
+            class="text-blue-600 hover:underline dark:text-(--ui-primary)"
           >
             {{ twitterUserName }} </a
           >]
@@ -85,7 +85,7 @@
           <a
             v-if="canReply && isDispAnchor"
             href="javascript:void(0);"
-            class="cursor-pointer text-xs text-blue-600 hover:underline dark:text-[#14b4ff]"
+            class="cursor-pointer text-xs text-blue-600 hover:underline dark:text-(--ui-primary)"
             @click="handleReply"
           >
             >>返信
@@ -93,7 +93,7 @@
           <a
             v-if="canSecret"
             href="javascript:void(0);"
-            class="cursor-pointer text-xs text-blue-600 hover:underline dark:text-[#14b4ff]"
+            class="cursor-pointer text-xs text-blue-600 hover:underline dark:text-(--ui-primary)"
             @click="handleSecret"
           >
             >>秘話

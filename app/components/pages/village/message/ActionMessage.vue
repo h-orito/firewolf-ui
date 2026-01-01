@@ -8,7 +8,7 @@
         <span v-if="isDispAnchor && anchorString">
           <a
             href="javascript:void(0);"
-            class="cursor-pointer text-blue-600 hover:underline dark:text-[#14b4ff]"
+            class="cursor-pointer text-blue-600 hover:underline dark:text-(--ui-primary)"
             @click="handleCopyAnchor"
           >
             {{ anchorString }} </a

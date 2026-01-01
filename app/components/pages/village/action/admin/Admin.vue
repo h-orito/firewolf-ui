@@ -37,7 +37,7 @@
                 :href="`https://twitter.com/${p.twitter_user_name}`"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="text-blue-600 hover:underline dark:text-[#14b4ff]"
+                class="text-blue-600 hover:underline dark:text-(--ui-primary)"
               >
                 {{ p.nickname }}@{{ p.twitter_user_name }}
               </a>
