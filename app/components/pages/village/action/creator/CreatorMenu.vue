@@ -20,7 +20,7 @@
       </h3>
       <div class="flex justify-end">
         <UiButton
-          :to="{ path: '/create-village', query: { id: villageId } }"
+          :to="{ path: '/setting', query: { id: villageId } }"
           color="primary"
           size="sm"
         >
