@@ -45,6 +45,7 @@
                   <slot name="title">{{ title }}</slot>
                 </h3>
                 <UiButton
+                  v-if="showCloseButton"
                   color="secondary"
                   variant="outline"
                   icon="i-heroicons-x-mark-20-solid"
@@ -84,6 +85,8 @@ interface Props {
   modelValue: boolean
   title?: string
   closeOnOverlayClick?: boolean
+  closeOnEscape?: boolean
+  showCloseButton?: boolean
 }
 
 interface Emits {
@@ -93,7 +96,9 @@ interface Emits {
 
 const props = withDefaults(defineProps<Props>(), {
   title: '',
-  closeOnOverlayClick: true
+  closeOnOverlayClick: true,
+  closeOnEscape: true,
+  showCloseButton: true
 })
 
 const emit = defineEmits<Emits>()
@@ -127,7 +132,7 @@ const handleOverlayClick = () => {
 
 // ESCキーでモーダルを閉じる
 const handleEscKey = (e: KeyboardEvent) => {
-  if (e.key === 'Escape') {
+  if (e.key === 'Escape' && props.closeOnEscape) {
     closeModal()
   }
 }

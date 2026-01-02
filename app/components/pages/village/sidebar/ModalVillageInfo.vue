@@ -81,6 +81,7 @@ import { VILLAGE_STATUS } from '~/lib/api/village-status-constants'
 import { useVillage } from '~/composables/village/useVillage'
 import Modal from '~/components/ui/modal/Modal.vue'
 import UiButton from '~/components/ui/button/index.vue'
+import Icon from '~/components/ui/icon/Icon.vue'
 
 interface SettingItem {
   name: string

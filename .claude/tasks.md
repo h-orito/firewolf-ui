@@ -666,7 +666,7 @@ app/components/ui/icon/
 
 ###### 5.5 年齢制限確認
 
-- [ ] `components/pages/village/ModalAgeLimit.vue` の作成
+- [x] `components/pages/village/ModalAgeLimit.vue` の作成
   - R指定村の確認モーダル
   - Cookie保存での確認済み記録
   - 村ページ（`village.vue`）への統合と表示判定ロジック
