@@ -640,16 +640,17 @@ app/components/ui/icon/
 
 ###### 5.2 ユーザ設定
 
-- [ ] `components/pages/village/sidebar/ModalUserSettings.vue` の作成
+- [x] `components/pages/village/sidebar/ModalUserSettings.vue` の作成
   - ページング設定
   - 発言表示設定
   - ダークテーマ切り替え
+  - 通知設定（参加者のみ）
 
 ###### 5.3 メモ機能
 
-- [ ] `components/pages/village/sidebar/memo/ModalMemo.vue` の作成
-  - メモ一覧表示
-  - メモ編集UI
+- [x] `components/pages/village/sidebar/ModalMemo.vue` の作成
+  - メモ一覧表示（タブでメモ1〜3を切り替え）
+  - メモ編集UI（文字数カウント、クリップボードコピー、保存機能）
 
 - [ ] `components/pages/village/sidebar/memo/TextMemo.vue` の作成
   - テキストメモ入力
