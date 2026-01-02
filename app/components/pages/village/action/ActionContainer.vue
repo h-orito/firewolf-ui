@@ -77,13 +77,17 @@ import Say from './Say.vue'
 import SkillRequest from './SkillRequest.vue'
 import Spectate from './Spectate.vue'
 import Vote from './Vote.vue'
+import { useMessage } from '~/composables/village/useMessage'
 import { useSituation } from '~/composables/village/useSituation'
+import { useVillageNavigation } from '~/composables/village/useVillageNavigation'
 import { useVillageRefresh } from '~/composables/village/useVillageRefresh'
 import { MESSAGE_TYPE } from '~/lib/api/message-constants'
 import { showSuccessToast } from '~/utils/toast'
 
 // Composables
 const { situation } = useSituation()
+const { loadMessages } = useMessage()
+const { scrollToBottom } = useVillageNavigation()
 const { refresh } = useVillageRefresh()
 
 // 表示判定
@@ -189,6 +193,9 @@ const handleActionComplete = async () => {
  */
 const handleSayComplete = async () => {
   await refresh()
+  // refresh内のloadMessagesはawaitされないため、明示的にawaitしてからスクロール
+  await loadMessages()
+  scrollToBottom()
 }
 
 /**
@@ -268,6 +275,8 @@ const handleCommitComplete = async (willCommit: boolean) => {
  */
 const handleActionSayComplete = async () => {
   await refresh()
+  await loadMessages()
+  scrollToBottom()
 }
 
 /**
@@ -283,6 +292,8 @@ const handleChangeNameComplete = async () => {
  */
 const handleCreatorSayComplete = async () => {
   await refresh()
+  await loadMessages()
+  scrollToBottom()
 }
 
 /**

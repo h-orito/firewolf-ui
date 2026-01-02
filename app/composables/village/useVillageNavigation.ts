@@ -3,7 +3,7 @@
  */
 export const useVillageNavigation = () => {
   /**
-   * コンテナ内で要素にスクロール
+   * コンテナ内で要素にスクロール（要素が画面上部に来る）
    */
   const scrollInContainer = (container: HTMLElement, target: HTMLElement) => {
     const containerRect = container.getBoundingClientRect()
@@ -52,7 +52,16 @@ export const useVillageNavigation = () => {
       return
     }
 
-    scrollInContainer(container as HTMLElement, element)
+    // message-bottomが画面下部に来るようにスクロール
+    const containerRect = container.getBoundingClientRect()
+    const targetRect = element.getBoundingClientRect()
+    const scrollTop =
+      container.scrollTop + (targetRect.bottom - containerRect.bottom)
+
+    container.scrollTo({
+      top: scrollTop,
+      behavior: 'smooth'
+    })
   }
 
   /**
