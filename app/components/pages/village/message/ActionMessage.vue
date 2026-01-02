@@ -36,8 +36,27 @@
         isLargeText ? 'text-sm leading-5.5' : 'text-xs leading-4.5'
       ]"
       :style="{ wordBreak: 'break-word' }"
+      @click="handleMessageClick"
       v-html="formattedMessageText"
     />
+
+    <!-- アンカーメッセージ表示 -->
+    <div
+      v-if="anchorMessages.length > 0"
+      :class="['mt-2 space-y-2', isAnchorMessage ? '' : 'ml-6']"
+    >
+      <MessageCard
+        v-for="mes in anchorMessages"
+        :key="mes.time.unix_time_milli"
+        :message="mes"
+        :is-anchor-message="true"
+        :is-progress="isProgress"
+        :is-disp-date="true"
+        :is-large-text="isLargeText"
+        :can-reply="false"
+        :can-secret="false"
+      />
+    </div>
   </div>
 </template>
 
@@ -48,8 +67,14 @@ import {
   createAnchorString,
   createAnchorCopyString,
   convertToMessageText,
-  isDispAnchor as checkDispAnchor
+  isDispAnchor as checkDispAnchor,
+  getAnchorType,
+  getAnchorNum
 } from './message-converter'
+import { useAnchorMessage } from '~/composables/village/useAnchorMessage'
+
+// 循環参照対策: defineAsyncComponentでMessageCardをインポート
+const MessageCard = defineAsyncComponent(() => import('./MessageCard.vue'))
 
 interface Props {
   message: DeepReadonly<MessageView> | MessageView
@@ -67,6 +92,12 @@ const props = withDefaults(defineProps<Props>(), {
   isAnchorMessage: false,
   isDispDate: false
 })
+
+// Composables
+const { loadAnchorMessage } = useAnchorMessage()
+
+// アンカーメッセージの状態管理
+const anchorMessages = ref<MessageView[]>([])
 
 // アンカー表示判定
 const isDispAnchor = computed(() =>
@@ -133,7 +164,39 @@ const handleCopyAnchor = () => {
   if (navigator.clipboard) {
     navigator.clipboard.writeText(anchorCopyString.value)
   }
-  // TODO: コピー成功通知
+}
+
+// イベントデリゲーションでアンカークリックを検出
+const handleMessageClick = async (event: MouseEvent) => {
+  const target = event.target as HTMLElement
+  if (!target.classList.contains('anchor')) return
+
+  event.preventDefault()
+  const anchorString = target.textContent || ''
+  await clickAnchorMessage(anchorString)
+}
+
+// アンカーメッセージのトグル処理
+const clickAnchorMessage = async (anchorStr: string): Promise<void> => {
+  const typeCode = getAnchorType(anchorStr)
+  if (!typeCode) return
+
+  const number = getAnchorNum(anchorStr)
+
+  // 既に表示中ならトグルで非表示に
+  const existingIndex = anchorMessages.value.findIndex(
+    (mes) => mes.content.type.code === typeCode && mes.content.num === number
+  )
+  if (existingIndex >= 0) {
+    anchorMessages.value.splice(existingIndex, 1)
+    return
+  }
+
+  // APIからメッセージ取得して追加
+  const message = await loadAnchorMessage(typeCode, number)
+  if (message) {
+    anchorMessages.value.unshift(message)
+  }
 }
 </script>
 

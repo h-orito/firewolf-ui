@@ -7,6 +7,10 @@
       :is-img-large="isImgLarge"
       :is-disp-date="isDispDate"
       :is-large-text="isLargeText"
+      :is-anchor-message="isAnchorMessage"
+      :is-progress="isProgress"
+      :can-reply="canReply"
+      :can-secret="canSecret"
     />
 
     <!-- システムメッセージ -->
@@ -22,6 +26,8 @@
       :message="message"
       :is-disp-date="isDispDate"
       :is-large-text="isLargeText"
+      :is-anchor-message="isAnchorMessage"
+      :is-progress="isProgress"
     />
 
     <!-- 参加者一覧メッセージ -->
@@ -52,12 +58,20 @@ interface Props {
   isImgLarge?: boolean
   isDispDate?: boolean
   isLargeText?: boolean
+  isAnchorMessage?: boolean
+  isProgress?: boolean
+  canReply?: boolean
+  canSecret?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   isImgLarge: false,
   isDispDate: false,
-  isLargeText: false
+  isLargeText: false,
+  isAnchorMessage: false,
+  isProgress: false,
+  canReply: true,
+  canSecret: true
 })
 
 // メッセージタイプの判定

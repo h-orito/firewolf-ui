@@ -77,6 +77,7 @@
             isLargeText ? 'text-sm leading-5.5' : 'text-xs leading-4.5'
           ]"
           :style="{ minHeight: `${imageHeight}px`, wordBreak: 'break-word' }"
+          @click="handleMessageClick"
           v-html="formattedMessageText"
         />
 
@@ -101,6 +102,25 @@
         </div>
       </div>
     </div>
+
+    <!-- アンカーメッセージ表示 -->
+    <div
+      v-if="anchorMessages.length > 0"
+      :class="['mt-2 space-y-2', isAnchorMessage ? '' : 'ml-6']"
+    >
+      <MessageCard
+        v-for="mes in anchorMessages"
+        :key="mes.time.unix_time_milli"
+        :message="mes"
+        :is-anchor-message="true"
+        :is-progress="isProgress"
+        :is-disp-date="true"
+        :is-img-large="isImgLarge"
+        :is-large-text="isLargeText"
+        :can-reply="false"
+        :can-secret="false"
+      />
+    </div>
   </div>
 </template>
 
@@ -113,10 +133,16 @@ import {
   createAnchorCopyString,
   convertToMessageText,
   isDispAnchor as checkDispAnchor,
-  getComingOutString
+  getComingOutString,
+  getAnchorType,
+  getAnchorNum
 } from './message-converter'
 import { useSayInput } from '~/composables/village/useSayInput'
 import { useUserSettings } from '~/composables/village/useUserSettings'
+import { useAnchorMessage } from '~/composables/village/useAnchorMessage'
+
+// 循環参照対策: defineAsyncComponentでMessageCardをインポート
+const MessageCard = defineAsyncComponent(() => import('./MessageCard.vue'))
 
 interface Props {
   message: DeepReadonly<MessageView> | MessageView
@@ -144,6 +170,10 @@ const props = withDefaults(defineProps<Props>(), {
 // Composables
 const sayInput = useSayInput()
 const { operation } = useUserSettings()
+const { loadAnchorMessage } = useAnchorMessage()
+
+// アンカーメッセージの状態管理
+const anchorMessages = ref<MessageView[]>([])
 
 // 画像サイズの計算
 const imageWidth = computed(() => {
@@ -298,6 +328,39 @@ const handleSecret = () => {
   if (props.message.from?.id) {
     sayInput?.switchToSecret(props.message.from.id)
     sayInput?.setReplyTarget(props.message as MessageView)
+  }
+}
+
+// イベントデリゲーションでアンカークリックを検出
+const handleMessageClick = async (event: MouseEvent) => {
+  const target = event.target as HTMLElement
+  if (!target.classList.contains('anchor')) return
+
+  event.preventDefault()
+  const anchorString = target.textContent || ''
+  await clickAnchorMessage(anchorString)
+}
+
+// アンカーメッセージのトグル処理
+const clickAnchorMessage = async (anchorString: string): Promise<void> => {
+  const typeCode = getAnchorType(anchorString)
+  if (!typeCode) return
+
+  const number = getAnchorNum(anchorString)
+
+  // 既に表示中ならトグルで非表示に
+  const existingIndex = anchorMessages.value.findIndex(
+    (mes) => mes.content.type.code === typeCode && mes.content.num === number
+  )
+  if (existingIndex >= 0) {
+    anchorMessages.value.splice(existingIndex, 1)
+    return
+  }
+
+  // APIからメッセージ取得して追加
+  const message = await loadAnchorMessage(typeCode, number)
+  if (message) {
+    anchorMessages.value.unshift(message)
   }
 }
 </script>

@@ -97,6 +97,8 @@ export type SituationAsParticipantView =
 
 // メッセージ関連型
 export type MessagesView = components['schemas']['MessagesView']
+export type VillageAnchorMessageView =
+  components['schemas']['VillageAnchorMessageView']
 
 // 最新情報関連型
 export type VillageLatestView = components['schemas']['VillageLatestView']
