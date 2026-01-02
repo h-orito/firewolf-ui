@@ -1,48 +1,57 @@
 <template>
   <div v-if="existsAction" class="action-container space-y-4 py-4">
     <!-- 発言 -->
-    <Say v-if="isDispSay" @complete="handleActionComplete" />
+    <Say v-if="isDispSay" @complete="handleSayComplete" />
 
     <!-- 入村 -->
-    <Participate v-if="isDispParticipate" @complete="handleActionComplete" />
+    <Participate
+      v-if="isDispParticipate"
+      @complete="handleParticipateComplete"
+    />
 
     <!-- 見学 -->
-    <Spectate v-if="isDispSpectate" @complete="handleActionComplete" />
+    <Spectate v-if="isDispSpectate" @complete="handleSpectateComplete" />
 
     <!-- 役職希望 -->
-    <SkillRequest v-if="isDispSkillRequest" @complete="handleActionComplete" />
+    <SkillRequest
+      v-if="isDispSkillRequest"
+      @complete="handleSkillRequestComplete"
+    />
 
     <!-- 退村 -->
-    <Leave v-if="isDispLeave" @complete="handleActionComplete" />
+    <Leave v-if="isDispLeave" @complete="handleLeaveComplete" />
 
     <!-- 能力行使 -->
     <Ability
       v-for="ability in usableAbilities"
       :key="ability.type.code"
       :ability="ability"
-      @complete="handleActionComplete"
+      @complete="handleAbilityComplete"
     />
 
     <!-- 投票 -->
-    <Vote v-if="isDispVote" @complete="handleActionComplete" />
+    <Vote v-if="isDispVote" @complete="handleVoteComplete" />
 
     <!-- CO -->
-    <Comingout v-if="isDispComingout" @complete="handleActionComplete" />
+    <Comingout v-if="isDispComingout" @complete="handleComingoutComplete" />
 
     <!-- 時短 -->
-    <Commit v-if="isDispCommit" @complete="handleActionComplete" />
+    <Commit v-if="isDispCommit" @complete="handleCommitComplete" />
 
     <!-- アクション発言 -->
-    <ActionTypeSay v-if="isDispActionSay" @complete="handleActionComplete" />
+    <ActionTypeSay v-if="isDispActionSay" @complete="handleActionSayComplete" />
 
     <!-- 名前変更 -->
-    <ChangeName v-if="isDispChangeName" @complete="handleActionComplete" />
+    <ChangeName v-if="isDispChangeName" @complete="handleChangeNameComplete" />
 
     <!-- 村建て発言 -->
-    <CreatorSay v-if="isDispCreatorSay" @complete="handleActionComplete" />
+    <CreatorSay v-if="isDispCreatorSay" @complete="handleCreatorSayComplete" />
 
     <!-- 村建てメニュー -->
-    <CreatorMenu v-if="isDispCreatorMenu" @complete="handleActionComplete" />
+    <CreatorMenu
+      v-if="isDispCreatorMenu"
+      @complete="handleCreatorMenuComplete"
+    />
 
     <!-- 管理者メニュー -->
     <Admin v-if="isDispAdminMenu" />
@@ -71,6 +80,7 @@ import Vote from './Vote.vue'
 import { useSituation } from '~/composables/village/useSituation'
 import { useVillageRefresh } from '~/composables/village/useVillageRefresh'
 import { MESSAGE_TYPE } from '~/lib/api/message-constants'
+import { showSuccessToast } from '~/utils/toast'
 
 // Composables
 const { situation } = useSituation()
@@ -166,12 +176,121 @@ const existsAction = computed(() => {
 })
 
 /**
- * アクション完了時のハンドラ
- * 後続タスクで各アクションコンポーネントから呼び出される
+ * アクション完了時の基本ハンドラ
  * refresh内でtriggerResetが呼ばれるため、ここでは呼び出し不要
  */
 const handleActionComplete = async () => {
   await refresh()
+}
+
+/**
+ * 発言完了時のハンドラ
+ * 発言は成功時にもトースト不要（Nuxt2版と同様）
+ */
+const handleSayComplete = async () => {
+  await refresh()
+}
+
+/**
+ * 入村完了時のハンドラ
+ */
+const handleParticipateComplete = async () => {
+  await refresh()
+  showSuccessToast('入村しました')
+}
+
+/**
+ * 見学入村完了時のハンドラ
+ */
+const handleSpectateComplete = async () => {
+  await refresh()
+  showSuccessToast('見学入村しました')
+}
+
+/**
+ * 役職希望変更完了時のハンドラ
+ */
+const handleSkillRequestComplete = async () => {
+  await refresh()
+  showSuccessToast('役職希望を変更しました')
+}
+
+/**
+ * 退村完了時のハンドラ
+ */
+const handleLeaveComplete = async () => {
+  await refresh()
+  showSuccessToast('退村しました')
+}
+
+/**
+ * 能力セット完了時のハンドラ
+ */
+const handleAbilityComplete = async (abilityName: string) => {
+  await refresh()
+  showSuccessToast(`${abilityName}セットしました`)
+}
+
+/**
+ * 投票セット完了時のハンドラ
+ */
+const handleVoteComplete = async () => {
+  await refresh()
+  showSuccessToast('投票セットしました')
+}
+
+/**
+ * カミングアウト完了時のハンドラ
+ */
+const handleComingoutComplete = async (isCancel: boolean) => {
+  await refresh()
+  if (isCancel) {
+    showSuccessToast('カミングアウトを取り消しました')
+  } else {
+    showSuccessToast('カミングアウトしました')
+  }
+}
+
+/**
+ * 時短希望完了時のハンドラ
+ */
+const handleCommitComplete = async (willCommit: boolean) => {
+  await refresh()
+  if (willCommit) {
+    showSuccessToast('時短希望しました')
+  } else {
+    showSuccessToast('時短希望を取り消しました')
+  }
+}
+
+/**
+ * アクション発言完了時のハンドラ
+ */
+const handleActionSayComplete = async () => {
+  await refresh()
+}
+
+/**
+ * 名前変更完了時のハンドラ
+ */
+const handleChangeNameComplete = async () => {
+  await refresh()
+  showSuccessToast('名前を変更しました')
+}
+
+/**
+ * 村建て発言完了時のハンドラ
+ */
+const handleCreatorSayComplete = async () => {
+  await refresh()
+}
+
+/**
+ * 村建てメニュー操作完了時のハンドラ
+ */
+const handleCreatorMenuComplete = async () => {
+  await refresh()
+  showSuccessToast('操作が完了しました')
 }
 
 // 後続タスクで使用するため、exposeで公開

@@ -38,7 +38,7 @@ import { useActionReset } from '~/composables/village/action/useActionReset'
 import { useSituation } from '~/composables/village/useSituation'
 
 const emit = defineEmits<{
-  complete: []
+  complete: [willCommit: boolean]
 }>()
 
 // Composables
@@ -61,9 +61,10 @@ const isCommitting = computed(() => commitSituation.value?.committing ?? false)
 const handleCommit = async () => {
   clearError()
   // 現在の状態と逆の値を送信（希望中なら取り消し、していなければ希望）
-  const success = await commitRequest(!isCommitting.value)
+  const willCommit = !isCommitting.value
+  const success = await commitRequest(willCommit)
   if (success) {
-    emit('complete')
+    emit('complete', willCommit)
   }
 }
 

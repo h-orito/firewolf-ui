@@ -150,6 +150,7 @@ import UiButton from '~/components/ui/button/index.vue'
 import { useUserSettings } from '~/composables/village/useUserSettings'
 import { useVillage } from '~/composables/village/useVillage'
 import { useSituation } from '~/composables/village/useSituation'
+import { showSuccessToast } from '~/utils/toast'
 
 // Props
 interface Props {
@@ -323,6 +324,7 @@ const save = async () => {
 
     emit('refresh')
     close()
+    showSuccessToast('設定を保存しました')
   } catch (error) {
     console.error('設定の保存に失敗しました:', error)
   } finally {

@@ -91,7 +91,7 @@ import { useActionReset } from '~/composables/village/action/useActionReset'
 import { useSituation } from '~/composables/village/useSituation'
 
 const emit = defineEmits<{
-  complete: []
+  complete: [isCancel: boolean]
 }>()
 
 // Composables
@@ -221,7 +221,7 @@ const executeComingout = async () => {
   const success = await comingout(skillCodes)
   if (success) {
     showConfirmModal.value = false
-    emit('complete')
+    emit('complete', isCancel.value)
   }
 }
 

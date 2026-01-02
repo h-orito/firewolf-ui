@@ -4,6 +4,7 @@ import { useMessage } from './useMessage'
 import { useSituation } from './useSituation'
 import { useVillageMessageFilter } from './useVillageMessageFilter'
 import { useActionReset } from './action/useActionReset'
+import { showInfoToast } from '~/utils/toast'
 
 /**
  * 村ページの更新処理を統合管理
@@ -69,11 +70,13 @@ export const useVillageRefresh = () => {
     if (!shouldAutoRefresh.value) return
     await loadMessages()
     villageStore.saveExistsNewMessages(false)
+    showInfoToast('最新発言を読み込みました')
   }
 
   const handleDayChange = async () => {
     if (!shouldAutoRefresh.value) return
     await refresh()
+    showInfoToast('日付が変わりました')
   }
 
   const shouldAutoRefresh = computed(() => {

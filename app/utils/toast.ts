@@ -1,9 +1,6 @@
 /**
  * Toast通知のユーティリティ
  *
- * TODO: 独自のtoast実装を追加する
- * 現在は console.log でデバッグ出力のみ
- *
  * 使用例:
  * - showInfoToast('情報メッセージ')
  * - showSuccessToast('成功メッセージ')
@@ -11,18 +8,18 @@
  */
 
 export const showInfoToast = (message: string) => {
-  // TODO: 独自のtoast UIを実装
-  console.info('[Toast Info]', message)
+  const { add } = useToast()
+  add({ message, type: 'info' })
 }
 
 export const showSuccessToast = (message: string) => {
-  // TODO: 独自のtoast UIを実装
-  console.info('[Toast Success]', message)
+  const { add } = useToast()
+  add({ message, type: 'success' })
 }
 
 export const showErrorToast = (message: string) => {
-  // TODO: 独自のtoast UIを実装
-  console.error('[Toast Error]', message)
+  const { add } = useToast()
+  add({ message, type: 'error' })
 }
 
 /**

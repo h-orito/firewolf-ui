@@ -652,13 +652,13 @@ app/components/ui/icon/
   - メモ一覧表示（タブでメモ1〜3を切り替え）
   - メモ編集UI（文字数カウント、クリップボードコピー、保存機能）
 
-- [ ] `components/pages/village/sidebar/memo/TextMemo.vue` の作成
+- [x] `components/pages/village/sidebar/memo/TextMemo.vue` の作成
   - テキストメモ入力
   - 文字数カウント
 
 ###### 5.4 ポーリング・通知
 
-- [ ] トースト通知の実装
+- [x] トースト通知の実装
   - 日付変更通知
   - 最新発言取得通知
   - エラー通知

@@ -14,7 +14,7 @@
             v-for="tab in tabs"
             :key="tab.id"
             type="button"
-            class="whitespace-nowrap border-b-2 px-3 py-2 text-sm font-medium transition-colors"
+            class="border-b-2 px-3 py-2 text-sm font-medium whitespace-nowrap transition-colors"
             :class="
               activeTab === tab.id
                 ? 'border-(--ui-primary) text-(--ui-primary)'
@@ -145,7 +145,7 @@ const save = () => {
   saveMemo(villageId.value, 3, memoTexts[3])
 
   // TODO: トースト通知（後続タスクで実装予定）
-   
+
   console.log('メモを保存しました')
 }
 
@@ -164,7 +164,7 @@ const copyToClipboard = async () => {
   try {
     await navigator.clipboard.writeText(memoTexts[activeTab.value])
     // TODO: トースト通知（後続タスクで実装予定）
-     
+
     console.log('クリップボードにコピーしました')
   } catch (err) {
     console.error('クリップボードへのコピーに失敗しました:', err)

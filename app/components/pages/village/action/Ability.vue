@@ -80,7 +80,7 @@ interface Props {
 const props = defineProps<Props>()
 
 const emit = defineEmits<{
-  complete: []
+  complete: [abilityName: string]
 }>()
 
 // Composables
@@ -203,7 +203,7 @@ const handleSetAbility = async () => {
   )
 
   if (success) {
-    emit('complete')
+    emit('complete', props.ability.type.name)
   }
 }
 
