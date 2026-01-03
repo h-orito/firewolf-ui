@@ -705,10 +705,10 @@ app/components/ui/icon/
   - [x] message-converter.ts のテスト
   - [x] message-constants.ts のテスト
 
-- [ ] コンポーネントテスト（@nuxt/test-utils）
-  - MessageCard.vue のテスト
-  - VillageHeader.vue のテスト
-  - VillageFooter.vue のテスト
+- [x] コンポーネントテスト（@nuxt/test-utils）
+  - [x] MessageCard.vue のテスト
+  - [x] VillageHeader.vue のテスト
+  - [x] VillageFooter.vue のテスト
 
 - [ ] E2Eテスト（Playwright）
   - 村ページの初期表示

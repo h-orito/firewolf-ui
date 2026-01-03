@@ -13,6 +13,7 @@ import {
   getComingOutString
 } from '../message-converter'
 import { MESSAGE_TYPE } from '~/lib/api/message-constants'
+import type { MessageView } from '~/lib/api/types'
 
 describe('message-converter', () => {
   describe('escapeHtml', () => {
@@ -331,16 +332,16 @@ describe('message-converter', () => {
       const message = {
         time: { day: 3 },
         content: { num: 42 }
-      }
-      expect(getMessageNumber(message as any)).toBe('3.42')
+      } as unknown as MessageView
+      expect(getMessageNumber(message)).toBe('3.42')
     })
 
     it('should return day.0 when num is undefined', () => {
       const message = {
         time: { day: 5 },
         content: {}
-      }
-      expect(getMessageNumber(message as any)).toBe('5.0')
+      } as unknown as MessageView
+      expect(getMessageNumber(message)).toBe('5.0')
     })
   })
 
@@ -350,20 +351,20 @@ describe('message-converter', () => {
         from: {
           comming_outs: { list: [] }
         }
-      }
-      expect(getComingOutString(message as any)).toBeNull()
+      } as unknown as MessageView
+      expect(getComingOutString(message)).toBeNull()
     })
 
     it('should return null when comming_outs is undefined', () => {
       const message = {
         from: {}
-      }
-      expect(getComingOutString(message as any)).toBeNull()
+      } as unknown as MessageView
+      expect(getComingOutString(message)).toBeNull()
     })
 
     it('should return null when from is undefined', () => {
-      const message = {}
-      expect(getComingOutString(message as any)).toBeNull()
+      const message = {} as unknown as MessageView
+      expect(getComingOutString(message)).toBeNull()
     })
 
     it('should return single CO string', () => {
@@ -373,8 +374,8 @@ describe('message-converter', () => {
             list: [{ skill: { short_name: '占' } }]
           }
         }
-      }
-      expect(getComingOutString(message as any)).toBe('占CO')
+      } as unknown as MessageView
+      expect(getComingOutString(message)).toBe('占CO')
     })
 
     it('should return multiple CO string', () => {
@@ -387,8 +388,8 @@ describe('message-converter', () => {
             ]
           }
         }
-      }
-      expect(getComingOutString(message as any)).toBe('占,霊CO')
+      } as unknown as MessageView
+      expect(getComingOutString(message)).toBe('占,霊CO')
     })
   })
 })
