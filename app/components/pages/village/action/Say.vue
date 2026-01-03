@@ -186,6 +186,7 @@ import MessageDecorators from './decorator/MessageDecorators.vue'
 import { useSay } from '~/composables/village/action/useSay'
 import { useSituation } from '~/composables/village/useSituation'
 import { useSayInputRegister } from '~/composables/village/useSayInput'
+import { useVillageSayStatus } from '~/composables/village/useVillageSayStatus'
 import { MESSAGE_TYPE } from '~/lib/api/message-constants'
 
 const emit = defineEmits<{
@@ -195,6 +196,8 @@ const emit = defineEmits<{
 // Composables
 const { submitting, error: sayError, say, sayConfirm } = useSay()
 const { situation } = useSituation()
+const { setHasInputText, setConfirmModalOpen, setSubmitting, reset } =
+  useVillageSayStatus()
 
 // 親からinjectしたSayInputのregisterHandlersを取得
 const sayInputRegister = useSayInputRegister()
@@ -504,9 +507,23 @@ onMounted(() => {
   }
 })
 
+// 入力状態をストアに反映（自動更新制御用）
+watch(messageText, (newValue) => {
+  setHasInputText(newValue.length > 0)
+})
+
+watch(showConfirmModal, (newValue) => {
+  setConfirmModalOpen(newValue)
+})
+
+watch(submitting, (newValue) => {
+  setSubmitting(newValue)
+})
+
 onUnmounted(() => {
   if (sayInputRegister) {
     sayInputRegister.unregisterHandlers()
   }
+  reset()
 })
 </script>

@@ -3,6 +3,7 @@ import { useVillage } from './useVillage'
 import { useMessage } from './useMessage'
 import { useSituation } from './useSituation'
 import { useVillageMessageFilter } from './useVillageMessageFilter'
+import { useVillageSayStatus } from './useVillageSayStatus'
 import { useActionReset } from './action/useActionReset'
 import { showInfoToast } from '~/utils/toast'
 
@@ -24,6 +25,7 @@ export const useVillageRefresh = () => {
     useMessage()
   const { loadSituation } = useSituation()
   const { isFiltering } = useVillageMessageFilter()
+  const { isInputting } = useVillageSayStatus()
   const { triggerReset } = useActionReset()
 
   // API
@@ -84,7 +86,7 @@ export const useVillageRefresh = () => {
     if (!isCurrentVillageDayLatest.value) return false
     if (!isViewingLatestMessages.value) return false
     // 発言入力中や発言抽出中は勝手に更新しない
-    // TODO: 発言入力中
+    if (isInputting.value) return false
     if (isFiltering.value) return false
     return true
   })

@@ -84,9 +84,9 @@ export const useVillagePolling = () => {
   }
 
   return {
-    // State (from store)
-    villageLatest: villageStore.villageLatest,
-    existsNewMessages: villageStore.existsNewMessages,
+    // Computed (from store)
+    villageLatest: computed(() => villageStore.villageLatest),
+    existsNewMessages: computed(() => villageStore.existsNewMessages),
 
     // Methods
     startPolling,
