@@ -701,9 +701,9 @@ app/components/ui/icon/
 
 ###### 6.3 テスト
 
-- [ ] 単体テスト（Vitest）
-  - Composablesのテスト
-  - message-converter.ts のテスト
+- [x] 単体テスト（Vitest）
+  - [x] message-converter.ts のテスト
+  - [x] message-constants.ts のテスト
 
 - [ ] コンポーネントテスト（@nuxt/test-utils）
   - MessageCard.vue のテスト
