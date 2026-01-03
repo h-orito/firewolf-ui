@@ -82,7 +82,7 @@ defineEmits<{
   left: 0;
   top: 0;
   background-color: rgb(54, 54, 54); /* $dark equivalent */
-  height: 100vh;
+  height: 100dvh;
   width: 0;
   overflow-x: hidden;
   overflow-y: auto;
@@ -112,7 +112,7 @@ defineEmits<{
   right: 0;
   top: 0;
   background-color: rgba(54, 54, 54, 0.4);
-  height: 100vh;
+  height: 100dvh;
   width: calc(100% - 300px);
   z-index: 999;
 }

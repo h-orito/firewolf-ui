@@ -2,7 +2,8 @@
   <div>
     <!-- サイドバー本体 -->
     <div
-      class="fixed top-0 left-0 z-20 h-[calc(100vh-2rem)] overflow-x-hidden overflow-y-auto bg-[#363636] text-white transition-all duration-200 md:static md:h-full md:max-h-screen md:w-[280px] md:p-2.5"
+      class="fixed top-0 left-0 z-20 overflow-x-hidden overflow-y-auto bg-[#363636] text-white transition-all duration-200 md:static md:h-full md:max-h-dvh md:w-[280px] md:p-2.5"
+      :style="{ height: 'calc(100dvh - 2rem - env(safe-area-inset-bottom))' }"
       :class="{ 'w-[280px] p-2.5': isOpen, 'w-0': !isOpen }"
     >
       <!-- 村名 -->
@@ -82,7 +83,7 @@
     <!-- サイドバー外側の背景（モバイルのみ） -->
     <div
       v-if="isMobile"
-      class="fixed top-0 right-0 z-20 h-screen w-[calc(100%-280px)] bg-gray-900/40"
+      class="fixed top-0 right-0 z-20 h-dvh w-[calc(100%-280px)] bg-gray-900/40"
       :class="{ block: isOpen, hidden: !isOpen }"
       @click="close"
     ></div>

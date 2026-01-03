@@ -41,7 +41,7 @@ withDefaults(defineProps<Props>(), {
   position: fixed;
   top: 3.25rem;
   left: 0;
-  height: calc(100vh - 3.25rem);
+  height: calc(100dvh - 3.25rem);
 }
 
 .loading-content {

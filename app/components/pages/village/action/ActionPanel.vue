@@ -141,7 +141,7 @@ defineExpose({
   right: 0;
   bottom: 2rem;
   bottom: calc(2rem + env(safe-area-inset-bottom));
-  max-height: 30vh;
+  max-height: 30dvh;
   overflow-y: scroll;
   border-right: 0;
   border-left: 0;

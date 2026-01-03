@@ -1,12 +1,12 @@
 <template>
-  <div class="h-screen w-full overflow-hidden">
+  <div class="h-dvh w-full overflow-hidden">
     <!-- ローディング -->
     <LoadingSpinner v-if="isLoading" message="村情報を読み込み中..." fixed />
 
     <!-- エラー -->
     <div
       v-else-if="hasError"
-      class="flex h-screen w-full items-center justify-center bg-gray-100"
+      class="flex h-dvh w-full items-center justify-center bg-gray-100"
     >
       <div class="flex flex-col items-center justify-center text-center">
         <Icon
@@ -21,16 +21,16 @@
     <!-- メインコンテンツ -->
     <div
       v-else
-      class="flex h-screen w-full shrink-0 justify-between"
+      class="flex h-dvh w-full shrink-0 justify-between"
       :class="{ 'dark-theme': isDarkTheme }"
     >
       <!-- サイドバー (PC: 左固定 / Mobile: オーバーレイ) -->
-      <div v-if="!isMobile" class="h-screen bg-[#363636]">
+      <div v-if="!isMobile" class="h-dvh bg-[#363636]">
         <VillageSidebar />
       </div>
 
       <!-- 右側エリア (ヘッダー・メイン・フッター) -->
-      <div class="flex h-screen flex-1 shrink-0 flex-col justify-between">
+      <div class="flex h-dvh flex-1 shrink-0 flex-col justify-between">
         <!-- ヘッダー -->
         <VillageHeader />
 

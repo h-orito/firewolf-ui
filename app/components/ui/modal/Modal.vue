@@ -26,7 +26,7 @@
             v-if="isModalOpen"
             ref="modalRef"
             class="relative flex w-full max-w-full flex-col rounded-lg bg-white shadow-xl sm:max-w-lg md:max-w-[80vw] dark:bg-gray-800"
-            :style="{ maxHeight: 'calc(100vh - 6.5rem)' }"
+            :style="{ maxHeight: 'calc(100dvh - 6.5rem)' }"
             role="dialog"
             aria-modal="true"
             :aria-labelledby="title ? 'modal-title' : undefined"

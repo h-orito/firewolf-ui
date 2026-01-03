@@ -444,6 +444,6 @@ const handleToMyParticipant = () => {
 <style scoped>
 /* モーダルカードの最大高さを調整 */
 :deep(.modal-card) {
-  max-height: calc(100vh - 6.5rem);
+  max-height: calc(100dvh - 6.5rem);
 }
 </style>
