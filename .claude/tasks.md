@@ -710,12 +710,12 @@ app/components/ui/icon/
   - [x] VillageHeader.vue のテスト
   - [x] VillageFooter.vue のテスト
 
-- [ ] E2Eテスト（Playwright）
-  - 村ページの初期表示
-  - 発言の抽出
-  - ページング
-  - 日付切り替え
-  - アクション実行
+- [x] E2Eテスト（Playwright）
+  - [x] 村ページの初期表示
+  - [x] 発言の抽出
+  - [x] ページング
+  - [x] 日付切り替え
+  - [x] アクション実行
 
 ###### 6.4 品質チェック
 
