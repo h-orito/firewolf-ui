@@ -64,7 +64,9 @@
             </thead>
             <tbody class="divide-y divide-gray-200 bg-white">
               <tr v-for="village in tableVillages" :key="village.village_id">
-                <td class="p-2 text-sm whitespace-nowrap text-gray-900">
+                <td
+                  class="p-2 text-left text-sm whitespace-nowrap text-gray-900"
+                >
                   <NuxtLink
                     :to="`/village?id=${village.village_id}`"
                     class="text-blue-600 hover:text-blue-800 hover:underline"
