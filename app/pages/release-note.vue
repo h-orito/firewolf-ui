@@ -4,6 +4,9 @@
       <h1 class="mb-6 text-xl font-bold">更新情報</h1>
       <div class="rounded-lg bg-white p-4 shadow">
         <ul class="list-disc space-y-1 pl-6 text-left text-sm">
+          <li>
+            2026/01/05 フレームワークアップグレードのため、全てを作り直した
+          </li>
           <li>2025/03/15 村設定：連続護衛を追加</li>
           <li>2025/01/20 村建て発言の抽出を追加</li>
           <li>2024/12/27 役職：情緒を追加</li>
