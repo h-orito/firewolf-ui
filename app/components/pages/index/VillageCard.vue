@@ -83,6 +83,19 @@ const participantStatus = computed(() => {
   }
 })
 
+// LocalTimeを時刻文字列に変換（オブジェクト形式と文字列形式の両方に対応）
+const formatLocalTime = (
+  time: { hour?: number; minute?: number } | string | undefined
+): string => {
+  if (!time) return '00:00'
+  // 文字列の場合（"08:00:00" 形式）
+  if (typeof time === 'string') {
+    return time.substring(0, 5)
+  }
+  // オブジェクトの場合
+  return `${String(time.hour || 0).padStart(2, '0')}:${String(time.minute || 0).padStart(2, '0')}`
+}
+
 // 発言可能時間
 const sayableTime = computed(() => {
   const timeSetting = props.village.setting?.time
@@ -90,14 +103,13 @@ const sayableTime = computed(() => {
 
   if (!silentHours) return '24時間'
 
-  // sayable_startとsayable_endは時刻オブジェクト
   const start = timeSetting?.sayable_start
   const end = timeSetting?.sayable_end
 
   if (!start || !end) return '24時間'
 
-  const startStr = `${String(start.hour || 0).padStart(2, '0')}:${String(start.minute || 0).padStart(2, '0')}`
-  const endStr = `${String(end.hour || 0).padStart(2, '0')}:${String(end.minute || 0).padStart(2, '0')}`
+  const startStr = formatLocalTime(start)
+  const endStr = formatLocalTime(end)
 
   if (startStr === endStr) return '24時間'
 

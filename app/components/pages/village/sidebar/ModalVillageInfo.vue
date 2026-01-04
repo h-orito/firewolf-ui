@@ -435,7 +435,7 @@ const formatInterval = (seconds: number): string => {
   return result || '0秒'
 }
 
-// LocalTime型の定義
+// LocalTime型の定義（APIはオブジェクトまたは文字列を返す可能性がある）
 interface LocalTime {
   hour?: number
   minute?: number
@@ -443,25 +443,40 @@ interface LocalTime {
   nano?: number
 }
 
+type LocalTimeInput = LocalTime | string
+
 // LocalTimeを時刻文字列に変換
-const formatLocalTime = (time: LocalTime): string => {
+const formatLocalTime = (time: LocalTimeInput): string => {
+  // 文字列の場合（"08:00:00" 形式）
+  if (typeof time === 'string') {
+    return time.substring(0, 5)
+  }
+  // オブジェクトの場合
   const hour = String(time.hour ?? 0).padStart(2, '0')
   const minute = String(time.minute ?? 0).padStart(2, '0')
   return `${hour}:${minute}`
 }
 
+// LocalTimeから時間を取得
+const getHourFromLocalTime = (time: LocalTimeInput): number => {
+  if (typeof time === 'string') {
+    return parseInt(time.substring(0, 2), 10)
+  }
+  return time.hour ?? 0
+}
+
 // 発言可能時間を計算
 const formatSayableTime = (
   silentHours: number | undefined,
-  sayableStart: LocalTime,
-  sayableEnd: LocalTime
+  sayableStart: LocalTimeInput,
+  sayableEnd: LocalTimeInput
 ): string => {
   if (!silentHours || silentHours === 0) return '24時間'
 
   const start = formatLocalTime(sayableStart)
   const end = formatLocalTime(sayableEnd)
-  const startHour = sayableStart.hour ?? 0
-  const endHour = sayableEnd.hour ?? 0
+  const startHour = getHourFromLocalTime(sayableStart)
+  const endHour = getHourFromLocalTime(sayableEnd)
   const isNextday = startHour > endHour
 
   return `${start} - ${isNextday ? '翌' : ''}${end}(${24 - silentHours}時間)`

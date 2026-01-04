@@ -12,7 +12,8 @@
     <!-- プロローグ発言 -->
     <div class="mb-6">
       <label class="mb-2 block text-sm font-medium text-gray-700">
-        プロローグでの発言内容 <span class="text-red-500">*</span>
+        プロローグでの発言内容
+        <span v-if="!day0Readonly" class="text-red-500">*</span>
       </label>
 
       <!-- キャラクター名と入力エリア -->
@@ -35,19 +36,23 @@
               placeholder="プロローグでダミーキャラが発言する内容を入力してください"
               :rows="4"
               :maxlength="1000"
-              required
+              :required="!day0Readonly"
+              :disabled="day0Readonly"
               class="w-full"
-              :error="!!errors?.day0Message"
+              :error="!day0Readonly && !!errors?.day0Message"
               @update:model-value="updateField('day0Message', $event)"
               @blur="validateField('day0Message')"
             />
           </div>
         </div>
       </div>
-      <p v-if="errors?.day0Message" class="mt-1 text-xs text-red-600">
+      <p
+        v-if="!day0Readonly && errors?.day0Message"
+        class="mt-1 text-xs text-red-600"
+      >
         {{ errors.day0Message }}
       </p>
-      <p v-else class="mt-1 text-xs text-gray-500">
+      <p v-else-if="!day0Readonly" class="mt-1 text-xs text-gray-500">
         最大1000文字まで入力できます（{{
           (formData.day0Message || '').length
         }}/1000）
@@ -113,9 +118,15 @@ interface Props {
   formData: CreateVillageFormData
   selectedChara?: Chara | null
   errors?: Partial<Record<string, string | undefined>>
+  day0Readonly?: boolean
 }
 
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+  day0Readonly: false
+})
+
+// day0Readonlyをテンプレートで使いやすくする
+const day0Readonly = computed(() => props.day0Readonly)
 
 const emit = defineEmits<{
   'update:field': [

@@ -3,6 +3,7 @@
     <h2 class="mb-4 text-lg font-semibold">キャラチップ</h2>
 
     <Alert
+      v-if="!props.readonlyMode"
       type="warning"
       icon="alert"
       description="村作成後は変更できません。"
@@ -12,7 +13,8 @@
     <!-- キャラチップ選択 -->
     <div class="mb-6">
       <label class="mb-2 block text-sm font-medium text-gray-700">
-        使用するキャラチップ <span class="text-red-500">*</span>
+        使用するキャラチップ
+        <span v-if="!props.readonlyMode" class="text-red-500">*</span>
       </label>
       <FormMultiSelect
         v-model="selectedCharachipIds"
@@ -20,13 +22,17 @@
         value-attribute="id"
         label-attribute="name"
         class="w-full"
-        :error="!!errors?.charachipIds"
+        :disabled="props.readonlyMode"
+        :error="!props.readonlyMode && !!errors?.charachipIds"
         @change="onCharachipChange"
       />
-      <p v-if="errors?.charachipIds" class="mt-1 text-xs text-red-600">
+      <p
+        v-if="!props.readonlyMode && errors?.charachipIds"
+        class="mt-1 text-xs text-red-600"
+      >
         {{ errors.charachipIds }}
       </p>
-      <p v-else class="mt-2 text-xs text-gray-500">
+      <p v-else-if="!props.readonlyMode" class="mt-2 text-xs text-gray-500">
         複数のキャラチップを選択できます
       </p>
     </div>
@@ -34,18 +40,19 @@
     <!-- ダミーキャラ選択 -->
     <div class="mb-6">
       <label class="mb-2 block text-sm font-medium text-gray-700">
-        ダミーキャラクター <span class="text-red-500">*</span>
+        ダミーキャラクター
+        <span v-if="!props.readonlyMode" class="text-red-500">*</span>
       </label>
       <FormSelect
         v-model="selectedDummyCharaId"
         :options="charasSelectable"
         placeholder="ダミーキャラクターを選択"
-        :disabled="charas.length === 0"
+        :disabled="props.readonlyMode || charas.length === 0"
         class="w-full"
-        :error="!!errors?.dummyCharaId"
+        :error="!props.readonlyMode && !!errors?.dummyCharaId"
         @change="onDummyCharaChange"
       />
-      <div class="mt-2 flex justify-end">
+      <div v-if="!props.readonlyMode" class="mt-2 flex justify-end">
         <UiButton
           size="sm"
           color="primary"
@@ -55,10 +62,16 @@
           画像から選ぶ
         </UiButton>
       </div>
-      <p v-if="errors?.dummyCharaId" class="mt-1 text-xs text-red-600">
+      <p
+        v-if="!props.readonlyMode && errors?.dummyCharaId"
+        class="mt-1 text-xs text-red-600"
+      >
         {{ errors.dummyCharaId }}
       </p>
-      <p v-else-if="charas.length === 0" class="mt-1 text-xs text-red-500">
+      <p
+        v-else-if="!props.readonlyMode && charas.length === 0"
+        class="mt-1 text-xs text-red-500"
+      >
         先にキャラチップを選択してください
       </p>
     </div>
@@ -67,28 +80,34 @@
     <div v-if="selectedDummyCharaId" class="space-y-4">
       <div>
         <label class="mb-2 block text-sm font-medium text-gray-700">
-          ダミーキャラ名 <span class="text-red-500">*</span>
+          ダミーキャラ名
+          <span v-if="!props.readonlyMode" class="text-red-500">*</span>
         </label>
         <FormInput
           v-model="dummyCharaName"
           placeholder="ダミーキャラクターの名前"
           size="md"
           :maxlength="40"
-          required
-          :error="!!errors?.dummyCharaName"
+          :required="!props.readonlyMode"
+          :disabled="props.readonlyMode"
+          :error="!props.readonlyMode && !!errors?.dummyCharaName"
           @blur="validateField('dummyCharaName')"
         />
-        <p v-if="errors?.dummyCharaName" class="mt-1 text-xs text-red-600">
+        <p
+          v-if="!props.readonlyMode && errors?.dummyCharaName"
+          class="mt-1 text-xs text-red-600"
+        >
           {{ errors.dummyCharaName }}
         </p>
-        <p v-else class="mt-1 text-xs text-gray-500">
+        <p v-else-if="!props.readonlyMode" class="mt-1 text-xs text-gray-500">
           最大40文字まで入力できます
         </p>
       </div>
 
       <div>
         <label class="mb-2 block text-sm font-medium text-gray-700">
-          1文字略称 <span class="text-red-500">*</span>
+          1文字略称
+          <span v-if="!props.readonlyMode" class="text-red-500">*</span>
         </label>
         <FormInput
           v-model="dummyCharaShortName"
@@ -96,14 +115,18 @@
           size="md"
           :maxlength="1"
           class="w-20"
-          required
-          :error="!!errors?.dummyCharaShortName"
+          :required="!props.readonlyMode"
+          :disabled="props.readonlyMode"
+          :error="!props.readonlyMode && !!errors?.dummyCharaShortName"
           @blur="validateField('dummyCharaShortName')"
         />
-        <p v-if="errors?.dummyCharaShortName" class="mt-1 text-xs text-red-600">
+        <p
+          v-if="!props.readonlyMode && errors?.dummyCharaShortName"
+          class="mt-1 text-xs text-red-600"
+        >
           {{ errors.dummyCharaShortName }}
         </p>
-        <p v-else class="mt-1 text-xs text-gray-500">
+        <p v-else-if="!props.readonlyMode" class="mt-1 text-xs text-gray-500">
           発言時に表示される1文字の略称です
         </p>
       </div>
@@ -111,6 +134,7 @@
 
     <!-- キャラ選択モーダル -->
     <CharaSelectModal
+      v-if="!props.readonlyMode"
       :is-open="isCharaSelectModalOpen"
       :charas="charas"
       @select="handleCharaSelect"
@@ -139,6 +163,7 @@ import type { CreateVillageFormData } from './types'
 const props = defineProps<{
   formData: CreateVillageFormData
   errors?: Partial<Record<string, string | undefined>>
+  readonlyMode?: boolean
 }>()
 
 const emit = defineEmits<{
