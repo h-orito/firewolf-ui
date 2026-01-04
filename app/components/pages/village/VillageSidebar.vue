@@ -2,8 +2,7 @@
   <div>
     <!-- サイドバー本体 -->
     <div
-      class="fixed top-0 left-0 z-20 overflow-x-hidden overflow-y-auto bg-[#363636] text-white transition-all duration-200 md:static md:h-full md:max-h-dvh md:w-[280px] md:p-2.5"
-      :style="{ height: 'calc(100dvh - 2rem - env(safe-area-inset-bottom))' }"
+      class="fixed top-0 left-0 z-20 h-[calc(100dvh-2rem-env(safe-area-inset-bottom))] overflow-x-hidden overflow-y-auto bg-[#363636] text-white transition-all duration-200 md:static md:h-dvh md:w-[280px] md:p-2.5"
       :class="{ 'w-[280px] p-2.5': isOpen, 'w-0': !isOpen }"
     >
       <!-- 村名 -->

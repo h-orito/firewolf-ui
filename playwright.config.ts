@@ -31,6 +31,11 @@ export default defineConfig({
     screenshot: 'only-on-failure'
   },
 
+  /* expect のタイムアウト設定 */
+  expect: {
+    timeout: 30000
+  },
+
   /* ブラウザ設定 */
   projects: [
     {

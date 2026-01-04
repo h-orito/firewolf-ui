@@ -25,7 +25,7 @@ test.describe('村ページ', () => {
       // ローディングスピナーが表示されなくなるまで待機
       await expect(
         page.locator('text=村情報を読み込み中...').first()
-      ).not.toBeVisible({ timeout: 30000 })
+      ).not.toBeVisible()
 
       // エラー表示がないことを確認
       await expect(
@@ -44,7 +44,7 @@ test.describe('村ページ', () => {
       // ローディング完了を待機
       await expect(
         page.locator('text=村情報を読み込み中...').first()
-      ).not.toBeVisible({ timeout: 30000 })
+      ).not.toBeVisible()
 
       // 日付リストが表示されていることを確認
       const dayList = page.locator('ul').filter({ hasText: /プロローグ|日目/ })
@@ -57,7 +57,7 @@ test.describe('村ページ', () => {
       // ローディング完了を待機
       await expect(
         page.locator('text=村情報を読み込み中...').first()
-      ).not.toBeVisible({ timeout: 30000 })
+      ).not.toBeVisible()
 
       // 発言カードが表示されていることを確認（少なくとも1つ以上）
       // MessageCardはmy-3クラスを持つ
@@ -77,7 +77,7 @@ test.describe('村ページ', () => {
       // ローディング完了を待機
       await expect(
         page.locator('text=村情報を読み込み中...').first()
-      ).not.toBeVisible({ timeout: 30000 })
+      ).not.toBeVisible()
 
       // 発言カードの存在を確認
       const messageCards = page.locator('.my-3')
@@ -99,7 +99,7 @@ test.describe('村ページ', () => {
       // ローディング完了を待機
       await expect(
         page.locator('text=村情報を読み込み中...').first()
-      ).not.toBeVisible({ timeout: 30000 })
+      ).not.toBeVisible()
 
       // ページネーションが存在するか確認
       const pagination = page.locator('nav[aria-label="ページ"]')
@@ -129,7 +129,7 @@ test.describe('村ページ', () => {
       // ローディング完了を待機
       await expect(
         page.locator('text=村情報を読み込み中...').first()
-      ).not.toBeVisible({ timeout: 30000 })
+      ).not.toBeVisible()
 
       // 最新ボタンを探す
       const latestButton = page.locator('button', { hasText: '最新' })
@@ -155,7 +155,7 @@ test.describe('村ページ', () => {
       // ローディング完了を待機
       await expect(
         page.locator('text=村情報を読み込み中...').first()
-      ).not.toBeVisible({ timeout: 30000 })
+      ).not.toBeVisible()
 
       // 日付リストを取得
       const dayLinks = page.locator('a').filter({ hasText: /プロローグ|日目/ })
@@ -180,7 +180,7 @@ test.describe('村ページ', () => {
       // ローディング完了を待機
       await expect(
         page.locator('text=村情報を読み込み中...').first()
-      ).not.toBeVisible({ timeout: 30000 })
+      ).not.toBeVisible()
 
       // 日付リストを取得
       const dayLinks = page.locator('a').filter({ hasText: /日目/ })
@@ -213,7 +213,7 @@ test.describe('村ページ', () => {
       // ローディング完了を待機
       await expect(
         page.locator('text=村情報を読み込み中...').first()
-      ).not.toBeVisible({ timeout: 30000 })
+      ).not.toBeVisible()
 
       // アクションコンテナの確認
       // 終了済み村の場合、アクションは表示されない可能性がある
@@ -236,7 +236,7 @@ test.describe('村ページ', () => {
       // ローディング完了を待機
       await expect(
         page.locator('text=村情報を読み込み中...').first()
-      ).not.toBeVisible({ timeout: 30000 })
+      ).not.toBeVisible()
 
       // サイドバーが表示されていることを確認
       // VillageSidebarは bg-[#363636] クラスを持つ
@@ -250,7 +250,7 @@ test.describe('村ページ', () => {
       // ローディング完了を待機
       await expect(
         page.locator('text=村情報を読み込み中...').first()
-      ).not.toBeVisible({ timeout: 30000 })
+      ).not.toBeVisible()
 
       // ヘッダーとフッターの存在を確認
       // VillageHeaderとVillageFooterはそれぞれheader/footerタグではないが、
@@ -280,7 +280,7 @@ test.describe('村ページ', () => {
       // ローディング完了を待機
       await expect(
         page.locator('text=村情報を読み込み中...').first()
-      ).not.toBeVisible({ timeout: 30000 })
+      ).not.toBeVisible()
 
       // PC用サイドバー（h-dvh bg-[#363636]を持つdiv）が表示されていないことを確認
       // モバイルではオーバーレイとして表示されるため、初期状態では見えない
