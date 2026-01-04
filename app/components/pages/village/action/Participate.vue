@@ -148,16 +148,22 @@ import FormSelect from '~/components/ui/form/FormSelect.vue'
 import FormInput from '~/components/ui/form/FormInput.vue'
 import FormTextarea from '~/components/ui/form/FormTextarea.vue'
 import UiButton from '~/components/ui/button/index.vue'
-import CharaSelectModal from '~/components/ui/chara-select/CharaSelectModal.vue'
 import CharaImage from '~/components/pages/village/CharaImage.vue'
 import MessageDecorators from './decorator/MessageDecorators.vue'
-import ParticipateConfirmModal from './participate/ParticipateConfirmModal.vue'
 import {
   useParticipate,
   type ParticipateForm
 } from '~/composables/village/action/useParticipate'
 import { useSituation } from '~/composables/village/useSituation'
 import { useVillage } from '~/composables/village/useVillage'
+
+// 遅延ローディング: モーダルはボタンクリック時まで不要
+const CharaSelectModal = defineAsyncComponent(
+  () => import('~/components/ui/chara-select/CharaSelectModal.vue')
+)
+const ParticipateConfirmModal = defineAsyncComponent(
+  () => import('./participate/ParticipateConfirmModal.vue')
+)
 
 const emit = defineEmits<{
   complete: []

@@ -119,6 +119,12 @@ Desktop.ini
 *.tmp
 *.temp
 
+# Bundle analysis
+stats.html
+
+# Lighthouse CI
+.lighthouse
+
 # Claude
 .claude/settings.local.json
 

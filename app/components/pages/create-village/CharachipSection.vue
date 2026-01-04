@@ -254,10 +254,16 @@ const handleCharaSelect = (chara: DeepReadonly<Chara> | Chara) => {
   isCharaSelectModalOpen.value = false
 }
 
+// キャッシュ付きAPI
+const { fetchMasterWithCache } = useCachedApi()
+
 const loadCharachips = async () => {
   try {
-    const { apiCall } = useApi()
-    const response = await apiCall<CharachipsView>('/charachip/list')
+    // マスターデータとしてキャッシュ（30分）
+    const response = await fetchMasterWithCache<CharachipsView>(
+      'charachip-list',
+      '/charachip/list'
+    )
     if (response) {
       charachips.value = response.list || []
     }

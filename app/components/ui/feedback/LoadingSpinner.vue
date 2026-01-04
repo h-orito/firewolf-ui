@@ -7,6 +7,7 @@
         height="80"
         alt="loading..."
         class="opacity-100"
+        loading="eager"
       />
       <p class="mt-2 text-sm text-gray-800">{{ message }}</p>
     </div>

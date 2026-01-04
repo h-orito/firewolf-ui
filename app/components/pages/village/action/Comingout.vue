@@ -85,10 +85,14 @@
 import ActionPanel from './ActionPanel.vue'
 import FormSelect from '~/components/ui/form/FormSelect.vue'
 import UiButton from '~/components/ui/button/index.vue'
-import ComingoutConfirmModal from './comingout/ComingoutConfirmModal.vue'
 import { useComingout } from '~/composables/village/action/useComingout'
 import { useActionReset } from '~/composables/village/action/useActionReset'
 import { useSituation } from '~/composables/village/useSituation'
+
+// 遅延ローディング: 確認モーダルはボタンクリック時まで不要
+const ComingoutConfirmModal = defineAsyncComponent(
+  () => import('./comingout/ComingoutConfirmModal.vue')
+)
 
 const emit = defineEmits<{
   complete: [isCancel: boolean]

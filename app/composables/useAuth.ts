@@ -138,6 +138,13 @@ export const useAuth = () => {
     }
   }
 
+  /**
+   * 認証トークンの取得
+   */
+  const getAuthToken = async (): Promise<string | null> => {
+    return authStore.getAuthToken()
+  }
+
   return {
     // 状態（Storeから取得）
     user: computed(() => authStore.user),
@@ -154,6 +161,7 @@ export const useAuth = () => {
     logout,
     waitForAuth,
     registerUserIfNeeded,
-    refreshAuth
+    refreshAuth,
+    getAuthToken
   }
 }

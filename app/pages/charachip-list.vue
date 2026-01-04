@@ -82,29 +82,37 @@ useHead({
   title: 'キャラチップ一覧'
 })
 
+// キャッシュ付きAPI
+const { fetchMasterWithCache } = useCachedApi()
+
 // データ
-const charachips = ref<CharachipView[]>([])
-const loadingCharachips = ref(false)
+const charachipsData = ref<CharachipsView | null>(null)
+const loadingCharachips = ref(true)
+
+// キャッシュを使用したデータ取得（マスターデータとして30分キャッシュ）
+onMounted(async () => {
+  try {
+    const response = await fetchMasterWithCache<CharachipsView>(
+      'charachip-list',
+      '/charachip/list'
+    )
+    charachipsData.value = response
+  } catch (error) {
+    console.error('キャラチップ一覧の取得に失敗しました:', error)
+  } finally {
+    loadingCharachips.value = false
+  }
+})
+
+// データ
+const charachips = computed<CharachipView[]>(
+  () => charachipsData.value?.list || []
+)
 
 // キャラが存在するキャラチップのみ表示
 const displayCharachips = computed(() => {
   return charachips.value.filter(
     (charachip) => charachip.chara_list && charachip.chara_list.length > 0
   )
-})
-
-// データ取得
-onMounted(async () => {
-  loadingCharachips.value = true
-  try {
-    const { apiCall } = useApi()
-    const response = await apiCall<CharachipsView>('/charachip/list')
-    charachips.value = response.list || []
-  } catch (error) {
-    console.error('キャラチップ一覧の取得に失敗しました:', error)
-    charachips.value = []
-  } finally {
-    loadingCharachips.value = false
-  }
 })
 </script>

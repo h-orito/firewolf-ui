@@ -78,28 +78,31 @@ import VillageCharaImage from '~/components/pages/village/CharaImage.vue'
 const route = useRoute()
 const charachipId = computed(() => route.query.id as string | undefined)
 
-// SEO設定
+// キャッシュ付きAPI
+const { fetchMasterWithCache } = useCachedApi()
+
+// データ
 const charachip = ref<CharachipView | null>(null)
+const loadingCharachip = ref(true)
+
+// SEO設定
 useHead({
   title: computed(() =>
     charachip.value ? `キャラチップ: ${charachip.value.name}` : 'キャラチップ'
   )
 })
 
-// データ
-const loadingCharachip = ref(false)
-
-// データ取得
+// キャッシュを使用したデータ取得（マスターデータとして30分キャッシュ）
 onMounted(async () => {
   if (!charachipId.value) {
     console.error('キャラチップIDが指定されていません')
+    loadingCharachip.value = false
     return
   }
 
-  loadingCharachip.value = true
   try {
-    const { apiCall } = useApi()
-    const response = await apiCall<CharachipView>(
+    const response = await fetchMasterWithCache<CharachipView>(
+      `charachip-${charachipId.value}`,
       `/charachips/${charachipId.value}`
     )
     charachip.value = response

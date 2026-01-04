@@ -61,13 +61,17 @@
 
 <script setup lang="ts">
 import ActionPanel from '../ActionPanel.vue'
-import SayConfirmModal from '../say/SayConfirmModal.vue'
 import FormGroup from '~/components/ui/form/FormGroup.vue'
 import FormTextarea from '~/components/ui/form/FormTextarea.vue'
 import UiButton from '~/components/ui/button/index.vue'
 import MessageDecorators from '../decorator/MessageDecorators.vue'
 import { useCreatorSay } from '~/composables/village/action/useCreatorSay'
 import { MESSAGE_TYPE } from '~/lib/api/message-constants'
+
+// 遅延ローディング: 確認モーダルはボタンクリック時まで不要
+const SayConfirmModal = defineAsyncComponent(
+  () => import('../say/SayConfirmModal.vue')
+)
 
 const emit = defineEmits<{
   complete: []

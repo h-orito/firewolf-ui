@@ -173,7 +173,6 @@
 <script setup lang="ts">
 import { XMarkIcon } from '@heroicons/vue/24/outline'
 import ActionPanel from './ActionPanel.vue'
-import SayConfirmModal from './say/SayConfirmModal.vue'
 import SayMessage from '../message/SayMessage.vue'
 import FormGroup from '~/components/ui/form/FormGroup.vue'
 import FormSelect from '~/components/ui/form/FormSelect.vue'
@@ -188,6 +187,11 @@ import { useSituation } from '~/composables/village/useSituation'
 import { useSayInputRegister } from '~/composables/village/useSayInput'
 import { useVillageSayStatus } from '~/composables/village/useVillageSayStatus'
 import { MESSAGE_TYPE } from '~/lib/api/message-constants'
+
+// 遅延ローディング: 確認モーダルは確認ボタンクリック時まで不要
+const SayConfirmModal = defineAsyncComponent(
+  () => import('./say/SayConfirmModal.vue')
+)
 
 const emit = defineEmits<{
   complete: []

@@ -156,10 +156,14 @@ import RuleSection from '~/components/pages/create-village/RuleSection.vue'
 import MessageRestrictionSection from '~/components/pages/create-village/MessageRestrictionSection.vue'
 import JoinPasswordSection from '~/components/pages/create-village/JoinPasswordSection.vue'
 import RpSection from '~/components/pages/create-village/RpSection.vue'
-import PreviewModal from '~/components/pages/create-village/PreviewModal.vue'
 import Alert from '~/components/ui/feedback/Alert.vue'
 import LoadingSpinner from '~/components/ui/feedback/LoadingSpinner.vue'
 import Icon from '~/components/ui/icon/Icon.vue'
+
+// 遅延ローディング: プレビューモーダルは確認ボタン押下時まで不要
+const PreviewModal = defineAsyncComponent(
+  () => import('~/components/pages/create-village/PreviewModal.vue')
+)
 
 // SEO設定
 useHead({

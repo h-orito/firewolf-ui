@@ -2,7 +2,7 @@ export const DEFAULT_SITE_NAME = 'FIREWOLF'
 export const DEFAULT_SITE_DESCRIPTION =
   'FIREWOLFはオンラインで長期人狼が無料で遊べるWebサービスです。誰でも自分で好きな設定の村を作成することができます。'
 export const DEFAULT_SITE_URL = 'https://firewolf.netlify.app'
-export const DEFAULT_OG_IMAGE = `${DEFAULT_SITE_URL}/og-image.png`
+export const DEFAULT_OG_IMAGE = `${DEFAULT_SITE_URL}/image/ogp/top.jpg`
 
 export interface SeoConfig {
   title?: string
@@ -65,5 +65,35 @@ export function createStructuredData(
       '@type': type,
       ...data
     })
+  }
+}
+
+/**
+ * canonical URLを生成するヘルパー関数
+ * @param path - URLのパス部分（例: '/about', '/village-list'）
+ * @returns 完全なcanonical URL
+ */
+export function createCanonicalUrl(path: string): string {
+  // パスが '/' で始まっていない場合は追加
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`
+  // 末尾のスラッシュを削除（ルート以外）
+  const cleanPath =
+    normalizedPath === '/' ? normalizedPath : normalizedPath.replace(/\/$/, '')
+  return `${DEFAULT_SITE_URL}${cleanPath}`
+}
+
+/**
+ * canonical linkタグを作成するヘルパー関数
+ * useHead()で使用する形式で返す
+ * @param path - URLのパス部分
+ */
+export function createCanonicalLink(path: string) {
+  return {
+    link: [
+      {
+        rel: 'canonical',
+        href: createCanonicalUrl(path)
+      }
+    ]
   }
 }

@@ -82,7 +82,11 @@ import { useVillageRefresh } from '~/composables/village/useVillageRefresh'
 import { useVillageTimer } from '~/composables/village/useVillageTimer'
 import { useWindowResize } from '~/composables/useWindowResize'
 import { useMessage } from '~/composables/village/useMessage'
-import ModalFilter from '~/components/pages/village/footer/ModalFilter.vue'
+
+// 遅延ローディング: 抽出モーダルは抽出ボタンクリック時まで不要
+const ModalFilter = defineAsyncComponent(
+  () => import('~/components/pages/village/footer/ModalFilter.vue')
+)
 
 // Composables
 const { scrollToBottom } = useVillageNavigation()

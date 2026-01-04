@@ -66,7 +66,6 @@
 <script setup lang="ts">
 import type { MessageView } from '~/lib/api/types'
 import ActionPanel from './ActionPanel.vue'
-import ActionTypeSayConfirmModal from './action-type-say/ActionTypeSayConfirmModal.vue'
 import FormGroup from '~/components/ui/form/FormGroup.vue'
 import FormSelect from '~/components/ui/form/FormSelect.vue'
 import FormInput from '~/components/ui/form/FormInput.vue'
@@ -75,6 +74,11 @@ import { useActionSay } from '~/composables/village/action/useActionSay'
 import { useSituation } from '~/composables/village/useSituation'
 import { useVillage } from '~/composables/village/useVillage'
 import { MESSAGE_TYPE } from '~/lib/api/message-constants'
+
+// 遅延ローディング: 確認モーダルはボタンクリック時まで不要
+const ActionTypeSayConfirmModal = defineAsyncComponent(
+  () => import('./action-type-say/ActionTypeSayConfirmModal.vue')
+)
 
 const emit = defineEmits<{
   complete: []

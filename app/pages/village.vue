@@ -95,8 +95,12 @@ import VillageDayList from '~/components/pages/village/VillageDayList.vue'
 import MessageList from '~/components/pages/village/message/MessageList.vue'
 import ActionContainer from '~/components/pages/village/action/ActionContainer.vue'
 import LoadingSpinner from '~/components/ui/feedback/LoadingSpinner.vue'
-import ModalAgeLimit from '~/components/pages/village/ModalAgeLimit.vue'
 import { VILLAGE_STATUS } from '~/lib/api/village-status-constants'
+
+// 遅延ローディング: 年齢制限モーダルは年齢制限村の初回アクセス時のみ表示
+const ModalAgeLimit = defineAsyncComponent(
+  () => import('~/components/pages/village/ModalAgeLimit.vue')
+)
 
 // Layout設定
 definePageMeta({

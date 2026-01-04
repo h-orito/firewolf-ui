@@ -25,8 +25,12 @@
 <script setup lang="ts">
 import ActionPanel from './ActionPanel.vue'
 import UiButton from '~/components/ui/button/index.vue'
-import LeaveConfirmModal from './leave/LeaveConfirmModal.vue'
 import { useLeave } from '~/composables/village/action/useLeave'
+
+// 遅延ローディング: 確認モーダルはボタンクリック時まで不要
+const LeaveConfirmModal = defineAsyncComponent(
+  () => import('./leave/LeaveConfirmModal.vue')
+)
 
 const emit = defineEmits<{
   complete: []

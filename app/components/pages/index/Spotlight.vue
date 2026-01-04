@@ -1,6 +1,6 @@
 <template>
   <div class="relative bg-[#0a0a1a]">
-    <img src="/image/top.jpg" alt="top_image" class="w-full" />
+    <img src="/image/top.jpg" alt="top_image" class="w-full" loading="eager" />
     <div class="absolute top-[40%] right-[2%] hidden text-left md:block">
       <p
         class="spotlight-intro spotlight-shadow text-6xl leading-[2em] text-white"

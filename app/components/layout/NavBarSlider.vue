@@ -1,9 +1,16 @@
 <template>
   <div>
     <!-- Side menu -->
-    <div class="navbar-side-menu" :class="{ 'is-active': isMenuExpanded }">
+    <aside
+      id="nav-slider-menu"
+      class="navbar-side-menu"
+      :class="{ 'is-active': isMenuExpanded }"
+      :aria-hidden="!isMenuExpanded"
+      aria-label="サイドメニュー"
+      role="dialog"
+    >
       <!-- Menu items -->
-      <div class="mt-10 space-y-1">
+      <nav class="mt-10 space-y-1" aria-label="サイトナビゲーション">
         <NuxtLink
           to="/"
           class="navbar-item block rounded px-3 py-2 text-white transition-colors hover:bg-gray-700"
@@ -39,7 +46,7 @@
         >
           更新情報
         </NuxtLink>
-      </div>
+      </nav>
 
       <!-- Close button -->
       <div class="close-icon">
@@ -48,15 +55,17 @@
           variant="solid"
           icon="i-heroicons-x-mark-20-solid"
           size="sm"
+          aria-label="メニューを閉じる"
           @click="$emit('hide-menu')"
         />
       </div>
-    </div>
+    </aside>
 
     <!-- Backdrop overlay -->
     <div
       class="navbar-side-menu-outside"
       :class="{ 'is-active': isMenuExpanded }"
+      aria-hidden="true"
       @click="$emit('hide-menu')"
     />
   </div>

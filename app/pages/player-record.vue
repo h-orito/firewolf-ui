@@ -217,14 +217,21 @@
 <script setup lang="ts">
 import LoadingSpinner from '~/components/ui/feedback/LoadingSpinner.vue'
 import UiButton from '~/components/ui/button/index.vue'
-import DoughnutChart from '~/components/pages/player-record/DoughnutChart.vue'
-import ModalIntro from '~/components/pages/player-record/ModalIntro.vue'
 import type {
   PlayerRecordsView,
   CampRecord,
   SkillRecord,
   ParticipateVillageView
 } from '~/lib/api/types'
+
+// 遅延ローディング: DoughnutChartはChart.jsを使用するため重い
+const DoughnutChart = defineAsyncComponent(
+  () => import('~/components/pages/player-record/DoughnutChart.vue')
+)
+// 遅延ローディング: ModalIntroは編集ボタンクリック時まで不要
+const ModalIntro = defineAsyncComponent(
+  () => import('~/components/pages/player-record/ModalIntro.vue')
+)
 
 // ルートパラメータ
 const route = useRoute()

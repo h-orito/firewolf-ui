@@ -108,9 +108,17 @@ import { useVillage } from '~/composables/village/useVillage'
 import { useVillageSlider } from '~/composables/village/useVillageSlider'
 import { useWindowResize } from '~/composables/useWindowResize'
 import ParticipantList from '~/components/pages/village/sidebar/ParticipantList.vue'
-import ModalVillageInfo from '~/components/pages/village/sidebar/ModalVillageInfo.vue'
-import ModalUserSettings from '~/components/pages/village/sidebar/ModalUserSettings.vue'
-import ModalMemo from '~/components/pages/village/sidebar/ModalMemo.vue'
+
+// 遅延ローディング: モーダルはボタンクリック時まで不要
+const ModalVillageInfo = defineAsyncComponent(
+  () => import('~/components/pages/village/sidebar/ModalVillageInfo.vue')
+)
+const ModalUserSettings = defineAsyncComponent(
+  () => import('~/components/pages/village/sidebar/ModalUserSettings.vue')
+)
+const ModalMemo = defineAsyncComponent(
+  () => import('~/components/pages/village/sidebar/ModalMemo.vue')
+)
 
 // Composables
 const { village } = useVillage()

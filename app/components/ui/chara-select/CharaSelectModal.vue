@@ -17,6 +17,9 @@
           :src="chara.face_list[0].image_url"
           :alt="chara.chara_name.name"
           class="mb-2 h-20 w-20 object-contain"
+          width="80"
+          height="80"
+          loading="lazy"
         />
         <div
           v-else

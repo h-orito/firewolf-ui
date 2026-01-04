@@ -1,5 +1,9 @@
 <template>
-  <nav class="navbar-container fixed top-0 right-0 left-0 z-50">
+  <nav
+    class="navbar-container fixed top-0 right-0 left-0 z-50"
+    role="navigation"
+    aria-label="メインナビゲーション"
+  >
     <!-- Mobile menu button -->
     <div class="navbar-menu-icon-area">
       <UiButton
@@ -7,9 +11,12 @@
         color="secondary"
         class="navbar-menu-icon"
         :class="{ 'is-active': isMenuExpanded }"
+        :aria-expanded="isMenuExpanded"
+        aria-controls="nav-slider-menu"
+        aria-label="メニューを開く"
         @click="toggleMenu"
       >
-        <div class="burger-lines">
+        <div class="burger-lines" aria-hidden="true">
           <span class="burger-line" :class="{ active: isMenuExpanded }" />
           <span class="burger-line" :class="{ active: isMenuExpanded }" />
           <span class="burger-line" :class="{ active: isMenuExpanded }" />
@@ -22,6 +29,7 @@
       <NuxtLink
         to="/"
         class="navbar-title text-center font-semibold text-white transition-colors hover:text-gray-200"
+        aria-label="FIREWOLF トップページへ"
       >
         FIREWOLF{{ isStg ? ' テストサーバ' : '' }}
       </NuxtLink>
