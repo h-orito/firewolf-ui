@@ -29,11 +29,21 @@
     <!-- 秘話対象選択 -->
     <div v-if="isSecretSay" class="mb-4">
       <FormGroup label="秘話相手">
-        <FormSelect
-          v-model="targetParticipantId"
-          :options="secretTargetOptions"
-          placeholder="秘話相手を選択してください"
-        />
+        <div class="flex items-center gap-1">
+          <FormSelect
+            v-model="targetParticipantId"
+            :options="secretTargetOptions"
+            placeholder="秘話相手を選択してください"
+            class="flex-1"
+          />
+          <UiButton
+            variant="solid"
+            color="primary"
+            @click="openSecretTargetModal"
+          >
+            画像で選択
+          </UiButton>
+        </div>
       </FormGroup>
     </div>
 
@@ -165,6 +175,13 @@
         </div>
       </template>
     </Modal>
+
+    <!-- 秘話相手選択モーダル -->
+    <SecretTargetSelectModal
+      v-model="showSecretTargetModal"
+      :participant-list="secretTargets"
+      @select="handleSecretTargetSelect"
+    />
   </ActionPanel>
 </template>
 
@@ -172,6 +189,7 @@
 import { XMarkIcon } from '@heroicons/vue/24/outline'
 import ActionPanel from './ActionPanel.vue'
 import SayMessage from '../message/SayMessage.vue'
+import SecretTargetSelectModal from './say/SecretTargetSelectModal.vue'
 import FormGroup from '~/components/ui/form/FormGroup.vue'
 import FormSelect from '~/components/ui/form/FormSelect.vue'
 import FormTextarea from '~/components/ui/form/FormTextarea.vue'
@@ -223,6 +241,7 @@ const selectedFaceType = ref('NORMAL')
 const targetParticipantId = ref('')
 const showFaceModal = ref(false)
 const showConfirmModal = ref(false)
+const showSecretTargetModal = ref(false)
 const previewMessage = ref<import('~/lib/api/types').MessageView | null>(null)
 const replyTargetMessage = ref<import('~/lib/api/types').MessageView | null>(
   null
@@ -382,6 +401,14 @@ const openFaceModal = () => {
 const selectFace = (faceType: string) => {
   selectedFaceType.value = faceType
   showFaceModal.value = false
+}
+
+const openSecretTargetModal = () => {
+  showSecretTargetModal.value = true
+}
+
+const handleSecretTargetSelect = (participantId: number) => {
+  targetParticipantId.value = participantId.toString()
 }
 
 /**
