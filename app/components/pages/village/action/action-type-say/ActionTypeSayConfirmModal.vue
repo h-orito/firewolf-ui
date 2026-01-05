@@ -9,8 +9,8 @@
       <p class="mb-2 text-xs">この内容で発言しますか？</p>
       <ActionMessage :message="previewMessage" :is-large-text="false" />
 
-      <!-- 誤爆防止: 発言種別の確認選択 -->
-      <div>
+      <!-- 誤爆防止: 発言種別の確認選択（プロローグ/エピローグ以外で表示） -->
+      <div v-if="!skipConfirmation">
         <p class="mb-1 text-xs font-bold">誤爆防止</p>
         <p class="mb-2 text-xs">発言しようとしている種別を選択してください</p>
         <FormRadioGroup
@@ -54,6 +54,8 @@ interface Props {
   previewMessage: MessageView | null
   submitting: boolean
   messageTypeOptions: { value: string; label: string }[]
+  /** 誤爆防止確認をスキップするか（プロローグ/エピローグ時にtrue） */
+  skipConfirmation?: boolean
 }
 
 const props = defineProps<Props>()
@@ -67,7 +69,11 @@ defineEmits<{
 const confirmMessageType = ref('')
 
 // 選択した種別がアクション発言かチェック
+// skipConfirmationがtrueの場合は常に発言可能
 const canConfirm = computed(() => {
+  if (props.skipConfirmation) {
+    return true
+  }
   return confirmMessageType.value === MESSAGE_TYPE.ACTION
 })
 

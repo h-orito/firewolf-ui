@@ -58,6 +58,7 @@
       :preview-message="previewMessage"
       :submitting="submitting"
       :message-type-options="messageTypeOptions"
+      :skip-confirmation="skipSayConfirmation"
       @confirm="handleActionSay"
     />
   </ActionPanel>
@@ -88,7 +89,7 @@ const emit = defineEmits<{
 const { submitting, error, actionSay, actionSayConfirm, clearError } =
   useActionSay()
 const { situation } = useSituation()
-const { allParticipants } = useVillage()
+const { village, allParticipants } = useVillage()
 
 // リアクティブデータ
 const target = ref('')
@@ -107,6 +108,13 @@ const myselfText = computed(() => {
 
 // 生存状態
 const isAlive = computed(() => myself.value?.dead == null)
+
+// プロローグまたはエピローグかどうか（誤爆防止確認をスキップする判定用）
+const skipSayConfirmation = computed(() => {
+  const status = village.value?.status
+  if (!status) return false
+  return status.is_prologue || status.is_epilogue
+})
 
 // 対象者選択肢
 const targetOptions = computed(() => {
