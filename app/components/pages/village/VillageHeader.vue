@@ -61,6 +61,7 @@ const { scrollToTop } = useVillageNavigation()
 const handlePrevDay = () => {
   toPrevDay()
   resetPaging(false) // 前日は必ず最新日ではない
+  scrollToTop()
 }
 
 const handleNextDay = () => {
@@ -69,6 +70,7 @@ const handleNextDay = () => {
 
   toNextDay()
   resetPaging(isLatest)
+  scrollToTop()
 }
 
 const toTop = () => {

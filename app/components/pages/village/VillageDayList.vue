@@ -20,6 +20,7 @@ import type { VillageDayView } from '~/lib/api/types'
 import { VILLAGE_STATUS } from '~/lib/api/village-status-constants'
 import { useVillage } from '~/composables/village/useVillage'
 import { useMessage } from '~/composables/village/useMessage'
+import { useVillageNavigation } from '~/composables/village/useVillageNavigation'
 
 const {
   village,
@@ -29,6 +30,7 @@ const {
   isCurrentVillageDayLatest
 } = useVillage()
 const { resetPaging } = useMessage()
+const { scrollToTop } = useVillageNavigation()
 
 const dayList = computed(() => village.value?.day.day_list ?? [])
 
@@ -56,5 +58,7 @@ const handleChangeDay = (villageDay: VillageDayView) => {
   changeCurrentVillageDay(villageDay)
   // 日付変更時はページ状態をリセットして発言を取得
   resetPaging(isCurrentVillageDayLatest.value)
+  // 日付変更時は一番上にスクロール
+  scrollToTop()
 }
 </script>
