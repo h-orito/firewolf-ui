@@ -87,7 +87,7 @@
         </div>
 
         <!-- 参加者リスト -->
-        <div class="grid grid-cols-1 gap-0 sm:grid-cols-2">
+        <div class="grid grid-cols-2 gap-0">
           <div
             v-for="participant in participantList"
             :key="participant.id"
@@ -162,7 +162,7 @@
         </div>
 
         <!-- 宛先参加者リスト -->
-        <div class="grid grid-cols-1 gap-0 sm:grid-cols-2">
+        <div class="grid grid-cols-2 gap-0">
           <div
             v-for="participant in participantList"
             :key="participant.id"
