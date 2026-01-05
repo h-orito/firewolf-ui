@@ -3,7 +3,7 @@
     <!-- システムメッセージのラベルと時刻は表示しない -->
     <!-- 発言内容をborderで囲む、左揃え -->
     <div
-      class="rounded border text-left whitespace-pre-wrap"
+      class="message-text rounded border text-left whitespace-pre-wrap"
       :class="[
         messageClass,
         isLargeText ? 'text-sm leading-5.5' : 'text-xs leading-4.5'
@@ -75,6 +75,11 @@ const messageClass = computed(() => {
 </script>
 
 <style scoped>
+/* 発言内容のフォント */
+.message-text {
+  font-family: sans-serif;
+}
+
 /* 発言内容のテキストスタイル */
 :deep(p) {
   margin: 0;

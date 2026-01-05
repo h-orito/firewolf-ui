@@ -30,7 +30,7 @@
 
     <!-- アクション内容（画像なし、背景色あり） -->
     <div
-      class="rounded border p-2.5 text-left whitespace-pre-wrap"
+      class="message-text rounded border p-2.5 text-left whitespace-pre-wrap"
       :class="[
         messageClass,
         isLargeText ? 'text-sm leading-5.5' : 'text-xs leading-4.5'
@@ -210,6 +210,11 @@ const clickAnchorMessage = async (anchorStr: string): Promise<void> => {
 
 :deep(.netabare:hover) {
   background-color: #444;
+}
+
+/* 発言内容のフォント */
+.message-text {
+  font-family: sans-serif;
 }
 
 /* 発言内容のテキストスタイル */

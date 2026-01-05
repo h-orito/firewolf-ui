@@ -69,7 +69,7 @@
       <div class="flex-1">
         <!-- 発言内容（装飾・アンカー含む） -->
         <div
-          class="rounded border p-2 text-left whitespace-pre-wrap"
+          class="message-text rounded border p-2 text-left whitespace-pre-wrap"
           :class="[
             messageClass,
             isLargeText ? 'text-sm leading-5.5' : 'text-xs leading-4.5'
@@ -378,6 +378,11 @@ const clickAnchorMessage = async (anchorString: string): Promise<void> => {
 /* アンカーメッセージの場合はインデント */
 .anchor-message {
   margin-left: 3rem;
+}
+
+/* 発言内容のフォント */
+.message-text {
+  font-family: sans-serif;
 }
 
 /* 発言内容のテキストスタイル */
