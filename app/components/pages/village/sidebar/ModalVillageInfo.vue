@@ -1,5 +1,5 @@
 <template>
-  <Modal v-model="isModalOpen" title="村の情報">
+  <Modal v-model="isModalOpen" title="村の設定">
     <div v-if="village" class="space-y-4 text-left">
       <!-- 設定テーブル -->
       <div

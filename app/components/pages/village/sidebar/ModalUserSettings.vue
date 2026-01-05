@@ -1,5 +1,5 @@
 <template>
-  <Modal v-model="isModalOpen" title="個人設定">
+  <Modal v-model="isModalOpen" title="ユーザ設定">
     <div class="space-y-6">
       <!-- ページ分割 -->
       <section>
