@@ -104,6 +104,9 @@ const isOpenFilterModal = ref(false)
 // Methods
 const handleRefresh = async () => {
   await refresh()
+  // refresh内のloadMessagesはawaitされないため、明示的にawaitしてからスクロール
+  await loadMessages()
+  scrollToBottom()
 }
 
 const toBottom = () => {
