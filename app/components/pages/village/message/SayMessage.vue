@@ -1,9 +1,9 @@
 <template>
   <div class="say-message">
     <!-- 1段目: アンカー、名前、発言時間 -->
-    <div class="mb-1 flex items-center text-xs">
+    <div class="mb-1 flex flex-wrap items-start gap-x-2 text-xs">
       <!-- 左側: アンカー、名前、CO、プレイヤー名 -->
-      <div class="flex flex-1 items-center gap-1">
+      <div class="flex min-w-0 items-center gap-1">
         <!-- アンカー -->
         <span v-if="isDispAnchor && anchorString">
           <a
@@ -16,7 +16,7 @@
         </span>
 
         <!-- キャラクター名 -->
-        <span class="font-bold dark:text-[#eee]">
+        <span class="font-bold whitespace-nowrap dark:text-[#eee]">
           {{ characterName }}
           <span v-if="targetCharacterName">→ {{ targetCharacterName }}</span>
         </span>
@@ -43,9 +43,7 @@
       </div>
 
       <!-- 右側: 発言回数と時間 -->
-      <div
-        class="flex items-center gap-2 text-xs text-gray-400 dark:text-[#ddd]"
-      >
+      <div class="ml-auto text-right text-xs text-gray-400 dark:text-[#ddd]">
         <span v-if="isAnchorMessage"> {{ message.time.day }}d </span>
         <span v-if="message.content.count && maxCount">
           ({{ message.content.count }}/{{ maxCount }})
