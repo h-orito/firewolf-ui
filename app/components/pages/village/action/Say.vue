@@ -144,24 +144,22 @@
           v-for="face in chara?.face_list || []"
           :key="face.type"
           type="button"
-          class="cursor-pointer rounded border p-2 hover:bg-gray-100 dark:hover:bg-gray-800"
+          class="flex cursor-pointer flex-col items-center rounded border p-2 hover:bg-gray-100 dark:hover:bg-gray-800"
           :class="{
             'ring-primary-500 ring-2': selectedFaceType === face.type
           }"
           @click="selectFace(face.type)"
         >
-          <CharaImage
-            v-if="chara"
-            :chara="chara"
-            :face-type="face.type"
-            :is-small="true"
-          />
+          <CharaImage v-if="chara" :chara="chara" :face-type="face.type" />
           <p class="mt-1 text-center text-xs">{{ face.name }}</p>
         </button>
       </div>
       <template #footer>
         <div class="flex justify-end gap-2">
-          <UiButton variant="outline" @click="showFaceModal = false"
+          <UiButton
+            variant="outline"
+            color="secondary"
+            @click="showFaceModal = false"
             >キャンセル</UiButton
           >
         </div>
@@ -187,6 +185,18 @@ import { useSituation } from '~/composables/village/useSituation'
 import { useSayInputRegister } from '~/composables/village/useSayInput'
 import { useVillageSayStatus } from '~/composables/village/useVillageSayStatus'
 import { MESSAGE_TYPE } from '~/lib/api/message-constants'
+
+// 発言種別と表情のマッピング
+const MESSAGE_TYPE_FACE_TYPE_MAP = new Map<string, string>([
+  [MESSAGE_TYPE.NORMAL_SAY, 'NORMAL'],
+  [MESSAGE_TYPE.WEREWOLF_SAY, 'WEREWOLF'],
+  [MESSAGE_TYPE.LOVERS_SAY, 'LOVER'],
+  [MESSAGE_TYPE.SPECTATE_SAY, 'NORMAL'],
+  [MESSAGE_TYPE.SECRET_SAY, 'SECRET'],
+  [MESSAGE_TYPE.MONOLOGUE_SAY, 'MONOLOGUE'],
+  [MESSAGE_TYPE.GRAVE_SAY, 'GRAVE'],
+  [MESSAGE_TYPE.SYMPATHIZE_SAY, 'NORMAL']
+])
 
 // 遅延ローディング: 確認モーダルは確認ボタンクリック時まで不要
 const SayConfirmModal = defineAsyncComponent(
@@ -347,6 +357,22 @@ const submitButtonText = computed(() => {
 })
 
 // メソッド
+
+/**
+ * 発言種別に応じたデフォルト表情タイプを取得
+ * キャラクターがその表情を持っていない場合は'NORMAL'にフォールバック
+ */
+const getDefaultFaceType = (messageType: string): string => {
+  const expectedFaceType = MESSAGE_TYPE_FACE_TYPE_MAP.get(messageType)
+  if (!expectedFaceType) return 'NORMAL'
+
+  // キャラクターがその表情を持っているか確認
+  const hasFace = chara.value?.face_list?.some(
+    (face) => face.type === expectedFaceType
+  )
+  return hasFace ? expectedFaceType : 'NORMAL'
+}
+
 const openFaceModal = () => {
   if (chara.value?.face_list?.length) {
     showFaceModal.value = true
@@ -463,13 +489,10 @@ const initializeForm = () => {
     const firstMessageType = availableMessageTypes.value[0]
     if (firstMessageType) {
       selectedMessageType.value = firstMessageType.message_type.code
-    }
-  }
-  // 最初の表情を選択
-  if (chara.value?.face_list && chara.value.face_list.length > 0) {
-    const firstFace = chara.value.face_list[0]
-    if (firstFace) {
-      selectedFaceType.value = firstFace.type
+      // 発言種別に応じた表情を設定
+      selectedFaceType.value = getDefaultFaceType(
+        firstMessageType.message_type.code
+      )
     }
   }
 }
@@ -508,6 +531,13 @@ onMounted(() => {
         replyTargetMessage.value = message
       }
     })
+  }
+})
+
+// 発言種別変更時に表情を自動切り替え
+watch(selectedMessageType, (newMessageType) => {
+  if (newMessageType) {
+    selectedFaceType.value = getDefaultFaceType(newMessageType)
   }
 })
 
