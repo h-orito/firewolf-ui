@@ -1,5 +1,5 @@
 <template>
-  <ActionPanel title="発言" panel-key="say">
+  <ActionPanel id="say-panel" title="発言" panel-key="say">
     <!-- 参加者情報 -->
     <div v-if="myself" class="mb-4 text-sm">
       <span class="font-bold"
@@ -204,6 +204,7 @@ import { useSituation } from '~/composables/village/useSituation'
 import { useSayInputRegister } from '~/composables/village/useSayInput'
 import { useVillageSayStatus } from '~/composables/village/useVillageSayStatus'
 import { useVillage } from '~/composables/village/useVillage'
+import { useVillageNavigation } from '~/composables/village/useVillageNavigation'
 import { MESSAGE_TYPE } from '~/lib/api/message-constants'
 
 // 発言種別と表情のマッピング
@@ -233,6 +234,7 @@ const { situation } = useSituation()
 const { village } = useVillage()
 const { setHasInputText, setConfirmModalOpen, setSubmitting, reset } =
   useVillageSayStatus()
+const { scrollToElement } = useVillageNavigation()
 
 // 親からinjectしたSayInputのregisterHandlersを取得
 const sayInputRegister = useSayInputRegister()
@@ -517,6 +519,16 @@ const switchToSecret = (targetId: number) => {
   // 秘話モードに切り替え
   selectedMessageType.value = MESSAGE_TYPE.SECRET_SAY
   targetParticipantId.value = targetId.toString()
+
+  // 発言パネルにスクロール
+  scrollToSayPanel()
+}
+
+/**
+ * 発言パネルへスクロール
+ */
+const scrollToSayPanel = () => {
+  scrollToElement('say-panel', '#village-article-wrapper')
 }
 
 // 初期化
@@ -566,6 +578,10 @@ onMounted(() => {
       switchToSecret,
       setReplyTarget: (message) => {
         replyTargetMessage.value = message
+        // 返信対象設定時に発言パネルにスクロール
+        if (message) {
+          scrollToSayPanel()
+        }
       }
     })
   }
