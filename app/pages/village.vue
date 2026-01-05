@@ -86,6 +86,7 @@ import { useVillagePolling } from '~/composables/village/useVillagePolling'
 import { useVillageRefresh } from '~/composables/village/useVillageRefresh'
 import { useUserSettings } from '~/composables/village/useUserSettings'
 import { useVillageMessageFilter } from '~/composables/village/useVillageMessageFilter'
+import { useVillageSlider } from '~/composables/village/useVillageSlider'
 import { useWindowResize } from '~/composables/useWindowResize'
 import { useSayInputProvider } from '~/composables/village/useSayInput'
 import VillageHeader from '~/components/pages/village/VillageHeader.vue'
@@ -141,6 +142,7 @@ const {
   ageLimit: ageLimitSettings
 } = useUserSettings()
 const { filterByParticipant } = useVillageMessageFilter()
+const { reset: resetSlider } = useVillageSlider()
 const { isMobile } = useWindowResize()
 
 // SayInputのprovider設定（子コンポーネントでアンカー挿入機能を使用可能にする）
@@ -257,6 +259,11 @@ const initialize = async () => {
 // Lifecycle
 onMounted(async () => {
   await initialize()
+})
+
+onBeforeUnmount(() => {
+  // 村を離れるときにサイドバーを閉じる
+  resetSlider()
 })
 
 // Head設定
