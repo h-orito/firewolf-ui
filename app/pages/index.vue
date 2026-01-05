@@ -83,7 +83,10 @@ useSeoMeta(
 )
 
 // 構造化データ
+// トップページはtitleTemplateを無効化して「FIREWOLF」のみ表示
 useHead({
+  title: 'FIREWOLF',
+  titleTemplate: '',
   script: [
     createStructuredData('WebSite', {
       name: 'FIREWOLF',

@@ -14,6 +14,7 @@ export default defineNuxtConfig({
   // head設定（SEO、パフォーマンス最適化）
   app: {
     head: {
+      titleTemplate: '%s | FIREWOLF',
       htmlAttrs: {
         lang: 'ja'
       },

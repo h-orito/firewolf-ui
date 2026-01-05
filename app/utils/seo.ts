@@ -25,12 +25,14 @@ export function createSeoMeta(config: SeoConfig = {}) {
     noIndex = false
   } = config
 
+  // OGメタ用のフルタイトル（OGメタにはtitleTemplateが適用されないため）
   const fullTitle = title
     ? `${title} | ${DEFAULT_SITE_NAME}`
     : DEFAULT_SITE_NAME
 
   const meta: Record<string, string> = {
-    title: fullTitle,
+    // titleはnuxt.config.tsのtitleTemplateで自動的に「| FIREWOLF」が付与される
+    // titleが空の場合はuseHeadで別途設定する（titleTemplateの上書きが必要なため）
     description,
     ogTitle: fullTitle,
     ogDescription: description,
@@ -41,6 +43,11 @@ export function createSeoMeta(config: SeoConfig = {}) {
     twitterTitle: fullTitle,
     twitterDescription: description,
     twitterImage: ogImage
+  }
+
+  // titleが指定されている場合のみtitleを設定（titleTemplateが適用される）
+  if (title) {
+    meta.title = title
   }
 
   if (keywords) {
