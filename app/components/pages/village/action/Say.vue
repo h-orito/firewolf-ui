@@ -144,6 +144,7 @@
       :submitting="submitting"
       :selected-message-type="selectedMessageType"
       :message-type-options="messageTypeOptions"
+      :skip-confirmation="skipSayConfirmation"
       @confirm="handleSay"
     />
 
@@ -202,6 +203,7 @@ import { useSay } from '~/composables/village/action/useSay'
 import { useSituation } from '~/composables/village/useSituation'
 import { useSayInputRegister } from '~/composables/village/useSayInput'
 import { useVillageSayStatus } from '~/composables/village/useVillageSayStatus'
+import { useVillage } from '~/composables/village/useVillage'
 import { MESSAGE_TYPE } from '~/lib/api/message-constants'
 
 // 発言種別と表情のマッピング
@@ -228,6 +230,7 @@ const emit = defineEmits<{
 // Composables
 const { submitting, error: sayError, say, sayConfirm } = useSay()
 const { situation } = useSituation()
+const { village } = useVillage()
 const { setHasInputText, setConfirmModalOpen, setSubmitting, reset } =
   useVillageSayStatus()
 
@@ -337,6 +340,13 @@ const secretTargetOptions = computed(() =>
 const isSecretSay = computed(
   () => selectedMessageType.value === MESSAGE_TYPE.SECRET_SAY
 )
+
+// プロローグまたはエピローグかどうか（誤爆防止確認をスキップする判定用）
+const skipSayConfirmation = computed(() => {
+  const status = village.value?.status
+  if (!status) return false
+  return status.is_prologue || status.is_epilogue
+})
 
 // 発言種別に応じたテキストエリアのスタイルクラス
 const textareaStyleClass = computed(() => {
