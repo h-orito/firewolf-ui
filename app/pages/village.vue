@@ -1,5 +1,5 @@
 <template>
-  <div class="h-dvh w-full overflow-hidden">
+  <div class="village-layout">
     <!-- ローディング -->
     <LoadingSpinner v-if="isLoading" message="村情報を読み込み中..." fixed />
 
@@ -21,23 +21,23 @@
     <!-- メインコンテンツ -->
     <div
       v-else
-      class="flex h-dvh w-full shrink-0 justify-between"
+      class="flex h-full w-full"
       :class="{ 'dark-theme': isDarkTheme }"
     >
       <!-- サイドバー (PC: 左固定 / Mobile: オーバーレイ) -->
-      <div v-if="!isMobile" class="h-dvh bg-[#363636]">
+      <div v-if="!isMobile" class="h-full bg-[#363636]">
         <VillageSidebar />
       </div>
 
       <!-- 右側エリア (ヘッダー・メイン・フッター) -->
-      <div class="flex h-dvh flex-1 shrink-0 flex-col justify-between">
+      <div class="village-main-area">
         <!-- ヘッダー -->
         <VillageHeader />
 
         <!-- メインエリア -->
         <div
           id="village-article-wrapper"
-          class="flex-1 shrink-0 overflow-y-scroll bg-white p-2.5"
+          class="overflow-y-auto overflow-x-hidden bg-white p-2.5"
           :class="isDarkTheme ? 'dark dark-theme' : ''"
           :style="mainWrapperStyle"
         >
@@ -273,6 +273,26 @@ useHead({
 </script>
 
 <style scoped>
+/* 村ページ専用レイアウト - iOS Safari対応 */
+.village-layout {
+  position: fixed;
+  inset: 0;
+  padding-top: env(safe-area-inset-top);
+  display: flex;
+  overflow: hidden;
+}
+
+.village-main-area {
+  flex: 1;
+  display: grid;
+  grid-template-rows:
+    2rem
+    1fr
+    calc(2rem + env(safe-area-inset-bottom));
+  height: 100%;
+  overflow: hidden;
+}
+
 /* ダークモード（カスタム実装） */
 .dark-theme {
   background-color: #111827;

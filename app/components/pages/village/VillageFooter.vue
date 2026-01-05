@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="z-10 flex h-8 w-full"
-    :style="{ height: 'calc(2rem + env(safe-area-inset-bottom))' }"
-  >
+  <div class="z-10 flex h-full w-full">
     <!-- メニューボタン (モバイルのみ) -->
     <UiButton
       v-if="isMobile"

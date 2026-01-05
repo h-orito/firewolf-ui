@@ -1,5 +1,5 @@
 <template>
-  <div class="site min-h-screen">
+  <div class="site">
     <!-- スキップリンク（アクセシビリティ向上） -->
     <a
       href="#main-content"
