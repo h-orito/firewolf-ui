@@ -37,7 +37,7 @@
         <!-- メインエリア -->
         <div
           id="village-article-wrapper"
-          class="overflow-y-auto overflow-x-hidden bg-white p-2.5"
+          class="overflow-x-hidden overflow-y-auto bg-white p-2.5"
           :class="isDarkTheme ? 'dark dark-theme' : ''"
           :style="mainWrapperStyle"
         >

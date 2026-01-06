@@ -22,7 +22,7 @@
               <p
                 v-for="(intro, index) in escapeAndSplitMessage(introduction)"
                 :key="index"
-                class="break-words"
+                class="wrap-break-word"
                 v-html="intro"
               ></p>
             </div>
@@ -87,7 +87,7 @@
         <div class="mt-8">
           <h2 class="mb-4 text-lg font-semibold">役職戦績</h2>
           <div class="rounded-lg bg-white p-4 shadow">
-            <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+            <div class="grid grid-cols-4 gap-4">
               <div
                 v-for="skillRecord in playerRecords.skill_record_list"
                 :key="skillRecord.skill.code"
@@ -111,82 +111,75 @@
         <div class="mt-8">
           <h2 class="mb-4 text-xl font-semibold">参加した村</h2>
           <div class="overflow-hidden rounded-lg bg-white shadow">
-            <div class="overflow-x-auto">
-              <table class="min-w-full divide-y divide-gray-200 text-xs">
-                <thead class="bg-gray-50">
-                  <tr>
-                    <th class="px-2 py-2 text-left font-semibold text-gray-900">
-                      村名
-                    </th>
-                    <th class="px-2 py-2 text-left font-semibold text-gray-900">
-                      人数
-                    </th>
-                    <th class="px-2 py-2 text-left font-semibold text-gray-900">
-                      キャラ
-                    </th>
-                    <th class="px-2 py-2 text-left font-semibold text-gray-900">
-                      役職
-                    </th>
-                    <th class="px-2 py-2 text-left font-semibold text-gray-900">
-                      生死
-                    </th>
-                    <th class="px-2 py-2 text-left font-semibold text-gray-900">
-                      陣営
-                    </th>
-                    <th class="px-2 py-2 text-left font-semibold text-gray-900">
-                      勝敗
-                    </th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200 bg-white">
-                  <tr
-                    v-for="pv in playerRecords.participate_village_list"
-                    :key="pv.village.id"
-                  >
-                    <td class="px-2 py-2">
-                      <NuxtLink
-                        :to="`/village?id=${pv.village.id}`"
-                        class="text-blue-600 hover:text-blue-800 hover:underline"
-                      >
-                        {{ pv.village.name }}
-                      </NuxtLink>
-                    </td>
-                    <td class="px-2 py-2 whitespace-nowrap text-gray-900">
-                      {{ getParticipantCount(pv) }}
-                    </td>
-                    <td class="px-2 py-2 whitespace-nowrap text-gray-900">
-                      {{ pv.participant.name }}
-                    </td>
-                    <td class="px-2 py-2 whitespace-nowrap text-gray-900">
-                      {{ getSkillName(pv) }}
-                    </td>
-                    <td class="px-2 py-2 whitespace-nowrap text-gray-900">
-                      {{ getStatus(pv) }}
-                    </td>
-                    <td class="px-2 py-2 whitespace-nowrap text-gray-900">
-                      {{ getCampName(pv) }}
-                    </td>
-                    <td class="px-2 py-2 whitespace-nowrap">
-                      <span
-                        v-if="pv.participant.spectator"
-                        class="text-gray-500"
-                      >
-                        -
-                      </span>
-                      <span
-                        v-else-if="pv.participant.win"
-                        class="font-medium text-blue-600"
-                      >
-                        勝利
-                      </span>
-                      <span v-else class="font-medium text-red-600">
-                        敗北
-                      </span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <table class="min-w-full divide-y divide-gray-200 text-xs">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="px-2 py-2 text-left font-semibold text-gray-900">
+                    村名
+                  </th>
+                  <th class="px-2 py-2 text-left font-semibold text-gray-900">
+                    人数
+                  </th>
+                  <th class="px-2 py-2 text-left font-semibold text-gray-900">
+                    キャラ
+                  </th>
+                  <th class="px-2 py-2 text-left font-semibold text-gray-900">
+                    役職
+                  </th>
+                  <th class="px-2 py-2 text-left font-semibold text-gray-900">
+                    生死
+                  </th>
+                  <th class="px-2 py-2 text-left font-semibold text-gray-900">
+                    陣営
+                  </th>
+                  <th class="px-2 py-2 text-left font-semibold text-gray-900">
+                    勝敗
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200 bg-white">
+                <tr
+                  v-for="pv in playerRecords.participate_village_list"
+                  :key="pv.village.id"
+                >
+                  <td class="px-2 py-2 text-left">
+                    <NuxtLink
+                      :to="`/village?id=${pv.village.id}`"
+                      class="text-blue-600 hover:text-blue-800 hover:underline"
+                    >
+                      {{ pv.village.name }}
+                    </NuxtLink>
+                  </td>
+                  <td class="px-2 py-2 text-gray-900">
+                    {{ getParticipantCount(pv) }}
+                  </td>
+                  <td class="px-2 py-2 text-gray-900">
+                    {{ pv.participant.name }}
+                  </td>
+                  <td class="px-2 py-2 text-gray-900">
+                    {{ getSkillName(pv) }}
+                  </td>
+                  <td class="px-2 py-2 text-gray-900">
+                    {{ getStatus(pv) }}
+                  </td>
+                  <td class="px-2 py-2 text-gray-900">
+                    {{ getCampName(pv) }}
+                  </td>
+                  <td class="px-2 py-2">
+                    <span v-if="pv.participant.spectator" class="text-gray-500">
+                      -
+                    </span>
+                    <span
+                      v-else-if="pv.participant.win"
+                      class="font-medium text-blue-600"
+                    >
+                      勝利
+                    </span>
+                    <span v-else class="font-medium text-red-600"> 敗北 </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -328,13 +321,9 @@ const skillResult = (skillRecord: SkillRecord) => {
 const getParticipantCount = (pv: ParticipateVillageView) => {
   const participantCount = pv.village.participant.count
   const spectatorCount = pv.village.spectator.count
-  const organization =
-    pv.village.setting.organizations.organization[participantCount.toString()]
-  const countStr =
-    spectatorCount > 0
-      ? `${participantCount}+${spectatorCount}人`
-      : `${participantCount}人`
-  return `${countStr}(${organization})`
+  return spectatorCount > 0
+    ? `${participantCount}+${spectatorCount}人`
+    : `${participantCount}人`
 }
 
 const getSkillName = (pv: ParticipateVillageView) => {
