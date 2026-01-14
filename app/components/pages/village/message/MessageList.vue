@@ -1,20 +1,25 @@
 <template>
-  <div>
-    <!-- ローディング -->
-    <div v-if="loading" class="flex justify-center py-4">
-      <Icon name="spinner" class="h-6 w-6 animate-spin text-gray-500" />
-    </div>
-
+  <div class="relative">
     <!-- エラー表示 -->
     <div
-      v-else-if="error"
+      v-if="error"
       class="mx-2 my-4 rounded border border-red-200 bg-red-50 p-4 text-center text-sm text-red-600"
       :class="{ 'border-red-700 bg-red-900/20 text-red-400': isDarkTheme }"
     >
       発言の取得に失敗しました
     </div>
 
+    <!-- メッセージコンテンツ（loading中も表示を維持） -->
     <template v-else>
+      <!-- ローディングオーバーレイ -->
+      <div
+        v-if="loading"
+        class="absolute inset-0 z-10 flex items-center justify-center"
+        :class="isDarkTheme ? 'bg-gray-900/60' : 'bg-white/60'"
+      >
+        <img src="/image/loading.gif" alt="読み込み中" class="h-16 w-16" />
+      </div>
+
       <!-- 上部ページネーション -->
       <MessagePagination
         v-if="showPagination"
@@ -56,7 +61,6 @@
 import { useMessage } from '~/composables/village/useMessage'
 import { useVillage } from '~/composables/village/useVillage'
 import { useUserSettings } from '~/composables/village/useUserSettings'
-import Icon from '~/components/ui/icon/Icon.vue'
 import MessageCard from './MessageCard.vue'
 import MessagePagination from './MessagePagination.vue'
 import VillageSituationMessage from './VillageSituationMessage.vue'
