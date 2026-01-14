@@ -48,13 +48,7 @@ export const useVillage = () => {
     try {
       if (!villageStore.village) return []
 
-      const charachipIds = [
-        ...new Set(
-          villageStore.village.participant.member_list.map(
-            (p) => p.chara.charachip_id
-          )
-        )
-      ]
+      const charachipIds = villageStore.village.setting.charachip.charachip_ids
 
       const response = await apiCall<CharachipsView>(`/charachips`, {
         params: { charachip_ids: charachipIds }
