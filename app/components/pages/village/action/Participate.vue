@@ -90,8 +90,9 @@
             class="w-full"
           />
           <div class="mt-1 text-right text-xs text-gray-500 dark:text-gray-400">
-            行数: {{ lineCount }}/{{ maxLineCount }}, 文字数:
-            {{ charCountWithoutNewlines }}/{{ maxMessageLength }}
+            <span :class="{ 'text-red-600 dark:text-red-400': isLineExceeded }"
+              >行数: {{ lineCount }}/{{ maxLineCount }}</span
+            >, 文字数: {{ charCountWithoutNewlines }}/{{ maxMessageLength }}
           </div>
         </div>
       </div>
@@ -214,9 +215,16 @@ const selectedChara = computed(() => {
   return selectableCharaList.value.find((c) => c.id === form.charaId) ?? null
 })
 
-// 入村発言の最大文字数・行数
-const maxMessageLength = 400
-const maxLineCount = 20
+// 通常発言の制限を村設定から取得
+const normalSayRestrict = computed(() => {
+  const restrictList =
+    village.value?.setting.rules.message_restrict?.restrict_list ?? []
+  return restrictList.find((r) => r.type.code === 'NORMAL_SAY') ?? null
+})
+
+// 入村発言の最大文字数・行数（村設定から取得、デフォルト値を設定）
+const maxMessageLength = computed(() => normalSayRestrict.value?.length ?? 400)
+const maxLineCount = computed(() => normalSayRestrict.value?.line ?? 20)
 
 // 改行を除いた文字数
 const charCountWithoutNewlines = computed(() => {
@@ -228,6 +236,9 @@ const lineCount = computed(() => {
   if (!form.joinMessage) return 0
   return form.joinMessage.split('\n').length
 })
+
+// 行数超過判定
+const isLineExceeded = computed(() => lineCount.value > maxLineCount.value)
 
 // キャラ選択用オプション
 const charaOptions = computed(() =>
@@ -277,6 +288,7 @@ const canSubmit = computed(() => {
   if (!form.firstRequestSkill) return false
   if (!form.secondRequestSkill) return false
   if (!form.joinMessage || form.joinMessage.length < 1) return false
+  if (isLineExceeded.value) return false
   if (requiredJoinPassword.value && !form.joinPassword) return false
   return true
 })
