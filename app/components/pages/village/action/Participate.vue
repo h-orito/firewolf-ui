@@ -157,6 +157,7 @@ import {
 } from '~/composables/village/action/useParticipate'
 import { useSituation } from '~/composables/village/useSituation'
 import { useVillage } from '~/composables/village/useVillage'
+import { MESSAGE_TYPE } from '~/lib/api/message-constants'
 
 // 遅延ローディング: モーダルはボタンクリック時まで不要
 const CharaSelectModal = defineAsyncComponent(
@@ -219,7 +220,9 @@ const selectedChara = computed(() => {
 const normalSayRestrict = computed(() => {
   const restrictList =
     village.value?.setting.rules.message_restrict?.restrict_list ?? []
-  return restrictList.find((r) => r.type.code === 'NORMAL_SAY') ?? null
+  return (
+    restrictList.find((r) => r.type.code === MESSAGE_TYPE.NORMAL_SAY) ?? null
+  )
 })
 
 // 入村発言の最大文字数・行数（村設定から取得、デフォルト値を設定）
