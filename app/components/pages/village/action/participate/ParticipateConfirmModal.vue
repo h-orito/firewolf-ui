@@ -6,7 +6,7 @@
     </div>
 
     <!-- 確認チェックボックス -->
-    <div class="space-y-3">
+    <div class="flex flex-col space-y-3">
       <FormCheckbox v-model="confirm1">
         <span>
           <a
