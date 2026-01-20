@@ -84,7 +84,6 @@
           <FormTextarea
             ref="formTextareaRef"
             v-model="form.joinMessage"
-            :maxlength="maxMessageLength"
             size="sm"
             :rows="4"
             class="w-full"
@@ -92,7 +91,12 @@
           <div class="mt-1 text-right text-xs text-gray-500 dark:text-gray-400">
             <span :class="{ 'text-red-600 dark:text-red-400': isLineExceeded }"
               >行数: {{ lineCount }}/{{ maxLineCount }}</span
-            >, 文字数: {{ charCountWithoutNewlines }}/{{ maxMessageLength }}
+            >,
+            <span :class="{ 'text-red-600 dark:text-red-400': isCharExceeded }"
+              >文字数: {{ charCountWithoutNewlines }}/{{
+                maxMessageLength
+              }}</span
+            >
           </div>
         </div>
       </div>
@@ -243,6 +247,11 @@ const lineCount = computed(() => {
 // 行数超過判定
 const isLineExceeded = computed(() => lineCount.value > maxLineCount.value)
 
+// 文字数超過判定
+const isCharExceeded = computed(
+  () => charCountWithoutNewlines.value > maxMessageLength.value
+)
+
 // キャラ選択用オプション
 const charaOptions = computed(() =>
   selectableCharaList.value.map((chara) => ({
@@ -292,6 +301,7 @@ const canSubmit = computed(() => {
   if (!form.secondRequestSkill) return false
   if (!form.joinMessage || form.joinMessage.length < 1) return false
   if (isLineExceeded.value) return false
+  if (isCharExceeded.value) return false
   if (requiredJoinPassword.value && !form.joinPassword) return false
   return true
 })
