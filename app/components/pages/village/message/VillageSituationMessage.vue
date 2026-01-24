@@ -202,10 +202,8 @@ const silentTimeMessageHtml = computed(() => {
 // 発言可能時刻
 const sayableTime = computed(() => {
   if (!latestDay.value?.sayable_start_time) return ''
-  const time = latestDay.value.sayable_start_time
-  const hour = String(time.hour ?? 0).padStart(2, '0')
-  const minute = String(time.minute ?? 0).padStart(2, '0')
-  return `${hour}:${minute}`
+  const time = latestDay.value.sayable_start_time as unknown as string
+  return time.substring(0, 5) // "18:03:42" → "18:03"
 })
 
 // 文字サイズクラス
