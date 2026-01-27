@@ -14,7 +14,7 @@
       <div class="text-left">
         <!-- 村の設定 -->
         <button
-          class="flex cursor-pointer items-center py-2.5 text-sm text-white no-underline hover:text-blue-400"
+          class="flex w-full cursor-pointer items-center py-2.5 text-sm text-white no-underline hover:text-blue-400"
           @click="openVillageInfoModal"
           @keydown.enter="openVillageInfoModal"
         >
@@ -40,7 +40,7 @@
 
         <!-- メモ -->
         <button
-          class="flex cursor-pointer items-center py-2.5 text-sm text-white no-underline hover:text-blue-400"
+          class="flex w-full cursor-pointer items-center py-2.5 text-sm text-white no-underline hover:text-blue-400"
           @click="openMemoModal"
           @keydown.enter="openMemoModal"
         >
@@ -50,7 +50,7 @@
 
         <!-- ユーザ設定 -->
         <button
-          class="flex cursor-pointer items-center py-2.5 text-sm text-white no-underline hover:text-blue-400"
+          class="flex w-full cursor-pointer items-center py-2.5 text-sm text-white no-underline hover:text-blue-400"
           @click="openUserSettingsModal"
           @keydown.enter="openUserSettingsModal"
         >
@@ -61,7 +61,7 @@
         <!-- トップページ -->
         <NuxtLink
           :to="{ path: '/' }"
-          class="flex cursor-pointer items-center py-2.5 text-sm text-white no-underline hover:text-blue-400"
+          class="flex w-full cursor-pointer items-center py-2.5 text-sm text-white no-underline hover:text-blue-400"
         >
           <Icon name="i-heroicons-home" class="h-4 w-4" />
           <span class="ml-2">トップページ</span>
