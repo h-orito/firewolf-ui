@@ -58,6 +58,17 @@
           <span class="ml-2">ユーザ設定</span>
         </button>
 
+        <!-- ツイート -->
+        <a
+          :href="twitterShareUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex w-full cursor-pointer items-center py-2.5 text-sm text-white no-underline hover:text-blue-400"
+        >
+          <Icon name="twitter" class="h-4 w-4" />
+          <span class="ml-2">ツイート</span>
+        </a>
+
         <!-- トップページ -->
         <NuxtLink
           :to="{ path: '/' }"
@@ -66,6 +77,9 @@
           <Icon name="i-heroicons-home" class="h-4 w-4" />
           <span class="ml-2">トップページ</span>
         </NuxtLink>
+
+        <!-- Google Adsense -->
+        <GoogleAdsSidebar />
       </div>
 
       <!-- モバイル用閉じるボタン -->
@@ -104,6 +118,7 @@
 import Icon from '~/components/ui/icon/Icon.vue'
 import UiButton from '~/components/ui/button/index.vue'
 import Accordion from '~/components/ui/accordion/Accordion.vue'
+import GoogleAdsSidebar from '~/components/layout/GoogleAdsSidebar.vue'
 import { useVillage } from '~/composables/village/useVillage'
 import { useVillageSlider } from '~/composables/village/useVillageSlider'
 import { useWindowResize } from '~/composables/useWindowResize'
@@ -139,6 +154,13 @@ const personCount = computed(() => {
     return `${participantCount}+${spectatorCount}`
   }
   return `${participantCount}`
+})
+
+const twitterShareUrl = computed(() => {
+  const villageName = village.value?.name || ''
+  const text = encodeURIComponent(villageName)
+  const hashtags = encodeURIComponent('炎狼国,人狼_FIREWOLF')
+  return `https://twitter.com/share?text=${text}&hashtags=${hashtags}`
 })
 
 // Methods

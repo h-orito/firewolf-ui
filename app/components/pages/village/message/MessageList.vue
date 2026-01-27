@@ -45,6 +45,9 @@
       <!-- 状況メッセージ -->
       <VillageSituationMessage />
 
+      <!-- Google Adsense -->
+      <GoogleAdsMessageList />
+
       <!-- 下部ページネーション -->
       <MessagePagination
         v-if="showPagination"
@@ -64,6 +67,7 @@ import { useUserSettings } from '~/composables/village/useUserSettings'
 import MessageCard from './MessageCard.vue'
 import MessagePagination from './MessagePagination.vue'
 import VillageSituationMessage from './VillageSituationMessage.vue'
+import GoogleAdsMessageList from '~/components/layout/GoogleAdsMessageList.vue'
 
 // Composables
 const { messages, loading, error, isDispLatest, setPageNum, setDispLatest } =
