@@ -158,7 +158,9 @@ const personCount = computed(() => {
 
 const twitterShareUrl = computed(() => {
   const villageName = village.value?.name || ''
-  const text = encodeURIComponent(villageName)
+  const url = window.location.href
+  // 村名 + 改行 + URL の形式でテキストを作成
+  const text = encodeURIComponent(`${villageName}\n${url}`)
   const hashtags = encodeURIComponent('炎狼国,人狼_FIREWOLF')
   return `https://twitter.com/share?text=${text}&hashtags=${hashtags}`
 })
