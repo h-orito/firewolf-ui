@@ -25,7 +25,7 @@
         <div class="flex-1" :class="textSizeClass">
           <!-- キャラクター名とプレイヤー情報 -->
           <div class="mb-1 flex flex-wrap items-center gap-1">
-            <span class="font-medium">{{ getCharaName(participant) }}</span>
+            <span class="font-bold">{{ getCharaName(participant) }}</span>
             <span class="text-gray-600 dark:text-gray-400">
               {{ participant.player?.nickname }}
             </span>
