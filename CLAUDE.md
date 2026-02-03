@@ -24,33 +24,18 @@ FIREWOLFは人狼ゲームが無料で遊べるWebサービスです。Nuxt.js (
 
 ## 開発フロー
 
-1. **features.md の新規要件を確認**
-   1. `{project_root}/.claude/features.md` の新規要件を確認
-   2. 要件に基づいて必要な設計ドキュメントを doc/ 配下に作成・更新
-   3. 要件を具体的なタスクに分解して `{project_root}/.claude/tasks.md` に追加
-   4. `{project_root}/.claude/features.md` から内容を削除
+1. **実装**:
+   1. 指定されたタスクを `implementer` で実施
+   2. 実装できたら、サブエージェント `reviewer` でレビューし、指摘事項がある場合、再度 `implementer` に修正させる
+   3. タスクが完了したら、ユーザーに確認を依頼
 
-2. **bugs.md の新規バグを確認**:
-   1. `{project_root}/.claude/bugs.md` のバグ内容を確認
-   2. バグを修正タスクに分解して `{project_root}/.claude/tasks.md` に追加
-   3. `{project_root}/.claude/bugs.md` から内容を削除
-
-3. **tasks.md のタスクを確認**:
-   1. `{project_root}/.claude/tasks.md` を参照してタスクを確認
-   2. `[ ]` で区切られた範囲を1つのタスクとし、そのタスクを最大で1つ進める
-   3. タスクに記載されている作業をサブエージェント `implementer` で実施
-   4. 実装できたら、サブエージェント `reviewer` でレビューし、指摘事項がある場合、再度 `implementer` に修正させる
-   5. タスクが完了したら、ユーザーに確認を依頼
-
-4. **品質チェック**:
+2. **品質チェック**:
    1. `doc/guidelines` の開発ガイドラインに沿っているか確認
    2. **commit 前に必ず実行**: `pnpm lint && pnpm format && pnpm type-check`
 
-5. **コミット**:
-   1. ユーザーの承認を得てから、`{project_root}/.claude/tasks.md` のチェックボックスに記録し、適切な粒度でコミット
+3. **コミット**:
+   1. ユーザーの承認を得てから、適切な粒度でコミット
       1. **commit message に絵文字を使用しない**
-
-6. タスクがなくなるまでこのフローを繰り返す
 
 ## 開発ガイドライン
 

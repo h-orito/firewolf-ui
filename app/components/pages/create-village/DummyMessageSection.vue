@@ -122,6 +122,8 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
+  selectedChara: null,
+  errors: () => ({}),
   day0Readonly: false
 })
 
