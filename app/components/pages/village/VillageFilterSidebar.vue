@@ -1,29 +1,46 @@
 <template>
-  <Modal v-model="isModalOpen" title="発言抽出">
+  <div
+    class="dark flex h-dvh w-[280px] flex-col overflow-hidden bg-[#363636] text-white"
+  >
+    <!-- ヘッダー -->
+    <div class="shrink-0 border-b border-gray-600 p-2.5">
+      <h2 class="text-base font-bold">発言抽出</h2>
+    </div>
+
     <!-- コンテンツ -->
-    <FilterContent
-      v-if="village"
-      v-model:selected-message-type-groups="selectedMessageTypeGroups"
-      v-model:selected-participant-ids="selectedParticipantIds"
-      v-model:selected-to-participant-ids="selectedToParticipantIds"
-      v-model:keyword="keyword"
-    />
+    <div class="flex-1 overflow-y-auto p-2.5">
+      <FilterContent
+        v-if="village"
+        v-model:selected-message-type-groups="selectedMessageTypeGroups"
+        v-model:selected-participant-ids="selectedParticipantIds"
+        v-model:selected-to-participant-ids="selectedToParticipantIds"
+        v-model:keyword="keyword"
+        :participant-columns="1"
+      />
+    </div>
 
     <!-- フッター -->
-    <template #footer>
-      <div class="flex justify-end gap-2">
-        <UiButton color="secondary" variant="outline" @click="handleReset">
-          リセット
-        </UiButton>
-        <UiButton color="secondary" variant="outline" @click="handleClose">
-          キャンセル
-        </UiButton>
-        <UiButton color="primary" :disabled="!canFilter" @click="handleFilter">
-          抽出する
-        </UiButton>
-      </div>
-    </template>
-  </Modal>
+    <div
+      class="flex shrink-0 justify-end gap-2 border-t border-gray-600 p-2.5 pb-[calc(0.625rem+env(safe-area-inset-bottom))]"
+    >
+      <UiButton
+        color="secondary"
+        variant="solid"
+        size="sm"
+        @click="handleReset"
+      >
+        リセット
+      </UiButton>
+      <UiButton
+        color="primary"
+        size="sm"
+        :disabled="!canFilter"
+        @click="handleFilter"
+      >
+        抽出する
+      </UiButton>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -34,23 +51,8 @@ import {
 import { useVillageMessageFilter } from '~/composables/village/useVillageMessageFilter'
 import { useVillage } from '~/composables/village/useVillage'
 import { useMessage } from '~/composables/village/useMessage'
-import Modal from '~/components/ui/modal/Modal.vue'
 import UiButton from '~/components/ui/button/index.vue'
 import FilterContent from '~/components/pages/village/filter/FilterContent.vue'
-
-// Props
-interface Props {
-  isOpen: boolean
-}
-
-const props = defineProps<Props>()
-
-// Emits
-interface Emits {
-  (e: 'close'): void
-}
-
-const emit = defineEmits<Emits>()
 
 // Composables
 const {
@@ -63,16 +65,6 @@ const {
 } = useVillageMessageFilter()
 const { village, allParticipantIds } = useVillage()
 const { loadMessages } = useMessage()
-
-// State - モーダルの開閉状態
-const isModalOpen = computed({
-  get: () => props.isOpen,
-  set: (value) => {
-    if (!value) {
-      emit('close')
-    }
-  }
-})
 
 // State - フィルタ条件
 const selectedMessageTypeGroups = ref<MessageTypeGroup[]>([
@@ -90,19 +82,8 @@ const canFilter = computed(() => {
   )
 })
 
-// モーダルが開かれたときにフィルタ状態を初期化
-watch(
-  () => props.isOpen,
-  (isOpen) => {
-    if (isOpen) {
-      initializeFilter()
-    }
-  }
-)
-
-// Methods
+// 初期化 - コンポーネントマウント時とストア変更時にフィルタ状態を同期
 const initializeFilter = () => {
-  // 現在のフィルタ状態をロード
   selectedMessageTypeGroups.value = storeMessageTypeGroups.value
     ? [...storeMessageTypeGroups.value]
     : [...ALL_MESSAGE_TYPE_GROUPS]
@@ -118,6 +99,30 @@ const initializeFilter = () => {
   keyword.value = storeKeyword.value ?? null
 }
 
+// 初期化
+onMounted(() => {
+  initializeFilter()
+})
+
+// allParticipantIdsが変更された場合（村情報の読み込み完了時）に再初期化
+watch(allParticipantIds, () => {
+  initializeFilter()
+})
+
+// ストアのフィルタ状態が外部から変更された場合（個人抽出など）に同期
+watch(
+  [
+    storeMessageTypeGroups,
+    storeParticipantIds,
+    storeToParticipantIds,
+    storeKeyword
+  ],
+  () => {
+    initializeFilter()
+  }
+)
+
+// Methods
 const handleFilter = () => {
   // 全選択の場合はnullとして扱う
   const messageTypeGroups =
@@ -144,28 +149,16 @@ const handleFilter = () => {
 
   // メッセージを再読み込み
   loadMessages()
-
-  emit('close')
 }
 
 const handleReset = () => {
   // フィルタをリセット
   resetFilter()
 
+  // ローカル状態も初期化
+  initializeFilter()
+
   // メッセージを再読み込み
   loadMessages()
-
-  emit('close')
-}
-
-const handleClose = () => {
-  emit('close')
 }
 </script>
-
-<style scoped>
-/* モーダルカードの最大高さを調整 */
-:deep(.modal-card) {
-  max-height: calc(100dvh - 6.5rem);
-}
-</style>

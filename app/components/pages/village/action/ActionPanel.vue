@@ -149,11 +149,19 @@ defineExpose({
   border-radius: 0;
 }
 
-/* PC表示時（サイドバー分を右にずらす） */
+/* タブレット表示時（左サイドバー分を左にずらす） */
 @media screen and (min-width: 768px) {
   .action-panel-fixed {
     left: 280px;
     right: 0;
+  }
+}
+
+/* デスクトップ表示時（左右サイドバー分を考慮） */
+@media screen and (min-width: 1024px) {
+  .action-panel-fixed {
+    left: 280px;
+    right: 280px;
   }
 }
 </style>

@@ -1,5 +1,8 @@
 <template>
-  <div v-if="existsAction" class="action-container space-y-4 py-4">
+  <div
+    v-if="existsAction"
+    class="action-container mx-auto max-w-[640px] space-y-4 py-4"
+  >
     <!-- 発言 -->
     <Say v-if="isDispSay" @complete="handleSayComplete" />
 

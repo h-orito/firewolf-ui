@@ -69,6 +69,11 @@
         <VillageSidebar v-if="isMobile" />
       </div>
 
+      <!-- 右サイドバー (デスクトップのみ: 1024px以上) -->
+      <div v-if="isDesktop" class="h-full shrink-0">
+        <VillageFilterSidebar />
+      </div>
+
       <!-- 年齢制限確認モーダル -->
       <ModalAgeLimit v-model="isAgeLimitModalOpen" />
     </div>
@@ -92,6 +97,7 @@ import { useSayInputProvider } from '~/composables/village/useSayInput'
 import VillageHeader from '~/components/pages/village/VillageHeader.vue'
 import VillageFooter from '~/components/pages/village/VillageFooter.vue'
 import VillageSidebar from '~/components/pages/village/VillageSidebar.vue'
+import VillageFilterSidebar from '~/components/pages/village/VillageFilterSidebar.vue'
 import VillageDayList from '~/components/pages/village/VillageDayList.vue'
 import MessageList from '~/components/pages/village/message/MessageList.vue'
 import ActionContainer from '~/components/pages/village/action/ActionContainer.vue'
@@ -143,7 +149,7 @@ const {
 } = useUserSettings()
 const { filterByParticipant } = useVillageMessageFilter()
 const { reset: resetSlider } = useVillageSlider()
-const { isMobile } = useWindowResize()
+const { isMobile, isDesktop } = useWindowResize()
 
 // SayInputのprovider設定（子コンポーネントでアンカー挿入機能を使用可能にする）
 useSayInputProvider()
@@ -175,7 +181,13 @@ const villageName = computed(() => {
 })
 
 const mainWrapperStyle = computed(() => {
-  const maxWidth = isMobile.value ? '100vw' : 'calc(100vw - 280px)'
+  // モバイル: 100vw
+  // タブレット (768-1023px): calc(100vw - 280px) - 左サイドバーのみ
+  // デスクトップ (1024px+): calc(100vw - 560px) - 左右両サイドバー
+  let maxWidth = '100vw'
+  if (!isMobile.value) {
+    maxWidth = isDesktop.value ? 'calc(100vw - 560px)' : 'calc(100vw - 280px)'
+  }
 
   // 固定パネルがない場合
   if (!hasFixedPanel.value) {

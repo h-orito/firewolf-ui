@@ -40,20 +40,20 @@
       />
     </UiButton>
 
-    <!-- 抽出ボタン / 抽出解除ボタン -->
+    <!-- 抽出ボタン (デスクトップ未満でのみ表示) -->
     <UiButton
+      v-if="!isDesktop"
       color="secondary"
       variant="solid"
       class="flex h-full min-w-[60px] cursor-pointer items-center justify-center rounded-none border-0 border-l border-gray-700 bg-[#363636]"
       :class="{ 'w-[120px]': !isMobile }"
       aria-label="発言を抽出"
-      @click="openFilterModalOrReset"
+      @click="openFilterModal"
     >
       <Icon
         name="i-heroicons-funnel"
         :class="`h-5 w-5 ${isFiltering ? 'text-blue-400' : 'text-white'}`"
       />
-      <span v-if="isFiltering" class="ml-1 text-sm text-blue-400">解除</span>
     </UiButton>
 
     <!-- 残り時間表示 -->
@@ -87,12 +87,12 @@ const ModalFilter = defineAsyncComponent(
 
 // Composables
 const { scrollToBottom } = useVillageNavigation()
-const { isFiltering, resetFilter } = useVillageMessageFilter()
+const { isFiltering } = useVillageMessageFilter()
 const { existsNewMessages } = useVillagePolling()
 const { toggle: toggleSlider } = useVillageSlider()
 const { refresh } = useVillageRefresh()
 const { timerText, startTimer } = useVillageTimer()
-const { isMobile } = useWindowResize()
+const { isMobile, isDesktop } = useWindowResize()
 const { loadMessages } = useMessage()
 
 // State
@@ -110,16 +110,8 @@ const toBottom = () => {
   scrollToBottom()
 }
 
-const openFilterModalOrReset = () => {
-  if (isFiltering.value) {
-    // 抽出中の場合はフィルタをリセット
-    resetFilter()
-    // メッセージを再読み込み
-    loadMessages()
-  } else {
-    // 抽出していない場合はモーダルを開く
-    isOpenFilterModal.value = true
-  }
+const openFilterModal = () => {
+  isOpenFilterModal.value = true
 }
 
 const closeFilterModal = () => {

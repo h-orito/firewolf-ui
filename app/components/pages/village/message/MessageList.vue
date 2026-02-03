@@ -1,5 +1,5 @@
 <template>
-  <div class="relative">
+  <div class="relative mx-auto max-w-[640px]">
     <!-- エラー表示 -->
     <div
       v-if="error"
