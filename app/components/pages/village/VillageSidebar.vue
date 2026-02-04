@@ -69,6 +69,16 @@
           <span class="ml-2">ツイート</span>
         </a>
 
+        <!-- 切り抜き -->
+        <NuxtLink
+          :to="{ path: '/scrap', query: { id: village?.id } }"
+          target="_blank"
+          class="flex w-full cursor-pointer items-center py-2.5 text-sm text-white no-underline hover:text-blue-400"
+        >
+          <Icon name="i-heroicons-scissors" class="h-4 w-4" />
+          <span class="ml-2">切り抜き</span>
+        </NuxtLink>
+
         <!-- トップページ -->
         <NuxtLink
           :to="{ path: '/' }"

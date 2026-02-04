@@ -11,7 +11,8 @@ import {
   HomeIcon as HomeIconOutline,
   UsersIcon as UsersIconOutline,
   ChartBarIcon as ChartBarIconOutline,
-  FunnelIcon as FunnelIconOutline
+  FunnelIcon as FunnelIconOutline,
+  ScissorsIcon as ScissorsIconOutline
 } from '@heroicons/vue/24/outline'
 
 // 20px solid icons
@@ -45,6 +46,7 @@ export const heroiconsMap: Record<string, Component> = {
   'i-heroicons-users': UsersIconOutline,
   'i-heroicons-chart-bar': ChartBarIconOutline,
   'i-heroicons-funnel': FunnelIconOutline,
+  'i-heroicons-scissors': ScissorsIconOutline,
 
   // 20px solid
   'i-heroicons-chevron-left-20-solid': ChevronLeftIcon20Solid,
