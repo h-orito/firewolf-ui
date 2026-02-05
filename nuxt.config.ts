@@ -1,248 +1,322 @@
-import { NuxtConfig } from '@nuxt/types'
-require('dotenv').config()
+import tailwindcss from '@tailwindcss/vite'
+import { visualizer } from 'rollup-plugin-visualizer'
 
-const siteName = 'FIREWOLF'
-const siteDesc = '人狼ゲームが無料で遊べるサービスです。'
-const siteKeywords = '人狼,人狼ゲーム,長期人狼'
-const baseUrl = process.env.FIREWOLF_UI_BASEURL || 'http://localhost:3000'
-const ogpImages = baseUrl + '/image/ogp/'
-const manifestIcon = '/image/icons/icon-512.png'
+const isAnalyze = process.env.ANALYZE === 'true'
+const isDev = process.env.NODE_ENV === 'development'
 
-const pwa = {
-  icon: {
-    iconFileName: manifestIcon
+export default defineNuxtConfig({
+  compatibilityDate: '2025-08-24',
+  devtools: { enabled: true },
+  devServer: {
+    port: 3011
   },
-  manifest: {
-    lang: 'ja',
-    name: siteName,
-    short_name: siteName,
-    description: siteDesc,
-    background_color: '#ffffff',
-    theme_color: '#ffffff',
-    display: 'standalone',
-    orientation: 'portrait'
-  },
-  workbox: {
-    runtimeCaching: [
-      {
-        urlPattern: 'https://polyfill.io/.*',
-        handler: 'cacheFirst'
+
+  // head設定（SEO、パフォーマンス最適化）
+  app: {
+    head: {
+      titleTemplate: '%s | FIREWOLF',
+      htmlAttrs: {
+        lang: 'ja'
       },
-      {
-        urlPattern: '^https://fonts.(?:googleapis|gstatic).com/(.*)',
-        handler: 'cacheFirst'
-      },
-      {
-        urlPattern: 'https://cdn.jsdelivr.net/.*',
-        handler: 'cacheFirst'
-      },
-      {
-        urlPattern: '/.*',
-        handler: 'networkOnly'
-      }
-    ]
-  }
-}
-
-const meta = [
-  { charset: 'utf-8' },
-  {
-    name: 'viewport',
-    content:
-      'width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover'
-  },
-  {
-    hid: 'description',
-    name: 'description',
-    content: siteDesc
-  },
-  { hid: 'keywords', name: 'keywords', content: siteKeywords },
-  { hid: 'og:site_name', property: 'og:site_name', content: siteName },
-  // OGP
-  { hid: 'og:type', property: 'og:type', content: 'website' },
-  { hid: 'og:url', property: 'og:url', content: baseUrl },
-  { hid: 'og:title', property: 'og:title', content: siteName },
-  { hid: 'og:description', property: 'og:description', content: siteDesc },
-  {
-    hid: 'og:image',
-    property: 'og:image',
-    content: `${ogpImages}top.jpg`
-  },
-  { name: 'twitter:card', content: 'summary_large_image' },
-  { name: 'twitter:site', content: '@ort_dev' }
-]
-if (process.env.ENV !== 'production') {
-  meta.push({
-    hid: 'robots',
-    name: 'robots',
-    content: 'noindex,noarchive,nofollow'
-  })
-}
-
-const nuxtConfig: NuxtConfig = {
-  mode: 'spa',
-
-  env: {
-    FIREBASE_API_KEY: process.env.FIREBASE_API_KEY || '',
-    FIREBASE_AUTH_DOMAIN: process.env.FIREBASE_AUTH_DOMAIN || '',
-    FIREBASE_DATABASEURL: process.env.FIREBASE_DATABASEURL || '',
-    FIREBASE_PROJECTID: process.env.FIREBASE_PROJECTID || '',
-    FIREBASE_STORAGEBUCKET: process.env.FIREBASE_STORAGEBUCKET || '',
-    FIREBASE_MESSAGINGSENDERID: process.env.FIREBASE_MESSAGINGSENDERID || '',
-    FIREBASE_APPID: process.env.FIREBASE_APPID || '',
-    ENV: process.env.ENV || ''
-  },
-
-  /* Headers of the page */
-  head: {
-    titleTemplate: `${siteName}%s`,
-    meta,
-    link: [
-      {
-        rel: 'apple-touch-icon',
-        type: 'image/png',
-        href: '/image/icons/apple-touch-icon.png'
-      },
-      { rel: 'icon', type: 'image/png', href: '/image/icons/icon.png' }
-    ],
-    htmlAttrs: {
-      prefix: 'og: http://ogp.me/ns#'
+      meta: [
+        { charset: 'utf-8' },
+        {
+          name: 'viewport',
+          content:
+            'width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover'
+        },
+        { name: 'format-detection', content: 'telephone=no' },
+        { name: 'theme-color', content: '#0a0a1a' }
+      ],
+      link: [
+        // Favicon
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+        {
+          rel: 'apple-touch-icon',
+          href: '/image/icons/apple-touch-icon.png'
+        },
+        // Preconnect（外部リソースへの事前接続）
+        { rel: 'preconnect', href: 'https://apis.google.com' },
+        { rel: 'preconnect', href: 'https://www.googleapis.com' },
+        { rel: 'preconnect', href: 'https://identitytoolkit.googleapis.com' },
+        {
+          rel: 'preconnect',
+          href: 'https://pagead2.googlesyndication.com',
+          crossorigin: ''
+        },
+        // DNS Prefetch（追加の外部ドメイン）
+        {
+          rel: 'dns-prefetch',
+          href: 'https://www.googletagmanager.com'
+        },
+        { rel: 'dns-prefetch', href: 'https://wolfort.net' }
+      ]
     }
   },
 
-  pwa,
+  modules: ['@pinia/nuxt', '@nuxt/eslint', 'nuxt-vuefire', '@vite-pwa/nuxt'],
 
-  /* Customize the progress-bar color */
-  loading: { color: '#3B8070' },
-
-  /* Global CSS */
-  css: [
-    '@fortawesome/fontawesome-free-webfonts',
-    '@fortawesome/fontawesome-free-webfonts/css/fa-brands.css',
-    '@fortawesome/fontawesome-free-webfonts/css/fa-solid.css',
-    '~/assets/sass/firewolf.scss',
-    '~/assets/css/main.css'
-  ],
-
-  /* Plugins to load before mounting the App */
-  plugins: [
-    '~/plugins/axios',
-    '~/plugins/window-resize',
-    '~/plugins/vee-validate',
-    '~/plugins/dayjs'
-  ],
-
-  axios: {
-    baseURL:
-      process.env.FIREWOLF_API_BASEURL || 'http://localhost:8087/firewolf'
-  },
-
-  router: {
-    middleware: ['authenticated', 'version', 'google-ads']
-  },
-
-  /* Nuxt.js modules */
-  modules: [
-    // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
-    // Doc: https://buefy.github.io/#/documentation
-    ['nuxt-buefy', { materialDesignIcons: false }],
-    // 各pageでsassの変数を使えるようにしたい
-    '@nuxtjs/style-resources',
-    // dotenv
-    '@nuxtjs/dotenv',
-    // cookie-universal-nuxt
-    'cookie-universal-nuxt',
-    // scroll
-    ['vue-scrollto/nuxt', { duration: 500 }],
-    // copy to clipboard
-    'nuxt-clipboard2',
-    // pwa
-    '@nuxtjs/pwa',
-    // google-analytics
-    [
-      '@nuxtjs/google-analytics',
-      {
-        id: 'UA-168213386-1'
-      }
-    ],
-    // Doc: https://github.com/nuxt-community/sitemap-module
-    // ↓配列の最後でsitemapモジュールを宣言
-    '@nuxtjs/sitemap'
-  ],
-
-  sitemap: {
-    hostname: 'https://fire-wolf.com',
-    // 除外ディレクトリ、ページ
-    exclude: [],
-    // 動的なルーティングで生成したページ
-    routes: []
-  },
-
-  styleResources: {
-    scss: ['~/assets/sass/firewolf.scss']
-  },
-
-  loadingIndicator: {
-    name: '~/static/html/loading-indicator.html'
-  },
-
-  /* Build configuration */
-  buildModules: [
-    [
-      '@nuxt/typescript-build',
-      {
-        typeCheck: true,
-        ignoreNotFoundWarnings: true
-      }
-    ]
-  ],
-
-  build: {
-    babel: {
-      plugins: [
-        ['@babel/plugin-proposal-decorators', { legacy: true }],
-        ['@babel/plugin-proposal-class-properties', { loose: true }]
+  // PWA設定
+  pwa: {
+    registerType: 'autoUpdate',
+    // 開発環境ではService Workerを無効にする（オプション）
+    disable: isDev,
+    manifest: {
+      name: 'FIREWOLF - 人狼ゲーム',
+      short_name: 'FIREWOLF',
+      description:
+        'FIREWOLFは人狼ゲームが無料で遊べるWebサービスです。カスタマイズ性の高い村建てが可能で、豊富な役職や演出を楽しめます。',
+      theme_color: '#0a0a1a',
+      background_color: '#0a0a1a',
+      display: 'standalone',
+      orientation: 'portrait',
+      start_url: '/',
+      scope: '/',
+      lang: 'ja',
+      categories: ['games', 'entertainment'],
+      icons: [
+        {
+          src: '/image/icons/icon.png',
+          sizes: '192x192',
+          type: 'image/png',
+          purpose: 'any'
+        },
+        {
+          src: '/image/icons/icon-512.png',
+          sizes: '512x512',
+          type: 'image/png',
+          purpose: 'any'
+        },
+        {
+          src: '/image/icons/icon-512.png',
+          sizes: '512x512',
+          type: 'image/png',
+          purpose: 'maskable'
+        },
+        {
+          src: '/image/icons/apple-touch-icon.png',
+          sizes: '180x180',
+          type: 'image/png',
+          purpose: 'apple touch icon'
+        }
       ]
     },
-    /* You can extend webpack config here */
-    extend(config, ctx) {
-      // Run ESLint on save
-      if (ctx.isDev && ctx.isClient) {
-        config.module!.rules.push({
-          enforce: 'pre',
-          test: /\.(js|vue|ts)$/,
-          loader: 'eslint-loader',
-          exclude: /(node_modules)/
-        })
-      }
-    },
-    extractCSS: true,
-    optimization: {
-      splitChunks: {
-        chunks: 'async',
-        minSize: 30000,
-        maxSize: 0,
-        minChunks: 1,
-        maxAsyncRequests: 5,
-        maxInitialRequests: 3,
-        automaticNameDelimiter: '~',
-        name: true,
-        cacheGroups: {
-          vendors: {
-            test: /[\\/]node_modules[\\/]/,
-            priority: -10
-          },
-          default: {
-            minChunks: 2,
-            priority: -20,
-            reuseExistingChunk: true
+    workbox: {
+      // オフラインフォールバック
+      navigateFallback: '/',
+      // キャッシュするファイルパターン
+      globPatterns: ['**/*.{js,css,html,png,jpg,jpeg,svg,ico,woff,woff2}'],
+      // globPatternsでマッチしないファイルを除外
+      globIgnores: ['**/node_modules/**'],
+      // ランタイムキャッシュ設定
+      runtimeCaching: [
+        // 静的アセット（CacheFirst）
+        {
+          urlPattern: /^https:\/\/.*\.(png|jpg|jpeg|svg|gif|webp|ico)$/,
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'images-cache',
+            expiration: {
+              maxEntries: 100,
+              maxAgeSeconds: 60 * 60 * 24 * 30 // 30日
+            },
+            cacheableResponse: {
+              statuses: [0, 200]
+            }
+          }
+        },
+        // フォント（CacheFirst）
+        {
+          urlPattern: /^https:\/\/.*\.(woff|woff2|ttf|eot)$/,
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'fonts-cache',
+            expiration: {
+              maxEntries: 20,
+              maxAgeSeconds: 60 * 60 * 24 * 365 // 1年
+            },
+            cacheableResponse: {
+              statuses: [0, 200]
+            }
+          }
+        },
+        // Google Fonts（StaleWhileRevalidate）
+        {
+          urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/,
+          handler: 'StaleWhileRevalidate',
+          options: {
+            cacheName: 'google-fonts-stylesheets'
+          }
+        },
+        {
+          urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/,
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'google-fonts-webfonts',
+            expiration: {
+              maxEntries: 30,
+              maxAgeSeconds: 60 * 60 * 24 * 365 // 1年
+            },
+            cacheableResponse: {
+              statuses: [0, 200]
+            }
+          }
+        },
+        // API呼び出し（NetworkFirst）
+        {
+          urlPattern: /^https:\/\/.*\/api\/.*/,
+          handler: 'NetworkFirst',
+          options: {
+            cacheName: 'api-cache',
+            networkTimeoutSeconds: 10,
+            expiration: {
+              maxEntries: 50,
+              maxAgeSeconds: 60 * 5 // 5分
+            },
+            cacheableResponse: {
+              statuses: [0, 200]
+            }
+          }
+        },
+        // wolfort.net の画像（CacheFirst）
+        {
+          urlPattern: /^https:\/\/wolfort\.net\/.*/,
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'external-images-cache',
+            expiration: {
+              maxEntries: 200,
+              maxAgeSeconds: 60 * 60 * 24 * 7 // 7日
+            },
+            cacheableResponse: {
+              statuses: [0, 200]
+            }
           }
         }
-      }
+      ],
+      // クリーンアップ設定
+      cleanupOutdatedCaches: true,
+      // Service Workerの即時アクティベーション
+      skipWaiting: true,
+      clientsClaim: true
     },
-    transpile: ['vee-validate/dist/rules']
+    // PWA開発オプション
+    devOptions: {
+      enabled: false, // 開発環境でもテストしたい場合はtrueに
+      type: 'module'
+    }
+  },
+  css: ['~/assets/css/main.css'],
+  vite: {
+    plugins: [
+      tailwindcss(),
+      ...(isAnalyze
+        ? [
+            visualizer({
+              filename: 'stats.html',
+              open: false,
+              gzipSize: true,
+              brotliSize: true,
+              template: 'treemap'
+            })
+          ]
+        : [])
+    ],
+    build: {
+      // minify設定（本番環境用）
+      minify: 'esbuild',
+      // ターゲットブラウザ設定
+      target: 'esnext',
+      // チャンク分割の最適化
+      rollupOptions: {
+        output: {
+          // 手動チャンク分割（関数ベースで安全に実装）
+          manualChunks(id: string) {
+            // Firebase関連を分離（大きいため）
+            if (id.includes('node_modules/firebase')) {
+              return 'firebase'
+            }
+            // VeeValidate関連
+            if (
+              id.includes('node_modules/vee-validate') ||
+              id.includes('node_modules/yup') ||
+              id.includes('node_modules/@vee-validate')
+            ) {
+              return 'validation'
+            }
+            // VueUse
+            if (id.includes('node_modules/@vueuse')) {
+              return 'vueuse'
+            }
+            // heroicons
+            if (id.includes('node_modules/@heroicons')) {
+              return 'icons'
+            }
+          }
+        }
+      },
+      // チャンクサイズ警告の閾値（500KB）
+      chunkSizeWarningLimit: 500
+    }
+  },
+  typescript: {
+    typeCheck: true
+  },
+  pages: true,
+  ssr: false,
+  vuefire: {
+    auth: {
+      enabled: true,
+      sessionCookie: false
+    },
+    config: {
+      apiKey: process.env.NUXT_PUBLIC_FIREBASE_API_KEY || '',
+      authDomain: process.env.NUXT_PUBLIC_FIREBASE_AUTH_DOMAIN || '',
+      projectId: process.env.NUXT_PUBLIC_FIREBASE_PROJECT_ID || '',
+      storageBucket: process.env.NUXT_PUBLIC_FIREBASE_STORAGE_BUCKET || '',
+      messagingSenderId:
+        process.env.NUXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || '',
+      appId: process.env.NUXT_PUBLIC_FIREBASE_APP_ID || '',
+      databaseURL: process.env.NUXT_PUBLIC_FIREBASE_DATABASE_URL || ''
+    }
+  },
+  runtimeConfig: {
+    public: {
+      apiBaseUrl:
+        process.env.NUXT_PUBLIC_API_BASE_URL || 'http://localhost:8080'
+    }
+  },
+  nitro: {
+    prerender: {
+      routes: ['/sitemap.xml']
+    },
+    // 静的アセットのキャッシュヘッダー設定
+    routeRules: {
+      // ハッシュ付きアセット（JS、CSS）は長期キャッシュ（1年）
+      '/_nuxt/**': {
+        headers: {
+          'cache-control': 'public, max-age=31536000, immutable'
+        }
+      },
+      // 画像は中期キャッシュ（1週間）
+      '/img/**': {
+        headers: {
+          'cache-control':
+            'public, max-age=604800, stale-while-revalidate=86400'
+        }
+      },
+      // フォントは長期キャッシュ（1年）
+      '/fonts/**': {
+        headers: {
+          'cache-control': 'public, max-age=31536000, immutable'
+        }
+      },
+      // HTMLページはキャッシュなし（常に最新を取得）
+      '/**': {
+        headers: {
+          'cache-control': 'no-cache, no-store, must-revalidate'
+        }
+      }
+    }
   }
-}
-
-export default nuxtConfig
+})

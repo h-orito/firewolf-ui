@@ -1,0 +1,125 @@
+<template>
+  <div class="z-10 flex h-full w-full">
+    <!-- メニューボタン (モバイルのみ) -->
+    <UiButton
+      v-if="isMobile"
+      color="secondary"
+      variant="solid"
+      icon="i-heroicons-bars-3-20-solid"
+      class="flex h-full min-w-[60px] cursor-pointer items-center justify-center rounded-none border-0 border-r border-gray-700 bg-[#363636]"
+      aria-label="サイドバーを開く"
+      @click="toggleSlider"
+    />
+
+    <!-- 更新ボタン -->
+    <UiButton
+      color="secondary"
+      variant="solid"
+      class="flex h-full min-w-[60px] cursor-pointer items-center justify-center rounded-none border-0 border-r border-gray-700 bg-[#363636]"
+      :class="{ 'w-[120px]': !isMobile }"
+      aria-label="発言を更新"
+      @click="handleRefresh"
+    >
+      <Icon
+        name="i-heroicons-arrow-path-20-solid"
+        :class="`h-5 w-5 ${existsNewMessages ? 'animate-spin text-blue-400' : 'text-white'}`"
+      />
+    </UiButton>
+
+    <!-- 最下部スクロールボタン -->
+    <UiButton
+      color="secondary"
+      variant="solid"
+      class="flex h-full flex-1 cursor-pointer items-center justify-center rounded-none border-0 bg-[#363636]"
+      aria-label="最下部にスクロール"
+      @click="toBottom"
+    >
+      <Icon
+        name="i-heroicons-arrow-down-20-solid"
+        class="h-5 w-5 border-b border-white text-white"
+      />
+    </UiButton>
+
+    <!-- 抽出ボタン (デスクトップ未満でのみ表示) -->
+    <UiButton
+      v-if="!isDesktop"
+      color="secondary"
+      variant="solid"
+      class="flex h-full min-w-[60px] cursor-pointer items-center justify-center rounded-none border-0 border-l border-gray-700 bg-[#363636]"
+      :class="{ 'w-[120px]': !isMobile }"
+      aria-label="発言を抽出"
+      @click="openFilterModal"
+    >
+      <Icon
+        name="i-heroicons-funnel"
+        :class="`h-5 w-5 ${isFiltering ? 'text-blue-400' : 'text-white'}`"
+      />
+    </UiButton>
+
+    <!-- 残り時間表示 -->
+    <div
+      class="flex h-full w-20 cursor-default items-center justify-center border-l border-gray-700 bg-[#363636] text-white"
+    >
+      <p class="text-xs leading-10">{{ timerText }}</p>
+    </div>
+
+    <!-- 抽出モーダル -->
+    <ModalFilter :is-open="isOpenFilterModal" @close="closeFilterModal" />
+  </div>
+</template>
+
+<script setup lang="ts">
+import Icon from '~/components/ui/icon/Icon.vue'
+import UiButton from '~/components/ui/button/index.vue'
+import { useVillageNavigation } from '~/composables/village/useVillageNavigation'
+import { useVillageMessageFilter } from '~/composables/village/useVillageMessageFilter'
+import { useVillagePolling } from '~/composables/village/useVillagePolling'
+import { useVillageSlider } from '~/composables/village/useVillageSlider'
+import { useVillageRefresh } from '~/composables/village/useVillageRefresh'
+import { useVillageTimer } from '~/composables/village/useVillageTimer'
+import { useWindowResize } from '~/composables/useWindowResize'
+import { useMessage } from '~/composables/village/useMessage'
+
+// 遅延ローディング: 抽出モーダルは抽出ボタンクリック時まで不要
+const ModalFilter = defineAsyncComponent(
+  () => import('~/components/pages/village/footer/ModalFilter.vue')
+)
+
+// Composables
+const { scrollToBottom } = useVillageNavigation()
+const { isFiltering } = useVillageMessageFilter()
+const { existsNewMessages } = useVillagePolling()
+const { toggle: toggleSlider } = useVillageSlider()
+const { refresh } = useVillageRefresh()
+const { timerText, startTimer } = useVillageTimer()
+const { isMobile, isDesktop } = useWindowResize()
+const { loadMessages } = useMessage()
+
+// State
+const isOpenFilterModal = ref(false)
+
+// Methods
+const handleRefresh = async () => {
+  await refresh()
+  // refresh内のloadMessagesはawaitされないため、明示的にawaitしてからスクロール
+  await loadMessages()
+  scrollToBottom()
+}
+
+const toBottom = () => {
+  scrollToBottom()
+}
+
+const openFilterModal = () => {
+  isOpenFilterModal.value = true
+}
+
+const closeFilterModal = () => {
+  isOpenFilterModal.value = false
+}
+
+// Lifecycle
+onMounted(() => {
+  startTimer()
+})
+</script>
