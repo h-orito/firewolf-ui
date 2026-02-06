@@ -64,6 +64,7 @@
 import { useMessage } from '~/composables/village/useMessage'
 import { useVillage } from '~/composables/village/useVillage'
 import { useUserSettings } from '~/composables/village/useUserSettings'
+import { useVillageNavigation } from '~/composables/village/useVillageNavigation'
 import MessageCard from './MessageCard.vue'
 import MessagePagination from './MessagePagination.vue'
 import VillageSituationMessage from './VillageSituationMessage.vue'
@@ -75,6 +76,7 @@ const { messages, loading, error, isDispLatest, setPageNum, setDispLatest } =
 const { isCurrentVillageDayLatest, latestDay, changeCurrentVillageDay } =
   useVillage()
 const { theme, messageDisplay } = useUserSettings()
+const { scrollToTop } = useVillageNavigation()
 
 // ユーザー設定
 const isDarkTheme = computed(() => theme.value.isDark)
@@ -96,6 +98,7 @@ const isLatestActive = computed(() => {
 // ページ変更ハンドラ
 const handleChangePage = (pageNum: number) => {
   setPageNum(pageNum)
+  scrollToTop()
 }
 
 // 最新表示ハンドラ

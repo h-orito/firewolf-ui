@@ -2,6 +2,38 @@
  * 村ページ内のスクロール処理
  */
 export const useVillageNavigation = () => {
+  // スクロールアニメーションの所要時間（ミリ秒）
+  const SCROLL_DURATION = 200
+
+  /**
+   * カスタムスムーズスクロール（高速版）
+   */
+  const smoothScroll = (
+    container: Element,
+    targetTop: number,
+    duration: number
+  ) => {
+    const startTop = container.scrollTop
+    const distance = targetTop - startTop
+    const startTime = performance.now()
+
+    const easeOutQuad = (t: number) => t * (2 - t)
+
+    const animate = (currentTime: number) => {
+      const elapsed = currentTime - startTime
+      const progress = Math.min(elapsed / duration, 1)
+      const eased = easeOutQuad(progress)
+
+      container.scrollTop = startTop + distance * eased
+
+      if (progress < 1) {
+        requestAnimationFrame(animate)
+      }
+    }
+
+    requestAnimationFrame(animate)
+  }
+
   /**
    * コンテナ内で要素にスクロール（要素が画面上部に来る）
    */
@@ -12,10 +44,7 @@ export const useVillageNavigation = () => {
     // コンテナの現在のスクロール位置 + ターゲットの相対位置
     const scrollTop = container.scrollTop + (targetRect.top - containerRect.top)
 
-    container.scrollTo({
-      top: scrollTop,
-      behavior: 'smooth'
-    })
+    smoothScroll(container, scrollTop, SCROLL_DURATION)
   }
 
   /**
@@ -27,10 +56,7 @@ export const useVillageNavigation = () => {
     const container = document.querySelector(containerSelector)
     if (!container) return
 
-    container.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    })
+    smoothScroll(container, 0, SCROLL_DURATION)
   }
 
   /**
@@ -45,10 +71,7 @@ export const useVillageNavigation = () => {
     const element = document.getElementById('message-bottom')
     if (!element) {
       // message-bottomが見つからない場合はコンテナの最下部へ
-      container.scrollTo({
-        top: container.scrollHeight,
-        behavior: 'smooth'
-      })
+      smoothScroll(container, container.scrollHeight, SCROLL_DURATION)
       return
     }
 
@@ -58,10 +81,7 @@ export const useVillageNavigation = () => {
     const scrollTop =
       container.scrollTop + (targetRect.bottom - containerRect.bottom)
 
-    container.scrollTo({
-      top: scrollTop,
-      behavior: 'smooth'
-    })
+    smoothScroll(container, scrollTop, SCROLL_DURATION)
   }
 
   /**
