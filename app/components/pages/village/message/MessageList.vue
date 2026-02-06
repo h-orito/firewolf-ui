@@ -35,6 +35,7 @@
           v-for="message in messages.list"
           :key="message.time.unix_time_milli"
           :message="message"
+          :is-progress="isProgress"
           :is-img-large="messageDisplay.isImgLarge"
           :is-disp-date="messageDisplay.isDispDate"
           :is-large-text="messageDisplay.isCharLarge"
@@ -73,10 +74,21 @@ import GoogleAdsMessageList from '~/components/layout/GoogleAdsMessageList.vue'
 // Composables
 const { messages, loading, error, isDispLatest, setPageNum, setDispLatest } =
   useMessage()
-const { isCurrentVillageDayLatest, latestDay, changeCurrentVillageDay } =
-  useVillage()
+const {
+  village,
+  isCurrentVillageDayLatest,
+  latestDay,
+  changeCurrentVillageDay
+} = useVillage()
 const { theme, messageDisplay } = useUserSettings()
 const { scrollToTop } = useVillageNavigation()
+
+// 進行中判定（プロローグ・進行中はtrue、エピローグ・廃村・完了はfalse）
+const isProgress = computed(
+  () =>
+    village.value?.status.is_prologue === true ||
+    village.value?.status.is_progress === true
+)
 
 // ユーザー設定
 const isDarkTheme = computed(() => theme.value.isDark)
