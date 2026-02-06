@@ -343,11 +343,11 @@ const isSecretSay = computed(
   () => selectedMessageType.value === MESSAGE_TYPE.SECRET_SAY
 )
 
-// プロローグまたはエピローグかどうか（誤爆防止確認をスキップする判定用）
+// エピローグかどうか（誤爆防止確認をスキップする判定用）
 const skipSayConfirmation = computed(() => {
   const status = village.value?.status
   if (!status) return false
-  return status.is_prologue || status.is_epilogue
+  return status.is_epilogue
 })
 
 // 発言種別に応じたテキストエリアのスタイルクラス

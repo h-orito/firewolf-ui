@@ -109,11 +109,11 @@ const myselfText = computed(() => {
 // 生存状態
 const isAlive = computed(() => myself.value?.dead == null)
 
-// プロローグまたはエピローグかどうか（誤爆防止確認をスキップする判定用）
+// エピローグかどうか（誤爆防止確認をスキップする判定用）
 const skipSayConfirmation = computed(() => {
   const status = village.value?.status
   if (!status) return false
-  return status.is_prologue || status.is_epilogue
+  return status.is_epilogue
 })
 
 // 対象者選択肢
