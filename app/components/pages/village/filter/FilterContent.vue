@@ -243,9 +243,7 @@ const { situation } = useSituation()
 // Computed
 const myself = computed(() => situation.value?.participate.myself ?? null)
 
-const participantList = computed(() => {
-  return allParticipants.value.toSorted((a, b) => a.id - b.id)
-})
+const participantList = computed(() => allParticipants.value)
 
 // メッセージタイプのオプション (4行×3列に分割)
 const messageTypeOptionsRow1 = [
