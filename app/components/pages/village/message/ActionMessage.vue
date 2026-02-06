@@ -40,6 +40,26 @@
       v-html="formattedMessageText"
     />
 
+    <!-- 返信と秘話ボタン -->
+    <div class="mt-1 flex justify-end gap-3">
+      <a
+        v-if="canReply && isDispAnchor"
+        href="javascript:void(0);"
+        class="cursor-pointer text-xs text-blue-600 hover:underline dark:text-(--ui-primary)"
+        @click="handleReply"
+      >
+        >>返信
+      </a>
+      <a
+        v-if="canSecret"
+        href="javascript:void(0);"
+        class="cursor-pointer text-xs text-blue-600 hover:underline dark:text-(--ui-primary)"
+        @click="handleSecret"
+      >
+        >>秘話
+      </a>
+    </div>
+
     <!-- アンカーメッセージ表示 -->
     <div
       v-if="anchorMessages.length > 0"
@@ -85,6 +105,8 @@ interface Props {
   isProgress?: boolean
   isAnchorMessage?: boolean
   isDispDate?: boolean
+  canReply?: boolean
+  canSecret?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -92,7 +114,9 @@ const props = withDefaults(defineProps<Props>(), {
   maxCount: 20,
   isProgress: false,
   isAnchorMessage: false,
-  isDispDate: false
+  isDispDate: false,
+  canReply: true,
+  canSecret: true
 })
 
 // Composables
@@ -162,6 +186,20 @@ const formattedMessageText = computed(() => {
 const messageClass = computed(() => {
   return 'bg-[#dfdfc9] dark:bg-[#232355] text-[#0a0a0a] dark:text-white border-gray-300 dark:border-white'
 })
+
+// 返信ボタンのハンドラー
+const handleReply = () => {
+  sayInput?.insertAnchor(anchorCopyString.value)
+  sayInput?.setReplyTarget(props.message as MessageView)
+}
+
+// 秘話ボタンのハンドラー
+const handleSecret = () => {
+  if (props.message.from?.id) {
+    sayInput?.switchToSecret(props.message.from.id)
+    sayInput?.setReplyTarget(props.message as MessageView)
+  }
+}
 
 // アンカー文字列をコピーまたは発言欄に挿入
 const handleCopyAnchor = () => {

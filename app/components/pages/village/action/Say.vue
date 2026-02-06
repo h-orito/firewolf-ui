@@ -128,7 +128,7 @@
             <XMarkIcon class="h-4 w-4" />
           </button>
         </div>
-        <SayMessage
+        <MessageCard
           :message="replyTargetMessage"
           :is-img-large="false"
           :is-large-text="false"
@@ -190,7 +190,7 @@
 <script setup lang="ts">
 import { XMarkIcon } from '@heroicons/vue/24/outline'
 import ActionPanel from './ActionPanel.vue'
-import SayMessage from '../message/SayMessage.vue'
+import MessageCard from '../message/MessageCard.vue'
 import SecretTargetSelectModal from './say/SecretTargetSelectModal.vue'
 import FormGroup from '~/components/ui/form/FormGroup.vue'
 import FormSelect from '~/components/ui/form/FormSelect.vue'

@@ -28,6 +28,8 @@
       :is-large-text="isLargeText"
       :is-anchor-message="isAnchorMessage"
       :is-progress="isProgress"
+      :can-reply="canReply"
+      :can-secret="canSecret"
     />
 
     <!-- 参加者一覧メッセージ -->
