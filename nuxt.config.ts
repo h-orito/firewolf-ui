@@ -102,10 +102,18 @@ export default defineNuxtConfig({
       ]
     },
     workbox: {
-      // オフラインフォールバック
-      navigateFallback: '/',
+      // オフラインフォールバック（プリキャッシュマニフェストのエントリと一致させる）
+      navigateFallback: '/index.html',
+      // Service Workerが介入すべきでないURLパターン
+      navigateFallbackDenylist: [
+        /^\/__\/auth/, // Firebase auth URLs
+        /^\/api\// // API calls
+      ],
       // キャッシュするファイルパターン
-      globPatterns: ['**/*.{js,css,html,png,jpg,jpeg,svg,ico,woff,woff2}'],
+      globPatterns: [
+        '**/*.{js,css,png,jpg,jpeg,svg,ico,woff,woff2}',
+        'index.html'
+      ],
       // globPatternsでマッチしないファイルを除外
       globIgnores: ['**/node_modules/**'],
       // ランタイムキャッシュ設定
