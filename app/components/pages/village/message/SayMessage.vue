@@ -304,14 +304,14 @@ const messageClass = computed(() => {
   }
 })
 
-// アンカー文字列をコピー
+// アンカー文字列をコピーまたは発言欄に挿入
 const handleCopyAnchor = () => {
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(anchorCopyString.value)
-  }
-  // isPasteAnchor設定が有効なら発言欄にも挿入
   if (operation.value.isPasteAnchor) {
     sayInput?.insertAnchor(anchorCopyString.value)
+    showInfoToast('発言欄に挿入しました')
+  } else if (navigator.clipboard) {
+    navigator.clipboard.writeText(anchorCopyString.value)
+    showInfoToast(`${anchorCopyString.value} をコピーしました`)
   }
 }
 

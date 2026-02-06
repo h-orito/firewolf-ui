@@ -72,6 +72,8 @@ import {
   getAnchorNum
 } from './message-converter'
 import { useAnchorMessage } from '~/composables/village/useAnchorMessage'
+import { useSayInput } from '~/composables/village/useSayInput'
+import { useUserSettings } from '~/composables/village/useUserSettings'
 
 // 循環参照対策: defineAsyncComponentでMessageCardをインポート
 const MessageCard = defineAsyncComponent(() => import('./MessageCard.vue'))
@@ -94,6 +96,8 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 // Composables
+const sayInput = useSayInput()
+const { operation } = useUserSettings()
 const { loadAnchorMessage } = useAnchorMessage()
 
 // アンカーメッセージの状態管理
@@ -159,10 +163,14 @@ const messageClass = computed(() => {
   return 'bg-[#dfdfc9] dark:bg-[#232355] text-[#0a0a0a] dark:text-white border-gray-300 dark:border-white'
 })
 
-// アンカー文字列をコピー
+// アンカー文字列をコピーまたは発言欄に挿入
 const handleCopyAnchor = () => {
-  if (navigator.clipboard) {
+  if (operation.value.isPasteAnchor) {
+    sayInput?.insertAnchor(anchorCopyString.value)
+    showInfoToast('発言欄に挿入しました')
+  } else if (navigator.clipboard) {
     navigator.clipboard.writeText(anchorCopyString.value)
+    showInfoToast(`${anchorCopyString.value} をコピーしました`)
   }
 }
 
