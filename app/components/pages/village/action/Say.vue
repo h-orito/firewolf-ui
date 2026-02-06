@@ -76,6 +76,7 @@
             ref="formTextareaRef"
             v-model="messageText"
             :rows="10"
+            :size="messageDisplay.isCharLarge ? 'md' : 'sm'"
             :class="textareaStyleClass"
           />
           <template #help>
@@ -201,6 +202,7 @@ import CharaImage from '../CharaImage.vue'
 import MessageDecorators from './decorator/MessageDecorators.vue'
 import { useSay } from '~/composables/village/action/useSay'
 import { useSituation } from '~/composables/village/useSituation'
+import { useUserSettings } from '~/composables/village/useUserSettings'
 import { useSayInputRegister } from '~/composables/village/useSayInput'
 import { useVillageSayStatus } from '~/composables/village/useVillageSayStatus'
 import { useVillage } from '~/composables/village/useVillage'
@@ -231,6 +233,7 @@ const emit = defineEmits<{
 // Composables
 const { submitting, error: sayError, say, sayConfirm } = useSay()
 const { situation } = useSituation()
+const { messageDisplay } = useUserSettings()
 const { village } = useVillage()
 const { setHasInputText, setConfirmModalOpen, setSubmitting, reset } =
   useVillageSayStatus()
