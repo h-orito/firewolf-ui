@@ -130,6 +130,7 @@
         </div>
         <MessageCard
           :message="replyTargetMessage"
+          :is-progress="isProgress"
           :is-img-large="false"
           :is-large-text="false"
           :can-reply="false"
@@ -262,6 +263,13 @@ const formTextareaRef = ref<InstanceType<typeof FormTextarea> | null>(null)
 const textareaRef = computed(() => {
   return formTextareaRef.value?.textareaElement ?? null
 })
+
+// 進行中かどうか（プロローグまたは進行中）
+const isProgress = computed(
+  () =>
+    village.value?.status.is_prologue === true ||
+    village.value?.status.is_progress === true
+)
 
 // Situationから取得するデータ（ACTIONは別パネルなので除外）
 const availableMessageTypes = computed(() => {
