@@ -4,6 +4,7 @@
       <h1 class="mb-6 text-xl font-bold">更新情報</h1>
       <div class="rounded-lg bg-white p-4 shadow">
         <ul class="list-disc space-y-1 pl-6 text-left text-sm">
+          <li>2026/02/13 役職：大狼を追加</li>
           <li>
             2026/01/05 フレームワークアップグレードのため、全てを作り直した
           </li>
