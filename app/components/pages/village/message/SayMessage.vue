@@ -138,6 +138,7 @@ import {
 import { useSayInput } from '~/composables/village/useSayInput'
 import { useUserSettings } from '~/composables/village/useUserSettings'
 import { useAnchorMessage } from '~/composables/village/useAnchorMessage'
+import { useVillageStore } from '~/stores/village'
 
 // 循環参照対策: defineAsyncComponentでMessageCardをインポート
 const MessageCard = defineAsyncComponent(() => import('./MessageCard.vue'))
@@ -146,7 +147,6 @@ interface Props {
   message: DeepReadonly<MessageView> | MessageView
   isImgLarge?: boolean
   isLargeText?: boolean
-  maxCount?: number
   isProgress?: boolean
   isAnchorMessage?: boolean
   isDispDate?: boolean
@@ -157,7 +157,6 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   isImgLarge: false,
   isLargeText: false,
-  maxCount: 20,
   isProgress: false,
   isAnchorMessage: false,
   isDispDate: false,
@@ -169,6 +168,13 @@ const props = withDefaults(defineProps<Props>(), {
 const sayInput = useSayInput()
 const { operation } = useUserSettings()
 const { loadAnchorMessage } = useAnchorMessage()
+const villageStore = useVillageStore()
+
+// 村設定から取得した発言種別ごとの最大回数
+const maxCount = computed(() => {
+  const typeCode = props.message.content.type.code
+  return villageStore.restrictCountMap?.get(typeCode) ?? null
+})
 
 // アンカーメッセージの状態管理
 const anchorMessages = ref<MessageView[]>([])
