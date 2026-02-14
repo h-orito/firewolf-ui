@@ -34,8 +34,8 @@
         <FormTextarea
           v-model="memoTexts[activeTab]"
           :rows="15"
-          placeholder="400文字まで保存できます。"
-          :maxlength="400"
+          placeholder="1000文字まで保存できます。"
+          :maxlength="1000"
           size="sm"
         />
         <div class="flex items-center justify-between">
@@ -153,14 +153,14 @@ const isModalOpen = computed({
   }
 })
 
-// 文字数カウンター（メモ1-3用）
+// 文字数カウンター（メモ1-3用）改行を除いた文字数
 const counter = computed(() => {
   const tabId = activeTab.value
   if (tabId === 'matome') return ''
   const text = memoTexts[tabId]
   const lineCount = text.split('\n').length
-  const charCount = text.length - lineCount + 1
-  return `行数: ${lineCount}, 文字数: ${charCount > 0 ? charCount : 0}`
+  const charCount = text.replace(/\n/g, '').length
+  return `行数: ${lineCount}, 文字数: ${charCount}/1000`
 })
 
 // モーダル表示時にメモを読み込む
