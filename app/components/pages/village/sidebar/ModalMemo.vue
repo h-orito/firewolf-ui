@@ -35,11 +35,17 @@
           v-model="memoTexts[activeTab]"
           :rows="15"
           placeholder="1000文字まで保存できます。"
-          :maxlength="1000"
           size="sm"
         />
         <div class="flex items-center justify-between">
-          <p class="text-right text-xs text-gray-500 dark:text-gray-400">
+          <p
+            class="text-right text-xs"
+            :class="
+              isCharExceeded
+                ? 'text-red-600 dark:text-red-400'
+                : 'text-gray-500 dark:text-gray-400'
+            "
+          >
             {{ counter }}
           </p>
           <UiButton color="primary" size="sm" @click="copyToClipboard">
@@ -153,14 +159,23 @@ const isModalOpen = computed({
   }
 })
 
+// 現在の文字数（改行を除く）
+const currentCharCount = computed(() => {
+  const tabId = activeTab.value
+  if (tabId === 'matome') return 0
+  return memoTexts[tabId].replace(/\n/g, '').length
+})
+
+// 文字数超過判定
+const isCharExceeded = computed(() => currentCharCount.value > 1000)
+
 // 文字数カウンター（メモ1-3用）改行を除いた文字数
 const counter = computed(() => {
   const tabId = activeTab.value
   if (tabId === 'matome') return ''
   const text = memoTexts[tabId]
   const lineCount = text.split('\n').length
-  const charCount = text.replace(/\n/g, '').length
-  return `行数: ${lineCount}, 文字数: ${charCount}/1000`
+  return `行数: ${lineCount}, 文字数: ${currentCharCount.value}/1000`
 })
 
 // モーダル表示時にメモを読み込む
