@@ -49,6 +49,15 @@
       </UiButton>
     </div>
   </ActionPanel>
+
+  <!-- 確認モーダル -->
+  <ChangeNameConfirmModal
+    v-model="showConfirmModal"
+    :submitting="submitting"
+    :new-name="form.name"
+    :new-short-name="form.shortName"
+    @confirm="executeChangeName"
+  />
 </template>
 
 <script setup lang="ts">
@@ -59,6 +68,11 @@ import UiButton from '~/components/ui/button/index.vue'
 import { useChangeName } from '~/composables/village/action/useChangeName'
 import { useActionReset } from '~/composables/village/action/useActionReset'
 import { useSituation } from '~/composables/village/useSituation'
+
+// 遅延ローディング: 確認モーダルはボタンクリック時まで不要
+const ChangeNameConfirmModal = defineAsyncComponent(
+  () => import('./change-name/ChangeNameConfirmModal.vue')
+)
 
 const emit = defineEmits<{
   complete: []
@@ -97,19 +111,40 @@ const currentName = computed(() => {
   return `[${myself.chara_name.short_name}] ${myself.chara_name.name}`
 })
 
+// 現在の設定と同じかどうか
+const isSameAsCurrent = computed(() => {
+  const myself = situation.value?.participate?.myself
+  if (!myself) return true
+  return (
+    form.name === myself.chara_name.name &&
+    form.shortName === myself.chara_name.short_name
+  )
+})
+
 // 変更ボタンを押下できるか
 const canSubmit = computed(() => {
   return (
     form.name.length > 0 &&
     form.name.length <= 40 &&
-    form.shortName.length === 1
+    form.shortName.length === 1 &&
+    !isSameAsCurrent.value
   )
 })
 
-// 名前変更
-const handleChangeName = async () => {
+// 確認モーダル表示
+const showConfirmModal = ref(false)
+
+// 名前変更ボタン押下
+const handleChangeName = () => {
+  clearError()
+  showConfirmModal.value = true
+}
+
+// 名前変更実行
+const executeChangeName = async () => {
   const success = await changeName(form.name, form.shortName)
   if (success) {
+    showConfirmModal.value = false
     emit('complete')
   }
 }
