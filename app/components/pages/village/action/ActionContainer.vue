@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="existsAction"
-    class="action-container mx-auto max-w-[640px] space-y-4 py-4"
+    class="action-container mx-auto flex max-w-[640px] flex-col gap-4 py-4"
   >
     <!-- 発言 -->
     <Say v-if="isDispSay" @complete="handleSayComplete" />
