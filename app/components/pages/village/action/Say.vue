@@ -2,6 +2,19 @@
   <ActionPanel id="say-panel" title="発言" panel-key="say">
     <!-- 参加者情報 -->
     <div v-if="myself" class="mb-4 text-sm">
+      <Alert v-if="myself.dead" type="info" class="mb-2">
+        あなたは死亡しました。
+      </Alert>
+      <Alert v-if="participantStatus" type="warning" class="mb-2">
+        {{ participantStatus }}
+      </Alert>
+      <Alert
+        v-if="myself.skill"
+        type="default"
+        class="mb-2 whitespace-pre-line"
+      >
+        {{ skillDescription }}
+      </Alert>
       <span class="font-bold"
         >[{{ myself.chara_name.short_name }}] {{ myself.chara_name.name }}</span
       >
@@ -199,6 +212,7 @@ import FormTextarea from '~/components/ui/form/FormTextarea.vue'
 import FormRadioGroup from '~/components/ui/form/FormRadioGroup.vue'
 import Modal from '~/components/ui/modal/Modal.vue'
 import UiButton from '~/components/ui/button/index.vue'
+import Alert from '~/components/ui/feedback/Alert.vue'
 import CharaImage from '../CharaImage.vue'
 import MessageDecorators from './decorator/MessageDecorators.vue'
 import { useSay } from '~/composables/village/action/useSay'
@@ -333,6 +347,21 @@ const isCharExceeded = computed(
 
 // Situationから取得する自分の参加者情報
 const myself = computed(() => situation.value?.participate.myself)
+
+// 恋人ステータス
+const participantStatus = computed(() => {
+  const loverIds = myself.value?.status.lover_id_list ?? []
+  if (loverIds.length === 0) return null
+  const members = village.value?.participant.member_list ?? []
+  const lovers = members.filter((p) => loverIds.includes(p.id))
+  return `あなたは${lovers.map((l) => l.name).join('、')}に恋しています。`
+})
+
+// 役職の説明
+const skillDescription = computed(() => {
+  if (!myself.value?.skill) return null
+  return myself.value.skill.description.replaceAll('。', '。\n')
+})
 
 // キャラクター情報
 const chara = computed(() => myself.value?.chara)
