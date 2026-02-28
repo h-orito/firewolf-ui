@@ -8,9 +8,7 @@
       <!-- 先頭へボタン -->
       <button
         type="button"
-        :disabled="
-          !messages.current_page_num || messages.current_page_num === 1
-        "
+        :disabled="!isLatestActive && effectiveCurrentPage === 1"
         :class="firstButtonClass"
         aria-label="最初のページ"
         @click="handleFirst"
@@ -35,7 +33,9 @@
           type="button"
           :class="getPageButtonClass(page)"
           :aria-current="
-            page === messages.current_page_num ? 'page' : undefined
+            !isLatestActive && page === effectiveCurrentPage
+              ? 'page'
+              : undefined
           "
           @click="handleChangePage(page)"
         >
@@ -46,7 +46,7 @@
       <!-- 次へボタン -->
       <button
         type="button"
-        :disabled="!messages.exist_next_page"
+        :disabled="!isLatestActive && !messages?.exist_next_page"
         :class="nextButtonClass"
         aria-label="次のページ"
         @click="handleNext"
@@ -58,9 +58,8 @@
       <button
         type="button"
         :disabled="
-          !messages.current_page_num ||
-          !messages.all_page_count ||
-          messages.current_page_num === messages.all_page_count
+          !messages?.all_page_count ||
+          (!isLatestActive && effectiveCurrentPage === messages.all_page_count)
         "
         :class="lastButtonClass"
         aria-label="最後のページ"
@@ -117,6 +116,14 @@ const canGoPrev = computed(() => {
   return props.isLatestActive || props.messages?.exist_pre_page
 })
 
+// 最新状態での有効ページ数（全ボタンを有効にするために使用）
+const effectiveCurrentPage = computed(() => {
+  if (props.isLatestActive && props.messages?.all_page_count) {
+    return props.messages.all_page_count
+  }
+  return props.messages?.current_page_num ?? 1
+})
+
 // 前へボタンのクラス
 const prevButtonClass = computed(() => {
   if (!canGoPrev.value) {
@@ -131,7 +138,7 @@ const prevButtonClass = computed(() => {
 
 // 次へボタンのクラス
 const nextButtonClass = computed(() => {
-  const isDisabled = !props.messages?.exist_next_page
+  const isDisabled = !props.isLatestActive && !props.messages?.exist_next_page
   if (isDisabled) {
     return isDarkTheme.value
       ? `${baseButtonClass} cursor-not-allowed border-gray-700 bg-gray-800 text-gray-600`
@@ -144,8 +151,7 @@ const nextButtonClass = computed(() => {
 
 // 先頭ボタンのクラス
 const firstButtonClass = computed(() => {
-  const isDisabled =
-    !props.messages?.current_page_num || props.messages.current_page_num === 1
+  const isDisabled = !props.isLatestActive && effectiveCurrentPage.value === 1
   if (isDisabled) {
     return isDarkTheme.value
       ? `${baseButtonClass} cursor-not-allowed border-gray-700 bg-gray-800 text-gray-600`
@@ -159,9 +165,9 @@ const firstButtonClass = computed(() => {
 // 末尾ボタンのクラス
 const lastButtonClass = computed(() => {
   const isDisabled =
-    !props.messages?.current_page_num ||
     !props.messages?.all_page_count ||
-    props.messages.current_page_num === props.messages.all_page_count
+    (!props.isLatestActive &&
+      effectiveCurrentPage.value === props.messages.all_page_count)
   if (isDisabled) {
     return isDarkTheme.value
       ? `${baseButtonClass} cursor-not-allowed border-gray-700 bg-gray-800 text-gray-600`
@@ -174,7 +180,7 @@ const lastButtonClass = computed(() => {
 
 // ページ番号ボタンのクラス
 const getPageButtonClass = (page: number) => {
-  const isActive = page === props.messages?.current_page_num
+  const isActive = !props.isLatestActive && page === effectiveCurrentPage.value
   if (isActive) {
     return `${baseButtonClass} border-blue-500 bg-blue-500 text-white`
   }
@@ -199,7 +205,7 @@ const visiblePages = computed((): PageItem[] => {
   if (!props.messages || !props.messages.all_page_count) return []
 
   const totalPages = props.messages.all_page_count
-  const currentPage = props.messages.current_page_num ?? 1
+  const currentPage = effectiveCurrentPage.value
   const maxVisible = 5
 
   // 総ページ数が5以下の場合は全て表示
@@ -248,6 +254,11 @@ const handlePrev = () => {
 }
 
 const handleNext = () => {
+  // 最新状態のときは最終ページを開く
+  if (props.isLatestActive && props.messages?.all_page_count) {
+    emit('change-page', props.messages.all_page_count)
+    return
+  }
   if (
     props.messages?.current_page_num &&
     props.messages?.all_page_count &&
