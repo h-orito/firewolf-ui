@@ -4,6 +4,13 @@
       <h1 class="mb-6 text-xl font-bold">更新情報</h1>
       <div class="rounded-lg bg-white p-4 shadow">
         <ul class="list-disc space-y-1 pl-6 text-left text-sm">
+          <li>
+            2026/02/28
+            他ページに遷移して村ページに戻ってきたときに発言内容を復元する機能を追加
+          </li>
+          <li>
+            2026/02/28 ページングで最新表示のときに最新5ページを表示するよう修正
+          </li>
           <li>2026/02/13 役職：大狼を追加</li>
           <li>
             2026/01/05 フレームワークアップグレードのため、全てを作り直した
