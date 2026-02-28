@@ -135,7 +135,7 @@
     <!-- 宛先 -->
     <section>
       <p class="mb-2 font-bold">宛先</p>
-      <div class="mb-2 flex gap-2 text-sm">
+      <div class="mb-2 flex gap-1 text-sm">
         <UiButton
           size="xs"
           variant="link"
