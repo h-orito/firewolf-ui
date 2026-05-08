@@ -5,6 +5,10 @@
       <div class="rounded-lg bg-white p-4 shadow">
         <ul class="list-disc space-y-1 pl-6 text-left text-sm">
           <li>
+            2026/05/09
+            村設定：沈黙時間を1日目と2日目以降で個別に設定できるよう変更
+          </li>
+          <li>
             2026/02/28
             他ページに遷移して村ページに戻ってきたときに発言内容を復元する機能を追加
           </li>
