@@ -60,23 +60,47 @@
         <label class="mb-2 block text-center text-sm font-medium text-gray-700">
           沈黙時間（時間）
         </label>
-        <FormNumberInput
-          :model-value="formData.silentHours"
-          :min="0"
-          :max="23"
-          size="md"
-          class="mx-auto w-32"
-          :error="!!errors?.silentHours"
-          @update:model-value="updateField('silentHours', $event)"
-          @blur="validateField('silentHours')"
-        />
-        <p
-          v-if="errors?.silentHours"
-          class="mt-1 text-center text-xs text-red-600"
-        >
-          {{ errors.silentHours }}
-        </p>
-        <p v-else class="mt-1 text-center text-xs text-gray-500">
+        <div class="flex justify-center gap-6">
+          <div>
+            <p class="mb-1 text-center text-xs text-gray-600">1日目</p>
+            <FormNumberInput
+              :model-value="formData.silentHoursDay1"
+              :min="0"
+              :max="23"
+              size="md"
+              class="w-32"
+              :error="!!errors?.silentHoursDay1"
+              @update:model-value="updateField('silentHoursDay1', $event)"
+              @blur="validateField('silentHoursDay1')"
+            />
+            <p
+              v-if="errors?.silentHoursDay1"
+              class="mt-1 text-center text-xs text-red-600"
+            >
+              {{ errors.silentHoursDay1 }}
+            </p>
+          </div>
+          <div>
+            <p class="mb-1 text-center text-xs text-gray-600">2日目以降</p>
+            <FormNumberInput
+              :model-value="formData.silentHoursDay2"
+              :min="0"
+              :max="23"
+              size="md"
+              class="w-32"
+              :error="!!errors?.silentHoursDay2"
+              @update:model-value="updateField('silentHoursDay2', $event)"
+              @blur="validateField('silentHoursDay2')"
+            />
+            <p
+              v-if="errors?.silentHoursDay2"
+              class="mt-1 text-center text-xs text-red-600"
+            >
+              {{ errors.silentHoursDay2 }}
+            </p>
+          </div>
+        </div>
+        <p class="mt-2 text-center text-xs text-gray-500">
           0〜23の範囲で設定できます。設定した時間の間は発言できなくなります。
         </p>
       </div>

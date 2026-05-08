@@ -5,7 +5,8 @@ export interface CreateVillageFormData {
 
   // 時間設定
   startDatetime: Date
-  silentHours: number
+  silentHoursDay1: number
+  silentHoursDay2: number
 
   // キャラチップ設定
   charachipIds: number[]

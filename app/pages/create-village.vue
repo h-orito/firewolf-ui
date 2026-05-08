@@ -180,7 +180,8 @@ const {
       date.setHours(0, 0, 0, 0)
       return date
     })(),
-    silentHours: 0,
+    silentHoursDay1: 0,
+    silentHoursDay2: 0,
 
     // キャラチップ設定
     charachipIds: [1],
@@ -310,7 +311,8 @@ const createRequestBody = (): VillageRegisterBody => {
     setting: {
       time: {
         start_datetime: formattedStartDatetime,
-        silent_hours: formData.silentHours
+        silent_hours_day1: formData.silentHoursDay1,
+        silent_hours_day2: formData.silentHoursDay2
       } as VillageTimeCreateBody,
       organization: {
         organization: formatOrganization(formData.organization)

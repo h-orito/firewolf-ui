@@ -182,8 +182,8 @@ const settings = computed<SettingItem[]>(() => {
   items.push({
     name: '発言可能時間',
     value: formatSayableTime(
-      timeSetting.silent_hours,
-      timeSetting.sayable_start,
+      timeSetting.silent_hours_day1,
+      timeSetting.silent_hours_day2,
       timeSetting.sayable_end
     ),
     description:
@@ -445,18 +445,6 @@ interface LocalTime {
 
 type LocalTimeInput = LocalTime | string
 
-// LocalTimeを時刻文字列に変換
-const formatLocalTime = (time: LocalTimeInput): string => {
-  // 文字列の場合（"08:00:00" 形式）
-  if (typeof time === 'string') {
-    return time.substring(0, 5)
-  }
-  // オブジェクトの場合
-  const hour = String(time.hour ?? 0).padStart(2, '0')
-  const minute = String(time.minute ?? 0).padStart(2, '0')
-  return `${hour}:${minute}`
-}
-
 // LocalTimeから時間を取得
 const getHourFromLocalTime = (time: LocalTimeInput): number => {
   if (typeof time === 'string') {
@@ -465,21 +453,47 @@ const getHourFromLocalTime = (time: LocalTimeInput): number => {
   return time.hour ?? 0
 }
 
-// 発言可能時間を計算
-const formatSayableTime = (
-  silentHours: number | undefined,
-  sayableStart: LocalTimeInput,
+// LocalTimeから分を取得
+const getMinuteFromLocalTime = (time: LocalTimeInput): number => {
+  if (typeof time === 'string') {
+    return parseInt(time.substring(3, 5), 10)
+  }
+  return time.minute ?? 0
+}
+
+// 1日分の発言可能時間ウィンドウを計算
+// sayable_end (日付更新時刻) から沈黙時間分シフトして開始時刻を求める
+const formatDaySayableWindow = (
+  silentHours: number,
   sayableEnd: LocalTimeInput
 ): string => {
-  if (!silentHours || silentHours === 0) return '24時間'
+  if (silentHours === 0) return '24時間'
 
-  const start = formatLocalTime(sayableStart)
-  const end = formatLocalTime(sayableEnd)
-  const startHour = getHourFromLocalTime(sayableStart)
   const endHour = getHourFromLocalTime(sayableEnd)
-  const isNextday = startHour > endHour
+  const endMinute = getMinuteFromLocalTime(sayableEnd)
+  const startHour = (endHour + silentHours) % 24
+  const isNextday = startHour > endHour || endHour === 0
+  const startStr = `${String(startHour).padStart(2, '0')}:${String(endMinute).padStart(2, '0')}`
+  const endStr = `${String(endHour).padStart(2, '0')}:${String(endMinute).padStart(2, '0')}`
 
-  return `${start} - ${isNextday ? '翌' : ''}${end}(${24 - silentHours}時間)`
+  return `${startStr} - ${isNextday ? '翌' : ''}${endStr}（${24 - silentHours}時間）`
+}
+
+// 発言可能時間を計算
+const formatSayableTime = (
+  silentHoursDay1: number | undefined,
+  silentHoursDay2: number | undefined,
+  sayableEnd: LocalTimeInput
+): string => {
+  const day1 = silentHoursDay1 ?? 0
+  const day2 = silentHoursDay2 ?? 0
+
+  if (day1 === 0 && day2 === 0) return '24時間'
+
+  const day1Str = formatDaySayableWindow(day1, sayableEnd)
+  const day2Str = formatDaySayableWindow(day2, sayableEnd)
+
+  return `1日目: ${day1Str} / 2日目以降: ${day2Str}`
 }
 
 // 閉じる

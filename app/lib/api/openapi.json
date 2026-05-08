@@ -1289,7 +1289,8 @@
         "type": "object",
         "properties": {
           "start_datetime": { "type": "string", "format": "date-time" },
-          "silent_hours": { "type": "integer", "format": "int32" }
+          "silent_hours_day1": { "type": "integer", "format": "int32" },
+          "silent_hours_day2": { "type": "integer", "format": "int32" }
         }
       },
       "VillageRegisterView": {
@@ -1457,8 +1458,8 @@
         "properties": {
           "code": { "type": "string" },
           "name": { "type": "string" },
-          "is_say_type": { "type": "boolean" },
-          "is_owl_viewable_type": { "type": "boolean" }
+          "is_owl_viewable_type": { "type": "boolean" },
+          "is_say_type": { "type": "boolean" }
         }
       },
       "MessageView": {
@@ -1535,13 +1536,13 @@
           },
           "count_camp": { "$ref": "#/components/schemas/Camp" },
           "description": { "type": "string" },
-          "abilities": { "$ref": "#/components/schemas/AbilityTypes" },
-          "is_fox_count": { "type": "boolean" },
-          "is_viewable_werewolf_say": { "type": "boolean" },
-          "is_available_werewolf_say": { "type": "boolean" },
-          "is_viewable_lovers_message": { "type": "boolean" },
           "is_available_sympathize_say": { "type": "boolean" },
-          "is_viewable_sympathize_say": { "type": "boolean" }
+          "is_viewable_lovers_message": { "type": "boolean" },
+          "is_viewable_sympathize_say": { "type": "boolean" },
+          "is_available_werewolf_say": { "type": "boolean" },
+          "is_viewable_werewolf_say": { "type": "boolean" },
+          "is_fox_count": { "type": "boolean" },
+          "abilities": { "$ref": "#/components/schemas/AbilityTypes" }
         }
       },
       "SkillRequest": {
@@ -1961,11 +1962,11 @@
         "properties": {
           "code": { "type": "string" },
           "name": { "type": "string" },
+          "is_finished": { "type": "boolean" },
+          "is_solved": { "type": "boolean" },
           "is_prologue": { "type": "boolean" },
           "is_progress": { "type": "boolean" },
           "is_epilogue": { "type": "boolean" },
-          "is_solved": { "type": "boolean" },
-          "is_finished": { "type": "boolean" },
           "is_canceled": { "type": "boolean" }
         }
       },
@@ -1994,7 +1995,8 @@
             "type": "integer",
             "format": "int32"
           },
-          "silent_hours": { "type": "integer", "format": "int32" },
+          "silent_hours_day1": { "type": "integer", "format": "int32" },
+          "silent_hours_day2": { "type": "integer", "format": "int32" },
           "sayable_start": { "$ref": "#/components/schemas/LocalTime" },
           "sayable_end": { "$ref": "#/components/schemas/LocalTime" }
         }
@@ -2469,8 +2471,15 @@
             "$ref": "#/components/schemas/VillageParticipantNotificationCondition"
           },
           "is_alive": { "type": "boolean" },
-          "is_dead": { "type": "boolean" },
-          "is_admin": { "type": "boolean" },
+          "is_viewable_sympathize_say": { "type": "boolean" },
+          "is_viewable_attack_message": { "type": "boolean" },
+          "is_viewable_autopsy_message": { "type": "boolean" },
+          "is_viewable_fanatic_message": { "type": "boolean" },
+          "is_viewable_guru_psychic_message": { "type": "boolean" },
+          "is_viewable_private_system_message": { "type": "boolean" },
+          "is_viewable_psychic_message": { "type": "boolean" },
+          "is_viewable_sympathizer_message": { "type": "boolean" },
+          "is_available_skill_request": { "type": "boolean" },
           "is_available_coming_out": { "type": "boolean" },
           "is_viewable_grave_say": { "type": "boolean" },
           "is_sayable_grave_say": { "type": "boolean" },
@@ -2488,15 +2497,8 @@
           "is_viewable_fox_message": { "type": "boolean" },
           "is_viewable_mason_message": { "type": "boolean" },
           "is_available_vote": { "type": "boolean" },
-          "is_available_skill_request": { "type": "boolean" },
-          "is_viewable_sympathize_say": { "type": "boolean" },
-          "is_viewable_attack_message": { "type": "boolean" },
-          "is_viewable_autopsy_message": { "type": "boolean" },
-          "is_viewable_fanatic_message": { "type": "boolean" },
-          "is_viewable_guru_psychic_message": { "type": "boolean" },
-          "is_viewable_private_system_message": { "type": "boolean" },
-          "is_viewable_psychic_message": { "type": "boolean" },
-          "is_viewable_sympathizer_message": { "type": "boolean" }
+          "is_admin": { "type": "boolean" },
+          "is_dead": { "type": "boolean" }
         }
       },
       "VillageParticipants": {

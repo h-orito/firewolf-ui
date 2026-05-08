@@ -204,16 +204,21 @@ const addTimeSetting = (settings: Setting[]) => {
     description: '実際にこの時間が経過すると村の1日が進行します。'
   })
 
-  const silentHours =
-    !props.formData.silentHours || props.formData.silentHours === 0
-      ? 'なし'
-      : `${props.formData.silentHours}時間`
+  const formatSilentHours = (hours: number | undefined): string =>
+    !hours || hours === 0 ? 'なし' : `${hours}時間`
 
   settings.push({
-    name: '更新後沈黙時間',
-    value: silentHours,
+    name: '更新後沈黙時間（1日目）',
+    value: formatSilentHours(props.formData.silentHoursDay1),
     description:
-      '進行中の更新後に通常発言が不可能になる時間です。\nなしの場合はいつでも発言できます。\n通常発言以外（独り言や死者の呻き、人狼の囁き等）はいつでも発言できます。'
+      '1日目の更新後に通常発言が不可能になる時間です。\nなしの場合はいつでも発言できます。\n通常発言以外（独り言や死者の呻き、人狼の囁き等）はいつでも発言できます。'
+  })
+
+  settings.push({
+    name: '更新後沈黙時間（2日目以降）',
+    value: formatSilentHours(props.formData.silentHoursDay2),
+    description:
+      '2日目以降の更新後に通常発言が不可能になる時間です。\nなしの場合はいつでも発言できます。\n通常発言以外（独り言や死者の呻き、人狼の囁き等）はいつでも発言できます。'
   })
 }
 

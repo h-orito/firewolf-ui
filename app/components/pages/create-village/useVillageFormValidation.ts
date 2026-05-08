@@ -37,10 +37,15 @@ export const useVillageFormValidation = () => {
       .required('開始日時は必須です')
       .min(new Date(), '開始日時は現在時刻より後に設定してください'),
 
-    silentHours: yup
+    silentHoursDay1: yup
       .number()
-      .min(0, '沈黙時間は0以上で設定してください')
-      .max(23, '沈黙時間は23時間以内で設定してください'),
+      .min(0, '1日目の沈黙時間は0以上で設定してください')
+      .max(23, '1日目の沈黙時間は23時間以内で設定してください'),
+
+    silentHoursDay2: yup
+      .number()
+      .min(0, '2日目以降の沈黙時間は0以上で設定してください')
+      .max(23, '2日目以降の沈黙時間は23時間以内で設定してください'),
 
     // キャラチップ設定
     charachipIds: yup

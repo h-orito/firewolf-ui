@@ -99,9 +99,10 @@ const formatLocalTime = (
 // 発言可能時間
 const sayableTime = computed(() => {
   const timeSetting = props.village.setting?.time
-  const silentHours = timeSetting?.silent_hours
+  const silentHoursDay1 = timeSetting?.silent_hours_day1 ?? 0
+  const silentHoursDay2 = timeSetting?.silent_hours_day2 ?? 0
 
-  if (!silentHours) return '24時間'
+  if (!silentHoursDay1 && !silentHoursDay2) return '24時間'
 
   const start = timeSetting?.sayable_start
   const end = timeSetting?.sayable_end
@@ -111,9 +112,14 @@ const sayableTime = computed(() => {
   const startStr = formatLocalTime(start)
   const endStr = formatLocalTime(end)
 
-  if (startStr === endStr) return '24時間'
+  const day1Str =
+    silentHoursDay1 === 0 ? '24時間' : `${24 - silentHoursDay1}時間`
+  const day2Str =
+    silentHoursDay2 === 0 ? '24時間' : `${24 - silentHoursDay2}時間`
 
-  return `${startStr} - ${endStr}（${24 - silentHours}時間）`
+  if (startStr === endStr) return `1日目 ${day1Str} / 2日目以降 ${day2Str}`
+
+  return `${startStr} - ${endStr}（1日目 ${day1Str} / 2日目以降 ${day2Str}）`
 })
 
 // 編成
